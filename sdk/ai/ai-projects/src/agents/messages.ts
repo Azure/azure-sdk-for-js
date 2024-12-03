@@ -5,7 +5,7 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
 import { CreateMessageParameters, ListMessagesParameters, UpdateMessageParameters } from "../generated/src/parameters.js";
 import { TracingUtility } from "../tracing.js";
-import { traceEndCreateMessage, traceStartCreateMessage } from "./messagesTrace.js";
+import { traceEndCreateMessage, traceEndListMessages, traceStartCreateMessage, traceStartListMessages } from "./messagesTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -32,13 +32,15 @@ export async function listMessages(
   threadId: string,
   options?: ListMessagesParameters,
 ): Promise<OpenAIPageableListOfThreadMessageOutput> {
-  const result = await context
-    .path("/threads/{threadId}/messages", threadId)
-    .get(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("ListMessages", options || {}, async (updateOptions) => {
+    const result = await context
+      .path("/threads/{threadId}/messages", threadId)
+      .get(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartListMessages(span, threadId, updatedOptions), traceEndListMessages);
 }
 
 /** Modifies an existing message on an existing thread. */

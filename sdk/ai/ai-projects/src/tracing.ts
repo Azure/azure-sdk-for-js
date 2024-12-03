@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTracingClient, OperationTracingOptions, Resolved, TracingSpan } from "@azure/core-tracing";
+import { createTracingClient, OperationTracingOptions, Resolved, SpanStatusError, TracingSpan } from "@azure/core-tracing";
 
 export enum TracingAttributes {
     GEN_AI_MESSAGE_ID = "gen_ai.message.id",
@@ -84,11 +84,27 @@ export class TracingUtility {
         ): Promise<Resolved<ReturnType<Request>>> {
         return TracingUtility.tracingClient.withSpan(name, options, async (updatedOptions: Options, span: Omit<TracingSpan, "end">) => {
             if (startTrace) {
-                startTrace(span, updatedOptions);
+                try {
+                    startTrace(span, updatedOptions);
+                }
+                catch { /* empty */ }
+
             }
-            const result = request(updatedOptions);
-            if (endTrace) {
-                endTrace(span, updatedOptions, result);
+            let result: ReturnType<Request> | undefined;
+            try {
+                result = await request(updatedOptions);
+            } catch (error) {
+                const errorStatus: SpanStatusError = { status: "error" }
+                if (error instanceof Error) {
+                    errorStatus.error = error;
+                }
+                throw error;
+            }
+
+            if (endTrace && result !== undefined) {
+                try {
+                    endTrace(span, updatedOptions, result);
+                } catch { /* empty */ }
             }
             return result;
         }, { spanKind: "client" });
@@ -97,7 +113,7 @@ export class TracingUtility {
     static updateSpanAttributes(span: Omit<TracingSpan, "end">, attributeOptions: Omit<TracingAttributeOptions, "operationName">): void {
         TracingUtility.setAttributes(span, attributeOptions);
     }
-    
+
     static setSpanAttributes(
         span: Omit<TracingSpan, "end">,
         operationName: string,
@@ -106,7 +122,7 @@ export class TracingUtility {
         attributeOptions.operationName = operationName;
         TracingUtility.setAttributes(span, attributeOptions);
     }
-    
+
     static setAttributes(
         span: Omit<TracingSpan, "end">,
         attributeOptions: TracingAttributeOptions
@@ -133,7 +149,7 @@ export class TracingUtility {
                 usagePromptTokens,
                 genAiSystem = TracingAttributes.AZ_AI_AGENT_SYSTEM
             } = attributeOptions;
-    
+
             if (genAiSystem) {
                 span.setAttribute(TracingAttributes.GEN_AI_SYSTEM, genAiSystem);
             }
@@ -143,72 +159,72 @@ export class TracingUtility {
             if (description) {
                 span.setAttribute(TracingAttributes.GEN_AI_AGENT_DESCRIPTION, description);
             }
-    
+
             if (serverAddress) {
                 span.setAttribute(TracingAttributes.SERVER_ADDRESS, serverAddress);
             }
-    
+
             if (threadId) {
                 span.setAttribute(TracingAttributes.GEN_AI_THREAD_ID, threadId);
             }
-    
+
             if (agentId) {
                 span.setAttribute(TracingAttributes.GEN_AI_AGENT_ID, agentId);
             }
-    
+
             if (runId) {
                 span.setAttribute(TracingAttributes.GEN_AI_THREAD_RUN_ID, runId);
             }
-    
+
             if (messageId) {
                 span.setAttribute(TracingAttributes.GEN_AI_MESSAGE_ID, messageId);
             }
             if (model) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_MODEL, model);
             }
-    
+
             if (temperature !== null) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_TEMPERATURE, temperature);
             }
-    
+
             if (topP !== null) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_TOP_P, topP);
             }
-    
+
             if (maxPromptTokens !== null) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_MAX_INPUT_TOKENS, maxPromptTokens);
             }
-    
+
             if (maxCompletionTokens !== null) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_MAX_OUTPUT_TOKENS, maxCompletionTokens);
             }
-    
+
             if (responseFormat) {
                 span.setAttribute(TracingAttributes.GEN_AI_REQUEST_RESPONSE_FORMAT, responseFormat);
             }
-    
+
             if (runStatus) {
                 span.setAttribute(TracingAttributes.GEN_AI_THREAD_RUN_STATUS, runStatus);
             }
-    
+
             if (responseModel) {
                 span.setAttribute(TracingAttributes.GEN_AI_RESPONSE_MODEL, responseModel);
             }
-    
+
             if (usagePromptTokens) {
                 span.setAttribute(TracingAttributes.GEN_AI_USAGE_INPUT_TOKENS, usagePromptTokens);
             }
-    
+
             if (usageCompletionTokens) {
                 span.setAttribute(TracingAttributes.GEN_AI_USAGE_OUTPUT_TOKENS, usageCompletionTokens);
             }
-            if(operationName) {
+            if (operationName) {
                 span.setAttribute(TracingAttributes.GEN_AI_OPERATION_NAME, operationName);
             }
         }
         return;
     }
-    
+
     static addSpanEvent(
         span: Omit<TracingSpan, "end">,
         eventName: string,
@@ -217,45 +233,45 @@ export class TracingUtility {
         if (span.isRecording()) {
             const { threadId, agentId, runId, messageId, eventContent, usageCompletionTokens, usagePromptTokens, messageStatus } = attributeOptions;
             const attributes: Record<string, unknown> = {};
-    
+
             if (eventContent) {
                 attributes[TracingAttributes.GEN_AI_EVENT_CONTENT] = eventContent;
             }
-    
+
             if (threadId) {
                 attributes[TracingAttributes.GEN_AI_THREAD_ID] = threadId;
             }
-    
+
             if (agentId) {
                 attributes[TracingAttributes.GEN_AI_AGENT_ID] = agentId;
             }
-    
+
             if (runId) {
                 attributes[TracingAttributes.GEN_AI_THREAD_RUN_ID] = runId;
             }
-    
+
             if (messageId) {
                 attributes[TracingAttributes.GEN_AI_MESSAGE_ID] = messageId;
             }
             if (messageStatus) {
                 attributes[TracingAttributes.GEN_AI_MESSAGE_STATUS] = messageStatus;
             }
-    
+
             if (usagePromptTokens) {
                 attributes[TracingAttributes.GEN_AI_USAGE_INPUT_TOKENS] = usagePromptTokens;
             }
-    
+
             if (usageCompletionTokens) {
                 attributes[TracingAttributes.GEN_AI_USAGE_OUTPUT_TOKENS] = usageCompletionTokens;
             }
-    
+
             if (span.addEvent) {
                 span.addEvent(eventName, { attributes });
             }
         }
         return;
     }
-    
+
 }
 
 

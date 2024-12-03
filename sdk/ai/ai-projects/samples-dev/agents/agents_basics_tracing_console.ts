@@ -5,6 +5,7 @@
 import { context } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter"
 import {
     ConsoleSpanExporter,
     NodeTracerProvider,
@@ -28,9 +29,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
 export async function main(): Promise<void> {
-
+   
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
+    const appInsightsConnectionString = await client.telemetry.getConnectionString();
+    if (appInsightsConnectionString) {
+        const exporter = new AzureMonitorTraceExporter({ connectionString: appInsightsConnectionString });
+        provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+    }
 
     const agent = await client.agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" }, { tracingOptions: { tracingContext: context.active() } });
 

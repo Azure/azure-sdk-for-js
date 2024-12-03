@@ -5,7 +5,7 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 import { TracingUtility } from "../tracing.js";
-import { traceEndCreateRun, traceStartCreateRun, traceStartCreateThreadAndRun } from "./runTrace.js";
+import { traceEndCreateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -82,13 +82,15 @@ export async function submitToolOutputsToRun(
   options: SubmitToolOutputsToRunParameters,
 ): Promise<ThreadRunOutput> {
   options.body.stream = false;
-  const result = await context
-    .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-    .post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("SubmitToolOutputsToRun", options, async (updateOptions) => {
+    const result = await context
+      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+      .post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun);
 }
 
 /** Cancels a run of an in progress thread. */

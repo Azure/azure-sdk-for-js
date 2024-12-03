@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { TracingSpan } from "@azure/core-tracing";
-import { AgentsApiResponseFormat, AgentsApiResponseFormatOption, MessageContent, ThreadMessage, ThreadMessageOptions } from "./inputOutputs.js";
+import { AgentsApiResponseFormat, AgentsApiResponseFormatOption, MessageContent, RunStepCompletionUsageOutput, ThreadMessage, ThreadMessageOptions, ToolOutput } from "./inputOutputs.js";
 import { TracingAttributes, TracingUtility } from "../tracing.js";
 import { getTelemetryOptions } from "../telemetry/telemetry.js";
 
@@ -11,7 +11,7 @@ import { getTelemetryOptions } from "../telemetry/telemetry.js";
  * @param span - The span to add the event to.
  * @param messageAttributes - The attributes of the message event.
  */
-export function addMessageEvent(span: Omit<TracingSpan, "end">, messageAttributes: ThreadMessageOptions | ThreadMessage,): void {
+export function addMessageEvent(span: Omit<TracingSpan, "end">, messageAttributes: ThreadMessageOptions | ThreadMessage, usage?: RunStepCompletionUsageOutput): void {
 
     const eventBody: Record<string, unknown> = {};
     const telemetryOptions = getTelemetryOptions()
@@ -31,7 +31,14 @@ export function addMessageEvent(span: Omit<TracingSpan, "end">, messageAttribute
     const agentId = (messageAttributes as ThreadMessage).assistant_id;
     const threadRunId = (messageAttributes as ThreadMessage).run_id;
     const messageStatus = (messageAttributes as ThreadMessage).status;
-    const attributes = { eventContent: JSON.stringify(eventBody), threadId, agentId, threadRunId, messageStatus, genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM };
+    const messageId = (messageAttributes as ThreadMessage).id;
+    const incompleteDetails = (messageAttributes as ThreadMessage).incomplete_details
+    if (incompleteDetails) {
+        eventBody.incomplete_details = incompleteDetails;
+    }
+    const usagePromptTokens = usage?.prompt_tokens;
+    const usageCompletionTokens = usage?.completion_tokens;
+    const attributes = { eventContent: JSON.stringify(eventBody), threadId, agentId, threadRunId, messageStatus, messageId, usagePromptTokens, usageCompletionTokens, genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM };
     TracingUtility.addSpanEvent(span, `gen_ai.${messageAttributes.role}.message`, attributes);
 }
 
@@ -62,6 +69,18 @@ export function formatAgentApiResponse(responseFormat: AgentsApiResponseFormatOp
     return undefined;
 }
 
+/**
+ * Adds a tool messages event to the span
+ * @param span - The span to add the event to.
+ * @param tool_outputs - List of tool oupts
+ */
+export function addToolMessagesEvent(span: Omit<TracingSpan, "end">, tool_outputs: Array<ToolOutput>): void {
+    tool_outputs.forEach(tool_output => {
+        const eventBody = {"content": tool_output.output, "id": tool_output.tool_call_id}
+        TracingUtility.addSpanEvent(span, "gen_ai.tool.message", {eventContent: JSON.stringify(eventBody), genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM});
+    });
+
+}
 
 function getMessageContent(messageContent: string | MessageContent[]): string | {} {
     type MessageContentExtended = MessageContent & { [key: string]: any; };
@@ -71,12 +90,8 @@ function getMessageContent(messageContent: string | MessageContent[]): string | 
     const contentBody: { [key: string]: any } = {};
     messageContent.forEach(content => {
         const typedContent = content.type;
-        const contentDetails: { value: any, annotations?: string[] } = { value: (content as MessageContentExtended)[typedContent] };
-        const annotations = contentDetails.value.annotations;
-        if (annotations) {
-            contentDetails.annotations = annotations;
-        }
-        contentBody[typedContent] = contentDetails;
+        const {value, annotations} = (content as MessageContentExtended)[typedContent];
+        contentBody[typedContent] = {value, annotations};
     });
     return contentBody;
 }

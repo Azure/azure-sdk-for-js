@@ -1618,6 +1618,26 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/monitor-opentelemetry-exporter@1.0.0-beta.27:
+    resolution: {integrity: sha512-21iXu9ubtPB7iO3ghnzMMdB0KwHpz7Zl1a9xSBR3Gl8IDUlXOBjMn6OT9+ycj9VZrTyEKiV59T9VTf0IlokPYQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.8.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.17.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.53.0
+      '@opentelemetry/core': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/msal-browser@3.26.1:
     resolution: {integrity: sha512-y78sr9g61aCAH9fcLO1um+oHFXc1/5Ap88RIsUSuzkm0BHzFnN+PXGaQeuM1h5Qf5dTnWNOd6JqkskkMPAhh7Q==}
     engines: {node: '>=0.8.0'}
@@ -10804,6 +10824,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.39:
     resolution: {integrity: sha512-IZ6acm6RhQHNibSt7+c09hhvsKy9WUr4DVbeq9U8o71qxyYtJpQeDxQnMrVqnIFMLcQjHO0I9wgfO2vIahht4w==}
     hasBin: true
@@ -12118,10 +12144,11 @@ packages:
     dev: false
 
   file:projects/ai-projects.tgz:
-    resolution: {integrity: sha512-AteUpToB0cbZyNZ3+DwqN/EI2BeqnfqbOhLL6W5LeLPHOrKsG84ujxOFjTPedPrqrJSvb08UtwRwvam4BXnBTA==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-oRCe+nAcU2VJ9Cg/5+cW6f/NBbxdogZHJUFVNv9o9GlnFjK/Y7UmWyiFjWCMxc+KeL5Mu8EoYAfEJ14ZqttXWQ==, tarball: file:projects/ai-projects.tgz}
     name: '@rush-temp/ai-projects'
     version: 0.0.0
     dependencies:
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.27
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
@@ -21161,7 +21188,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.6.3
+      '@_ts/max': /typescript@5.7.2
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.12.0
