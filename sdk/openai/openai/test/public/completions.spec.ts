@@ -21,7 +21,7 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
+import { completionsModelsToSkip, functionCallModelsToSkip, jsonResponseModelsToSkip } from "./utils/models.js";
 import "@azure/openai/types";
 
 describe("Completions", function () {
@@ -342,27 +342,22 @@ describe("Completions", function () {
             );
           });
 
-          it("respects json_object responseFormat", async function ({ skip }) {
+          it("respects json_object responseFormat", async function () {
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(deployments, chatCompletionDeployments),
-                (deploymentName) => {
-                  // Skip
-                  if (deploymentName == "gpt-4-0125-preview") {
-                    skip();
-                  }
-                  return client.chat.completions.create({
-                    model: deploymentName,
-                    messages: [
-                      {
-                        role: "user",
-                        content:
-                          "Answer the following question in JSON format: What are the capital cities in Africa?",
-                      },
-                    ],
-                    response_format: { type: "json_object" },
-                  });
-                },
+                (deploymentName) => client.chat.completions.create({
+                  model: deploymentName,
+                  messages: [
+                    {
+                      role: "user",
+                      content:
+                        "Answer the following question in JSON format: What are the capital cities in Africa?",
+                    },
+                  ],
+                  response_format: { type: "json_object" },
+                })
+                ,
                 (res) => {
                   assertChatCompletions(res, { functions: false });
                   const content = res.choices[0].message?.content;
@@ -373,6 +368,7 @@ describe("Completions", function () {
                     assert.fail(`Invalid JSON: ${content}`);
                   }
                 },
+                jsonResponseModelsToSkip,
               ),
               chatCompletionDeployments,
             );

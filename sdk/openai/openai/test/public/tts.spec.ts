@@ -6,7 +6,6 @@ import { describe, beforeEach, it, assert, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import { APIVersion, type DeploymentInfo, getDeployments, withDeployments } from "./utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { ttsModelsToSkip } from "./utils/models.js";
 
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];
@@ -37,8 +36,6 @@ describe("OpenAI", function () {
               const buffer = await audio.arrayBuffer();
               assert.isNotNull(buffer);
             },
-            // Skip Whisper model for text to speech test because of server unexpected response error
-            ttsModelsToSkip,
           );
         });
       });
