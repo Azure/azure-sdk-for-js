@@ -58,7 +58,7 @@ export async function uploadFileAndPoll(
     } else {
       file = await getFile(context, currentResult.id, options);
     }
-    return { result: file, completed: file.status !== "pending" && file.status !== "running" };
+    return { result: file, completed: file.status === "uploaded" || file.status === "processed" || file.status === "deleted" };
   }
 
   const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: pollingOptions,});
