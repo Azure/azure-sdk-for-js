@@ -7,8 +7,7 @@ import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../s
 import { calculateDigest } from "../../src/utils/digest.js";
 import { Readable } from "node:stream";
 import { parseWWWAuthenticate } from "../../src/utils/wwwAuthenticateParser.js";
-import { expect } from "@azure-tools/test-utils-vitest";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {

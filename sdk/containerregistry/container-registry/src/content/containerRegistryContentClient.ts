@@ -27,7 +27,6 @@ import type { CommonClientOptions } from "@azure/core-client";
 import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers.js";
 import { Readable } from "node:stream";
 import { tracingClient } from "../tracing.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import crypto from "node:crypto";
 import { RetriableReadableStream } from "../utils/retriableReadableStream.js";
 

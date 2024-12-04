@@ -19268,7 +19268,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-OqITO/TMWza3AeETuc9wVLLfZgTD3CWl58tQ+NejouMEUalv/t+TkNEaUlubfdN6v43Xc3n2CeB5VmIni8UnsA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-6Ndvi5/p0CWnmqcNgx+DzBjt0PPk8zokaRjgjEVI0W2Cpf+3sUUVwTLUfoR/0GX93EqftGyFYD5pdcLS+eBxhg==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -19277,6 +19277,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -19293,18 +19295,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/core-amqp.tgz:
@@ -20698,7 +20714,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-/KAKSZD3InlQSaS4sF7RFi5sxZH+38eHjRbVP6/AzVtzz6e9cR9rAJvG9ffbEEodn0znE1We00qAVbMQQB0dqg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-oFZBCkmzOfAe/6o3MolyvY6IlmFANQFBxz2x99rmNOwYWrWFstP5LWTOluKzFAnafGtkPTb8PdzL/Uyk0LgKuw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:

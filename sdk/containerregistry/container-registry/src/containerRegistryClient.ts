@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="esnext.asynciterable" />
-
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
