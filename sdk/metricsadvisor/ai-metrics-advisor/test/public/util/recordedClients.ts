@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { TokenCredential } from "@azure/core-auth";
 import {
@@ -47,10 +49,10 @@ const replaceableVariables: { [k: string]: string } = {
 };
 
 export async function createRecordedAdminClient(
-  context: Context,
+  context: TestInfo,
   apiKey: TokenCredential | MetricsAdvisorKeyCredential,
 ): Promise<RecordedAdminClient> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start({
     envSetupForPlayback: replaceableVariables,
   });
@@ -65,10 +67,10 @@ export async function createRecordedAdminClient(
 }
 
 export async function createRecordedAdvisorClient(
-  context: Context,
+  context: TestInfo,
   apiKey: TokenCredential | MetricsAdvisorKeyCredential,
 ): Promise<RecordedAdvisorClient> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start({
     envSetupForPlayback: replaceableVariables,
   });

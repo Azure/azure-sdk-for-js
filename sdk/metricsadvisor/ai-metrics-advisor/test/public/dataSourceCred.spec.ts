@@ -18,7 +18,8 @@ import {
 } from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type { TaskContext } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;
@@ -29,8 +30,8 @@ describe("DataSourceCredential", () => {
   let servicePrincipalCredName: string;
   let servicePrincipalInKVCredName: string;
 
-  beforeEach(async function (ctx) {
-    ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(false)));
+  beforeEach(async (ctx) => {
+    ({ recorder, client } = await createRecordedAdminClient(ctx, makeCredential(false)));
     if (recorder && !sqlServerCredName) {
       sqlServerCredName = getRecorderUniqueVariable(recorder, "js-test-sqlServerCred-");
     }
@@ -51,12 +52,12 @@ describe("DataSourceCredential", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       await recorder.stop();
     }
   });
-  describe("dataSource credential CRUD operations", async function () {
+  describe("dataSource credential CRUD operations", async () => {
     const dataSourceCredential = {
       description: "used for testing purposes only",
     };
@@ -66,7 +67,7 @@ describe("DataSourceCredential", () => {
     let createdServicePrincipalCredId: string;
     let createdServicePrincipalInKVCredId: string;
 
-    it("creates sql server connection string credential", async function () {
+    it("creates sql server connection string credential", async () => {
       const sqlServerCredential: DataSourceSqlConnectionString = {
         ...dataSourceCredential,
         name: sqlServerCredName,
@@ -81,7 +82,7 @@ describe("DataSourceCredential", () => {
       assert.equal(createdSqlServerCred.type, sqlServerCredential.type);
     });
 
-    it("updates sql server connection string credential", async function (ctx) {
+    it("updates sql server connection string credential", async (ctx) => {
       if (!createdSqlServerCredId) {
         ctx.skip();
       }
@@ -101,7 +102,7 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.name, sqlServerCredentialPatch.name);
     });
 
-    it("creates datalake gen2 shared key credential", async function () {
+    it("creates datalake gen2 shared key credential", async () => {
       const datalakeCred: DataSourceDataLakeGen2SharedKey = {
         ...dataSourceCredential,
         name: datalakeCredName,
@@ -117,7 +118,7 @@ describe("DataSourceCredential", () => {
       assert.equal(createdDatalakeCred.type, datalakeCred.type);
     });
 
-    it("updates datalake gen2 shared key credential", async function (ctx) {
+    it("updates datalake gen2 shared key credential", async (ctx) => {
       if (!createdDatalakeCredId) {
         ctx.skip();
       }
@@ -137,7 +138,7 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.name, dataLakeCredentialPatch.name);
     });
 
-    it("creates service principal credential", async function () {
+    it("creates service principal credential", async () => {
       const servicePrincipalCred: DataSourceServicePrincipal = {
         ...dataSourceCredential,
         name: servicePrincipalCredName,
@@ -156,7 +157,7 @@ describe("DataSourceCredential", () => {
       assert.equal(createdServicePrincipalCred.type, servicePrincipalCred.type);
     });
 
-    it("updates service principal credential", async function (ctx) {
+    it("updates service principal credential", async (ctx) => {
       if (!createdServicePrincipalCredId) {
         ctx.skip();
       }
@@ -182,7 +183,7 @@ describe("DataSourceCredential", () => {
       );
     });
 
-    it("creates service principal in keyvault credential", async function () {
+    it("creates service principal in keyvault credential", async () => {
       const servicePrincipalInKVCred: DataSourceServicePrincipalInKeyVault = {
         ...dataSourceCredential,
         name: servicePrincipalInKVCredName,
@@ -207,7 +208,7 @@ describe("DataSourceCredential", () => {
       assert.equal(createdServicePrincipalInKVCred.type, servicePrincipalInKVCred.type);
     });
 
-    it("updates service principal in keyvault credential", async function (ctx) {
+    it("updates service principal in keyvault credential", async (ctx) => {
       if (!createdServicePrincipalInKVCredId) {
         ctx.skip();
       }
@@ -245,7 +246,7 @@ describe("DataSourceCredential", () => {
       );
     });
 
-    it("lists dataSource credentials one by one and by pages", async function () {
+    it("lists dataSource credentials one by one and by pages", async () => {
       const iterator = client.listDataSourceCredential();
       let result = getYieldedValue(await iterator.next());
 
@@ -260,38 +261,38 @@ describe("DataSourceCredential", () => {
       assert.equal(pageResult.value.length, 2, "Expecting two entries in second page");
     });
 
-    it("deletes sqlserver dataSource credential", async function (ctx) {
+    it("deletes sqlserver dataSource credential", async (ctx) => {
       if (!createdSqlServerCredId) {
         ctx.skip();
       }
-      await verifyDataSourceCredentialDeletion(this, client, createdSqlServerCredId);
+      await verifyDataSourceCredentialDeletion(ctx, client, createdSqlServerCredId);
     });
 
-    it("deletes datalake gen2 shared key dataSource credential", async function (ctx) {
+    it("deletes datalake gen2 shared key dataSource credential", async (ctx) => {
       if (!createdDatalakeCredId) {
         ctx.skip();
       }
-      await verifyDataSourceCredentialDeletion(this, client, createdDatalakeCredId);
+      await verifyDataSourceCredentialDeletion(ctx, client, createdDatalakeCredId);
     });
 
-    it("deletes service principal dataSource credential", async function (ctx) {
+    it("deletes service principal dataSource credential", async (ctx) => {
       if (!createdServicePrincipalCredId) {
         ctx.skip();
       }
-      await verifyDataSourceCredentialDeletion(this, client, createdServicePrincipalCredId);
+      await verifyDataSourceCredentialDeletion(ctx, client, createdServicePrincipalCredId);
     });
 
-    it("deletes service principal in KeyVault dataSource credential", async function (ctx) {
+    it("deletes service principal in KeyVault dataSource credential", async (ctx) => {
       if (!createdServicePrincipalInKVCredId) {
         ctx.skip();
       }
-      await verifyDataSourceCredentialDeletion(this, client, createdServicePrincipalInKVCredId);
+      await verifyDataSourceCredentialDeletion(ctx, client, createdServicePrincipalInKVCredId);
     });
   });
-}).timeout(60000);
+});
 
 export async function verifyDataSourceCredentialDeletion(
-  context: Context,
+  context: TaskContext,
   client: MetricsAdvisorAdministrationClient,
   createdDataSourceCredentialId: string,
 ): Promise<void> {

@@ -14,7 +14,7 @@ import {
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { getYieldedValue, matrix } from "@azure-tools/test-utils-vitest";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -22,18 +22,18 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(async function (ctx) {
-        ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
+      beforeEach(async (ctx) => {
+        ({ recorder, client } = await createRecordedAdminClient(ctx, makeCredential(useAad)));
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         if (recorder) {
           await recorder.stop();
         }
       });
 
-      describe("Ingestion", function () {
-        it("lists ingestion status", async function () {
+      describe("Ingestion", () => {
+        it("lists ingestion status", async () => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
@@ -45,7 +45,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.status, "Expecting second status");
         });
 
-        it("lists ingestion status with datetime strings", async function () {
+        it("lists ingestion status with datetime strings", async () => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             "2020-08-30T00:00:00.000Z",
@@ -57,7 +57,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.status, "Expecting second status");
         });
 
-        it("lists ingestion status by page", async function () {
+        it("lists ingestion status by page", async () => {
           const iterator = client
             .listDataFeedIngestionStatus(
               assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
@@ -71,7 +71,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 2, "Expecting two entries in second page");
         });
 
-        it("gets ingestion progress", async function () {
+        it("gets ingestion progress", async () => {
           const result = await client.getDataFeedIngestionProgress(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
           );
@@ -80,7 +80,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", async function (ctx) {
+        it("refreshes ingesetion status", async (ctx) => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
@@ -108,12 +108,12 @@ matrix([[true, false]] as const, async (useAad) => {
         });
       });
 
-      describe("detection and alert configs CRUD operations", async function () {
+      describe("detection and alert configs CRUD operations", async () => {
         let createdDetectionConfigId: string;
         let createdAlertConfigId: string;
         let expectedDetectionConfigName: string;
 
-        it("creates a detection configuration", async function () {
+        it("creates a detection configuration", async () => {
           expectedDetectionConfigName = getRecorderUniqueVariable(recorder, "js-detection-config-");
           const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
             name: expectedDetectionConfigName,
@@ -160,7 +160,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates a detection configuration", async function () {
+        it("updates a detection configuration", async () => {
           const expected: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">> = {
             name: "new Name",
             description: "new description",
@@ -237,14 +237,14 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("retrieves a detection configuration", async function () {
+        it("retrieves a detection configuration", async () => {
           const result = await client.getDetectionConfig(createdDetectionConfigId);
 
           assert.equal(result.name, "new Name");
           assert.equal(result.description, "new description");
         });
 
-        it("lists detection configurations", async function () {
+        it("lists detection configurations", async () => {
           const iterator = client.listDetectionConfigs(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
           );
@@ -254,7 +254,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.id, "Expecting second detection config");
         });
 
-        it("lists detection configurations by page", async function () {
+        it("lists detection configurations by page", async () => {
           const iterator = client
             .listDetectionConfigs(
               assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
@@ -265,7 +265,7 @@ matrix([[true, false]] as const, async (useAad) => {
         });
 
         let expectedAlertConfigName: string;
-        it("creates an alert configuration", async function () {
+        it("creates an alert configuration", async () => {
           expectedAlertConfigName = getRecorderUniqueVariable(recorder, "js-alert-config-");
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
@@ -300,7 +300,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("retrieves an alert configuration", async function () {
+        it("retrieves an alert configuration", async () => {
           const actual = await client.getAlertConfig(createdAlertConfigId);
 
           assert.ok(actual.id, "Expecting valid alert config");
@@ -308,7 +308,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.name, expectedAlertConfigName);
         });
 
-        it("updates an alert configuration", async function () {
+        it("updates an alert configuration", async () => {
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
             alertScope: {
@@ -342,7 +342,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("lists alert configurations one by one and by pages", async function () {
+        it("lists alert configurations one by one and by pages", async () => {
           const secondAlertConfigName = getRecorderUniqueVariable(recorder, "js-alert-config2-");
           // creating a second alert config for listing
           const metricAlertConfig: MetricAlertConfiguration = {
@@ -371,7 +371,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", async function (ctx) {
+        it("deletes an alert configuration", async (ctx) => {
           if (!createdAlertConfigId) {
             ctx.skip();
           }
@@ -385,7 +385,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", async function (ctx) {
+        it("deletes a detection configuration", async (ctx) => {
           if (!createdDetectionConfigId) {
             ctx.skip();
           }
@@ -399,6 +399,6 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
       });
-    }).timeout(60000);
+    });
   });
 });
