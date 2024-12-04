@@ -7,6 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { GeneratedClient } from "./generatedClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { GeneratedClient } from "./generatedClient.js";
+export * from "./operationsInterfaces/index.js";

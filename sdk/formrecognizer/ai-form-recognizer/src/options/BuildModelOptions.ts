@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DocumentModelOperationState } from "../lro/administration";
-import type { PollerOptions } from "./PollerOptions";
+import type { DocumentModelOperationState } from "../lro/administration.js";
+import type { PollerOptions } from "./PollerOptions.js";
 
 /**
  * Supported model build modes. The model build mode selects the engine that the service uses to train the model based
