@@ -68,7 +68,7 @@ export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtens
 // @public
 export interface AzureCosmosDBChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataConnectionStringAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataConnectionStringAuthenticationOptions;
     container_name: string;
     database_name: string;
     embedding_dependency: OnYourDataVectorizationSource;
@@ -100,7 +100,7 @@ export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensio
 // @public
 export interface AzureSearchChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataApiKeyAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAccessTokenAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataApiKeyAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAccessTokenAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: AzureSearchIndexFieldMappingOptions;
@@ -229,7 +229,7 @@ export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtens
 // @public
 export interface ElasticsearchChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataEncodedApiKeyAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataEncodedApiKeyAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: ElasticsearchIndexFieldMappingOptions;
@@ -281,7 +281,7 @@ export interface MongoDBChatExtensionConfiguration extends AzureChatExtensionCon
 export interface MongoDBChatExtensionParameters {
     allow_partial_result?: boolean;
     app_name: string;
-    authentication: OnYourDataUsernameAndPasswordAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataUsernameAndPasswordAuthenticationOptions;
     collection_name: string;
     database_name: string;
     embedding_dependency: OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource;
@@ -349,7 +349,7 @@ export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourData
 
 // @public
 export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
-    authentication: OnYourDataVectorSearchApiKeyAuthenticationOptions | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataVectorSearchApiKeyAuthenticationOptions | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
     endpoint: string;
     type: "endpoint";
 }
@@ -424,7 +424,7 @@ export interface PineconeChatExtensionConfiguration extends AzureChatExtensionCo
 // @public
 export interface PineconeChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataApiKeyAuthenticationOptions;
+    authentication: OnYourDataAuthenticationOptionsParent | OnYourDataApiKeyAuthenticationOptions;
     embedding_dependency: OnYourDataVectorizationSource;
     environment: string;
     fields_mapping: PineconeFieldMappingOptions;

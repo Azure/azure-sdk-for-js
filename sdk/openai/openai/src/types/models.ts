@@ -29,6 +29,7 @@ export interface AzureSearchChatExtensionParameters {
    * authentication.
    */
   authentication:
+    | OnYourDataAuthenticationOptionsParent
     | OnYourDataApiKeyAuthenticationOptions
     | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
     | OnYourDataUserAssignedManagedIdentityAuthenticationOptions
@@ -114,6 +115,7 @@ export interface ElasticsearchChatExtensionParameters {
    * authentication.
    */
   authentication:
+    | OnYourDataAuthenticationOptionsParent
     | OnYourDataKeyAndKeyIdAuthenticationOptions
     | OnYourDataEncodedApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
@@ -202,7 +204,9 @@ export interface AzureCosmosDBChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication: OnYourDataConnectionStringAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataConnectionStringAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
@@ -320,6 +324,7 @@ export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectori
   endpoint: string;
   /** Specifies the authentication options to use when retrieving embeddings from the specified endpoint. */
   authentication:
+    | OnYourDataAuthenticationOptionsParent
     | OnYourDataVectorSearchApiKeyAuthenticationOptions
     | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
 }
@@ -401,7 +406,7 @@ export interface PineconeChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication: OnYourDataApiKeyAuthenticationOptions;
+  authentication: OnYourDataAuthenticationOptionsParent | OnYourDataApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
@@ -470,7 +475,9 @@ export interface MongoDBChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication: OnYourDataUsernameAndPasswordAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataUsernameAndPasswordAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
