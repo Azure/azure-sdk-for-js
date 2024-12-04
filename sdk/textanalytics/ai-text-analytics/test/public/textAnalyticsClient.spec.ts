@@ -12,8 +12,8 @@ import { matrix } from "@azure-tools/test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
-import type { AuthMethod } from "./utils/recordedClient";
-import { createClient, startRecorder } from "./utils/recordedClient";
+import type { AuthMethod } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type {
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
@@ -24,10 +24,10 @@ import type {
   SentenceSentiment,
   TextAnalyticsClient,
   TextDocumentInput,
-} from "../../src";
-import { PiiEntityDomain } from "../../src";
-import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper";
-import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
+} from "../../src/index.js";
+import { PiiEntityDomain } from "../../src/index.js";
+import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper.js";
+import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -50,8 +50,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
 
     let getId: () => string;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createClient({ authMethod, recorder });
       let nextId = 0;
       getId = function () {
@@ -65,7 +65,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
     });
 
     describe("fast tests", function () {
-      before(function (this: Context) {
+      before(function (ctx) {
         this.timeout(fastTimeout);
       });
 
@@ -756,7 +756,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji with skin tone modifier", async function (this: Context) {
+          it("family emoji with skin tone modifier", async function (ctx) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -914,7 +914,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
     describe("LROs", function () {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      before(function (this: Context) {
+      before(function (ctx) {
         this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
       });
 

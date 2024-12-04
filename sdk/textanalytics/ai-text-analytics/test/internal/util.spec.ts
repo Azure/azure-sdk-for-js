@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { parseActionError } from "../../src/analyzeActionsResult";
-import { nextLinkToTopAndSkip, sortResponseIdObjects } from "../../src/util";
+import { parseActionError } from "../../src/analyzeActionsResult.js";
+import { nextLinkToTopAndSkip, sortResponseIdObjects } from "../../src/util.js";
 
 describe("util.sortByPreviousOrder", () => {
   it("should sort outputs correctly", () => {

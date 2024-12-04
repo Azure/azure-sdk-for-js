@@ -6,8 +6,8 @@ import type { Test } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 
-import type { TextAnalyticsClientOptions } from "../../../src/";
-import { AzureKeyCredential, TextAnalyticsClient } from "../../../src/";
+import type { TextAnalyticsClientOptions } from "../../../src/index.js";
+import { AzureKeyCredential, TextAnalyticsClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {

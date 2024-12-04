@@ -4,7 +4,7 @@
 import { isRestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 
-import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
+import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/index.js";
 
 export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
   results: (TextAnalyticsErrorResult | TSuccess)[],
