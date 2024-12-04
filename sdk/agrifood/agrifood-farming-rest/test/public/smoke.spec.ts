@@ -4,7 +4,7 @@ import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src/in
 import { paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const partyId = "contoso-party-js";
 const boundaryId = "test-boundary";
@@ -13,7 +13,7 @@ describe("List parties", () => {
   let client: FarmBeatsClient;
 
   beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
