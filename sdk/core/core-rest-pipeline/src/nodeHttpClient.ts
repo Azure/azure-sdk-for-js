@@ -173,8 +173,7 @@ class NodeHttpClient implements HttpClient {
       ) {
         response.readableStreamBody = responseStream;
       } else {
-        const encoding = response.headers.get("content-type") === "image/png" ? "binary" : "utf8";
-        response.bodyAsText = await streamToText(responseStream, encoding);
+        response.bodyAsText = await streamToText(responseStream);
       }
 
       return response;
@@ -338,7 +337,7 @@ function getDecodedResponseStream(
   return stream;
 }
 
-function streamToText(stream: NodeJS.ReadableStream, encoding: "utf8" | "binary"): Promise<string> {
+function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
 
@@ -350,7 +349,7 @@ function streamToText(stream: NodeJS.ReadableStream, encoding: "utf8" | "binary"
       }
     });
     stream.on("end", () => {
-      resolve(Buffer.concat(buffer).toString(encoding));
+      resolve(Buffer.concat(buffer).toString("utf8"));
     });
     stream.on("error", (e) => {
       if (e && e?.name === "AbortError") {
