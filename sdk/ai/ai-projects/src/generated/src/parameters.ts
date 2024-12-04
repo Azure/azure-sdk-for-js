@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import {
-  CreateAgentOptions,
-  ListSortOrder,
-  UpdateAgentOptions,
   AgentThreadCreationOptions,
-  UpdateAgentThreadOptions,
-  ThreadMessageOptions,
-  CreateRunOptions,
-  ToolOutput,
-  CreateAndRunThreadOptions,
-  FilePurpose,
-  VectorStoreOptions,
-  VectorStoreUpdateOptions,
-  VectorStoreFileStatusFilter,
-  VectorStoreDataSource,
-  VectorStoreChunkingStrategyRequest,
   ConnectionType,
+  CreateAgentOptions,
+  CreateAndRunThreadOptions,
+  CreateRunOptions,
   Evaluation,
   EvaluationSchedule,
+  FilePurpose,
+  ListSortOrder,
+  ThreadMessageOptions,
+  ToolOutput,
+  UpdateAgentOptions,
+  UpdateAgentThreadOptions,
+  VectorStoreChunkingStrategyRequest,
+  VectorStoreDataSource,
+  VectorStoreFileStatusFilter,
+  VectorStoreOptions,
+  VectorStoreUpdateOptions,
 } from "./models.js";
 
 export interface CreateAgentBodyParam {
@@ -391,12 +391,13 @@ export interface GetHeaderParam {
 
 export type GetParameters = GetHeaderParam & RequestParameters;
 
-export interface CreateBodyParam {
+export interface CreateEvaluationBodyParam {
   /** Evaluation to run. */
   body: Evaluation;
 }
 
-export type CreateParameters = CreateBodyParam & RequestParameters;
+export type CreateEvaluationParameters = CreateEvaluationBodyParam & RequestParameters;
+export type GetEvaluationParameters = RequestParameters;
 
 export interface ListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -424,6 +425,16 @@ export type ListParameters = ListQueryParam &
   ListHeaderParam &
   RequestParameters;
 
+export type ListEvaluationParameters = ListQueryParam & RequestParameters;
+
+export type GetEvaluationScheduleParameters = RequestParameters;
+
+export type CreateOrReplaceEvaluationScheduleParameters = RequestParameters;
+
+export type ListEvaluationScheduleParameters = ListQueryParam & RequestParameters;
+
+export type DisableEvaluationScheduleParameters = RequestParameters;
+
 export interface UpdateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
@@ -450,6 +461,8 @@ export type UpdateParameters = UpdateHeaderParam &
   UpdateMediaTypesParam &
   UpdateBodyParam &
   RequestParameters;
+
+export type UpdateEvaluationParameters = UpdateBodyParam & RequestParameters;
 
 export interface GetScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
