@@ -7,7 +7,7 @@ import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClien
 import type { RoomsClient } from "../../src/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
-import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models.js";
+import type { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "../../src/models/models.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("RoomsClient", () => {
@@ -601,19 +601,13 @@ describe("Participants Operations", () => {
   });
 });
 
-async function listParticipants(roomId: string, client: RoomsClient): Promise<RoomParticpant[]> {
+async function listParticipants(roomId: string, client: RoomsClient): Promise<RoomParticipant[]> {
   const roomParticipants = [];
   const participantsList = await client.listParticipants(roomId);
   for await (const participant of participantsList) {
     roomParticipants.push(participant);
   }
   return roomParticipants;
-}
-
-async function pause(time: number): Promise<void> {
-  if (!isPlaybackMode()) {
-    await new Promise((resolve) => setTimeout(resolve, time));
-  }
 }
 
 function verifyRoomsAttributes(
