@@ -3,14 +3,14 @@
 
 /**
  * 
- * FILE: agents_bing_grounding.ts
+ * FILE: agents_azure_ai_search.ts
  *
  * DESCRIPTION:
- *  This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from
- *  the Azure Agents service using a client.
+ *  This sample demonstrates how to use agent operations with the 
+ *  Azure AI Search tool from the Azure Agents service using a synchronous client.
  *
  * USAGE:
- *  npx ts-node agents_bing_grounding.ts
+ *  npx ts-node agents_azure_ai_search.ts
  *
  *  Before running the sample:
  *
@@ -18,10 +18,10 @@
  *
  *  Set this environment variables with your own values:
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
+ *  AZURE_AI_SEARCH_CONNECTION_NAME - the name of the connection with Azure AI search, must be a CognitiveSearch connection
  */
 
-import { AIProjectsClient, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
+import { AIProjectsClient, MessageContentOutput, isOutputOfType, MessageTextContentOutput, createAzureAISearchTool } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -35,18 +35,19 @@ export async function main(): Promise<void> {
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  const bingConnection = await client.connections.getConnection(process.env["BING_CONNECTION_NAME"] || "<connection-name>");
-  const connectionId = bingConnection.id;
+  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
+  const connection = await client.connections.getConnection(connectionName);
 
-  // Initialize agent bing tool with the connection id
-  const bingTool = createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
+  // Initialize Azure AI Search tool
+  const azureAISearchTool = createAzureAISearchTool(connection.id, connection.name)
 
-  // Create agent with the bing tool and process assistant run
+  // Create agent with the Azure AI search tool
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: bingTool.definition
+      tools: azureAISearchTool.definition,
+      tool_resources: azureAISearchTool.resources
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });
@@ -57,7 +58,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {role: "user", content: "How does wikipedia explain Euler's Identity?"});
+  const message = await client.agents.createMessage(thread.id, {role: "user", content: "Hello, send an email with the datetime and weather information in New York"});
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools

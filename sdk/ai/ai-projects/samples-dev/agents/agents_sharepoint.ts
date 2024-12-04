@@ -7,7 +7,7 @@
  *
  * DESCRIPTION:
  *  This sample demonstrates how to use agent operations with the Sharepoint tool from
- *  the Azure Agents service using a asynchronous client.
+ *  the Azure Agents service using a client.
  *
  * USAGE:
  *  npx ts-node agents_sharepoint.ts
@@ -21,7 +21,7 @@
  *  SHAREPOINT_CONNECTION_NAME
  */
 
-import { AIProjectsClient, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,14 +39,14 @@ export async function main(): Promise<void> {
   const connectionId = sharepointConnection.id;
 
   // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = fromConnectionId(connectionToolType.SharepointGrounding, [connectionId]);
+  const sharepointTool = createConnectionTool(connectionToolType.SharepointGrounding, [connectionId]);
 
   // Create agent with the Sharepoint tool and process assistant run
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: [sharepointTool]
+      tools: sharepointTool.definition
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });
