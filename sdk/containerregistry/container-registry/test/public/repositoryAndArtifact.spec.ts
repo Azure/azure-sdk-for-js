@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { ContainerRegistryClient, ContainerRepository } from "../../src/index.js";
 import { versionsToTest } from "@azure-tools/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2021-07-01" }).describe("Repository and artifact tests", function () {

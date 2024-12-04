@@ -9,12 +9,12 @@ import {
 } from "@azure-tools/test-recorder";
 import type { ContainerRegistryContentClient, OciImageManifest } from "../../src/index.js";
 import { KnownManifestMediaType } from "../../src/index.js";
-import { assert, versionsToTest } from "@azure-tools/test-utils";
-import type { Context } from "mocha";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
 import fs from "node:fs";
 import { Readable } from "node:stream";
 import { readStreamToEnd } from "../../src/utils/helpers.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryContentClient", function () {
