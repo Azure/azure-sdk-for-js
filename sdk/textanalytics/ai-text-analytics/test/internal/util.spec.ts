@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { parseActionError } from "../../src/analyzeActionsResult.js";
 import { nextLinkToTopAndSkip, sortResponseIdObjects } from "../../src/util.js";
+import { describe, it, assert } from "vitest";
 
 describe("util.sortByPreviousOrder", () => {
   it("should sort outputs correctly", () => {

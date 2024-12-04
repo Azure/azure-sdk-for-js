@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray.js";
 import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray.js";
 import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray.js";
@@ -10,6 +7,7 @@ import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinke
 import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray.js";
 import type { DetectLanguageInput, TextDocumentInput } from "../../src/index.js";
 import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray.js";
+import { describe, it, assert } from "vitest";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {

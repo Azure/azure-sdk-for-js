@@ -2,10 +2,6 @@
 // Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-
-import { assert, use as chaiUse } from "chai";
-import type { Context, Suite } from "mocha";
-import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure-tools/test-utils";
@@ -28,6 +24,7 @@ import type {
 import { PiiEntityDomain } from "../../src/index.js";
 import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper.js";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
