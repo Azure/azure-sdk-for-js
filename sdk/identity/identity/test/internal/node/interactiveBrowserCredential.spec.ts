@@ -15,6 +15,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 declare global {
   namespace NodeJS {
     interface Global {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-imports
       URL: typeof import("url").URL;
     }
   }
@@ -50,7 +51,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Throws an expected error if no browser is available", async function (ctx) {
+  it("Throws an expected error if no browser is available", async function () {
     const credential = new InteractiveBrowserCredential(
       recorder.configureClientOptions({
         redirectUri: "http://localhost:8081",
