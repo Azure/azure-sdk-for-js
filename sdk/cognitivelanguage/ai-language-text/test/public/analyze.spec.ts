@@ -86,7 +86,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     describe("analyze", function () {
       describe("#SentimentAnalysis", function () {
         it("client throws on empty list", async function () {
-          await expect(client.analyze(AnalyzeActionNames.SentimentAnalysis, [])).rejects.toThrow(/non-empty array/);
+          await expect(client.analyze(AnalyzeActionNames.SentimentAnalysis, [])).rejects.toThrow(
+            /non-empty array/,
+          );
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
@@ -199,7 +201,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
       describe("#LanguageDetection", function () {
         it("client throws on empty list", async function () {
-          await expect(client.analyze(AnalyzeActionNames.LanguageDetection, [])).rejects.toThrow(/non-empty array/);
+          await expect(client.analyze(AnalyzeActionNames.LanguageDetection, [])).rejects.toThrow(
+            /non-empty array/,
+          );
         });
 
         it("client accepts no countryHint", async function () {
@@ -266,7 +270,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
       describe("#EntityRecognition", function () {
         it("client throws on empty list", async function () {
-          await expect(client.analyze(AnalyzeActionNames.EntityRecognition, [])).rejects.toThrow(/non-empty array/);
+          await expect(client.analyze(AnalyzeActionNames.EntityRecognition, [])).rejects.toThrow(
+            /non-empty array/,
+          );
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
@@ -339,7 +345,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
       describe("#KeyPhraseExtraction", function () {
         it("client throws on empty list", async function () {
-          await expect(client.analyze(AnalyzeActionNames.KeyPhraseExtraction, [])).rejects.toThrow(/non-empty array/);
+          await expect(client.analyze(AnalyzeActionNames.KeyPhraseExtraction, [])).rejects.toThrow(
+            /non-empty array/,
+          );
         });
 
         it("client accepts string[] with no language", async function () {
@@ -390,7 +398,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
       describe("#PiiEntityRecognition", function () {
         it("client throws on empty list", async function () {
-          await expect(client.analyze(AnalyzeActionNames.PiiEntityRecognition, [])).rejects.toThrow();
+          await expect(
+            client.analyze(AnalyzeActionNames.PiiEntityRecognition, []),
+          ).rejects.toThrow();
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
