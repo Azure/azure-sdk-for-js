@@ -349,7 +349,7 @@ class MPTReporter implements Reporter {
 
       for (const otherAttachment of otherAttachments) {
         await this.renewSasUriIfNeeded();
-        const match = otherAttachment.contentType.match(/charset=(.*)/);
+        const match = otherAttachment?.contentType?.match(/charset=(.*)/);
         const charset = match && match.length > 1 ? match[1] : "utf-8";
         await this.storageClient.uploadBuffer(
           this.sasUri.uri,
