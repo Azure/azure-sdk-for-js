@@ -275,7 +275,7 @@ export interface ConnectionsOperations {
 export enum connectionToolType {
     BingGrounding = "bing_grounding",
     MicrosoftFabric = "microsoft_fabric",
-    SharePointGrounding = "sharepoint_grounding"
+    SharepointGrounding = "sharepoint_grounding"
 }
 
 // @public
