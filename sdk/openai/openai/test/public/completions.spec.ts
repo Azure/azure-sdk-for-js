@@ -342,12 +342,16 @@ describe("Completions", function () {
             );
           });
 
-          it("respects json_object responseFormat", async function () {
+          it("respects json_object responseFormat", async function ({ skip }) {
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(deployments, chatCompletionDeployments),
-                (deploymentName) =>
-                  client.chat.completions.create({
+                (deploymentName) => {
+                  // Skip
+                  if (deploymentName == "gpt-4-0125-preview") {
+                    skip();
+                  }
+                  return client.chat.completions.create({
                     model: deploymentName,
                     messages: [
                       {
@@ -357,7 +361,8 @@ describe("Completions", function () {
                       },
                     ],
                     response_format: { type: "json_object" },
-                  }),
+                  });
+                },
                 (res) => {
                   assertChatCompletions(res, { functions: false });
                   const content = res.choices[0].message?.content;
