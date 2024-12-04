@@ -32,6 +32,7 @@ export const recorderStartOptions: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: ["AZSDK3430"],
 };
 
 export function createClient(recorder: Recorder): RemoteRenderingClient {

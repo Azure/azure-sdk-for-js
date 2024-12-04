@@ -265,7 +265,7 @@ describe("RemoteRendering functional tests", () => {
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
-      size: "Tiny",
+      size: "Standard",
     };
 
     const sessionId: string = recorder.variable(
