@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray.js";
 import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray.js";
 import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray.js";
