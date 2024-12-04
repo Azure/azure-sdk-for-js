@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClient } from "../../src";
+import type { TextAnalysisClient } from "../../src/index.js";
 import {
   AnalyzeBatchActionNames,
   KnownExtractiveSummarizationOrderingCriteria,
@@ -9,14 +9,14 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src";
-import type { AuthMethod } from "./utils/recordedClient";
-import { createClient, startRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import type { AuthMethod } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Context, Suite } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure-tools/test-utils";
-import { assertActionsResults, assertRestError } from "./utils/resultHelper";
+import { assertActionsResults, assertRestError } from "./utils/resultHelper.js";
 import {
   expectation10,
   expectation11,
@@ -44,8 +44,8 @@ import {
   expectation9,
   expectation30,
   expectation31,
-} from "./expectations";
-import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+} from "./expectations.js";
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs.js";
 
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
@@ -56,8 +56,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createClient(authMethod, {
         recorder,
       });

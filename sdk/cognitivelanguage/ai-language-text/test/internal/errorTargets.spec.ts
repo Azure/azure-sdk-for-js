@@ -4,12 +4,12 @@
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert } from "@azure-tools/test-utils";
-import { KnownErrorCode } from "../../src/generated";
-import { AnalyzeBatchActionNames } from "../../src/models";
-import { TextAnalysisClient } from "../../src/textAnalysisClient";
-import { extractErrorPointerIndex } from "../../src/util";
-import { expectation73 } from "../public/expectations";
-import { assertActionsResults } from "../public/utils/resultHelper";
+import { KnownErrorCode } from "../../src/generated/index.js";
+import { AnalyzeBatchActionNames } from "../../src/models.js";
+import { TextAnalysisClient } from "../../src/textAnalysisClient.js";
+import { extractErrorPointerIndex } from "../../src/util.js";
+import { expectation73 } from "../public/expectations.js";
+import { assertActionsResults } from "../public/utils/resultHelper.js";
 
 describe("Error targets", function () {
   it("handles a mix of action results with failed actions", async function () {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Context, Suite } from "mocha";
-import { createClient, startRecorder } from "./utils/recordedClient";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
@@ -10,8 +10,8 @@ import { assert } from "@azure-tools/test-utils";
 describe(`[API Key] TextAnalysisClient`, function (this: Suite) {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
   });
 
   afterEach(async function () {

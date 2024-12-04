@@ -3,18 +3,18 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { TextAnalysisClient } from "../../src";
-import { AnalyzeBatchActionNames, AzureKeyCredential } from "../../src";
+import type { TextAnalysisClient } from "../../src/index.js";
+import { AnalyzeBatchActionNames, AzureKeyCredential } from "../../src/index.js";
 import { matrix } from "@azure-tools/test-utils";
 import type { Context, Suite } from "mocha";
-import type { AuthMethod } from "../public/utils/recordedClient";
-import { createClient, startRecorder } from "../public/utils/recordedClient";
+import type { AuthMethod } from "../public/utils/recordedClient.js";
+import { createClient, startRecorder } from "../public/utils/recordedClient.js";
 import type { TextAuthoringClient } from "@azure/ai-language-textauthoring";
 import createAuthoringClient from "@azure/ai-language-textauthoring";
-import { createCustomTestProject } from "../public/utils/customTestHelpter";
-import { assertActionsResults } from "../public/utils/resultHelper";
-import { expectation1, expectation2, expectation4 } from "../public/expectations";
-import { authModes } from "../public/inputs";
+import { createCustomTestProject } from "../public/utils/customTestHelpter.js";
+import { assertActionsResults } from "../public/utils/resultHelper.js";
+import { expectation1, expectation2, expectation4 } from "../public/expectations.js";
+import { authModes } from "../public/inputs.js";
 matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -29,7 +29,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         let projectName: string;
         let deploymentName: string;
 
-        before(function (this: Context) {
+        before(function (ctx) {
           if (isPlaybackMode()) {
             return;
           }
@@ -40,7 +40,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         describe("entity recognition action", function () {
-          before(async function (this: Context) {
+          before(async function (ctx) {
             projectName = "EntityRecognition";
             deploymentName = "EntityDeployment";
 
@@ -56,18 +56,18 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          beforeEach(async function (this: Context) {
-            recorder = await startRecorder(this.currentTest);
+          beforeEach(async function (ctx) {
+            recorder = await startRecorder(ctx);
             client = createClient(authMethod, {
               recorder,
             });
           });
 
-          afterEach(async function (this: Context) {
+          afterEach(async function (ctx) {
             await recorder.stop();
           });
 
-          it("entity recognition", async function (this: Context) {
+          it("entity recognition", async function (ctx) {
             const docs = [
               `This is a Loan agreement between the two individuals mentioned below in the parties section of the agreement. \nI. Parties of agreement:\n- Casey Jensen with a mailing address of 2469 Pennsylvania Avenue, City of New Brunswick, State of New Jersey (the "Borrower")\n- Hollie Rees with a mailing address of 42 Gladwell Street, City of Memphis, State of Tennessee (the "Lender")`,
               "The loan amount given by lender to borrower is one hundred ninety-two thousand nine hundred eighty-nine Dollars ($192,989.00). Any delay in payment is subject to a fine with a flat amount of $50 for every week the payment is delayed. All payments made by the Borrower shall be go into settling the the accrued interest and any late fess and then into the payment of the principal amount.",
@@ -91,7 +91,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         describe("single label classification action", function () {
-          before(async function (this: Context) {
+          before(async function (ctx) {
             projectName = "SingleLabel";
             deploymentName = "SingleLabelDeployment";
 
@@ -107,18 +107,18 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          beforeEach(async function (this: Context) {
-            recorder = await startRecorder(this.currentTest);
+          beforeEach(async function (ctx) {
+            recorder = await startRecorder(ctx);
             client = createClient(authMethod, {
               recorder,
             });
           });
 
-          afterEach(async function (this: Context) {
+          afterEach(async function (ctx) {
             await recorder.stop();
           });
 
-          it("single label classification action", async function (this: Context) {
+          it("single label classification action", async function (ctx) {
             const docs = [
               "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
             ];
@@ -141,7 +141,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         describe("multi label classification action", function () {
-          before(async function (this: Context) {
+          before(async function (ctx) {
             projectName = "MultiLabel";
             deploymentName = "MultiLabelDeployment";
 
@@ -157,14 +157,14 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          beforeEach(async function (this: Context) {
-            recorder = await startRecorder(this.currentTest);
+          beforeEach(async function (ctx) {
+            recorder = await startRecorder(ctx);
             client = createClient(authMethod, {
               recorder,
             });
           });
 
-          afterEach(async function (this: Context) {
+          afterEach(async function (ctx) {
             await recorder.stop();
           });
 

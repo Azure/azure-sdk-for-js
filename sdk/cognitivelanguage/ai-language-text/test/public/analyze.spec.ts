@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClient } from "../../src";
+import type { TextAnalysisClient } from "../../src/index.js";
 import {
   AnalyzeActionNames,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src";
-import type { AuthMethod } from "./utils/recordedClient";
-import { createClient, startRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import type { AuthMethod } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Context, Suite } from "mocha";
 import { assert, matrix } from "@azure-tools/test-utils";
-import { assertActionResults, assertRestError } from "./utils/resultHelper";
-import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
+import { assertActionResults, assertRestError } from "./utils/resultHelper.js";
+import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   expectation63,
@@ -45,8 +45,8 @@ import {
   expectation59,
   expectation60,
   expectation62,
-} from "./expectations";
-import { authModes } from "./inputs";
+} from "./expectations.js";
+import { authModes } from "./inputs.js";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -67,8 +67,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
     let getId: () => string;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createClient(authMethod, {
         recorder,
       });
@@ -608,7 +608,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji with skin tone modifier", async function (this: Context) {
+          it("family emoji with skin tone modifier", async function (ctx) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",

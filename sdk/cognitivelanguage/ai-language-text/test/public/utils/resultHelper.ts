@@ -5,7 +5,7 @@ import type {
   AnalyzeBatchResult,
   KnownTextAnalysisErrorCode,
   PagedAnalyzeBatchResult,
-} from "../../../src/";
+} from "../../../src/index.js";
 import { assert } from "@azure-tools/test-utils";
 import { isRestError } from "@azure/core-rest-pipeline";
 

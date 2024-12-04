@@ -14,15 +14,15 @@ import { getLongRunningPoller } from "@azure/ai-language-textauthoring";
 import type { ContainerClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
-import path from "path";
+import path from "node:path";
 import decompress from "decompress";
 import {
   customEntityAssets,
   customMultiLabelAssets,
   customSingleLabelAssets,
-} from "../customTestsAssets";
+} from "../customTestsAssets.js";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { readdir, rm } from "fs/promises";
+import { readdir, rm } from "node:fs/promises";
 
 const pathName = path.join(
   __dirname.split("ai-language-text")[0],

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TextAnalysisClient } from "../../src";
+import { AzureKeyCredential, TextAnalysisClient } from "../../src/index.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import sinon from "sinon";
 import { setLogLevel } from "@azure/logger";

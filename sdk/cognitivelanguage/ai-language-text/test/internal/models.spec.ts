@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AnalyzeAction, KnownAnalyzeTextLROTaskKind } from "../../src/generated/models";
-import type { AnalyzeActionName, AnalyzeBatchActionName } from "../../src";
-import type { AssertEqual } from "./utils";
+import type { AnalyzeAction, KnownAnalyzeTextLROTaskKind } from "../../src/generated/models/index.js";
+import type { AnalyzeActionName, AnalyzeBatchActionName } from "../../src/index.js";
+import type { AssertEqual } from "./utils.js";
 import { assert } from "@azure-tools/test-utils";
 
 describe("Models", function () {

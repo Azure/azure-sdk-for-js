@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Entity, StringIndexType, TextAnalysisClient } from "../../../src";
+import type { Entity, StringIndexType, TextAnalysisClient } from "../../../src/index.js";
 import { assert } from "chai";
 
 /**
