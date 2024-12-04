@@ -887,7 +887,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               await poller.sendCancellationRequest();
             }
           });
-          await assert.isRejected(pollPromise, /Operation was canceled/);
+          await expect(pollPromise).rejects.toThrow(/Operation was canceled/);
           assert.equal(poller.getOperationState().status, "canceled");
           const results = poller.getResult();
           if (results === undefined) {
