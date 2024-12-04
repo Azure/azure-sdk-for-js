@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/container-registry": [
-        "./src/index"
-      ]
+      "@azure/container-registry": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
