@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { ContainerRegistryClient, ContainerRepository } from "../../src/index.js";
-import { versionsToTest } from "@azure-tools/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils-vitest";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";

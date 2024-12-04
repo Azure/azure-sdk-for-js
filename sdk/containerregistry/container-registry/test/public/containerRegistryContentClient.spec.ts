@@ -9,7 +9,7 @@ import {
 } from "@azure-tools/test-recorder";
 import type { ContainerRegistryContentClient, OciImageManifest } from "../../src/index.js";
 import { KnownManifestMediaType } from "../../src/index.js";
-import { versionsToTest } from "@azure-tools/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils-vitest";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
 import fs from "node:fs";
 import { Readable } from "node:stream";

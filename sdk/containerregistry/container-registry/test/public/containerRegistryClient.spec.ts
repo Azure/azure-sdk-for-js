@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { ContainerRegistryClient } from "../../src/index.js";
 
-import { versionsToTest } from "@azure-tools/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils-vitest";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
