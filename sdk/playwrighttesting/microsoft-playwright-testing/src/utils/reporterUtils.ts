@@ -15,7 +15,6 @@ import { reporterLogger } from "../common/logger";
 import { createHash, randomUUID } from "crypto";
 import type { IBackOffOptions } from "../common/types";
 import fs from "fs";
-import os from "os";
 import path from "path";
 import { Constants } from "../common/constants";
 import type { EnvironmentVariables } from "../common/environmentVariables";
@@ -110,6 +109,18 @@ class ReporterUtils {
     return shard;
   }
 
+  public getOSorBrowserName(result: TestResult, data: string): string {
+    for (const attachment of result.attachments) {
+      if (attachment.name === data) {
+        const match = attachment?.contentType?.match(/charset=(.*)/);
+        const charset = match && match.length > 1 ? match[1] : "utf-8";
+        return attachment.body?.toString((charset as any) || "utf-8").toUpperCase() || "";
+      }
+    }
+
+    return "";
+  }
+
   public getTestResultObject(test: TestCase, result: TestResult, jobName: string): MPTTestResult {
     switch (test.outcome()) {
       case "skipped":
@@ -134,10 +145,6 @@ class ReporterUtils {
         break;
     }
 
-    let browserName = test.parent.project()!.use.browserName?.toLowerCase();
-    if (!browserName) {
-      browserName = test.parent.project()!.use.defaultBrowserType?.toLowerCase();
-    }
     const testResult = new MPTTestResult();
     testResult.runId = this.envVariables.runId;
     testResult.shardId = this.envVariables.runId + "_" + this.envVariables.shardId;
@@ -155,8 +162,8 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: browserName ? browserName.toUpperCase() : "",
-      os: this.getOsName(),
+      browserType: this.getOSorBrowserName(result, "Browser"),
+      os: this.getOSorBrowserName(result, "Os"),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
     testResult.tags = this.extractTestTags(test);
@@ -598,20 +605,6 @@ class ReporterUtils {
 
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === "";
-  }
-
-  private getOsName(): string {
-    const osType = os.type();
-    switch (osType) {
-      case "Darwin":
-        return "MAC";
-      case "Linux":
-        return "LINUX";
-      case "Windows_NT":
-        return "WINDOWS";
-      default:
-        return "UNKNOWN";
-    }
   }
 }
 
