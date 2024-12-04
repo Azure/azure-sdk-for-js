@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import "./env.js";
 import type { AnomalyDetectorRestClient } from "../../../src/index.js";
 import AnomalyDetector from "../../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
