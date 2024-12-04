@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { TextAuthoringClient } from "./clientDefinitions";
+import type { TextAuthoringClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of the class TextAuthoringClient class.
