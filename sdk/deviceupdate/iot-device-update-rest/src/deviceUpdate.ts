@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { DeviceUpdateClient } from "./clientDefinitions";
+import type { DeviceUpdateClient } from "./clientDefinitions.js";
 
 export default function createClient(
   endpoint: string,
