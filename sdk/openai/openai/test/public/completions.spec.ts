@@ -21,7 +21,7 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { completionsModelsToSkip, functionCallModelsToSkip, jsonResponseModelsToSkip } from "./utils/models.js";
+import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
 import "@azure/openai/types";
 
 describe("Completions", function () {
@@ -346,18 +346,18 @@ describe("Completions", function () {
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(deployments, chatCompletionDeployments),
-                (deploymentName) => client.chat.completions.create({
-                  model: deploymentName,
-                  messages: [
-                    {
-                      role: "user",
-                      content:
-                        "Answer the following question in JSON format: What are the capital cities in Africa?",
-                    },
-                  ],
-                  response_format: { type: "json_object" },
-                })
-                ,
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [
+                      {
+                        role: "user",
+                        content:
+                          "Answer the following question in JSON format: What are the capital cities in Africa?",
+                      },
+                    ],
+                    response_format: { type: "json_object" },
+                  }),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
                   const content = res.choices[0].message?.content;
