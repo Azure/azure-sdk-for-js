@@ -7,14 +7,14 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import type { ConversationAnalysisClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] ConversationAnalysisClient`, function (this: Suite) {
+  describe(`[${authMethod}] ConversationAnalysisClient`, () => {
     let recorder: Recorder;
     let client: ConversationAnalysisClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createClient({
         authMethod,
@@ -22,12 +22,12 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
-    describe("#sync", function () {
-      it("Test Conversation App", async function () {
+    describe("#sync", () => {
+      it("Test Conversation App", async () => {
         const message = await client.analyzeConversation({
           kind: "Conversation",
           analysisInput: {
@@ -65,7 +65,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.isAbove(message.result.prediction.entities[0].confidence, 0);
       });
 
-      it("Test Orchestration App Conversational Response", async function () {
+      it("Test Orchestration App Conversational Response", async () => {
         const message = await client.analyzeConversation({
           kind: "Conversation",
           analysisInput: {
@@ -115,7 +115,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.isAbove(conversation_result.entities[0].confidence, 0);
       });
 
-      it.skip("Test Orchestration App LUIS Response", async function () {
+      it.skip("Test Orchestration App LUIS Response", async () => {
         const message = await client.analyzeConversation({
           kind: "Conversation",
           analysisInput: {
@@ -163,7 +163,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         assert.isAtLeast(luis_result.entities.length, 1);
       });
 
-      it("Test Orchestration App QnA Response", async function () {
+      it("Test Orchestration App QnA Response", async () => {
         const message = await client.analyzeConversation({
           kind: "Conversation",
           analysisInput: {
@@ -207,8 +207,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
     });
 
-    describe("#async", function () {
-      it("Test Conversation App PII transcript", async function () {
+    describe("#async", () => {
+      it("Test Conversation App PII transcript", async () => {
         const poller = await client.beginConversationAnalysis({
           displayName: "Analyze PII in conversation",
           analysisInput: {
@@ -284,7 +284,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      it("Test Conversation Summarization App", async function () {
+      it("Test Conversation Summarization App", async () => {
         const poller = await client.beginConversationAnalysis({
           displayName: "Analyze conversations from xxx",
           analysisInput: {
