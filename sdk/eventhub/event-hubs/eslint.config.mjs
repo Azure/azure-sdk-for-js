@@ -10,4 +10,20 @@ export default [
       "@azure/azure-sdk/ts-package-json-types": "off",
     },
   },
+  {
+    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.src.json", "./tsconfig.tests.json"],
+      },
+    },
+  },
+  {
+    files: ["*.md/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: null,
+      },
+    },
+  },
 ];
