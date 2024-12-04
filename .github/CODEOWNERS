@@ -145,6 +145,10 @@
 # PRLabel: %Cognitive - Health Insights
 /sdk/healthinsights/ @tomsft @koen-mertens
 
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas
+
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
 
@@ -571,10 +575,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
-
-# ServiceLabel: %Health Deidentification
-# PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
