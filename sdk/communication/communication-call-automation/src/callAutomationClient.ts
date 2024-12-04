@@ -334,6 +334,9 @@ export class CallAutomationClient {
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      customCallingContext: this.createCustomCallingContextInternal(
+        options.customCallingContext!,
+      ),
     };
     const optionsInternal = {
       ...operationOptions,
