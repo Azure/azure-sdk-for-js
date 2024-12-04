@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   AzureBlobDataFeedSource,
   AzureDataLakeStorageGen2DataFeedSource,
@@ -30,6 +27,7 @@ import {
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure-tools/test-utils";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import type {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyFeedback as ServiceAnomalyFeedback,
@@ -24,6 +21,7 @@ import {
   fromServiceMetricFeedbackUnion,
   toServiceGranularity,
 } from "../../src/transforms.js";
+import { describe, it, assert } from "vitest";
 
 describe("Transforms", () => {
   it("fromServiceWholeMetricConfiguration()", () => {

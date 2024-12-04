@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   DataSourceDataLakeGen2SharedKey,
   DataSourceDataLakeGen2SharedKeyPatch,
@@ -21,6 +18,7 @@ import {
 } from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;

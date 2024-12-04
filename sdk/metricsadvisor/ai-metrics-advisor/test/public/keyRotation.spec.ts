@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { MetricsAdvisorKeyCredential } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("MetricsAdvisorKeyCredential", () => {
   let credential: MetricsAdvisorKeyCredential;
