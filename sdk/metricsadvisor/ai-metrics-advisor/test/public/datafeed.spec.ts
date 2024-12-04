@@ -21,12 +21,12 @@ import type {
   MetricsAdvisorAdministrationClient,
   MongoDbDataFeedSource,
   UnknownDataFeedSource,
-} from "../../src";
+} from "../../src/index.js";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,
   makeCredential,
-} from "./util/recordedClients";
+} from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure-tools/test-utils";
@@ -50,7 +50,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let datalakeGenFeedName: string;
       let logAnalyticsFeedName: string;
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
           feedName = getRecorderUniqueVariable(recorder, "js-test-datafeed-");
@@ -269,7 +269,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", async function (this: Context) {
+        it("retrieves an Azure Blob datafeed", async function (ctx) {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource = {
             dataSourceType: "AzureBlob",
@@ -280,7 +280,7 @@ matrix([[true, false]] as const, async (useAad) => {
           } as unknown as AzureBlobDataFeedSource;
 
           if (!createdAzureBlobDataFeedId) {
-            this.skip();
+            ctx.skip();
           }
 
           const actual = await client.getDataFeed(createdAzureBlobDataFeedId);
@@ -307,9 +307,9 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", async function (this: Context) {
+        it("updates an Azure Blob datafeed", async function (ctx) {
           if (!createdAzureBlobDataFeedId) {
-            this.skip();
+            ctx.skip();
           }
           const expectedSourceParameter: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -471,15 +471,15 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 1, "Expecting one entry in second page");
         });
 
-        it("deletes an Azure Blob datafeed", async function (this: Context) {
+        it("deletes an Azure Blob datafeed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdAzureBlobDataFeedId);
         });
 
-        it("deletes an Azure Application Insights feed", async function (this: Context) {
+        it("deletes an Azure Application Insights feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdAppFeedId);
         });
 
-        it("deletes an Azure SQL Server feed", async function (this: Context) {
+        it("deletes an Azure SQL Server feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdSqlServerFeedId);
         });
 
@@ -516,7 +516,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Cosmos DB", async function (this: Context) {
+        it("deletes an Azure Cosmos DB", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdCosmosFeedId);
         });
 
@@ -549,7 +549,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Data Explorer feed", async function (this: Context) {
+        it("deletes an Azure Data Explorer feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdAzureDataExplorerFeedId);
         });
 
@@ -581,7 +581,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Table feed", async function (this: Context) {
+        it("deletes an Azure Table feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdAzureTableFeedId);
         });
 
@@ -616,7 +616,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes InfluxDB data feed", async function (this: Context) {
+        it("deletes InfluxDB data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdInfluxFeedId);
         });
 
@@ -651,7 +651,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MongoDB data feed", async function (this: Context) {
+        it("deletes MongoDB data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdMongoDbFeedId);
         });
 
@@ -684,7 +684,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MySQL data feed", async function (this: Context) {
+        it("deletes MySQL data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdMySqlFeedId);
         });
 
@@ -719,7 +719,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Datalake Gen 2 data feed", async function (this: Context) {
+        it("deletes Datalake Gen 2 data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
@@ -749,7 +749,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Eventhubs data feed", async function (this: Context) {
+        it.skip("deletes Eventhubs data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 
@@ -787,7 +787,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Log Analytics data feed", async function (this: Context) {
+        it("deletes Log Analytics data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdLogAnalyticsId);
         });
 
@@ -849,7 +849,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("deletes PostgreSQL data feed", async function (this: Context) {
+        it("deletes PostgreSQL data feed", async function (ctx) {
           await verifyDataFeedDeletion(this, client, createdPostGreSqlId);
         });
 

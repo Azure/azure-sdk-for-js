@@ -9,12 +9,12 @@ import type {
   AnomalyDetectionConfiguration,
   MetricAlertConfiguration,
   MetricsAdvisorAdministrationClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,
   makeCredential,
-} from "./util/recordedClients";
+} from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { getYieldedValue, matrix } from "@azure-tools/test-utils";
@@ -25,7 +25,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
       });
 
@@ -83,7 +83,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", async function (this: Context) {
+        it("refreshes ingesetion status", async function (ctx) {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
@@ -106,7 +106,7 @@ matrix([[true, false]] as const, async (useAad) => {
             const result2 = getYieldedValue(await iterator2.next());
             assert.notEqual(result2.status, "Succeeded");
           } else {
-            this.skip();
+            ctx.skip();
           }
         });
       });
@@ -374,9 +374,9 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", async function (this: Context) {
+        it("deletes an alert configuration", async function (ctx) {
           if (!createdAlertConfigId) {
-            this.skip();
+            ctx.skip();
           }
 
           await client.deleteAlertConfig(createdAlertConfigId);
@@ -388,9 +388,9 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", async function (this: Context) {
+        it("deletes a detection configuration", async function (ctx) {
           if (!createdDetectionConfigId) {
-            this.skip();
+            ctx.skip();
           }
 
           await client.deleteDetectionConfig(createdDetectionConfigId);

@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { MetricsAdvisorKeyCredential } from "../../src";
+import { MetricsAdvisorKeyCredential } from "../../src/index.js";
 
 describe("MetricsAdvisorKeyCredential", () => {
   let credential: MetricsAdvisorKeyCredential;

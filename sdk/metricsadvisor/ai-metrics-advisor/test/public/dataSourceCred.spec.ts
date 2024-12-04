@@ -13,12 +13,12 @@ import type {
   DataSourceSqlConnectionString,
   DataSourceSqlServerConnectionStringPatch,
   MetricsAdvisorAdministrationClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,
   makeCredential,
-} from "./util/recordedClients";
+} from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
 
@@ -31,7 +31,7 @@ describe("DataSourceCredential", () => {
   let servicePrincipalCredName: string;
   let servicePrincipalInKVCredName: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(false)));
     if (recorder && !sqlServerCredName) {
       sqlServerCredName = getRecorderUniqueVariable(recorder, "js-test-sqlServerCred-");
@@ -83,9 +83,9 @@ describe("DataSourceCredential", () => {
       assert.equal(createdSqlServerCred.type, sqlServerCredential.type);
     });
 
-    it("updates sql server connection string credential", async function (this: Context) {
+    it("updates sql server connection string credential", async function (ctx) {
       if (!createdSqlServerCredId) {
-        this.skip();
+        ctx.skip();
       }
       const sqlServerCredentialPatch: DataSourceSqlServerConnectionStringPatch = {
         name: sqlServerCredName,
@@ -119,9 +119,9 @@ describe("DataSourceCredential", () => {
       assert.equal(createdDatalakeCred.type, datalakeCred.type);
     });
 
-    it("updates datalake gen2 shared key credential", async function (this: Context) {
+    it("updates datalake gen2 shared key credential", async function (ctx) {
       if (!createdDatalakeCredId) {
-        this.skip();
+        ctx.skip();
       }
       const dataLakeCredentialPatch: DataSourceDataLakeGen2SharedKeyPatch = {
         name: datalakeCredName,
@@ -158,9 +158,9 @@ describe("DataSourceCredential", () => {
       assert.equal(createdServicePrincipalCred.type, servicePrincipalCred.type);
     });
 
-    it("updates service principal credential", async function (this: Context) {
+    it("updates service principal credential", async function (ctx) {
       if (!createdServicePrincipalCredId) {
-        this.skip();
+        ctx.skip();
       }
       const servicePrincipalCredentialPatch: DataSourceServicePrincipalPatch = {
         name: servicePrincipalCredName,
@@ -209,9 +209,9 @@ describe("DataSourceCredential", () => {
       assert.equal(createdServicePrincipalInKVCred.type, servicePrincipalInKVCred.type);
     });
 
-    it("updates service principal in keyvault credential", async function (this: Context) {
+    it("updates service principal in keyvault credential", async function (ctx) {
       if (!createdServicePrincipalInKVCredId) {
-        this.skip();
+        ctx.skip();
       }
       const servicePrincipalInKVCredentialPatch: DataSourceServicePrincipalInKeyVaultPatch = {
         name: servicePrincipalInKVCredName,
@@ -262,30 +262,30 @@ describe("DataSourceCredential", () => {
       assert.equal(pageResult.value.length, 2, "Expecting two entries in second page");
     });
 
-    it("deletes sqlserver dataSource credential", async function (this: Context) {
+    it("deletes sqlserver dataSource credential", async function (ctx) {
       if (!createdSqlServerCredId) {
-        this.skip();
+        ctx.skip();
       }
       await verifyDataSourceCredentialDeletion(this, client, createdSqlServerCredId);
     });
 
-    it("deletes datalake gen2 shared key dataSource credential", async function (this: Context) {
+    it("deletes datalake gen2 shared key dataSource credential", async function (ctx) {
       if (!createdDatalakeCredId) {
-        this.skip();
+        ctx.skip();
       }
       await verifyDataSourceCredentialDeletion(this, client, createdDatalakeCredId);
     });
 
-    it("deletes service principal dataSource credential", async function (this: Context) {
+    it("deletes service principal dataSource credential", async function (ctx) {
       if (!createdServicePrincipalCredId) {
-        this.skip();
+        ctx.skip();
       }
       await verifyDataSourceCredentialDeletion(this, client, createdServicePrincipalCredId);
     });
 
-    it("deletes service principal in KeyVault dataSource credential", async function (this: Context) {
+    it("deletes service principal in KeyVault dataSource credential", async function (ctx) {
       if (!createdServicePrincipalInKVCredId) {
-        this.skip();
+        ctx.skip();
       }
       await verifyDataSourceCredentialDeletion(this, client, createdServicePrincipalInKVCredId);
     });

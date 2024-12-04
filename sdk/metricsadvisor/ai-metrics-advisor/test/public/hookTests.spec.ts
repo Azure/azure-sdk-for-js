@@ -10,12 +10,12 @@ import type {
   MetricsAdvisorAdministrationClient,
   WebNotificationHook,
   WebNotificationHookPatch,
-} from "../../src";
+} from "../../src/index.js";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,
   makeCredential,
-} from "./util/recordedClients";
+} from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   fakeTestPassPlaceholder,
@@ -34,7 +34,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let emailHookName: string;
       let webHookName: string;
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !emailHookName) {
           emailHookName = getRecorderUniqueVariable(recorder, "js-test-emailHook-");

@@ -10,7 +10,7 @@ import {
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorClient,
   MetricsAdvisorKeyCredential,
-} from "../../../src";
+} from "../../../src/index.js";
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;

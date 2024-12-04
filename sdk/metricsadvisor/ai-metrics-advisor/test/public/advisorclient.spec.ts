@@ -10,8 +10,8 @@ import type {
   MetricCommentFeedback,
   MetricPeriodFeedback,
   MetricsAdvisorClient,
-} from "../../src";
-import { createRecordedAdvisorClient, makeCredential } from "./util/recordedClients";
+} from "../../src/index.js";
+import { createRecordedAdvisorClient, makeCredential } from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { getYieldedValue, matrix } from "@azure-tools/test-utils";
@@ -22,7 +22,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         ({ recorder, client } = await createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 

@@ -12,18 +12,18 @@ import type {
   Granularity as ServiceGranularity,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration,
-} from "../../src/generated/models";
+} from "../../src/generated/models/index.js";
 import type {
   AzureBlobDataFeedSource,
   DataFeedGranularity,
   MetricDetectionCondition,
-} from "../../src/models";
+} from "../../src/models.js";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceMetricFeedbackUnion,
   toServiceGranularity,
-} from "../../src/transforms";
+} from "../../src/transforms.js";
 
 describe("Transforms", () => {
   it("fromServiceWholeMetricConfiguration()", () => {
