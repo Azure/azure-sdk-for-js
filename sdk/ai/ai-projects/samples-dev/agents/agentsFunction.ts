@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 
-import { AIProjectsClient, FunctionDefinition, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, RequiredToolCallOutput, SubmitToolOutputsActionOutput, ToolDefinition, ToolOutput, isOutputOfType } from "@azure/ai-projects"
+import { AIProjectsClient, FunctionDefinition, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, RequiredToolCallOutput, SubmitToolOutputsActionOutput, ToolOutput, isOutputOfType } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 

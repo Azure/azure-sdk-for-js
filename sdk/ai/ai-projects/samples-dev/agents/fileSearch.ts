@@ -15,8 +15,8 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file
-  const localFileStream = fs.createReadStream("./samples-dev/agents/sample_file_for_upload.txt");
-  const file = await client.agents.uploadFile(localFileStream, "assistants", "sample_file_for_upload.txt");
+  const localFileStream = fs.createReadStream("./samples-dev/agents/sampleFileForUpload.txt");
+  const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
   console.log(`Uploaded file, ID: ${file.id}`);
 
   // Create vector store

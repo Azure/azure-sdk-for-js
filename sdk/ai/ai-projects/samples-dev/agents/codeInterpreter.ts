@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput, MessageContentOutput } from "@azure/ai-projects"
+import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -14,7 +14,7 @@ const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "
 const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
 // Upload file and wait for it to be processed
-const localFileStream = fs.createReadStream("samples-dev/agents/nifty_500_quarterly_results.csv");
+const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
 const localFile = await client.agents.uploadFile(localFileStream, "assistants", "my-local-file");
 
 console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -73,7 +73,7 @@ if (assistantMessage) {
 console.log(`Saving new files...`);
 const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
 console.log(`Image file ID : ${imageFile}`);
-const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile.file_id)).filename + "_image_file.png";
+const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png";
 
 const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
 if (fileContent) {

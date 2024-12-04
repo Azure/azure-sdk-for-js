@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaContent, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "@azure/ai-projects"
+import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";

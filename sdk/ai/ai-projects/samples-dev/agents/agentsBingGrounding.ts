@@ -3,14 +3,14 @@
 
 /**
  * 
- * FILE: agents_sharepoint.ts
+ * FILE: agentsBingGrounding.ts
  *
  * DESCRIPTION:
- *  This sample demonstrates how to use agent operations with the Sharepoint tool from
+ *  This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node agents_sharepoint.ts
+ *  npx ts-node agentsBingGrounding.ts
  *
  *  Before running the sample:
  *
@@ -18,10 +18,10 @@
  *
  *  Set this environment variables with your own values:
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  SHAREPOINT_CONNECTION_NAME
+ *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -35,18 +35,18 @@ export async function main(): Promise<void> {
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  const sharepointConnection = await client.connections.getConnection(process.env["SHAREPOINT_CONNECTION_NAME"] || "<connection-name>");
-  const connectionId = sharepointConnection.id;
+  const bingConnection = await client.connections.getConnection(process.env["BING_CONNECTION_NAME"] || "<connection-name>");
+  const connectionId = bingConnection.id;
 
-  // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = fromConnectionId(connectionToolType.SharepointGrounding, [connectionId]);
+  // Initialize agent bing tool with the connection id
+  const bingTool = fromConnectionId(connectionToolType.BingGrounding, [connectionId]);
 
-  // Create agent with the Sharepoint tool and process assistant run
+  // Create agent with the bing tool and process assistant run
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: [sharepointTool]
+      tools: [bingTool]
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });
@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {role: "user", content: "Hello, tell me about my health insurance options"});
+  const message = await client.agents.createMessage(thread.id, {role: "user", content: "How does wikipedia explain Euler's Identity?"});
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools

@@ -21,24 +21,18 @@ export async function main(): Promise<void> {
     const readable = new Readable();
     readable.push(fileContent);
     readable.push(null); // end the stream
-    const file = await client.agents.uploadFile(readable, "assistants", "vector-file.txt");
+    const file = await client.agents.uploadFile(readable, "assistants", "vectorFile.txt");
     console.log(`Uploaded file, file ID: ${file.id}`);
 
+    // Set up abort controller (optional)
+    // Polling can then be stopped using abortController.abort()
+    const abortController = new AbortController();
+
     // Create vector store file
-    const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
-    console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
-
-    // Retrieve vector store file
-    const _vectorStoreFile = await client.agents.getVectorStoreFile(vectorStore.id, vectorStoreFile.id);
-    console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
-
-    // List vector store files
-    const vectorStoreFiles = await client.agents.listVectorStoreFiles(vectorStore.id);
-    console.log(`List of vector store files: ${vectorStoreFiles.data.map(f => f.id).join(", ")}`);
-
-    // Delete vector store file
-    await client.agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
-    console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
+    const vectorStoreFileOptions = { fileId: file.id };
+    const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+    const vectorStoreFile = await client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, pollingOptions);
+    console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
 
     // Delete file
     await client.agents.deleteFile(file.id);

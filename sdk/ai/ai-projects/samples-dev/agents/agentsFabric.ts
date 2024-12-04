@@ -3,14 +3,14 @@
 
 /**
  * 
- * FILE: agents_fabric.ts
+ * FILE: agentsFabric.ts
  *
  * DESCRIPTION:
  *  This sample demonstrates how to use agent operations with the Microsoft Fabric tool from
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node agents_fabric.ts
+ *  npx ts-node agentsFabric.ts
  *
  *  Before running the sample:
  *
