@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./webPubSubClient";
-export * from "./webPubSubClientCredential";
-export * from "./models";
-export * from "./protocols";
-export * from "./errors";
+
+export * from "./webPubSubClient.js";
+export * from "./webPubSubClientCredential.js";
+export * from "./models/index.js";
+export * from "./protocols/index.js";
+export * from "./errors/index.js";

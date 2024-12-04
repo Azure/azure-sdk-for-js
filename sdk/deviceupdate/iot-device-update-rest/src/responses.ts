@@ -34,7 +34,7 @@ import type {
   LogCollectionListOutput,
   LogCollectionOperationDetailedStatusOutput,
   DeviceHealthListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
 export interface DeviceUpdateListUpdates200Response extends HttpResponse {
