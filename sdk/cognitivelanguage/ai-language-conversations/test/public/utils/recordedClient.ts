@@ -21,6 +21,7 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK2030"],
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
