@@ -11,16 +11,16 @@ import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { logger } from "./logger";
-import { GeneratedClient } from "./generated";
-import { tracingClient } from "./tracing";
-import type { RepositoryPageResponse } from "./models";
-import { extractNextLink } from "./utils/helpers";
-import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import type { ContainerRepository, DeleteRepositoryOptions } from "./containerRepository";
-import { ContainerRepositoryImpl } from "./containerRepository";
-import type { RegistryArtifact } from "./registryArtifact";
-import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
+import { logger } from "./logger.js";
+import { GeneratedClient } from "./generated/index.js";
+import { tracingClient } from "./tracing.js";
+import type { RepositoryPageResponse } from "./models.js";
+import { extractNextLink } from "./utils/helpers.js";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler.js";
+import type { ContainerRepository, DeleteRepositoryOptions } from "./containerRepository.js";
+import { ContainerRepositoryImpl } from "./containerRepository.js";
+import type { RegistryArtifact } from "./registryArtifact.js";
+import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential.js";
 
 const LATEST_API_VERSION = "2021-07-01";
 

@@ -7,14 +7,14 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import type { ContainerRegistryContentClient, OciImageManifest } from "../../src";
-import { KnownManifestMediaType } from "../../src";
+import type { ContainerRegistryContentClient, OciImageManifest } from "../../src/index.js";
+import { KnownManifestMediaType } from "../../src/index.js";
 import { assert, versionsToTest } from "@azure-tools/test-utils";
 import type { Context } from "mocha";
-import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
-import fs from "fs";
-import { Readable } from "stream";
-import { readStreamToEnd } from "../../src/utils/helpers";
+import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
+import fs from "node:fs";
+import { Readable } from "node:stream";
+import { readStreamToEnd } from "../../src/utils/helpers.js";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryContentClient", function () {
@@ -27,11 +27,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     // NOTE: use of "function" and not ES6 arrow-style functions with the
     // beforeEach hook is IMPORTANT due to the use of `this` in the function
     // body.
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       // The recorder has some convenience methods, and we need to store a
       // reference to it so that we can `stop()` the recorder later in the
       // `afterEach` hook.
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(ctx);
 
       await recorder.start(recorderStartOptions);
 
@@ -109,7 +109,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload OCI manifest from stream", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
         // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
-        this.skip();
+        ctx.skip();
       }
 
       await uploadOciManifestPrerequisites();
@@ -128,7 +128,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload OCI manifest from buffer", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
         // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
-        this.skip();
+        ctx.skip();
       }
 
       await uploadOciManifestPrerequisites();
@@ -192,7 +192,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can download Docker manifest", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
         // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
-        this.skip();
+        ctx.skip();
       }
 
       await uploadDockerManifestPrerequisites();
@@ -226,7 +226,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload a big blob with size not a multiple of 4MB", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       // 64 MiB plus extra offset to have a smaller chunk at the end
@@ -240,7 +240,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload a big blob with size a multiple of 4MB", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       // 64 MiB exactly

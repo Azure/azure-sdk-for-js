@@ -13,7 +13,7 @@ import {
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import fs from "fs";
+import fs from "node:fs";
 dotenv.config();
 
 function trimSha(digest: string) {

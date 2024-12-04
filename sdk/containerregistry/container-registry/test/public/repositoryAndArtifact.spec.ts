@@ -3,11 +3,11 @@
 
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { ContainerRegistryClient, ContainerRepository } from "../../src";
+import type { ContainerRegistryClient, ContainerRepository } from "../../src/index.js";
 import { versionsToTest } from "@azure-tools/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils";
+import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2021-07-01" }).describe("Repository and artifact tests", function () {
@@ -20,11 +20,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     // NOTE: use of "function" and not ES6 arrow-style functions with the
     // beforeEach hook is IMPORTANT due to the use of `this` in the function
     // body.
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       // The recorder has some convenience methods, and we need to store a
       // reference to it so that we can `stop()` the recorder later in the
       // `afterEach` hook.
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(ctx);
 
       await recorder.start(recorderStartOptions);
 
