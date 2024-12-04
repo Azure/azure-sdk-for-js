@@ -10,12 +10,12 @@
   "//sampleConfiguration": {
     "productName": "Azure Identity",
     "productSlugs": [
-      "azure",
-      "azure-active-directory"
+      "entra",
+      "entra-id"
     ],
     "requiredResources": {
-      "Azure Active Directory App Registration": "https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app",
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      "Register an app with the Microsoft identity platform": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app",
+      "Set and retrieve a secret from Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/secrets/quick-create-portal"
     }
   },
   "scripts": {
@@ -63,7 +63,7 @@
   "keywords": [
     "azure",
     "cloud",
-    "active directory",
+    "entra id",
     "authentication",
     "credential",
     "certificate",

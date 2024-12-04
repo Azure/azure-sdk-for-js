@@ -19,10 +19,11 @@ export const commandInfo = makeCommandInfo(
       description: "whether to enable launching test-proxy",
     },
     "test-proxy-debug": {
-      description: "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
       kind: "boolean",
-      default: false
-    }
+      default: false,
+    },
   },
 );
 
@@ -43,7 +44,7 @@ export default leafCommand(commandInfo, async (options) => {
     command: isModuleProj
       ? `mocha --loader=ts-node/esm ${defaultMochaArgs} ${mochaArgs}`
       : // eslint-disable-next-line no-useless-escape
-      `${CROSS_ENV_PATH} TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha -r ts-node/register ${defaultMochaArgs} ${mochaArgs}`,
+        `${CROSS_ENV_PATH} TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha -r ts-node/register ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
