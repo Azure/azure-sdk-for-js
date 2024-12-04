@@ -9,12 +9,12 @@ import type { AnalyzeActionName, AnalyzeBatchActionName } from "../../src/index.
 import type { AssertEqual } from "./utils.js";
 import { describe, it, assert } from "vitest";
 
-describe("Models", function () {
-  it("AnalyzeActionName", function () {
+describe("Models", () => {
+  it("AnalyzeActionName", () => {
     const equalTypes: AssertEqual<AnalyzeActionName, AnalyzeAction["kind"]> = true;
     assert.isTrue(equalTypes);
   });
-  it("AnalyzeBatchActionName", function () {
+  it("AnalyzeBatchActionName", () => {
     const equalTypes: AssertEqual<
       AnalyzeBatchActionName,
       keyof typeof KnownAnalyzeTextLROTaskKind

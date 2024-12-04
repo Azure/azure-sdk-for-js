@@ -3,21 +3,21 @@
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`[API Key] TextAnalysisClient`, function (this: Suite) {
+describe(`[API Key] TextAnalysisClient`, () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  describe("Client options", async function () {
-    it("service version", async function () {
+  describe("Client options", async () => {
+    it("service version", async () => {
       const docs = [
         {
           id: "1",

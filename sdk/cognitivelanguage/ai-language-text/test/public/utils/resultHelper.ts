@@ -7,6 +7,10 @@ import type {
   PagedAnalyzeBatchResult,
 } from "../../../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { assert, chai } from "vitest";
+import chaiExclude from "chai-exclude";
+
+chai.use(chaiExclude);
 
 export async function assertActionsResults(
   actions: PagedAnalyzeBatchResult,

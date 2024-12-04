@@ -23,14 +23,8 @@ import {
 } from "../customTestsAssets.js";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { readdir, rm } from "node:fs/promises";
+import { pathName } from "./pathUtils.js";
 
-const pathName = path.join(
-  __dirname.split("ai-language-text")[0],
-  "ai-language-text",
-  "test",
-  "public",
-  "utils",
-);
 const storageInputContainerName = "documents";
 const language = "en-us";
 const languageAPIVersion = "2022-05-01";
@@ -100,7 +94,7 @@ async function getAssetsforProject(
   }
 }
 
-async function polling(client: TextAuthoringClient, project: any) {
+async function polling(client: TextAuthoringClient, project: any): Promise<void> {
   const poller = getLongRunningPoller(client, project);
   await poller.pollUntilDone();
 }

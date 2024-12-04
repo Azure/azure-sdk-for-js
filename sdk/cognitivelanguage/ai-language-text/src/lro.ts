@@ -57,7 +57,7 @@ function addOnResponse<TOptions extends OperationOptions>(
   };
 }
 
-function logWarnHeader(rawResponse: FullOperationResponse) {
+function logWarnHeader(rawResponse: FullOperationResponse): void {
   const warnHeader = rawResponse.headers.get("warn-text");
   if (warnHeader) {
     warnHeader.split(";").map((x) => logger.warning(x));
