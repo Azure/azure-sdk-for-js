@@ -14,7 +14,7 @@ import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper.js";
 import {
   expectation10,

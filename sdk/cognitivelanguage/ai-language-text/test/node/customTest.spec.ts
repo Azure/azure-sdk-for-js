@@ -5,7 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { TextAnalysisClient } from "../../src/index.js";
 import { AnalyzeBatchActionNames, AzureKeyCredential } from "../../src/index.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import type { AuthMethod } from "../public/utils/recordedClient.js";
 import { createClient, startRecorder } from "../public/utils/recordedClient.js";
 import type { TextAuthoringClient } from "@azure/ai-language-textauthoring";
