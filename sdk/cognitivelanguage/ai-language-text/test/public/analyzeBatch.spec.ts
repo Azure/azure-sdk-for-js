@@ -12,10 +12,9 @@ import {
 } from "../../src/index.js";
 import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import type { Context, Suite } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper.js";
 import {
   expectation10,
@@ -46,6 +45,7 @@ import {
   expectation31,
 } from "./expectations.js";
 import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],

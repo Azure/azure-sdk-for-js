@@ -11,8 +11,7 @@ import {
 } from "../../src/index.js";
 import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import type { Context, Suite } from "mocha";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { assertActionResults, assertRestError } from "./utils/resultHelper.js";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -47,6 +46,7 @@ import {
   expectation62,
 } from "./expectations.js";
 import { authModes } from "./inputs.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",

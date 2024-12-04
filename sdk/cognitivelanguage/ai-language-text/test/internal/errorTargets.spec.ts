@@ -3,13 +3,13 @@
 
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { assert } from "@azure-tools/test-utils";
 import { KnownErrorCode } from "../../src/generated/index.js";
 import { AnalyzeBatchActionNames } from "../../src/models.js";
 import { TextAnalysisClient } from "../../src/textAnalysisClient.js";
 import { extractErrorPointerIndex } from "../../src/util.js";
 import { expectation73 } from "../public/expectations.js";
 import { assertActionsResults } from "../public/utils/resultHelper.js";
+import { describe, it, assert } from "vitest";
 
 describe("Error targets", function () {
   it("handles a mix of action results with failed actions", async function () {

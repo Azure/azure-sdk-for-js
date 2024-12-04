@@ -6,7 +6,6 @@ import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-rec
 import type { TextAnalysisClient } from "../../src/index.js";
 import { AnalyzeBatchActionNames, AzureKeyCredential } from "../../src/index.js";
 import { matrix } from "@azure-tools/test-utils";
-import type { Context, Suite } from "mocha";
 import type { AuthMethod } from "../public/utils/recordedClient.js";
 import { createClient, startRecorder } from "../public/utils/recordedClient.js";
 import type { TextAuthoringClient } from "@azure/ai-language-textauthoring";
@@ -15,6 +14,8 @@ import { createCustomTestProject } from "../public/utils/customTestHelpter.js";
 import { assertActionsResults } from "../public/utils/resultHelper.js";
 import { expectation1, expectation2, expectation4 } from "../public/expectations.js";
 import { authModes } from "../public/inputs.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;

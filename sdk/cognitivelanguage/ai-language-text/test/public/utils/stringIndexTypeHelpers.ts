@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Entity, StringIndexType, TextAnalysisClient } from "../../../src/index.js";
-import { assert } from "chai";
+import { assert } from "vitest";
 
 /**
  * calls the recognizePiiEntities on the input document and checks wether the

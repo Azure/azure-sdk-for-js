@@ -6,7 +6,6 @@ import type {
   KnownTextAnalysisErrorCode,
   PagedAnalyzeBatchResult,
 } from "../../../src/index.js";
-import { assert } from "@azure-tools/test-utils";
 import { isRestError } from "@azure/core-rest-pipeline";
 
 export async function assertActionsResults(

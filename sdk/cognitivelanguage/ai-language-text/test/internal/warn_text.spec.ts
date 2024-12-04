@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential, TextAnalysisClient } from "../../src/index.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import sinon from "sinon";
 import { setLogLevel } from "@azure/logger";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 function makeClientWithWarnText(content: string): TextAnalysisClient {
   return new TextAnalysisClient("https://endpoint", new AzureKeyCredential("test"), {
