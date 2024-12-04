@@ -9,7 +9,7 @@ flavor: azure
 openapi-type: data-plane
 generate-test: true
 package-name: "@azure-rest/purview-scanning"
-title: PurviewScanning
+title: PurviewScanningRestClient
 description: Purview Scanning Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION

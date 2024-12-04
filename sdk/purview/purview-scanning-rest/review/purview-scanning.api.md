@@ -3352,7 +3352,7 @@ export interface ConnectedViaOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewScanningClientOptions): PurviewScanningClient;
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewScanningRestClientOptions): PurviewScanningRestClient;
 export default createClient;
 
 // @public (undocumented)
@@ -4627,12 +4627,12 @@ export interface ProxyResourceOutput {
 }
 
 // @public (undocumented)
-export type PurviewScanningClient = Client & {
+export type PurviewScanningRestClient = Client & {
     path: Routes;
 };
 
 // @public
-export interface PurviewScanningClientOptions extends ClientOptions {
+export interface PurviewScanningRestClientOptions extends ClientOptions {
     apiVersion?: string;
 }
 

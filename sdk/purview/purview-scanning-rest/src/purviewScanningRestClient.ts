@@ -5,16 +5,16 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { PurviewScanningClient } from "./clientDefinitions.js";
+import type { PurviewScanningRestClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface PurviewScanningClientOptions extends ClientOptions {
+export interface PurviewScanningRestClientOptions extends ClientOptions {
   /** The api version option of the client */
   apiVersion?: string;
 }
 
 /**
- * Initialize a new instance of `PurviewScanningClient`
+ * Initialize a new instance of `PurviewScanningRestClient`
  * @param endpoint - The scanning endpoint of your purview account. Example: https://\{accountName\}.scan.purview.azure.com
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -22,8 +22,8 @@ export interface PurviewScanningClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  { apiVersion = "2018-12-01-preview", ...options }: PurviewScanningClientOptions = {},
-): PurviewScanningClient {
+  { apiVersion = "2018-12-01-preview", ...options }: PurviewScanningRestClientOptions = {},
+): PurviewScanningRestClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-purview-scanning-rest/1.0.0-beta.3`;
   const userAgentPrefix =
@@ -39,10 +39,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: ["https://purview.azure.net/.default"],
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as PurviewScanningClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewScanningRestClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

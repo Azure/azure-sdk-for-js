@@ -507,6 +507,6 @@ export interface Routes {
   ): TriggersGetTrigger;
 }
 
-export type PurviewScanningClient = Client & {
+export type PurviewScanningRestClient = Client & {
   path: Routes;
 };
