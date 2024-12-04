@@ -6,11 +6,7 @@ import { reporterLogger } from "../common/logger";
 import { Constants } from "../common/constants";
 
 export class StorageClient {
-  public async uploadFileAsync(
-    uri: string,
-    filePath: string,
-    fileRelativePath: string,
-  ): Promise<void> {
+  public async uploadFile(uri: string, filePath: string, fileRelativePath: string): Promise<void> {
     try {
       const cloudFilepath = this.getCloudFilepath(uri, fileRelativePath);
       const blobClient = new BlockBlobClient(cloudFilepath);
@@ -23,11 +19,7 @@ export class StorageClient {
     }
   }
 
-  public async uploadBufferAsync(
-    uri: string,
-    buffer: string,
-    fileRelativePath: string,
-  ): Promise<void> {
+  public async uploadBuffer(uri: string, buffer: string, fileRelativePath: string): Promise<void> {
     try {
       const cloudFilepath = this.getCloudFilepath(uri, fileRelativePath);
       const blobClient = new BlockBlobClient(cloudFilepath);

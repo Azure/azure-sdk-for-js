@@ -280,6 +280,7 @@ class MPTReporter implements Reporter {
         } else if (attachment.body instanceof Buffer) {
           otherAttachments.push(attachment);
           this.uploadMetadata.numTotalAttachments++;
+          this.uploadMetadata.sizeTotalAttachments += ReporterUtils.getBufferSize(attachment.body);
         }
       }
 
@@ -317,7 +318,17 @@ class MPTReporter implements Reporter {
       reporterLogger.error(`\nError in uploading test run information: ${err.message}`);
     }
   }
-
+  private renewSasUriIfNeeded = async (): Promise<void> => {
+    if (
+      this.sasUri === undefined ||
+      !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
+    ) {
+      this.sasUri = await this.serviceClient.createStorageUri();
+      reporterLogger.info(
+        `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
+      );
+    }
+  };
   private async _uploadTestResultAttachments(
     testExecutionId: string,
     testAttachments: string[],
@@ -330,28 +341,16 @@ class MPTReporter implements Reporter {
         return;
       }
 
-      const renewSasUriIfNeeded = async (): Promise<void> => {
-        if (
-          this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
-        ) {
-          this.sasUri = await this.serviceClient.createStorageUri();
-          reporterLogger.info(
-            `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
-          );
-        }
-      };
-
       for (const attachmentPath of testAttachments) {
         const fileRelativePath = `${testExecutionId}/${ReporterUtils.getFileRelativePath(attachmentPath)}`;
-        await renewSasUriIfNeeded();
-        await this.storageClient.uploadFileAsync(this.sasUri.uri, attachmentPath, fileRelativePath);
+        await this.renewSasUriIfNeeded();
+        await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
       }
 
       for (const otherAttachment of otherAttachments) {
-        await renewSasUriIfNeeded();
+        await this.renewSasUriIfNeeded();
         const charset = otherAttachment.contentType.match(/charset=(.*)/)?.[1];
-        await this.storageClient.uploadBufferAsync(
+        await this.storageClient.uploadBuffer(
           this.sasUri.uri,
           otherAttachment.body.toString((charset as any) || "utf-8"),
           `${testExecutionId}/${otherAttachment.name}.txt`,
@@ -359,8 +358,8 @@ class MPTReporter implements Reporter {
       }
 
       const rawTestResult = this.testRawResults.get(testExecutionId);
-      await renewSasUriIfNeeded();
-      await this.storageClient.uploadBufferAsync(
+      await this.renewSasUriIfNeeded();
+      await this.storageClient.uploadBuffer(
         this.sasUri.uri,
         rawTestResult[0]!,
         `${testExecutionId}/rawTestResult.json`,
