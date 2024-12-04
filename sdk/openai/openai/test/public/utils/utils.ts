@@ -41,7 +41,7 @@ interface ModelInfo {
   version: string;
 }
 export enum APIVersion {
-  Preview = "2024-10-01-preview",
+  Preview = "2024-11-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
 }
