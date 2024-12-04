@@ -23,7 +23,12 @@ import {
 } from "../../analyzeHealthcareEntitiesResult.js";
 import type { PageSettings } from "@azure/core-paging";
 import type { StringIndexType } from "../../util.js";
-import { addStrEncodingParam, getOperationId, nextLinkToTopAndSkip, throwError } from "../../util.js";
+import {
+  addStrEncodingParam,
+  getOperationId,
+  nextLinkToTopAndSkip,
+  throwError,
+} from "../../util.js";
 import type {
   AnalysisPollOperationState,
   OperationMetadata as AnalyzeHealthcareEntitiesOperationMetadata,

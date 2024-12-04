@@ -14,7 +14,10 @@ import type {
   TextAnalyticsError,
   TextDocumentBatchStatistics,
 } from "./generated/models/index.js";
-import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "./textAnalyticsResult.js";
+import type {
+  TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
 import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,

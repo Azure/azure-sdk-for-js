@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "./textAnalyticsResult.js";
+import type {
+  TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
 import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,

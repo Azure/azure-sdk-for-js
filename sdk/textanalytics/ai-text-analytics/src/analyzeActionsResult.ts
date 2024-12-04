@@ -6,7 +6,10 @@ import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.
 import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
 import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
 import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
-import type { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models/index.js";
+import type {
+  AnalyzeJobState as GeneratedResponse,
+  TextDocumentInput,
+} from "./generated/models/index.js";
 import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
 import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
 import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";

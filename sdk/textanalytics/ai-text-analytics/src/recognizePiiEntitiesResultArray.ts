@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models/index.js";
+import type {
+  PiiResult,
+  TextDocumentBatchStatistics,
+  TextDocumentInput,
+} from "./generated/models/index.js";
 import type { RecognizePiiEntitiesResult } from "./recognizePiiEntitiesResult.js";
 import {
   makeRecognizePiiEntitiesErrorResult,

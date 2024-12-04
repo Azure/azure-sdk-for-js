@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/ai-text-analytics": [
-        "./src/index"
-      ]
+      "@azure/ai-text-analytics": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
