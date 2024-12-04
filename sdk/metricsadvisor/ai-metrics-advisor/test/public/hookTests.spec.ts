@@ -18,7 +18,7 @@ import {
   fakeTestSecretPlaceholder,
   getYieldedValue,
   matrix,
-} from "@azure-tools/test-utils";
+} from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]] as const, async (useAad) => {

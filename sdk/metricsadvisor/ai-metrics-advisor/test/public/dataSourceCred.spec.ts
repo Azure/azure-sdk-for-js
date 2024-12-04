@@ -17,7 +17,7 @@ import {
   makeCredential,
 } from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DataSourceCredential", () => {
