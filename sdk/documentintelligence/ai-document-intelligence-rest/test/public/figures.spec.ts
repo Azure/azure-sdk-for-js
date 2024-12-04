@@ -62,9 +62,11 @@ async function fetchFigure(responseId: string, figureId: string): Promise<void |
 
   console.log(response.headers["content-type"]);
   console.log(response);
-  const { body } = response;
-
-  await fs.promises.writeFile(`./figures/${figureId}.png`, Buffer.from(body, "binary"));
+  if (isUnexpected(response)) {
+    console.log(response);
+    throw new Error("The response was unexpected.");
+  }
+  await fs.promises.writeFile(`./figures/${figureId}.png`, response.body);
 }
 
 async function analyze(): Promise<void> {
