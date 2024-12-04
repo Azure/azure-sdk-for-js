@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {role: "user", content: "Hello, tell me about my health insurance options"});
+  const message = await client.agents.createMessage(thread.id, {role: "user", content: "What inventory is currently available?"});
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
