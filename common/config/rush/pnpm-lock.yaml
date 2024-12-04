@@ -10219,6 +10219,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /strip-json-comments@5.0.1:
+    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /strip-literal@2.1.1:
     resolution: {integrity: sha512-631UJ6O00eNGfMiWG78ck80dfBab8X6IVFB51jZK5Icd7XAs60Z5y7QdSd/wGIklnWvRbUNloVzhOKKmutxQ6Q==}
     dependencies:
@@ -19888,7 +19893,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-1c66fdXFeyerti7kaguqJ8TW+L0r43d1JWYsS6ysMbqQqIt0aYTSu7Bi9+KgTBXQ82fOkrPWaM3e8zeWSwlrjA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-o8HIfA9RDgJlu3W5gJoMWW0yJ+dbl3+K3nsCA6mVMIXsCakEfZNSss6z9EUBKA1mlrZeFnhyHtIMQU1LRdUwpQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -19932,7 +19937,7 @@ packages:
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.28.0)
       rollup-plugin-visualizer: 5.12.0(rollup@4.28.0)
       semver: 7.6.3
-      strip-json-comments: 3.1.1
+      strip-json-comments: 5.0.1
       ts-morph: 24.0.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tshy: 2.0.1
@@ -20698,7 +20703,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-/KAKSZD3InlQSaS4sF7RFi5sxZH+38eHjRbVP6/AzVtzz6e9cR9rAJvG9ffbEEodn0znE1We00qAVbMQQB0dqg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-oFZBCkmzOfAe/6o3MolyvY6IlmFANQFBxz2x99rmNOwYWrWFstP5LWTOluKzFAnafGtkPTb8PdzL/Uyk0LgKuw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
