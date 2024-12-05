@@ -29,7 +29,7 @@ import {
   ContainerRegistryBlobGetChunkResponse,
   ContainerRegistryBlobCheckChunkExistsOptionalParams,
   ContainerRegistryBlobCheckChunkExistsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ContainerRegistryBlob. */
 export interface ContainerRegistryBlob {
