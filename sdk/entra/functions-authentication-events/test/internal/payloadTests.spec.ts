@@ -11,10 +11,9 @@ import type {
   ProvideClaimsForToken,
   TokenIssuanceStartRequest,
 } from "@azure/functions-authentication-events";
-
-import { expect } from "chai";
 import { request } from "./payloads.js";
 import { createProvideClaimsForToken } from "../../src/tokenIssuanceStart/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("TokenIssuanceStart payload tests.", () => {
   const tokenIssuanceRequest: TokenIssuanceStartRequest = request;
