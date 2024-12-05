@@ -6,15 +6,15 @@ import {
   PayloadConstants,
   RequestConstants,
   ResponseConstants,
-} from "./constants";
+} from "./constants.js";
 import type {
   ProvideClaimsForToken,
   TokenIssuanceStartRequest,
 } from "@azure/functions-authentication-events";
 
 import { expect } from "chai";
-import { request } from "./payloads";
-import { createProvideClaimsForToken } from "../../src/tokenIssuanceStart";
+import { request } from "./payloads.js";
+import { createProvideClaimsForToken } from "../../src/tokenIssuanceStart/index.js";
 
 describe("TokenIssuanceStart payload tests.", () => {
   const tokenIssuanceRequest: TokenIssuanceStartRequest = request;
