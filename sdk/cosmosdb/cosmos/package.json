@@ -17,18 +17,9 @@
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "react-native": "./dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
-    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
-    "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
-    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js"
-  },
+  "browser": "./dist/browser/index.js",
   "files": [
-    "changelog.md",
     "dist/",
-    "dist-esm/src/",
     "README.md",
     "LICENSE"
   ],
@@ -47,7 +38,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npm run clean && npm run extract-api && npm run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
@@ -71,8 +62,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -96,31 +87,28 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/logger": "^1.0.0",
     "@sinonjs/fake-timers": "^11.0.0",
-    "@types/chai": "~4.3.6",
     "@types/debug": "^4.1.4",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^17.0.0",
     "@types/sinonjs__fake-timers": "~8.1.2",
     "@types/underscore": "^1.8.8",
-    "chai": "~4.3.8",
+    "@vitest/browser": "^2.1.8",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "execa": "^5.0.0",
-    "mocha": "^10.0.0",
     "nock": "^13.5.4",
+    "playwright": "^1.49.0",
     "requirejs": "^2.3.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "vitest": "^2.1.8"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -157,5 +145,21 @@
         "javascript/Data/Families.json"
       ]
     }
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
   }
 }
