@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
 import { Client } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
 import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
+import { EvaluationsOperations, getEvaluationsOperations } from "./evaluations/index.js";
+import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
+
 
 export interface AIProjectsClientOptions extends ProjectsClientOptions{
 }
@@ -44,6 +46,7 @@ export class AIProjectsClient {
       {...options, endpoint:connectionEndPoint})
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
+    this.evaluations = getEvaluationsOperations(this._client);
   }
 
   /**
@@ -90,4 +93,7 @@ export class AIProjectsClient {
 
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+
+  /** The operation groups for evaluations */
+  public readonly evaluations: EvaluationsOperations;
 }

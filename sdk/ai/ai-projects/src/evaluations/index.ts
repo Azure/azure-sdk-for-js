@@ -5,7 +5,7 @@
 import { Client } from "@azure-rest/core-client";
 import { OptionalRequestParameters } from "../agents/customModels.js";
 import { Evaluation, EvaluationOutput, EvaluationSchedule, PagedEvaluationOutput, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
-import { ListEvaluationParameters, ListEvaluationScheduleParameters } from "../generated/src/parameters.js";
+import { ListEvaluationParameters, ListEvaluationScheduleParameters } from "./customModels.js";
 import { createEvaluation, getEvaluation, listEvaluations, updateEvaluation } from "./evaluations.js";
 import { createOrReplaceSchedule, disableSchedule, getSchedule, listSchedules } from "./evaluationSchedules.js";
 
@@ -75,7 +75,7 @@ function getEvaluations(context: Client): EvaluationsOperations {
   };
 }
 
-export function getConnectionsOperations(context: Client): EvaluationsOperations {
+export function getEvaluationsOperations(context: Client): EvaluationsOperations {
   return {
     ...getEvaluations(context),
   };

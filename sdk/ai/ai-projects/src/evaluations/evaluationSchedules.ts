@@ -3,7 +3,7 @@
 
 import { Client, createRestError } from "@azure-rest/core-client";
 import { EvaluationSchedule, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
-import { CreateOrReplaceEvaluationScheduleParameters, DisableEvaluationScheduleParameters, GetEvaluationScheduleParameters, ListEvaluationScheduleParameters } from "../generated/src/parameters.js";
+import { CreateOrReplaceEvaluationScheduleParameters, DisableEvaluationScheduleParameters, GetEvaluationScheduleParameters, ListEvaluationScheduleParameters } from "./customModels.js";
 
 const expectedGetStatuses = ["200"];
 const expectedSuccessStatuses = ["200", "201"];
