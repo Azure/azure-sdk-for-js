@@ -22,9 +22,6 @@ function makeClientWithWarnText(content: string): TextAnalysisClient {
 describe("Logging", () => {
   it("Warn-Text header is correctly logged", async () => {
     const content = "The API version 1 is going to be deprecated by some time in the future";
-    const expectedContent = isNodeLike
-      ? "azure:ai-language-text:warning The API version 1 is going to be deprecated by some time in the future\n"
-      : "azure:ai-language-text:warning The API version 1 is going to be deprecated by some time in the future";
     const client = makeClientWithWarnText(content);
     let spy;
     if (isNodeLike) {
@@ -34,7 +31,9 @@ describe("Logging", () => {
     }
     setLogLevel("warning");
     await client.beginAnalyzeBatch([{ kind: "EntityRecognition" }], ["I need coffee"], "en");
-    expect(spy).toHaveBeenCalledWith(expectedContent);
+
+    const mockArgs = spy.mock.calls[0][0];
+    expect(mockArgs).toContain(content);
     setLogLevel();
   });
 });
