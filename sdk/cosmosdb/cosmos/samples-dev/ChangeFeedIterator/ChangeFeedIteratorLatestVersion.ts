@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,

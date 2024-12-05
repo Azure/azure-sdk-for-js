@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
 import {
   ContainerDefinition,
   CosmosClient,

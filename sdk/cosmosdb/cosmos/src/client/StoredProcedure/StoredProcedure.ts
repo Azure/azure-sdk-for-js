@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createStoredProcedureUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import type { PartitionKey } from "../../documents/PartitionKey";
-import { undefinedPartitionKey } from "../../extractPartitionKey";
-import type { RequestOptions } from "../../request";
-import { ResourceResponse } from "../../request";
-import { readPartitionKeyDefinition } from "../ClientUtils";
-import type { Container } from "../Container";
-import type { StoredProcedureDefinition } from "./StoredProcedureDefinition";
-import { StoredProcedureResponse } from "./StoredProcedureResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+} from "../../common/index.js";
+import type { PartitionKey } from "../../documents/PartitionKey.js";
+import { undefinedPartitionKey } from "../../extractPartitionKey.js";
+import type { RequestOptions } from "../../request/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import type { Container } from "../Container/index.js";
+import type { StoredProcedureDefinition } from "./StoredProcedureDefinition.js";
+import { StoredProcedureResponse } from "./StoredProcedureResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations for reading, replacing, deleting, or executing a specific, existing stored procedure by id.

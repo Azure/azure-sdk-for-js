@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
+import type { Container, ContainerDefinition } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import assert from "node:assert";
+import groupBySnapshot from "./groupBy.snapshot.js";
 import type { Context } from "mocha";
 
 const options = {
@@ -544,7 +544,7 @@ describe("Cross partition GROUP BY", () => {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (this: Context) {
+  beforeEach(function (ctx) {
     currentTestTitle = this.currentTest.fullTitle();
     snapshotNumber = 1;
   });

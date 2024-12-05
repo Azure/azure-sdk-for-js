@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
+import assert from "node:assert";
 import {
   extractOverlappingRanges,
   isNullOrEmpty,
   fetchStartTime,
-} from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import type { PartitionKeyRange } from "../../../../src/";
-import { ChangeFeedStartFrom } from "../../../../src/";
-import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange";
-import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import { QueryRange } from "../../../../src/routing";
+} from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
+import type { PartitionKeyRange } from "../../../../src/index.js";
+import { ChangeFeedStartFrom } from "../../../../src/index.js";
+import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange.js";
+import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
+import { QueryRange } from "../../../../src/routing/index.js";
 
 describe("test extractOverlappingRanges", function () {
   it("exact overlap", async function () {

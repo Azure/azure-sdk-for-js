@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { supportedQueryFeaturesBuilder } from "../../../../src/utils/supportedQueryFeaturesBuilder";
-import type { FeedOptions } from "../../../../src/request/FeedOptions";
+import assert from "node:assert";
+import { supportedQueryFeaturesBuilder } from "../../../../src/utils/supportedQueryFeaturesBuilder.js";
+import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
 
 describe("validate supportedQueryFeaturesBuilder", function () {
   it("should contain nonStreamingOrderBy feature", () => {

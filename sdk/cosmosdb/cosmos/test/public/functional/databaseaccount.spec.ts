@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Context } from "mocha";
 import type { Suite } from "mocha";
-import { CosmosClient, OperationType } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { testForDiagnostics } from "../common/TestHelpers";
+import { CosmosClient, OperationType } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { testForDiagnostics } from "../common/TestHelpers.js";
 
 const client = new CosmosClient({
   endpoint,
@@ -16,7 +16,7 @@ const client = new CosmosClient({
 
 describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   });
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { FixedSizePriorityQueue } from "../../../../src/utils/fixedSizePriorityQueue";
+import assert from "node:assert";
+import { FixedSizePriorityQueue } from "../../../../src/utils/fixedSizePriorityQueue.js";
 
 describe("FixedSizePriorityQueue", () => {
   it("should enqueue items", () => {

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { ClientContext } from "../ClientContext.js";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import {
   FeedOptions,
   GlobalStatistics,
@@ -11,14 +11,14 @@ import {
   QueryInfo,
   QueryRange,
   Response,
-} from "../request";
-import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
-import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
-import { CosmosHeaders } from "./CosmosHeaders";
-import { ExecutionContext } from "./ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
-import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
+} from "../request/index.js";
+import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
+import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
+import { CosmosHeaders } from "./CosmosHeaders.js";
+import { ExecutionContext } from "./ExecutionContext.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
+import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ErrorResponse } from "../../request";
-import { ChangeFeedResourceType } from "./ChangeFeedEnums";
+import { ErrorResponse } from "../../request/index.js";
+import { ChangeFeedResourceType } from "./ChangeFeedEnums.js";
 /**
  * @hidden
  * Class which specifies the ChangeFeedIterator to start reading changes from a saved point.

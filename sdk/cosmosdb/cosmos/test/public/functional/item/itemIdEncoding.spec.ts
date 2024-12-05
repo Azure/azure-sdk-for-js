@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { Container, CosmosClient } from "../../../../src";
+import type { Container, CosmosClient } from "../../../../src/index.js";
 import {
   getTestContainer,
   removeAllDatabases,
   defaultClient,
   defaultComputeGatewayClient,
-} from "../../common/TestHelpers";
+} from "../../common/TestHelpers.js";
 
 interface ItemPayload {
   id?: string;

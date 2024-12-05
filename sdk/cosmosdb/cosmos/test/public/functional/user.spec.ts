@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { UserDefinition } from "../../../src";
-import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import type { UserDefinition } from "../../../src/index.js";
+import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 
 describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

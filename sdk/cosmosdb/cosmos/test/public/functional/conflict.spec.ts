@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 
 describe("Conflicts", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { Suite } from "mocha";
-import assert from "assert";
-import { GlobalStatisticsAggregator } from "../../../src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator";
-import { GlobalStatistics } from "../../../src/request/globalStatistics";
+import assert from "node:assert";
+import { GlobalStatisticsAggregator } from "../../../src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator.js";
+import { GlobalStatistics } from "../../../src/request/globalStatistics.js";
 
 describe("global statistics aggregator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

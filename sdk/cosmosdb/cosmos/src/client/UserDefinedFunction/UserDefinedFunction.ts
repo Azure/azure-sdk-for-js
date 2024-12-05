@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createUserDefinedFunctionUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import type { RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
-import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition.js";
+import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to read, replace, or delete a specified User Definied Function by id.

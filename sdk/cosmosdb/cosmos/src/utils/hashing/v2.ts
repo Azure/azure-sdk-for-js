@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrimitivePartitionKeyValue } from "../../documents";
-import { doubleToByteArrayJSBI } from "./encoding/number";
-import { BytePrefix } from "./encoding/prefix";
-import MurmurHash from "./murmurHash";
+import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
+import { doubleToByteArrayJSBI } from "./encoding/number.js";
+import { BytePrefix } from "./encoding/prefix.js";
+import MurmurHash from "./murmurHash.js";
 
 export function hashV2PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
   const toHash: Buffer = Buffer.concat(partitionKey.map(prefixKeyByType));

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
 import type {
   Container,
@@ -8,9 +8,9 @@ import type {
   ContainerRequest,
   PatchOperation,
   RequestOptions,
-} from "../../../../src";
-import { CosmosClient } from "../../../../src";
-import type { ItemDefinition } from "../../../../src";
+} from "../../../../src/index.js";
+import { CosmosClient } from "../../../../src/index.js";
+import type { ItemDefinition } from "../../../../src/index.js";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -24,13 +24,13 @@ import {
   addEntropy,
   getTestContainer,
   testForDiagnostics,
-} from "../../common/TestHelpers";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
-import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time";
+} from "../../common/TestHelpers.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
+import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 
 /**
  * Tests Item api.

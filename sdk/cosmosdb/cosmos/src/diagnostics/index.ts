@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../common";
-import { isNonEmptyString } from "../utils/strings";
-import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
-import { diagnosticLevelFromEnv } from "../utils/envUtils";
+import { Constants } from "../common/index.js";
+import { isNonEmptyString } from "../utils/strings.js";
+import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
+import { diagnosticLevelFromEnv } from "../utils/envUtils.js";
 
-export * from "./DiagnosticWriter";
-export * from "./DiagnosticFormatter";
+export * from "./DiagnosticWriter.js";
+export * from "./DiagnosticFormatter.js";
 
 export const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
 

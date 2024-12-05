@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "./Shared/handleError.js";
 import {
   BulkOperationType,
   CosmosClient,

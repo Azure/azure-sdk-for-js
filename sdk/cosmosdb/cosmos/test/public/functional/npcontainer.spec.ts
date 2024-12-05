@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Container, PluginConfig, CosmosClientOptions, OperationInput } from "../../../src";
-import { CosmosClient, Constants, PatchOperationType } from "../../../src";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
+import assert from "node:assert";
+import type { Container, PluginConfig, CosmosClientOptions, OperationInput } from "../../../src/index.js";
+import { CosmosClient, Constants, PatchOperationType } from "../../../src/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { ResourceType, HTTPMethod, StatusCodes } from "../../../src/index.js";
 import { expect } from "chai";
 
 const plugins: PluginConfig[] = [

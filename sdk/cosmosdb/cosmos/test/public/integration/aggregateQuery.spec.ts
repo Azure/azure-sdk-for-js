@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { Container, ContainerDefinition } from "../../../src";
-import { IndexingMode } from "../../../src";
-import { DataType, IndexKind } from "../../../src";
-import type { QueryIterator } from "../../../src";
-import type { SqlQuerySpec } from "../../../src";
-import type { FeedOptions } from "../../../src";
-import { TestData } from "../common/TestData";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import type { Container, ContainerDefinition } from "../../../src/index.js";
+import { IndexingMode } from "../../../src/index.js";
+import { DataType, IndexKind } from "../../../src/index.js";
+import type { QueryIterator } from "../../../src/index.js";
+import type { SqlQuerySpec } from "../../../src/index.js";
+import type { FeedOptions } from "../../../src/index.js";
+import { TestData } from "../common/TestData.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { expect } from "chai";
 
 describe("Aggregate Query", function (this: Suite) {

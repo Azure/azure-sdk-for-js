@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DatabaseDefinition } from "./DatabaseDefinition";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
 
 export interface DatabaseRequest extends DatabaseDefinition {
   /** Throughput for this database. */

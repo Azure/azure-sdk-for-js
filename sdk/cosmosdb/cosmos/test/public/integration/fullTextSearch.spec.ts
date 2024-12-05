@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { Suite } from "mocha";
-import assert from "assert";
-import { ContainerDefinition, Container } from "../../../src";
-import items from "./text-3properties-1536dimensions-100documents";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import { ContainerDefinition, Container } from "../../../src/index.js";
+import items from "./text-3properties-1536dimensions-100documents.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
 describe.skip("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

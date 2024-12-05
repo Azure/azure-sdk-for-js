@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKeyRange, Resource } from "../client";
-import type { ClientContext } from "../ClientContext";
+import type { PartitionKeyRange, Resource } from "../client/index.js";
+import type { ClientContext } from "../ClientContext.js";
 import {
   Constants,
   getIdFromLink,
@@ -9,16 +9,16 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../common";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { FeedOptions } from "../request";
-import type { Response } from "../request";
-import type { FetchFunctionCallback } from "./defaultQueryExecutionContext";
-import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
-import { FetchResult, FetchResultType } from "./FetchResult";
-import type { CosmosHeaders } from "./headerUtils";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import type { SqlQuerySpec } from "./index";
+} from "../common/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { FeedOptions } from "../request/index.js";
+import type { Response } from "../request/index.js";
+import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
+import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext.js";
+import { FetchResult, FetchResultType } from "./FetchResult.js";
+import type { CosmosHeaders } from "./headerUtils.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import type { SqlQuerySpec } from "./index.js";
 
 /** @hidden */
 export class DocumentProducer {

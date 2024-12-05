@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import type { CosmosClientOptions } from "../../../src";
-import { CosmosClient } from "../../../src";
-import type { RequestContext } from "../../../src";
-import type { Plugin, Next, PluginConfig } from "../../../src";
+import type { CosmosClientOptions } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { RequestContext } from "../../../src/index.js";
+import type { Plugin, Next, PluginConfig } from "../../../src/index.js";
 
-import * as assert from "assert";
-import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal";
+import * as assert from "node:assert";
+import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
 import { expect } from "chai";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {

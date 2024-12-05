@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { Container } from "../../../src";
-import { CosmosClient, PermissionMode } from "../../../src";
-import type { Database } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import type { Container } from "../../../src/index.js";
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { Database } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
 describe("Authorization", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

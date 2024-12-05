@@ -14,7 +14,7 @@ import {
   createAuthorizationSasToken,
   SasTokenPermissionKind,
 } from "@azure/cosmos";
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "./Shared/handleError.js";
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";

@@ -6,14 +6,14 @@ import {
   addDignosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-} from "../../../src/utils/diagnostics";
-import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel";
+} from "../../../src/utils/diagnostics.js";
+import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 import type {
   ClientConfigDiagnostic,
   CosmosClientOptions,
   RequestOptions,
   Resource,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ClientContext,
   ConsistencyLevel,
@@ -22,19 +22,19 @@ import {
   ErrorResponse,
   GlobalEndpointManager,
   ItemResponse,
-} from "../../../src";
+} from "../../../src/index.js";
 import { expect } from "chai";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator.js";
 import {
   determineDiagnosticLevel,
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
-} from "../../../src/diagnostics";
+} from "../../../src/diagnostics/index.js";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {

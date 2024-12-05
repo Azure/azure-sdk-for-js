@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, RequestContext } from "../../../src";
-import { CosmosClient, PatchOperationType, ResourceType } from "../../../src";
-import assert from "assert";
+import type { Container, RequestContext } from "../../../src/index.js";
+import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
+import assert from "node:assert";
 import type { Suite } from "mocha";
 import type { SinonSandbox, SinonSpy } from "sinon";
 import Sinon from "sinon";
-import { getTestContainer } from "../../public/common/TestHelpers";
+import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import nock from "nock";
-import { RequestHandler } from "../../../src/request/RequestHandler";
-import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { endpoint } from "../../public/common/_testConfig";
+import { RequestHandler } from "../../../src/request/RequestHandler.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import { endpoint } from "../../public/common/_testConfig.js";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { Constants } from "../../../src/common/constants";
-import { getHeaders } from "../../../src/request/request";
-import { CosmosHeaders, FeedOptions } from "../../../src";
+import assert from "node:assert";
+import { Constants } from "../../../src/common/constants.js";
+import { getHeaders } from "../../../src/request/request.js";
+import { CosmosHeaders, FeedOptions } from "../../../src/index.js";
 
 describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
   const mockedEndpoint = "https://localhost:8081";

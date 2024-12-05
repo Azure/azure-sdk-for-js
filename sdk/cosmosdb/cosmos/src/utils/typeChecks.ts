@@ -5,8 +5,8 @@ import type {
   NonePartitionKeyType,
   NullPartitionKeyType,
   PrimitivePartitionKeyValue,
-} from "../documents";
-import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "../documents";
+} from "../documents/index.js";
+import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "../documents/index.js";
 
 /**
  * A type which could be any type but undefined

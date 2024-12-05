@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { ClientContext } from "../../../src/ClientContext";
-import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
-import { MockedClientContext } from "../../public/common/MockClientContext";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
+import assert from "node:assert";
+import type { ClientContext } from "../../../src/ClientContext.js";
+import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing/index.js";
+import { MockedClientContext } from "../../public/common/MockClientContext.js";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 
 describe("Smart Routing Map Provider OverlappingRanges", function () {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";

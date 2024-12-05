@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap";
+import assert from "node:assert";
+import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap.js";
 
 describe("NonStreamingOrderByMap", () => {
   it("should insert items", () => {

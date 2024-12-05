@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { QueryRange } from "../../../src/routing";
-import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory";
+import assert from "node:assert";
+import { QueryRange } from "../../../src/routing/index.js";
+import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory.js";
 
 describe("InMemoryCollectionRoutingMap Tests", function () {
   describe("getOverlappingRanges", function () {

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { ClientContext, Container, PluginConfig } from "../../src";
-import { PluginOn } from "../../src";
-import { OperationType, ResourceType } from "../../src/common";
-import { ConsistencyLevel } from "../../src";
-import { CosmosClient } from "../../src";
-import type { SessionContainer } from "../../src/session/sessionContainer";
-import { endpoint } from "../public/common/_testConfig";
-import { masterKey } from "../public/common/_fakeTestSecrets";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
-import type { RequestContext } from "../../src";
-import type { Response } from "../../src/request/Response";
+import type { ClientContext, Container, PluginConfig } from "../../src/index.js";
+import { PluginOn } from "../../src/index.js";
+import { OperationType, ResourceType } from "../../src/common/index.js";
+import { ConsistencyLevel } from "../../src/index.js";
+import { CosmosClient } from "../../src/index.js";
+import type { SessionContainer } from "../../src/session/sessionContainer.js";
+import { endpoint } from "../public/common/_testConfig.js";
+import { masterKey } from "../public/common/_fakeTestSecrets.js";
+import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers.js";
+import type { RequestContext } from "../../src/index.js";
+import type { Response } from "../../src/request/Response.js";
 import { expect } from "chai";
 
 describe("New session token", function () {

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { ComputedProperty } from "../../../src/documents/ComputedProperty";
-import type { IndexingPolicy } from "../../../src/documents/IndexingPolicy";
-import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import type { Container } from "../../../src/client/Container/Container";
+import assert from "node:assert";
+import type { ComputedProperty } from "../../../src/documents/ComputedProperty.js";
+import type { IndexingPolicy } from "../../../src/documents/IndexingPolicy.js";
+import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import type { Container } from "../../../src/client/Container/Container.js";
 
 // As of the current emulator release (March 23), computed properties are not supported,
 // hence, we are temporarily excluding these tests.

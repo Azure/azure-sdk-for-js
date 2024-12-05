@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { encodeUTF8, encodeBase64 } from "./encode";
-import atob from "./atob";
-import { globalCrypto } from "./globalCrypto";
+import { encodeUTF8, encodeBase64 } from "./encode.js";
+import atob from "./atob.js";
+import { globalCrypto } from "./globalCrypto.js";
 
 export async function hmac(key: string, message: string): Promise<string> {
   const importParams: HmacImportParams = { name: "HMAC", hash: { name: "SHA-256" } };

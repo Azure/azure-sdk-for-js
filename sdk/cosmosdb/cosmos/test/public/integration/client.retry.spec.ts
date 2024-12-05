@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { RequestContext } from "../../../src";
-import { CosmosClient } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { PluginOn } from "../../../src";
-import { TimeoutErrorCode } from "../../../src/request/TimeoutError";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import assert from "node:assert";
+import type { RequestContext } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { PluginOn } from "../../../src/index.js";
+import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

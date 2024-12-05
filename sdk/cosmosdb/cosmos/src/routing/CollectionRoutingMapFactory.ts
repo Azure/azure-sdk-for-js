@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common/constants";
-import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
+import { Constants } from "../common/constants.js";
+import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap.js";
 
 /**
  * @hidden

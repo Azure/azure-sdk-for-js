@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType } from "../../common";
-import type { CosmosClient } from "../../CosmosClient";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import type { RequestOptions } from "../../request";
-import type { OfferDefinition } from "./OfferDefinition";
-import { OfferResponse } from "./OfferResponse";
+import type { ClientContext } from "../../ClientContext.js";
+import { Constants, isResourceValid, ResourceType } from "../../common/index.js";
+import type { CosmosClient } from "../../CosmosClient.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { OfferDefinition } from "./OfferDefinition.js";
+import { OfferResponse } from "./OfferResponse.js";
 
 /**
  * Use to read or replace an existing {@link Offer} by id.

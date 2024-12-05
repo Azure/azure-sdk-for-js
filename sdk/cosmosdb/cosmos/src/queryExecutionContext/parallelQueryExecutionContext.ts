@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentProducer } from "./documentProducer";
-import type { ExecutionContext } from "./ExecutionContext";
-import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
+import type { DocumentProducer } from "./documentProducer.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
+import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.

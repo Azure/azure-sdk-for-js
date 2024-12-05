@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { validateOffer } from "../../../../src/utils/offers";
-import type { ContainerRequest } from "../../../../src";
+import assert from "node:assert";
+import { validateOffer } from "../../../../src/utils/offers.js";
+import type { ContainerRequest } from "../../../../src/index.js";
 
 describe("Offer utils", function () {
   describe("validateOffer", function () {

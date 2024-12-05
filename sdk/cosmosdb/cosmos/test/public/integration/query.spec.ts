@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import type { Suite } from "mocha";
-import type { Container, FeedOptions } from "../../../src";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import type { Container, FeedOptions } from "../../../src/index.js";
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 
 const doc = { id: "myId", pk: "pk" };
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
-import type { ChangeFeedOptions } from "./ChangeFeedOptions";
-import { ChangeFeedResponse } from "./ChangeFeedResponse";
-import type { Resource } from "./client";
-import type { ClientContext } from "./ClientContext";
-import { Constants, ResourceType, StatusCodes } from "./common";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import type { PartitionKey } from "./documents";
-import type { FeedOptions } from "./request";
-import type { Response } from "./request";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
+import type { ChangeFeedOptions } from "./ChangeFeedOptions.js";
+import { ChangeFeedResponse } from "./ChangeFeedResponse.js";
+import type { Resource } from "./client/index.js";
+import type { ClientContext } from "./ClientContext.js";
+import { Constants, ResourceType, StatusCodes } from "./common/index.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { PartitionKey } from "./documents/index.js";
+import type { FeedOptions } from "./request/index.js";
+import type { Response } from "./request/index.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 
 /**
  * Provides iterator for change feed.

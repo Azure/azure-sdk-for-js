@@ -8,10 +8,10 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 import { CosmosClient, PatchOperation, PriorityLevel } from "@azure/cosmos";
 
-import { Families } from "./Data/Families.json";
+import { Families } from "./Data/Families.json.js";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

@@ -12,7 +12,7 @@ import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "@azure/cosmos";
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "./Shared/handleError.js";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
