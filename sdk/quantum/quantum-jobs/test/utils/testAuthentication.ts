@@ -5,7 +5,6 @@ import { QuantumJobClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getSanitizers } from "./recorderUtils.js";
-import type { Test } from "mocha";
 
 export async function authenticate(testContext: Test | undefined): Promise<any> {
   const recorder = new Recorder(testContext);
