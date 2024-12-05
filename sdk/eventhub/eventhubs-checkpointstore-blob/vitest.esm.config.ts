@@ -12,7 +12,6 @@ export default mergeConfig(
   defineConfig({
     test: {
       alias: {
-        "@azure/eventhubs-checkpointstore-blob": resolve(`${distPath}/index.js`),
         "../../../../src": distPathAbsolute,
         "../../../src": distPathAbsolute,
         "../../src": distPathAbsolute,

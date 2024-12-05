@@ -27,7 +27,6 @@ export default mergeConfig(
       include: ["dist-test/browser/**/*.spec.js"],
       setupFiles: !process.env["AZURE_LOG_LEVEL"] ? [] : ['./test/activate-browser-logging.ts'],
       alias: {
-        "@azure/eventhubs-checkpointstore-blob": resolve("./dist/browser/index.js"),
         "../../../src": resolve("./dist/browser"),
         "../../src": resolve("./dist/browser"),
       },
