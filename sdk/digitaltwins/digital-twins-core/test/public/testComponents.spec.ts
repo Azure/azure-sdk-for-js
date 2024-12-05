@@ -5,11 +5,7 @@ import type { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } fr
 import { authenticate } from "../utils/testAuthentication";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import chai from "chai";
 import { isRestError } from "@azure/core-rest-pipeline";
-
-const assert: typeof chai.assert = chai.assert;
-const should = chai.should();
 
 const MODEL_ID = "dtmi:samples:DTComponentTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTComponentTestsComponent;1";

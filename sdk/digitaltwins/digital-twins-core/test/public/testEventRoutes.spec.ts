@@ -4,10 +4,6 @@
 import type { DigitalTwinsClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import type { Recorder } from "@azure-tools/test-recorder";
-import chai from "chai";
-
-const assert: typeof chai.assert = chai.assert;
-const should = chai.should();
 
 describe("DigitalTwins EventRoutes - create, read, list and delete operations", () => {
   let client: DigitalTwinsClient;

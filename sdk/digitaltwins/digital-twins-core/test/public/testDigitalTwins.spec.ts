@@ -11,11 +11,7 @@ import { authenticate } from "../utils/testAuthentication";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import chai from "chai";
 import { isRestError } from "@azure/core-rest-pipeline";
-
-const assert: typeof chai.assert = chai.assert;
-const should = chai.should();
 
 const BUILDING_MODEL_ID = "dtmi:samples:DTTestBuilding;1";
 const dtdl_model_building = {
