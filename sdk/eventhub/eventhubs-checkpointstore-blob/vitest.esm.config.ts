@@ -1,22 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "./vitest.config.ts";
-import { resolve } from "node:path";
+import { mergeConfig } from "vitest/config";
+import vitestConfig from "./vitest.config.ts";
+import vitestEsmConfig from "../../../vitest.esm.shared.config.ts";
 
-const distPath = "./dist/esm";
-const distPathAbsolute = resolve(distPath);
 export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      alias: {
-        "../../../../src": distPathAbsolute,
-        "../../../src": distPathAbsolute,
-        "../../src": distPathAbsolute,
-        "../src": distPathAbsolute,
-      },
-    },
-  }),
+  vitestConfig,
+  vitestEsmConfig
 );
