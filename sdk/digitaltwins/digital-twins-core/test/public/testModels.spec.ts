@@ -7,6 +7,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const MODEL_ID = "dtmi:samples:DTModelTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTModelTestsComponent;1";

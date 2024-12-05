@@ -4,6 +4,7 @@
 import type { DigitalTwinsClient } from "../../src/index.js";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DigitalTwins EventRoutes - create, read, list and delete operations", () => {
   let client: DigitalTwinsClient;

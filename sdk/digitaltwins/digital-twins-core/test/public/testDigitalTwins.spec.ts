@@ -12,6 +12,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const BUILDING_MODEL_ID = "dtmi:samples:DTTestBuilding;1";
 const dtdl_model_building = {

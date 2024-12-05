@@ -5,6 +5,7 @@ import type { DigitalTwinsClient, DigitalTwinsAddRelationshipOptionalParams } fr
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const BUILDING_MODEL_ID = "dtmi:samples:DTRelationshipsTestsBuilding;1";
 const FLOOR_MODEL_ID = "dtmi:samples:DTRelationshipsTestsFloor;1";

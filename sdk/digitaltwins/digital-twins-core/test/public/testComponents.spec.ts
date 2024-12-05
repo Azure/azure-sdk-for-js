@@ -6,6 +6,7 @@ import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const MODEL_ID = "dtmi:samples:DTComponentTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTComponentTestsComponent;1";
