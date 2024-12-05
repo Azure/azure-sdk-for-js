@@ -10,11 +10,11 @@ import type { TokenCachePersistenceOptions } from "@azure/identity";
 import { UsernamePasswordCredential } from "@azure/identity";
 
 import { PublicClientApplication } from "@azure/msal-node";
-import type Sinon from "sinon";
 import assert from "node:assert";
 import { createPersistence } from "./setup.spec.js";
 import type { MsalTestCleanup } from "./msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "./msalNodeTestSetup.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

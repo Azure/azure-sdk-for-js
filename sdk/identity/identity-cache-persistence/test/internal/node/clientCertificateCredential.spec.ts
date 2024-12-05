@@ -14,9 +14,9 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import type Sinon from "sinon";
 import assert from "node:assert";
 import { createPersistence } from "./setup.spec.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const ASSET_PATH = "assets";
 

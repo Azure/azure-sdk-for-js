@@ -6,6 +6,7 @@
 // We need to set up the plugin for the tests!
 
 import { useIdentityPlugin } from "@azure/identity";
+import { describe, it, assert } from "vitest";
 
 // The persistence tests have to run on the same version of Node that's used to
 // install dependencies, currently 16.

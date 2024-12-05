@@ -4,6 +4,7 @@
 import { DeviceCodeCredential, useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 import { setLogLevel } from "@azure/logger";
+import { describe, it, assert } from "vitest";
 
 describe("snippets", function () {
   it("getting_started", function () {

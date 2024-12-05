@@ -11,9 +11,9 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import type Sinon from "sinon";
 import assert from "node:assert";
 import { createPersistence } from "./setup.spec.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const scope = "https://graph.microsoft.com/.default";
 

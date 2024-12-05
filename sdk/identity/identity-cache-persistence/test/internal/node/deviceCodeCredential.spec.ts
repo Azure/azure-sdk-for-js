@@ -10,9 +10,9 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 import { PublicClientApplication } from "@azure/msal-node";
-import type Sinon from "sinon";
 import assert from "node:assert";
 import { createPersistence } from "./setup.spec.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
