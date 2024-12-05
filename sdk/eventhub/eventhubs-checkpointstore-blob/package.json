@@ -92,6 +92,7 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "buffer": "^6.0.3",
+    "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "debug": "^4.3.6",
     "dotenv": "^16.4.5",
