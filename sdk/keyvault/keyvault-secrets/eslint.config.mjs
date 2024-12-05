@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     rules: {
       "@typescript-eslint/no-this-alias": "off",
@@ -9,4 +8,4 @@ export default [
       "no-use-before-define": "warn",
     },
   },
-];
+]);

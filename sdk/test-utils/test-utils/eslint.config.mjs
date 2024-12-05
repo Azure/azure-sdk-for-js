@@ -1,5 +1,5 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   ...azsdkEslint.configs.internal,
-];
+]);
