@@ -3,14 +3,28 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "declaration": true,
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
-      "@azure/digital-twins-core": ["./src/index"]
+      "@azure/digital-twins-core": [
+        "./src/index"
+      ]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
