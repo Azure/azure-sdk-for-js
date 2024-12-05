@@ -11,6 +11,7 @@ interface CachePluginControl {
   setPersistence(
     persistenceFactory: (
       options?: TokenCachePersistenceOptions,
+      // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     ) => Promise<import("@azure/msal-node").ICachePlugin>,
   ): void;
 }
