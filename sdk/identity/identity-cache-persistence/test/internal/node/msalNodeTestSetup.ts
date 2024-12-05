@@ -186,7 +186,7 @@ export async function msalNodeTestSetup(
       recorder,
       async cleanup() {
         await recorder.stop();
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   } else {
@@ -221,7 +221,7 @@ export async function msalNodeTestSetup(
     return {
       sandbox,
       async cleanup() {
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   }
