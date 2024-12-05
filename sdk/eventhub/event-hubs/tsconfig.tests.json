@@ -1,5 +1,5 @@
 {
-  "extends": ["../../../tsconfig.samples.json", "./tsconfig.src.json"],
+  "extends": ["../../../tsconfig.nonlib.json", "./tsconfig.src.json"],
   "compilerOptions": {
     "lib": ["DOM"],
     "resolveJsonModule": true,

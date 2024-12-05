@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.samples.json",
+  "extends": "../../../tsconfig.nonlib.json",
   "compilerOptions": {
     "paths": {
       "@azure/identity": ["./dist/esm"]
