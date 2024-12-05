@@ -1,10 +1,6 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": "../../../tsconfig.lib.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "noFallthroughCasesInSwitch": false,
-    "composite": true
-  },
-  "include": ["./src"]
+    "noFallthroughCasesInSwitch": false
+  }
 }
