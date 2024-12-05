@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { validateLimit, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools } from "./inputValidations.js";
+import { validateLimit, validateMessages, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -150,8 +150,8 @@ function validateUpdateRunParameters(thread_id: string, run_id: string, options?
 }
 
 function validateCreateRunParameters(options: CreateRunParameters| CreateThreadAndRunParameters): void {
-  if ('additional_messages' in options.body && options.body.additional_messages && options.body.additional_messages.some(value => !["user", "assistant"].includes(value.role))) {
-    throw new Error("Role must be either 'user' or 'assistant'");
+  if ('additional_messages' in options.body && options.body.additional_messages) {
+    options.body.additional_messages.forEach(message => validateMessages(message.role));
   }
   if (options.body.tools) {
     validateTools(options.body.tools);
@@ -162,8 +162,8 @@ function validateCreateRunParameters(options: CreateRunParameters| CreateThreadA
   if (options.body.tool_choice && typeof options.body.tool_choice !== 'string') {
     validateTools([options.body.tool_choice]);
   }
-  if (options.body.truncation_strategy?.type && !["auto", "last_messages"].includes(options.body.truncation_strategy.type)) {
-    throw new Error("Role must be either 'auto' or 'last_messages'");
+  if (options.body.truncation_strategy?.type) {
+    validateTruncationStrategy(options.body.truncation_strategy.type);
   }
   if (options.body.metadata) {
     validateMetadata(options.body.metadata);
@@ -172,8 +172,8 @@ function validateCreateRunParameters(options: CreateRunParameters| CreateThreadA
 
 function validateCreateThreadAndRunParameters(options: CreateThreadAndRunParameters): void {
   validateCreateRunParameters(options);
-  if (options.body.thread?.messages && options.body.thread.messages.some(value => !["user", "assistant"].includes(value.role))) {
-    throw new Error("Role must be either 'user' or 'assistant'");
+  if (options.body.thread?.messages) {
+    options.body.thread?.messages.forEach(message => validateMessages(message.role));
   }
   if (options.body.tools) {
     validateTools(options.body.tools);

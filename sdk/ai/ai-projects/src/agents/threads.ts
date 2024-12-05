@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
 import { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
-import { validateMetadata, validateThreadId, validateToolResources } from "./inputValidations.js";
+import { validateMessages, validateMetadata, validateThreadId, validateToolResources } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -71,8 +71,8 @@ export async function deleteThread(
 
 
 function validateCreateThreadParameters(options?: CreateThreadParameters): void {
-  if (options?.body.messages?.some(value=> !["user", "assistant"].includes(value.role))) {
-    throw new Error("Role must be either 'user' or 'assistant'");
+  if (options?.body.messages) {
+    options.body.messages.forEach(message => validateMessages(message.role));
   }
   if (options?.body.tool_resources) {
     validateToolResources(options.body.tool_resources);  

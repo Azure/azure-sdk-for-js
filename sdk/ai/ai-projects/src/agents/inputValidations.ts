@@ -103,3 +103,26 @@ export function validateFileStatusFilter(filter: string): void {
     throw new Error("File status filter must be one of 'in_progress', 'completed', 'failed', 'cancelled'");
   }
 }
+
+enum Messages {
+  User = "user",
+  Assistants = "assistant",
+}
+
+export function validateMessages(value: string): void {
+  if (!Object.values(Messages).includes(value as Messages)) {
+    throw new Error("Role must be either 'user' or 'assistant'");
+  }
+}
+
+
+enum TruncationStrategy {
+  Auto = "auto",
+  LastMessages = "last_messages",
+}
+
+export function validateTruncationStrategy(value: string): void {
+  if (!Object.values(TruncationStrategy).includes(value as TruncationStrategy)) {
+    throw new Error("Role must be either 'auto' or 'last_messages'");
+  }
+}

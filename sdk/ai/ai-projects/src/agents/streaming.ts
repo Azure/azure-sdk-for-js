@@ -7,11 +7,9 @@ import { AgentEventMessage, AgentEventMessageStream } from "./streamingModels.js
 import { createSseStream, EventMessageStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
 import { IncomingMessage } from "http";
-import { validateMetadata, validateRunId, validateThreadId, validateToolResources, validateTools } from "./inputValidations.js";
+import { validateMessages, validateMetadata, validateRunId, validateThreadId, validateToolResources, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
-
-
 
 function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
   const asyncIterator = toAsyncIterable(stream);
@@ -90,11 +88,11 @@ export async function submitToolOutputsToRunStreaming(
 
 
 function validateCreateThreadAndRunBodyParam(options: CreateRunParameters| CreateThreadAndRunBodyParam): void {
-  if ('additional_messages' in options.body && options.body.additional_messages && options.body.additional_messages.some(value => !["user", "assistant"].includes(value.role))) {
-    throw new Error("Role must be either 'user' or 'assistant'");
+  if ('additional_messages' in options.body && options.body.additional_messages) {
+    options.body.additional_messages.forEach(message => validateMessages(message.role));
   }
-  if ( 'thread' in options.body && options.body.thread?.messages?.some(value => !["user", "assistant"].includes(value.role))) {
-    throw new Error("Role must be either 'user' or 'assistant'");
+  if ( 'thread' in options.body && options.body.thread?.messages) {
+    options.body.thread?.messages.forEach(message => validateMessages(message.role));
   }
   if (options.body.tools) {
     validateTools(options.body.tools);
@@ -108,8 +106,8 @@ function validateCreateThreadAndRunBodyParam(options: CreateRunParameters| Creat
     if (options.body.tool_choice && typeof options.body.tool_choice !== 'string') {
     validateTools([options.body.tool_choice]);
   }
-  if (options.body.truncation_strategy?.type && !["auto", "last_messages"].includes(options.body.truncation_strategy.type)) {
-    throw new Error("Role must be either 'auto' or 'last_messages'");
+  if (options.body.truncation_strategy?.type) {
+    validateTruncationStrategy(options.body.truncation_strategy.type);
   }
   if (options.body.response_format){
     if (!["json", "text"].includes(options.body.response_format as string)) {
