@@ -64,6 +64,15 @@ export const ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED =
   "APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED";
 
 /**
+ * REST error types for failed requests that can be retried.
+ * @internal
+ */
+export enum RetriableRestErrorTypes {
+  REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
+  DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+}
+
+/**
  * QuickPulse metric counter names.
  * @internal
  */

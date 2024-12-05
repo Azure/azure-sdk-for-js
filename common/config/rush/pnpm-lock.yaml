@@ -11956,7 +11956,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-9X7PLNIh261De3RD0N8VbHh/u96Gc6j3eiQEzgLeakHXl1UJGx6p97Gpe/SOqxt75fdsXx6mA3BJwpoayTD1KQ==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-PCHG4RlNUlxg2qxYUzpux5qwU/BXFe32NiTXm7j1qNUOFeyUWaXne/VbM5O/NTyUaliuiAOMIgkqUpFa41gK6w==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -11969,8 +11969,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.3.10
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 5.1.2
       chai-as-promised: 7.1.2(chai@4.3.10)
+      chai-exclude: 3.0.0(chai@5.1.2)
       decompress: 4.2.1
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -11986,19 +11989,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-language-textauthoring.tgz:
@@ -20045,7 +20062,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-nKRSIQm5cqW1j4RbzNJUFNN91ChO4tzpWvV5CiBvWS6XteK20Y+ogMxj66r6/3GmKiaxKMKLTFbXZaYXpjXc1A==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-23aRefg7hb8EYeZzvQ2heD0OQ8Oa6TxYEDhA3ApKSbP43eYi9NKfKLWuc5Yu/ilZpvWAic6bk2JSKSrsEeBpqA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -20056,6 +20073,8 @@ packages:
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20071,20 +20090,34 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
