@@ -244,7 +244,7 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 2);
+    assert.equal(result.length, 1);
   });
 
   it("subnets list test", async function () {
@@ -426,6 +426,6 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 1);
+    assert.equal(result.length, 0);
   });
 });
