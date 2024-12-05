@@ -1,7 +1,7 @@
 {
   "extends": ["../../../tsconfig.samples.json", "./tsconfig.src.json"],
   "compilerOptions": {
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": ["./test", "./src"],
   "exclude": ["test/manual*"]
