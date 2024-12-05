@@ -17,6 +17,5 @@
     "test/**/*.ts",
     "test/**/*.mts",
     "test/**/*.cts"
-  ],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  ]
 }
