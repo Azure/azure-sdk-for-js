@@ -12,6 +12,7 @@ import { ChangeFeedStartFrom } from "../../../../src/index.js";
 import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange.js";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
 import { QueryRange } from "../../../../src/routing/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("test extractOverlappingRanges", function () {
   it("exact overlap", async function () {

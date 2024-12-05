@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth.js";
-import type { Suite } from "mocha";
 import assert from "node:assert";
+import { describe, it, assert } from "vitest";
 
 describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

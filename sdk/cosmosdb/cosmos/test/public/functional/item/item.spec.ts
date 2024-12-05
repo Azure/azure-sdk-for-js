@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type {
   Container,
   ContainerDefinition,
@@ -31,6 +30,7 @@ import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/docum
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { describe, it, assert } from "vitest";
 
 /**
  * Tests Item api.

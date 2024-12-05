@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics/index.js";
+import { describe, it, assert } from "vitest";
+
 describe("Test Index Metrics Writer", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 

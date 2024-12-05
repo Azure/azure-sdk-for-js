@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Suite } from "mocha";
 import {
   addDignosticChild,
   getEmptyCosmosDiagnostics,
@@ -23,7 +21,6 @@ import {
   GlobalEndpointManager,
   ItemResponse,
 } from "../../../src/index.js";
-import { expect } from "chai";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import {
   DiagnosticNodeInternal,
@@ -35,6 +32,7 @@ import {
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
 } from "../../../src/diagnostics/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {

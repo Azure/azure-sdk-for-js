@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type { ChangeFeedIteratorOptions, RequestOptions } from "../../../src/index.js";
 import {
   ChangeFeedStartFrom,
@@ -22,6 +21,7 @@ import {
 import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { describe, it, assert } from "vitest";
 
 describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

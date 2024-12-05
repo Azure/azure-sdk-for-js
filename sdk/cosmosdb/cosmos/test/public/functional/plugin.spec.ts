@@ -8,8 +8,8 @@ import type { Plugin, Next, PluginConfig } from "../../../src/index.js";
 
 import * as assert from "node:assert";
 import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
-import { expect } from "chai";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {

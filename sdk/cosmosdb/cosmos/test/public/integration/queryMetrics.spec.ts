@@ -8,6 +8,7 @@ import {
   RuntimeExecutionTimes,
   TimeSpan,
 } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("QueryMetrics", function () {
   // Properties

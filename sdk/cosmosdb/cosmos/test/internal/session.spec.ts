@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type { ClientContext, Container, PluginConfig } from "../../src/index.js";
 import { PluginOn } from "../../src/index.js";
 import { OperationType, ResourceType } from "../../src/common/index.js";
@@ -14,7 +13,7 @@ import { masterKey } from "../public/common/_fakeTestSecrets.js";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers.js";
 import type { RequestContext } from "../../src/index.js";
 import type { Response } from "../../src/request/Response.js";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("New session token", function () {
   it("preserves tokens", async function () {

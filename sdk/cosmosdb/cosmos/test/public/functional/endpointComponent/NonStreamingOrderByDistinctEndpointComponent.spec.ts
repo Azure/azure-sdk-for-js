@@ -4,6 +4,7 @@ import assert from "node:assert";
 import type { ExecutionContext } from "../../../../src/queryExecutionContext/index.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
+import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByDistinctEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {

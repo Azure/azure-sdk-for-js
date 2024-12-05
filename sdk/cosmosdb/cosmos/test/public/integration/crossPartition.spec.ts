@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import * as util from "node:util";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
@@ -14,6 +13,7 @@ import {
   generateDocuments,
 } from "../common/TestHelpers.js";
 import type { FeedResponse, FeedOptions } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 function compare(key: string) {
   return function (a: any, b: any): number {

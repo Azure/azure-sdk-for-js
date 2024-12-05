@@ -4,7 +4,7 @@ import type { Container, ContainerDefinition } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import assert from "node:assert";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import type { Context } from "mocha";
+import { describe, it, assert } from "vitest";
 
 const options = {
   maxItemCount: 100,

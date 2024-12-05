@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type { ContainerDefinition } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
@@ -14,6 +13,7 @@ import {
   testForDiagnostics,
 } from "../common/TestHelpers.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { describe, it, assert } from "vitest";
 
 const client = new CosmosClient({
   endpoint,

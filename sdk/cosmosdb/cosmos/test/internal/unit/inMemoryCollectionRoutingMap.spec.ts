@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import { QueryRange } from "../../../src/routing/index.js";
 import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory.js";
+import { describe, it, assert } from "vitest";
 
 describe("InMemoryCollectionRoutingMap Tests", function () {
   describe("getOverlappingRanges", function () {

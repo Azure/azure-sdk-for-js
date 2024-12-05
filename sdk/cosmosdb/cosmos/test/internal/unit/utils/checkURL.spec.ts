@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import assert from "node:assert";
 import { sanitizeEndpoint } from "../../../../src/utils/checkURL.js";
+import { describe, it, assert } from "vitest";
 
 describe("URL utils", function () {
   describe("sanitizeEndpoint", function () {

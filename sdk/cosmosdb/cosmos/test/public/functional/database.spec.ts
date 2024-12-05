@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type { DatabaseDefinition, Database } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
@@ -14,6 +13,7 @@ import {
   testForDiagnostics,
 } from "../common/TestHelpers.js";
 import type { DatabaseRequest } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 const client = new CosmosClient({
   endpoint,

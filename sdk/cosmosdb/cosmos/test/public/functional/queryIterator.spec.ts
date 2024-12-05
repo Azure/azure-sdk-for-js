@@ -12,6 +12,7 @@ import {
   isValidV4UUID,
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("Correlated Activity Id", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);

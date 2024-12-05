@@ -9,7 +9,7 @@ import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
 import assert from "node:assert";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;

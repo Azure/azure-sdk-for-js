@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import assert from "node:assert";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import { describe, it, assert } from "vitest";
 
 describe("extractPartitionKey", function () {
   describe("With undefined partitionKeyDefinition", function () {

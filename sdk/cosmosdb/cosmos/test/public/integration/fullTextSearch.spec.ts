@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { Suite } from "mocha";
 import assert from "node:assert";
 import { ContainerDefinition, Container } from "../../../src/index.js";
 import items from "./text-3properties-1536dimensions-100documents.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe.skip("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

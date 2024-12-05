@@ -11,6 +11,7 @@ import { PartitionKeyKind } from "../../../../src/documents/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { describe, it, assert } from "vitest";
 
 describe("test batch operations", function () {
   describe("v2 multi partition container", async function () {

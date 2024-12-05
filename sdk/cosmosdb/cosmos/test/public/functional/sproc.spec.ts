@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Context } from "mocha";
-import type { Suite } from "mocha";
 import { Constants } from "../../../src/index.js";
 import type { Container, StoredProcedureDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
@@ -12,6 +10,7 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 // Used for sproc
 declare let getContext: any;

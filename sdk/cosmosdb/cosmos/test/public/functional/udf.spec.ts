@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "node:assert";
-import type { Suite } from "mocha";
 import type { UserDefinedFunctionDefinition, Container } from "../../../src/index.js";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("User Defined Function", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

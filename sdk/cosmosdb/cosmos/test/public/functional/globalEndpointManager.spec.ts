@@ -9,6 +9,7 @@ import * as fakeTimers from "@sinonjs/fake-timers";
 import assert from "node:assert";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {

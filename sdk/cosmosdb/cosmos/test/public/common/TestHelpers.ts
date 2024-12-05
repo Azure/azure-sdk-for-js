@@ -30,7 +30,6 @@ import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { DatabaseRequest } from "../../../src/index.js";
 import type { ContainerRequest } from "../../../src/index.js";
-import { AssertionError, expect } from "chai";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -38,6 +37,7 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import { assert } from "vitest";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";

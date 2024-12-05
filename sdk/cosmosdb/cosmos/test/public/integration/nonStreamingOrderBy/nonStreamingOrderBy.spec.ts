@@ -13,6 +13,7 @@ import {
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } from "../../../../src/documents/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Test nonStreaming Queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
