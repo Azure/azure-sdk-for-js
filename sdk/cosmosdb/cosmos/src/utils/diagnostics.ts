@@ -4,7 +4,10 @@
 import type { MetadataLookUpType } from "../CosmosDiagnostics.js";
 import { CosmosDiagnostics } from "../CosmosDiagnostics.js";
 import type { DiagnosticDataValue } from "../diagnostics/DiagnosticNodeInternal.js";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import { getCurrentTimestampInMs } from "./time.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";

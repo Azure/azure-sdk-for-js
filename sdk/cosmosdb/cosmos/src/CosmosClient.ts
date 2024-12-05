@@ -8,7 +8,10 @@ import { Constants } from "./common/constants.js";
 import { getUserAgent } from "./common/platform.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
-import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics/index.js";
+import {
+  determineDiagnosticLevel,
+  getDiagnosticLevelFromEnvironment,
+} from "./diagnostics/index.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal.js";
 import type { DatabaseAccount } from "./documents/index.js";

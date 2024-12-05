@@ -11,16 +11,12 @@
     "target": "ES2017",
     "newLine": "LF",
     "resolveJsonModule": true,
-    "lib": [
-      "es2019"
-    ],
+    "lib": ["es2019"],
     "moduleResolution": "NodeNext",
     "composite": true,
     "stripInternal": true,
     "paths": {
-      "@azure/cosmos": [
-        "./src/index"
-      ]
+      "@azure/cosmos": ["./src/index"]
     },
     "rootDir": "."
   },

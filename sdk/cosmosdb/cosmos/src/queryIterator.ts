@@ -3,7 +3,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 import type { ClientContext } from "./ClientContext.js";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal.js";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common/index.js";
 import type {
   CosmosHeaders,

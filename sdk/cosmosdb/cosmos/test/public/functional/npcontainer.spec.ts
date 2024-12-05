@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "node:assert";
-import type { Container, PluginConfig, CosmosClientOptions, OperationInput } from "../../../src/index.js";
+import type {
+  Container,
+  PluginConfig,
+  CosmosClientOptions,
+  OperationInput,
+} from "../../../src/index.js";
 import { CosmosClient, Constants, PatchOperationType } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";

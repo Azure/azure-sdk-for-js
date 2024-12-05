@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth.js";
-import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common/index.js";
+import {
+  Constants,
+  HTTPMethod,
+  jsonStringifyAndEscapeNonASCII,
+  ResourceType,
+} from "../common/index.js";
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { PartitionKeyInternal } from "../documents/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/index.js";
