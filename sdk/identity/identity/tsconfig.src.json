@@ -1,10 +1,6 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": "../../../tsconfig.lib.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["DOM"],
-    "composite": true
-  },
-  "include": ["./src"]
+    "lib": ["DOM"]
+  }
 }

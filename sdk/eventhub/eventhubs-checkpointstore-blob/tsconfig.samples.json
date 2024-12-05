@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.nonlib.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/eventhubs-checkpointstore-blob": ["./dist/esm"]
+    }
+  },
+  "include": ["./samples-dev"]
+}
