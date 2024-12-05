@@ -13,7 +13,7 @@ import type {
   CommunicationIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type { CallInvite, CallConnection } from "../../src/index.js";
+import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
@@ -189,6 +189,30 @@ describe("Call Automation Client Unit Tests", () => {
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
 
     const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
+
+    // asserts
+    const result = await promiseResult;
+
+    assert.isNotNull(result);
+    expect(client.answerCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
+    assert.equal(result, answerCallResultMock);
+  });
+
+  it("AnswerCall with custom context", async () => {
+    // mocks
+    const answerCallResultMock: AnswerCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as AnswerCallEventResult;
+      },
+    };
+    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
+    const answerCallOptions: AnswerCallOptions = {
+      operationContext: "operationContextAnswerCall",
+      customCallingContext : [{ kind: "voip", key: "foo", value: "bar" }]
+    };
+    const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL, answerCallOptions);
 
     // asserts
     const result = await promiseResult;
