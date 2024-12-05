@@ -4,6 +4,8 @@
 import type { AuthenticationResult } from "@azure/msal-node";
 import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
 import { Recorder } from "@azure-tools/test-recorder";
+import { vi } from "vitest";
+
 const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 
 export type MsalTestCleanup = () => Promise<void>;
