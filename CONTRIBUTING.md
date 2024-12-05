@@ -12,7 +12,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-# How to contribute to the Azure SDK for Javascript TEST
+# How to contribute to the Azure SDK for Javascript
 
 There are many ways that you can contribute to the Azure SDK for JavaScript project:
 
