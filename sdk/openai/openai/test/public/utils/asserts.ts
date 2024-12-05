@@ -7,12 +7,16 @@ import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./
 import type {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
+  ContentFilterBlocklistIdResultOutput,
   ContentFilterCitedDetectionResultOutput,
   ContentFilterDetectionResultOutput,
   ContentFilterResultOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
+  ContentFilterDetailedResults,
+  ContentFilterCompletionTextSpanResultOutput,
+  ContentFilterCompletionTextSpan,
 } from "@azure/openai/types";
 import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import type {
@@ -158,9 +162,26 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
+    ifDefined(cfr.ungrounded_material, assertContentFilterCompletionTextSpanResult);
   }
+}
+
+function assertContentFilterCompletionTextSpanResult(
+  cfr: ContentFilterCompletionTextSpanResultOutput,
+): void {
+  assertContentFilterDetectionResult(cfr);
+  assert.isBoolean(cfr.filtered);
+  for (const detail of cfr.details) {
+    assertContentFilterCompletionTextSpan(detail);
+  }
+}
+
+function assertContentFilterCompletionTextSpan(cfr: ContentFilterCompletionTextSpan): void {
+  assert.isNumber(cfr.completion_end_offset);
+  assert.isNumber(cfr.completion_start_offset);
 }
 
 function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPromptOutput[]): void {
@@ -196,6 +217,7 @@ function assertContentFilterResultDetailsForPrompt(
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
 }
 
@@ -212,6 +234,19 @@ function assertContentFilterResult(val: ContentFilterResultOutput): void {
 
 function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOutput): void {
   assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+}
+
+function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
+  assert.isBoolean(val.filtered);
+  // TODO: Update the corresponding types once the Swagger is updated
+  ifDefined(val.details, (details) => {
+    assertNonEmptyArray(details, assertContentFilterBlocklistIdResult);
+  });
+}
+
+function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
+  assert.isString(val.id);
   assert.isBoolean(val.filtered);
 }
 

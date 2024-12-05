@@ -1,10 +1,10 @@
 {
-  "extends": "./.tshy/build.json",
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
-  "exclude": ["./test/**/node/**/*.ts"],
+  "extends": ["./.tshy/build.json", "./tsconfig.tests.json"],
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts", "./test/**/*.mts"],
+  "exclude": ["./test/**/node/**/*.ts", "./test/manual*"],
   "compilerOptions": {
     "outDir": "./dist-test/browser",
     "rootDir": ".",
-    "skipLibCheck": true
+    "noEmit": false
   }
 }
