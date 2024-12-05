@@ -22468,7 +22468,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-1klhp8mezs4wRSJHc86lzMqH4vCtP8AEgdnPWyyQ54FhWw8xpHjBXDxNffumdJDlI+ZpOawvsczRsqMR7Wgw+w==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-Z3nbjtT2fFbAIB8CjTV7tcuQ4ZrEr0FSmVoiZmAi1OJ/qUz9m2DtJLvmJCm8HidshZrrqEZ8644blq1oJhfi3g==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22478,6 +22478,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -22494,19 +22496,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/schema-registry-avro.tgz:
