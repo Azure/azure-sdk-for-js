@@ -9,9 +9,9 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations";
-import { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces";
-import { QuantumJobClientOptionalParams } from "./models";
+import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations/index.js";
+import { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces/index.js";
+import { QuantumJobClientOptionalParams } from "./models/index.js";
 
 export class QuantumJobClient extends coreClient.ServiceClient {
   $host: string;

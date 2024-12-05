@@ -7,6 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { QuantumJobClient } from "./quantumJobClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { QuantumJobClient } from "./quantumJobClient.js";
+export * from "./operationsInterfaces/index.js";

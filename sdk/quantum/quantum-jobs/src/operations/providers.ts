@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
+import { tracingClient } from "../tracing.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Providers } from "../operationsInterfaces";
+import { Providers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { QuantumJobClient } from "../quantumJobClient.js";
 import {
   ProviderStatus,
   ProvidersGetStatusNextOptionalParams,
   ProvidersGetStatusOptionalParams,
   ProvidersGetStatusResponse,
   ProvidersGetStatusNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Providers operations. */

@@ -10,7 +10,7 @@ import {
   BlobDetails,
   StorageSasUriOptionalParams,
   StorageSasUriResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Storage. */
 export interface Storage {

@@ -10,7 +10,7 @@ import { OperationParameter, OperationURLParameter } from "@azure/core-client";
 import {
   JobDetails as JobDetailsMapper,
   BlobDetails as BlobDetailsMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
