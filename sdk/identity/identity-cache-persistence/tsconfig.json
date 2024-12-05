@@ -2,14 +2,10 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "DOM"
-    ],
+    "lib": ["DOM"],
     "resolveJsonModule": true,
     "paths": {
-      "@azure/identity-cache-persistence": [
-        "./src/index"
-      ]
+      "@azure/identity-cache-persistence": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
