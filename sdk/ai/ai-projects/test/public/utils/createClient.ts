@@ -13,7 +13,7 @@ import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/cor
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
-  ENDPOINT: "Sanitized.api.azureml.ms",
+  ENDPOINT: "Sanitized.azure.com",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
