@@ -1,12 +1,7 @@
 {
-  "extends": ["../../../tsconfig", "./tsconfig.src.json"],
+  "extends": ["../../../tsconfig.nonlib.json", "./tsconfig.src.json"],
   "compilerOptions": {
-    "target": "ES2023",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "skipLibCheck": true,
-    "noEmit": true,
-    "composite": true
+    "skipLibCheck": true
   },
   "include": ["./test", "./src"],
   "exclude": ["test/manual*"]
