@@ -61,7 +61,7 @@ directive:
 - from: swagger-document
   where: $.definitions.TimezoneWindows
   transform: |
-    $["x-ms-client-name"] = "TimeZoneWindows"
+    $["x-ms-client-name"] = "WindowsTimeZone"
 
 - from: swagger-document
   where: $.definitions.TimezoneEnumIanaResult
@@ -76,7 +76,7 @@ directive:
 - from: swagger-document
   where: $.definitions.TimezoneWindowsToIanaResult
   transform: |
-    $["x-ms-client-name"] = "TimeZoneWindowsToIanaResult"
+    $["x-ms-client-name"] = "WindowsTimeZoneToIanaResult"
 
 - from: swagger-document
   where: $.definitions.TimezoneIds

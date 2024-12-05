@@ -5,7 +5,7 @@ import { HttpResponse } from "@azure-rest/core-client";
 import {
   TimeZoneResultOutput,
   ErrorResponseOutput,
-  TimeZoneWindowsOutput,
+  WindowsTimeZoneOutput,
   IanaIdOutput,
   TimeZoneIanaVersionResultOutput,
 } from "./outputModels";
@@ -54,7 +54,7 @@ export interface TimeZoneGetTimeZoneByCoordinatesDefaultResponse
  */
 export interface TimeZoneGetWindowsTimezoneIds200Response extends HttpResponse {
   status: "200";
-  body: Array<TimeZoneWindowsOutput>;
+  body: Array<WindowsTimeZoneOutput>;
 }
 
 /**

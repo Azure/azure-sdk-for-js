@@ -121,7 +121,7 @@ export interface ErrorAdditionalInfoOutput {
   readonly info?: Record<string, unknown>;
 }
 
-export interface TimeZoneWindowsOutput {
+export interface WindowsTimeZoneOutput {
   /** Windows Id property */
   readonly WindowsId?: string;
   /** Territory property */
