@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentOutput, AgentsOperations, AgentThreadOutput, AIProjectsClient, OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput, ThreadRunOutput } from "../../../src/index.js";
+import { AgentOutput, AgentsOperations, AgentThreadOutput, AIProjectsClient, ThreadMessageOutput, ThreadRunOutput } from "../../../src/index.js";
 import { createMockProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe, vi } from "vitest";
 import { MockInstrumenter, MockTracingSpan } from "@azure-tools/test-utils-vitest";

@@ -4,7 +4,7 @@
 
 
 import { ConnectionsOperations } from "../connections/index.js";
-import {getConnectionString, TelemetryOptions, updateTelemetryOptions } from "./telemetry.js";
+import {getConnectionString, getTelemetryOptions, resetTelemetryOptions, TelemetryOptions, updateTelemetryOptions } from "./telemetry.js";
 
 /**
  * Telemetry operations
@@ -22,6 +22,12 @@ export interface TelemetryOperations {
      * @returns void
      * */
     updateSettings(options: TelemetryOptions) : void
+
+    /**
+     * get the telemetry settings
+     * @returns The telemetry options
+     * */
+    getSettings() : TelemetryOptions
 }
 
 /**
@@ -30,8 +36,10 @@ export interface TelemetryOperations {
  * @returns The telemetry operations
  **/
 export function getTelemetryOperations(connection: ConnectionsOperations): TelemetryOperations {
+    resetTelemetryOptions();
     return {
         getConnectionString: () => getConnectionString(connection),
-        updateSettings : (options: TelemetryOptions) => updateTelemetryOptions(options)
+        updateSettings : (options: TelemetryOptions) => updateTelemetryOptions(options),
+        getSettings : () => getTelemetryOptions()
     }
 }

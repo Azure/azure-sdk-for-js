@@ -29,8 +29,16 @@ export function updateTelemetryOptions(options: TelemetryOptions): void {
  * @returns The telemetry options
  */
 export function getTelemetryOptions(): TelemetryOptions {
-    return telemetryOptions;
+    return structuredClone(telemetryOptions);
 };
+
+/** 
+ * Reset the telemetry options
+ */
+export function resetTelemetryOptions(): void {
+    telemetryOptions.connectionString = null;
+    telemetryOptions.enableContentRecording = false;
+}
 
 /**
  * Get the appinsights connection string confired in the workspace
@@ -38,7 +46,7 @@ export function getTelemetryOptions(): TelemetryOptions {
  * @returns The telemetry connection string
  */
 export async function getConnectionString(connection: ConnectionsOperations): Promise<string> {
-    if (telemetryOptions.connectionString) {
+    if (!telemetryOptions.connectionString) {
         const workspace = await connection.getWorkspace();
         if (workspace.properties.applicationInsights) {
             telemetryOptions.connectionString = workspace.properties.applicationInsights
