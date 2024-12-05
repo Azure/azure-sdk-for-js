@@ -49,8 +49,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/projectsClient.ts",
+        "path": "src/generated/src/projectsClient.ts",
         "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },

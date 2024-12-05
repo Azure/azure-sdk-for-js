@@ -1,55 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TracingSpan } from "@azure/core-tracing";
 import { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters } from "../generated/src/parameters.js";
 import { ThreadRunOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingAttributes, TracingUtility, TrackingOperationName } from "../tracing.js";
+import { TracingAttributeOptions, TracingAttributes, TracingUtility, TracingOperationName, Span } from "../tracing.js";
 import { addInstructionsEvent, addMessageEvent, addToolMessagesEvent, formatAgentApiResponse } from "./traceUtility.js";
 
-export function traceStartCreateRun(span: Omit<TracingSpan, "end">, options: CreateRunParameters | CreateThreadAndRunParameters, threadId?: string, operationName: string = TrackingOperationName.CREATE_RUN): void {
+export function traceStartCreateRun(span: Span, options: CreateRunParameters | CreateThreadAndRunParameters, threadId?: string, operationName: string = TracingOperationName.CREATE_RUN): void {
 
     const attributes: TracingAttributeOptions = {
         threadId: threadId,
         agentId: options.body.assistant_id,
-        model: options.body.model,
-        instructions: options.body.instructions,
-        temperature: options.body.temperature,
-        topP: options.body.top_p,
-        maxCompletionTokens: options.body.max_completion_tokens,
-        maxPromptTokens: options.body.max_prompt_tokens,
+        model: options.body.model ?? undefined,
+        instructions: options.body.instructions ?? undefined,
+        temperature: options.body.temperature ?? undefined,
+        topP: options.body.top_p ?? undefined,
+        maxCompletionTokens: options.body.max_completion_tokens ?? undefined,
+        maxPromptTokens: options.body.max_prompt_tokens ?? undefined,
         responseFormat: formatAgentApiResponse(options.body.response_format),
         genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM
     }
     if ((options as CreateRunParameters).body.additional_instructions) {
-        attributes.additional_instructions = (options as CreateRunParameters).body.additional_instructions;
+        attributes.additional_instructions = (options as CreateRunParameters).body.additional_instructions ?? undefined;
     }
     TracingUtility.setSpanAttributes(span, operationName, attributes);
     setSpanEvents(span, options);
 }
 
-export function traceStartCreateThreadAndRun(span: Omit<TracingSpan, "end">, options: CreateThreadAndRunParameters): void {
-    traceStartCreateRun(span, options, undefined, TrackingOperationName.CREATE_THREAD_RUN);
+export function traceStartCreateThreadAndRun(span: Span, options: CreateThreadAndRunParameters): void {
+    traceStartCreateRun(span, options, undefined, TracingOperationName.CREATE_THREAD_RUN);
 }
 
-export async function traceEndCreateRun(span: Omit<TracingSpan, "end">, _options: CreateRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
+export async function traceEndCreateRun(span: Span, _options: CreateRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
     const resolvedResult = await result;
     TracingUtility.updateSpanAttributes(span, { runId: resolvedResult.id, runStatus: resolvedResult.status, responseModel: resolvedResult.model, usageCompletionTokens: resolvedResult.usage?.completion_tokens, usagePromptTokens: resolvedResult.usage?.prompt_tokens });
 }
 
-export function traceStartSubmitToolOutputsToRun(span: Omit<TracingSpan, "end">, options: SubmitToolOutputsToRunParameters, threadId: string,
+export function traceStartSubmitToolOutputsToRun(span: Span, options: SubmitToolOutputsToRunParameters, threadId: string,
     runId: string,): void {
     const attributes: TracingAttributeOptions = { threadId: threadId, runId: runId }
-    TracingUtility.setSpanAttributes(span, TrackingOperationName.SUBMIT_TOOL_OUTPUTS, attributes);
+    TracingUtility.setSpanAttributes(span, TracingOperationName.SUBMIT_TOOL_OUTPUTS, attributes);
     addToolMessagesEvent(span, options.body.tool_outputs);
 }
 
-export async function traceEndSubmitToolOutputsToRun(span: Omit<TracingSpan, "end">, _options: SubmitToolOutputsToRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
+export async function traceEndSubmitToolOutputsToRun(span: Span, _options: SubmitToolOutputsToRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
     const resolvedResult = await result;
     TracingUtility.updateSpanAttributes(span, { runId: resolvedResult.id, runStatus: resolvedResult.status, responseModel: resolvedResult.model, usageCompletionTokens: resolvedResult.usage?.completion_tokens, usagePromptTokens: resolvedResult.usage?.prompt_tokens });
 }
 
-function setSpanEvents(span: Omit<TracingSpan, "end">, options: CreateRunParameters): void {
+function setSpanEvents(span: Span, options: CreateRunParameters): void {
     addInstructionsEvent(span, { ...options.body, agentId: options.body.assistant_id });
     options.body.additional_messages?.forEach((message) => {
         addMessageEvent(span, message);

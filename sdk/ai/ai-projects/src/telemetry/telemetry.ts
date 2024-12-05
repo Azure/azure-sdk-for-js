@@ -11,9 +11,9 @@ export interface TelemetryOptions {
     enableContentRecording: boolean;
 }
 
-const telemetryOptions: TelemetryOptions & { connectionString: string | unknown } = {
+const telemetryOptions: TelemetryOptions & { connectionString: string | undefined } = {
     enableContentRecording: false,
-    connectionString: null
+    connectionString: undefined
 }
 
 /** 
@@ -36,7 +36,7 @@ export function getTelemetryOptions(): TelemetryOptions {
  * Reset the telemetry options
  */
 export function resetTelemetryOptions(): void {
-    telemetryOptions.connectionString = null;
+    telemetryOptions.connectionString = undefined;
     telemetryOptions.enableContentRecording = false;
 }
 

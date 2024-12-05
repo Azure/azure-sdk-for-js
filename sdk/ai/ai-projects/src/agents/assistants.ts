@@ -32,7 +32,7 @@ export async function createAgent(
       if (!expectedStatuses.includes(result.status)) {
         throw createRestError(result);
       }
-      return result.body as AgentOutput;
+      return result.body;
     },
     traceStartCreateAgent, traceEndCreateAgent,
   );

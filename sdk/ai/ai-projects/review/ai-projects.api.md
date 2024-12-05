@@ -1462,6 +1462,7 @@ export interface SystemDataOutput {
 // @public
 export interface TelemetryOperations {
     getConnectionString(): Promise<string>;
+    getSettings(): TelemetryOptions;
     // Warning: (ae-forgotten-export) The symbol "TelemetryOptions" needs to be exported by the entry point index.d.ts
     updateSettings(options: TelemetryOptions): void;
 }

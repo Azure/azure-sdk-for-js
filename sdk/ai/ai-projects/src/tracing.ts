@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 import { createTracingClient, OperationTracingOptions, Resolved, SpanStatusError, TracingSpan } from "@azure/core-tracing";
+import { PACKAGE_NAME, SDK_VERSION } from "./constants.js";
+import { getErrorMessage } from "@azure/core-util";
+import { logger } from "./logger.js";
 
 export enum TracingAttributes {
     GEN_AI_MESSAGE_ID = "gen_ai.message.id",
@@ -31,7 +34,7 @@ export enum TracingAttributes {
     GEN_AI_EVENT_CONTENT = "gen_ai.event.content",
     ERROR_TYPE = "error.type"
 }
-export enum TrackingOperationName {
+export enum TracingOperationName {
     CREATE_AGENT = "create_agent",
     CREATE_THREAD = "create_thread",
     CREATE_MESSAGE = "create_message",
@@ -45,49 +48,52 @@ export enum TrackingOperationName {
 
 export interface TracingAttributeOptions {
     operationName?: string;
-    name?: string | null;
-    description?: string | null;
-    serverAddress?: string | null;
-    threadId?: string | null;
-    agentId?: string | null;
-    instructions?: string | null;
-    additional_instructions?: string | null;
-    runId?: string | null;
-    runStatus?: string | null;
-    responseModel?: string | null;
-    model?: string | null;
-    temperature?: number | null;
-    topP?: number | null;
-    maxPromptTokens?: number | null;
-    maxCompletionTokens?: number | null;
-    responseFormat?: string | null;
-    genAiSystem?: string | null;
-    messageId?: string | null;
-    messageStatus?: string | null;
-    eventContent?: string | null;
-    usagePromptTokens?: number | null;
-    usageCompletionTokens?: number | null;
+    name?: string;
+    description?: string;
+    serverAddress?: string;
+    threadId?: string;
+    agentId?: string;
+    instructions?: string;
+    additional_instructions?: string;
+    runId?: string;
+    runStatus?: string;
+    responseModel?: string;
+    model?: string;
+    temperature?: number;
+    topP?: number;
+    maxPromptTokens?: number;
+    maxCompletionTokens?: number;
+    responseFormat?: string;
+    genAiSystem?: string;
+    messageId?: string;
+    messageStatus?: string;
+    eventContent?: string;
+    usagePromptTokens?: number;
+    usageCompletionTokens?: number;
 }
 
+export type Span = Omit<TracingSpan, "end">;
 export class TracingUtility {
     private static tracingClient = createTracingClient({
         namespace: "Microsoft.CognitiveServices",
-        packageName: "@azure/ai-projects",
-        packageVersion: "1.0.0-beta.1",
+        packageName: PACKAGE_NAME,
+        packageVersion: SDK_VERSION,
 
     });
 
     static async withSpan<Options extends { tracingOptions?: OperationTracingOptions },
         Request extends (updatedOptions: Options) => ReturnType<Request>>(name: string, options: Options, request: Request,
-            startTrace?: (span: Omit<TracingSpan, "end">, updatedOptions: Options,) => void,
-            endTrace?: (span: Omit<TracingSpan, "end">, updatedOptions: Options, result: ReturnType<Request>) => void,
+            startTrace?: (span: Span, updatedOptions: Options,) => void,
+            endTrace?: (span: Span, updatedOptions: Options, result: ReturnType<Request>) => void,
         ): Promise<Resolved<ReturnType<Request>>> {
-        return TracingUtility.tracingClient.withSpan(name, options, async (updatedOptions: Options, span: Omit<TracingSpan, "end">) => {
+        return TracingUtility.tracingClient.withSpan(name, options, async (updatedOptions: Options, span: Span) => {
             if (startTrace) {
                 try {
                     startTrace(span, updatedOptions);
                 }
-                catch { /* empty */ }
+                catch (e) {
+                    logger.warning(`Skipping updating span before request execution due to an error: ${getErrorMessage(e)}`);
+                }
 
             }
             let result: ReturnType<Request> | undefined;
@@ -104,18 +110,21 @@ export class TracingUtility {
             if (endTrace && result !== undefined) {
                 try {
                     endTrace(span, updatedOptions, result);
-                } catch { /* empty */ }
+                }
+                catch (e) {
+                    logger.warning(`Skipping updating span after request execution due to an error: ${getErrorMessage(e)}`);
+                }
             }
             return result;
         }, { spanKind: "client" });
     }
 
-    static updateSpanAttributes(span: Omit<TracingSpan, "end">, attributeOptions: Omit<TracingAttributeOptions, "operationName">): void {
+    static updateSpanAttributes(span: Span, attributeOptions: Omit<TracingAttributeOptions, "operationName">): void {
         TracingUtility.setAttributes(span, attributeOptions);
     }
 
     static setSpanAttributes(
-        span: Omit<TracingSpan, "end">,
+        span: Span,
         operationName: string,
         attributeOptions: TracingAttributeOptions
     ): void {
@@ -124,7 +133,7 @@ export class TracingUtility {
     }
 
     static setAttributes(
-        span: Omit<TracingSpan, "end">,
+        span: Span,
         attributeOptions: TracingAttributeOptions
     ): void {
         if (span.isRecording()) {
@@ -226,7 +235,7 @@ export class TracingUtility {
     }
 
     static addSpanEvent(
-        span: Omit<TracingSpan, "end">,
+        span: Span,
         eventName: string,
         attributeOptions: Omit<TracingAttributeOptions, "operationName">
     ): void {
