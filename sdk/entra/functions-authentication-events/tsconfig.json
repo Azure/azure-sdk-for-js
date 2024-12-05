@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/functions-authentication-events": [
-        "./src/index"
-      ]
+      "@azure/functions-authentication-events": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
