@@ -7,7 +7,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { DeviceCodeCredential } from "../../../src/index.js";
 import { PublicClientApplication } from "@azure/msal-node";
-import { describe, it, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

@@ -6,7 +6,7 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential.js";
+import { ClientSecretCredential } from "../../../src/index.js";
 import { IdentityClient } from "../../../src/client/identityClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -38,9 +38,9 @@ describe("MultiTenantAuthentication", function () {
     }
 
     const credential = new ClientSecretCredential(
-      tenantId,
-      clientId,
-      clientSecret,
+      tenantId!,
+      clientId!,
+      clientSecret!,
       recorder.configureClientOptions({}),
     );
 
