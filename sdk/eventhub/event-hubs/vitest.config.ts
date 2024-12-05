@@ -30,6 +30,11 @@ export default mergeConfig(
           "Date",
         ],
       },
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.tests.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      }
     },
   })
 );

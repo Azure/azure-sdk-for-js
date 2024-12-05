@@ -3,7 +3,7 @@
 
 import { AzurePipelinesCredential } from "../../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";

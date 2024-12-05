@@ -5,7 +5,7 @@ import { AzureApplicationCredential } from "../../../src/credentials/azureApplic
 import {
   createDefaultHttpClient,
   createHttpHeaders,
-  HttpClient,
+  type HttpClient,
   RestError,
 } from "@azure/core-rest-pipeline";
 import { ManagedIdentityApplication } from "@azure/msal-node";

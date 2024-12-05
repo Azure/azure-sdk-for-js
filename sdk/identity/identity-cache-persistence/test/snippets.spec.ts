@@ -4,13 +4,14 @@
 import { DeviceCodeCredential, useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 import { setLogLevel } from "@azure/logger";
+import { describe, it, assert } from "vitest";
 
-describe("snippets", function () {
-  it("getting_started", function () {
+describe("snippets", () => {
+  it("getting_started", () => {
     useIdentityPlugin(cachePersistencePlugin);
   });
 
-  it("device_code_credential_example", async function () {
+  it("device_code_credential_example", async () => {
     const credential = new DeviceCodeCredential({
       tokenCachePersistenceOptions: {
         enabled: true,
@@ -24,7 +25,7 @@ describe("snippets", function () {
     console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
   });
 
-  it("logging", async function () {
+  it("logging", async () => {
     setLogLevel("info");
   });
 });
