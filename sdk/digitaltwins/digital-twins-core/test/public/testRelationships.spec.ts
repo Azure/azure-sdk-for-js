@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DigitalTwinsClient, DigitalTwinsAddRelationshipOptionalParams } from "../../src/index.js";
+import type {
+  DigitalTwinsClient,
+  DigitalTwinsAddRelationshipOptionalParams,
+} from "../../src/index.js";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";

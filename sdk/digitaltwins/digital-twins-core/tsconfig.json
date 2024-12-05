@@ -3,15 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "declaration": true,
     "paths": {
-      "@azure/digital-twins-core": [
-        "./src/index"
-      ]
+      "@azure/digital-twins-core": ["./src/index"]
     },
     "resolveJsonModule": true,
     "module": "NodeNext",
