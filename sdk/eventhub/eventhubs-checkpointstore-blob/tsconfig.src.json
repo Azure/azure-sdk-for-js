@@ -1,3 +1,4 @@
 {
-  "extends": "../../../tsconfig.lib.json"
+  "extends": "../../../tsconfig.lib.json",
+  "include": ["./src"]
 }

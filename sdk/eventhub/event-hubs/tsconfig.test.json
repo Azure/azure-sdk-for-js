@@ -1,0 +1,9 @@
+{
+  "extends": ["../../../tsconfig.test.json", "./tsconfig.src.json"],
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "resolveJsonModule": true
+  },
+  "include": ["./test", "./src"],
+  "exclude": ["./test/stress"]
+}

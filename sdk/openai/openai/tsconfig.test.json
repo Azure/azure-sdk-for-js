@@ -1,0 +1,7 @@
+{
+  "extends": ["../../../tsconfig.test.json", "./tsconfig.src.json"],
+  "compilerOptions": {
+    "lib": ["DOM"]
+  },
+  "include": ["./test", "./src"]
+}

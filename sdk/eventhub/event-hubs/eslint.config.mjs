@@ -14,7 +14,7 @@ export default [
     files: ["**/*.ts", "**/*.cts", "**/*.mts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.tests.json"],
+        project: ["./tsconfig.test.json"],
       },
     },
   },

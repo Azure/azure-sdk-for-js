@@ -4,6 +4,5 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "composite": true
-  },
-  "include": ["./src"]
+  }
 }
