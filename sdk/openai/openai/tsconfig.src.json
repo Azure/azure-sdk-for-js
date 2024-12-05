@@ -1,9 +1,3 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "composite": true
-  },
-  "include": ["./src"]
+  "extends": "../../../tsconfig.lib.json"
 }
