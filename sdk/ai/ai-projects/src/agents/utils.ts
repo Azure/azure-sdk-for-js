@@ -124,7 +124,10 @@ export function createAzureAISearchTool(
  * Represents a set of tools with their definitions and resources.
  */
 export class ToolSet {
+  /** A list of tool definitions that have been added to the tool set. */
   toolDefinitions: ToolDefinition[] = [];
+
+  /** A collection of resources associated with the tools in the tool set. */
   toolResources: ToolResources = {};
 
   /**

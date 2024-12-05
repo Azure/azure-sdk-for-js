@@ -1630,9 +1630,7 @@ export class ToolSet {
     addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): void;
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): void;
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): void;
-    // (undocumented)
     toolDefinitions: ToolDefinition[];
-    // (undocumented)
     toolResources: ToolResources;
 }
 
