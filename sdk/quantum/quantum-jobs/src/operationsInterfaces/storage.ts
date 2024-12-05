@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   BlobDetails,
   StorageSasUriOptionalParams,
-  StorageSasUriResponse
+  StorageSasUriResponse,
 } from "../models/index.js";
 
 /** Interface representing a Storage. */
@@ -22,6 +22,6 @@ export interface Storage {
    */
   sasUri(
     blobDetails: BlobDetails,
-    options?: StorageSasUriOptionalParams
+    options?: StorageSasUriOptionalParams,
   ): Promise<StorageSasUriResponse>;
 }

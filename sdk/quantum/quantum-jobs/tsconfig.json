@@ -3,10 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "declaration": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -21,13 +18,5 @@
     "test/**/*.mts",
     "test/**/*.cts"
   ],
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ]
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }

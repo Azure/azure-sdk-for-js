@@ -7,16 +7,42 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import { Storage } from "../operationsInterfaces/index.js";
+import type { Storage } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { QuantumJobClient } from "../quantumJobClient.js";
-import {
+import type { QuantumJobClient } from "../quantumJobClient.js";
+import type {
   BlobDetails,
   StorageSasUriOptionalParams,
-  StorageSasUriResponse
+  StorageSasUriResponse,
 } from "../models/index.js";
+
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const sasUriOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/storage/sasUri",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SasUriResponse,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  requestBody: Parameters.blobDetails,
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 
 /** Class containing Storage operations. */
 export class StorageImpl implements Storage {
@@ -38,43 +64,17 @@ export class StorageImpl implements Storage {
    */
   async sasUri(
     blobDetails: BlobDetails,
-    options?: StorageSasUriOptionalParams
+    options?: StorageSasUriOptionalParams,
   ): Promise<StorageSasUriResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient.sasUri",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { blobDetails, options },
-          sasUriOperationSpec
+          { blobDetails, updatedOptions },
+          sasUriOperationSpec,
         ) as Promise<StorageSasUriResponse>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const sasUriOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/storage/sasUri",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SasUriResponse
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  requestBody: Parameters.blobDetails,
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
