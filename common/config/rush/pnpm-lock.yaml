@@ -20608,7 +20608,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-0thxM8DrK7tB2vOmAf2w7m99QKSRMHuwlc7ALykcHGiEAbCN9JEbVdT+b0sEGjqna89Vl5KQJtjRRktLnFPDCw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-Q4lHkbE+gclKcitOxVFnK2oRwhTVGBlec1o1J8xHZl8cH9ZNRjm8i4Rcsofax1yogVC3guE0Bl64W74fjV/9KA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -20620,24 +20620,41 @@ packages:
       '@types/node': 18.19.67
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
+      playwright: 1.49.0
       puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/identity-vscode.tgz:
