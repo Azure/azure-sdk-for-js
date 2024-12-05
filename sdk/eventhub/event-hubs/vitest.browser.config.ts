@@ -4,6 +4,7 @@
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
+import { resolve } from "node:path";
 
 export default defineConfig({
   define: {
@@ -43,6 +44,11 @@ export default defineConfig({
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
+    },
+    alias: {
+      "@azure/event-hubs": resolve("./dist/browser/index.js"),
+      "../../../src": resolve("./dist/browser"),
+      "../../src": resolve("./dist/browser"),
     },
   },
 });

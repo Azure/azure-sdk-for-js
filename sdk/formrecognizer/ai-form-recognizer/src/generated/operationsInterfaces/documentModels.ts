@@ -32,7 +32,7 @@ import {
   DocumentModelsGetModelOptionalParams,
   DocumentModelsGetModelResponse,
   DocumentModelsDeleteModelOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DocumentModels. */

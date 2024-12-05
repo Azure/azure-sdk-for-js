@@ -9,8 +9,8 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltReadModel } from "./prebuilt/prebuilt-read";
-import { getTextOfSpans } from "./utils";
+import { PrebuiltReadModel } from "./prebuilt/prebuilt-read.js";
+import { getTextOfSpans } from "./utils.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();

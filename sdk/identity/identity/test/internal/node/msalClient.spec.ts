@@ -326,7 +326,7 @@ describe("MsalClient", function () {
     describe("with silent authentication", function () {
       it("uses AuthenticationRecord if provided", async function () {
         const authenticationRecord = {
-          authority: "https://login.microsoftonline.com/tenant-id",
+          authority: "login.partner.microsoftonline.cn",
           tenantId,
           username: "testuser",
           homeAccountId: "home-account-id",
@@ -349,9 +349,11 @@ describe("MsalClient", function () {
 
         expect(silentAuthSpy).toHaveBeenCalledTimes(1);
         assert.deepEqual(silentAuthSpy.mock.calls[0][0].account, {
-          ...authenticationRecord,
+          homeAccountId: authenticationRecord.homeAccountId,
+          tenantId: authenticationRecord.tenantId,
+          username: authenticationRecord.username,
           localAccountId: authenticationRecord.homeAccountId,
-          environment: "login.microsoftonline.com",
+          environment: authenticationRecord.authority,
         });
       });
 
@@ -398,7 +400,7 @@ describe("MsalClient", function () {
         const client = msalClient.createMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
-            authority: "https://login.microsoftonline.com/tenant-id",
+            authority: "login.microsoftonline.com",
             tenantId,
             username: "testuser",
             homeAccountId: "home-account-id",
@@ -426,7 +428,7 @@ describe("MsalClient", function () {
         const client = msalClient.createMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
-            authority: "https://login.microsoftonline.com/tenant-id",
+            authority: "login.microsoftonline.com",
             tenantId,
             username: "testuser",
             homeAccountId: "home-account-id",
@@ -446,7 +448,7 @@ describe("MsalClient", function () {
       });
     });
 
-    it("supports cancellation", async function (ctx) {
+    it("supports cancellation", async function () {
       const client = msalClient.createMsalClient(clientId, tenantId);
 
       const scopes = ["https://vault.azure.net/.default"];
@@ -465,7 +467,7 @@ describe("MsalClient", function () {
     });
 
     describe("cross-tenant federation", function () {
-      it("allows passing an authority host", async function (ctx) {
+      it("allows passing an authority host", async function () {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";
@@ -490,7 +492,7 @@ describe("MsalClient", function () {
         assert.equal(requestAuthority, expectedAuthority);
       });
 
-      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function (ctx) {
+      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function () {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";

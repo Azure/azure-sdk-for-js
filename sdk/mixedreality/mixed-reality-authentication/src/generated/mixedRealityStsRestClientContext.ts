@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { MixedRealityStsRestClientOptionalParams } from "./models";
+import { MixedRealityStsRestClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class MixedRealityStsRestClientContext extends coreClient.ServiceClient {
