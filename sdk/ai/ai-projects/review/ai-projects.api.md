@@ -319,24 +319,24 @@ export interface CreateAndRunThreadOptions {
 
 // @public
 export function createAzureAISearchTool(indexConnectionId: string, indexName: string): {
-    definition: AzureAISearchToolDefinition[];
+    definition: AzureAISearchToolDefinition;
     resources: ToolResources;
 };
 
 // @public
 export function createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
-    definition: CodeInterpreterToolDefinition[];
+    definition: CodeInterpreterToolDefinition;
     resources: ToolResources;
 };
 
 // @public
 export function createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
-    definition: ToolDefinition[];
+    definition: ToolDefinition;
 };
 
 // @public
 export function createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
-    definition: FileSearchToolDefinition[];
+    definition: FileSearchToolDefinition;
     resources: ToolResources;
 };
 
@@ -1622,6 +1622,18 @@ export interface ToolResourcesOutput {
     azure_ai_search?: AzureAISearchResourceOutput;
     code_interpreter?: CodeInterpreterToolResourceOutput;
     file_search?: FileSearchToolResourceOutput;
+}
+
+// @public
+export class ToolSet {
+    addAzureAISearchTool(indexConnectionId: string, indexName: string): void;
+    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): void;
+    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): void;
+    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): void;
+    // (undocumented)
+    toolDefinitions: ToolDefinition[];
+    // (undocumented)
+    toolResources: ToolResources;
 }
 
 // @public

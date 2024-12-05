@@ -26,7 +26,7 @@ const codeInterpreterTool = createCodeInterpreterTool([localFile.id]);
 const agent = await client.agents.createAgent("gpt-4o-mini", {
   name: "my-agent",
   instructions: "You are a helpful agent",
-  tools: codeInterpreterTool.definition,
+  tools: [codeInterpreterTool.definition],
   tool_resources: codeInterpreterTool.resources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);

@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: fabricTool.definition
+      tools: [fabricTool.definition]
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });

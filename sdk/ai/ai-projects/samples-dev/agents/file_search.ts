@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
     {
       name:"SDK Test Agent - Retrieval",
       instructions:"You are helpful agent that can help fetch data from files you know about.",
-      tools: fileSearchTool.definition,
+      tools: [fileSearchTool.definition],
       tool_resources: fileSearchTool.resources
     }
   );

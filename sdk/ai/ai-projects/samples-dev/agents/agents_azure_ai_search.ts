@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: azureAISearchTool.definition,
+      tools: [azureAISearchTool.definition],
       tool_resources: azureAISearchTool.resources
     }, {
       headers: {"x-ms-enable-preview": "true"}
