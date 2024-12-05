@@ -2,6 +2,5 @@
   "extends": "../../../tsconfig.lib.json",
   "compilerOptions": {
     "noFallthroughCasesInSwitch": false
-  },
-  "include": ["./src"]
+  }
 }

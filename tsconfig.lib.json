@@ -4,5 +4,6 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "composite": true
-  }
+  },
+  "include": ["${configDir}/src"]
 }

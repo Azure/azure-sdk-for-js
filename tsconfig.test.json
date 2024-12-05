@@ -2,5 +2,6 @@
   "extends": "./tsconfig.nonlib.json",
   "compilerOptions": {
     "skipLibCheck": true
-  }
+  },
+  "include": ["${configDir}/test", "${configDir}/src"],
 }

@@ -4,6 +4,5 @@
     "lib": ["DOM"],
     "resolveJsonModule": true
   },
-  "include": ["./test", "./src"],
   "exclude": ["./test/stress"]
 }

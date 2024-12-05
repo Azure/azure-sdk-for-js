@@ -2,6 +2,5 @@
   "extends": "../../../tsconfig.lib.json",
   "compilerOptions": {
     "lib": ["DOM"]
-  },
-  "include": ["./src"]
+  }
 }
