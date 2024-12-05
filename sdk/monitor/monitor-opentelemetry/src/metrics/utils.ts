@@ -196,9 +196,6 @@ export function getProcessorTimeNormalized(
 
 /**
  * Gets the cloud role name based on the resource attributes
- * @param resource Resource object from OpenTelemetry
- * @returns cloud role name
- * @internal
  */
 export function getCloudRole(resource: Resource): string {
   let cloudRole = "";
@@ -252,8 +249,6 @@ export function getCloudRole(resource: Resource): string {
 
 /**
  * Gets the cloud role instance based on the resource attributes
- * @param resource Resource object from OpenTelemetry
- * @returns cloud role instance
  */
 export function getCloudRoleInstance(resource: Resource): string {
   // Kubernetes attributes should take precedence
