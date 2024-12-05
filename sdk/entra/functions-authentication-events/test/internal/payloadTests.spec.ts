@@ -13,7 +13,7 @@ import type {
 } from "@azure/functions-authentication-events";
 import { request } from "./payloads.js";
 import { createProvideClaimsForToken } from "../../src/tokenIssuanceStart/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("TokenIssuanceStart payload tests.", () => {
   const tokenIssuanceRequest: TokenIssuanceStartRequest = request;
