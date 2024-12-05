@@ -1,14 +1,9 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": "../../../tsconfig.nonlib.json",
   "compilerOptions": {
-    "target": "ES2023",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "paths": {
       "@azure/openai": ["./dist/esm"]
-    },
-    "noEmit": true,
-    "composite": true
+    }
   },
   "include": ["./samples-dev"]
 }

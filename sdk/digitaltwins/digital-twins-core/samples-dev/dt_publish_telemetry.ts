@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * @summary Simple example of how to publish telemetry message
@@ -7,10 +7,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
-import { v4 } from "uuid";
+import { inspect } from "node:util";
+import { randomUUID } from "node:crypto";
 
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {
@@ -29,7 +29,11 @@ async function main() {
   // Publish telemetry message
   const digitalTwinId = "<digital twin ID>"; // Digital twin ID must exist in your Azure Digital Twins instance
   const telemetryPayload = { Telemetry1: 5 };
-  const response = await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload, v4());
+  const response = await serviceClient.publishTelemetry(
+    digitalTwinId,
+    telemetryPayload,
+    randomUUID(),
+  );
   console.log(`Publish Component Telemetry response:`);
   console.log(inspect(response));
 }
