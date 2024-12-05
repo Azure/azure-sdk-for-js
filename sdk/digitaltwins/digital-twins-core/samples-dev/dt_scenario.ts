@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample creates all the models in \DTDL\Models folder in the ADT service instance
@@ -39,23 +39,23 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { v4 } from "uuid";
+import { randomUUID } from "node:crypto";
 import { inspect } from "node:util";
 
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js";
-import floorTwin from "./dtdl/digitalTwins/floorTwin.json.js";
-import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json.js";
-import roomTwin from "./dtdl/digitalTwins/roomTwin.json.js";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json" assert { type: "json" };
+import floorTwin from "./dtdl/digitalTwins/floorTwin.json" assert { type: "json" };
+import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json" assert { type: "json" };
+import roomTwin from "./dtdl/digitalTwins/roomTwin.json" assert { type: "json" };
 
-import building from "./dtdl/models/building.json.js";
-import floor from "./dtdl/models/floor.json.js";
-import room from "./dtdl/models/room.json.js";
-import wifi from "./dtdl/models/wifi.json.js";
-import hvac from "./dtdl/models/hvac.json.js";
+import building from "./dtdl/models/building.json" assert { type: "json" };
+import floor from "./dtdl/models/floor.json" assert { type: "json" };
+import room from "./dtdl/models/room.json" assert { type: "json" };
+import wifi from "./dtdl/models/wifi.json" assert { type: "json" };
+import hvac from "./dtdl/models/hvac.json" assert { type: "json" };
 
-import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json.js";
+import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json" assert { type: "json" };
 
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {
@@ -134,7 +134,7 @@ async function main() {
   }
 
   // Create event route
-  const eventRouteId = `eventRoute-${v4()}`;
+  const eventRouteId = `eventRoute-${randomUUID()}`;
   const eventFilter =
     "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
   const response = await serviceClient.upsertEventRoute(
