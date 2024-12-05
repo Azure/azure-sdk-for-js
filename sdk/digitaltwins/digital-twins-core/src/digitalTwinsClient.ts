@@ -9,7 +9,7 @@ import type {
 } from "@azure/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI.js";
 import type {
   DigitalTwinsGetByIdResponse,
@@ -406,7 +406,7 @@ export class DigitalTwinsClient {
       async (updatedOptions) => {
         return this.client.digitalTwins.sendTelemetry(
           digitalTwinId,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
           {
             ...updatedOptions,
@@ -441,7 +441,7 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.sendComponentTelemetry(
           digitalTwinId,
           componentName,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
           { ...updatedOptions, telemetrySourceTime: new Date().toISOString() },
         );

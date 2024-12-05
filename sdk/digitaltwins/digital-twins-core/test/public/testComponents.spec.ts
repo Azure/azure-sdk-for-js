@@ -9,7 +9,7 @@ import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const MODEL_ID = "dtmi:samples:DTComponentTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTComponentTestsComponent;1";
@@ -73,13 +73,13 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async (ctx) => {
+    const authentication = await authenticate(ctx);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -129,7 +129,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(temporary_twin));
   }
 
-  it("get component not existing", async function () {
+  it("get component not existing", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -143,10 +143,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get component simple", async function () {
+  it("get component simple", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -162,7 +162,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component replace", async function () {
+  it("update component replace", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -185,7 +185,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component remove", async function () {
+  it("update component remove", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -206,7 +206,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component add", async function () {
+  it("update component add", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -229,7 +229,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component multiple", async function () {
+  it("update component multiple", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -258,7 +258,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component invalid patch", async function () {
+  it("update component invalid patch", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -279,10 +279,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update component conditionally if present", async function () {
+  it("update component conditionally if present", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -309,7 +309,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("update component invalid conditions", async function () {
+  it("update component invalid conditions", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -333,11 +333,11 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   // TODO: Fix the test. Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/30395
-  it.skip("update component not existing", async function () {
+  it.skip("update component not existing", async () => {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -358,10 +358,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("publish component telemetry", async function () {
+  it("publish component telemetry", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -383,7 +383,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("publish component telemetry with message id", async function () {
+  it("publish component telemetry with message id", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -405,7 +405,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("publish component telemetry not existing", async function () {
+  it("publish component telemetry not existing", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -429,6 +429,6 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 });
