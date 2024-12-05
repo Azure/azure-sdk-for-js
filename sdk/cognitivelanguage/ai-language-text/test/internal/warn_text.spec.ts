@@ -22,8 +22,9 @@ function makeClientWithWarnText(content: string): TextAnalysisClient {
 describe("Logging", () => {
   it("Warn-Text header is correctly logged", async () => {
     const content = "The API version 1 is going to be deprecated by some time in the future";
-    const expectedContent =
-      "azure:ai-language-text:warning The API version 1 is going to be deprecated by some time in the future\n";
+    const expectedContent = isNodeLike
+      ? "azure:ai-language-text:warning The API version 1 is going to be deprecated by some time in the future\n"
+      : "azure:ai-language-text:warning The API version 1 is going to be deprecated by some time in the future";
     const client = makeClientWithWarnText(content);
     let spy;
     if (isNodeLike) {
