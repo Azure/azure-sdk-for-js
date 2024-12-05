@@ -5,14 +5,14 @@
 /* eslint-disable sort-imports */
 
 import { DeviceCodeCredential, type TokenCachePersistenceOptions } from "@azure/identity";
-import { msalNodeTestSetup, type MsalTestCleanup } from "./msalNodeTestSetup";
+import { msalNodeTestSetup, type MsalTestCleanup } from "./msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 import { PublicClientApplication } from "@azure/msal-node";
 import type Sinon from "sinon";
-import assert from "assert";
-import { createPersistence } from "./setup.spec";
+import assert from "node:assert";
+import { createPersistence } from "./setup.spec.js";
 
 describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
@@ -21,7 +21,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let recorder: Recorder;
 
   beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
@@ -42,11 +42,11 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -74,11 +74,11 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -114,11 +114,11 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   it("allows passing an authenticationRecord to avoid further manual authentications", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,

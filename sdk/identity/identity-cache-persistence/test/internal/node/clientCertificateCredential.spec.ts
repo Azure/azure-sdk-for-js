@@ -4,19 +4,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import * as path from "path";
+import * as path from "node:path";
 
 import type { TokenCachePersistenceOptions } from "@azure/identity";
 import { ClientCertificateCredential } from "@azure/identity";
-import type { MsalTestCleanup } from "./msalNodeTestSetup";
-import { msalNodeTestSetup } from "./msalNodeTestSetup";
+import type { MsalTestCleanup } from "./msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "./msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import type Sinon from "sinon";
-import assert from "assert";
-import { createPersistence } from "./setup.spec";
+import assert from "node:assert";
+import { createPersistence } from "./setup.spec.js";
 
 const ASSET_PATH = "assets";
 
@@ -27,7 +27,7 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
   let recorder: Recorder;
 
   beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
@@ -56,11 +56,11 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
+      ctx.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -91,11 +91,11 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
+      ctx.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {

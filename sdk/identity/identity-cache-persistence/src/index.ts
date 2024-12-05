@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { IdentityPlugin, TokenCachePersistenceOptions } from "@azure/identity";
-import { createPersistenceCachePlugin } from "./provider";
+import { createPersistenceCachePlugin } from "./provider.js";
 
 /**
  * Plugin context entries for controlling cache plugins.

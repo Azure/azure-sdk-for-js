@@ -11,10 +11,10 @@ import { UsernamePasswordCredential } from "@azure/identity";
 
 import { PublicClientApplication } from "@azure/msal-node";
 import type Sinon from "sinon";
-import assert from "assert";
-import { createPersistence } from "./setup.spec";
-import type { MsalTestCleanup } from "./msalNodeTestSetup";
-import { msalNodeTestSetup } from "./msalNodeTestSetup";
+import assert from "node:assert";
+import { createPersistence } from "./setup.spec.js";
+import type { MsalTestCleanup } from "./msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "./msalNodeTestSetup.js";
 
 describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
@@ -23,7 +23,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let recorder: Recorder;
 
   beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
@@ -45,7 +45,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -75,7 +75,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
