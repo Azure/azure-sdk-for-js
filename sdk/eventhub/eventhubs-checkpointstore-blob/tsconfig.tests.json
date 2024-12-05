@@ -1,0 +1,7 @@
+{
+  "extends": ["../../../tsconfig.nonlib.json", "./tsconfig.src.json"],
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["./test", "./src"]
+}
