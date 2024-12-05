@@ -8,12 +8,18 @@
       "dom"
     ],
     "declaration": true,
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
   ],
   "exclude": [
     "node_modules",
