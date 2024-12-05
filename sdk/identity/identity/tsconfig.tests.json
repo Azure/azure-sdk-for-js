@@ -1,10 +1,9 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": ["../../../tsconfig", "./tsconfig.src.json"],
   "compilerOptions": {
     "target": "ES2023",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["DOM"],
     "skipLibCheck": true,
     "noEmit": true,
     "composite": true
