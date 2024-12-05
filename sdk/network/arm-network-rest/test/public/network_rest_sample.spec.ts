@@ -35,7 +35,6 @@ import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderOptions: RecorderStartOptions = {
