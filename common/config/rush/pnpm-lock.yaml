@@ -946,10 +946,10 @@ dependencies:
     version: file:projects/eventgrid-system-events.tgz
   '@rush-temp/eventhubs-checkpointstore-blob':
     specifier: file:./projects/eventhubs-checkpointstore-blob.tgz
-    version: file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10)
+    version: file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table':
     specifier: file:./projects/eventhubs-checkpointstore-table.tgz
-    version: file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10)
+    version: file:projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/functions-authentication-events':
     specifier: file:./projects/functions-authentication-events.tgz
     version: file:projects/functions-authentication-events.tgz
@@ -1235,9 +1235,6 @@ dependencies:
   '@rush-temp/web-pubsub-express':
     specifier: file:./projects/web-pubsub-express.tgz
     version: file:projects/web-pubsub-express.tgz
-  chai:
-    specifier: 4.3.10
-    version: 4.3.10
 
 packages:
 
@@ -5058,15 +5055,6 @@ packages:
     dependencies:
       chai: 4.3.10
       check-error: 1.0.3
-    dev: false
-
-  /chai-as-promised@8.0.1(chai@4.3.10):
-    resolution: {integrity: sha512-OIEJtOL8xxJSH8JJWbIoRjybbzR52iFuDHuF8eb+nTPD6tgXLjRqsgnUGqQfFODxYvq5QdirT0pN9dZ0+Gz6rA==}
-    peerDependencies:
-      chai: '>= 2.1.2 < 6'
-    dependencies:
-      chai: 4.3.10
-      check-error: 2.1.1
     dev: false
 
   /chai-as-promised@8.0.1(chai@5.1.2):
@@ -20295,9 +20283,8 @@ packages:
       - webdriverio
     dev: false
 
-  file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-QIMCv2kTVX8O/o5j/9cm9cj3M1Yu68nIK2z4ubzIx+w0ZJ4Sby3hc2F+UFe5oj59UyA29uZLX6sfITm7+SuKgQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
-    id: file:projects/eventhubs-checkpointstore-blob.tgz
+  file:projects/eventhubs-checkpointstore-blob.tgz:
+    resolution: {integrity: sha512-AqSaI6MACDs5mqh3Lim/Qop+IBW9nuhO4z5/QQEEYsbIU0fPadAuNSIYy9tdZHd/rhUAHpQzRoCIHk54+OtZrg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -20308,7 +20295,8 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
-      chai-as-promised: 8.0.1(chai@4.3.10)
+      chai: 5.1.2
+      chai-as-promised: 8.0.1(chai@5.1.2)
       debug: 4.3.7(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20323,7 +20311,6 @@ packages:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
-      - chai
       - happy-dom
       - jiti
       - jsdom
@@ -20343,9 +20330,8 @@ packages:
       - webdriverio
     dev: false
 
-  file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-shPBb4XPKzwZkYDOvEn5AqC4nSdal0o+RW0dFDOE1FAdPmN5uyouad+Na48MtP3aHiDL9ObtRPeh5xkX905SIw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
-    id: file:projects/eventhubs-checkpointstore-table.tgz
+  file:projects/eventhubs-checkpointstore-table.tgz:
+    resolution: {integrity: sha512-P3Cu8PCr0Mpwx1KRYGqJtpUu6cUBnu3l8y2XVFNvrMKyrv4sjJuCzhHtYtlNkYMNesgn66If2fQE5sj1akl9QA==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -20356,7 +20342,8 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
-      chai-as-promised: 8.0.1(chai@4.3.10)
+      chai: 5.1.2
+      chai-as-promised: 8.0.1(chai@5.1.2)
       debug: 4.3.7(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20370,7 +20357,6 @@ packages:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
-      - chai
       - happy-dom
       - jiti
       - jsdom
