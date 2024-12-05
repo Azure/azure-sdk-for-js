@@ -10,7 +10,7 @@ import type {
 import type { TokenCredential } from "@azure/core-auth";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 as generateUuid } from "uuid";
-import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
+import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI.js";
 import type {
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
@@ -34,7 +34,7 @@ import type {
   EventRoutesGetByIdResponse,
   EventRoute,
   QueryQueryTwinsResponse,
-} from "./generated/models";
+} from "./generated/models/index.js";
 import {
   DigitalTwinModelsGetByIdOptionalParams as GetModelOptions,
   DigitalTwinModelsListOptionalParams as ListModelsOptions,
@@ -42,9 +42,9 @@ import {
   EventRoutesListOptionalParams as ListEventRoutesOptions,
   DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
   DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
-} from "./generated/models";
-import { tracingClient } from "./tracing";
-import { logger } from "./logger";
+} from "./generated/models/index.js";
+import { tracingClient } from "./tracing.js";
+import { logger } from "./logger.js";
 export {
   GetModelOptions,
   ListModelsOptions,

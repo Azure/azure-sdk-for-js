@@ -7,7 +7,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance

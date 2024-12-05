@@ -14,10 +14,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
+import { inspect } from "node:util";
 import { v4 } from "uuid";
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
-import building from "./dtdl/models/building.json";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js";
+import building from "./dtdl/models/building.json.js";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
