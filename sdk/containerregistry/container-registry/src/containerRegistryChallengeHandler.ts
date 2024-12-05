@@ -7,13 +7,13 @@ import type {
   ChallengeCallbacks,
   AuthorizeRequestOptions,
 } from "@azure/core-rest-pipeline";
-import { parseWWWAuthenticate } from "./utils/wwwAuthenticateParser";
+import { parseWWWAuthenticate } from "./utils/wwwAuthenticateParser.js";
 import type {
   ContainerRegistryGetTokenOptions,
   ContainerRegistryRefreshTokenCredential,
-} from "./containerRegistryTokenCredential";
-import type { AccessTokenRefresher } from "./utils/tokenCycler";
-import { createTokenCycler } from "./utils/tokenCycler";
+} from "./containerRegistryTokenCredential.js";
+import type { AccessTokenRefresher } from "./utils/tokenCycler.js";
+import { createTokenCycler } from "./utils/tokenCycler.js";
 
 const fiveMinutesInMs = 5 * 60 * 1000;
 

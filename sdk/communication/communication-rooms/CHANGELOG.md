@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.1 (2024-11-22)
+
+### Bugs Fixed
+
+- Bug fix for 'addOrUpdateParticipants' and 'removeParticipants' methods to wait for the operation to complete before returning
+
 ## 1.1.0 (2024-04-15)
 
 ### Other Changes

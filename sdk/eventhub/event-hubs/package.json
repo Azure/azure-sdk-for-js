@@ -43,7 +43,7 @@
     "generate-certs": "tsx ./scripts/generateCerts.mts",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node",
+    "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node --esm",
     "lint": "eslint package.json api-extractor.json src test README.md",
     "lint:fix": "eslint package.json api-extractor.json src test README.md --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -87,6 +87,7 @@
     }
   },
   "tshy": {
+    "project": "tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

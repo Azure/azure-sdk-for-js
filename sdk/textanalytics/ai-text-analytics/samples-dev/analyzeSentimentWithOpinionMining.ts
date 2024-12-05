@@ -13,10 +13,8 @@
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -50,7 +48,7 @@ const documents = [
   },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("=== Opinion Mining Sample ===");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
@@ -74,9 +72,9 @@ export async function main() {
           console.log(`\t\t  Target sentiment: ${target.sentiment}`);
           console.log("\t\t  Target confidence scores:", target.confidenceScores);
           console.log("\t\t  Target assessments");
-          for (const { text, sentiment } of assessments) {
+          for (const { text, sentiment: innerSentiment } of assessments) {
             console.log(`\t\t\t- Text: ${text}`);
-            console.log(`\t\t\t  Sentiment: ${sentiment}`);
+            console.log(`\t\t\t  Sentiment: ${innerSentiment}`);
           }
         }
       }

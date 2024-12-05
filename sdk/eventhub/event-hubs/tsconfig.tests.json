@@ -1,0 +1,10 @@
+{
+  "extends": ["../../../tsconfig.nonlib.json", "./tsconfig.src.json"],
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["./test", "./src"],
+  "exclude": ["./test/stress"]
+}

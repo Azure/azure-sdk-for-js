@@ -19,3 +19,6 @@ export const ttsModelsToSkip = [{ name: "whisper", version: "001" }];
 
 // TODO: Remove this when "completion_tokens" is consistently returned
 export const completionsModelsToSkip = [{ name: "gpt-4", version: "0613" }];
+
+// TODO: Remove this when "completion_tokens" is consistently returned
+export const jsonResponseModelsToSkip = [{ name: "gpt-4", version: "0125-Preview" }];

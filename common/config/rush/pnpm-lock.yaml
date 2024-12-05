@@ -946,10 +946,10 @@ dependencies:
     version: file:projects/eventgrid-system-events.tgz
   '@rush-temp/eventhubs-checkpointstore-blob':
     specifier: file:./projects/eventhubs-checkpointstore-blob.tgz
-    version: file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10)
+    version: file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table':
     specifier: file:./projects/eventhubs-checkpointstore-table.tgz
-    version: file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10)
+    version: file:projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/functions-authentication-events':
     specifier: file:./projects/functions-authentication-events.tgz
     version: file:projects/functions-authentication-events.tgz
@@ -1235,9 +1235,6 @@ dependencies:
   '@rush-temp/web-pubsub-express':
     specifier: file:./projects/web-pubsub-express.tgz
     version: file:projects/web-pubsub-express.tgz
-  chai:
-    specifier: 4.3.10
-    version: 4.3.10
 
 packages:
 
@@ -5058,15 +5055,6 @@ packages:
     dependencies:
       chai: 4.3.10
       check-error: 1.0.3
-    dev: false
-
-  /chai-as-promised@8.0.1(chai@4.3.10):
-    resolution: {integrity: sha512-OIEJtOL8xxJSH8JJWbIoRjybbzR52iFuDHuF8eb+nTPD6tgXLjRqsgnUGqQfFODxYvq5QdirT0pN9dZ0+Gz6rA==}
-    peerDependencies:
-      chai: '>= 2.1.2 < 6'
-    dependencies:
-      chai: 4.3.10
-      check-error: 2.1.1
     dev: false
 
   /chai-as-promised@8.0.1(chai@5.1.2):
@@ -10219,6 +10207,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /strip-json-comments@5.0.1:
+    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /strip-literal@2.1.1:
     resolution: {integrity: sha512-631UJ6O00eNGfMiWG78ck80dfBab8X6IVFB51jZK5Icd7XAs60Z5y7QdSd/wGIklnWvRbUNloVzhOKKmutxQ6Q==}
     dependencies:
@@ -11903,7 +11896,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-XI06FmsZFJNP5OI6JTMo5ugJrKcepGhXlyGY8VwVDYlQDKNN+DUR0eK+J6hif3QS0RWZnhCZURqICMFrxjFErw==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-d3vaikHjJHVlneVLVu4fid6/HPKV/aIcYYbI1r4eL6OnUpWapjrWdIEmNf6xILz8HkLKNQM8qVdDyT+HRjaVUA==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -11915,6 +11908,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -11931,23 +11926,37 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-9X7PLNIh261De3RD0N8VbHh/u96Gc6j3eiQEzgLeakHXl1UJGx6p97Gpe/SOqxt75fdsXx6mA3BJwpoayTD1KQ==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-PCHG4RlNUlxg2qxYUzpux5qwU/BXFe32NiTXm7j1qNUOFeyUWaXne/VbM5O/NTyUaliuiAOMIgkqUpFa41gK6w==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -11960,8 +11969,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.3.10
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 5.1.2
       chai-as-promised: 7.1.2(chai@4.3.10)
+      chai-exclude: 3.0.0(chai@5.1.2)
       decompress: 4.2.1
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -11977,23 +11989,37 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-language-textauthoring.tgz:
-    resolution: {integrity: sha512-ZAeh5Zqie21QbDaZ6+swrDHQWD7BR7bPzy3mwL40dGfo0hCkp6Ty3DhRnNdjDlS+WbbKjIxU5igtKg3TdzjXaQ==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-66itVcfNfUYh77OvYUpjQT4sYsX3GXY2R8JBVyzftWWOKhn0uV+JHpq5M1iQzXQu0J0tRqiKh7Db7yndgj3kAg==, tarball: file:projects/ai-language-textauthoring.tgz}
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
@@ -12001,20 +12027,39 @@ packages:
       '@azure/core-lro': 2.7.2
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
@@ -12060,7 +12105,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-ZMOZvwcAG+Gg2dwnR+a/4y5KcuGWw3zdgs7whycUlFpTfLNRJ7i9rCEN2uo4oQZITtC1XGyWDigdkgLMZxJgEA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-L2zCkxd+XHPzXC7QO5xfI2QPG/E2rvGRFhpgjfidcfzqmG9kYMxvzxSlFlLXTYTj2ZEZ5Q8ARJ4SYx6XMle2NQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -12072,6 +12117,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -12088,19 +12135,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-translation-document.tgz:
@@ -14182,7 +14243,7 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-ElA3kJr4VYHRur5LNH+3eqk888Y4eELoHjBZwUp7ny9lmicmT8CSSfYPcA3wtRU+ONfnPzcbtNxvA5OLyg5Jkw==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-uC7+Fya5sikZhWmM4+4svSnc8zhrbepagPc/XNjb/7mwiY+tuUSrZYRUZPbv1HGGHLOzS1/qHFNCRl+dtB5wBg==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
@@ -14253,7 +14314,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceregistry.tgz:
-    resolution: {integrity: sha512-quCDiEA+ReWg69Cr/mNGXWYJgBUcRiUNEx0297eq9t8js5mUlpBgSkqHoV4D8gp4CqCGDFsicizrO4gooDMPeA==, tarball: file:projects/arm-deviceregistry.tgz}
+    resolution: {integrity: sha512-G+VReOcZKSoJr72ABi8fmaxohPn1P9pBOZic5nwu1OfHzn83ZBlS3ZrJmz8blwmL9cwvEGELiQ7FPYKAi094eg==, tarball: file:projects/arm-deviceregistry.tgz}
     name: '@rush-temp/arm-deviceregistry'
     version: 0.0.0
     dependencies:
@@ -14862,7 +14923,7 @@ packages:
     dev: false
 
   file:projects/arm-guestconfiguration.tgz:
-    resolution: {integrity: sha512-78pHXlczVccH5+mEB8bDhBsPsmi+7A7gSohvSNoyBw7MPn3N7WGmhd857hyO9Wj5kguISMLZr/eaQSdDFitvFA==, tarball: file:projects/arm-guestconfiguration.tgz}
+    resolution: {integrity: sha512-GUVNqyDazgrr9sKiWMlt+ntMoQPJvbOWCrizoz2m0OlgFQbE5CgUN71c0n/fSw18GWldbQBviZ5Xli3LfBRR2A==, tarball: file:projects/arm-guestconfiguration.tgz}
     name: '@rush-temp/arm-guestconfiguration'
     version: 0.0.0
     dependencies:
@@ -15693,7 +15754,7 @@ packages:
     dev: false
 
   file:projects/arm-maintenance.tgz:
-    resolution: {integrity: sha512-pvU9dT2fvcPhQnOa4q0N+CcIF/vVWPq0sDa6ivky/yX4sdLOg/B5/btEjY7WaLI9pe1QKcF9SLpMtsxrtDTF8w==, tarball: file:projects/arm-maintenance.tgz}
+    resolution: {integrity: sha512-HZmrniWotOGLlVhEILXCd/lAm+1HjRgFmBH41mFSnEGNU5FdDrsdVBj91n2RJHuFimqr2mNhuyWRpFyjvqtamw==, tarball: file:projects/arm-maintenance.tgz}
     name: '@rush-temp/arm-maintenance'
     version: 0.0.0
     dependencies:
@@ -16958,7 +17019,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-lgLpygYuQNiWsXLb0oIP1YCn5/wsTRbxUq6iN7JkQGzd29OyxFnAeWiNYHBbyW+QAhMdKEJGpfkXrJV/jgCEpg==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-B51Og/0U/mDcz3x76tNrCjM0VT3/o44nfCLeqjUHDYv4uM4qgivTJwIzXIbK+uGO8QIh3SB0YEnu8zSXipsjSw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -16983,7 +17044,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-gW0f2oYvsf0kaL+RT1NcdGM2nfBZ/FzIL4xboPh017jp2aVe5qUnnF3tnZc8aasyYg/H9bhmNj9O35LOGnfHFw==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-qVSrNb9BPxe7J42osz1VwaPVUY8BR5+PnBLsL8MSS8qv7zCbtwARAICAnSoWALq+fPcUBxrbT6vOY26NMVRprg==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
@@ -17084,7 +17145,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-zKdrPHasAWMJefAzX0hwQDoypjoDBoLQius14b7zfdqWqAws/nZl8V7eNAbD0x0Eip1rOtNFWwBKjSptui13Cg==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-Tq2/M1AEYoDXB1IkOCAKO04hoS9Dmwt6riEJgKX3+xThxsQPm1lO/YvBqWwlXi48XmpJ3IDL5zNZbTxAVADNtQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -17393,7 +17454,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-cUASP7knxLuGWkTUT9hxpQgeCN7KkmFMoEIw9rcP6u0yMH+jm7Nll9sZNQ10KltQ0WjnXuc8C1W0pb2MYIwoKQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-gH5k1yDfCIpgLShiltyp+qLwacqYcDAyKw9dTuKEqzPKjqy6JjAMFSHDxX7K/tZ5ffKhMzI709xadahyJ64ntw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -17946,7 +18007,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-54w0drdqLOZ5H2ctjYw/08CF3Gk0HP23mJbhTG+xtXZqz8ixEXAlzqLk1qH+3SuBbP7kON/Q1TNPcyDjH7E7wg==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-l2Wcfxom/e7/BgHLnHf6eHWy320/DwTLdVw0TiOWDbC3bJmXygyf3NMcR4rpyObEZP4pNsx6sT3g6u7iHVA1Dw==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -19252,7 +19313,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-OqITO/TMWza3AeETuc9wVLLfZgTD3CWl58tQ+NejouMEUalv/t+TkNEaUlubfdN6v43Xc3n2CeB5VmIni8UnsA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-AHxtCyVOmgFDmFKYr3jgh/D9GLdlJJaGeuvAhCxciN8PpRLPF/CUjp+eNzZeAd+h352yM1xYh/luQzCHcsLKtw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -19261,6 +19322,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -19277,18 +19340,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/core-amqp.tgz:
@@ -19872,7 +19949,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-1c66fdXFeyerti7kaguqJ8TW+L0r43d1JWYsS6ysMbqQqIt0aYTSu7Bi9+KgTBXQ82fOkrPWaM3e8zeWSwlrjA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-o8HIfA9RDgJlu3W5gJoMWW0yJ+dbl3+K3nsCA6mVMIXsCakEfZNSss6z9EUBKA1mlrZeFnhyHtIMQU1LRdUwpQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -19916,7 +19993,7 @@ packages:
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.28.0)
       rollup-plugin-visualizer: 5.12.0(rollup@4.28.0)
       semver: 7.6.3
-      strip-json-comments: 3.1.1
+      strip-json-comments: 5.0.1
       ts-morph: 24.0.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tshy: 2.0.1
@@ -19985,7 +20062,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-nKRSIQm5cqW1j4RbzNJUFNN91ChO4tzpWvV5CiBvWS6XteK20Y+ogMxj66r6/3GmKiaxKMKLTFbXZaYXpjXc1A==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-23aRefg7hb8EYeZzvQ2heD0OQ8Oa6TxYEDhA3ApKSbP43eYi9NKfKLWuc5Yu/ilZpvWAic6bk2JSKSrsEeBpqA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -19996,6 +20073,8 @@ packages:
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20011,20 +20090,34 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
@@ -20239,9 +20332,8 @@ packages:
       - webdriverio
     dev: false
 
-  file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-QIMCv2kTVX8O/o5j/9cm9cj3M1Yu68nIK2z4ubzIx+w0ZJ4Sby3hc2F+UFe5oj59UyA29uZLX6sfITm7+SuKgQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
-    id: file:projects/eventhubs-checkpointstore-blob.tgz
+  file:projects/eventhubs-checkpointstore-blob.tgz:
+    resolution: {integrity: sha512-AqSaI6MACDs5mqh3Lim/Qop+IBW9nuhO4z5/QQEEYsbIU0fPadAuNSIYy9tdZHd/rhUAHpQzRoCIHk54+OtZrg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -20252,7 +20344,8 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
-      chai-as-promised: 8.0.1(chai@4.3.10)
+      chai: 5.1.2
+      chai-as-promised: 8.0.1(chai@5.1.2)
       debug: 4.3.7(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20267,7 +20360,6 @@ packages:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
-      - chai
       - happy-dom
       - jiti
       - jsdom
@@ -20287,9 +20379,8 @@ packages:
       - webdriverio
     dev: false
 
-  file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-shPBb4XPKzwZkYDOvEn5AqC4nSdal0o+RW0dFDOE1FAdPmN5uyouad+Na48MtP3aHiDL9ObtRPeh5xkX905SIw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
-    id: file:projects/eventhubs-checkpointstore-table.tgz
+  file:projects/eventhubs-checkpointstore-table.tgz:
+    resolution: {integrity: sha512-P3Cu8PCr0Mpwx1KRYGqJtpUu6cUBnu3l8y2XVFNvrMKyrv4sjJuCzhHtYtlNkYMNesgn66If2fQE5sj1akl9QA==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -20300,7 +20391,8 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
-      chai-as-promised: 8.0.1(chai@4.3.10)
+      chai: 5.1.2
+      chai-as-promised: 8.0.1(chai@5.1.2)
       debug: 4.3.7(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20314,7 +20406,6 @@ packages:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
-      - chai
       - happy-dom
       - jiti
       - jsdom
@@ -20566,7 +20657,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-0thxM8DrK7tB2vOmAf2w7m99QKSRMHuwlc7ALykcHGiEAbCN9JEbVdT+b0sEGjqna89Vl5KQJtjRRktLnFPDCw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-KZZ87ScLnkCME+QJbrXDl2QaV5KA/7Ax8YPhKHPJSgh1j42oKa1twt9WRYt6rv7mpyzaB6d4jkDHqubFJdRiWA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -20578,28 +20669,45 @@ packages:
       '@types/node': 18.19.67
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
+      playwright: 1.49.0
       puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-7wFwOEU77YA+6eg2Xs7S8xD4eXOUfUcPc4Ic8g2JDQ1COfG1Sh6MiADCcnB8jFbjLrTLGUr/XsqI0eu9oOX/bA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-cPpTxfD+emujmd87h4AkgVwMIGV5tZpD/rAmx10EVBYQo3KREJ3sp9dKA5Aq+oPQVcNeslrJM+lth3+ume9vMg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -20610,24 +20718,36 @@ packages:
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
+      playwright: 1.49.0
       puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
     dev: false
 
   file:projects/identity.tgz:
@@ -20682,7 +20802,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-/KAKSZD3InlQSaS4sF7RFi5sxZH+38eHjRbVP6/AzVtzz6e9cR9rAJvG9ffbEEodn0znE1We00qAVbMQQB0dqg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-oFZBCkmzOfAe/6o3MolyvY6IlmFANQFBxz2x99rmNOwYWrWFstP5LWTOluKzFAnafGtkPTb8PdzL/Uyk0LgKuw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -21297,7 +21417,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-LR01bnuhUjLmqWd+4Ti/9Dywdu8VzgOZEi8mjK9OX0DQeXH9BItASAMtCrmzSwffCdEORSMg8jbFXb1wAjFO/w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-P2Dn/x4ZkmwEL4t6zD5ObCNR6bIcDs+rMqO0flALaeTGiAPXF0RN98ZSJmEofy57xTtT7jhOJwRBaRV9MMUPtw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -21308,6 +21428,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -21325,19 +21447,33 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/mock-hub.tgz:
@@ -22332,7 +22468,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-1klhp8mezs4wRSJHc86lzMqH4vCtP8AEgdnPWyyQ54FhWw8xpHjBXDxNffumdJDlI+ZpOawvsczRsqMR7Wgw+w==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-EaLGlOUQ2CrimwA50SUS/N7P2x6i+uyHvqbqHFRgMCWB8g3vyl8dDQH5Y3EMcQiO41fAg75nTPtwatsIkAYNLg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22342,6 +22478,9 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -22358,19 +22497,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/schema-registry-avro.tgz:
