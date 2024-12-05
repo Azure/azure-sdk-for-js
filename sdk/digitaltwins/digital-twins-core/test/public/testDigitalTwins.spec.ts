@@ -6,8 +6,8 @@ import type {
   DigitalTwinsAddOptionalParams,
   DigitalTwinsDeleteOptionalParams,
   DigitalTwinsUpdateOptionalParams,
-} from "../../src";
-import { authenticate } from "../utils/testAuthentication";
+} from "../../src/index.js";
+import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
@@ -969,7 +969,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
   it("publish telemetry", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const digitalTwinId = recorder.variable(
       "digitalTwin",

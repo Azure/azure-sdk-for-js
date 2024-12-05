@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
+import type { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src/index.js";
+import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -359,7 +359,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
 
   it("publish component telemetry", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
@@ -381,7 +381,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
 
   it("publish component telemetry with message id", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
@@ -403,7 +403,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
 
   it("publish component telemetry not existing", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);

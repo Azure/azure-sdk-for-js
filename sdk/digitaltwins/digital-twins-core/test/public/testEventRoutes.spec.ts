@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DigitalTwinsClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
+import type { DigitalTwinsClient } from "../../src/index.js";
+import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
 describe("DigitalTwins EventRoutes - create, read, list and delete operations", () => {
