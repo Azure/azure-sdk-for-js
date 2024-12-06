@@ -67,9 +67,11 @@ export function getEntropy(): string {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 
-export async function removeAllDatabases(): Promise<void> {
+export async function removeAllDatabases(client?: CosmosClient): Promise<void> {
   try {
-    const client = getDefaultClient();
+    if (!client) {
+      client = getDefaultClient();
+    }
     const { resources: databases } = await client.databases.readAll().fetchAll();
     const length = databases.length;
 
