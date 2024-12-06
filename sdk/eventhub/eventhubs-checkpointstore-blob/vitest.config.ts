@@ -14,7 +14,7 @@ export default mergeConfig(
       include: ["test/**/*.spec.ts"],
       typecheck: {
         enabled: true,
-        tsconfig: "tsconfig.tests.json",
+        tsconfig: "tsconfig.test.json",
         include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
       }
     },
