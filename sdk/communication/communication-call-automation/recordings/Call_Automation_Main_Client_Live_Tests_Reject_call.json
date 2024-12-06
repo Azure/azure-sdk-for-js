@@ -17,53 +17,53 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "sanitized"
+    "correlationId": "f400cbb1-3c2e-473e-88a0-9cd7068f81a1"
   },
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/0f001d80-4e53-4ef1-9cfc-4f4177996c61",
+      "source": "calling/callConnections/10002180-bdb6-4535-a53d-8c864a46c3af",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
         "version": "2024-09-01-preview",
         "operationContext": "operationContextRejectCall",
         "resultInformation": {
-          "code": 200,
-          "subCode": 5002,
-          "message": "The conversation has ended. DiagCode: 0#5002.@"
+          "code": 603,
+          "subCode": 0,
+          "message": "Decline. DiagCode: 603#0.@"
         },
-        "callConnectionId": "0f001d80-4e53-4ef1-9cfc-4f4177996c61",
+        "callConnectionId": "10002180-bdb6-4535-a53d-8c864a46c3af",
         "serverCallId": "sanitized",
-        "correlationId": "sanitized",
+        "correlationId": "f400cbb1-3c2e-473e-88a0-9cd7068f81a1",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2024-12-06T00:05:11.7145761+00:00",
+      "time": "2024-12-06T19:11:18.9036677+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/0f001d80-4e53-4ef1-9cfc-4f4177996c61"
+      "subject": "calling/callConnections/10002180-bdb6-4535-a53d-8c864a46c3af"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/0f001d80-4e53-4ef1-9cfc-4f4177996c61",
+      "source": "calling/callConnections/10002180-bdb6-4535-a53d-8c864a46c3af",
       "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
         "version": "2024-09-01-preview",
         "resultInformation": {
-          "code": 200,
-          "subCode": 5002,
-          "message": "The conversation has ended. DiagCode: 0#5002.@"
+          "code": 603,
+          "subCode": 0,
+          "message": "Decline. DiagCode: 603#0.@"
         },
-        "callConnectionId": "0f001d80-4e53-4ef1-9cfc-4f4177996c61",
+        "callConnectionId": "10002180-bdb6-4535-a53d-8c864a46c3af",
         "serverCallId": "sanitized",
-        "correlationId": "sanitized",
+        "correlationId": "f400cbb1-3c2e-473e-88a0-9cd7068f81a1",
         "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2024-12-06T00:05:11.7145761+00:00",
+      "time": "2024-12-06T19:11:18.9031127+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/0f001d80-4e53-4ef1-9cfc-4f4177996c61"
+      "subject": "calling/callConnections/10002180-bdb6-4535-a53d-8c864a46c3af"
     }
   ]
 ]

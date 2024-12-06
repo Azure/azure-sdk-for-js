@@ -288,7 +288,6 @@ export function persistEvents(testName: string): void {
         "id",
         "incomingCallContext",
         "value",
-        "correlationId",
         "serverCallId",
       ]);
       sanitizedEvents.push(jsonData);
