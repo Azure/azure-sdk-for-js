@@ -13,11 +13,10 @@ import {
 } from "../util/tenantIdUtils.js";
 
 import type { AuthenticationRecord } from "../msal/types.js";
-import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode.js";
-import type { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon.js";
-import type { MsalFlow } from "../msal/browserFlows/flows.js";
+import type { MsalBrowserClient, MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
+import { createMsalBrowserClient } from "../msal/browserFlows/msalAuthCode.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -28,7 +27,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private msalFlow: MsalBrowserClient;
   private disableAutomaticAuthentication?: boolean;
 
   /**
@@ -84,7 +83,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri,
     };
 
-    this.msalFlow = new MSALAuthCode(msalOptions);
+    this.msalFlow = createMsalBrowserClient(msalOptions);
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
