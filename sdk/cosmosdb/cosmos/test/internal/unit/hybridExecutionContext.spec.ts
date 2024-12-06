@@ -81,10 +81,10 @@ describe("hybridQueryExecutionContext", () => {
 
   describe("initialize Method", async () => {
     it("initialize Method should get executed correctly", async () => {
-      vi.mocked(context["globalStatisticsExecutionContext"].hasMoreResults)
+      vi.spyOn(context["globalStatisticsExecutionContext"], "hasMoreResults")
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false);
-      vi.mocked(context["globalStatisticsExecutionContext"].nextItem).mockResolvedValueOnce({
+      vi.spyOn(context["globalStatisticsExecutionContext"], "nextItem").mockResolvedValueOnce({
         result: {
           documentCount: 2,
           fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],

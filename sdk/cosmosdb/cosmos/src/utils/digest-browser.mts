@@ -11,7 +11,7 @@ export async function digest(str: string): Promise<string> {
 }
 
 function bufferToHex(buffer: ArrayBuffer): string {
-  return Array.prototype.map
-    .call(new Uint8Array(buffer), (item: number) => ("00" + item.toString(16)).slice(-2))
+  return Array.from(new Uint8Array(buffer))
+    .map((item) => item.toString(16).padStart(2, "0"))
     .join("");
 }

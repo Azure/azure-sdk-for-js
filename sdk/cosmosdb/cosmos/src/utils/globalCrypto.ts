@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-window
-const globalRef: any = typeof self === "undefined" ? window : self;
-
-if (!globalRef) {
-  throw new Error("Could not find global");
-}
-
-const globalCrypto: Crypto = globalRef.crypto || globalRef.msCrypto;
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+const globalCrypto: Crypto = globalThis.crypto;
 
 if (!globalCrypto || !globalCrypto.subtle) {
   throw new Error("Browser does not support cryptography functions");
