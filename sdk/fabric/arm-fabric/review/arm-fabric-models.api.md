@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -32,55 +30,6 @@ export interface CheckNameAvailabilityResponse {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FabricCapacitiesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FabricCapacitiesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesListSkusForCapacityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FabricCapacitiesResumeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FabricCapacitiesSuspendOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FabricCapacitiesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface FabricCapacity extends TrackedResource {
@@ -161,7 +110,7 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownRpSkuTier {
-    fabric = "Fabric"
+    Fabric = "Fabric"
 }
 
 // @public
@@ -179,10 +128,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public

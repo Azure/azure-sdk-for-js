@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export type Transformer<TFrom, TTo> = (input: TFrom) => TTo;
 export class TransformingPagedAsyncIterableIterator<

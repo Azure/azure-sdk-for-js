@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 
 import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
+import type { PluginConfig, CosmosClientOptions } from "../../../src";
+import { PluginOn } from "../../../src";
 import { expect } from "chai";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
 

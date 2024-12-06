@@ -1,18 +1,9 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0 (2024-11-15)
 
 ### Other Changes
-
-## 2.0.0 (Unreleased)
-### Other Changes
-This is a GA release. No new features added.
+- Renamed SingleDocumentTranslationClient's API from `document_translate` to `translate`
 
 ## 1.0.0-beta.2 (2024-07-01)
 

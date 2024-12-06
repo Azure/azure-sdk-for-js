@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Suite } from "mocha";
-import { assert } from "@azure-tools/test-utils";
-import createAuthoringClient from "../../src";
+import createAuthoringClient from "../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
-describe(`Authoring Test`, function (this: Suite) {
-  it("Random endpoint", async function () {
+import { describe, it, assert } from "vitest";
+
+describe(`Authoring Test`, () => {
+  it("Random endpoint", async () => {
     try {
       const client = createAuthoringClient(
         "Random Endpoint",

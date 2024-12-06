@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
-import {
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
   BrokerProperties,
   PublishCloudEventOptionalParams,
   ReceiveCloudEventsOptionalParams,
@@ -11,7 +11,7 @@ import {
   RenewCloudEventLocksOptionalParams,
   EventGridClientOptions as EventGridOptions,
   ReleaseDelay,
-} from "./cadl-generated";
+} from "./cadl-generated/index.js";
 
 /** Send Event Options */
 export interface SendEventOptions extends OperationOptions {
@@ -50,7 +50,7 @@ export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {}
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {}
 
 /** Known values of {@link ReleaseDelay} that the service accepts. */
-export const enum KnownReleaseDelay {
+export enum KnownReleaseDelay {
   /** Ten Minutes */
   TenMinutes = "600",
 

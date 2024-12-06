@@ -11,8 +11,8 @@ import {
   AVRO_SYNC_MARKER_SIZE,
 } from "./AvroConstants";
 import { AvroParser, AvroType } from "./AvroParser";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AvroReadable } from "./AvroReadable";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AvroReadable } from "./AvroReadable";
 import { arraysEqual } from "./utils/utils.common";
 
 /**

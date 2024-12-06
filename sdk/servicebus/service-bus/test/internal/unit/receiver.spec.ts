@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ReceiverOptions } from "rhea-promise";
+import type { ReceiverOptions } from "rhea-promise";
 import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
@@ -10,9 +10,9 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
 } from "./unittestUtils.js";
-import { InternalMessageHandlers } from "../../../src/models.js";
+import type { InternalMessageHandlers } from "../../../src/models.js";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { assertThrows } from "../../public/utils/testUtils.js";

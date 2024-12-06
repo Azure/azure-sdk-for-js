@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChunkFactory } from "./ChunkFactory";
-import { ShardCursor } from "./models/ChangeFeedCursor";
+import type { ChunkFactory } from "./ChunkFactory";
+import type { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Chunk } from "./Chunk";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import type { Chunk } from "./Chunk";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { tracingClient } from "./utils/tracing";
 
 /**

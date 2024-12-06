@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, expect } from "@azure-tools/test-utils";
-import { WebPubSubClientOptions } from "../src/models";
-import { WebPubSubJsonProtocol } from "../src/protocols";
-import { WebPubSubClient } from "../src/webPubSubClient";
-import { WebPubSubClientCredential } from "../src/webPubSubClientCredential";
+import type { WebPubSubClientOptions } from "../src/models/index.js";
+import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
+import { WebPubSubClient } from "../src/webPubSubClient.js";
+import type { WebPubSubClientCredential } from "../src/webPubSubClientCredential.js";
+import { describe, it, assert, expect } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Construct a new client and options", () => {
@@ -60,7 +60,7 @@ describe("WebPubSubClient", function () {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const client = new WebPubSubClient({ getClientAccessUrl: async (_) => new { obj: "val" }() });
-      await expect(client.start()).to.be.rejectedWith(Error);
+      await expect(() => client.start()).rejects.toThrowError(Error);
     });
   });
 });

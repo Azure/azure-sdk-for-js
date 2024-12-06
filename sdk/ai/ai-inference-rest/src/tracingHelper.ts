@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TracingSpan } from "@azure/core-tracing";
-import { GetChatCompletionsBodyParam } from "./parameters.js";
-import {
+import type { TracingSpan } from "@azure/core-tracing";
+import type { GetChatCompletionsBodyParam } from "./parameters.js";
+import type {
   ChatRequestAssistantMessage,
   ChatRequestMessage,
   ChatRequestSystemMessage,
   ChatRequestToolMessage,
 } from "./models.js";
-import {
+import type {
   ChatChoiceOutput,
   ChatCompletionsOutput,
   ChatCompletionsToolCallOutput,
 } from "./outputModels.js";
 import { isError } from "@azure/core-util";
-import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
 const isContentRecordingEnabled = () =>

@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import Long from "long";
-import { ServiceBusMessage, delay } from "../../src/index.js";
+import type { ServiceBusMessage } from "../../src/index.js";
+import { delay } from "../../src/index.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
-import { ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusClientForTests, EntityName } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
   getRandomTestClientTypeWithSessions,
-  EntityName,
   getRandomTestClientType,
 } from "./utils/testutils2.js";
-import { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusSender } from "../../src/index.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { should } from "./utils/chai.js";

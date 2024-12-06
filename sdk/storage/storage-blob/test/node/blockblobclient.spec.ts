@@ -18,26 +18,28 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils";
-import {
-  BlockBlobClient,
-  newPipeline,
+import type {
   StorageSharedKeyCredential,
   BlobClient,
   ContainerClient,
   BlobServiceClient,
+} from "../../src";
+import {
+  BlockBlobClient,
+  newPipeline,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   getBlobServiceAccountAudience,
   SASProtocol,
   AnonymousCredential,
 } from "../../src";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlockBlobClient Node.js only", () => {

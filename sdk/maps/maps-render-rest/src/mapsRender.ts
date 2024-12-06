@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  AzureSASCredential,
-  isSASCredential,
-  isTokenCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsRenderClient } from "./generated";
-import createClient from "./generated/mapsRenderClient";
+import type { MapsRenderClient } from "./generated/index.js";
+import createClient from "./generated/mapsRenderClient.js";
 
 /**
  * Creates an instance of MapsRenderClient from a subscription key.

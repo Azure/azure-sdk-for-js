@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTracingClient, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
-import { ConnectionConfig } from "@azure/core-amqp";
+import type { TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import type { ConnectionConfig } from "@azure/core-amqp";
 import { packageJsonInfo } from "../util/constants.js";
 
 /**

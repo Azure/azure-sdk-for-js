@@ -1,25 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import * as os from "os";
-import {
-  MeterProvider,
+import type {
   MeterProviderOptions,
-  PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../../shared/config";
-import {
-  Meter,
-  ObservableGauge,
-  ObservableResult,
-  SpanKind,
-  SpanStatusCode,
-  ValueType,
-  context,
-} from "@opentelemetry/api";
-import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import {
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../../shared/config";
+import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type {
   DocumentIngress,
   Exception,
   MonitoringDataPoint,
@@ -30,12 +23,11 @@ import {
   /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
-  KnownCollectionConfigurationErrorType,
   KeyValuePairString,
   DerivedMetricInfo,
-  KnownTelemetryType,
   FilterConjunctionGroupInfo,
 } from "../../generated";
+import { KnownCollectionConfigurationErrorType, KnownTelemetryType } from "../../generated";
 import {
   getCloudRole,
   getCloudRoleInstance,
@@ -54,8 +46,7 @@ import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import {
-  QuickPulseOpenTelemetryMetricNames,
+import type {
   QuickpulseExporterOptions,
   RequestData,
   DependencyData,
@@ -63,9 +54,10 @@ import {
   ExceptionData,
   TelemetryData,
 } from "./types";
+import { QuickPulseOpenTelemetryMetricNames } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
-import { CollectionConfigurationError } from "../../generated";
+import type { CollectionConfigurationError } from "../../generated";
 import { Filter } from "./filtering/filter";
 import { Validator } from "./filtering/validator";
 import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker";
@@ -184,13 +176,17 @@ export class LiveMetrics {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
+      credentialScopes:
+        parsedConnectionString.aadaudience ||
+        this.config.azureMonitorExporterOptions.credentialScopes,
     });
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
+      credentialScopes:
+        parsedConnectionString.aadaudience ||
+        this.config.azureMonitorExporterOptions.credentialScopes,
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),

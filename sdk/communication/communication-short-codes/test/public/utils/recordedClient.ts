@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 import * as dotenv from "dotenv";
 
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { ShortCodesClient } from "../../../src";
+import { ShortCodesClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
 if (isNodeLike) {
   dotenv.config();
@@ -54,9 +54,9 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<ShortCodesClient>> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
@@ -93,9 +93,9 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<ShortCodesClient> | undefined> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;

@@ -14,7 +14,7 @@ import {
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityResponse,
   OperationsRegionalCheckNameAvailabilityOptionalParams,
-  OperationsRegionalCheckNameAvailabilityResponse
+  OperationsRegionalCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface Operations {
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationDefinition>;
   /**
    * Checks whether the configuration store name is available for use.
@@ -35,7 +35,7 @@ export interface Operations {
    */
   checkNameAvailability(
     checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: OperationsCheckNameAvailabilityOptionalParams
+    options?: OperationsCheckNameAvailabilityOptionalParams,
   ): Promise<OperationsCheckNameAvailabilityResponse>;
   /**
    * Checks whether the configuration store name is available for use.
@@ -47,6 +47,6 @@ export interface Operations {
   regionalCheckNameAvailability(
     location: string,
     checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: OperationsRegionalCheckNameAvailabilityOptionalParams
+    options?: OperationsRegionalCheckNameAvailabilityOptionalParams,
   ): Promise<OperationsRegionalCheckNameAvailabilityResponse>;
 }

@@ -2,22 +2,28 @@
 // Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-import { ClientContext } from "./ClientContext";
+import type { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import {
+import type {
   CosmosHeaders,
-  DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
+  SqlQuerySpec,
+} from "./queryExecutionContext";
+import {
+  DefaultQueryExecutionContext,
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec,
 } from "./queryExecutionContext";
-import { Response } from "./request";
-import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { FeedOptions } from "./request/FeedOptions";
+import type { Response } from "./request";
+import type {
+  ErrorResponse,
+  PartitionedQueryExecutionInfo,
+  QueryRange,
+} from "./request/ErrorResponse";
+import type { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 import {
   getEmptyCosmosDiagnostics,
@@ -26,6 +32,8 @@ import {
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { randomUUID } from "@azure/core-util";
+import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
+import { PartitionKeyRangeCache } from "./routing";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -40,6 +48,8 @@ export class QueryIterator<T> {
   private isInitialized: boolean;
   private correlatedActivityId: string;
   private nonStreamingOrderBy: boolean = false;
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
+
   /**
    * @hidden
    */
@@ -58,6 +68,7 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
   /**
@@ -96,7 +107,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createPipelinedExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore(diagnosticNode);
           } catch (queryError: any) {
@@ -174,15 +185,14 @@ export class QueryIterator<T> {
         MetadataLookUpType.QueryPlanLookUp,
       );
       if (!this.isInitialized) {
-        await this.init();
+        await this.init(diagnosticNode);
       }
-
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createPipelinedExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore(diagnosticNode);
           } catch (queryError: any) {
@@ -229,7 +239,7 @@ export class QueryIterator<T> {
 
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     if (!this.isInitialized) {
-      await this.init();
+      await this.init(diagnosticNode);
     }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -237,7 +247,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.nextItem(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createPipelinedExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           response = await this.queryExecutionContext.nextItem(diagnosticNode);
         } else {
           throw error;
@@ -266,7 +276,7 @@ export class QueryIterator<T> {
     );
   }
 
-  private async createPipelinedExecutionContext(): Promise<void> {
+  private async createExecutionContext(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     const queryPlanResponse = await this.queryPlanPromise;
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
@@ -274,7 +284,45 @@ export class QueryIterator<T> {
       throw queryPlanResponse;
     }
 
-    const queryPlan = queryPlanResponse.result;
+    const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
+    if (queryPlan.hybridSearchQueryInfo && queryPlan.hybridSearchQueryInfo !== null) {
+      await this.createHybridQueryExecutionContext(queryPlan, diagnosticNode);
+    } else {
+      await this.createPipelinedExecutionContext(queryPlan);
+    }
+  }
+
+  private async createHybridQueryExecutionContext(
+    queryPlan: PartitionedQueryExecutionInfo,
+    diagnosticNode?: DiagnosticNodeInternal,
+  ): Promise<void> {
+    const allPartitionKeyRanges = (
+      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
+
+    // convert allPartitionKeyRanges to QueryRanges
+    const queryRanges: QueryRange[] = allPartitionKeyRanges.map((partitionKeyRange) => {
+      return {
+        min: partitionKeyRange.minInclusive,
+        max: partitionKeyRange.maxExclusive,
+        isMinInclusive: true,
+        isMaxInclusive: false,
+      };
+    });
+
+    this.queryExecutionContext = new HybridQueryExecutionContext(
+      this.clientContext,
+      this.resourceLink,
+      this.options,
+      queryPlan,
+      this.correlatedActivityId,
+      queryRanges,
+    );
+  }
+
+  private async createPipelinedExecutionContext(
+    queryPlan: PartitionedQueryExecutionInfo,
+  ): Promise<void> {
     const queryInfo = queryPlan.queryInfo;
     this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
@@ -319,18 +367,18 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init(): Promise<void> {
+  private async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }
     if (this.initPromise === undefined) {
-      this.initPromise = this._init();
+      this.initPromise = this._init(diagnosticNode);
     }
     return this.initPromise;
   }
-  private async _init(): Promise<void> {
+  private async _init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
-      await this.createPipelinedExecutionContext();
+      await this.createExecutionContext(diagnosticNode);
     }
     this.isInitialized = true;
   }

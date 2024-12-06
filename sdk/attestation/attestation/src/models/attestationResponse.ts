@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AttestationToken } from "./attestationToken";
+import type { AttestationToken } from "./attestationToken.js";
 
 /**
  * An AttestationResponse represents the response from the Microsoft Azure

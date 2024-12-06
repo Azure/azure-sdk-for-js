@@ -2,18 +2,14 @@
 // Licensed under the MIT License.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import {
-  KnownSchemaFormats,
-  Schema,
-  SchemaDescription,
-  SchemaProperties,
-  SchemaRegistryClient,
-} from "../../src";
+import type { Schema, SchemaDescription, SchemaProperties } from "../../src";
+import { KnownSchemaFormats, SchemaRegistryClient } from "../../src";
 import { assert, matrix } from "@azure-tools/test-utils";
-import { createRecordedClient, Format, recorderOptions } from "./utils/recordedClient";
+import type { Format } from "./utils/recordedClient";
+import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
 import { ClientSecretCredential } from "@azure/identity";
-import { Context } from "mocha";
-import { HttpHeaders } from "@azure/core-rest-pipeline";
+import type { Context } from "mocha";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
 
 const options = {
   onResponse: (rawResponse: { status: number; bodyAsText?: string | null }) => {

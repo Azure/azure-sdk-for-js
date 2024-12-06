@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Container, ContainerDefinition, IndexingMode } from "../../../src";
+import type { Suite } from "mocha";
+import type { Container, ContainerDefinition } from "../../../src";
+import { IndexingMode } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
-import { QueryIterator } from "../../../src";
-import { SqlQuerySpec } from "../../../src";
-import { FeedOptions } from "../../../src";
+import type { QueryIterator } from "../../../src";
+import type { SqlQuerySpec } from "../../../src";
+import type { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { expect } from "chai";

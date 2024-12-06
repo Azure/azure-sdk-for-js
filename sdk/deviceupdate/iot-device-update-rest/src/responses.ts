@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   UpdateListOutput,
   ErrorResponseOutput,
   UpdateOutput,
@@ -34,7 +34,7 @@ import {
   LogCollectionListOutput,
   LogCollectionOperationDetailedStatusOutput,
   DeviceHealthListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
 export interface DeviceUpdateListUpdates200Response extends HttpResponse {

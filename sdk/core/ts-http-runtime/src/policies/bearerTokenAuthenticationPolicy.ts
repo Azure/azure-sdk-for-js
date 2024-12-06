@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-import { TypeSpecRuntimeLogger } from "../logger/logger.js";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
+import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 
@@ -109,7 +109,6 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
-    tracingOptions: request.tracingOptions,
   };
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 

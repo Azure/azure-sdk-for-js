@@ -7,7 +7,6 @@ import { JobRouterClient, RouterWorkerItem } from "@azure/communication-job-rout
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { assert } from "chai";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";

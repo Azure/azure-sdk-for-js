@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
-import { delay } from "../../util";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
+import type { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult.js";
+import { delay } from "../../util.js";
 
-import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
-import {
+import type { AnalysisPollerOptions } from "../poller.js";
+import { AnalysisPoller } from "../poller.js";
+import type {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
-  BeginAnalyzeHealthcarePollerOperation,
-} from "./operation";
+} from "./operation.js";
+import { BeginAnalyzeHealthcarePollerOperation } from "./operation.js";
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.

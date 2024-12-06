@@ -1,32 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GeneratedClient } from "./generated/generatedClient";
+import { GeneratedClient } from "./generated/generatedClient.js";
 
-import { AttestationResult, AttestationSigner, AttestationTokenValidationOptions } from "./models";
+import type {
+  AttestationResult,
+  AttestationSigner,
+  AttestationTokenValidationOptions,
+} from "./models/index.js";
 
-import {
+import type {
   GeneratedAttestationResult,
   InitTimeData,
-  KnownDataType,
   RuntimeData,
-} from "./generated/models";
+} from "./generated/models/index.js";
+import { KnownDataType } from "./generated/models/index.js";
 
-import { logger } from "./logger";
-import { GeneratedClientOptionalParams } from "./generated/models";
-import * as Mappers from "./generated/models/mappers";
+import { logger } from "./logger.js";
+import type { GeneratedClientOptionalParams } from "./generated/models/index.js";
+import * as Mappers from "./generated/models/mappers.js";
 
-import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
+import type { AttestationResponse } from "./models/attestationResponse.js";
+import { createAttestationResponse } from "./models/attestationResponse.js";
 
-import { TypeDeserializer } from "./utils/typeDeserializer";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { bytesToString, stringToBytes } from "./utils/utf8";
-import { _attestationResultFromGenerated } from "./models/attestationResult";
-import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { AttestationTokenImpl } from "./models/attestationToken";
-import { Uint8ArrayFromInput } from "./utils/buffer";
-import { tracingClient } from "./generated/tracing";
+import { TypeDeserializer } from "./utils/typeDeserializer.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { bytesToString, stringToBytes } from "./utils/utf8.js";
+import { _attestationResultFromGenerated } from "./models/attestationResult.js";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
+import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { Uint8ArrayFromInput } from "./utils/buffer.js";
+import { tracingClient } from "./generated/tracing.js";
 
 /**
  * Attestation Client Construction Options.

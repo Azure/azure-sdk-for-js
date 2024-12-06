@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConversationAnalysisClient, ConversationAnalysisOptions } from "../../../src/";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import type { ConversationAnalysisOptions } from "../../../src/index.js";
+import { ConversationAnalysisClient } from "../../../src/index.js";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -24,6 +21,7 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK2030"],
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Send a request to start a rollback of the current application upgrade. This will start rolling back the application to the previous version.
  *
  * @summary Send a request to start a rollback of the current application upgrade. This will start rolling back the application to the previous version.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationActionStartRollback_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationActionStartRollback_example.json
  */
 async function startAnApplicationUpgradeRollback() {
   const subscriptionId =

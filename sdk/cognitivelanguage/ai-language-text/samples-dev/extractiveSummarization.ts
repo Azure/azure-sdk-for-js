@@ -9,15 +9,11 @@
  * @azsdk-weight 50
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -37,7 +33,7 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Extractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));

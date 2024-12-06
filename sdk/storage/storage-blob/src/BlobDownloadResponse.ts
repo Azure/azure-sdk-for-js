@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isNode } from "@azure/core-util";
-import { BlobImmutabilityPolicyMode } from "./generatedModels";
+import type { BlobImmutabilityPolicyMode } from "./generatedModels";
 
-import {
+import type {
   BlobDownloadHeaders,
   BlobType,
   CopyStatusType,
@@ -11,13 +11,13 @@ import {
   LeaseStateType,
   LeaseStatusType,
 } from "./generatedModels";
-import { BlobDownloadResponseParsed, Metadata, ObjectReplicationPolicy } from "./models";
-import {
+import type { BlobDownloadResponseParsed, Metadata, ObjectReplicationPolicy } from "./models";
+import type {
   ReadableStreamGetter,
-  RetriableReadableStream,
   RetriableReadableStreamOptions,
 } from "./utils/RetriableReadableStream";
-import { ResponseWithHeaders } from "./utils/utils.common";
+import { RetriableReadableStream } from "./utils/RetriableReadableStream";
+import type { ResponseWithHeaders } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

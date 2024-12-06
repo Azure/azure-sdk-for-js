@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, HttpResponse } from "@azure-rest/core-client";
-import {
+import type { Client, HttpResponse } from "@azure-rest/core-client";
+import type {
   CreateHttpPollerOptions,
   LongRunningOperation,
   LroResponse,
   OperationState,
   SimplePollerLike,
-  createHttpPoller,
 } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.

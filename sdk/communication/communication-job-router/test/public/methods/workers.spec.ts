@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type {
+  JobRouterAdministrationClient,
+  JobRouterClient,
+  RouterWorker,
+} from "../../../src/index.js";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
   getWorkerRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { sleep, timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { sleep, timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
@@ -28,10 +31,10 @@ describe("JobRouterClient", function () {
   const { workerId, workerRequest } = getWorkerRequest(testRunId);
 
   // Order matters (registration idempotency)
-  describe("Worker Operations", function () {
-    this.beforeEach(async function (this: Context) {
+  describe("Worker Operations", () => {
+    beforeEach(async (ctx) => {
       ({ client, administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+        await createRecordedRouterClientWithConnectionString(ctx));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
@@ -42,34 +45,34 @@ describe("JobRouterClient", function () {
       await client.createWorker(workerId, workerRequest);
     });
 
-    this.afterEach(async function (this: Context) {
+    afterEach(async (ctx) => {
       await client.deleteWorker(workerId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a worker", async function () {
+    it("should create a worker", { timeout: timeoutMs }, async () => {
       const result = await client.createWorker(workerId, workerRequest);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
       assert.equal(result.totalCapacity, workerRequest.totalCapacity);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a worker", async function () {
+    it("should get a worker", { timeout: timeoutMs }, async () => {
       const result = await client.getWorker(workerId);
 
       assert.equal(result.id, workerId);
       assert.equal(result.totalCapacity, workerRequest.totalCapacity);
       assert.deepEqual(result.channelConfigurations, workerRequest.channelConfigurations);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a worker", async function () {
+    it("should update a worker", { timeout: timeoutMs }, async () => {
       const updatePatch = {
         ...workerRequest,
         totalCapacity: 100,
@@ -87,9 +90,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult?.id);
       assert.equal(updateResult.totalCapacity, updatePatch.totalCapacity);
       assert.isEmpty(removeResult.tags);
-    }).timeout(timeoutMs);
+    });
 
-    it("should register and deregister a worker", async function () {
+    it("should register and deregister a worker", { timeout: timeoutMs }, async () => {
       const registerResult = await client.updateWorker(workerId, {
         ...workerRequest,
         availableForOffers: true,
@@ -107,21 +110,21 @@ describe("JobRouterClient", function () {
       assert.isDefined(deregisterResult);
       assert.isDefined(deregisterResult?.id);
       assert.equal(deregisterResult.availableForOffers, false);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list workers", async function () {
+    it("should list workers", { timeout: timeoutMs }, async () => {
       const result: RouterWorker[] = [];
       for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
         result.push(worker.worker!);
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a worker", async function () {
+    it("should delete a worker", { timeout: timeoutMs }, async () => {
       const result = await client.deleteWorker(workerId);
 
       assert.isDefined(result);
-    }).timeout(timeoutMs);
+    });
   });
 });

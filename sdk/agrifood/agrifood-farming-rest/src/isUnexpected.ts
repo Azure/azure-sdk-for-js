@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationDataList200Response,
   ApplicationDataListDefaultResponse,
   ApplicationDataCreateCascadeDeleteJob202Response,

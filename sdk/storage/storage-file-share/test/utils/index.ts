@@ -4,27 +4,27 @@
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
+import type { ShareClientConfig, ShareClientOptions } from "../../src";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
-  ShareClientConfig,
-  ShareClientOptions,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, configureStorageClient } from "./testutils.common";
-import { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 

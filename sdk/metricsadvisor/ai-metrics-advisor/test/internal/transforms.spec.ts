@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import {
+import type {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyFeedback as ServiceAnomalyFeedback,
   ChangePointFeedback as ServiceChangePointFeedback,
@@ -12,18 +9,19 @@ import {
   Granularity as ServiceGranularity,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration,
-} from "../../src/generated/models";
-import {
+} from "../../src/generated/models/index.js";
+import type {
   AzureBlobDataFeedSource,
   DataFeedGranularity,
   MetricDetectionCondition,
-} from "../../src/models";
+} from "../../src/models.js";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceMetricFeedbackUnion,
   toServiceGranularity,
-} from "../../src/transforms";
+} from "../../src/transforms.js";
+import { describe, it, assert } from "vitest";
 
 describe("Transforms", () => {
   it("fromServiceWholeMetricConfiguration()", () => {

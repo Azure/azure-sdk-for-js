@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { SqlQuerySpec } from "../../queryExecutionContext";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Resource } from "../Resource";
-import { User } from "../User";
+import type { FeedOptions, RequestOptions } from "../../request";
+import type { Resource } from "../Resource";
+import type { User } from "../User";
 import { Permission } from "./Permission";
-import { PermissionBody } from "./PermissionBody";
-import { PermissionDefinition } from "./PermissionDefinition";
+import type { PermissionBody } from "./PermissionBody";
+import type { PermissionDefinition } from "./PermissionDefinition";
 import { PermissionResponse } from "./PermissionResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

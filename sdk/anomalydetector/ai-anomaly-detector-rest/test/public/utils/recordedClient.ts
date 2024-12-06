@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import "./env";
-import AnomalyDetector, { AnomalyDetectorRestClient } from "../../../src";
+import type { AnomalyDetectorRestClient } from "../../../src";
+import AnomalyDetector from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {

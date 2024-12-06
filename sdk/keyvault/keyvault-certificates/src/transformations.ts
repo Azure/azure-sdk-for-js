@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { uint8ArrayToString } from "@azure/core-util";
-import {
+import type {
   ArrayOneOrMore,
   CertificateContentType,
   CertificateOperation,
@@ -16,7 +16,7 @@ import {
   CertificateContact,
   CertificateOperationError,
 } from "./certificatesModels.js";
-import {
+import type {
   CertificateAttributes,
   CertificateBundle,
   CertificatePolicy as CoreCertificatePolicy,

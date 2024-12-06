@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PipelineResponse,
-  RestError,
   PipelineRequest,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
+import type { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants.js";
@@ -18,12 +18,12 @@ import { Buffer } from "buffer";
 import { parseURL } from "./parseUrl.js";
 import { isJSONLikeObject } from "./utils.js";
 import { isDefined } from "@azure/core-util";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { InternalQueueOptions } from "../serializers/queueResourceSerializer.js";
-import { InternalTopicOptions } from "../serializers/topicResourceSerializer.js";
-import { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer.js";
-import { CreateRuleOptions } from "../serializers/ruleResourceSerializer.js";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { InternalQueueOptions } from "../serializers/queueResourceSerializer.js";
+import type { InternalTopicOptions } from "../serializers/topicResourceSerializer.js";
+import type { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer.js";
+import type { CreateRuleOptions } from "../serializers/ruleResourceSerializer.js";
 
 /**
  * @internal

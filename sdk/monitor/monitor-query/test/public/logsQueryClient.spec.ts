@@ -1,22 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { env } from "process";
-import {
-  RecorderAndLogsClient,
-  createRecorderAndLogsClient,
-  getLogsArmResourceId,
-} from "./shared/testShared";
+import type { RecorderAndLogsClient } from "./shared/testShared.js";
+import { createRecorderAndLogsClient, getLogsArmResourceId } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
-// import { runWithTelemetry } from "../setupOpenTelemetry";
-
-import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
-import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { LogsQueryClient, QueryBatch } from "../../src/index.js";
+import { Durations, LogsQueryResultStatus } from "../../src/index.js";
+import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared.js";
+import type { ErrorInfo } from "../../src/generated/logquery/src/index.js";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
@@ -26,9 +20,9 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
     logsResourceId = getLogsArmResourceId();
     monitorWorkspaceId = getMonitorWorkspaceId();
@@ -359,10 +353,10 @@ describe("LogsQueryClient live tests", function () {
   });
 
   describe.skip("Ingested data tests (can be slow due to loading times)", () => {
-    before(async function (this: Context) {
-      if (env.TEST_RUN_ID) {
-        loggerForTest.warning(`Using cached test run ID ${env.TEST_RUN_ID}`);
-        testRunId = env.TEST_RUN_ID;
+    beforeAll(async function () {
+      if (globalThis?.process?.env?.TEST_RUN_ID) {
+        loggerForTest.warning(`Using cached test run ID ${globalThis.process.env.TEST_RUN_ID}`);
+        testRunId = process.env.TEST_RUN_ID!;
       } else {
         testRunId = `ingestedDataTest-${Date.now()}`;
         // send some events
@@ -516,10 +510,10 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder, {
       maxRetries: 0,
       retryDelayInMs: 0,
@@ -535,7 +529,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async function (this: Context) {
+  it("serverTimeoutInSeconds", async function () {
     try {
       const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(

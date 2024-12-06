@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeBatchResult,
   KnownTextAnalysisErrorCode,
   PagedAnalyzeBatchResult,
-} from "../../../src/";
-import { assert } from "@azure-tools/test-utils";
+} from "../../../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { assert, chai } from "vitest";
+import chaiExclude from "chai-exclude";
+
+chai.use(chaiExclude);
 
 export async function assertActionsResults(
   actions: PagedAnalyzeBatchResult,

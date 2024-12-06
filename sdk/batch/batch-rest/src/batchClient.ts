@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential, AzureNamedKeyCredential, isTokenCredential } from "@azure/core-auth";
-import { BatchClient } from "./clientDefinitions.js";
+import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { BatchClient } from "./clientDefinitions.js";
 import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials.js";
 import { createReplacePoolPropertiesPolicy } from "./replacePoolPropertiesPolicy.js";
 

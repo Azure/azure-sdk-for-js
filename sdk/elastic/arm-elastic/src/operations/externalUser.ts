@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftElastic } from "../microsoftElastic";
 import {
   ExternalUserCreateOrUpdateOptionalParams,
-  ExternalUserCreateOrUpdateResponse
+  ExternalUserCreateOrUpdateResponse,
 } from "../models";
 
 /** Class containing ExternalUser operations. */
@@ -31,18 +31,18 @@ export class ExternalUserImpl implements ExternalUser {
   /**
    * Create User inside elastic deployment which are used by customers to perform operations on the
    * elastic deployment
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: ExternalUserCreateOrUpdateOptionalParams
+    options?: ExternalUserCreateOrUpdateOptionalParams,
   ): Promise<ExternalUserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -50,16 +50,15 @@ export class ExternalUserImpl implements ExternalUser {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createOrUpdateExternalUser",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createOrUpdateExternalUser",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalUserCreationResponse
+      bodyMapper: Mappers.ExternalUserCreationResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -67,9 +66,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

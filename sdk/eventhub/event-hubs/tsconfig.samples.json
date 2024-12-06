@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.nonlib.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/event-hubs": ["./dist/esm"]
+    }
+  },
+  "include": ["./samples-dev"]
+}

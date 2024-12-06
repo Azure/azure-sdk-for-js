@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
@@ -11,17 +11,19 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models";
-import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
+import type { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
 import {
   registerSchema,
   getSchemaProperties,
   getSchemaById,
   getSchemaByVersion,
 } from "./operations";
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { TokenCredential } from "@azure/core-auth";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 
 /**

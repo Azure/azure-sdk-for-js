@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
 
-import {
+import type {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
   RestRemoveParticipantSucceeded,
@@ -36,9 +36,9 @@ import {
   RestCreateCallFailed,
   RestAnswerFailed,
   RestHoldFailed,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 
-import { CallParticipant } from "./models";
+import type { CallParticipant } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =

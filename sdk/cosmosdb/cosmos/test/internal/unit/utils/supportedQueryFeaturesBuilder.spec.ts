@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import assert from "assert";
 import { supportedQueryFeaturesBuilder } from "../../../../src/utils/supportedQueryFeaturesBuilder";
-import { FeedOptions } from "../../../../src/request/FeedOptions";
+import type { FeedOptions } from "../../../../src/request/FeedOptions";
 
 describe("validate supportedQueryFeaturesBuilder", function () {
   it("should contain nonStreamingOrderBy feature", () => {

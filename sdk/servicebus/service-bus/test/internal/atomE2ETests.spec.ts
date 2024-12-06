@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
-  ServiceBusClient,
   ServiceBusMessage,
   SqlRuleFilter,
-  ServiceBusAdministrationClient,
 } from "../../src/index.js";
+import { ServiceBusClient, ServiceBusAdministrationClient } from "../../src/index.js";
 import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";

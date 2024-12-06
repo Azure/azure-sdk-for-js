@@ -1,58 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { OperationOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { OperationOptions } from "@azure/core-client";
 
-import {
-  AccessToken,
-  AzureKeyCredential,
-  TokenCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential, isTokenCredential } from "@azure/core-auth";
 
-import { RemoteRenderingRestClient } from "./generated";
-import {
-  AssetConversionSettings,
+import { RemoteRenderingRestClient } from "./generated/index.js";
+import type {
   RemoteRenderingCreateConversionResponse,
   RemoteRenderingCreateSessionResponse,
   RemoteRenderingRestClientOptionalParams,
+} from "./generated/models/index.js";
+import {
+  AssetConversionSettings,
   RenderingSessionSettings,
   UpdateSessionSettings,
-} from "./generated/models/index";
+} from "./generated/models/index.js";
 
-import { RemoteRenderingClientOptions } from "./options";
+import { RemoteRenderingClientOptions } from "./options.js";
 
-import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
-import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
-import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
-import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
+import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint.js";
+import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential.js";
+import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential.js";
+import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential.js";
 
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { tracingClient } from "./generated/tracing";
+import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
+import { tracingClient } from "./generated/tracing.js";
 
-import { PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { RemoteRenderingImpl } from "./generated/operations";
+import { RemoteRenderingImpl } from "./generated/operations/index.js";
 import {
   AssetConversionOperationState,
   AssetConversionPoller,
   AssetConversionPollerOptions,
-} from "./lro/assetConversionPoller";
+} from "./lro/assetConversionPoller.js";
 import {
   RenderingSessionOperationState,
   RenderingSessionPoller,
   RenderingSessionPollerOptions,
   PollerLikeWithCancellation,
-} from "./lro/renderingSessionPoller";
+} from "./lro/renderingSessionPoller.js";
 
 import {
   endSessionInternal,
   getConversionInternal,
   getSessionInternal,
-} from "./internal/commonQueries";
+} from "./internal/commonQueries.js";
 
 import {
   AssetConversion,
@@ -63,7 +61,7 @@ import {
   RunningAssetConversion,
   SucceededAssetConversion,
   assetConversionFromConversion,
-} from "./internal/assetConversion";
+} from "./internal/assetConversion.js";
 import {
   ErrorRenderingSession,
   ExpiredRenderingSession,
@@ -75,7 +73,7 @@ import {
   StartingRenderingSession,
   StoppedRenderingSession,
   renderingSessionFromSessionProperties,
-} from "./internal/renderingSession";
+} from "./internal/renderingSession.js";
 
 export {
   AssetConversion,
@@ -114,9 +112,9 @@ import {
   KnownRenderingServerSize,
   KnownRenderingSessionStatus,
   RenderingServerSize,
-} from "./generated/models/index";
+} from "./generated/models/index.js";
 
-import { RemoteRenderingServiceError } from "./remoteRenderingServiceError";
+import { RemoteRenderingServiceError } from "./remoteRenderingServiceError.js";
 
 export {
   AssetConversionInputSettings,

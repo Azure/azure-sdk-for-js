@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LanguageResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
-import {
-  DetectLanguageResult,
-  makeDetectLanguageErrorResult,
-  makeDetectLanguageResult,
-} from "./detectLanguageResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+import type {
+  LanguageResult,
+  TextDocumentBatchStatistics,
+  TextDocumentInput,
+} from "./generated/models/index.js";
+import type { DetectLanguageResult } from "./detectLanguageResult.js";
+import { makeDetectLanguageErrorResult, makeDetectLanguageResult } from "./detectLanguageResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `DetectLanguageResult` objects corresponding to a batch of input documents, and

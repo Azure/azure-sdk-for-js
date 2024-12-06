@@ -1,34 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { matrix } from "@azure-tools/test-utils";
-import { assert } from "chai";
-import fs from "fs";
-import { Context } from "mocha";
-import path from "path";
-import {
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { createReadStream } from "node:fs";
+import { join } from "node:path";
+import type {
   AnalyzedDocument,
-  DocumentAnalysisClient,
-  DocumentModelAdministrationClient,
   DocumentTable,
   DocumentModelDetails,
-  FormRecognizerFeature,
   DocumentBarcode,
-} from "../../../src";
-import { DocumentSelectionMarkField } from "../../../src/models/fields";
+} from "../../../src/index.js";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+  FormRecognizerFeature,
+} from "../../../src/index.js";
+import type { DocumentSelectionMarkField } from "../../../src/models/fields.js";
 import {
   createRecorder,
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../../utils/recordedClients";
-import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
-import { createValidator } from "../../utils/fieldValidator";
-
-import { PrebuiltModels } from "../../utils/prebuilts";
-import { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument";
-import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
+} from "../../utils/recordedClients.js";
+import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions.js";
+import { createValidator } from "../../utils/fieldValidator.js";
+import { PrebuiltModels } from "../../utils/prebuilts.js";
+import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument.js";
+import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 
@@ -41,8 +42,8 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await createRecorder(ctx);
       await recorder.setMatcher("BodilessMatcher");
       client = new DocumentAnalysisClient(
         endpoint(),
@@ -51,7 +52,7 @@ matrix([[true, false]] as const, async (useAad) => {
       );
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       if (recorder) {
         await recorder.stop();
       }
@@ -59,8 +60,8 @@ matrix([[true, false]] as const, async (useAad) => {
 
     describe("content analysis", () => {
       it("pdf file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "Invoice_1.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
@@ -79,8 +80,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("png file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "receipt", "contoso-receipt.png");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           "prebuilt-layout",
@@ -98,8 +99,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("jpeg file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "Form_1.jpg");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
@@ -117,8 +118,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("tiff file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.tiff");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "Invoice_1.tiff");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
@@ -136,8 +137,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("pdf file stream without passing content type", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "Invoice_1.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
@@ -173,8 +174,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("with selection marks", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "selection_mark_form.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
@@ -255,7 +256,7 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      it("barcode", async function () {
+      it("barcode", async () => {
         const url = makeTestUrl("/barcode2.tif");
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-read", url, {
@@ -278,7 +279,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(barcode2.value, "SYN121720213429");
       });
 
-      it("annotations", async function () {
+      it("annotations", async () => {
         const url = makeTestUrl("/annotations.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
@@ -292,7 +293,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
       });
 
-      it("formula", async function () {
+      it("formula", async () => {
         const url = makeTestUrl("/formula1.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-document", url, {
@@ -383,8 +384,8 @@ matrix([[true, false]] as const, async (useAad) => {
       it("with selection marks", async () => {
         const { modelId } = await requireModel();
 
-        const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "selection_mark_form.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(modelId, stream, testPollingOptions);
         const { pages, documents } = await poller.pollUntilDone();
@@ -409,8 +410,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("png file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "forms", "Invoice_1.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
@@ -460,8 +461,8 @@ matrix([[true, false]] as const, async (useAad) => {
           ],
         });
 
-        const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "receipt", "contoso-receipt.png");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
@@ -507,8 +508,8 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           ],
         });
-        const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
@@ -611,8 +612,8 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           ],
         });
-        const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
@@ -685,8 +686,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("jpg file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "businessCard", "business-card-english.jpg");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.BusinessCard,
@@ -827,8 +828,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("pdf file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "invoice", "Invoice_1.pdf");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "invoice", "Invoice_1.pdf");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
@@ -915,8 +916,8 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("png file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "identityDocument", "license.png");
-        const stream = fs.createReadStream(filePath);
+        const filePath = join(ASSET_PATH, "identityDocument", "license.png");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
@@ -1095,9 +1096,9 @@ matrix([[true, false]] as const, async (useAad) => {
         ],
       });
 
-      it("png file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "w2", "w2-single.png");
-        const stream = fs.createReadStream(filePath);
+      it("png file stream", async () => {
+        const filePath = join(ASSET_PATH, "w2", "w2-single.png");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.TaxUsW2,
@@ -1116,7 +1117,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
     });
 
-    describe("healthInsuranceCard - US", function () {
+    describe("healthInsuranceCard - US", { timeout: 600000 }, () => {
       const validator = createValidator({
         insurer: "PREMERA BLUE CROSS",
         member: {
@@ -1147,9 +1148,9 @@ matrix([[true, false]] as const, async (useAad) => {
         },
       });
 
-      it("png file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
-        const stream = fs.createReadStream(filePath);
+      it("png file stream", async () => {
+        const filePath = join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
+        const stream = createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.HealthInsuranceCardUs,
@@ -1165,5 +1166,5 @@ matrix([[true, false]] as const, async (useAad) => {
         validator(healthInsuranceCard as AnalyzedDocument);
       });
     });
-  }).timeout(60000);
+  });
 });

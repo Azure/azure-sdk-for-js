@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 import { receiverLogger as logger } from "../log.js";
-import {
+import type {
   AmqpError,
   EventContext,
   OnAmqpEvent,
-  ReceiverEvents,
-  SessionEvents,
   Receiver as RheaPromiseReceiver,
   Session,
 } from "rhea-promise";
+import { ReceiverEvents, SessionEvents } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage.js";
-import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
-import { ConnectionContext } from "../connectionContext.js";
+import type { OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
+import { MessageReceiver } from "./messageReceiver.js";
+import type { ConnectionContext } from "../connectionContext.js";
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils.js";
 import { receiveDrainTimeoutInMs } from "../util/constants.js";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
-import { ReceiveMode } from "../models.js";
+import type { ReceiveMode } from "../models.js";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { tracingClient } from "../diagnostics/tracing.js";
 

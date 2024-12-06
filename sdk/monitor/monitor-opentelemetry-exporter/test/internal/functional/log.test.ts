@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertLogExpectation } from "../../utils/assert";
-import { LogBasicScenario } from "../../utils/basic";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { assertCount, assertLogExpectation } from "../../utils/assert.js";
+import { LogBasicScenario } from "../../utils/basic.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import { describe, it, beforeAll, afterAll } from "vitest";
 
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {
     const scenario = new LogBasicScenario();
     const ingest: Envelope[] = [];
 
-    before(() => {
+    beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
           // todo: gzip is not supported by generated applicationInsightsClient
@@ -27,28 +28,20 @@ describe("Log Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          // eslint-disable-next-line promise/always-return
-          return scenario.flush().then(() => {
-            setTimeout(() => {
-              assertLogExpectation(ingest, scenario.expectation);
-              assertCount(ingest, scenario.expectation);
-              done();
-            }, 1);
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
+    it("should work", async () => {
+      await scenario.run();
+      // promisify doesn't work on this, so use callbacks/done for now
+      // eslint-disable-next-line promise/always-return
+      await scenario.flush();
+      setTimeout(() => {
+        assertLogExpectation(ingest, scenario.expectation);
+        assertCount(ingest, scenario.expectation);
+      }, 1);
     });
   });
 });

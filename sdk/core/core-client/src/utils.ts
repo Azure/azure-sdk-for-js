@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces.js";
+import type { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces.js";
 
 /**
  * The union of all possible types for a primitive response body.

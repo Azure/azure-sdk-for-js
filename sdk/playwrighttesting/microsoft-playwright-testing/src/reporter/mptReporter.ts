@@ -17,17 +17,19 @@ import {
 } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
 import { MultiMap } from "../common/multimap";
-import { EntraTokenDetails } from "../model/entraTokenDetails";
-import { MPTTokenDetails, TokenType } from "../model/mptTokenDetails";
-import { Shard, UploadMetadata } from "../model/shard";
-import { StorageUri } from "../model/storageUri";
-import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
-import { TestRun } from "../model/testRun";
-import { CIInfo, CIInfoProvider } from "../utils/cIInfoProvider";
+import type { EntraTokenDetails } from "../model/entraTokenDetails";
+import type { MPTTokenDetails } from "../model/mptTokenDetails";
+import { TokenType } from "../model/mptTokenDetails";
+import type { Shard, UploadMetadata } from "../model/shard";
+import type { StorageUri } from "../model/storageUri";
+import type { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
+import type { TestRun } from "../model/testRun";
+import type { CIInfo } from "../utils/cIInfoProvider";
+import { CIInfoProvider } from "../utils/cIInfoProvider";
 import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
-import { MPTReporterConfig } from "../common/types";
+import type { MPTReporterConfig } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
@@ -332,7 +334,7 @@ class MPTReporter implements Reporter {
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
         }
-        this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
+        await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
       }
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (
@@ -342,7 +344,7 @@ class MPTReporter implements Reporter {
         // Renew the sas uri
         this.sasUri = await this.serviceClient.createStorageUri();
       }
-      this.storageClient.uploadBuffer(
+      await this.storageClient.uploadBuffer(
         this.sasUri.uri,
         rawTestResult[0]!,
         `${testExecutionId}/rawTestResult.json`,

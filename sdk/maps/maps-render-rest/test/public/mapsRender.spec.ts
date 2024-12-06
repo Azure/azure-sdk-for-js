@@ -1,31 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import MapsRender, { isUnexpected, MapsRenderClient } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { MapsRenderClient } from "../../src/index.js";
+import MapsRender, { isUnexpected } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Authentication", function () {
+describe("Authentication", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should work with Microsoft Entra ID authentication", async function () {
-    /**
-     * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
-     * But it requires user's interaction, which is not testable in karma.
-     * */
-    if (!isNodeLike) this.skip();
+  /**
+   * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
+   * But it requires user's interaction, which is not testable in karma.
+   * */ /**
+   * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
+   * But it requires user's interaction, which is not testable in karma.
+   * */
+  it("should work with Microsoft Entra ID authentication", { skip: !isNodeLike }, async () => {
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
@@ -42,25 +45,25 @@ describe("Authentication", function () {
   });
 });
 
-describe("Endpoint can be overwritten", function () {
+describe("Endpoint can be overwritten", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should be executed without specifying baseUrl", async function () {
+  it("should be executed without specifying baseUrl", async () => {
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client.path("/map/copyright/caption/{format}", "json").get();
 
     assert.isOk(!isUnexpected(response));
   });
 
-  it("should be executed with different baseUrl", async function () {
+  it("should be executed with different baseUrl", async () => {
     const client = createClient(
       recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
@@ -74,16 +77,16 @@ describe("MapsRender", () => {
   let recorder: Recorder;
   let client: MapsRenderClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("can get copyright caption", async function () {
+  it("can get copyright caption", async () => {
     const response = await client.path("/map/copyright/caption/{format}", "json").get();
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
@@ -92,7 +95,7 @@ describe("MapsRender", () => {
     }
   });
 
-  it("can get copyright information for tile", async function () {
+  it("can get copyright information for tile", async () => {
     const response = await client
       .path("/map/copyright/tile/{format}", "json")
       .get({ queryParameters: { zoom: 6, x: 9, y: 22 } });
@@ -105,7 +108,7 @@ describe("MapsRender", () => {
     }
   });
 
-  it("can get copyright information for world", async function () {
+  it("can get copyright information for world", async () => {
     const response = await client.path("/map/copyright/world/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -115,7 +118,7 @@ describe("MapsRender", () => {
     assert.isNotEmpty(response.body.regions);
   });
 
-  it("can get copyright from bounding box", async function () {
+  it("can get copyright from bounding box", async () => {
     const response = await client.path("/map/copyright/bounding/{format}", "json").get({
       queryParameters: {
         maxcoordinates: [52.41064, 4.84228],
@@ -130,7 +133,7 @@ describe("MapsRender", () => {
     assert.isNotEmpty(response.body.regions);
   });
 
-  it("can get copyright information for map attribution", async function () {
+  it("can get copyright information for map attribution", async () => {
     const response = await client.path("/map/attribution").get({
       queryParameters: {
         tilesetId: "microsoft.base",
@@ -146,7 +149,7 @@ describe("MapsRender", () => {
     assert.isNotEmpty(response.body.copyrights);
   });
 
-  it("can get static image", async function () {
+  it("can get static image", async () => {
     const response = await client.path("/map/static").get({
       queryParameters: {
         layer: "basic",
@@ -163,7 +166,7 @@ describe("MapsRender", () => {
     assert.isNotEmpty(response.body);
   });
 
-  it("can get map tile", async function () {
+  it("can get map tile", async () => {
     const response = await client.path("/map/tile").get({
       queryParameters: {
         tilesetId: "microsoft.base",
@@ -179,7 +182,7 @@ describe("MapsRender", () => {
     assert.isNotEmpty(response.body);
   });
 
-  it("can get map tilest information", async function () {
+  it("can get map tilest information", async () => {
     const response = await client
       .path("/map/tileset")
       .get({ queryParameters: { tilesetId: "microsoft.base" } });

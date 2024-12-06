@@ -3,10 +3,12 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import DocumentTranslator, { DocumentTranslatorClient } from "../../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { DocumentTranslatorClient } from "../../../src/index.js";
+import DocumentTranslator from "../../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: { [k: string]: string } = {
   DOCUMENT_TRANSLATOR_API_KEY: "api_key",

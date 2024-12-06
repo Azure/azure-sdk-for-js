@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+} from "../util/tenantIdUtils.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils.js";
 
-import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
-import { processUtils } from "../util/processUtils";
-import { tracingClient } from "../util/tracing";
+import type { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
+import { processUtils } from "../util/processUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 

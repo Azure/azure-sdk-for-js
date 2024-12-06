@@ -2,25 +2,27 @@
 // Licensed under the MIT License.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context, Suite } from "mocha";
-
 import { delay } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
-import {
+import type { OpenAIClient } from "@azure/openai";
+import { assert } from "chai";
+import type { Context, Suite } from "mocha";
+import type {
   AutocompleteResult,
+  SearchFieldArray,
+  SearchIndex,
+  SearchIndexClient,
+  SelectArray,
+  SelectFields,
+} from "../../../src";
+import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
-  KnownSpeller,
+  KnownQuerySpeller,
   SearchClient,
-  SearchIndex,
-  SearchIndexClient,
-  SelectFields,
 } from "../../../src";
-import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 import { defaultServiceVersion } from "../../../src/serviceUtils";
-import { Hotel } from "../utils/interfaces";
+import type { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
@@ -111,7 +113,7 @@ describe("SearchClient", function (this: Suite) {
         top: 5,
         includeTotalCount: true,
         queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownSpeller.Lexicon,
+        speller: KnownQuerySpeller.Lexicon,
       });
       assert.equal(searchResults.count, 6);
     });
@@ -139,34 +141,32 @@ describe("SearchClient", function (this: Suite) {
       const searchResults = await searchClient.search("luxury", options);
       for await (const result of searchResults.results) {
         assert.deepEqual(
-          [
-            {
-              semantic: {
-                contentFields: [
-                  {
-                    name: "description",
-                    state: "used",
-                  },
-                ],
-                keywordFields: [
-                  {
-                    name: "tags",
-                    state: "used",
-                  },
-                ],
-                rerankerInput: {
-                  content:
-                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                  keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                  title: "Fancy Stay",
-                },
-                titleField: {
-                  name: "hotelName",
+          {
+            semantic: {
+              contentFields: [
+                {
+                  name: "description",
                   state: "used",
                 },
+              ],
+              keywordFields: [
+                {
+                  name: "tags",
+                  state: "used",
+                },
+              ],
+              rerankerInput: {
+                content:
+                  "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+                keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+                title: "Fancy Stay",
+              },
+              titleField: {
+                name: "hotelName",
+                state: "used",
               },
             },
-          ],
+          },
           result.documentDebugInfo,
         );
       }

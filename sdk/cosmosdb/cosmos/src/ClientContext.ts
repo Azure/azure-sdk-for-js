@@ -1,50 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  HttpClient,
-  Pipeline,
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-} from "@azure/core-rest-pipeline";
-import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
-import { Resource } from "./client/Resource";
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
+import type { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
+import type { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import { Agent, CosmosClientOptions } from "./CosmosClientOptions";
-import {
-  ConnectionPolicy,
-  ConsistencyLevel,
-  DatabaseAccount,
-  PartitionKey,
-  convertToInternalPartitionKey,
-} from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-import { PluginConfig, PluginOn, executePlugins } from "./plugins/Plugin";
-import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
-import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
+import type { Agent, CosmosClientOptions } from "./CosmosClientOptions";
+import type { ConnectionPolicy, PartitionKey } from "./documents";
+import { ConsistencyLevel, DatabaseAccount, convertToInternalPartitionKey } from "./documents";
+import type { GlobalEndpointManager } from "./globalEndpointManager";
+import type { PluginConfig } from "./plugins/Plugin";
+import { PluginOn, executePlugins } from "./plugins/Plugin";
+import type { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
+import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
-import { ErrorResponse } from "./request";
-import { FeedOptions, RequestOptions, Response } from "./request";
-import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
+import type { ErrorResponse } from "./request";
+import type { FeedOptions, RequestOptions, Response } from "./request";
+import type { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { getHeaders } from "./request/request";
-import { RequestContext } from "./request/RequestContext";
+import type { RequestContext } from "./request/RequestContext";
 import { RequestHandler } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
-import { SessionContext } from "./session/SessionContext";
-import { BulkOptions } from "./utils/batch";
+import type { SessionContext } from "./session/SessionContext";
+import type { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { supportedQueryFeaturesBuilder } from "./utils/supportedQueryFeaturesBuilder";
-import { AzureLogger, createClientLogger } from "@azure/logger";
-import { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics";
-import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import {
-  DiagnosticWriter,
-  LogDiagnosticWriter,
-  NoOpDiagnosticWriter,
-} from "./diagnostics/DiagnosticWriter";
-import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
+import type { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticWriter } from "./diagnostics/DiagnosticWriter";
+import { LogDiagnosticWriter, NoOpDiagnosticWriter } from "./diagnostics/DiagnosticWriter";
+import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
+import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 

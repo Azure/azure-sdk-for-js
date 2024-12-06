@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CryptographyClient,
-  KeyClient,
-  KeyVaultKey,
-  SignatureAlgorithm,
-} from "../../../src/index.js";
+import type { KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src/index.js";
+import { CryptographyClient } from "../../../src/index.js";
 import { createHash } from "node:crypto";
 import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.js";
-import TestClient from "../utils/testClient.js";
+import type TestClient from "../utils/testClient.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
+import type { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 

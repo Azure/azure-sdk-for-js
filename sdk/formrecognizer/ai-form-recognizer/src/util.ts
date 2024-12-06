@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { DEFAULT_COGNITIVE_SCOPE, FORM_RECOGNIZER_API_VERSION } from "./constants";
-import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
-import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
+import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
+import { DEFAULT_COGNITIVE_SCOPE, FORM_RECOGNIZER_API_VERSION } from "./constants.js";
+import type { GeneratedClientOptionalParams } from "./generated/index.js";
+import { GeneratedClient } from "./generated/index.js";
+import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions.js";
 
-import * as Mappers from "./generated/models/mappers";
+import * as Mappers from "./generated/models/mappers.js";
 import { createSerializer } from "@azure/core-client";
 export { Mappers };
 

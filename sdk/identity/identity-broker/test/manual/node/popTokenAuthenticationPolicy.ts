@@ -9,7 +9,7 @@ import type {
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { createTokenCycler } from "./popTokenCycler";
+import { createTokenCycler } from "./popTokenCycler.js";
 
 /**
  * The programmatic identifier of the popTokenAuthenticationPolicy.

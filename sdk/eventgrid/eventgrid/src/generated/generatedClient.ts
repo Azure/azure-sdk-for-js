@@ -7,9 +7,9 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import { GeneratedClientContext } from "./generatedClientContext.js";
 import {
   GeneratedClientOptionalParams,
   EventGridEvent,
@@ -17,7 +17,7 @@ import {
   CloudEvent,
   GeneratedClientPublishCloudEventEventsOptionalParams,
   GeneratedClientPublishCustomEventEventsOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends GeneratedClientContext {

@@ -3,9 +3,10 @@
 import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { createServiceBusLogger } from "../../../src/log.js";
-import { describe, it, vi, beforeEach, beforeAll, MockInstance } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, vi, beforeEach, beforeAll } from "vitest";
 import { expect } from "../../public/utils/chai.js";
-import { Debugger } from "@azure/logger";
+import type { Debugger } from "@azure/logger";
 
 describe("errors", () => {
   let verboseSpy: MockInstance<Debugger>;

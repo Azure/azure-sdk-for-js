@@ -50,6 +50,10 @@ import {
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
   JobsListSecretsResponse,
+  JobsResumeOptionalParams,
+  JobsResumeResponse,
+  JobsSuspendOptionalParams,
+  JobsSuspendResponse,
   JobsListDetectorsNextResponse,
   JobsListBySubscriptionNextResponse,
   JobsListByResourceGroupNextResponse,
@@ -913,6 +917,172 @@ export class JobsImpl implements Jobs {
   }
 
   /**
+   * Resumes a suspended job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  async beginResume(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsResumeOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobsResumeResponse>, JobsResumeResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<JobsResumeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, options },
+      spec: resumeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      JobsResumeResponse,
+      OperationState<JobsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Resumes a suspended job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  async beginResumeAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsResumeOptionalParams,
+  ): Promise<JobsResumeResponse> {
+    const poller = await this.beginResume(resourceGroupName, jobName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Suspends a job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  async beginSuspend(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsSuspendOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobsSuspendResponse>, JobsSuspendResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<JobsSuspendResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, options },
+      spec: suspendOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      JobsSuspendResponse,
+      OperationState<JobsSuspendResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Suspends a job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  async beginSuspendAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsSuspendOptionalParams,
+  ): Promise<JobsSuspendResponse> {
+    const poller = await this.beginSuspend(resourceGroupName, jobName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListDetectorsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
@@ -1116,7 +1286,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1170,7 +1340,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1202,7 +1372,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1268,6 +1438,66 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Job,
+    },
+    201: {
+      bodyMapper: Mappers.Job,
+    },
+    202: {
+      bodyMapper: Mappers.Job,
+    },
+    204: {
+      bodyMapper: Mappers.Job,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const suspendOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/suspend",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Job,
+    },
+    201: {
+      bodyMapper: Mappers.Job,
+    },
+    202: {
+      bodyMapper: Mappers.Job,
+    },
+    204: {
+      bodyMapper: Mappers.Job,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

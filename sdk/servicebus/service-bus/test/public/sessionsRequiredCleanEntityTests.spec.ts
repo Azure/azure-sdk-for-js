@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
-import { ServiceBusSender } from "../../src/index.js";
-import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
-import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
+import type { TestClientType } from "./utils/testUtils.js";
+import { TestMessage } from "./utils/testUtils.js";
 import { afterEach, describe, it } from "vitest";
 import { should } from "./utils/chai.js";
 

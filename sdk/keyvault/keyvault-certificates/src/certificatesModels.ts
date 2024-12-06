@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import * as coreClient from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type * as coreClient from "@azure/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
+import type {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,

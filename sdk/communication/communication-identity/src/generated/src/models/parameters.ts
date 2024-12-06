@@ -15,7 +15,7 @@ import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
   TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
   CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

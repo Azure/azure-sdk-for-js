@@ -2,22 +2,22 @@
 // Licensed under the MIT License.
 
 import { extractReceiverArguments, ServiceBusClient } from "../../../src/serviceBusClient.js";
-import { ServiceBusSessionReceiverOptions } from "../../../src/models.js";
+import type { ServiceBusSessionReceiverOptions } from "../../../src/models.js";
 import { entityPathMisMatchError } from "../../../src/util/errors.js";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
 } from "../../../src/constructorHelpers.js";
-import { TokenCredential } from "@azure/core-auth";
-import { ConnectionContext } from "../../../src/connectionContext.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils.js";
-import {
+import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "../../../src/receivers/sessionReceiver.js";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSenderImpl } from "../../../src/sender.js";
-import { MessageReceiver } from "../../../src/core/messageReceiver.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ServiceBusSenderImpl } from "../../../src/sender.js";
+import type { MessageReceiver } from "../../../src/core/messageReceiver.js";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

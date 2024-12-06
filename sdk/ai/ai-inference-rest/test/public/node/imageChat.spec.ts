@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ModelClient, isUnexpected, ChatCompletionsOutput } from "../../../src/index.js";
+import type { ModelClient, ChatCompletionsOutput } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
 import fs from "fs";
 import path from "path";
 

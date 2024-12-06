@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
-  featureFlagContentType,
-  featureFlagPrefix,
 } from "../../src/index.js";
-import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import { featureFlagContentType, featureFlagPrefix } from "../../src/index.js";
+import type { FeatureFlagValue } from "../../src/featureFlag.js";
+import { isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

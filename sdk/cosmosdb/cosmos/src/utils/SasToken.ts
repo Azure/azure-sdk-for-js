@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SasTokenProperties } from "../client/SasToken/SasTokenProperties";
+import type { SasTokenProperties } from "../client/SasToken/SasTokenProperties";
 import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common";
 import { encodeUTF8 } from "./encode";
 import { hmac } from "./hmac";

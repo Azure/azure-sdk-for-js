@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FarmBeatsClient, Party, paginate, PartiesListParameters } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src";
+import { paginate } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 const partyId = "contoso-party-js";
 const boundaryId = "test-boundary";

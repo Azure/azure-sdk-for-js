@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AcsChatMessageDeletedEventData,
   AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
@@ -212,9 +212,10 @@ import {
   AcsChatThreadDeletedEventData,
   AcsChatThreadCreatedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
-} from "./generated/models";
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
+} from "./generated/models/index.js";
 
-import { CloudEvent, EventGridEvent } from "./models";
+import type { CloudEvent, EventGridEvent } from "./models.js";
 
 /**
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an
@@ -646,6 +647,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdated" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted" event. */
+  "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
 }
 
 /**

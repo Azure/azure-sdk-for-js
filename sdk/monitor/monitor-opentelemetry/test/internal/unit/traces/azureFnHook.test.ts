@@ -5,9 +5,10 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Context as AzureFnV3Context } from "@azure/functions-old";
-import { InvocationContext as AzureFnV4Context } from "@azure/functions";
-import { AzureFunctionsHook, PreInvocationContext } from "../../../../src/traces/azureFnHook";
+import type { Context as AzureFnV3Context } from "@azure/functions-old";
+import type { InvocationContext as AzureFnV4Context } from "@azure/functions";
+import type { PreInvocationContext } from "../../../../src/traces/azureFnHook";
+import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook";
 import { TraceHandler } from "../../../../src/traces";
 import { Logger } from "../../../../src/shared/logging";
 import { InternalConfig } from "../../../../src/shared";

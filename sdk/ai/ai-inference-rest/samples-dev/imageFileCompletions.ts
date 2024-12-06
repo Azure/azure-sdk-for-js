@@ -9,7 +9,7 @@
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
-import fs from 'fs';
+import fs from "fs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,16 +32,25 @@ export async function main() {
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [
-        { role: "system", content: "You are a helpful assistant that describes images in details." },
-        { role: "user", content: [
-            { type: "text", text: "What's in this image?"},
-            { type: "image_url", image_url: {
-                url: getImageDataUrl(imageFilePath, imageFormat)}}
-          ]
-        }
+        {
+          role: "system",
+          content: "You are a helpful assistant that describes images in details.",
+        },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "What's in this image?" },
+            {
+              type: "image_url",
+              image_url: {
+                url: getImageDataUrl(imageFilePath, imageFormat),
+              },
+            },
+          ],
+        },
       ],
-      model: modelName
-    }
+      model: modelName,
+    },
   });
 
   if (isUnexpected(response)) {
@@ -59,28 +68,35 @@ export async function main() {
  */
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
-      const imageBuffer = fs.readFileSync(imageFile);
-      const imageBase64 = imageBuffer.toString('base64');
-      return `data:image/${imageFormat};base64,${imageBase64}`;
+    const imageBuffer = fs.readFileSync(imageFile);
+    const imageBase64 = imageBuffer.toString("base64");
+    return `data:image/${imageFormat};base64,${imageBase64}`;
   } catch (error) {
-      console.error(`Could not read '${imageFile}'.`);
-      console.error('Set the correct path to the image file before running this sample.');
-      process.exit(1);
+    console.error(`Could not read '${imageFile}'.`);
+    console.error("Set the correct path to the image file before running this sample.");
+    process.exit(1);
   }
 }
 
 /*
-  * This function creates a model client.
-  */
+ * This function creates a model client.
+ */
 function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
   if (key) {
-    return ModelClient(endpoint, new AzureKeyCredential(key));      
+    return ModelClient(endpoint, new AzureKeyCredential(key));
   } else {
-    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
     const clientOptions = { credentials: { scopes } };
-    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
 

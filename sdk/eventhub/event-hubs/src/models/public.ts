@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RetryOptions, WebSocketOptions } from "@azure/core-amqp";
-import { OperationOptions } from "../util/operationOptions.js";
+import type { RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+import type { OperationOptions } from "../util/operationOptions.js";
 
 /**
  * The set of options to configure the behavior of `getEventHubProperties`.

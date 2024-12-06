@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
-import {
+import type {
   CommonClientOptions,
   OperationOptions,
   InternalClientPipelineOptions,
 } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { TokenCredential } from "@azure/core-auth";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants.js";
 import { logger } from "./logger.js";
 import { quoteETag } from "./util.js";

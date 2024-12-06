@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { isPipelineLike, newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { isPipelineLike, newPipeline } from "./Pipeline";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "@azure/storage-blob";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
-import {
+import type {
   AccessPolicy,
   FileSystemCreateOptions,
   FileSystemCreateResponse,
@@ -863,7 +864,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
   public generateUserDelegationSasStringToSign(
     options: FileSystemGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,

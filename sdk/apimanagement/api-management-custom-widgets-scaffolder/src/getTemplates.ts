@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ScaffoldTech } from "./scaffolding.js";
+import type { ScaffoldTech } from "./scaffolding.js";
 import { glob } from "glob";
 import { join as pathJoin } from "node:path";
 import { sourceDir } from "./sourceDir.js";

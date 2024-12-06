@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import MapsSearch, { isUnexpected, MapsSearchClient } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { MapsSearchClient } from "../../src/index.js";
+import MapsSearch, { isUnexpected } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Authentication", function () {
+describe("Authentication", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should work with Microsoft Entra ID authentication", async function () {
-    /**
-     * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
-     * But it requires user's interaction, which is not testable in karma.
-     * */
-    if (!isNodeLike) this.skip();
+  /**
+   * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
+   * But it requires user's interaction, which is not testable in karma.
+   * */
+  it("should work with Microsoft Entra ID authentication", { skip: !isNodeLike }, async () => {
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
@@ -42,24 +42,24 @@ describe("Authentication", function () {
   });
 });
 
-describe("Endpoint can be overwritten", function () {
+describe("Endpoint can be overwritten", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should be executed without specifying baseUrl", async function () {
+  it("should be executed without specifying baseUrl", async () => {
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client.path("/geocode").get({ queryParameters: { query: "Starbucks" } });
     assert.isOk(!isUnexpected(response));
   });
 
-  it("should be executed with different baseUrl", async function () {
+  it("should be executed with different baseUrl", async () => {
     const client = createClient(
       recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
@@ -68,20 +68,20 @@ describe("Endpoint can be overwritten", function () {
   });
 });
 
-describe("Get Search Polygon", function () {
+describe("Get Search Polygon", () => {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should accept coordinates and other options and return geometry data", async function () {
+  it("should accept coordinates and other options and return geometry data", async () => {
     const response = await client.path("/search/polygon").get({
       queryParameters: {
         coordinates: [-122.204141, 47.61256],
@@ -96,20 +96,20 @@ describe("Get Search Polygon", function () {
   });
 });
 
-describe("/geocode", function () {
+describe("/geocode", () => {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should return non-empty results", async function () {
+  it("should return non-empty results", async () => {
     const response = await client
       .path("/geocode")
       .get({ queryParameters: { query: "1 Microsoft Way, Redmond, WA 98052" } });
@@ -120,20 +120,20 @@ describe("/geocode", function () {
   });
 });
 
-describe("/geocode:batch", function () {
+describe("/geocode:batch", () => {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should return non-empty results", async function () {
+  it("should return non-empty results", async () => {
     const response = await client.path("/geocode:batch").post({
       body: {
         batchItems: [
@@ -149,7 +149,7 @@ describe("/geocode:batch", function () {
     assert.isNotEmpty(response.body);
   });
 
-  it("should be expected even one of the batch items failed", async function () {
+  it("should be expected even one of the batch items failed", async () => {
     const response = await client.path("/geocode:batch").post({
       body: {
         batchItems: [
@@ -165,20 +165,20 @@ describe("/geocode:batch", function () {
   });
 });
 
-describe("/reverseGeocode", function () {
+describe("/reverseGeocode", () => {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should throw error if query is invalid", async function () {
+  it("should throw error if query is invalid", async () => {
     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
     assert.isTrue(
       isUnexpected(
@@ -192,7 +192,7 @@ describe("/reverseGeocode", function () {
     );
   });
 
-  it("should return non-empty results", async function () {
+  it("should return non-empty results", async () => {
     const response = await client
       .path("/reverseGeocode")
       .get({ queryParameters: { coordinates: [121, 25] } });
@@ -203,20 +203,20 @@ describe("/reverseGeocode", function () {
   });
 });
 
-describe("/reverseGeocode:batch", function () {
+describe("/reverseGeocode:batch", () => {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should return non-empty results", async function () {
+  it("should return non-empty results", async () => {
     const response = await client.path("/reverseGeocode:batch").post({
       body: {
         batchItems: [
@@ -231,7 +231,7 @@ describe("/reverseGeocode:batch", function () {
     assert.isNotEmpty(response.body);
   });
 
-  it("should be expected even one of the batch items failed", async function () {
+  it("should be expected even one of the batch items failed", async () => {
     const response = await client.path("/reverseGeocode:batch").post({
       body: {
         batchItems: [

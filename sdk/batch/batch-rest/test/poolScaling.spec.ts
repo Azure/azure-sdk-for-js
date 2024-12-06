@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   CreatePoolParameters,
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
-  isUnexpected,
 } from "../src/index.js";
+import { isUnexpected } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import moment from "moment";

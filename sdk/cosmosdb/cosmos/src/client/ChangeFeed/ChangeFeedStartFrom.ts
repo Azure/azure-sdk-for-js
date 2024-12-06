@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PartitionKey } from "../../documents";
-import { FeedRange } from "./FeedRange";
+import type { PartitionKey } from "../../documents";
+import type { FeedRange } from "./FeedRange";
 import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ServiceBusReceivedMessage,
-  delay,
   ProcessErrorArgs,
   ServiceBusReceiver,
   ServiceBusSender,
 } from "../../src/index.js";
+import { delay } from "../../src/index.js";
 import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors.js";
 import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils.js";
-import { DispositionType, ServiceBusMessageImpl } from "../../src/serviceBusMessage.js";
+import type { ServiceBusMessageImpl } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   drainReceiveAndDeleteReceiver,
   testPeekMsgsLength,

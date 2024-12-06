@@ -3,24 +3,24 @@
 /// <reference lib="esnext.asynciterable" />
 
 /* eslint-disable @azure/azure-sdk/ts-naming-options */
+import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
-  CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { OperationOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
-  JobRouterApiClient,
-} from "./generated/src";
-import {
+} from "./generated/src/index.js";
+import { JobRouterApiClient } from "./generated/src/index.js";
+import type {
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,
@@ -29,8 +29,8 @@ import {
   ExceptionPolicy,
   RouterQueue,
   ClassificationPolicy,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   CreateClassificationPolicyOptions,
   CreateDistributionPolicyOptions,
   CreateExceptionPolicyOptions,
@@ -44,15 +44,15 @@ import {
   UpdateDistributionPolicyOptions,
   UpdateExceptionPolicyOptions,
   UpdateQueueOptions,
-} from "./options";
-import {
+} from "./options.js";
+import type {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
   RouterQueueResponse,
-} from "./responses";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
+} from "./responses.js";
+import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
 
 /**
  * Checks whether a value is of type {@link JobRouterAdministrationClientOptions}.

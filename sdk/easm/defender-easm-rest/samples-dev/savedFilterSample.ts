@@ -13,13 +13,12 @@
     4) REGION - the azure region your resource is in
  */
 
-import EasmDefender, { SavedFilterOutput, isUnexpected } from "@azure-rest/defender-easm";
+import type { SavedFilterOutput } from "@azure-rest/defender-easm";
+import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCE_GROUP_NAME || "";
@@ -36,7 +35,7 @@ async function main() {
     resource_group,
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // To create a Saved Filter, we need to send a filter, name, and description to the /savedFilters/{filterName} endpoint

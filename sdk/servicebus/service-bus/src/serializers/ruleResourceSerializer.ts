@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FullOperationResponse } from "@azure/core-client";
-import { CorrelationRuleFilter } from "../core/managementClient.js";
-import {
-  AtomXmlSerializer,
-  deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper.js";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { CorrelationRuleFilter } from "../core/managementClient.js";
+import type { AtomXmlSerializer } from "../util/atomXmlHelper.js";
+import { deserializeAtomXmlResponse, serializeToAtomXmlRequest } from "../util/atomXmlHelper.js";
 import * as Constants from "../util/constants.js";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { getString, getStringOrUndefined } from "../util/utils.js";

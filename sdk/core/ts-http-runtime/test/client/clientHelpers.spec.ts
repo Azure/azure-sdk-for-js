@@ -5,7 +5,7 @@ import { describe, it, assert } from "vitest";
 import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy.js";
-import { TokenCredential } from "../../src/auth/tokenCredential.js";
+import type { TokenCredential } from "../../src/auth/tokenCredential.js";
 import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
 
 describe("clientHelpers", () => {

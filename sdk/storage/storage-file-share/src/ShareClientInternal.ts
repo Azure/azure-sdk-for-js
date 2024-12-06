@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Pipeline } from "./Pipeline";
+import type { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { ShareRestoreOptionalParams, ShareRestoreResponse } from "./generated/src/models";
-import { Share } from "./generated/src/operationsInterfaces";
+import type { ShareRestoreOptionalParams, ShareRestoreResponse } from "./generated/src/models";
+import type { Share } from "./generated/src/operationsInterfaces";
 
 /**
  * ShareClientInternal is the thin wrapper for Share which contains internal helper methods.

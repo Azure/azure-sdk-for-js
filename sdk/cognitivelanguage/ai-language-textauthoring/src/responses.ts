@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ProjectsMetadataOutput,
   ErrorResponseOutput,
   ProjectMetadataOutput,
@@ -25,7 +25,7 @@ import {
   AssignedResourceDeploymentsMetadataOutput,
   SupportedLanguagesOutput,
   TrainingConfigVersionsOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Lists the existing projects. */
 export interface TextAnalysisAuthoringListProjects200Response extends HttpResponse {

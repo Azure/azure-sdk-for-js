@@ -2,19 +2,20 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { context } from "@opentelemetry/api";
-import {
+import type {
   ChatCompletionsOutput,
   ChatRequestMessage,
   ChatRequestToolMessage,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  isUnexpected,
   ModelClient,
 } from "../../src/index.js";
-import {
+import { isUnexpected } from "../../src/index.js";
+import type {
   AddEventOptions,
   Instrumenter,
   InstrumenterSpanOptions,
@@ -22,8 +23,8 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-  useInstrumenter,
 } from "@azure/core-tracing";
+import { useInstrumenter } from "@azure/core-tracing";
 
 describe("tracing test suite", () => {
   let recorder: Recorder;

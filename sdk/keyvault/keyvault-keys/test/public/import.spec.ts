@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 import { Recorder, env } from "@azure-tools/test-recorder";
 
-import { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { createRsaKey } from "./utils/crypto.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 

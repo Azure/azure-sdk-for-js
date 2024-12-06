@@ -5,17 +5,17 @@
 ```ts
 
 import { AzureNamedKeyCredential } from '@azure/core-auth';
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessScope = string;

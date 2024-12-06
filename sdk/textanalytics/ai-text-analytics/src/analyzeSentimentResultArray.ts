@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   SentimentResponse,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
+} from "./generated/models/index.js";
+import type { AnalyzeSentimentResult } from "./analyzeSentimentResult.js";
 import {
-  AnalyzeSentimentResult,
   makeAnalyzeSentimentErrorResult,
   makeAnalyzeSentimentResult,
-} from "./analyzeSentimentResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./analyzeSentimentResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and

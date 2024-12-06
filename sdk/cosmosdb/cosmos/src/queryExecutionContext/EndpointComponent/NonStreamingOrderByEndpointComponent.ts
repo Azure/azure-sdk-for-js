@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../../request";
+import type { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
-import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { getInitialHeader } from "../headerUtils";
 
@@ -33,6 +33,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     private sortOrders: any[],
     private priorityQueueBufferSize: number,
     private offset: number = 0,
+    private emitRawOrderByPayload: boolean = false,
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
     this.nonStreamingOrderByPQ = new FixedSizePriorityQueue<NonStreamingOrderByResult>(
@@ -88,7 +89,12 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     }
     // If pq is not empty, return the result from pq.
     if (!this.nonStreamingOrderByPQ.isEmpty()) {
-      const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
+      let item;
+      if (this.emitRawOrderByPayload) {
+        item = this.nonStreamingOrderByPQ.dequeue();
+      } else {
+        item = this.nonStreamingOrderByPQ.dequeue()?.payload;
+      }
       return {
         result: item,
         headers: resHeaders,

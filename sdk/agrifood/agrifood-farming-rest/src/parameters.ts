@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ApplicationData,
   SearchBoundaryQuery,
   Boundary,

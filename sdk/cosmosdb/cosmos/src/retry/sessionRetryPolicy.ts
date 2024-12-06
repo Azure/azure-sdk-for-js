@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { isReadRequest, OperationType, ResourceType } from "../common";
-import { ConnectionPolicy } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ErrorResponse } from "../request";
-import { RetryContext } from "./RetryContext";
-import { RetryPolicy } from "./RetryPolicy";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { OperationType, ResourceType } from "../common";
+import { isReadRequest } from "../common";
+import type { ConnectionPolicy } from "../documents";
+import type { GlobalEndpointManager } from "../globalEndpointManager";
+import type { ErrorResponse } from "../request";
+import type { RetryContext } from "./RetryContext";
+import type { RetryPolicy } from "./RetryPolicy";
 
 /**
  * This class implements the retry policy for session consistent reads.

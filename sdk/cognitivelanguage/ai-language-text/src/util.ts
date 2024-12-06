@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated";
-import { TextAnalysisOperationOptions } from "./models";
-import { logger } from "./logger";
+import type { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated/index.js";
+import type { TextAnalysisOperationOptions } from "./models.js";
+import { logger } from "./logger.js";
 
 /**
  * Given a sorted array of input objects (with a unique ID) and an unsorted array of results,

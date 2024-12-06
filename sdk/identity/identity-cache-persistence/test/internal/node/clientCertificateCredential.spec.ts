@@ -1,50 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable sort-imports */
-
-import * as path from "path";
-
-import {
-  ClientCertificateCredential,
-  TokenCachePersistenceOptions,
-} from "../../../../identity/src";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-
+import path from "node:path";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
+import { ClientCertificateCredential } from "@azure/identity";
+import type { MsalTestCleanup } from "./msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "./msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import assert from "assert";
-import { createPersistence } from "./setup.spec";
+import { createPersistence } from "./setup.spec.js";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) {
+describe("ClientCertificateCredential (internal)", () => {
   let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let getTokenSilentSpy: MockInstance;
+  let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async (ctx) => {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(
-      ConfidentialClientApplication.prototype,
-      "acquireTokenSilent",
-    );
+    getTokenSilentSpy = vi.spyOn(ConfidentialClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
-    doGetTokenSpy = setup.sandbox.spy(
+    doGetTokenSpy = vi.spyOn(
       ConfidentialClientApplication.prototype,
       "acquireTokenByClientCredential",
     );
   });
+
   afterEach(async function () {
     await cleanup();
   });
@@ -54,21 +44,21 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
+      ctx.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -89,21 +79,21 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
+      ctx.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -119,16 +109,16 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     );
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
 
     // Even though we're providing a file persistence cache,
     // The Client Credential flow does not return the account information from the authentication service,
     // so each time getToken gets called, we will have to acquire a new token through the service.
     // MSAL also doesn't store the account in the cache (getAllAccounts returns an empty array).
-    assert.equal(doGetTokenSpy.callCount, 2);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(2);
   });
 });

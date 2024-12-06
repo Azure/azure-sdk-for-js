@@ -2,13 +2,26 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+
+interface ListSecretsOptions {}
+interface SecretAttributes {}
+function listSecretsAll(options: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  throw "stub";
+}
+function listSecretsPage(
+  pageSettings: PageSettings,
+  options: ListSecretsOptions,
+): AsyncIterableIterator<SecretAttributes[]> {
+  throw "stub";
+}
 
 describe("snippets", () => {
-  it("paging_example", () => {
+  it("paging_example", async () => {
     function listSecrets(
       options: ListSecretsOptions = {},
     ): PagedAsyncIterableIterator<SecretAttributes> {
-      const iter = this.listSecretsAll(options);
+      const iter = listSecretsAll(options);
       return {
         async next() {
           return iter.next();
@@ -16,7 +29,7 @@ describe("snippets", () => {
         [Symbol.asyncIterator]() {
           return this;
         },
-        byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options),
+        byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
       };
     }
 

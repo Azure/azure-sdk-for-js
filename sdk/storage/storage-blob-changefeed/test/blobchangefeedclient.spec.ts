@@ -3,16 +3,18 @@
 
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
-import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
+import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
+import { BlobChangeFeedClient } from "../src";
 import { assert } from "@azure-tools/test-utils";
-import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
+import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import * as fs from "fs";
 import * as path from "path";
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
-import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
