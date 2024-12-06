@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { PermissionMode } from "../../../src/index.js";
 import type { PermissionDefinition } from "../../../src/index.js";
 import {
@@ -9,10 +9,9 @@ import {
   removeAllDatabases,
   replaceOrUpsertPermission,
 } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });

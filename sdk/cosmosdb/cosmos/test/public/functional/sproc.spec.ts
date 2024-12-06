@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants } from "../../../src/index.js";
 import type { Container, StoredProcedureDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
@@ -10,20 +10,19 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function () {
     let container: Container;
-    beforeEach(async function (ctx) {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(ctx);
     });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
@@ -94,8 +93,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
 
   describe("Validate stored procedure functionality", function () {
     let container: Container;
-    beforeEach(async function (ctx) {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(ctx);
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function () {

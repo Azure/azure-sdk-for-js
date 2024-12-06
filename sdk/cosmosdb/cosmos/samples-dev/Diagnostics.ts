@@ -5,18 +5,11 @@
  * @summary Demonstrates usage of CosmosDiagnostic Object.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
-import {
-  CosmosClient,
-  BulkOperationType,
-  OperationInput,
-  Container,
-  PatchOperationType,
-  GatewayStatistics,
-} from "@azure/cosmos";
+import type { OperationInput, Container, GatewayStatistics } from "@azure/cosmos";
+import { CosmosClient, BulkOperationType, PatchOperationType } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

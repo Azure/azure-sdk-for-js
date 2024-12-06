@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { IndexingMode } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
@@ -9,10 +9,9 @@ import type { SqlQuerySpec } from "../../../src/index.js";
 import type { FeedOptions } from "../../../src/index.js";
 import { TestData } from "../common/TestData.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, beforeAll } from "vitest";
 
-describe("Aggregate Query", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+describe("Aggregate Query", { timeout: 20000 }, () => {
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
   const testdata = new TestData(partitionKey, uniquePartitionKey);
@@ -49,7 +48,7 @@ describe("Aggregate Query", function (this: Suite) {
 
   const containerOptions = { offerThroughput: 10100 };
 
-  before(async function () {
+  beforeAll(async function () {
     await removeAllDatabases();
     container = await getTestContainer(
       "Validate Aggregate Document Query",

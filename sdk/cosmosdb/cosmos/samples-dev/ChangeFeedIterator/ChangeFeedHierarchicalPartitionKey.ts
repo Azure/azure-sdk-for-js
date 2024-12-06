@@ -5,8 +5,7 @@
  * @summary Demonstrates using a ChangeFeed for a partition key
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import { finish, handleError, logSampleHeader } from "../Shared/handleError.js";
 import {

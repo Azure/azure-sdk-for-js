@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { RequestContext } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
@@ -265,7 +265,14 @@ describe("RetryPolicy", function () {
     });
   });
 });
-function getPlugins(responses: any[], lastEndpointCalled: string[]) {
+
+function getPlugins(
+  responses: any[],
+  lastEndpointCalled: string[],
+): {
+  on: PluginOn;
+  plugin: (context: RequestContext) => Promise<any>;
+}[] {
   let index = 0;
   let requestIndex = 0;
   const plugins = [

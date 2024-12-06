@@ -1,7 +1,6 @@
-﻿import { describe, it, assert } from "vitest";
-
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 // import * as http from "http";
 // import { Context } from "mocha";
 // import * as net from "net";

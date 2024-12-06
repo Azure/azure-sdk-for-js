@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { TriggerOperation, TriggerType } from "../../../src/index.js";
 import type { TriggerDefinition, Container } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   let container: Container;
 
   beforeEach(async function () {

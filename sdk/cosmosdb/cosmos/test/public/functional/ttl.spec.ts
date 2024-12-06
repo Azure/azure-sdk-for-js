@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { StatusCodes } from "../../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
@@ -12,8 +12,7 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 600000);
+describe("Container TTL", { timeout: 600000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });

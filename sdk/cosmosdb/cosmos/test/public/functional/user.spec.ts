@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { UserDefinition } from "../../../src/index.js";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
-  describe("Validate User CRUD", function () {
+  describe("Validate User CRUD", () => {
     const userCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate user CRUD");
@@ -78,11 +77,11 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     };
 
-    it("nativeApi Should do User CRUD operations successfully name based", async function () {
+    it("nativeApi Should do User CRUD operations successfully name based", async () => {
       await userCRUDTest(false);
     });
 
-    it("nativeApi Should do User CRUD operations successfully name based with upsert", async function () {
+    it("nativeApi Should do User CRUD operations successfully name based with upsert", async () => {
       await userCRUDTest(true);
     });
   });

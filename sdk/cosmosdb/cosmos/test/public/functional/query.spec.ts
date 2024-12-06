@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { ContainerDefinition } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
@@ -13,7 +13,7 @@ import {
   testForDiagnostics,
 } from "../common/TestHelpers.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll } from "vitest";
 
 const client = new CosmosClient({
   endpoint,
@@ -27,14 +27,13 @@ if (!Symbol || !Symbol.asyncIterator) {
   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
 }
 
-describe("Queries", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  before(async function () {
+describe("Queries", { timeout: 10000 }, () => {
+  beforeAll(async () => {
     await removeAllDatabases();
   });
 
-  describe("Query CRUD", function () {
-    it("nativeApi Should do queries CRUD operations successfully name based", async function () {
+  describe("Query CRUD", () => {
+    it("nativeApi Should do queries CRUD operations successfully name based", async () => {
       // create a database
       const database = await getTestDatabase("query test database");
       // query databases
@@ -60,11 +59,10 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator", function (this: Suite) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+  describe("QueryIterator", { timeout: 30000 }, () => {
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
-    before(async function () {
+    beforeAll(async () => {
       const container = await getTestContainer("Validate QueryIterator Functionality", client);
       const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
@@ -72,7 +70,7 @@ describe("Queries", function (this: Suite) {
       resources = { container, doc1, doc2, doc3 };
     });
 
-    it("fetchAll", async function () {
+    it("fetchAll", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
 
       const { resources: docs } = await testForDiagnostics(
@@ -95,7 +93,7 @@ describe("Queries", function (this: Suite) {
       assert.equal(docs[2].id, resources.doc3.id);
     });
 
-    it("asyncIterator", async function () {
+    it("asyncIterator", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       let counter = 0;
       for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
@@ -110,7 +108,7 @@ describe("Queries", function (this: Suite) {
       assert(counter === 2, "iterator should have run 3 times");
     });
 
-    it("executeNext", async function () {
+    it("executeNext", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
@@ -163,7 +161,7 @@ describe("Queries", function (this: Suite) {
         "second batch element should be doc3",
       );
     });
-    it("fails with invalid continuation token", async function () {
+    it("fails with invalid continuation token", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
@@ -182,10 +180,8 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns undefined sum with null value in aggregator", async function () {
+    describe("SUM query iterator", { timeout: 30000 }, () => {
+      it("returns undefined sum with null value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -205,7 +201,7 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns undefined sum with false value in aggregator", async function () {
+      it("returns undefined sum with false value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -225,7 +221,7 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns undefined sum with empty array value in aggregator", async function () {
+      it("returns undefined sum with empty array value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -245,7 +241,8 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns a valid sum with undefined value in aggregator", async function () {
+
+      it("returns a valid sum with undefined value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -268,10 +265,8 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeList query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns all documents for query iterator with makeList", async function () {
+    describe("MakeList query iterator", { timeout: 30000 }, () => {
+      it("returns all documents for query iterator with makeList", async () => {
         const queryIterator = resources.container.items.query(
           "SELECT VALUE MAKELIST (c.prop1) FROM c",
         );
@@ -280,7 +275,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
 
-      it("returns all documents for query iterator with makeList with multipartitioned container", async function () {
+      it("returns all documents for query iterator with makeList with multipartitioned container", async () => {
         const container = await getTestContainer("multipartitioned makelist", client, {
           throughput: 12100,
         });
@@ -294,7 +289,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3", "value1"]);
       });
 
-      it("field of type array", async function () {
+      it("field of type array", async () => {
         const container = await getTestContainer("array field", client, {
           throughput: 12100,
         });
@@ -309,7 +304,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], [["value1", "value2"], []]);
       });
 
-      it("field of type string", async function () {
+      it("field of type string", async () => {
         const container = await getTestContainer("array field", client, {
           throughput: 12100,
         });
@@ -325,10 +320,8 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeSet query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns all documents for query iterator with makeSet", async function () {
+    describe("MakeSet query iterator", { timeout: 30000 }, () => {
+      it("returns all documents for query iterator with makeSet", async () => {
         await resources.container.items.create({ id: "doc4", prop1: "value1" });
         const queryIterator = resources.container.items.query(
           "SELECT VALUE MAKESET (c.prop1) FROM c",
@@ -338,7 +331,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
 
-      it("returns all documents for query iterator with makeSet with multipartitioned container", async function () {
+      it("returns all documents for query iterator with makeSet with multipartitioned container", async () => {
         const container = await getTestContainer("multipartitioned makeset", client, {
           throughput: 12100,
         });
@@ -354,11 +347,10 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator: Hierarchical partitions", function (this: Suite) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+  describe("QueryIterator: Hierarchical partitions", { timeout: 30000 }, () => {
     let resources: { container: Container; doc1: any; doc2: any; doc3: any; doc4: any };
 
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/prop1", "/prop2"],
@@ -379,7 +371,7 @@ describe("Queries", function (this: Suite) {
       resources = { container, doc1, doc2, doc3, doc4 };
     });
 
-    it("fetchAll", async function () {
+    it("fetchAll", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 4, "queryIterator should return all documents using continuation");
@@ -389,7 +381,7 @@ describe("Queries", function (this: Suite) {
       assert.equal(docs[3].id, resources.doc4.id);
     });
 
-    it("asyncIterator", async function () {
+    it("asyncIterator", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       let counter = 0;
       for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
@@ -405,7 +397,7 @@ describe("Queries", function (this: Suite) {
       assert.strictEqual(counter, 3, "iterator should have run 4 times");
     });
 
-    it("asyncIterator - with partitionKey parameter", async function () {
+    it("asyncIterator - with partitionKey parameter", async () => {
       const queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -423,7 +415,7 @@ describe("Queries", function (this: Suite) {
       assert.strictEqual(counter, 2, "iterator should have run 3 times");
     });
 
-    it("executeNext", async function () {
+    it("executeNext", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -465,7 +457,7 @@ describe("Queries", function (this: Suite) {
         "second batch element should be doc3",
       );
     });
-    it("fails with invalid continuation token", async function () {
+    it("fails with invalid continuation token", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -485,10 +477,8 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("return sum for given partition key", async function () {
+    describe("SUM query iterator", { timeout: 30000 }, () => {
+      it("return sum for given partition key", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,

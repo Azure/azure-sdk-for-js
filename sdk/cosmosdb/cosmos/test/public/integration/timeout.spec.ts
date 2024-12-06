@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
+
 import type { Container } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 
-describe("Timeout", function () {
-  beforeEach(async function () {
+describe("Timeout", () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("successfully exits queries after a timeout duration", async function () {
+  it("successfully exits queries after a timeout duration", async () => {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -65,7 +64,7 @@ describe("Timeout", function () {
   });
 });
 
-async function createItem(container: Container) {
+async function createItem(container: Container): Promise<string> {
   const {
     resource: { id },
   } = await container.items.create({

@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics/index.js";
 import { describe, it, assert } from "vitest";
 
-describe("Test Index Metrics Writer", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-
+describe("Test Index Metrics Writer", { timeout: 20000 }, () => {
   it("test writeIndexMetrics", async function () {
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
     IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
@@ -31,7 +28,7 @@ describe("Test Index Metrics Writer", function (this: Suite) {
   });
 });
 
-describe("Test Index Utilization Info", function (this: Suite) {
+describe("Test Index Utilization Info", () => {
   it("test tryCreateFromDelimitedBase64String", async function () {
     const delimitedString =
       "eyJVdGlsaXplZFNpbmdsZUluZGV4ZXMiOlt7IkZpbHRlckV4cHJlc3Npb24iOiIiLCJJbmRleFNwZWMiOiJcL25hbWVcLz8iLCJGaWx0ZXJQcmVjaXNlU2V0Ijp0cnVlLCJJbmRleFByZWNpc2VTZXQiOnRydWUsIkluZGV4SW1wYWN0U2NvcmUiOiJIaWdoIn1dLCJQb3RlbnRpYWxTaW5nbGVJbmRleGVzIjpbXSwiVXRpbGl6ZWRDb21wb3NpdGVJbmRleGVzIjpbXSwiUG90ZW50aWFsQ29tcG9zaXRlSW5kZXhlcyI6W119";

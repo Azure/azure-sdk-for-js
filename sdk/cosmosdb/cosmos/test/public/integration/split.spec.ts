@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
+
 import type { Container } from "../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
@@ -8,8 +8,7 @@ import { Constants, CosmosClient, PluginOn } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
-import assert from "node:assert";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, beforeAll } from "vitest";
 
 const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
@@ -30,7 +29,7 @@ const documentDefinitions = generateDocuments(20);
 describe("Partition Splits", () => {
   let container: Container;
 
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Partition Splits",

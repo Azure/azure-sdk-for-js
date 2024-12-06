@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Container, ContainerDefinition } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
-import assert from "node:assert";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const options = {
   maxItemCount: 100,
@@ -544,12 +544,12 @@ describe("Cross partition GROUP BY", () => {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (ctx) {
-    currentTestTitle = this.currentTest.fullTitle();
+  beforeEach((ctx) => {
+    currentTestTitle = ctx.currentTest.fullTitle();
     snapshotNumber = 1;
   });
 
-  before(async () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "GROUP BY Query",

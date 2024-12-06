@@ -4,12 +4,9 @@ import { DatabaseAccount, ResourceResponse } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { GlobalEndpointManager } from "../../../src/index.js";
 import { OperationType, ResourceType } from "../../../src/index.js";
-import * as fakeTimers from "@sinonjs/fake-timers";
-
-import assert from "node:assert";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, afterAll, vi } from "vitest";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {
@@ -44,8 +41,8 @@ const databaseAccountBody: any = {
   ConsistencyPolicy: "Session",
 };
 
-describe("GlobalEndpointManager", function () {
-  describe("#resolveServiceEndpoint", function () {
+describe("GlobalEndpointManager", () => {
+  describe("#resolveServiceEndpoint", () => {
     let gem = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
@@ -66,7 +63,7 @@ describe("GlobalEndpointManager", function () {
       },
     );
 
-    it("should resolve the correct endpoint", async function () {
+    it("should resolve the correct endpoint", async () => {
       // We don't block on init for database account calls
       assert.equal(
         await gem.resolveServiceEndpoint(
@@ -109,7 +106,7 @@ describe("GlobalEndpointManager", function () {
       );
     });
 
-    it("should allow you to pass a normalized preferred location", async function () {
+    it("should allow you to pass a normalized preferred location", async () => {
       gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
@@ -140,15 +137,14 @@ describe("GlobalEndpointManager", function () {
       );
     });
 
-    describe("should resolve to endpoint when call made after server unavailability time", function () {
-      let clock: fakeTimers.InstalledClock;
-      before(async function () {
-        clock = fakeTimers.install();
+    describe("should resolve to endpoint when call made after server unavailability time", () => {
+      beforeAll(async () => {
+        vi.useFakeTimers();
       });
-      after(function () {
-        clock.uninstall();
+      afterAll(() => {
+        vi.useRealTimers();
       });
-      it("should resolve to endpoint when call made after server unavailability time", async function () {
+      it("should resolve to endpoint when call made after server unavailability time", async () => {
         gem = new GlobalEndpointManager(
           {
             endpoint: "https://test.documents.azure.com:443/",
@@ -177,18 +173,17 @@ describe("GlobalEndpointManager", function () {
           await gem.getReadEndpoint(diagnosticNode),
           "https://test-eastus2.documents.azure.com:443/",
         );
-        clock.tick(locationUnavailabilityExpiratationTime);
+        vi.advanceTimersByTime(locationUnavailabilityExpiratationTime);
         await gem.refreshEndpointList(diagnosticNode);
         assert.equal(
           await gem.getReadEndpoint(diagnosticNode),
           "https://test-westus2.documents.azure.com:443/",
         );
-        clock.uninstall();
       });
     });
   });
 
-  describe("#markCurrentLocationUnavailable", function () {
+  describe("#markCurrentLocationUnavailable", () => {
     const gem = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
@@ -213,7 +208,7 @@ describe("GlobalEndpointManager", function () {
       await gem.refreshEndpointList(createDummyDiagnosticNode());
     });
 
-    it("should mark the current location unavailable for read", async function () {
+    it("should mark the current location unavailable for read", async () => {
       // We don't block on init for database account calls
       await gem.markCurrentLocationUnavailableForRead(
         createDummyDiagnosticNode(),
@@ -227,7 +222,7 @@ describe("GlobalEndpointManager", function () {
         "https://test-westus2.documents.azure.com:443/",
       );
     });
-    it("should mark the current location unavailable for write", async function () {
+    it("should mark the current location unavailable for write", async () => {
       // We don't block on init for database account calls
       await gem.markCurrentLocationUnavailableForWrite(
         createDummyDiagnosticNode(),

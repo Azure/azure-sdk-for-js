@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
+
 import type {
   Container,
   CosmosDiagnostics,
@@ -37,7 +36,8 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
-import { assert } from "vitest";
+import { assert, expect } from "vitest";
+import { AssertionError } from "node:assert";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -264,7 +264,7 @@ function compareObjects(test: any, target: any, message: string): void {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
       ", ",
     )}] did not match.`;
-    throw new AssertionError(errorMessage);
+    throw new AssertionError({ message: errorMessage });
   }
 }
 
@@ -481,8 +481,8 @@ export async function bulkReplaceItems(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
-      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
-      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
     }),
@@ -640,7 +640,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new assert.AssertionError({
+  throw new AssertionError({
     message: "Missing rejection" + (error ? " with " + error.name : ""),
   });
 }

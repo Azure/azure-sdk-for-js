@@ -5,8 +5,7 @@
  * @summary Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
 import {

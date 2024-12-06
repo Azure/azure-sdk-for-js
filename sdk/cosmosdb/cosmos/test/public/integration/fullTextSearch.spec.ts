@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
-import { ContainerDefinition, Container } from "../../../src/index.js";
+
+import type { ContainerDefinition, Container } from "../../../src/index.js";
 import items from "./text-3properties-1536dimensions-100documents.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll } from "vitest";
 
-describe.skip("Validate full text search queries", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-
+describe.skip("Validate full text search queries", { timeout: 20000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
@@ -243,7 +241,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
 
   const containerOptions = { offerThroughput: 25000 };
 
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Validate FTS Query",
@@ -256,7 +254,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
     }
   });
 
-  it("FetchNext: should return correct expected values for all the queries", async function () {
+  it("FetchNext: should return correct expected values for all the queries", async () => {
     for (const [query, { expected1, expected2 }] of queriesMap) {
       const queryOptions = { allowUnboundedNonStreamingQueries: true, forceQueryPlan: true };
       const queryIterator = container.items.query(query, queryOptions);
@@ -278,7 +276,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
     }
   });
 
-  it("FetchAll: should return correct expected values for all the queries", async function () {
+  it("FetchAll: should return correct expected values for all the queries", async () => {
     for (const [query, { expected1, expected2 }] of queriesMap) {
       const queryOptions = { allowUnboundedNonStreamingQueries: true };
       const queryIterator = container.items.query(query, queryOptions);

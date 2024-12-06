@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { CosmosClient, OperationType } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
@@ -13,12 +13,7 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function (ctx) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  });
-
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   describe("validate database account functionality", function () {
     it("nativeApi Should get database account successfully name based", async function () {
       const {

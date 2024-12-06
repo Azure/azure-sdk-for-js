@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
+
 import { CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -112,10 +111,8 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Multi-region tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || "30000");
-
-  it("Preferred locations should be honored for readEndpoint", async function () {
+describe("Multi-region tests", { timeout: 30000 }, () => {
+  it("Preferred locations should be honored for readEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
@@ -159,7 +156,7 @@ describe("Multi-region tests", function (this: Suite) {
     client.dispose();
   });
 
-  it("Preferred locations should be honored for writeEndpoint", async function () {
+  it("Preferred locations should be honored for writeEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [

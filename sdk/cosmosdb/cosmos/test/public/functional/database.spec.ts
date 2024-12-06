@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { DatabaseDefinition, Database } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
@@ -13,7 +13,7 @@ import {
   testForDiagnostics,
 } from "../common/TestHelpers.js";
 import type { DatabaseRequest } from "../../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const client = new CosmosClient({
   endpoint,
@@ -21,13 +21,12 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  describe("Validate Database CRUD", async function () {
+  describe("Validate Database CRUD", async () => {
     const databaseCRUDTest = async function (): Promise<void> {
       // read databases
 
@@ -122,19 +121,19 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     };
 
-    it("nativeApi Should do database CRUD operations successfully name based", async function () {
+    it("nativeApi Should do database CRUD operations successfully name based", async () => {
       await databaseCRUDTest();
     });
 
-    describe("databases.createIfNotExists", function () {
-      it("should handle does not exist", async function () {
+    describe("databases.createIfNotExists", () => {
+      it("should handle does not exist", async () => {
         const def: DatabaseDefinition = { id: addEntropy("does not exist") };
         const { database } = await client.databases.createIfNotExists(def);
         const { resource: readDef } = await database.read();
         assert.equal(def.id, readDef.id);
       });
 
-      it("should handle does exist", async function () {
+      it("should handle does exist", async () => {
         const def: DatabaseDefinition = { id: addEntropy("does  exist") };
         // Set up
         await client.databases.create(def);
@@ -148,8 +147,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
   });
 
   // TODO: These are unit tests, not e2e tests like above, so maybe should seperate these.
-  describe("Validate Id validation", function () {
-    it("nativeApi Should fail on ends with a space", async function () {
+  describe("Validate Id validation", () => {
+    it("nativeApi Should fail on ends with a space", async () => {
       // Id shoudn't end with a space.
       try {
         await client.databases.create({ id: "id_ends_with_space " });
@@ -159,7 +158,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     });
 
-    it("nativeAPI Should fail on contains '/'", async function () {
+    it("nativeAPI Should fail on contains '/'", async () => {
       // Id shoudn't contain "/".
       try {
         await client.databases.create({ id: "id_with_illegal/_char" });
@@ -169,7 +168,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     });
 
-    it("nativeAPI Should fail on contains '\\'", async function () {
+    it("nativeAPI Should fail on contains '\\'", async () => {
       // Id shoudn't contain "\\".
       try {
         await client.databases.create({ id: "id_with_illegal\\_char" });
@@ -179,7 +178,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     });
 
-    it("nativeAPI Should fail on contains '?'", async function () {
+    it("nativeAPI Should fail on contains '?'", async () => {
       // Id shoudn't contain "?".
       try {
         await client.databases.create({ id: "id_with_illegal?_?char" });
@@ -189,7 +188,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     });
 
-    it("nativeAPI should fail on contains '#'", async function () {
+    it("nativeAPI should fail on contains '#'", async () => {
       // Id shouldn't contain "#".
       try {
         await client.databases.create({ id: "id_with_illegal#_char" });
@@ -201,31 +200,31 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
   });
 });
 
-describe("database.readOffer", function () {
-  describe("without offer", async function () {
+describe("database.readOffer", () => {
+  describe("without offer", async () => {
     let offerlessDatabase: Database;
-    before(async function () {
+    beforeAll(async () => {
       offerlessDatabase = await getTestDatabase("has offer db1");
     });
-    it("returns undefined resource", async function () {
+    it("returns undefined resource", async () => {
       const offer: any = await offerlessDatabase.readOffer();
       assert.equal(offer.resource, undefined);
     });
   });
-  describe("has offer", function () {
+  describe("has offer", () => {
     let offerDatabase: Database;
-    before(async function () {
+    beforeAll(async () => {
       offerDatabase = await getTestDatabase("has offer db2", undefined, { throughput: 500 });
     });
-    it("returns offer", async function () {
+    it("returns offer", async () => {
       const offer: any = await offerDatabase.readOffer();
       assert.equal(offer.resource.offerVersion, "V2");
     });
   });
 });
 
-describe("database.create", function () {
-  it("uses autoscale", async function () {
+describe("database.create", () => {
+  it("uses autoscale", async () => {
     const maxThroughput = 50000;
     const databaseRequest: DatabaseRequest = {
       maxThroughput,
@@ -235,7 +234,7 @@ describe("database.create", function () {
     const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });
-  it("throws with maxThroughput and throughput", function () {
+  it("throws with maxThroughput and throughput", () => {
     const databaseRequest: DatabaseRequest = {
       throughput: 400,
       maxThroughput: 4000,
