@@ -13,7 +13,10 @@ See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@
 
 :ballot_box_with_check: The package structure in the azure-rest-api-specs repository should follow [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/typespec-structure-guidelines.md#structure).
 
-Here is a sample for [tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml).
+Here are the samples for\
+[Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)\
+[RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
+
 Please make sure `service-dir`, `package-dir`, `packageDetails`, `isModularLibrary`, `generateMetadata`, `flavor`(for typespec-ts) is correctly configured. `experimentalExtensibleEnums`, `enableOperationGroup`, `hierarchyClient` are the optional configs.
 If you want to generate samples with typespec-ts, you should add 
 ```
