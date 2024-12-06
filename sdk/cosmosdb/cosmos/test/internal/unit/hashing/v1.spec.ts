@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import { hashV1PartitionKey } from "../../../../src/utils/hashing/v1.js";
 import { describe, it, assert } from "vitest";
 

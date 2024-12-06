@@ -52,7 +52,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const setupEntities = async function (isUpsertTest: boolean) {
+    const setupEntities = async (isUpsertTest: boolean) => {
       // create database
       const database = await getTestDatabase("Validate Authorization database");
       // create container1

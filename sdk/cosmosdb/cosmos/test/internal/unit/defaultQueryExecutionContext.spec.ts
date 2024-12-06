@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { FetchFunctionCallback } from "../../../src/queryExecutionContext/index.js";
 import { DefaultQueryExecutionContext } from "../../../src/queryExecutionContext/index.js";
 import type { FeedOptions } from "../../../src/index.js";
-import assert from "node:assert";
 import { sleep } from "../../../src/common/index.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { validateOffer } from "../../../../src/utils/offers.js";
 import type { ContainerRequest } from "../../../../src/index.js";
 import { describe, it, assert } from "vitest";

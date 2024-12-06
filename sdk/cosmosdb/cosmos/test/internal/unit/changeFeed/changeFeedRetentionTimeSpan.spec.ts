@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { ChangeFeedRetentionTimeSpan } from "../../../../src/client/ChangeFeed/ChangeFeedRetentionTimeSpan.js";
-import assert from "node:assert";
 import { describe, it, assert } from "vitest";
 
 describe("test ChangeFeedRetentionTimeSpan", function () {

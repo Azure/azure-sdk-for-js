@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import { Constants } from "../../../../src/index.js";
 import type { Batch, Operation } from "../../../../src/utils/batch.js";
 import {

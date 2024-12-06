@@ -28,6 +28,7 @@
     "samples-dev/**/*.ts",
     "test/**/*.ts",
     "test/**/*.mts",
-    "test/**/*.cts"
+    "test/**/*.cts",
+    "package.json"
   ]
 }
