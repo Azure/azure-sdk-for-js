@@ -9,7 +9,6 @@ import type {
   PrimitivePartitionKeyValue,
 } from "../documents";
 import { NonePartitionKeyLiteral, NullPartitionKeyLiteral, PartitionKeyKind } from "../documents";
-import { isArray } from "underscore";
 
 /**
  * A type which could be any type but undefined
@@ -83,7 +82,7 @@ export function isPrefixPartitionKey(
   return (
     partitionKeyDefinition !== undefined &&
     partitionKeyDefinition.kind === PartitionKeyKind.MultiHash &&
-    isArray(partitionKey) &&
+    Array.isArray(partitionKey) &&
     partitionKey.length < partitionKeyDefinition.paths.length
   );
 }

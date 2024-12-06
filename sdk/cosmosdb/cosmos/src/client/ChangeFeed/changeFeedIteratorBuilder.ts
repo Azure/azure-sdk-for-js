@@ -15,14 +15,16 @@ import { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
 import { ErrorResponse } from "../../request";
 import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
 import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common";
-import { buildInternalChangeFeedOptions, fetchStartTime, isEpkRange } from "./changeFeedUtils";
+import {
+  buildInternalChangeFeedOptions,
+  fetchStartTime,
+  isEpkRange,
+  getEPKRangeForPrefixPartitionKey,
+} from "./changeFeedUtils";
 import { isPrefixPartitionKey, isPartitionKey } from "../../utils/typeChecks";
 import type { Container } from "../Container";
 import type { FeedRangeInternal } from "./FeedRange";
-import {
-  getEPKRangeForPrefixPartitionKey,
-  PartitionKeyInternal,
-} from "../../documents/PartitionKeyInternal";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
 
 export async function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
