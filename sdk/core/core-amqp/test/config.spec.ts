@@ -88,10 +88,10 @@ describe("ConnectionConfig", function () {
 
     it("Parses the connection string for the development emulator", async function () {
       const config = ConnectionConfig.create(
-        "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+        "Endpoint=sb://localhost;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
-      assert.equal(config.endpoint, "sb://localhost:6765/");
-      assert.equal(config.host, "localhost:6765");
+      assert.equal(config.endpoint, "sb://localhost/");
+      assert.equal(config.host, "localhost");
       assert.isTrue(config.useDevelopmentEmulator);
     });
 
@@ -224,11 +224,11 @@ describe("ConnectionConfig", function () {
     describe("Development Emulator Validation", function () {
       it("Accepts localhost", async function () {
         const connectionString =
-          "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://localhost;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "localhost:6765/",
-          host: "sb://localhost:6765/",
+          endpoint: "localhost/",
+          host: "sb://localhost/",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -238,11 +238,11 @@ describe("ConnectionConfig", function () {
 
       it("Accepts 127.0.0.1", async function () {
         const connectionString =
-          "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://127.0.0.1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "127.0.0.1:6765/",
-          host: "sb://127.0.0.1:6765",
+          endpoint: "127.0.0.1/",
+          host: "sb://127.0.0.1",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -280,11 +280,11 @@ describe("ConnectionConfig", function () {
 
       it("Accepts localhost with missing scheme", async function () {
         const connectionString =
-          "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=localhost;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "localhost:6765/",
-          host: "localhost:6765/",
+          endpoint: "localhost/",
+          host: "localhost/",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
