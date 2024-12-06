@@ -18,7 +18,7 @@ export async function main(): Promise<void> {
     
     client.agents.deleteAgent(agent.id);
 
-    console.log(`Deleted agent`);
+    console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 
 main().catch((err) => {

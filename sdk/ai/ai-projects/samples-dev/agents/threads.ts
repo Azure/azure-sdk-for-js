@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
 
   client.agents.deleteThread(thread.id);
 
-  console.log(`Deleted thread`);
+  console.log(`Deleted thread, thread ID : ${_thread.id}`);
 }
 
 main().catch((err) => {

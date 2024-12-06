@@ -17,11 +17,11 @@ export async function main(): Promise<void> {
   // Upload file
   const localFileStream = fs.createReadStream("./samples-dev/agents/sampleFileForUpload.txt");
   const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
-  console.log(`Uploaded file, ID: ${file.id}`);
+  console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store
   const vectorStore = await client.agents.createVectorStore({ file_ids: [file.id], name: "my_vector_store" });
-  console.log(`Created vector store, ID: ${vectorStore.id}`);
+  console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create agent with files
   const agent  = await client.agents.createAgent(

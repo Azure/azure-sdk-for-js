@@ -15,7 +15,7 @@ export async function main(): Promise<void> {
 
   // Upload file and wait for it to be processed
   const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "my-local-file");
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
@@ -75,7 +75,7 @@ export async function main(): Promise<void> {
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
   await client.agents.deleteFile(localFile.id);
-  console.log("Deleted file");
+  console.log(`Deleted file, file ID : ${localFile.id}`);
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);
@@ -127,7 +127,7 @@ export async function main(): Promise<void> {
 
   // Delete the agent once done
   await client.agents.deleteAgent(agent.id);
-  console.log("Deleted agent");
+  console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 
 main().catch((err) => {
