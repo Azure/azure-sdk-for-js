@@ -4,9 +4,12 @@
 import type {
   NonePartitionKeyType,
   NullPartitionKeyType,
+  PartitionKey,
+  PartitionKeyDefinition,
   PrimitivePartitionKeyValue,
 } from "../documents";
-import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "../documents";
+import { NonePartitionKeyLiteral, NullPartitionKeyLiteral, PartitionKeyKind } from "../documents";
+import { isArray } from "underscore";
 
 /**
  * A type which could be any type but undefined
@@ -68,4 +71,19 @@ export function isNullPartitionKeyValue(value: unknown): value is NullPartitionK
  */
 export function isPartitionKey(partitionKey: unknown): boolean {
   return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
+}
+/**
+ * Check for value being PrefixPartitionKey.
+ * @internal
+ */
+export function isPrefixPartitionKey(
+  partitionKey: PartitionKey,
+  partitionKeyDefinition: PartitionKeyDefinition,
+): boolean {
+  return (
+    partitionKeyDefinition !== undefined &&
+    partitionKeyDefinition.kind === PartitionKeyKind.MultiHash &&
+    isArray(partitionKey) &&
+    partitionKey.length < partitionKeyDefinition.paths.length
+  );
 }
