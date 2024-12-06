@@ -12063,7 +12063,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-jn39f8RDR/vv7W3R88kr3FmheVJBS+lAdSmlatM6LyGIpm4/IgXKlb/IDE+DtHtkmntkXzGTngDWHhoTYn2l7A==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-Xy0ImIzleKUA7VxBCkv4huvwqPjtZXDt3FAgUez7wyDUMS7OC1XVAvyg5pKcIPZLXGmHJ//3S54/2Lbzx+G14A==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -12074,6 +12074,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -12089,19 +12091,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-text-analytics.tgz:
@@ -19807,7 +19823,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-VCukeh0cbGECw36Kqu24/Mv+Iit84c8qLx/Yy2K4z/3asAKsCj8ZzFEiVGRg6+wGqw2a30RyVseWQ+rUp6F31g==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-l5rV9Yu/fjvbShmu02iwVLOdLChhvsru7Ke7u8yG6uoPVQJK8Ruto5Y6gWeWaNiJ57yHruwQ+8iOiJj+fHuGuQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19821,8 +19837,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/sinonjs__fake-timers': 8.1.5
       '@types/underscore': 1.13.0
-      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -19831,7 +19845,6 @@ packages:
       jsbi: 4.3.0
       mocha: 10.8.2
       nock: 13.5.6
-      playwright: 1.49.0
       priorityqueuejs: 2.0.0
       requirejs: 2.3.7
       semaphore: 1.1.0
@@ -19840,27 +19853,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
+      - '@swc/core'
+      - '@swc/wasm'
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
     dev: false
 
   file:projects/create-microsoft-playwright-testing.tgz:
@@ -20445,7 +20442,7 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-oFukFmJk2iIPQauvOB5HqP7CTjE7CbaLyi+szryLRSCDHcBc+mphI5f+q1Jk4GXWgXjQJXDhmJHUZog2FRn8HQ==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-QDFKCZDdiYdWR2L8YM/sUsLuvyTAgGhnyKvh8WbiKyuPKPiePEjifUir+YXDFblAvJ/ugmEd8roRTzVYq68dbQ==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
@@ -20455,6 +20452,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -20471,19 +20470,33 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/health-deidentification.tgz:

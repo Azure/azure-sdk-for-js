@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { ContainerDefinition, Container } from "../../../src/index.js";
-import items from "./text-3properties-1536dimensions-100documents.js";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import {
+  getTestContainer,
+  removeAllDatabases,
+  readAndParseJSONFile,
+} from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
 describe.skip("Validate full text search queries", { timeout: 20000 }, () => {
@@ -214,7 +217,7 @@ describe.skip("Validate full text search queries", { timeout: 20000 }, () => {
     [
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]),FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]), FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
       {
         expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
         expected2: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
@@ -249,8 +252,17 @@ describe.skip("Validate full text search queries", { timeout: 20000 }, () => {
       containerDefinition,
       containerOptions,
     );
-    for (const item of items) {
-      await container.items.create(item);
+
+    // Read and Parse JSON file
+    const fileName = "text-3properties-1536dimensions-100documents.json";
+    const items = readAndParseJSONFile(fileName);
+
+    try {
+      for (const item of items) {
+        await container.items.create(item);
+      }
+    } catch (error) {
+      console.error("Error inserting items:", error);
     }
   });
 

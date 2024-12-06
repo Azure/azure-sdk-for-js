@@ -1,11 +1,12 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
       "@azure/ai-metrics-advisor": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
   "exclude": [
     "node_modules",
@@ -18,5 +19,13 @@
     "./dist-samples/**/*.ts",
     "./dom-shims.d.ts"
   ],
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }

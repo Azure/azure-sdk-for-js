@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/arm-network",
-  "sdk-type": "client",
+  "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.2",
   "description": "",
