@@ -5,7 +5,7 @@ Make sure you are familiar with concepts such as "Service Client" and "Packaging
 
 Make sure you are familiar with Git.
 
-See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@azure-tools/typespec-ts`. Make sure that NodeJS, JDK is installed.
+See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@azure-tools/typespec-ts`. Make sure that NodeJS is installed.
 
 # Generate SDK
 
