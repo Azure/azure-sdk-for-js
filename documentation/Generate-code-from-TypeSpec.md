@@ -28,7 +28,42 @@ in your tspconfig.yaml
 
 SDK module would be generated under the SDK project folder at `sdk/<service>/<module>`.
 
-### Generate Code
+### Generate Code with code-gen-pipeline tool
+
+Install dependencies to use code-gen-pipeline,  
+```ps
+npm install -g @azure-tools/typespec-client-generator-cli
+npm install -g @microsoft/rush@5.92.0
+npm install -g @azure-tools/js-sdk-release-tools
+```
+
+Create a local json file named generatedInput.json with content similar to that shown below
+```
+   {
+    "dryRun": false,
+    "specFolder": <your-local-spec-repo-path>,
+    "headSha": <commit-id-you-want-to-generate-from>,
+    "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
+    "relatedTypeSpecProjectFolder": [
+    "specification/SERVICE_DIRECTORY_NAME/PACKAGE_DIRECTORY_NAME/"
+  ]
+}
+```
+
+Run the command
+```
+code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath={path-to-anywhere(This will not be used locally, but this is required to use code-gen-pipeline)}  --typespecEmitter=@azure-tools/typespec-ts  --local 
+```
+
+This command will do:\
+1: generate code with typespec\
+2: generate CHANGELOG.md\
+3: update rush.json(if the generated package is new)\
+4: generate/update ci.mgmt.yml or ci.yml(if the generated package is new)
+
+
+
+### Generate Code with tsp-client tool
 
 Install `tsp-client` CLI tool
 
@@ -58,7 +93,7 @@ tsp-client init --tsp-config=../azure-rest-api-specs/specification/connectedcach
 ```
 
 **Notice**
-If your generated SDK is new, you need to do two extra things:
+If you use tsp-client to generate code and your generated SDK is new, you need to do two extra things:
 
 **1**: 
 You should add your new SDK in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json).

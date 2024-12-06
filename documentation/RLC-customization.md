@@ -4,10 +4,10 @@
 
 Follow [quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level client from OpenAPI specs.
 
-It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed.
+It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed. More details please refer [Customization v2 quickstart](https://loop.cloud.microsoft/p/eyJ1IjoiaHR0cHM6Ly9taWNyb3NvZnQuc2hhcmVwb2ludC5jb20vc2l0ZXMvZDJlMGNjODEtMjhjOC00YTgyLTk5ZDktY2EwZGQyOTVlMmRiP25hdj1jejBsTWtaemFYUmxjeVV5Um1ReVpUQmpZemd4SlRKRU1qaGpPQ1V5UkRSaE9ESWxNa1E1T1dRNUpUSkVZMkV3WkdReU9UVmxNbVJpSm1ROVlpVXlNWGxRY1RsM2EweEVUbXRQZGtaaGMzVnJRbE5aTUU5aVJISnFNMFp1U1VKT2FtMTBZbEZtYkZaTFZWRnNVSGNsTWtReFkzZE1kVk52UkZsaFVuWk9UR2RKU0NabVBUQXhNMU0zVUZkUk0xZFFWMEUzVVRjM1UwUk9SMHBNTlZkUlR6WlVNa0paU1V3bVl6MGxNa1k9In0%3D?web=1)
 
 ```yaml
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./generated
 ```
 
 ## Custom authentication
@@ -28,7 +28,7 @@ Here is the implementation in Metrics Advisor.
 The wrapping function looks like:
 
 ```typescript
-import MetricsAdvisor from "./generated/generatedClient";
+import MetricsAdvisor from "../generated/generatedClient";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import {
@@ -118,9 +118,8 @@ The standard pagination pattern, assumes `GET` for getting the next pages. In th
 Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
 
 ```typescript
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
-import { PaginateReturn, PagingOptions } from "./generated/paginateHelper";
+import { PaginateReturn, PagingOptions, getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "./generated/paginateHelper";
 
 export function paginate<TResponse extends PathUncheckedResponse>(
   client: Client,
