@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../common/constants";
-import { QueryRange } from "../routing";
-import { hashV2PartitionKey } from "../utils/hashing/v2";
 import type {
   NonePartitionKeyType,
   NullPartitionKeyType,
@@ -36,20 +33,4 @@ export function convertToInternalPartitionKey(partitionKey: PartitionKey): Parti
   if (Array.isArray(partitionKey)) {
     return partitionKey.map((key) => (key === undefined ? NonePartitionKeyLiteral : key));
   } else return [partitionKey];
-}
-
-export async function getEPKRangeForPrefixPartitionKey(
-  internalPartitionKey: PartitionKeyInternal,
-): Promise<QueryRange> {
-  const minEPK = getEffectivePartitionKeyForMultiHashPartitioning(internalPartitionKey);
-  const maxEPK =
-    minEPK + Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
-  return new QueryRange(minEPK, maxEPK, true, false);
-}
-
-export function getEffectivePartitionKeyForMultiHashPartitioning(
-  partitionKeyInternal: PartitionKeyInternal,
-): string {
-  const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
-  return hashArray.join("");
 }
