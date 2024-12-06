@@ -447,10 +447,10 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   }
 
   /**
- * Loads the account based on the result of the authentication.
- * If no result was received, tries to load the account from the cache.
- * @param result - Result object received from MSAL.
- */
+   * Loads the account based on the result of the authentication.
+   * If no result was received, tries to load the account from the cache.
+   * @param result - Result object received from MSAL.
+   */
   async function handleBrowserResult(
     result?: msalBrowser.AuthenticationResult,
   ): Promise<AuthenticationRecord | undefined> {
@@ -529,8 +529,8 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   }
 
   /**
- * Uses MSAL to handle the redirect.
- */
+   * Uses MSAL to handle the redirect.
+   */
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
     return handleBrowserResult((await msalApp.handleRedirectPromise(redirectHash)) || undefined);
@@ -549,8 +549,8 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   }
 
   /**
- * Uses MSAL to trigger a redirect or a popup login.
- */
+   * Uses MSAL to trigger a redirect or a popup login.
+   */
   async function login(scopes: string | string[] = []): Promise<AuthenticationRecord | undefined> {
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
     const loginRequest: msalBrowser.RedirectRequest = {
