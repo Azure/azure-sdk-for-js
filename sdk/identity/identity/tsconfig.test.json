@@ -1,4 +1,7 @@
 {
   "extends": ["./tsconfig.src.json", "../../../tsconfig.test.json"],
+  "compilerOptions": {
+    "lib": ["DOM"]
+  },
   "exclude": ["test/manual*"]
 }
