@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     ignores: ["test/stress/"],
   },
@@ -10,4 +9,4 @@ export default [
       "@azure/azure-sdk/ts-package-json-types": "off",
     },
   },
-];
+]);

@@ -1,8 +1,7 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   { ignores: ["src/generated"] },
-  ...azsdkEslint.configs.recommended,
   {
     rules: {
       "@azure/azure-sdk/ts-package-json-module": "warn",
@@ -10,4 +9,4 @@ export default [
       "no-use-before-define": "warn",
     },
   },
-];
+]);

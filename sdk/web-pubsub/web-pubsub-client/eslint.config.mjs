@@ -1,8 +1,7 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   { ignores: ["src/ws.browser.js"] },
-  ...azsdkEslint.configs.recommended,
   {
     rules: {
       "no-return-await": "off",
@@ -10,4 +9,4 @@ export default [
       "no-constant-condition": "off",
     },
   },
-];
+]);

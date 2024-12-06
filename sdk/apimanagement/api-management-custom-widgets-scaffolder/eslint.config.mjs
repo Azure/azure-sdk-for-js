@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     rules: {
       "@azure/azure-sdk/github-source-headers": "off",
@@ -16,4 +15,4 @@ export default [
       "@azure/azure-sdk/github-source-headers": "off",
     },
   },
-];
+]);
