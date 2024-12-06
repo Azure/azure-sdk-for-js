@@ -110,9 +110,10 @@ export const ConnectionConfig = {
 
     const parsedCS = parseConnectionString<{
       Endpoint: string;
-      SharedAccessKeyName: string;
-      SharedAccessKey: string;
       EntityPath?: string;
+      Port?: string;
+      SharedAccessKey: string;
+      SharedAccessKeyName: string;
       UseDevelopmentEmulator?: string;
     }>(connectionString);
     if (!parsedCS.Endpoint) {
@@ -133,6 +134,11 @@ export const ConnectionConfig = {
     if (path || parsedCS.EntityPath) {
       result.entityPath = path || parsedCS.EntityPath;
     }
+
+    if (parsedCS["Port"] !== undefined && parsedCS["Port"] !== "") {
+      result.port = Number.parseInt(parsedCS["Port"]);
+    }
+
     return result;
   },
 
@@ -157,6 +163,10 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'host' in configuration");
     }
     config.host = String(config.host);
+
+    if (config.port !== undefined && !(config.port >= 0 && config.port <= 65535)) {
+      throw new TypeError("Invalid 'port' in configuration");
+    }
 
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");

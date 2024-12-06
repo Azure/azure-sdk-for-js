@@ -95,6 +95,40 @@ describe("ConnectionConfig", function () {
       assert.isTrue(config.useDevelopmentEmulator);
     });
 
+    describe("Port Parsing", function () {
+      it("only defines the port when the Port option is provided", async function () {
+        const config = ConnectionConfig.create("Endpoint=sb://localhost");
+        assert.isUndefined(config.port);
+      });
+
+      it("doesn't parse an empty port", async function () {
+        const config = ConnectionConfig.create("Endpoint=sb://localhost;Port=");
+        assert.isUndefined(config.port);
+      });
+
+      it("parses a valid port number", async function () {
+        const config = ConnectionConfig.create("Endpoint=sb://localhost;Port=6765");
+        assert.equal(config.port, 6765);
+      });
+
+      it("parses port number 0", async function () {
+        const config = ConnectionConfig.create("Endpoint=sb://localhost;Port=0");
+        assert.equal(config.port, 0);
+      });
+
+      it("parses a negative port", async function () {
+        // Invalid port numbers are handled by the validator.
+        const config = ConnectionConfig.create("Endpoint=sb://localhost;Port=-6765");
+        assert.equal(config.port, -6765);
+      });
+
+      it("parses a port that's not a number", async function () {
+        // Invalid port numbers are handled by the validator.
+        const config = ConnectionConfig.create("Endpoint=sb://localhost;Port=asdf");
+        assert.isNaN(config.port);
+      });
+    });
+
     describe("Throws error if required connection config properties are not present", function () {
       const connectionString = `
         Endpoint=sb://hostname.servicebus.windows.net/;
@@ -304,6 +338,88 @@ describe("ConnectionConfig", function () {
           useDevelopmentEmulator: true,
         };
         ConnectionConfig.validate(config);
+      });
+    });
+
+    describe("Port Validation", function () {
+      it("accepts port 0", async function () {
+        // Min valid port number.
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 0,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("accepts port 65535", async function () {
+        // Max valid port number.
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 65535,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("rejects port -1", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: -1,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port 65536", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 65536,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port NaN", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: Number.NaN,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port Infinity", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: Number.POSITIVE_INFINITY,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
       });
     });
   });
