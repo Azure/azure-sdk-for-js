@@ -18,7 +18,7 @@ export default mergeConfig(
       testTimeout: 500000,
       typecheck: {
         enabled: true,
-        tsconfig: "tsconfig.tests.json",
+        tsconfig: "tsconfig.test.json",
         include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
       }
     },

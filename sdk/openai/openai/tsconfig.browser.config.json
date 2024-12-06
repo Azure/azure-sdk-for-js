@@ -1,10 +1,8 @@
 {
-  "extends": ["./.tshy/build.json", "./tsconfig.tests.json"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts", "./test/**/*.mts"],
-  "exclude": ["./test/**/node/**/*.ts"],
+  "extends": "./tsconfig.test.json",
+  "exclude": ["./test/**/node"],
   "compilerOptions": {
     "outDir": "./dist-test/browser",
-    "rootDir": ".",
     "noEmit": false
   }
 }
