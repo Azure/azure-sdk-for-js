@@ -10,13 +10,67 @@ import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export interface AddOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface CheckOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface OptOutAddResult {
+    // (undocumented)
+    errorMessage?: string;
+    // (undocumented)
+    httpStatusCode: number;
+    // (undocumented)
+    to: string;
+}
+
+// @public (undocumented)
+export interface OptOutCheckResult {
+    // (undocumented)
+    errorMessage?: string;
+    // (undocumented)
+    httpStatusCode: number;
+    // (undocumented)
+    isOptedOut: boolean;
+    // (undocumented)
+    to: string;
+}
+
+// @public (undocumented)
+export interface OptOutRemoveResult {
+    // (undocumented)
+    errorMessage?: string;
+    // (undocumented)
+    httpStatusCode: number;
+    // (undocumented)
+    to: string;
+}
+
+// @public (undocumented)
+export class OptOutsClient {
+    // Warning: (ae-forgotten-export) The symbol "SmsApiClient" needs to be exported by the entry point index.d.ts
+    constructor(api: SmsApiClient);
+    // (undocumented)
+    add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+    // (undocumented)
+    check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
+    // (undocumented)
+    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+}
+
+// @public (undocumented)
+export interface RemoveOptions extends OperationOptions {
+}
+
 // @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "OptOutsClient" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     optOuts: OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
