@@ -1,8 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FunctionDefinition, FunctionToolDefinition, RequiredActionOutput, RequiredToolCallOutput, ToolDefinitionOutputParent, ToolDefinitionParent } from "./inputOutputs.js";
+import { FunctionDefinition, FunctionToolDefinition, MessageAttachment, MessageAttachmentToolDefinition, RequiredActionOutput, RequiredToolCallOutput, ToolDefinitionOutputParent, ToolDefinitionParent, VectorStoreDataSource } from "./inputOutputs.js";
 
+/**
+ * Create MessageAttachment object that describes to which tools a file has been attached.
+ *
+ * @param tools - The tools to add to this file.
+ * @param fileId - The ID of the file to attach to the message.
+ * @param dataSources - An array of Azure asset IDs representing data sources.
+ * @returns A MessageAttachment object containing the provided tools, file ID, and data sources.
+ */
+export function createMessageAttachment(
+  tools: MessageAttachmentToolDefinition[],
+  fileId?: string,
+  dataSources?: Array<VectorStoreDataSource>,
+) : MessageAttachment {
+  return {
+    file_id: fileId,
+    data_sources: dataSources,
+    tools: tools,
+  }
+}
 
 /**
  * Determines if the given output is of the specified type.
