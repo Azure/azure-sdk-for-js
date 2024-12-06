@@ -6,7 +6,7 @@ import { describe, it } from "vitest";
 // import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../src";
 // import * as request from "../../src/request";
 
-describe("retry policy tests", function () {
+describe("retry policy tests", () => {
   // this.timeout(300000);
   // const collectionDefinition = {
   //   id: "sample collection"
@@ -41,7 +41,7 @@ describe("retry policy tests", function () {
   // }
 
   // TODO: need to fix this, the stubbing doesn't work with the new way we work
-  it.skip("throttle retry policy test default retryAfter", async function () {
+  it.skip("throttle retry policy test default retryAfter", async () => {
     // connectionPolicy.RetryOptions = new RetryOptions(5);
     // const client = new CosmosClient({endpoint, key: masterKey, connectionPolicy});
     // const { result: db } = await client.createDatabase({ id: "sample database" });
@@ -65,7 +65,7 @@ describe("retry policy tests", function () {
     // client.getDatabaseAccount = originalGetDatabaseAccount;
   });
 
-  it.skip("throttle retry policy test fixed retryAfter", async function () {
+  it.skip("throttle retry policy test fixed retryAfter", async () => {
     // connectionPolicy.RetryOptions = new RetryOptions(5, 2000);
     // const client = new CosmosClient(endpoint, { masterKey }, connectionPolicy);
     // const { result: db } = await client.createDatabase({ id: "sample database" });
@@ -90,7 +90,7 @@ describe("retry policy tests", function () {
     // client.getDatabaseAccount = originalGetDatabaseAccount;
   });
 
-  it.skip("throttle retry policy test max wait time", async function () {
+  it.skip("throttle retry policy test max wait time", async () => {
     // connectionPolicy.RetryOptions = new RetryOptions(5, 2000, 3);
     // const client = new CosmosClient(endpoint, { masterKey }, connectionPolicy);
     // const { result: db } = await client.createDatabase({ id: "sample database" });
@@ -111,7 +111,7 @@ describe("retry policy tests", function () {
     // client.getDatabaseAccount = originalGetDatabaseAccount;
   });
 
-  it.skip("default retry policy validate create failure", async function () {
+  it.skip("default retry policy validate create failure", async () => {
     // const client = new CosmosClient(endpoint, { masterKey }, connectionPolicy);
     // const { result: db } = await client.createDatabase({ id: "sample database" });
     // const { result: collection } = await client.createCollection(db._self, collectionDefinition);
@@ -127,7 +127,7 @@ describe("retry policy tests", function () {
     // request._createRequestObjectStub = global.originalFunc;
   });
 
-  it.skip("default retry policy validate read success", async function () {
+  it.skip("default retry policy validate read success", async () => {
     // const client = new CosmosClient(endpoint, { masterKey }, connectionPolicy);
     // const { result: db } = await client.createDatabase({ id: "sample database" });
     // const { result: collection } = await client.createCollection(db._self, collectionDefinition);

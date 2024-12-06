@@ -11,6 +11,7 @@ import {
   removeAllDatabases,
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
 
 // Used for sproc
 declare let getContext: any;
@@ -22,7 +23,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   describe("Validate sproc CRUD", function () {
     let container: Container;
     beforeEach(async (ctx) => {
-      container = await getTestContainer(ctx);
+      container = await getTestContainer(getTaskFullTitle(ctx));
     });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
@@ -94,7 +95,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   describe("Validate stored procedure functionality", function () {
     let container: Container;
     beforeEach(async (ctx) => {
-      container = await getTestContainer(ctx);
+      container = await getTestContainer(getTaskFullTitle(ctx));
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
@@ -160,7 +161,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     const { resource: containerResult } = await database.containers.create(containerDefinition, {
       offerThroughput: 12000,
     });
-    const container = await database.container(containerResult.id);
+    const container = database.container(containerResult.id);
 
     const querySproc = {
       id: "querySproc",

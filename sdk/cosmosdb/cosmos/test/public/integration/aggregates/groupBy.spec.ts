@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
 import type { Container, ContainerDefinition } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
@@ -545,7 +546,7 @@ describe("Cross partition GROUP BY", () => {
   };
 
   beforeEach((ctx) => {
-    currentTestTitle = ctx.currentTest.fullTitle();
+    currentTestTitle = getTaskFullTitle(ctx);
     snapshotNumber = 1;
   });
 

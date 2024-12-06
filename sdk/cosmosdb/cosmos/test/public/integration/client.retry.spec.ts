@@ -11,8 +11,8 @@ import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
-describe("RetryPolicy", function () {
-  describe("Timeout Failover retry policy", function () {
+describe("RetryPolicy", () => {
+  describe("Timeout Failover retry policy", () => {
     const databaseAccountResponse = {
       headers: {
         "content-location": "https://failovertest.documents.azure.com/",
@@ -112,7 +112,7 @@ describe("RetryPolicy", function () {
       code: 200,
       diagnostics: getEmptyCosmosDiagnostics(),
     };
-    it("when 1st region endpoint becomes unseriviceable", async function () {
+    it("when 1st region endpoint becomes unseriviceable", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
@@ -139,7 +139,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("when both region endpoint becomes unseriviceable", async function () {
+    it("when both region endpoint becomes unseriviceable", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
@@ -161,7 +161,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("when both regions Timeout with retrial window", async function () {
+    it("when both regions Timeout with retrial window", async () => {
       const responses = [
         databaseAccountResponse,
         collectionResponse,
@@ -229,7 +229,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("timeout error thrown when retry count exceeds 120", async function () {
+    it("timeout error thrown when retry count exceeds 120", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,

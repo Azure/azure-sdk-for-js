@@ -48,7 +48,7 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
 
   const containerOptions = { offerThroughput: 10100 };
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Validate Aggregate Document Query",
@@ -171,102 +171,102 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
     await ValidateAsyncIterator(queryIterator, expectedResults);
   };
 
-  it("SELECT VALUE AVG", async function () {
+  it("SELECT VALUE AVG", async () => {
     await executeQueryAndValidateResults("SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       average,
     ]);
   });
 
-  it("SELECT VALUE AVG with ORDER BY", async function () {
+  it("SELECT VALUE AVG with ORDER BY", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key, r.field",
       [average],
     );
   });
 
-  it("SELECT VALUE COUNT", async function () {
+  it("SELECT VALUE COUNT", async () => {
     await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r", [
       testdata.numberOfDocuments,
     ]);
   });
 
-  it("SELECT VALUE COUNT with ORDER BY", async function () {
+  it("SELECT VALUE COUNT with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r ORDER BY r.key", [
       testdata.numberOfDocuments,
     ]);
   });
 
-  it("SELECT VALUE MAX", async function () {
+  it("SELECT VALUE MAX", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r", ["xyz"]);
   });
 
-  it("SELECT VALUE MAX with ORDER BY", async function () {
+  it("SELECT VALUE MAX with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r ORDER BY r.key", ["xyz"]);
   });
 
-  it("SELECT VALUE MIN", async function () {
+  it("SELECT VALUE MIN", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r", [null]);
   });
 
-  it("SELECT VALUE MIN with ORDER BY", async function () {
+  it("SELECT VALUE MIN with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r ORDER BY r.key", [null]);
   });
 
-  it("SELECT VALUE SUM", async function () {
+  it("SELECT VALUE SUM", async () => {
     await executeQueryAndValidateResults("SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       testdata.sum,
     ]);
   });
 
-  it("SELECT VALUE SUM with ORDER BY", async function () {
+  it("SELECT VALUE SUM with ORDER BY", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
       [testdata.sum],
     );
   });
 
-  it("SELECT VALUE AVG for single partiton", async function () {
+  it("SELECT VALUE AVG for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [samePartitionSum / testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE COUNT for single partiton", async function () {
+  it("SELECT VALUE COUNT for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE COUNT(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE MAX for single partiton", async function () {
+  it("SELECT VALUE MAX for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE MAX(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE MIN for single partiton", async function () {
+  it("SELECT VALUE MIN for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE MIN(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [1],
     );
   });
 
-  it("SELECT VALUE SUM for single partiton", async function () {
+  it("SELECT VALUE SUM for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [samePartitionSum],
     );
   });
 
-  it("Non VALUE aggregate", async function () {
+  it("Non VALUE aggregate", async () => {
     await executeQueryAndValidateResults("SELECT AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       { $1: average },
     ]);
   });
 
-  it("Multiple Aggregates", async function () {
+  it("Multiple Aggregates", async () => {
     await executeQueryAndValidateResults("SELECT COUNT(1), MAX(r.key) FROM r", [
       { $1: testdata.numberOfDocuments, $2: "xyz" },
     ]);
