@@ -7,6 +7,8 @@ import type { MsalFlow, MsalFlowOptions } from "./flows.js";
 import type { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions.js";
 import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import type { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions.js";
+import { AccessToken } from "@azure/core-auth";
+import type { CredentialFlowGetTokenOptions } from "../credentials.js";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -39,4 +41,16 @@ export interface MsalBrowserFlowOptions extends MsalFlowOptions {
 export interface MsalBrowserFlow extends MsalFlow {
   login(scopes?: string[]): Promise<AuthenticationRecord | undefined>;
   handleRedirect(): Promise<AuthenticationRecord | undefined>;
+}
+
+/**
+ * The common methods we use to work with the MSAL browser flows.
+ * @internal
+ */
+export interface MsalBrowserClient extends MsalFlow {
+  getActiveAccount(): Promise<AuthenticationRecord | undefined>;
+  getToken(
+    scopes: string[],
+    options: CredentialFlowGetTokenOptions,
+  ): Promise<AccessToken>;
 }
