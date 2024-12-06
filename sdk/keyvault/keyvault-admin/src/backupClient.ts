@@ -24,6 +24,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { createKeyVaultClient } from "./createKeyVaultClient.js";
 
 export {
   KeyVaultBackupOperationState,
@@ -73,26 +75,7 @@ export class KeyVaultBackupClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
-
-    const clientOptions = {
-      ...options,
-      loggingOptions: {
-        logger: logger.info,
-        additionalAllowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version",
-        ],
-      },
-    };
-
-    this.client = new KeyVaultClient(apiVersion, clientOptions);
-    // The authentication policy must come after the deserialization policy since the deserialization policy
-    // converts 401 responses to an Error, and we don't want to deal with that.
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
-      afterPolicies: ["deserializationPolicy"],
-    });
+    this.client = createKeyVaultClient(vaultUrl, credential, options);
   }
 
   /**

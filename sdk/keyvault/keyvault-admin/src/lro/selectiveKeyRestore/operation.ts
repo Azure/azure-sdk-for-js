@@ -15,7 +15,7 @@ import type {
 } from "../../generated/models/index.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../../tracing.js";
 
 /**
