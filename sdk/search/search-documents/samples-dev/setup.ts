@@ -256,6 +256,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
           vectorizerName: "vector-search-vectorizer",
           kind: "azureOpenAI",
           parameters: {
+            modelName: env.AZURE_OPENAI_DEPLOYMENT_NAME,
             resourceUrl: env.AZURE_OPENAI_ENDPOINT,
             deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           },
