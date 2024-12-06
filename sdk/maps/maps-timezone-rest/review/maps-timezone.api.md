@@ -21,23 +21,23 @@ export interface ConvertWindowsTimezoneToIana {
 
 // @public
 export interface CountryRecordOutput {
-    Code?: string;
-    Name?: string;
+    readonly Code?: string;
+    readonly Name?: string;
 }
 
 // @public
 export interface ErrorAdditionalInfoOutput {
-    info?: Record<string, unknown>;
-    type?: string;
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorDetailOutput {
-    additionalInfo?: Array<ErrorAdditionalInfoOutput>;
-    code?: string;
-    details?: Array<ErrorDetailOutput>;
-    message?: string;
-    target?: string;
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+    readonly code?: string;
+    readonly details?: Array<ErrorDetailOutput>;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -72,10 +72,10 @@ export interface GetWindowsTimezoneIds {
 
 // @public (undocumented)
 export interface IanaIdOutput {
-    AliasOf?: string;
-    HasZone1970Location?: boolean;
-    Id?: string;
-    IsAlias?: boolean;
+    readonly AliasOf?: string;
+    readonly HasZone1970Location?: boolean;
+    readonly Id?: string;
+    readonly IsAlias?: boolean;
 }
 
 // @public (undocumented)
@@ -112,21 +112,26 @@ export type MapsTimeZoneClient = Client & {
 };
 
 // @public
+export interface MapsTimeZoneClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ReferenceTimeOutput {
-    DaylightSavings?: string;
-    PosixTz?: string;
-    PosixTzValidYear?: number;
-    StandardOffset?: string;
-    Sunrise?: string;
-    Sunset?: string;
-    Tag?: string;
-    WallTime?: string;
+    readonly DaylightSavings?: string;
+    readonly PosixTz?: string;
+    readonly PosixTzValidYear?: number;
+    readonly StandardOffset?: string;
+    readonly Sunrise?: string;
+    readonly Sunset?: string;
+    readonly Tag?: string;
+    readonly WallTime?: string;
 }
 
 // @public
 export interface RepresentativePointOutput {
-    Latitude?: number;
-    Longitude?: number;
+    readonly Latitude?: number;
+    readonly Longitude?: number;
 }
 
 // @public (undocumented)
@@ -141,11 +146,11 @@ export interface Routes {
 
 // @public (undocumented)
 export interface TimeTransitionOutput {
-    DaylightSavings?: string;
-    StandardOffset?: string;
-    Tag?: string;
-    UtcEnd?: string;
-    UtcStart?: string;
+    readonly DaylightSavings?: string;
+    readonly StandardOffset?: string;
+    readonly Tag?: string;
+    readonly UtcEnd?: string;
+    readonly UtcStart?: string;
 }
 
 // @public
@@ -310,7 +315,7 @@ export interface TimeZoneGetTimeZoneByIDQueryParamProperties {
 // @public
 export interface TimeZoneGetWindowsTimezoneIds200Response extends HttpResponse {
     // (undocumented)
-    body: Array<TimeZoneWindowsOutput>;
+    body: Array<WindowsTimeZoneOutput>;
     // (undocumented)
     status: "200";
 }
@@ -328,40 +333,40 @@ export type TimeZoneGetWindowsTimezoneIdsParameters = RequestParameters;
 
 // @public
 export interface TimeZoneIanaVersionResultOutput {
-    Version?: string;
+    readonly Version?: string;
 }
 
 // @public (undocumented)
 export interface TimeZoneIdOutput {
-    Aliases?: Array<string>;
-    Countries?: Array<CountryRecordOutput>;
-    Id?: string;
+    readonly Aliases?: Array<string>;
+    readonly Countries?: Array<CountryRecordOutput>;
+    readonly Id?: string;
     Names?: TimeZoneNamesOutput;
-    ReferenceTime?: ReferenceTimeOutput;
-    RepresentativePoint?: RepresentativePointOutput;
-    TimeTransitions?: Array<TimeTransitionOutput>;
+    readonly ReferenceTime?: ReferenceTimeOutput;
+    readonly RepresentativePoint?: RepresentativePointOutput;
+    readonly TimeTransitions?: Array<TimeTransitionOutput>;
 }
 
 // @public
 export interface TimeZoneNamesOutput {
-    Daylight?: string;
-    Generic?: string;
-    ISO6391LanguageCode?: string;
-    Standard?: string;
+    readonly Daylight?: string;
+    readonly Generic?: string;
+    readonly ISO6391LanguageCode?: string;
+    readonly Standard?: string;
 }
 
 // @public
 export interface TimeZoneResultOutput {
-    ReferenceUtcTimestamp?: string;
-    TimeZones?: Array<TimeZoneIdOutput>;
-    Version?: string;
+    readonly ReferenceUtcTimestamp?: string;
+    readonly TimeZones?: Array<TimeZoneIdOutput>;
+    readonly Version?: string;
 }
 
 // @public (undocumented)
-export interface TimeZoneWindowsOutput {
+export interface WindowsTimeZoneOutput {
     IanaIds?: Array<string>;
-    Territory?: string;
-    WindowsId?: string;
+    readonly Territory?: string;
+    readonly WindowsId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
