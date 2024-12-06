@@ -12,6 +12,8 @@ source-code-folder-path: ./generated
 
 ## Custom authentication
 
+Before you customize the code, you should run ```npx dev-tool customization apply-v2``` to sync the generated src code from ./generated into ./src
+
 Some services require a custom authentication flow. For example, Metrics Advisor uses Key Authentication, however, MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
 
 In this case, we customize as follows:
@@ -28,7 +30,7 @@ Here is the implementation in Metrics Advisor.
 The wrapping function looks like:
 
 ```typescript
-import MetricsAdvisor from "../generated/generatedClient";
+import MetricsAdvisor from "./generatedClient";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import {
