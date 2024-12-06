@@ -15,6 +15,19 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface ApplicationClaimOutput {
+    digest?: ClaimDigestOutput;
+    kind: "LedgerEntry" | "ClaimDigest";
+    ledgerEntry?: LedgerEntryClaimOutput;
+}
+
+// @public
+export interface ClaimDigestOutput {
+    protocol: "LedgerEntryV1";
+    value?: string;
+}
+
+// @public
 export interface CollectionOutput {
     // (undocumented)
     collectionId: string;
@@ -404,6 +417,9 @@ export function isUnexpected(response: GetTransactionStatus200Response | GetTran
 export function isUnexpected(response: GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse): response is GetCurrentLedgerEntryDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: ListUsers200Response | ListUsersDefaultResponse): response is ListUsersDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: DeleteUser204Response | DeleteUserDefaultResponse): response is DeleteUserDefaultResponse;
 
 // @public (undocumented)
@@ -415,6 +431,14 @@ export function isUnexpected(response: CreateOrUpdateUser200Response | CreateOrU
 // @public
 export interface LedgerEntry {
     contents: string;
+}
+
+// @public
+export interface LedgerEntryClaimOutput {
+    collectionId?: string;
+    contents?: string;
+    protocol: "LedgerEntryV1";
+    secretKey?: string;
 }
 
 // @public
@@ -545,6 +569,30 @@ export interface ListLedgerEntriesQueryParamProperties {
     toTransactionId?: string;
 }
 
+// @public (undocumented)
+export interface ListUsers {
+    get(options?: ListUsersParameters): StreamableMethod<ListUsers200Response | ListUsersDefaultResponse>;
+}
+
+// @public
+export interface ListUsers200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedUsersOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListUsersDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListUsersParameters = RequestParameters;
+
 // @public
 export interface PagedCollectionsOutput {
     // (undocumented)
@@ -557,6 +605,13 @@ export interface PagedLedgerEntriesOutput {
     entries: Array<LedgerEntryOutput>;
     nextLink?: string;
     state: "Loading" | "Ready";
+}
+
+// @public
+export interface PagedUsersOutput {
+    // (undocumented)
+    ledgerUsers?: Array<LedgerUserOutput>;
+    nextLink?: string;
 }
 
 // @public
@@ -578,6 +633,10 @@ export type PaginateReturn<TResult> = TResult extends {
 } | {
     body: {
         entries?: infer TPage;
+    };
+} | {
+    body: {
+        ledgerUsers?: infer TPage;
     };
 } ? GetArrayType<TPage> : Array<unknown>;
 
@@ -635,11 +694,13 @@ export interface Routes {
     (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
     (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;
+    (path: "/app/users"): ListUsers;
     (path: "/app/users/{userId}", userId: string): DeleteUser;
 }
 
 // @public
 export interface TransactionReceiptOutput {
+    applicationClaims?: Array<ApplicationClaimOutput>;
     // (undocumented)
     receipt?: ReceiptContentsOutput;
     state: "Loading" | "Ready";
