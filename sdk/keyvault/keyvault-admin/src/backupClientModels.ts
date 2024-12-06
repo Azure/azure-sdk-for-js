@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -65,7 +65,7 @@ export interface KeyVaultBackupResult {
   /**
    * The start time of the backup operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the backup operation.
@@ -80,7 +80,7 @@ export interface KeyVaultRestoreResult {
   /**
    * The start time of the restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the restore operation.
@@ -95,7 +95,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
   /**
    * The start time of the selective key restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the selective key restore operation.
