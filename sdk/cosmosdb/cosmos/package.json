@@ -61,8 +61,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
+    "unit-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -79,6 +79,7 @@
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
+    "buffer": "^6.0.3",
     "fast-json-stable-stringify": "^2.1.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",

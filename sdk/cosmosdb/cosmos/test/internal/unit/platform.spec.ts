@@ -6,11 +6,12 @@ import { getUserAgent } from "../../../src/common/platform.js";
 import { describe, it, assert, expect } from "vitest";
 import process from "node:process";
 import packageJson from "../../../package.json" assert { type: "json" };
+import { isNodeLike } from "@azure/core-util";
 
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
-describe("getUserAgent", () => {
+describe("getUserAgent", { skip: !isNodeLike }, () => {
   it("should contain the current SDK version", () => {
     console.log(getUserAgent());
     assert(getUserAgent().includes(packageVersion));
@@ -27,7 +28,7 @@ describe("getUserAgent", () => {
   });
 });
 
-describe("Version", () => {
+describe("Version", { skip: !isNodeLike }, () => {
   it("should have matching constant version & package version", () => {
     assert.equal(
       constantVersion,

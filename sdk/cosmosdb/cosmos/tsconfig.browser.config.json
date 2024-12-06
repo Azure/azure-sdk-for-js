@@ -1,8 +1,17 @@
 {
   "extends": "./.tshy/build.json",
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
-  "exclude": ["./test/**/node/**/*.ts"],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./test/**/*.ts",
+    "./test/**/*.mts",
+    "package.json"
+  ],
+  "exclude": [
+    "./test/**/node/**/*.ts"
+  ],
   "compilerOptions": {
+    "allowJs": true,
     "outDir": "./dist-test/browser",
     "rootDir": ".",
     "skipLibCheck": true

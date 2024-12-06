@@ -80,9 +80,8 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
       ),
     );
   } catch (err: any) {
-    console.log("An error occured", err);
+    console.log("An error occurred", err);
     assert.fail(err);
-    throw err;
   }
 }
 

@@ -19823,7 +19823,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-kjUP3LdwwmEe/PuiN0fZs3x13sZXM25Bpw5K1CNpmFcutdX/IrIggs3fkKVtDpEwBTge/vuSAn3i76n6TfKcPw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-8d9pUlsrqnMMWz0E4QoFwVxL3sRQMbBuu8Uu6d3FuLydP3R3dBkpy9qrvK66eePFAAa//qQz917Rd2EYjsY6Ig==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19839,6 +19839,7 @@ packages:
       '@types/underscore': 1.13.0
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      buffer: 6.0.3
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BytePrefix } from "./prefix.js";
+import { Buffer } from "buffer";
 
 export function writeNumberForBinaryEncodingJSBI(hash: number): Buffer {
   let payload = encodeNumberAsUInt64JSBI(hash);

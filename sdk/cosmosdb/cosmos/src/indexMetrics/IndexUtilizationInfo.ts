@@ -3,6 +3,7 @@
 
 import type { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity.js";
 import type { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity.js";
+import { Buffer } from "buffer";
 export class IndexUtilizationInfo {
   public static readonly Empty = new IndexUtilizationInfo([], [], [], []);
 

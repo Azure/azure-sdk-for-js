@@ -6,6 +6,7 @@ import { writeStringForBinaryEncoding } from "./encoding/string.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
+import { Buffer } from "buffer";
 
 const MAX_STRING_CHARS = 100;
 

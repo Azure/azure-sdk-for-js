@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth.js";
+
 import {
   Constants,
   HTTPMethod,
@@ -13,6 +14,8 @@ import type { CosmosHeaders } from "../queryExecutionContext/index.js";
 import type { FeedOptions, RequestOptions } from "./index.js";
 import { defaultLogger } from "../common/logger.js";
 import { ChangeFeedMode } from "../client/ChangeFeed/index.js";
+import type { Buffer } from "buffer";
+
 // ----------------------------------------------------------------------------
 // Utility methods
 //
