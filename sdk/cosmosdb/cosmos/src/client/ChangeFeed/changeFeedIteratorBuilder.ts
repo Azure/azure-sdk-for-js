@@ -16,16 +16,20 @@ import { ErrorResponse } from "../../request";
 import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
 import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common";
 import { buildInternalChangeFeedOptions, fetchStartTime, isEpkRange } from "./changeFeedUtils";
-import { isPartitionKey } from "../../utils/typeChecks";
+import { isPrefixPartitionKey, isPartitionKey } from "../../utils/typeChecks";
 import type { Container } from "../Container";
 import type { FeedRangeInternal } from "./FeedRange";
+import {
+  getEPKRangeForPrefixPartitionKey,
+  PartitionKeyInternal,
+} from "../../documents/PartitionKeyInternal";
 
-export function changeFeedIteratorBuilder(
+export async function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
   clientContext: ClientContext,
   container: Container,
   partitionKeyRangeCache: PartitionKeyRangeCache,
-): any {
+): Promise<any> {
   const url = container.url;
   const path = getPathFromLink(url, ResourceType.item);
   const id = getIdFromLink(url);
@@ -86,6 +90,28 @@ export function changeFeedIteratorBuilder(
     );
     const cfResource = changeFeedStartFrom.getCfResource();
     if (isPartitionKey(cfResource)) {
+      const partitionKey = cfResource as PartitionKey;
+      const partitionKeyDefinition = await container.getPartitionKeyDefinition();
+
+      if (
+        partitionKeyDefinition !== undefined &&
+        isPrefixPartitionKey(partitionKey, partitionKeyDefinition.resource)
+      ) {
+        const effectiveEPKRange = await getEPKRangeForPrefixPartitionKey(
+          partitionKey as PartitionKeyInternal,
+        );
+        return new ChangeFeedForEpkRange(
+          clientContext,
+          container,
+          partitionKeyRangeCache,
+          id,
+          path,
+          url,
+          internalCfOptions,
+          effectiveEPKRange,
+        );
+      }
+
       return new ChangeFeedForPartitionKey(
         clientContext,
         container,

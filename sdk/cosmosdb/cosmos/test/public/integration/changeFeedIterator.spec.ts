@@ -213,6 +213,120 @@ describe("Change Feed Iterator", function (this: Suite) {
     });
   });
 
+  describe("test changefeed for one prefix partition key", function () {
+    let container: Container;
+
+    before(async function () {
+      const containerDef: ContainerDefinition = {
+        partitionKey: {
+          paths: ["/key1", "/key2", "/key3"],
+          kind: PartitionKeyKind.MultiHash,
+          version: PartitionKeyDefinitionVersion.V2,
+        },
+      };
+      const throughput: RequestOptions = { offerThroughput: 25100 };
+      container = await getTestContainer(
+        "changefeed for one prefix partition key",
+        undefined,
+        containerDef,
+        throughput,
+      );
+
+      for (let i = 1; i < 11; i++) {
+        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
+        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 1 });
+        await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 0 });
+        await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 1 });
+      }
+    });
+
+    it("check if maxItemCount property is being followed", async function () {
+      const maxItemCount = 1;
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: maxItemCount,
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        const response = await iterator.readNext();
+        const { result: items } = response;
+        if (items.length === 0) {
+          break;
+        }
+        assert.equal(items.length, maxItemCount, "No. of items should be equal to maxItemCount");
+      }
+    });
+
+    it("startFromBeginning should fetch all results", async function () {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+      };
+
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+        assert.equal(items.length, 20, "initial number of items should be equal 20");
+      }
+    });
+
+    it("Iterator should start from last continuation token and fetch remaining results", async function () {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 1,
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      let count = 0;
+      let continuationToken = undefined;
+
+      while (iterator.hasMoreResults && count < 10) {
+        const response = await iterator.readNext();
+        count += response.result.length;
+        continuationToken = response.continuationToken;
+      }
+      const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      };
+      const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+      while (iterator2.hasMoreResults) {
+        const { result: items } = await iterator2.readNext();
+        if (items.length === 0) break;
+        assert.equal(items.length, 10, "Remaining number of items should be equal 10");
+      }
+    });
+
+    it("startFromNow should fetch all results from now on", async function () {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 10,
+        changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        assert.equal(items.length, 0, "Initially no new changes");
+        // initial result will be 0 as no new changes since creation of iterator
+        if (items.length === 0) {
+          break;
+        }
+      }
+      // add 10 new items to this partition key
+      for (let i = 11; i < 21; i++) {
+        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
+      }
+      // again start the iterator
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+        assert.notEqual(items.length, 0, "New changes should be fetched");
+      }
+    });
+  });
+
   describe("test changefeed for entire container", function () {
     let container: Container;
     before(async function () {
