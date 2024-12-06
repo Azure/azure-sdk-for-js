@@ -1,8 +1,3 @@
 {
-  "extends": "./tsconfig.test.json",
-  "exclude": ["./test/**/node"],
-  "compilerOptions": {
-    "outDir": "./dist-test/browser",
-    "noEmit": false
-  }
+  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"]
 }

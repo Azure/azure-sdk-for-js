@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.nonlib.json",
+  "extends": "./tsconfig.nonlib",
   "compilerOptions": {
     "skipLibCheck": true
   },
