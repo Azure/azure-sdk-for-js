@@ -81,27 +81,23 @@ export class CallRecording {
         );
       });
     }
-    if (options.callLocator && !options.callConnectionId) {
+    if (options.callLocator) {
       if (options.callLocator.kind === "groupCallLocator") {
         startCallRecordingRequest.callLocator = {
           groupCallId: options.callLocator.id,
           kind: "groupCallLocator",
         };
-      } else if (options.callLocator.kind === "serverCallLocator") {
-        startCallRecordingRequest.callLocator = {
-          groupCallId: options.callLocator.id,
-          kind: "serverCallLocator",
-        };
       } else if (options.callLocator.kind === "roomCallLocator") {
         startCallRecordingRequest.callLocator = {
-          groupCallId: options.callLocator.id,
+          roomId: options.callLocator.id,
           kind: "roomCallLocator",
         };
+      } else {
+        startCallRecordingRequest.callLocator = {
+          serverCallId: options.callLocator.id,
+          kind: "serverCallLocator",
+        };
       }
-    } else if (options.callConnectionId && !options.callLocator) {
-      startCallRecordingRequest.callConnectionId = options.callConnectionId;
-    } else {
-      throw "Only one of callLocator or callConnectionId to be used.";
     }
 
     const optionsInternal = {
