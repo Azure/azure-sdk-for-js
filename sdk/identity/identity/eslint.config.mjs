@@ -1,8 +1,7 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   { ignores: ["test/manual*"] },
-  ...azsdkEslint.configs.recommended,
   {
     rules: {
       "@azure/azure-sdk/ts-naming-options": "warn",
@@ -23,12 +22,4 @@ export default [
       },
     },
   },
-  {
-    files: ["*.md/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: null,
-      },
-    },
-  },
-];
+]);
