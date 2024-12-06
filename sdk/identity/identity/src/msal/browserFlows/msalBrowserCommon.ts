@@ -47,10 +47,7 @@ export interface MsalBrowserFlow extends MsalFlow {
  * The common methods we use to work with the MSAL browser flows.
  * @internal
  */
-export interface MsalBrowserClient extends MsalFlow {
+export interface MsalBrowserClient {
   getActiveAccount(): Promise<AuthenticationRecord | undefined>;
-  getToken(
-    scopes: string[],
-    options: CredentialFlowGetTokenOptions,
-  ): Promise<AccessToken>;
+  getToken(scopes: string[], options: CredentialFlowGetTokenOptions): Promise<AccessToken>;
 }
