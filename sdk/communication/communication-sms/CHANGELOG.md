@@ -2,14 +2,12 @@
 
 ## 1.2.0-beta.2 (2024-12-10)
 
+### Features Added
+
 - Added support for Opt Out Management Api to:
   - Opt-out the recipient.
   - Opt-in the recipient.
   - Check if the recpient is opted-out or not.
-
-### Features Added
-
-- Added DeliveryReportTimeoutInSeconds to smsSendOptions.
 
 ## 1.2.0-beta.1 (2024-05-02)
 
