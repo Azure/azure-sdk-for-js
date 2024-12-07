@@ -35,7 +35,7 @@ const replaceableVariables: Record<string, string> = {
 const generateJobName = (testName?: string): string => {
   let jobName = "js-sdk-job-" + Date.now();
   if (isPlaybackMode() || isRecordMode()) {
-    jobName = `js-sdk-job-recorded-${testName}`;
+    jobName = `js-sdk-job-recorded-a-${testName}`;
   }
   return jobName;
 };
@@ -85,7 +85,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -108,7 +107,7 @@ describe("Batch", () => {
       assert.isUndefined(jobOutput.body.startedAt, "Job should not have startedAt");
       assert.equal("NotStarted", jobOutput.body.status, "Job status should be NotStarted");
       assert.isUndefined(jobOutput.body.error, "Job should not have error");
-      assert.isUndefined(jobOutput.body.redactionFormat, "Job should not have redactionFormat");
+      assert.isUndefined(jobOutput.body.customizations?.redactionFormat, "Job should not have redactionFormat");
       assert.isUndefined(jobOutput.body.summary, "Job should not have summary");
       assert.equal(
         inputPrefix,
@@ -142,7 +141,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -172,7 +170,7 @@ describe("Batch", () => {
       assert.isNotNull(foundJob!.startedAt, "Job should have startedAt");
       assert.equal("NotStarted", foundJob!.status, "Job status should be NotStarted");
       assert.isUndefined(foundJob!.error, "Job should not have error");
-      assert.isUndefined(foundJob!.redactionFormat, "Job should not have redactionFormat");
+      assert.isUndefined(foundJob!.customizations?.redactionFormat, "Job should not have redactionFormat");
       assert.isUndefined(foundJob!.summary, "Job should not have summary");
       assert.equal(
         inputPrefix,
@@ -206,7 +204,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -236,7 +233,11 @@ describe("Batch", () => {
         "Job should have succeeded 2 documents",
       );
 
-      const reports = await client.path("/jobs/{name}/documents", jobName).get();
+      const reports = await client.path("/jobs/{jobName}/documents", jobName).get({
+          queryParameters: {
+            continuationToken: "K1JJRDpzOEtaQWZabUQrQUNBQUFBQUFBQUFBQT09I1JUOjEjVFJDOjEwI0ZQQzpBZ0VBQUFBTUFDUUFBQUFBQUE9PQ=="
+          }
+        });
 
       if (isUnexpected(reports)) {
         throw new Error("Unexpected error occurred");
@@ -259,9 +260,9 @@ describe("Batch", () => {
       );
       assert.isTrue(
         (items as unknown[] as DocumentDetailsOutput[]).every((obj) =>
-          obj.output!.path.startsWith(OUTPUT_FOLDER),
+          obj.output!.location.startsWith(OUTPUT_FOLDER),
         ),
-        "Output path should start with the output folder",
+        "Output path location start with the output folder",
       );
       assert.isTrue(
         (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.id.length === 36),
@@ -281,7 +282,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -319,7 +319,6 @@ describe("Batch", () => {
       const storageAccountLocation = "FAKE_STORAGE_ACCOUNT";
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
