@@ -1,0 +1,7 @@
+{
+  "exclude": ["${configDir}/test/**/node"],
+  "compilerOptions": {
+    "outDir": "${configDir}/dist-test/browser",
+    "noEmit": false
+  }
+}
