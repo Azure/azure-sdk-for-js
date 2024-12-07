@@ -13,8 +13,6 @@ import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { Paged } from '@azure/core-paging';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
@@ -370,7 +368,7 @@ export type GetJobParameters = GetJobHeaderParam & RequestParameters;
 export function getLongRunningPoller<TResult extends DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse>(client: Client, initialResponse: DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -546,10 +544,28 @@ export type OperationType = string;
 export type OperationTypeOutput = string;
 
 // @public
-export type PagedDeidentificationJobOutput = Paged<DeidentificationJobOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDocumentDetailsOutput = Paged<DocumentDetailsOutput>;
+export interface PagedDeidentificationJobOutput {
+    nextLink?: string;
+    value: Array<DeidentificationJobOutput>;
+}
+
+// @public
+export interface PagedDocumentDetailsOutput {
+    nextLink?: string;
+    value: Array<DocumentDetailsOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
