@@ -38,18 +38,18 @@ describe("Agents - assistants", () => {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);
-    assert.isAtLeast(connectionsList.value.length, 1);
-    console.log(`Retrieved ${connectionsList.value.length} connections`);
+    assert.isAtLeast(connectionsList.length, 1);
+    console.log(`Retrieved ${connectionsList.length} connections`);
   });
 
   it("should retrieve a connection without secrets", async function () {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);
-    assert.isAtLeast(connectionsList.value.length, 1);
+    assert.isAtLeast(connectionsList.length, 1);
 
     // Retrieve one connection
-    for (const _connection of connectionsList.value) {
+    for (const _connection of connectionsList) {
       const connectionName = _connection.name;
       const connection = await connections.getConnection(connectionName);
       assert.isNotNull(connection);
@@ -62,10 +62,10 @@ describe("Agents - assistants", () => {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);
-    assert.isAtLeast(connectionsList.value.length, 1);
+    assert.isAtLeast(connectionsList.length, 1);
 
     // Retrieve one connection with secrets
-    for (const _connection of connectionsList.value) {
+    for (const _connection of connectionsList) {
       const connectionName = _connection.name;
       const connection = await connections.getConnectionWithSecrets(connectionName);
       assert.isNotNull(connection);

@@ -268,7 +268,7 @@ export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<ListConnectionsResponseOutput>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public

@@ -5,7 +5,7 @@
 import { Client } from "@azure-rest/core-client";
 import { OptionalRequestParameters } from "../agents/customModels.js";
 import { ListConnectionsQueryParamProperties } from "../generated/src/parameters.js";
-import { GetConnectionResponseOutput, GetWorkspaceResponseOutput, ListConnectionsResponseOutput } from "./inputOutput.js";
+import { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
 import { getConnection, getConnectionWithSecrets, getWorkspace, listConnections } from "./connections.js";
 
 export interface ConnectionsOperations {
@@ -17,7 +17,7 @@ export interface ConnectionsOperations {
   listConnections: (
     options?: ListConnectionsQueryParamProperties,
     requestParams?: OptionalRequestParameters
-  ) => Promise<ListConnectionsResponseOutput>;
+  ) => Promise<Array<GetConnectionResponseOutput>>;
   /** Get the details of a single connection, without credentials */
   getConnection: (
     connectionName: string,
