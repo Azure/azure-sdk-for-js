@@ -7,7 +7,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollingOptions } from "./customModels.js";
 
 interface PollResult {
-  status: string;
+  status?: string;
 }
 
 interface AgentsPollOperationState<T extends PollResult> extends PollOperationState<T> {
