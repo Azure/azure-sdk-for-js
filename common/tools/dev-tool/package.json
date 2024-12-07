@@ -54,7 +54,6 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "chalk": "^4.1.1",
     "concurrently": "^8.2.2",
-    "decompress": "^4.2.1",
     "dotenv": "^16.0.0",
     "env-paths": "^2.2.1",
     "express": "^4.19.2",
@@ -73,12 +72,13 @@
     "tsx": "^4.0.0",
     "typescript": "~5.6.2",
     "yaml": "^2.3.4",
-    "@arethetypeswrong/cli": "^0.17.0"
+    "@arethetypeswrong/cli": "^0.17.0",
+    "tar": "^7.4.3",
+    "unzipper": "~0.12.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/archiver": "^6.0.2",
-    "@types/decompress": "^4.2.7",
     "@types/express": "^4.17.21",
     "@types/express-serve-static-core": "^4.19.0",
     "@types/fs-extra": "^11.0.4",
@@ -94,6 +94,7 @@
     "rimraf": "^5.0.5",
     "typescript-eslint": "~8.16.0",
     "uglify-js": "^3.4.9",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "@types/unzipper": "~0.10.10"
   }
 }
