@@ -74,7 +74,7 @@ export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaC
 export interface OperatorDetails {
     mobileCountryCode?: string;
     mobileNetworkCode?: string;
-    name: string;
+    name?: string;
 }
 
 // @public
