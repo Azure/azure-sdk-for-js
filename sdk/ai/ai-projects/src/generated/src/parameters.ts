@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import {
-  CreateAgentOptions,
-  ListSortOrder,
-  UpdateAgentOptions,
   AgentThreadCreationOptions,
-  UpdateAgentThreadOptions,
-  ThreadMessageOptions,
-  CreateRunOptions,
-  ToolOutput,
-  CreateAndRunThreadOptions,
-  FilePurpose,
-  VectorStoreOptions,
-  VectorStoreUpdateOptions,
-  VectorStoreFileStatusFilter,
-  VectorStoreDataSource,
-  VectorStoreChunkingStrategyRequest,
   ConnectionType,
+  CreateAgentOptions,
+  CreateAndRunThreadOptions,
+  CreateRunOptions,
   Evaluation,
   EvaluationSchedule,
+  FilePurpose,
+  ListSortOrder,
+  ThreadMessageOptions,
+  ToolOutput,
+  UpdateAgentOptions,
+  UpdateAgentThreadOptions,
+  VectorStoreChunkingStrategyRequest,
+  VectorStoreDataSource,
+  VectorStoreFileStatusFilter,
+  VectorStoreOptions,
+  VectorStoreUpdateOptions,
 } from "./models.js";
 
 export interface CreateAgentBodyParam {
@@ -395,8 +395,6 @@ export interface CreateBodyParam {
   /** Evaluation to run. */
   body: Evaluation;
 }
-
-export type CreateParameters = CreateBodyParam & RequestParameters;
 
 export interface ListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
