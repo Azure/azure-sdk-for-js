@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
+
 import type {
   Container,
   CosmosDiagnostics,
@@ -16,30 +15,31 @@ import type {
   RequestOptions,
   Response,
   UserDefinition,
-} from "../../../src";
-import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src";
+} from "../../../src/index.js";
+import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src/index.js";
 import type {
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
   Resource,
   User,
-} from "../../../src";
-import type { UserResponse } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { DatabaseRequest } from "../../../src";
-import type { ContainerRequest } from "../../../src";
-import { AssertionError, expect } from "chai";
+} from "../../../src/index.js";
+import type { UserResponse } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { DatabaseRequest } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import type { ExtractPromise } from "../../../src/utils/diagnostics";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
-import { extractPartitionKeys } from "../../../src/extractPartitionKey";
-import fs from "fs";
-import path from "path";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import { assert, expect } from "vitest";
+import { AssertionError } from "node:assert";
+import fs from "node:fs";
+import path from "node:path";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -80,9 +80,8 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
       ),
     );
   } catch (err: any) {
-    console.log("An error occured", err);
+    console.log("An error occurred", err);
     assert.fail(err);
-    throw err;
   }
 }
 
@@ -266,7 +265,7 @@ function compareObjects(test: any, target: any, message: string): void {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
       ", ",
     )}] did not match.`;
-    throw new AssertionError(errorMessage);
+    throw new AssertionError({ message: errorMessage });
   }
 }
 
@@ -483,8 +482,8 @@ export async function bulkReplaceItems(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
-      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
-      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
     }),
@@ -642,7 +641,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new assert.AssertionError({
+  throw new AssertionError({
     message: "Missing rejection" + (error ? " with " + error.name : ""),
   });
 }

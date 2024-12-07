@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import type { ClientContext } from "../../ClientContext";
+import { ChangeFeedIterator } from "../../ChangeFeedIterator.js";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions.js";
+import type { ClientContext } from "../../ClientContext.js";
 import {
   getIdFromLink,
   getPathFromLink,
@@ -11,47 +11,47 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../../common";
-import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions, Response } from "../../request";
-import type { Container, PartitionKeyRange } from "../Container";
-import { Item } from "./Item";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
+} from "../../common/index.js";
+import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions, Response } from "../../request/index.js";
+import type { Container, PartitionKeyRange } from "../Container/index.js";
+import { Item } from "./Item.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
 import type {
   Batch,
   OperationResponse,
   OperationInput,
   BulkOptions,
   BulkOperationResponse,
-} from "../../utils/batch";
+} from "../../utils/batch.js";
 import {
   isKeyInRange,
   prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-} from "../../utils/batch";
-import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import { hashPartitionKey } from "../../utils/hashing/hash";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { PartitionKeyRangeCache, QueryRange } from "../../routing";
+} from "../../utils/batch.js";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import { hashPartitionKey } from "../../utils/hashing/hash.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
 import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-} from "../../client/ChangeFeed";
-import { changeFeedIteratorBuilder } from "../../client/ChangeFeed";
-import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
+} from "../../client/ChangeFeed/index.js";
+import { changeFeedIteratorBuilder } from "../../client/ChangeFeed/index.js";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   addDignosticChild,
-} from "../../utils/diagnostics";
+} from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
 
 /**
  * @hidden

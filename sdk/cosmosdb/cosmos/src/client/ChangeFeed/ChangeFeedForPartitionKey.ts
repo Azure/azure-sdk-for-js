@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import type { Container, Resource } from "../../client";
-import type { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes } from "../../common";
-import type { FeedOptions, Response } from "../../request";
-import { ErrorResponse } from "../../request";
-import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
-import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import type { PartitionKey } from "../../documents";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { ChangeFeedMode } from "./ChangeFeedMode";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { Container, Resource } from "../../client/index.js";
+import type { ClientContext } from "../../ClientContext.js";
+import { Constants, ResourceType, StatusCodes } from "../../common/index.js";
+import type { FeedOptions, Response } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import type { PartitionKey } from "../../documents/index.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.

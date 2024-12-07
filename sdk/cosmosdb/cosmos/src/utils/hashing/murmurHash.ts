@@ -10,6 +10,8 @@
 // PRIVATE FUNCTIONS
 // -----------------
 
+import { Buffer } from "buffer";
+
 function _x86Multiply(m: number, n: number) {
   //
   // Given two 32bit ints, returns the two multiplied together as a
