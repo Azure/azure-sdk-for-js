@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/health-insights-radiologyinsights-js-beta",
+  "name": "@azure-samples/health-insights-radiologyinsights-js",
   "private": true,
   "version": "1.0.0",
-  "description": "HealthInsightsRadiologyInsights samples for JavaScript (Beta)",
+  "description": "HealthInsightsRadiologyInsights client library samples for JavaScript",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure-rest/health-insights-radiologyinsights": "latest",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.3.0"
+    "@azure/identity": "^4.0.1"
   }
 }

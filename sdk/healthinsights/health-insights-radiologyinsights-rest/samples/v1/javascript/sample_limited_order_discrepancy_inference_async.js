@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the limited orders of the Radiology Insights request.
+ * @summary Displays the limited order discrepancy of the Radiology Insights request.
  */
-
-const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
-  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the limited order inferences
+ * Print the limited order discrepancy inference
  */
 
 function printResults(radiologyInsightsResult) {
@@ -31,15 +31,14 @@ function printResults(radiologyInsightsResult) {
               console.log("Limited Order Discrepancy Inference found: ");
               if ("orderType" in inference) {
                 console.log(" Ordertype: ");
-                displayCodes({ codeableConcept: inference.orderType });
-              };
-
-              inference.missingBodyParts?.forEach((bodyparts) => {
+                displayCodes(inference.orderType);
+              }
+              inference.presentBodyParts?.forEach((bodyparts) => {
                 console.log("   Present Body Parts: ");
                 displayCodes(bodyparts);
               });
 
-              inference.missingBodyPartMeasurements?.forEach((bodymeasure) => {
+              inference.presentBodyPartMeasurements?.forEach((bodymeasure) => {
                 console.log("   Present Body Part Measurements: ");
                 displayCodes(bodymeasure);
               });
@@ -49,34 +48,33 @@ function printResults(radiologyInsightsResult) {
       });
     }
   } else {
-    const errors = radiologyInsightsResult.errors;
-    if (errors) {
-      for (const error of errors) {
-        console.log(error.code, ":", error.message);
-      }
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
   }
-}
 
-function displayCodes(codeableConcept) {
-  codeableConcept.coding?.forEach((coding) => {
-    if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
-    }
-  });
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
+      if ("code" in coding) {
+        console.log(
+          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
+      }
+    });
+  }
 }
 
 // Create request body for radiology insights
 function createRequestBody() {
-
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "30704-1",
-    display: "US ABDOMEN LIMITED"
+    display: "US ABDOMEN LIMITED",
   };
 
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
@@ -87,10 +85,10 @@ function createRequestBody() {
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -100,12 +98,12 @@ function createRequestBody() {
 
   const orderedProceduresData = {
     code: code,
-    description: "US ABDOMEN LIMITED"
+    description: "US ABDOMEN LIMITED",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
@@ -113,10 +111,16 @@ function createRequestBody() {
     value: `HISTORY: 
     49-year-old male with a history of tuberous sclerosis presenting with epigastric pain and diffuse tenderness."
     The patient was found to have pericholecystic haziness on CT; evaluation for acute cholecystitis."
-    
+
+
+
+
     TECHNIQUE: Ultrasound evaluation of the abdomen was performed. 
     Comparison is made to the prior abdominal ultrasound (2004) and to the enhanced CT of the abdomen and pelvis (2014)."
-    
+
+
+
+
     FINDINGS:"
     The liver is elongated, measuring 19.3 cm craniocaudally, and is homogeneous in echotexture without evidence of focal mass lesion. 
     The liver contour is smooth on high resolution images."
@@ -134,7 +138,10 @@ function createRequestBody() {
     Additional indeterminate renal lesions are present bilaterally and are better characterized on CT."
     There is no hydronephrosis.\\n\\nNo ascites is identified within the upper abdomen."
     The visualized portions of the upper abdominal aorta and IVC are normal in caliber."
-    
+
+
+
+
     IMPRESSION: "
     1. Numerous gallstones associated with gallbladder wall thickening and probable gallbladder mural edema, highly suspicious for acute cholecystitis in this patient presenting with epigastric pain and pericholecystic hazy density identified on CT."
     Although no sonographic Murphy sign was elicited, evaluation is limited secondary to reported prior administration of pain medication."
@@ -154,15 +161,13 @@ function createRequestBody() {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "US ABDOMEN LIMITED"
+    orderedProceduresAsCsv: "US ABDOMEN LIMITED",
   };
-
-
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -176,21 +181,22 @@ function createRequestBody() {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -199,27 +205,25 @@ function createRequestBody() {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
+  // create RI Data
   const RadiologyInsightsJob = {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
-
-
   return {
-    body: radiologyInsightsData
-  }
-
+    body: RadiologyInsightsJob,
+  };
 }
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const client = new AzureHealthInsightsClient(endpoint, credential);
+  const client = AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
@@ -227,7 +231,9 @@ async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

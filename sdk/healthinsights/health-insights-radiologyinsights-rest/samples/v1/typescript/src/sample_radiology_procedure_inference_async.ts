@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the radiology procedure of the Radiology Insights request.
+ * @summary Displays the radiology procedure of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -13,7 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -40,7 +40,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
               });
 
               if ("imagingProcedures" in inference) {
-                inference.imagingProcedures.forEach((imagingProcedure: any) => {
+                inference.imagingProcedures?.forEach((imagingProcedure: any) => {
                   console.log("   Imaging Procedure Codes: ");
                   displayImaging(imagingProcedure);
                 });
@@ -71,7 +71,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
     });
   }
@@ -219,7 +219,7 @@ function createRequestBody(): CreateJobParameters {
     }
   };
 
-  const param = {
+  return {
     body: RadiologyInsightsJob,
   };
 
