@@ -119,7 +119,7 @@ class ReporterUtils {
         }
       }
     } catch (error) {
-      console.error("Error in fetching OS:", error);
+     reporterLogger.error(`Error in fetching OS -  ${error}`);
     }
     return "";
   }
