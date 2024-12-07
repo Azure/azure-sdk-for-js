@@ -317,7 +317,10 @@ export class ServiceBusTestHelpers {
 
   async purgeForClientType(...testClientTypes: TestClientType[]): Promise<void> {
     await Promise.all(
-      testClientTypes.map((tct) => purgeForTestClientType(this._serviceBusClient, tct)),
+      testClientTypes.map((tct) => {
+        purgeForTestClientType(this._serviceBusClient, tct);
+        this._testClientEntities.delete(tct);
+      }),
     );
   }
 
@@ -577,7 +580,7 @@ export async function testPeekMsgsLength(
   peekableReceiver: ServiceBusReceiver,
   expectedPeekLength: number,
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 1);
+  const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 10);
 
   should.equal(
     peekedMsgs.length,
