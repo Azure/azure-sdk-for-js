@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.1 (2027-08-27)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh @azure-rest/confidential-ledger sdk
 
 ## 1.0.0 (2022-07-18)
 - Pageable collections and consortium endpoints

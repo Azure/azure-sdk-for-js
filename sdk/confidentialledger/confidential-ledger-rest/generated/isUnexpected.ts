@@ -30,6 +30,7 @@ import {
   CreateOrUpdateUserDefaultResponse
 } from "./responses.js";
 
+
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],
   "GET /app/governance/members": ["200"],
@@ -43,53 +44,53 @@ const responseMap: Record<string, string[]> = {
   "GET /app/transactions/current": ["200"],
   "DELETE /app/users/{userId}": ["204"],
   "GET /app/users/{userId}": ["200"],
-  "PATCH /app/users/{userId}": ["200"]
+  "PATCH /app/users/{userId}": ["200"],
 };
 
 export function isUnexpected(
-  response: GetConstitution200Response | GetConstitutionDefaultResponse
+  response: GetConstitution200Response | GetConstitutionDefaultResponse,
 ): response is GetConstitutionDefaultResponse;
 export function isUnexpected(
   response:
     | ListConsortiumMembers200Response
-    | ListConsortiumMembersDefaultResponse
+    | ListConsortiumMembersDefaultResponse,
 ): response is ListConsortiumMembersDefaultResponse;
 export function isUnexpected(
-  response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse
+  response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse,
 ): response is GetEnclaveQuotesDefaultResponse;
 export function isUnexpected(
-  response: ListCollections200Response | ListCollectionsDefaultResponse
+  response: ListCollections200Response | ListCollectionsDefaultResponse,
 ): response is ListCollectionsDefaultResponse;
 export function isUnexpected(
-  response: ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse
+  response: ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse,
 ): response is ListLedgerEntriesDefaultResponse;
 export function isUnexpected(
-  response: CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse
+  response: CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse,
 ): response is CreateLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: GetLedgerEntry200Response | GetLedgerEntryDefaultResponse
+  response: GetLedgerEntry200Response | GetLedgerEntryDefaultResponse,
 ): response is GetLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: GetReceipt200Response | GetReceiptDefaultResponse
+  response: GetReceipt200Response | GetReceiptDefaultResponse,
 ): response is GetReceiptDefaultResponse;
 export function isUnexpected(
   response:
     | GetTransactionStatus200Response
-    | GetTransactionStatusDefaultResponse
+    | GetTransactionStatusDefaultResponse,
 ): response is GetTransactionStatusDefaultResponse;
 export function isUnexpected(
   response:
     | GetCurrentLedgerEntry200Response
-    | GetCurrentLedgerEntryDefaultResponse
+    | GetCurrentLedgerEntryDefaultResponse,
 ): response is GetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: DeleteUser204Response | DeleteUserDefaultResponse
+  response: DeleteUser204Response | DeleteUserDefaultResponse,
 ): response is DeleteUserDefaultResponse;
 export function isUnexpected(
-  response: GetUser200Response | GetUserDefaultResponse
+  response: GetUser200Response | GetUserDefaultResponse,
 ): response is GetUserDefaultResponse;
 export function isUnexpected(
-  response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse
+  response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse,
 ): response is CreateOrUpdateUserDefaultResponse;
 export function isUnexpected(
   response:
@@ -118,7 +119,7 @@ export function isUnexpected(
     | GetUser200Response
     | GetUserDefaultResponse
     | CreateOrUpdateUser200Response
-    | CreateOrUpdateUserDefaultResponse
+    | CreateOrUpdateUserDefaultResponse,
 ): response is
   | GetConstitutionDefaultResponse
   | ListConsortiumMembersDefaultResponse
@@ -181,7 +182,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
+          `${candidateParts[i]?.slice(start, end)}`,
         ).test(pathParts[j] || "");
 
         if (!isMatched) {
