@@ -4,6 +4,8 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
 import { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
+import { TracingUtility } from "../tracing.js";
+import { traceEndCreateThread, traceStartCreateThread } from "./threadsTrace.js";
 import { validateMessages, validateMetadata, validateThreadId, validateToolResources } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
@@ -14,11 +16,13 @@ export async function createThread(
   options?: CreateThreadParameters,
 ): Promise<AgentThreadOutput> {
   validateCreateThreadParameters(options);
-  const result = await context.path("/threads").post(options);
-  if (!expectedStatuses.includes(result.status)) {
+  return TracingUtility.withSpan("CreateThread", options || { body: {} }, async (updatedOptions) => {
+    const result = await context.path("/threads").post(updatedOptions);
+    if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
-  }
-  return result.body;
+    }
+    return result.body;
+  }, traceStartCreateThread, traceEndCreateThread);
 }
 
 /** Gets information about an existing thread. */
@@ -32,7 +36,7 @@ export async function getThread(
     .path("/threads/{threadId}", threadId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
   return result.body;
 }
@@ -48,7 +52,7 @@ export async function updateThread(
     .path("/threads/{threadId}", threadId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
   return result.body;
 }
@@ -64,7 +68,7 @@ export async function deleteThread(
     .path("/threads/{threadId}", threadId)
     .delete(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
   return result.body;
 }
@@ -75,9 +79,9 @@ function validateCreateThreadParameters(options?: CreateThreadParameters): void 
     options.body.messages.forEach(message => validateMessages(message.role));
   }
   if (options?.body.tool_resources) {
-    validateToolResources(options.body.tool_resources);  
+    validateToolResources(options.body.tool_resources);
   }
-  if (options?.body.metadata){
+  if (options?.body.metadata) {
     validateMetadata(options.body.metadata);
   }
 }
@@ -85,9 +89,9 @@ function validateCreateThreadParameters(options?: CreateThreadParameters): void 
 function validateUpdateThreadParameters(threadId: string, options?: UpdateThreadParameters): void {
   validateThreadId(threadId);
   if (options?.body.tool_resources) {
-    validateToolResources(options.body.tool_resources);  
+    validateToolResources(options.body.tool_resources);
   }
-  if (options?.body.metadata){
+  if (options?.body.metadata) {
     validateMetadata(options.body.metadata);
   }
 }

@@ -5,7 +5,8 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
 import { CreateAgentParameters, DeleteAgentParameters, GetAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreDataType } from "./inputValidations.js";
-
+import { TracingUtility } from "../tracing.js";
+import { traceEndCreateAgent, traceStartCreateAgent } from "./assistantsTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -21,80 +22,85 @@ enum Tools {
 
 /** Creates a new agent. */
 export async function createAgent(
-    context: Client,
-    options: CreateAgentParameters,
-  ): Promise<AgentOutput> {
-    validateCreateAgentParameters(options);
-    const result = await  context.path("/assistants").post(options);
-    if (!expectedStatuses.includes(result.status)) {
+  context: Client,
+  options: CreateAgentParameters,
+): Promise<AgentOutput> {
+  validateCreateAgentParameters(options);
+  return TracingUtility.withSpan("CreateAgent", options,
+    async (updatedOptions) => {
+      const result = await context.path("/assistants").post(updatedOptions);
+      if (!expectedStatuses.includes(result.status)) {
         throw createRestError(result);
-    }
-    return result.body; 
-  }
+      }
+      return result.body;
+    },
+    traceStartCreateAgent, traceEndCreateAgent,
+  );
+}
 
-  /** Gets a list of agents that were previously created. */
-  export async function listAgents(
-    context: Client,
-    options?: ListAgentsParameters,
-  ): Promise<OpenAIPageableListOfAgentOutput> {
-    validateListAgentsParameters(options);
-    const result = await  context
+/** Gets a list of agents that were previously created. */
+export async function listAgents(
+  context: Client,
+  options?: ListAgentsParameters,
+): Promise<OpenAIPageableListOfAgentOutput> {
+  validateListAgentsParameters(options);
+  const result = await context
     .path("/assistants")
     .get(options);
-    if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
-    }
-    return result.body; 
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
   }
+  return result.body;
+}
 
-  /** Retrieves an existing agent. */
+/** Retrieves an existing agent. */
 export async function getAgent(
-    context: Client,
-    assistantId: string,
-    options?: GetAgentParameters,
-  ): Promise<AgentOutput> {
-    validateAssistantId(assistantId);
-    const result = await context
+  context: Client,
+  assistantId: string,
+  options?: GetAgentParameters,
+): Promise<AgentOutput> {
+  validateAssistantId(assistantId);
+  const result = await context
     .path("/assistants/{assistantId}", assistantId)
     .get(options);
-    if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
-    }
-    return result.body; 
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
   }
+  return result.body;
+}
 
-  /** Modifies an existing agent. */
+/** Modifies an existing agent. */
 export async function updateAgent(
-    context: Client,
-    assistantId: string,
-    options?: UpdateAgentParameters,
-  ): Promise<AgentOutput> {
-    validateUpdateAgentParameters(assistantId, options);
-    const result = await context
+  context: Client,
+  assistantId: string,
+  options?: UpdateAgentParameters,
+): Promise<AgentOutput> {
+  validateUpdateAgentParameters(assistantId, options);
+  const result = await context
     .path("/assistants/{assistantId}", assistantId)
     .post(options);
-    if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
-    }
-    return result.body;
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
   }
+  return result.body;
+}
 
 
-  /** Deletes an agent. */
+/** Deletes an agent. */
 export async function deleteAgent(
-    context: Client,
-    assistantId: string,
-    options?: DeleteAgentParameters,
-  ): Promise<AgentDeletionStatusOutput> {
-    validateAssistantId(assistantId);
-    const result = await context
+  context: Client,
+  assistantId: string,
+  options?: DeleteAgentParameters,
+): Promise<AgentDeletionStatusOutput> {
+  validateAssistantId(assistantId);
+  const result = await context
     .path("/assistants/{assistantId}", assistantId)
     .delete(options);
-    if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
-    }
-    return result.body;
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
   }
+  return result.body;
+}
 
 function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAgentParameters): void {
   if (options.body.tools) {
@@ -132,7 +138,7 @@ function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAg
     }
   }
   if (options.body.temperature && (options.body.temperature < 0 || options.body.temperature > 2)) {
-      throw new Error("Temperature must be between 0 and 2");
+    throw new Error("Temperature must be between 0 and 2");
   }
   if (options.body.metadata) {
     validateMetadata(options.body.metadata);
@@ -150,7 +156,7 @@ function validateListAgentsParameters(options?: ListAgentsParameters): void {
 
 function validateAssistantId(assistantId: string): void {
   if (!assistantId) {
-      throw new Error("Assistant ID is required");
+    throw new Error("Assistant ID is required");
   }
 }
 

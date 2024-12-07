@@ -5,6 +5,8 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 import { validateLimit, validateMessages, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools, validateTruncationStrategy } from "./inputValidations.js";
+import { TracingUtility } from "../tracing.js";
+import { traceEndCreateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -17,13 +19,15 @@ export async function createRun(
   validateThreadId(threadId);
   validateCreateRunParameters(options);
   options.body.stream = false;
-  const result = await context
-    .path("/threads/{threadId}/runs", threadId)
-    .post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("CreateRun", options, async (updateOptions) => {
+    const result = await context
+      .path("/threads/{threadId}/runs", threadId)
+      .post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateRun);
 }
 
 /** Gets a list of runs for a specified thread. */
@@ -87,13 +91,15 @@ export async function submitToolOutputsToRun(
   validateThreadId(threadId);
   validateRunId(runId);
   options.body.stream = false;
-  const result = await context
-    .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-    .post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("SubmitToolOutputsToRun", options, async (updateOptions) => {
+    const result = await context
+      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+      .post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun);
 }
 
 /** Cancels a run of an in progress thread. */
@@ -121,17 +127,19 @@ export async function createThreadAndRun(
 ): Promise<ThreadRunOutput> {
   validateCreateThreadAndRunParameters(options);
   options.body.stream = false;
-  const result = await context.path("/threads/runs").post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("CreateThreadAndRun", options, async (updateOptions) => {
+    const result = await context.path("/threads/runs").post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, traceStartCreateThreadAndRun, traceEndCreateRun);
 }
 
 function validateListRunsParameters(thread_id: string, options?: ListRunsParameters): void {
   validateThreadId(thread_id);
   if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
-      throw new Error("Limit must be between 1 and 100");
+    throw new Error("Limit must be between 1 and 100");
   }
   if (options?.queryParameters?.limit) {
     validateLimit(options.queryParameters.limit);
@@ -144,12 +152,12 @@ function validateListRunsParameters(thread_id: string, options?: ListRunsParamet
 function validateUpdateRunParameters(thread_id: string, run_id: string, options?: UpdateRunParameters): void {
   validateThreadId(thread_id);
   validateRunId(run_id);
-  if(options?.body.metadata){
+  if (options?.body.metadata) {
     validateMetadata(options.body.metadata);
   }
 }
 
-function validateCreateRunParameters(options: CreateRunParameters| CreateThreadAndRunParameters): void {
+function validateCreateRunParameters(options: CreateRunParameters | CreateThreadAndRunParameters): void {
   if ('additional_messages' in options.body && options.body.additional_messages) {
     options.body.additional_messages.forEach(message => validateMessages(message.role));
   }

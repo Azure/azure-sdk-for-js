@@ -172,6 +172,7 @@ export class AIProjectsClient {
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
+    readonly telemetry: TelemetryOperations;
 }
 
 // @public (undocumented)
@@ -1457,6 +1458,14 @@ export interface SystemDataOutput {
     readonly createdBy?: string;
     readonly createdByType?: string;
     readonly lastModifiedAt?: string;
+}
+
+// @public
+export interface TelemetryOperations {
+    getConnectionString(): Promise<string>;
+    getSettings(): TelemetryOptions;
+    // Warning: (ae-forgotten-export) The symbol "TelemetryOptions" needs to be exported by the entry point index.d.ts
+    updateSettings(options: TelemetryOptions): void;
 }
 
 // @public

@@ -5,6 +5,7 @@ import createClient, { ProjectsClientOptions } from "./generated/src/projectsCli
 import { Client } from "@azure-rest/core-client";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
 import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
+import { getTelemetryOperations, TelemetryOperations } from "./telemetry/index.js";
 
 export interface AIProjectsClientOptions extends ProjectsClientOptions{
 }
@@ -44,6 +45,7 @@ export class AIProjectsClient {
       {...options, endpoint:connectionEndPoint})
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
+    this.telemetry = getTelemetryOperations(this.connections);
   }
 
   /**
@@ -90,4 +92,7 @@ export class AIProjectsClient {
 
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+
+  /** The operation groups for telemetry */
+  public readonly telemetry: TelemetryOperations;
 }
