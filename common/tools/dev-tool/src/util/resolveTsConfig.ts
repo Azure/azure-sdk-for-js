@@ -3,12 +3,15 @@
 
 import * as path from "path";
 import * as fs from "fs";
+import ts from "typescript";
+
+type Config = { compilerOptions: ts.CompilerOptions };
 
 function resolveConfigDir(configPath: string, unresolvedPath: string) {
   return unresolvedPath.replace(/\$\{configDir\}/g, path.dirname(configPath));
 }
 
-function mergeConfig(config1: Record<string, any>, config2: Record<string, any>) {
+function mergeConfig(config1: Config, config2: Config) {
   return {
     ...config1,
     ...config2,
@@ -36,7 +39,7 @@ export function resolveConfig(configPath: string) {
       ),
     );
 
-    let resolvedConfig = {} as any;
+    let resolvedConfig = {} as Config;
     const { extends: parents, ...rest } = rawConfig;
     if (parents) {
       const baseConfigs = Array.isArray(parents) ? parents : [parents];

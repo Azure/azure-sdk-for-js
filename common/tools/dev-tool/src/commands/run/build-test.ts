@@ -108,6 +108,10 @@ function compileForEnvironment(
   }
 
   const browserTestPath = outputPath;
+  if (!browserTestPath) {
+    log.error(`Output path not defined in ${tsConfig}`);
+    return false;
+  }
   if (!existsSync(browserTestPath)) {
     mkdirSync(browserTestPath, { recursive: true });
   }
