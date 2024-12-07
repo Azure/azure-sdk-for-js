@@ -11,16 +11,16 @@ import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionOptionalParams,
   AvailabilitySetsListOptionalParams,
-  VirtualMachineSize,
-  AvailabilitySetsListAvailableSizesOptionalParams,
+  AvailabilitySetsGetOptionalParams,
+  AvailabilitySetsGetResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetUpdate,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
-  AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse,
+  AvailabilitySetsListAvailableSizesOptionalParams,
+  AvailabilitySetsListAvailableSizesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface AvailabilitySets {
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
@@ -43,33 +43,32 @@ export interface AvailabilitySets {
     options?: AvailabilitySetsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
-   * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
-   * existing availability set.
-   * @param resourceGroupName The name of the resource group.
+   * Retrieves information about an availability set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
-  listAvailableSizes(
+  get(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineSize>;
+    options?: AvailabilitySetsGetOptionalParams,
+  ): Promise<AvailabilitySetsGetResponse>;
   /**
    * Create or update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
-   * @param parameters Parameters supplied to the Create Availability Set operation.
+   * @param resource Parameters supplied to the Create Availability Set operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     availabilitySetName: string,
-    parameters: AvailabilitySet,
+    resource: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse>;
   /**
    * Update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Update Availability Set operation.
    * @param options The options parameters.
@@ -82,7 +81,7 @@ export interface AvailabilitySets {
   ): Promise<AvailabilitySetsUpdateResponse>;
   /**
    * Delete an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -92,14 +91,15 @@ export interface AvailabilitySets {
     options?: AvailabilitySetsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieves information about an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
+   * existing availability set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
-  get(
+  listAvailableSizes(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams,
-  ): Promise<AvailabilitySetsGetResponse>;
+    options?: AvailabilitySetsListAvailableSizesOptionalParams,
+  ): Promise<AvailabilitySetsListAvailableSizesResponse>;
 }
