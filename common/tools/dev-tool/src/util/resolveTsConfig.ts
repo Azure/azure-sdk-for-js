@@ -8,6 +8,17 @@ function resolveConfigDir(configPath: string, unresolvedPath: string) {
   return unresolvedPath.replace(/\$\{configDir\}/g, path.dirname(configPath));
 }
 
+function mergeConfig(config1: Record<string, any>, config2: Record<string, any>) {
+  return {
+    ...config1,
+    ...config2,
+    compilerOptions: {
+      ...config1.compilerOptions,
+      ...config2.compilerOptions,
+    },
+  };
+}
+
 /**
  * Generates a complete TypeScript configuration by reading and parsing a given tsconfig file.
  *
@@ -25,33 +36,17 @@ export function resolveConfig(configPath: string) {
       ),
     );
 
-    let resolvedConfig = rawConfig;
-
-    // Handle "extends" property
-    if (rawConfig.extends) {
-      const baseConfigs = Array.isArray(rawConfig.extends)
-        ? rawConfig.extends
-        : [rawConfig.extends];
-
+    let resolvedConfig = {} as any;
+    const { extends: parents, ...rest } = rawConfig;
+    if (parents) {
+      const baseConfigs = Array.isArray(parents) ? parents : [parents];
       for (const baseConfigPath of baseConfigs) {
         const baseConfigAbsolutePath = path.resolve(configDir, baseConfigPath);
         const baseConfig = helper(baseConfigAbsolutePath);
-
-        // Merge baseConfig into the resolvedConfig
-        resolvedConfig = {
-          ...baseConfig,
-          ...resolvedConfig,
-          compilerOptions: {
-            ...baseConfig.compilerOptions,
-            ...resolvedConfig.compilerOptions,
-          },
-        };
+        resolvedConfig = mergeConfig(resolvedConfig, baseConfig);
       }
-
-      // Remove "extends" after merging
-      delete resolvedConfig.extends;
     }
-    return resolvedConfig;
+    return mergeConfig(resolvedConfig, rest);
   }
   const resolvedConfig = helper(configPath);
   const outDir = resolvedConfig.compilerOptions.outDir;
