@@ -109,15 +109,18 @@ class ReporterUtils {
     return shard;
   }
 
-  public getOSorBrowserName(result: TestResult, data: string): string {
-    for (const attachment of result.attachments) {
-      if (attachment.name === data) {
-        const match = attachment?.contentType?.match(/charset=(.*)/);
-        const charset = match && match.length > 1 ? match[1] : "utf-8";
-        return attachment.body?.toString((charset as any) || "utf-8").toUpperCase() || "";
+  public getOSName(result: TestResult, data: string): string {
+    try {
+      for (const attachment of result.attachments) {
+        if (attachment.name === data) {
+          const match = attachment?.contentType?.match(/charset=(.*)/);
+          const charset = match && match.length > 1 ? match[1] : "utf-8";
+          return attachment.body?.toString((charset as any) || "utf-8").toUpperCase() || "";
+        }
       }
+    } catch (error) {
+      console.error("Error in OS:", error);
     }
-
     return "";
   }
 
@@ -159,11 +162,15 @@ class ReporterUtils {
     testResult.status = this.getTestStatus(test, result);
     testResult.lineNumber = test.location.line;
     testResult.retry = result.retry ? result.retry : 0;
+    let browserName = test.parent.project()!.use.browserName?.toLowerCase();
+    if (!browserName) {
+      browserName = test.parent.project()!.use.defaultBrowserType?.toLowerCase();
+    }
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: this.getOSorBrowserName(result, "Browser"),
-      os: this.getOSorBrowserName(result, "Os"),
+      browserType: browserName ? browserName.toUpperCase() : "",
+      os: this.getOSName(result, Constants.OS),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
     testResult.tags = this.extractTestTags(test);
