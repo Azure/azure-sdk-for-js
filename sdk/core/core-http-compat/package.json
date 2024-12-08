@@ -61,9 +61,9 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test": "echo skipped",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "echo skipped",
@@ -106,7 +106,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "module": "./dist/esm/index.js"
 }

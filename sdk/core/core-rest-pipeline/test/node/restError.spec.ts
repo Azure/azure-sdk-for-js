@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
   createHttpHeaders,
   createPipelineRequest,

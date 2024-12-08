@@ -14,6 +14,11 @@ export default mergeConfig(
       },
       include: ["test/**/*.spec.ts"],
       exclude: ["test/snippets.spec.ts"],
+      typecheck: {
+        enabled: true,
+        tsconfig: "./tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"]
+      },
     },
   }),
 );

@@ -1,20 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/core-sse": ["./src/index.ts"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["esnext", "dom"],
-    "rootDir": "."
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "src/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }

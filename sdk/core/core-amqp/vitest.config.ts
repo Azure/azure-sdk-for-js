@@ -28,5 +28,10 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
+    typecheck: {
+      enabled: true,
+      tsconfig: "./tsconfig.test.json",
+      include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"]
+    },
   },
 });
