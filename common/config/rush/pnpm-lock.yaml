@@ -10910,6 +10910,10 @@ packages:
       '@types/unist': 2.0.11
     dev: false
 
+  /universal-user-agent@6.0.1:
+    resolution: {integrity: sha512-yCzhz6FN2wU1NiiQRogkTQszlQSlpWaw8SvVegAc+bDxbzHgh1vX8uIe8OYyMH6DwH+sdTJsgMl36+mSMdRJIQ==}
+    dev: false
+
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
@@ -19887,7 +19891,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-l5rV9Yu/fjvbShmu02iwVLOdLChhvsru7Ke7u8yG6uoPVQJK8Ruto5Y6gWeWaNiJ57yHruwQ+8iOiJj+fHuGuQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-dAMwlrlUYO5ntOF4QUnOHjaCMx02VuXHSoCRhvWzDQxj4i6G2TbpCuWcjN77eEZBxTwpva2JLmwuZc57diFHqg==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19917,6 +19921,8 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      universal-user-agent: 6.0.1
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
