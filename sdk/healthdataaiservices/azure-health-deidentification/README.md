@@ -7,7 +7,7 @@ Health Deidentification Service
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-health-deidentification)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/azure-health-deidentification?view=azure-node-preview)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/health-deidentification?view=azure-node-preview)
 
 ## Getting started
 
