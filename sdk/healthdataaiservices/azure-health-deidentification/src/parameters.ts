@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { DeidentificationJob, DeidentificationContent } from "./models.js";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { DeidentificationJob, DeidentificationContent } from "./models.js";
 
 export interface GetJobHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
