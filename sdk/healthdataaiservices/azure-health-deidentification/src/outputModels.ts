@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJobOutput {
@@ -12,19 +12,19 @@ export interface DeidentificationJobOutput {
    *
    * Possible values: "Redact", "Surrogate", "Tag"
    */
-  operation?: OperationTypeOutput;
+  operation?: DeidentificationOperationTypeOutput;
   /** Storage location to perform the operation on. */
   sourceLocation: SourceStorageLocationOutput;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocationOutput;
   /** Customization parameters to override default service behaviors. */
-  customizations?: JobCustomizationOptionsOutput;
+  customizations?: DeidentificationJobCustomizationOptionsOutput;
   /**
    * Current status of a job.
    *
-   * Possible values: "NotStarted", "Running", "Succeeded", "PartialFailed", "Failed", "Canceled"
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
    */
-  readonly status: JobStatusOutput;
+  readonly status: OperationStateOutput;
   /** Error when job fails in it's entirety. */
   readonly error?: ErrorModel;
   /**
@@ -40,7 +40,7 @@ export interface DeidentificationJobOutput {
   /** Date and time when the job was started. */
   readonly startedAt?: string;
   /** Summary of a job. Exists only when the job is completed. */
-  readonly summary?: JobSummaryOutput;
+  readonly summary?: DeidentificationJobSummaryOutput;
 }
 
 /** Storage location. */
@@ -73,15 +73,18 @@ export interface TargetStorageLocationOutput {
 }
 
 /** Customizations options to override default service behaviors for job usage. */
-export interface JobCustomizationOptionsOutput {
-  /** Format of the redacted output. Only valid when Operation is Redact. */
+export interface DeidentificationJobCustomizationOptionsOutput {
+  /**
+   * Format of the redacted output. Only valid when Operation is Redact.
+   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
 }
 
 /** Summary metrics of a job. */
-export interface JobSummaryOutput {
+export interface DeidentificationJobSummaryOutput {
   /** Number of documents that have completed. */
   successful: number;
   /** Number of documents that have failed. */
@@ -102,22 +105,22 @@ export interface PagedDeidentificationJobOutput {
   nextLink?: string;
 }
 
-/** Paged collection of DocumentDetails items */
-export interface PagedDocumentDetailsOutput {
-  /** The DocumentDetails items on this page */
-  value: Array<DocumentDetailsOutput>;
+/** Paged collection of DeidentificationDocumentDetails items */
+export interface PagedDeidentificationDocumentDetailsOutput {
+  /** The DeidentificationDocumentDetails items on this page */
+  value: Array<DeidentificationDocumentDetailsOutput>;
   /** The link to the next page of items */
   nextLink?: string;
 }
 
 /** Details of a single document in a job. */
-export interface DocumentDetailsOutput {
+export interface DeidentificationDocumentDetailsOutput {
   /** Id of the document details. */
   readonly id: string;
   /** Location for the input. */
-  input: DocumentLocationOutput;
+  input: DeidentificationDocumentLocationOutput;
   /** Location for the output. */
-  output?: DocumentLocationOutput;
+  output?: DeidentificationDocumentLocationOutput;
   /**
    * Status of the document.
    *
@@ -129,7 +132,7 @@ export interface DocumentDetailsOutput {
 }
 
 /** Location of a document. */
-export interface DocumentLocationOutput {
+export interface DeidentificationDocumentLocationOutput {
   /** Location of document in storage. */
   location: string;
   /** The entity tag for this resource. */
@@ -186,10 +189,8 @@ export interface StringIndexOutput {
   codePoint: number;
 }
 
-/** Alias for OperationTypeOutput */
-export type OperationTypeOutput = string;
-/** Alias for JobStatusOutput */
-export type JobStatusOutput = string;
+/** Alias for DeidentificationOperationTypeOutput */
+export type DeidentificationOperationTypeOutput = string;
 /** Alias for OperationStateOutput */
 export type OperationStateOutput = string;
 /** Alias for PhiCategoryOutput */

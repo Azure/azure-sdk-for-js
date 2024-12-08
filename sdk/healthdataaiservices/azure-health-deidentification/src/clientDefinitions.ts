@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GetJobParameters,
   DeidentifyDocumentsParameters,
   DeleteJobParameters,
@@ -10,7 +10,7 @@ import type {
   CancelJobParameters,
   DeidentifyTextParameters,
 } from "./parameters.js";
-import type {
+import {
   GetJob200Response,
   GetJobDefaultResponse,
   DeidentifyDocuments200Response,
@@ -27,11 +27,13 @@ import type {
   DeidentifyText200Response,
   DeidentifyTextDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Long-running resource create or replace operation template. */
   put(
     options: DeidentifyDocumentsParameters,
@@ -54,10 +56,12 @@ export interface ListJobs {
 }
 
 export interface ListJobDocuments {
-  /** The most basic operation. */
+  /** Resource list operation template. */
   get(
     options?: ListJobDocumentsParameters,
-  ): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
+  ): StreamableMethod<
+    ListJobDocuments200Response | ListJobDocumentsDefaultResponse
+  >;
 }
 
 export interface CancelJob {
@@ -77,7 +81,9 @@ export interface DeidentifyText {
   /** A remote procedure call (RPC) operation. */
   post(
     options: DeidentifyTextParameters,
-  ): StreamableMethod<DeidentifyText200Response | DeidentifyTextDefaultResponse>;
+  ): StreamableMethod<
+    DeidentifyText200Response | DeidentifyTextDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -85,8 +91,8 @@ export interface Routes {
   (path: "/jobs/{name}", name: string): GetJob;
   /** Resource for '/jobs' has methods for the following verbs: get */
   (path: "/jobs"): ListJobs;
-  /** Resource for '/jobs/\{jobName\}/documents' has methods for the following verbs: get */
-  (path: "/jobs/{jobName}/documents", jobName: string): ListJobDocuments;
+  /** Resource for '/jobs/\{name\}/documents' has methods for the following verbs: get */
+  (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
   /** Resource for '/jobs/\{name\}:cancel' has methods for the following verbs: post */
   (path: "/jobs/{name}:cancel", name: string): CancelJob;
   /** Resource for '/deid' has methods for the following verbs: post */

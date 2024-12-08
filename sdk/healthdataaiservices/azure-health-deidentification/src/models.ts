@@ -8,13 +8,13 @@ export interface DeidentificationJob {
    *
    * Possible values: "Redact", "Surrogate", "Tag"
    */
-  operation?: OperationType;
+  operation?: DeidentificationOperationType;
   /** Storage location to perform the operation on. */
   sourceLocation: SourceStorageLocation;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocation;
   /** Customization parameters to override default service behaviors. */
-  customizations?: JobCustomizationOptions;
+  customizations?: DeidentificationJobCustomizationOptions;
 }
 
 /** Storage location. */
@@ -47,15 +47,18 @@ export interface TargetStorageLocation {
 }
 
 /** Customizations options to override default service behaviors for job usage. */
-export interface JobCustomizationOptions {
-  /** Format of the redacted output. Only valid when Operation is Redact. */
+export interface DeidentificationJobCustomizationOptions {
+  /**
+   * Format of the redacted output. Only valid when Operation is Redact.
+   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
 }
 
 /** Summary metrics of a job. */
-export interface JobSummary {
+export interface DeidentificationJobSummary {
   /** Number of documents that have completed. */
   successful: number;
   /** Number of documents that have failed. */
@@ -77,20 +80,23 @@ export interface DeidentificationContent {
    *
    * Possible values: "Redact", "Surrogate", "Tag"
    */
-  operation?: OperationType;
+  operation?: DeidentificationOperationType;
   /** Customization parameters to override default service behaviors. */
-  customizations?: CustomizationOptions;
+  customizations?: DeidentificationCustomizationOptions;
 }
 
 /** Customizations options to override default service behaviors for synchronous usage. */
-export interface CustomizationOptions {
-  /** Format of the redacted output. Only valid when Operation is Redact. */
+export interface DeidentificationCustomizationOptions {
+  /**
+   * Format of the redacted output. Only valid when Operation is Redact.
+   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
 }
 
-/** Alias for OperationType */
-export type OperationType = string;
-/** Alias for JobStatus */
-export type JobStatus = string;
+/** Alias for DeidentificationOperationType */
+export type DeidentificationOperationType = string;
+/** Alias for OperationState */
+export type OperationState = string;

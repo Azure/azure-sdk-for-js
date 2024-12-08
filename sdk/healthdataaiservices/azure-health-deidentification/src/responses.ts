@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import {
   DeidentificationJobOutput,
   PagedDeidentificationJobOutput,
-  PagedDocumentDetailsOutput,
+  PagedDeidentificationDocumentDetailsOutput,
   DeidentificationResultOutput,
 } from "./outputModels.js";
 
@@ -101,10 +101,16 @@ export interface ListJobsDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & ListJobsDefaultHeaders;
 }
 
+export interface ListJobDocuments200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 /** The request has succeeded. */
 export interface ListJobDocuments200Response extends HttpResponse {
   status: "200";
-  body: PagedDocumentDetailsOutput;
+  body: PagedDeidentificationDocumentDetailsOutput;
+  headers: RawHttpHeaders & ListJobDocuments200Headers;
 }
 
 export interface ListJobDocumentsDefaultHeaders {

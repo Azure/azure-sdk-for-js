@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type { DeidentificationJob, DeidentificationContent } from "./models.js";
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import { DeidentificationJob, DeidentificationContent } from "./models.js";
 
 export interface GetJobHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -54,7 +54,14 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam &
+  ListJobsHeaderParam &
+  RequestParameters;
+
+export interface ListJobDocumentsHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface ListJobDocumentsQueryParamProperties {
   /** The maximum number of result items per page. */
@@ -67,7 +74,13 @@ export interface ListJobDocumentsQueryParam {
   queryParameters?: ListJobDocumentsQueryParamProperties;
 }
 
-export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & RequestParameters;
+export interface ListJobDocumentsHeaderParam {
+  headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
+}
+
+export type ListJobDocumentsParameters = ListJobDocumentsQueryParam &
+  ListJobDocumentsHeaderParam &
+  RequestParameters;
 
 export interface CancelJobHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
