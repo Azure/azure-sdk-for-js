@@ -24,6 +24,7 @@ const testPollingOptions = {
 };
 
 const TEST_TIMEOUT_MS: number = 200000;
+const NUMBER_OF_DOCUMENTS = 3;
 
 const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
@@ -159,7 +160,7 @@ describe("Batch", () => {
       assert.equal(poller.getOperationState().status, "running");
 
       // Test list jobs with pagination
-      const jobs = await client.path("/jobs").get();
+      const jobs = await client.path("/jobs").get({ queryParameters: { maxpagesize: 2 } });
       const items = [];
       const iter = paginate(client, jobs);
       for await (const item of iter) {
@@ -232,15 +233,16 @@ describe("Batch", () => {
       assert.equal(finalJobOutput.body.status, "Succeeded", "Job status should be Succeeded");
       assert.notEqual(finalJobOutput.body.startedAt, null, "Job should have startedAt");
       assert.notEqual(finalJobOutput.body.summary, null, "Job should have summary");
-      assert.equal(finalJobOutput.body.summary!.total, 2, "Job should have processed 2 documents");
+      assert.equal(finalJobOutput.body.summary!.total, NUMBER_OF_DOCUMENTS, `Job should have processed ${NUMBER_OF_DOCUMENTS} documents`);
       assert.equal(
         finalJobOutput.body.summary!.successful,
-        2,
-        "Job should have succeeded 2 documents",
+        NUMBER_OF_DOCUMENTS,
+        `Job should have succeeded ${NUMBER_OF_DOCUMENTS} documents`,
       );
 
       const reports = await client.path("/jobs/{jobName}/documents", jobName).get({
         queryParameters: {
+          maxpagesize: 2,
           continuationToken:
             "K1JJRDpzOEtaQWZabUQrQUNBQUFBQUFBQUFBQT09I1JUOjEjVFJDOjEwI0ZQQzpBZ0VBQUFBTUFDUUFBQUFBQUE9PQ==",
         },
@@ -258,8 +260,8 @@ describe("Batch", () => {
       }
 
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).length === 2,
-        "Should have 2 documents",
+        (items as unknown[] as DocumentDetailsOutput[]).length === NUMBER_OF_DOCUMENTS,
+        `Should have ${NUMBER_OF_DOCUMENTS} documents`,
       );
       assert.isTrue(
         (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.status === "Succeeded"),
