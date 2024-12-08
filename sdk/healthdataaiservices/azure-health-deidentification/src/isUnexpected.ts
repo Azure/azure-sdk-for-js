@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GetJob200Response,
   GetJobDefaultResponse,
-  CreateJob200Response,
-  CreateJob201Response,
-  CreateJobLogicalResponse,
-  CreateJobDefaultResponse,
+  DeidentifyDocuments200Response,
+  DeidentifyDocuments201Response,
+  DeidentifyDocumentsLogicalResponse,
+  DeidentifyDocumentsDefaultResponse,
   DeleteJob204Response,
   DeleteJobDefaultResponse,
   ListJobs200Response,
@@ -16,8 +16,8 @@ import type {
   ListJobDocumentsDefaultResponse,
   CancelJob200Response,
   CancelJobDefaultResponse,
-  Deidentify200Response,
-  DeidentifyDefaultResponse,
+  DeidentifyText200Response,
+  DeidentifyTextDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -35,11 +35,11 @@ export function isUnexpected(
 ): response is GetJobDefaultResponse;
 export function isUnexpected(
   response:
-    | CreateJob200Response
-    | CreateJob201Response
-    | CreateJobLogicalResponse
-    | CreateJobDefaultResponse,
-): response is CreateJobDefaultResponse;
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsLogicalResponse
+    | DeidentifyDocumentsDefaultResponse,
+): response is DeidentifyDocumentsDefaultResponse;
 export function isUnexpected(
   response: DeleteJob204Response | DeleteJobDefaultResponse,
 ): response is DeleteJobDefaultResponse;
@@ -53,16 +53,16 @@ export function isUnexpected(
   response: CancelJob200Response | CancelJobDefaultResponse,
 ): response is CancelJobDefaultResponse;
 export function isUnexpected(
-  response: Deidentify200Response | DeidentifyDefaultResponse,
-): response is DeidentifyDefaultResponse;
+  response: DeidentifyText200Response | DeidentifyTextDefaultResponse,
+): response is DeidentifyTextDefaultResponse;
 export function isUnexpected(
   response:
     | GetJob200Response
     | GetJobDefaultResponse
-    | CreateJob200Response
-    | CreateJob201Response
-    | CreateJobLogicalResponse
-    | CreateJobDefaultResponse
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsLogicalResponse
+    | DeidentifyDocumentsDefaultResponse
     | DeleteJob204Response
     | DeleteJobDefaultResponse
     | ListJobs200Response
@@ -71,16 +71,16 @@ export function isUnexpected(
     | ListJobDocumentsDefaultResponse
     | CancelJob200Response
     | CancelJobDefaultResponse
-    | Deidentify200Response
-    | DeidentifyDefaultResponse,
+    | DeidentifyText200Response
+    | DeidentifyTextDefaultResponse,
 ): response is
   | GetJobDefaultResponse
-  | CreateJobDefaultResponse
+  | DeidentifyDocumentsDefaultResponse
   | DeleteJobDefaultResponse
   | ListJobsDefaultResponse
   | ListJobDocumentsDefaultResponse
   | CancelJobDefaultResponse
-  | DeidentifyDefaultResponse {
+  | DeidentifyTextDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

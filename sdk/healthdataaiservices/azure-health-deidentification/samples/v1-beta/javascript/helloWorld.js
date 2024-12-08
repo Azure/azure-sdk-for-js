@@ -5,8 +5,8 @@
  * @summary This sample demonstrates how to create a `DeidentificationClient` and then deidentify a `string`
  */
 
-const createClient = require("@azure-rest/health-deidentification").default,
-  { isUnexpected } = require("@azure-rest/health-deidentification");
+const createClient = require("@azure-rest/azure-health-deidentification").default,
+  { isUnexpected } = require("@azure-rest/azure-health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 

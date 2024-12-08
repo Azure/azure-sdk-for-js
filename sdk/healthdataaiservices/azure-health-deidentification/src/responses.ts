@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import {
   DeidentificationJobOutput,
   PagedDeidentificationJobOutput,
-  PagedDocumentDetailsOutput,
+  PagedDeidentificationDocumentDetailsOutput,
   DeidentificationResultOutput,
 } from "./outputModels.js";
 
@@ -33,7 +33,7 @@ export interface GetJobDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & GetJobDefaultHeaders;
 }
 
-export interface CreateJob200Headers {
+export interface DeidentifyDocuments200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
   /** The location for monitoring the operation state. */
@@ -41,13 +41,13 @@ export interface CreateJob200Headers {
 }
 
 /** The request has succeeded. */
-export interface CreateJob200Response extends HttpResponse {
+export interface DeidentifyDocuments200Response extends HttpResponse {
   status: "200";
   body: DeidentificationJobOutput;
-  headers: RawHttpHeaders & CreateJob200Headers;
+  headers: RawHttpHeaders & DeidentifyDocuments200Headers;
 }
 
-export interface CreateJob201Headers {
+export interface DeidentifyDocuments201Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
   /** The location for monitoring the operation state. */
@@ -55,25 +55,25 @@ export interface CreateJob201Headers {
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface CreateJob201Response extends HttpResponse {
+export interface DeidentifyDocuments201Response extends HttpResponse {
   status: "201";
   body: DeidentificationJobOutput;
-  headers: RawHttpHeaders & CreateJob201Headers;
+  headers: RawHttpHeaders & DeidentifyDocuments201Headers;
 }
 
-export interface CreateJobDefaultHeaders {
+export interface DeidentifyDocumentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CreateJobDefaultResponse extends HttpResponse {
+export interface DeidentifyDocumentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CreateJobDefaultHeaders;
+  headers: RawHttpHeaders & DeidentifyDocumentsDefaultHeaders;
 }
 
-/** The final response for long-running createJob operation */
-export interface CreateJobLogicalResponse extends HttpResponse {
+/** The final response for long-running deidentifyDocuments operation */
+export interface DeidentifyDocumentsLogicalResponse extends HttpResponse {
   status: "200";
   body: DeidentificationJobOutput;
 }
@@ -109,7 +109,7 @@ export interface ListJobDocuments200Headers {
 /** The request has succeeded. */
 export interface ListJobDocuments200Response extends HttpResponse {
   status: "200";
-  body: PagedDocumentDetailsOutput;
+  body: PagedDeidentificationDocumentDetailsOutput;
   headers: RawHttpHeaders & ListJobDocuments200Headers;
 }
 
@@ -169,19 +169,25 @@ export interface DeleteJobDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & DeleteJobDefaultHeaders;
 }
 
-/** The request has succeeded. */
-export interface Deidentify200Response extends HttpResponse {
-  status: "200";
-  body: DeidentificationResultOutput;
+export interface DeidentifyText200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-export interface DeidentifyDefaultHeaders {
+/** The request has succeeded. */
+export interface DeidentifyText200Response extends HttpResponse {
+  status: "200";
+  body: DeidentificationResultOutput;
+  headers: RawHttpHeaders & DeidentifyText200Headers;
+}
+
+export interface DeidentifyTextDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DeidentifyDefaultResponse extends HttpResponse {
+export interface DeidentifyTextDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DeidentifyDefaultHeaders;
+  headers: RawHttpHeaders & DeidentifyTextDefaultHeaders;
 }

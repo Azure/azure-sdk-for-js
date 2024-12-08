@@ -815,6 +815,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-health-deidentification':
+    specifier: file:./projects/azure-health-deidentification.tgz
+    version: file:projects/azure-health-deidentification.tgz
   '@rush-temp/batch':
     specifier: file:./projects/batch.tgz
     version: file:projects/batch.tgz
@@ -953,9 +956,6 @@ dependencies:
   '@rush-temp/functions-authentication-events':
     specifier: file:./projects/functions-authentication-events.tgz
     version: file:projects/functions-authentication-events.tgz
-  '@rush-temp/health-deidentification':
-    specifier: file:./projects/health-deidentification.tgz
-    version: file:projects/health-deidentification.tgz
   '@rush-temp/health-insights-cancerprofiling':
     specifier: file:./projects/health-insights-cancerprofiling.tgz
     version: file:projects/health-insights-cancerprofiling.tgz
@@ -10689,7 +10689,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -18713,6 +18713,43 @@ packages:
       - webdriverio
     dev: false
 
+  file:projects/azure-health-deidentification.tgz:
+    resolution: {integrity: sha512-QOXZI7kM7ZZf7hI2dN1s3V/tn9Ii5cGzOjpbAVUkpVB8mGXVBu+CNaVb/0OTBjSm7YCc6hNrgKtvtN11XpdsNw==, tarball: file:projects/azure-health-deidentification.tgz}
+    name: '@rush-temp/azure-health-deidentification'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.5
+      eslint: 9.16.0
+      loupe: 3.1.2
+      playwright: 1.49.0
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/batch.tgz:
     resolution: {integrity: sha512-XuL+PYlzGB/YmNDbnPrIq9AjDzOIhnjUFAr7XTwTGR8huP18WZWmL/m0YW4MlwP69ewEyjD8dWCAb0KmJl92pQ==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
@@ -20541,43 +20578,6 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
-      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
-    dev: false
-
-  file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-6LdN/I3/IT+r5A4w8Ac5rRXYnfUzCGhSyEhSq0zB1vEsyX0oOz5viCnGYYqmiyOOfGvgqaMBOk4KwrCCeMcTOA==, tarball: file:projects/health-deidentification.tgz}
-    name: '@rush-temp/health-deidentification'
-    version: 0.0.0
-    dependencies:
-      '@types/node': 18.19.67
-      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
-      dotenv: 16.4.5
-      eslint: 9.16.0
-      loupe: 3.1.2
-      playwright: 1.49.0
-      tslib: 2.8.1
-      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

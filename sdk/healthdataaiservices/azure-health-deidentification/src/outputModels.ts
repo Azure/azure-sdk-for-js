@@ -1,37 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJobOutput {
   /** The name of a job. */
   readonly name: string;
-  /** Storage location to perform the operation on. */
-  sourceLocation: SourceStorageLocationOutput;
-  /** Target location to store output of operation. */
-  targetLocation: TargetStorageLocationOutput;
   /**
    * Operation to perform on the input documents.
    *
    * Possible values: "Redact", "Surrogate", "Tag"
    */
-  operation?: OperationTypeOutput;
-  /**
-   * Data type of the input documents.
-   *
-   * Possible values: "Plaintext"
-   */
-  dataType?: DocumentDataTypeOutput;
-  /** Format of the redacted output. Only valid when Operation is Redact. */
-  redactionFormat?: string;
+  operation?: DeidentificationOperationTypeOutput;
+  /** Storage location to perform the operation on. */
+  sourceLocation: SourceStorageLocationOutput;
+  /** Target location to store output of operation. */
+  targetLocation: TargetStorageLocationOutput;
+  /** Customization parameters to override default service behaviors. */
+  customizations?: DeidentificationJobCustomizationOptionsOutput;
   /**
    * Current status of a job.
    *
-   * Possible values: "NotStarted", "Running", "Succeeded", "PartialFailed", "Failed", "Canceled"
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
    */
-  readonly status: JobStatusOutput;
+  readonly status: OperationStateOutput;
   /** Error when job fails in it's entirety. */
   readonly error?: ErrorModel;
   /**
@@ -47,7 +40,7 @@ export interface DeidentificationJobOutput {
   /** Date and time when the job was started. */
   readonly startedAt?: string;
   /** Summary of a job. Exists only when the job is completed. */
-  readonly summary?: JobSummaryOutput;
+  readonly summary?: DeidentificationJobSummaryOutput;
 }
 
 /** Storage location. */
@@ -64,12 +57,34 @@ export interface SourceStorageLocationOutput {
 export interface TargetStorageLocationOutput {
   /** URL to storage location. */
   location: string;
-  /** Prefix to filter path by. */
+  /**
+   * Replaces the input prefix of a file path with the output prefix, preserving the rest of the path structure.
+   *
+   * Example:
+   * File full path: documents/user/note.txt
+   * Input Prefix: "documents/user/"
+   * Output Prefix: "output_docs/"
+   *
+   * Output file: "output_docs/note.txt"
+   */
   prefix: string;
+  /** When set to true during a job, the service will overwrite the output location if it already exists. */
+  overwrite?: boolean;
+}
+
+/** Customizations options to override default service behaviors for job usage. */
+export interface DeidentificationJobCustomizationOptionsOutput {
+  /**
+   * Format of the redacted output. Only valid when Operation is Redact.
+   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   */
+  redactionFormat?: string;
+  /** Locale in which the output surrogates are written. */
+  surrogateLocale?: string;
 }
 
 /** Summary metrics of a job. */
-export interface JobSummaryOutput {
+export interface DeidentificationJobSummaryOutput {
   /** Number of documents that have completed. */
   successful: number;
   /** Number of documents that have failed. */
@@ -82,14 +97,30 @@ export interface JobSummaryOutput {
   bytesProcessed: number;
 }
 
+/** Paged collection of DeidentificationJob items */
+export interface PagedDeidentificationJobOutput {
+  /** The DeidentificationJob items on this page */
+  value: Array<DeidentificationJobOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Paged collection of DeidentificationDocumentDetails items */
+export interface PagedDeidentificationDocumentDetailsOutput {
+  /** The DeidentificationDocumentDetails items on this page */
+  value: Array<DeidentificationDocumentDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Details of a single document in a job. */
-export interface DocumentDetailsOutput {
+export interface DeidentificationDocumentDetailsOutput {
   /** Id of the document details. */
   readonly id: string;
   /** Location for the input. */
-  input: DocumentLocationOutput;
+  input: DeidentificationDocumentLocationOutput;
   /** Location for the output. */
-  output?: DocumentLocationOutput;
+  output?: DeidentificationDocumentLocationOutput;
   /**
    * Status of the document.
    *
@@ -101,9 +132,9 @@ export interface DocumentDetailsOutput {
 }
 
 /** Location of a document. */
-export interface DocumentLocationOutput {
-  /** Path of document in storage. */
-  path: string;
+export interface DeidentificationDocumentLocationOutput {
+  /** Location of document in storage. */
+  location: string;
   /** The entity tag for this resource. */
   readonly etag: string;
 }
@@ -120,10 +151,6 @@ export interface DeidentificationResultOutput {
 export interface PhiTaggerResultOutput {
   /** List of entities detected in the input. */
   entities: Array<PhiEntityOutput>;
-  /** Path to the document in storage. */
-  path?: string;
-  /** The entity tag for this resource. */
-  etag?: string;
 }
 
 /** PHI Entity tag in the input. */
@@ -162,16 +189,8 @@ export interface StringIndexOutput {
   codePoint: number;
 }
 
-/** Alias for OperationTypeOutput */
-export type OperationTypeOutput = string;
-/** Alias for DocumentDataTypeOutput */
-export type DocumentDataTypeOutput = string;
-/** Alias for JobStatusOutput */
-export type JobStatusOutput = string;
-/** Paged collection of DeidentificationJob items */
-export type PagedDeidentificationJobOutput = Paged<DeidentificationJobOutput>;
-/** Paged collection of DocumentDetails items */
-export type PagedDocumentDetailsOutput = Paged<DocumentDetailsOutput>;
+/** Alias for DeidentificationOperationTypeOutput */
+export type DeidentificationOperationTypeOutput = string;
 /** Alias for OperationStateOutput */
 export type OperationStateOutput = string;
 /** Alias for PhiCategoryOutput */

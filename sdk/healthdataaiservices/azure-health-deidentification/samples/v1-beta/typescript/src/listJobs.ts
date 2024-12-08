@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how to list jobs and iterate over them in a for loop.
  */
 
-import createClient, { isUnexpected, paginate } from "@azure-rest/health-deidentification";
+import createClient, { isUnexpected, paginate } from "@azure-rest/azure-health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();

@@ -11,7 +11,10 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { DeidentificationJob } from "../../src/models.js";
-import type { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
+import type {
+  DeidentificationJobOutput,
+  DeidentificationDocumentDetailsOutput,
+} from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
@@ -24,6 +27,7 @@ const testPollingOptions = {
 };
 
 const TEST_TIMEOUT_MS: number = 200000;
+const NUMBER_OF_DOCUMENTS = 3;
 
 const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
@@ -35,7 +39,7 @@ const replaceableVariables: Record<string, string> = {
 const generateJobName = (testName?: string): string => {
   let jobName = "js-sdk-job-" + Date.now();
   if (isPlaybackMode() || isRecordMode()) {
-    jobName = `js-sdk-job-recorded-${testName}`;
+    jobName = `js-sdk-job-recorded-a-${testName}`;
   }
   return jobName;
 };
@@ -85,7 +89,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -108,7 +111,10 @@ describe("Batch", () => {
       assert.isUndefined(jobOutput.body.startedAt, "Job should not have startedAt");
       assert.equal("NotStarted", jobOutput.body.status, "Job status should be NotStarted");
       assert.isUndefined(jobOutput.body.error, "Job should not have error");
-      assert.isUndefined(jobOutput.body.redactionFormat, "Job should not have redactionFormat");
+      assert.isUndefined(
+        jobOutput.body.customizations?.redactionFormat,
+        "Job should not have redactionFormat",
+      );
       assert.isUndefined(jobOutput.body.summary, "Job should not have summary");
       assert.equal(
         inputPrefix,
@@ -142,7 +148,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -158,7 +163,7 @@ describe("Batch", () => {
       assert.equal(poller.getOperationState().status, "running");
 
       // Test list jobs with pagination
-      const jobs = await client.path("/jobs").get();
+      const jobs = await client.path("/jobs").get({ queryParameters: { maxpagesize: 2 } });
       const items = [];
       const iter = paginate(client, jobs);
       for await (const item of iter) {
@@ -172,7 +177,10 @@ describe("Batch", () => {
       assert.isNotNull(foundJob!.startedAt, "Job should have startedAt");
       assert.equal("NotStarted", foundJob!.status, "Job status should be NotStarted");
       assert.isUndefined(foundJob!.error, "Job should not have error");
-      assert.isUndefined(foundJob!.redactionFormat, "Job should not have redactionFormat");
+      assert.isUndefined(
+        foundJob!.customizations?.redactionFormat,
+        "Job should not have redactionFormat",
+      );
       assert.isUndefined(foundJob!.summary, "Job should not have summary");
       assert.equal(
         inputPrefix,
@@ -206,7 +214,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -229,14 +236,24 @@ describe("Batch", () => {
       assert.equal(finalJobOutput.body.status, "Succeeded", "Job status should be Succeeded");
       assert.notEqual(finalJobOutput.body.startedAt, null, "Job should have startedAt");
       assert.notEqual(finalJobOutput.body.summary, null, "Job should have summary");
-      assert.equal(finalJobOutput.body.summary!.total, 2, "Job should have processed 2 documents");
+      assert.equal(
+        finalJobOutput.body.summary!.total,
+        NUMBER_OF_DOCUMENTS,
+        `Job should have processed ${NUMBER_OF_DOCUMENTS} documents`,
+      );
       assert.equal(
         finalJobOutput.body.summary!.successful,
-        2,
-        "Job should have succeeded 2 documents",
+        NUMBER_OF_DOCUMENTS,
+        `Job should have succeeded ${NUMBER_OF_DOCUMENTS} documents`,
       );
 
-      const reports = await client.path("/jobs/{name}/documents", jobName).get();
+      const reports = await client.path("/jobs/{name}/documents", jobName).get({
+        queryParameters: {
+          maxpagesize: 2,
+          continuationToken:
+            "K1JJRDpzOEtaQWZabUQrQUNBQUFBQUFBQUFBQT09I1JUOjEjVFJDOjEwI0ZQQzpBZ0VBQUFBTUFDUUFBQUFBQUE9PQ==",
+        },
+      });
 
       if (isUnexpected(reports)) {
         throw new Error("Unexpected error occurred");
@@ -250,21 +267,26 @@ describe("Batch", () => {
       }
 
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).length === 2,
-        "Should have 2 documents",
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).length ===
+          NUMBER_OF_DOCUMENTS,
+        `Should have ${NUMBER_OF_DOCUMENTS} documents`,
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.status === "Succeeded"),
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every(
+          (obj) => obj.status === "Succeeded",
+        ),
         "All documents should have succeeded",
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) =>
-          obj.output!.path.startsWith(OUTPUT_FOLDER),
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every((obj) =>
+          obj.output!.location.startsWith(OUTPUT_FOLDER),
         ),
-        "Output path should start with the output folder",
+        "Output path location start with the output folder",
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.id.length === 36),
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every(
+          (obj) => obj.id.length === 36,
+        ),
         "Document id should be a GUID",
       );
     },
@@ -281,7 +303,6 @@ describe("Batch", () => {
         : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
@@ -319,7 +340,6 @@ describe("Batch", () => {
       const storageAccountLocation = "FAKE_STORAGE_ACCOUNT";
 
       const job: DeidentificationJob = {
-        dataType: "Plaintext",
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
