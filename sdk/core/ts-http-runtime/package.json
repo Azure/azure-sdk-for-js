@@ -61,9 +61,9 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\"  \"*.{js,cjs,mjs,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "lint": "tsx scripts/azure-diff.ts && eslint package.json api-extractor.json src test",
-    "lint:fix": "tsx scripts/azure-diff.ts --update && eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
+    "lint": "tsx scripts/azure-diff.ts && eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "tsx scripts/azure-diff.ts --update && eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
@@ -121,7 +121,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "module": "./dist/esm/index.js"
 }
