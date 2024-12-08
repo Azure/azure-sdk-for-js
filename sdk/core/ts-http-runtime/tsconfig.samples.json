@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.samples.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@typespec/ts-http-runtime": ["./dist/esm"]
+    }
+  }
+}
