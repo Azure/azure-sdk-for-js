@@ -8,7 +8,7 @@
 import createClient, {
   DeidentificationContent,
   isUnexpected,
-} from "@azure-rest/health-deidentification";
+} from "@azure-rest/azure-health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();

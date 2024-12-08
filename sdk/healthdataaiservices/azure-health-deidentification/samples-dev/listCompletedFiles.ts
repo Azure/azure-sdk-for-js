@@ -9,7 +9,7 @@ import createClient, {
   DeidentificationJob,
   isUnexpected,
   paginate,
-} from "@azure-rest/health-deidentification";
+} from "@azure-rest/azure-health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();

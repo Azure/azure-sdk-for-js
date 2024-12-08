@@ -6,8 +6,8 @@ Health Deidentification Service
 
 Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-deidentification)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/health-deidentification?view=azure-node-preview)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-health-deidentification)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/azure-health-deidentification?view=azure-node-preview)
 
 ## Getting started
 
@@ -19,12 +19,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/health-deidentification` package
+### Install the `@azure-rest/azure-health-deidentification` package
 
 Install the Azure Deidentification REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/health-deidentification
+npm install @azure-rest/azure-health-deidentification
 ```
 
 ### Create and authenticate a `DeidentificationClient`

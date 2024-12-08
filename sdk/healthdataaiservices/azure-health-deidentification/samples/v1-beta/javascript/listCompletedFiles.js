@@ -5,8 +5,8 @@
  * @summary This sample demonstrates how to list files that were completed by a job.
  */
 
-const createClient = require("@azure-rest/health-deidentification").default,
-  { isUnexpected, paginate } = require("@azure-rest/health-deidentification");
+const createClient = require("@azure-rest/azure-health-deidentification").default,
+  { isUnexpected, paginate } = require("@azure-rest/azure-health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
