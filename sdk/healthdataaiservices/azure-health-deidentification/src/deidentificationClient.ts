@@ -38,16 +38,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://deid.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://deid.azure.com/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as DeidentificationClient;
+  const client = getClient(endpointUrl, credentials, options) as DeidentificationClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

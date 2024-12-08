@@ -11,7 +11,10 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { DeidentificationJob } from "../../src/models.js";
-import type { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
+import type {
+  DeidentificationJobOutput,
+  DeidentificationDocumentDetailsOutput,
+} from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
@@ -233,14 +236,18 @@ describe("Batch", () => {
       assert.equal(finalJobOutput.body.status, "Succeeded", "Job status should be Succeeded");
       assert.notEqual(finalJobOutput.body.startedAt, null, "Job should have startedAt");
       assert.notEqual(finalJobOutput.body.summary, null, "Job should have summary");
-      assert.equal(finalJobOutput.body.summary!.total, NUMBER_OF_DOCUMENTS, `Job should have processed ${NUMBER_OF_DOCUMENTS} documents`);
+      assert.equal(
+        finalJobOutput.body.summary!.total,
+        NUMBER_OF_DOCUMENTS,
+        `Job should have processed ${NUMBER_OF_DOCUMENTS} documents`,
+      );
       assert.equal(
         finalJobOutput.body.summary!.successful,
         NUMBER_OF_DOCUMENTS,
         `Job should have succeeded ${NUMBER_OF_DOCUMENTS} documents`,
       );
 
-      const reports = await client.path("/jobs/{jobName}/documents", jobName).get({
+      const reports = await client.path("/jobs/{name}/documents", jobName).get({
         queryParameters: {
           maxpagesize: 2,
           continuationToken:
@@ -260,21 +267,26 @@ describe("Batch", () => {
       }
 
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).length === NUMBER_OF_DOCUMENTS,
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).length ===
+          NUMBER_OF_DOCUMENTS,
         `Should have ${NUMBER_OF_DOCUMENTS} documents`,
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.status === "Succeeded"),
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every(
+          (obj) => obj.status === "Succeeded",
+        ),
         "All documents should have succeeded",
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) =>
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every((obj) =>
           obj.output!.location.startsWith(OUTPUT_FOLDER),
         ),
         "Output path location start with the output folder",
       );
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.id.length === 36),
+        (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every(
+          (obj) => obj.id.length === 36,
+        ),
         "Document id should be a GUID",
       );
     },
