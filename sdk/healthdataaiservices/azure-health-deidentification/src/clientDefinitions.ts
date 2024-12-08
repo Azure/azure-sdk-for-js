@@ -31,9 +31,7 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */
-  get(
-    options?: GetJobParameters,
-  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Long-running resource create or replace operation template. */
   put(
     options: DeidentifyDocumentsParameters,
@@ -59,9 +57,7 @@ export interface ListJobDocuments {
   /** The most basic operation. */
   get(
     options?: ListJobDocumentsParameters,
-  ): StreamableMethod<
-    ListJobDocuments200Response | ListJobDocumentsDefaultResponse
-  >;
+  ): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
 }
 
 export interface CancelJob {
@@ -81,9 +77,7 @@ export interface DeidentifyText {
   /** A remote procedure call (RPC) operation. */
   post(
     options: DeidentifyTextParameters,
-  ): StreamableMethod<
-    DeidentifyText200Response | DeidentifyTextDefaultResponse
-  >;
+  ): StreamableMethod<DeidentifyText200Response | DeidentifyTextDefaultResponse>;
 }
 
 export interface Routes {

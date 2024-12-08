@@ -54,9 +54,7 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam &
-  ListJobsHeaderParam &
-  RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
 
 export interface ListJobDocumentsQueryParamProperties {
   /** The maximum number of result items per page. */
@@ -69,8 +67,7 @@ export interface ListJobDocumentsQueryParam {
   queryParameters?: ListJobDocumentsQueryParamProperties;
 }
 
-export type ListJobDocumentsParameters = ListJobDocumentsQueryParam &
-  RequestParameters;
+export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & RequestParameters;
 
 export interface CancelJobHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
