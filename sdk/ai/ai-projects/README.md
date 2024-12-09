@@ -1,4 +1,4 @@
-# Azure AI Projects client library for TypeScript
+# Azure AI Projects client library for JavaScript
 
 Use the AI Projects client library (in preview) to:
 
@@ -864,8 +864,6 @@ print("----------------------------------------------------------------")
 NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evaluation SDK][evaluators].
 -->
 
-<!-- TODO: Update tracing information -->
-
 ### Tracing
 
 You can add an Application Insights Azure resource to your Azure AI Studio project. See the Tracing tab in your studio. If one was enabled, you can get the Application Insights connection string, configure your Agents, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create an Agent.
@@ -874,12 +872,18 @@ You can add an Application Insights Azure resource to your Azure AI Studio proje
 
 Make sure to install OpenTelemetry and the Azure SDK tracing plugin via
 
+<!-- TODO: review dependencies -->
+
 ```bash
-pip install opentelemetry
-pip install azure-core-tracing-opentelemetry
+npm install @opentelemetry/api
+npm install @opentelemetry/instrumentation
+npm install @opentelemetry/sdk-trace-node
+npm install @azure/core-tracing
 ```
 
 You will also need an exporter to send telemetry to your observability backend. You can print traces to the console or use a local viewer such as [Aspire Dashboard](https://learn.microsoft.com/dotnet/aspire/fundamentals/dashboard/standalone?tabs=bash).
+
+<!-- TODO: Update this (?) -->
 
 To connect to Aspire Dashboard or another OpenTelemetry compatible backend, install OTLP exporter:
 
@@ -887,37 +891,57 @@ To connect to Aspire Dashboard or another OpenTelemetry compatible backend, inst
 pip install opentelemetry-exporter-otlp
 ```
 
+<!-- TODO: review/revise tracing example -->
+
 #### Tracing example
 
-Here is a code sample to be included above `create_agent`:
+Here is a code sample to be included above `createAgent`:
 
 <!-- SNIPPET:sample_agents_basics_with_azure_monitor_tracing.enable_tracing -->
 
-```python
-from opentelemetry import trace
-from azure.monitor.opentelemetry import configure_azure_monitor
+```javascript
+import { trace } from "@opentelemetry/api";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter"
+import {
+    ConsoleSpanExporter,
+    NodeTracerProvider,
+    SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 
-# Enable Azure Monitor tracing
-application_insights_connection_string = project_client.telemetry.get_connection_string()
-if not application_insights_connection_string:
-    print("Application Insights was not enabled for this project.")
-    print("Enable it via the 'Tracing' tab in your AI Studio project page.")
-    exit()
-configure_azure_monitor(connection_string=application_insights_connection_string)
+const provider = new NodeTracerProvider();
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
 
-scenario = os.path.basename(__file__)
-tracer = trace.get_tracer(__name__)
+const tracer = trace.getTracer("Agents Sample", "1.0.0");
 
-with tracer.start_as_current_span(scenario):
-    with project_client:
+const client = AIProjectsClient.fromConnectionString(
+  connectionString || "", new DefaultAzureCredential()
+);
+
+if (!appInsightsConnectionString) {
+  appInsightsConnectionString = await client.telemetry.getConnectionString();
+}
+
+if (appInsightsConnectionString) {
+  const exporter = new AzureMonitorTraceExporter({
+    connectionString: appInsightsConnectionString
+  });
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+}
+
+await tracer.startActiveSpan("main", async (span) => {
+    client.telemetry.updateSettings({enableContentRecording: true})
+...
 ```
 
 <!-- END SNIPPET -->
 
+<!-- TODO: Do we have .telemetry methods/functionality -->
+
 In additional, you might find helpful to see the tracing logs in console. You can achieve by the following code:
 
-```python
-project_client.telemetry.enable(destination=sys.stdout)
+```javascript
+client.telemetry.enable({ destination: sys.stdout });
 ```
 
 ## Troubleshooting
