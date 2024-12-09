@@ -232,8 +232,6 @@ const agent = await client.agents.createAgent("gpt-4o", {
 
 <!-- END SNIPPET -->
 
-<!-- TODO: Revisit -->
-
 To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `tool_resources` arguments.
 
 You can use `ToolSet` to do this:
@@ -936,14 +934,6 @@ await tracer.startActiveSpan("main", async (span) => {
 
 <!-- END SNIPPET -->
 
-<!-- TODO: Do we have .telemetry methods/functionality -->
-
-In additional, you might find helpful to see the tracing logs in console. You can achieve by the following code:
-
-```javascript
-client.telemetry.enable({ destination: sys.stdout });
-```
-
 ## Troubleshooting
 
 ### Exceptions
@@ -969,7 +959,7 @@ Status code: 401 (Unauthorized)
 Operation returned an invalid status 'Unauthorized'
 ```
 
-<!-- TODO: Update tracing information -->
+<!-- TODO: Update logging information -->
 
 ### Logging
 
