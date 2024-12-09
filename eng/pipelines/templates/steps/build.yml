@@ -94,20 +94,16 @@ steps:
         Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
         New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
 
-        # we can only copy docs if they exist, and they will never exist for packages marked as private
-        if ((Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
-        {
-          Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
-        }
-        else {
-          Write-Host "Skipping documentation for private package $artifact"
-        }
-
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
+          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
           New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
+        }
+        else {
+          Write-Host "Skipping documentation for package $artifact."
         }
 
         Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse
