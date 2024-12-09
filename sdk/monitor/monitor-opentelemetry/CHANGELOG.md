@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Should not use reserved 7th bit for statsbeat instrumentations.
+
 ### Other Changes
 
 ## 1.8.0 (2024-10-23)
