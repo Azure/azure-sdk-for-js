@@ -4,7 +4,7 @@ export default azsdkEslint.config([
   {
     rules: {
       "no-restricted-imports": "warn",
-    }
+    },
   },
   {
     files: ["**/*.ts", "**/*.cts", "**/*.mts"],
