@@ -10,7 +10,7 @@
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node agentsBingGrounding.ts
+ *  npm node agentsBingGrounding.ts
  *
  *  Before running the sample:
  *

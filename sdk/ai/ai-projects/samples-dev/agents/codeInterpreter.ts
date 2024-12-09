@@ -1,6 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: codeInterpreter.ts
+ *
+ * This sample demonstrates how to use agent operations with code interpreter from
+ * the Azure Agents service using a synchronous client.
+ *
+ * USAGE:
+ *  npm node codeInterpreter.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,7 +35,7 @@ export async function main(): Promise<void> {
 
   // Upload file and wait for it to be processed
   const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "localFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
@@ -79,14 +97,14 @@ export async function main(): Promise<void> {
 
   const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
   if (fileContent) {
-      const chunks: Buffer[] = [];
-      for await (const chunk of fileContent) {
-          chunks.push(Buffer.from(chunk));
-      }
-      const buffer = Buffer.concat(chunks);
-      fs.writeFileSync(imageFileName, buffer);
+    const chunks: Buffer[] = [];
+    for await (const chunk of fileContent) {
+      chunks.push(Buffer.from(chunk));
+    }
+    const buffer = Buffer.concat(chunks);
+    fs.writeFileSync(imageFileName, buffer);
   } else {
-      console.error("Failed to retrieve file content: fileContent is undefined");
+    console.error("Failed to retrieve file content: fileContent is undefined");
   }
   console.log(`Saved image file to: ${imageFileName}`);
 

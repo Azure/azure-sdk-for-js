@@ -10,7 +10,7 @@
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node agentsFabric.ts
+ *  npm node agentsFabric.ts
  *
  *  Before running the sample:
  *

@@ -1,6 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: vectorStoreFiles.ts
+ *
+ * This sample demonstrates how to create the vector store with the list of files.
+ * 
+ * USAGE:
+ *  npm node vectorStoreFiles.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity stream dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -10,43 +27,43 @@ dotenv.config();
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
 export async function main(): Promise<void> {
-    const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
-    // Create vector store
-    const vectorStore = await client.agents.createVectorStore();
-    console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+  // Create vector store
+  const vectorStore = await client.agents.createVectorStore();
+  console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
-    // Create and upload file
-    const fileContent = "Hello, Vector Store!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await client.agents.uploadFile(readable, "assistants", "vectorFile.txt");
-    console.log(`Uploaded file, file ID: ${file.id}`);
+  // Create and upload file
+  const fileContent = "Hello, Vector Store!";
+  const readable = new Readable();
+  readable.push(fileContent);
+  readable.push(null); // end the stream
+  const file = await client.agents.uploadFile(readable, "assistants", "vectorFile.txt");
+  console.log(`Uploaded file, file ID: ${file.id}`);
 
-    // Create vector store file
-    const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
-    console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
+  // Create vector store file
+  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
+  console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
-    // Retrieve vector store file
-    const _vectorStoreFile = await client.agents.getVectorStoreFile(vectorStore.id, vectorStoreFile.id);
-    console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
+  // Retrieve vector store file
+  const _vectorStoreFile = await client.agents.getVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+  console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
 
-    // List vector store files
-    const vectorStoreFiles = await client.agents.listVectorStoreFiles(vectorStore.id);
-    console.log(`List of vector store files: ${vectorStoreFiles.data.map(f => f.id).join(", ")}`);
+  // List vector store files
+  const vectorStoreFiles = await client.agents.listVectorStoreFiles(vectorStore.id);
+  console.log(`List of vector store files: ${vectorStoreFiles.data.map(f => f.id).join(", ")}`);
 
-    // Delete vector store file
-    await client.agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
-    console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
+  // Delete vector store file
+  await client.agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+  console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
-    // Delete file
-    await client.agents.deleteFile(file.id);
-    console.log(`Deleted file, file ID: ${file.id}`);
+  // Delete file
+  await client.agents.deleteFile(file.id);
+  console.log(`Deleted file, file ID: ${file.id}`);
 
-    // Delete vector store
-    await client.agents.deleteVectorStore(vectorStore.id);
-    console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+  // Delete vector store
+  await client.agents.deleteVectorStore(vectorStore.id);
+  console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 
 main().catch((err) => {

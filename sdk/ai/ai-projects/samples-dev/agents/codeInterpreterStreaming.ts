@@ -1,6 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: codeInterpreterStreaming.ts
+ *
+ * This sample demonstrates how to use agent operations with code interpreter from
+ * the Azure Agents service using a synchronous client.
+ *
+ * USAGE:
+ *  npm node codeInterpreterStreaming.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput, MessageContentOutput, RunStreamEvent, MessageStreamEvent, ThreadRunOutput, MessageDeltaChunk, MessageDeltaTextContent, ErrorEvent, DoneEvent } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -44,33 +62,33 @@ export async function main(): Promise<void> {
   const streamEventMessages = await client.agents.createRunStreaming(thread.id, agent.id);
 
   for await (const eventMessage of streamEventMessages) {
-      switch (eventMessage.event) {
-          case RunStreamEvent.ThreadRunCreated:
-              console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`)
-              break;
-          case MessageStreamEvent.ThreadMessageDelta:
-              {
-                  const messageDelta = eventMessage.data as MessageDeltaChunk;
-                  messageDelta.delta.content.forEach((contentPart) => {
-                      if (contentPart.type === "text") {
-                          const textContent = contentPart as MessageDeltaTextContent
-                          const textValue = textContent.text?.value || "No text"
-                          console.log(`Text delta received:: ${textValue}`)
-                      }
-                  });
-              }
-              break;
+    switch (eventMessage.event) {
+      case RunStreamEvent.ThreadRunCreated:
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`)
+        break;
+      case MessageStreamEvent.ThreadMessageDelta:
+        {
+          const messageDelta = eventMessage.data as MessageDeltaChunk;
+          messageDelta.delta.content.forEach((contentPart) => {
+            if (contentPart.type === "text") {
+              const textContent = contentPart as MessageDeltaTextContent
+              const textValue = textContent.text?.value || "No text"
+              console.log(`Text delta received:: ${textValue}`)
+            }
+          });
+        }
+        break;
 
-          case RunStreamEvent.ThreadRunCompleted:
-              console.log("Thread Run Completed");
-              break;
-          case ErrorEvent.Error:
-              console.log(`An error occurred. Data ${eventMessage.data}`);
-              break;
-          case DoneEvent.Done:
-              console.log("Stream completed.");
-              break;
-      }
+      case RunStreamEvent.ThreadRunCompleted:
+        console.log("Thread Run Completed");
+        break;
+      case ErrorEvent.Error:
+        console.log(`An error occurred. Data ${eventMessage.data}`);
+        break;
+      case DoneEvent.Done:
+        console.log("Stream completed.");
+        break;
+    }
   }
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
@@ -99,14 +117,14 @@ export async function main(): Promise<void> {
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
   if (fileContent) {
-      const chunks: Buffer[] = [];
-      for await (const chunk of fileContent) {
-          chunks.push(Buffer.from(chunk));
-      }
-      const buffer = Buffer.concat(chunks);
-      fs.writeFileSync(imageFileName, buffer);
+    const chunks: Buffer[] = [];
+    for await (const chunk of fileContent) {
+      chunks.push(Buffer.from(chunk));
+    }
+    const buffer = Buffer.concat(chunks);
+    fs.writeFileSync(imageFileName, buffer);
   } else {
-      console.error("Failed to retrieve file content: fileContent is undefined");
+    console.error("Failed to retrieve file content: fileContent is undefined");
   }
   console.log(`Saved image file to: ${imageFileName}`);
 

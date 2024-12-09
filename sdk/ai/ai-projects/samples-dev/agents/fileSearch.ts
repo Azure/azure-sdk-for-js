@@ -1,6 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: fileSearch.ts
+ *
+ * This sample demonstrates how to use agent operations with file searching from
+ * the Azure Agents service using a synchronous client.
+ *
+ * USAGE:
+ *  npm node fileSearch.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -60,17 +78,17 @@ export async function main(): Promise<void> {
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
   messages.data.forEach(threadMessage => {
-        console.log(`Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`);
-        threadMessage.content.forEach((content: MessageContentOutput) => {
-            if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-                const textContent = content as MessageTextContentOutput;
-                console.log(`Text Message Content - ${textContent.text.value}`);
-            } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-                const imageContent = content as MessageImageFileContentOutput;
-                console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
-            }
-        });
+    console.log(`Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`);
+    threadMessage.content.forEach((content: MessageContentOutput) => {
+      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
+        const textContent = content as MessageTextContentOutput;
+        console.log(`Text Message Content - ${textContent.text.value}`);
+      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContentOutput;
+        console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
+      }
     });
+  });
 
   // Delete agent
   await client.agents.deleteAgent(agent.id);

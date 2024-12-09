@@ -10,7 +10,7 @@
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node agentsSharepoint.ts
+ *  npm node agentsSharepoint.ts
  *
  *  Before running the sample:
  *
@@ -68,7 +68,7 @@ export async function main(): Promise<void> {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-      console.log(`Run failed: ${run.last_error}`);
+    console.log(`Run failed: ${run.last_error}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 
