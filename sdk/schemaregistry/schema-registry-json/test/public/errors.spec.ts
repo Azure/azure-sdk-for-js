@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import type { JsonSchemaSerializer } from "../../src";
+import type { JsonSchemaSerializer } from "../../src/index.js";
 import type { Context } from "mocha";
 import type { SchemaRegistry } from "@azure/schema-registry";
-import { assertError } from "./utils/assertError";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
-import { createContentType, testGroup, testSchema } from "./utils/dummies";
+import { assertError } from "./utils/assertError.js";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
+import { createContentType, testGroup, testSchema } from "./utils/dummies.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
 
@@ -18,7 +18,7 @@ describe("Error scenarios", function () {
   let recorder: Recorder;
 
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -39,7 +39,7 @@ describe("Error scenarios", function () {
         /avro\/binary.*application\/json/,
       );
     });
-    it("a schema with non-json format", async function (this: Context) {
+    it("a schema with non-json format", async function (ctx) {
       await assert.isRejected(
         registry.registerSchema({
           name: "Name",
@@ -73,12 +73,12 @@ describe("Error scenarios", function () {
         /does not exist/,
       );
     });
-    it("invalid schema at time of deserializing", async function (this: Context) {
+    it("invalid schema at time of deserializing", async function (ctx) {
       /**
        * This test can not run in live mode because the service will validate the schema.
        */
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const id = await registerTestSchema(registry);
       const { data } = await serializer.serialize(
@@ -117,7 +117,7 @@ describe("Error scenarios", function () {
     });
     it("schema with invalid enum", async function () {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const schema = JSON.stringify({
         $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -166,7 +166,7 @@ describe("Error scenarios", function () {
     });
     it("schema with invalid ID", async function () {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       await assertError(
         serializer.serialize(
@@ -183,7 +183,7 @@ describe("Error scenarios", function () {
     });
     it("schema with invalid type", async function () {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       const schema = JSON.stringify({

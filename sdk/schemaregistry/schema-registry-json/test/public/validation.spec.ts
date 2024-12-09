@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import type { DeserializeOptions, JsonSchemaSerializer } from "../../src";
+import type { DeserializeOptions, JsonSchemaSerializer } from "../../src/index.js";
 import type { SchemaRegistry } from "@azure/schema-registry";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { createContentType, encoder, testGroup } from "./utils/dummies";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
+import { createContentType, encoder, testGroup } from "./utils/dummies.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assertError } from "./utils/assertError";
+import { assertError } from "./utils/assertError.js";
 import Ajv from "ajv";
 
 describe("Deserialize Validation", function () {
@@ -20,7 +20,7 @@ describe("Deserialize Validation", function () {
   let id: string;
 
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -145,7 +145,7 @@ describe("Validation Error", function () {
   let validateWithAjvOption: DeserializeOptions;
 
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
