@@ -1,0 +1,63 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * FILE: vectorStoresPolling.ts
+ *
+ * @summary This sample demonstrates how to create the vector store using polling operation.
+ *
+ * USAGE:
+ *  npm node vectorStoresPolling.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
+const { AIProjectsClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+require("dotenv").config();
+
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
+  "<endpoint>;<subscription>;<resource group>;<project>";
+
+async function main() {
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
+
+  // Set up abort controller (optional)
+  // Polling can then be stopped using abortController.abort()
+  const abortController = new AbortController();
+
+  // Create a vector store
+  const vectorStoreOptions = { name: "myVectorStore" };
+  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+  const vectorStore = await client.agents.createVectorStoreAndPoll(
+    vectorStoreOptions,
+    pollingOptions,
+  );
+  console.log(
+    `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
+  );
+
+  // Get a specific vector store
+  const retrievedVectorStore = await client.agents.getVectorStore(vectorStore.id);
+  console.log(`Retrieved vector store, vector store ID: ${retrievedVectorStore.id}`);
+
+  // Delete the vector store
+  await client.agents.deleteVectorStore(vectorStore.id);
+  console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
+module.exports = { main };
