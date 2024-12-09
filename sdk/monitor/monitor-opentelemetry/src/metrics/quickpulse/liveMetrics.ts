@@ -29,8 +29,6 @@ import type {
 } from "../../generated";
 import { KnownCollectionConfigurationErrorType, KnownTelemetryType } from "../../generated";
 import {
-  getCloudRole,
-  getCloudRoleInstance,
   getLogDocument,
   getSdkVersion,
   getSpanData,
@@ -70,6 +68,7 @@ import {
 } from "./filtering/quickpulseErrors";
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils";
+import { getCloudRole, getCloudRoleInstance } from "../utils";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
+
 ### Other Changes
 
 ## 1.8.0 (2024-10-23)
