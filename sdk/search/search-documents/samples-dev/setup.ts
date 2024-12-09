@@ -6,6 +6,7 @@
  * @azsdk-util
  */
 
+import "dotenv/config";
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
 import { env } from "node:process";

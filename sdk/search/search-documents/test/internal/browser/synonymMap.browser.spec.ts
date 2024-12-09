@@ -3,8 +3,8 @@
 import { createSynonymMapFromFile } from "../../../src/synonymMapHelper.browser.js";
 import { describe, it, assert } from "vitest";
 
-describe("synonymmap", function () {
-  it("create synonymmap from file(browser)", async function () {
+describe("synonymmap", () => {
+  it("create synonymmap from file(browser)", async () => {
     let errorThrown = false;
     try {
       await createSynonymMapFromFile("my-synonym-map-1", "./test/internal/synonymMap.txt");

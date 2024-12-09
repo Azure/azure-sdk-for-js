@@ -49,6 +49,7 @@ function createRecorderStartOptions(): RecorderStartOptions {
   };
   return {
     envSetupForPlayback,
+    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493"],
     sanitizerOptions: {
       generalSanitizers,
       bodyKeySanitizers: [bodyKeySanitizer],

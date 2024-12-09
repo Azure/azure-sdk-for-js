@@ -3,8 +3,8 @@
 import GeographyPoint from "../../src/geographyPoint.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-describe("geographyPoint", function () {
-  it("JSON.stringify", function () {
+describe("geographyPoint", () => {
+  it("JSON.stringify", () => {
     const geoPoint = new GeographyPoint({
       longitude: -122.123889,
       latitude: 47.669444,
@@ -17,7 +17,7 @@ describe("geographyPoint", function () {
     });
   });
 
-  afterEach(function () {
+  afterEach(() => {
     vi.restoreAllMocks();
   });
 });

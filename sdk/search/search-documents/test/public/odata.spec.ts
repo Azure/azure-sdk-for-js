@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { odata } from "../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("odata", function () {
   it("simple string isn't changed", function () {
@@ -78,9 +78,5 @@ describe("odata", function () {
     assert.strictEqual(odata`Foo eq ${"bar"}`, "Foo eq 'bar'");
     assert.strictEqual(odata`Foo eq ${"bar's"}`, "Foo eq 'bar''s'");
     assert.strictEqual(odata`Foo eq ${'"bar"'}`, "Foo eq '\"bar\"'");
-  });
-
-  afterEach(function () {
-    vi.restoreAllMocks();
   });
 });

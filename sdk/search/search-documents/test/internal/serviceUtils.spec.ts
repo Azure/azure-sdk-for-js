@@ -6,8 +6,8 @@ import type { ComplexField, SearchField } from "../../src/serviceModels.js";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils.js";
 import { describe, it, assert } from "vitest";
 
-describe("serviceUtils", function () {
-  it("convert generated fields to public fields", function () {
+describe("serviceUtils", () => {
+  it("convert generated fields to public fields", () => {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "id",
@@ -43,7 +43,7 @@ describe("serviceUtils", function () {
     });
   });
 
-  it("convert generated fields (complex) to public fields", function () {
+  it("convert generated fields (complex) to public fields", () => {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "ComplexObj",
@@ -90,7 +90,7 @@ describe("serviceUtils", function () {
     });
   });
 
-  it("convert public fields to generated fields", function () {
+  it("convert public fields to generated fields", () => {
     const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
       {
         name: "id",
@@ -126,7 +126,7 @@ describe("serviceUtils", function () {
     });
   });
 
-  it("convert public fields (complex) to generated fields", function () {
+  it("convert public fields (complex) to generated fields", () => {
     const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
       {
         name: "ComplexObj",
