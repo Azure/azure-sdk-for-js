@@ -8,7 +8,6 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -73,7 +72,8 @@ export interface KeyVaultAdminPollOperationState<TResult> {
     jobId?: string;
     result?: TResult;
     startTime?: Date;
-    status: any;
+    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
+    status: OperationStatus;
     statusDetails?: string;
 }
 

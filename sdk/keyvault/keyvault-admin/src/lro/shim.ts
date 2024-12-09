@@ -7,11 +7,12 @@ import type {
   OperationState,
   PollerLike as CorePollerLike,
 } from "@azure/core-lro";
+import type { KeyVaultAdminPollOperationState } from "./models.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.
  */
-export interface PollerLike<TState extends OperationState<TResult>, TResult> {
+export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResult>, TResult> {
   /**
    * Returns true if the poller has finished polling.
    */

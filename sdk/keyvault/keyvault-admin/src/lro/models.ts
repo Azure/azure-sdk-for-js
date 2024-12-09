@@ -10,6 +10,7 @@ import type {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "../backupClientModels.js";
+import { OperationStatus } from "../generated/index.js";
 
 /**
  * Common parameters to a Key Vault Admin Poller.
@@ -33,7 +34,7 @@ export interface KeyVaultAdminPollOperationState<TResult> {
   /**
    * Status of the restore operation.
    */
-  status: any; // TODO
+  status: OperationStatus;
   /**
    * Will exist if the operation encountered any error.
    */
@@ -58,6 +59,10 @@ export interface KeyVaultAdminPollOperationState<TResult> {
    * isStarted
    */
   isStarted?: boolean;
+  /**
+   * isCompleted
+   */
+  isCompleted?: boolean;
 }
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {
