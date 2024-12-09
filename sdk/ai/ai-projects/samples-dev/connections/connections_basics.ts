@@ -17,14 +17,11 @@ export async function main(): Promise<void> {
     console.log(`Retrieved workspace, workspace name: ${workspace.name}`);
 
     // List the details of all the connections
-    const connections = await client.connections.listConnections({category: "AzureOpenAI"});
-    console.log(`Retrieved ${connections.value.length} connections`);
-    for (const connection of connections.value) {
-      console.log(connection);
-    }
+    const connections = await client.connections.listConnections();
+    console.log(`Retrieved ${connections.length} connections`);
 
     // Get the details of a connection, without credentials
-    const connectionName = connections.value[0].name;
+    const connectionName = connections[0].name;
     const connection = await client.connections.getConnection(connectionName);
     console.log(`Retrieved connection, connection name: ${connection.name}`);
 
