@@ -18,7 +18,7 @@ import type { JsonSchemaSerializer } from "../../src/index.js";
 import type { EventData } from "@azure/event-hubs";
 import { createEventDataAdapter } from "@azure/event-hubs";
 import type { MessagingTestClient } from "./clients/models.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { createEventHubsClient } from "./clients/eventHubs.js";
 import { createMockedMessagingClient } from "./clients/mocked.js";
 import { createTestSerializer } from "./utils/mockedSerializer.js";
