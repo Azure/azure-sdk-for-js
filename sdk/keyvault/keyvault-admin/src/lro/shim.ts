@@ -36,7 +36,7 @@ export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResu
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    */
-  poll(options?: { abortSignal?: AbortSignalLike }): Promise<TState>;
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
@@ -48,11 +48,6 @@ export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResu
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
   onProgress(callback: (state: TState) => void): CancelOnProgress;
-
-  /**
-   * Wait the poller to be submitted.
-   */
-  submitted(): Promise<void>;
 
   /**
    * Returns a string representation of the poller's operation. Similar to serialize but returns a string.
@@ -113,7 +108,9 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
       abortController.abort();
     },
     onProgress: httpPoller.onProgress,
-    poll: httpPoller.poll,
+    async poll(options) {
+      httpPoller.poll(options);
+    },
     pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }) {
       function abortListener(): void {
         abortController.abort();
@@ -129,7 +126,6 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
       }
       return httpPoller.pollUntilDone({ abortSignal: abortController.signal });
     },
-    submitted: httpPoller.submitted,
   };
   await httpPoller.submitted();
   return simplePoller;

@@ -68,6 +68,7 @@ export class KeyVaultAccessControlClient {
 export interface KeyVaultAdminPollOperationState<TResult> {
     endTime?: Date;
     error?: Error;
+    isCompleted?: boolean;
     isStarted?: boolean;
     jobId?: string;
     result?: TResult;
