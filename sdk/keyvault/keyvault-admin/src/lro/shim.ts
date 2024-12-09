@@ -85,7 +85,10 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
         ...httpPoller.operationState,
         ...httpPoller.operationState.result,
         isStarted: httpPoller.operationState.status !== "notStarted", // Shim for isStarted
-        isCompleted: httpPoller.operationState.status === "",
+        isCompleted:
+          httpPoller.operationState.status === "succeeded" ||
+          httpPoller.operationState.status === "failed" ||
+          httpPoller.operationState.status === "canceled",
       };
       if (mergedState.error === null) {
         mergedState.error = undefined;
