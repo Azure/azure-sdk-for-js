@@ -4,7 +4,7 @@
 import type {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
-} from "./generated/data/models";
+} from "./generated/data/models/index.js";
 import type {
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
@@ -50,14 +50,14 @@ import type {
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebApiVectorizer,
-} from "./generated/service/models";
+} from "./generated/service/models/index.js";
 import type {
   SearchResult,
   SelectFields,
   SuggestDocumentsResult,
   SuggestResult,
-} from "./indexModels";
-import { logger } from "./logger";
+} from "./indexModels.js";
+import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,
   AzureMachineLearningVectorizer,
@@ -106,8 +106,8 @@ import type {
   VectorSearchAlgorithmMetric,
   VectorSearchVectorizer,
   WebApiVectorizer,
-} from "./serviceModels";
-import { isComplexField } from "./serviceModels";
+} from "./serviceModels.js";
+import { isComplexField } from "./serviceModels.js";
 
 export const defaultServiceVersion = "2024-09-01-Preview";
 

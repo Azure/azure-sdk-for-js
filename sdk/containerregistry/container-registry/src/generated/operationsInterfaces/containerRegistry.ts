@@ -40,7 +40,7 @@ import {
   ContainerRegistryGetTagsNextResponse,
   ContainerRegistryGetManifestsNextOptionalParams,
   ContainerRegistryGetManifestsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ContainerRegistry. */
 export interface ContainerRegistry {

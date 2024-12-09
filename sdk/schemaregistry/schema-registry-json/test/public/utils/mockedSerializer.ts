@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JsonSchemaSerializerOptions } from "../../../src";
-import { JsonSchemaSerializer } from "../../../src";
-import { testGroup, testSchema, testSchemaObject } from "./dummies";
+import type { JsonSchemaSerializerOptions } from "../../../src/index.js";
+import { JsonSchemaSerializer } from "../../../src/index.js";
+import { testGroup, testSchema, testSchemaObject } from "./dummies.js";
 import type { SchemaRegistry } from "@azure/schema-registry";
-import { createTestRegistry } from "./mockedRegistryClient";
+import { createTestRegistry } from "./mockedRegistryClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
 export interface CreateTestSerializerOptions<T> {

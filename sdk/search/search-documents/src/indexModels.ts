@@ -26,8 +26,8 @@ import type {
   SemanticFieldState,
   SemanticQueryRewritesResultType,
   VectorsDebugInfo,
-} from "./generated/data/models";
-import type GeographyPoint from "./geographyPoint";
+} from "./generated/data/models/index.js";
+import type GeographyPoint from "./geographyPoint.js";
 
 /**
  * Options for performing the count operation on the index.
