@@ -40,13 +40,13 @@ describe("WebPubSubClient", function () {
         testName: "join group",
         expectMessage: { kind: "joinGroup", group: "groupName", ackId: 2 } as JoinGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.joinGroup("groupName", { ackId: 2 } as JoinGroupOptions),
+          client.joinGroup("groupName", { ackId: 2 } as JoinGroupOptions),
       },
       {
         testName: "leave group",
         expectMessage: { kind: "leaveGroup", group: "groupName", ackId: 2 } as LeaveGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.leaveGroup("groupName", { ackId: 2 } as JoinGroupOptions),
+          client.leaveGroup("groupName", { ackId: 2 } as JoinGroupOptions),
       },
       {
         testName: "send to group",
@@ -59,7 +59,7 @@ describe("WebPubSubClient", function () {
           noEcho: false,
         } as SendToGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendToGroup("groupName", "xyz", "text", { ackId: 2 }),
+          client.sendToGroup("groupName", "xyz", "text", { ackId: 2 }),
       },
       {
         testName: "send event",
@@ -71,7 +71,7 @@ describe("WebPubSubClient", function () {
           data: "xyz",
         } as SendEventMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 }),
+          client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 }),
       },
     ];
 
@@ -86,9 +86,9 @@ describe("WebPubSubClient", function () {
           .spyOn(client as any, "_sendMessage")
           .mockImplementation(() => Promise.reject());
 
-        try {
-          await actualMethod(client);
-        } catch {}
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
 
         expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
         expect(mock).toHaveBeenCalledTimes(4);
@@ -106,9 +106,9 @@ describe("WebPubSubClient", function () {
           .spyOn(client as any, "_sendMessage")
           .mockImplementation(() => Promise.reject());
 
-        try {
-          await actualMethod(client);
-        } catch {}
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
         expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
         expect(mock).toHaveBeenCalledTimes(6);
       });
@@ -129,9 +129,9 @@ describe("WebPubSubClient", function () {
             return Promise.resolve();
           });
 
-        try {
-          await actualMethod(client);
-        } catch {}
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
 
         expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
         expect(mock).toHaveBeenCalledTimes(2);
