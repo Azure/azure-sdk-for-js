@@ -36,7 +36,7 @@ export enum connectionToolType {
   /** Microsoft Fabric tool */
   MicrosoftFabric = "microsoft_fabric",
   /** Sharepoint tool */
-  SharePointGrounding = "sharepoint_grounding",
+  SharepointGrounding = "sharepoint_grounding",
 }
 
 /**
