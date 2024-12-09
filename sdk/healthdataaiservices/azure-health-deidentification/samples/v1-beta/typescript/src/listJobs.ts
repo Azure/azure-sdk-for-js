@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to list jobs and iterate over them in a for loop.
+ * @summary This sample demonstrates how to list Deidentification jobs and iterate over them.
  */
 
 import createClient, { isUnexpected, paginate } from "@azure-rest/azure-health-deidentification";

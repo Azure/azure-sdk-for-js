@@ -26,10 +26,9 @@ export async function main(): Promise<void> {
   const jobName = "exampleJob";
 
   const job: DeidentificationJob = {
-    dataType: "Plaintext",
     operation: "Redact",
     sourceLocation: { location, prefix: inputPrefix },
-    targetLocation: { location, prefix: OUTPUT_FOLDER },
+    targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
     customizations: {
       redactionFormat: "<{TYPE}>",
     }

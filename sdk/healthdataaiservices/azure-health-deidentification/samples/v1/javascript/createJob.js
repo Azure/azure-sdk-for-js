@@ -5,15 +5,12 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a specific folder of a blob storage container.
  */
 
-import createClient, {
-  DeidentificationJob,
-  isUnexpected,
-} from "@azure-rest/azure-health-deidentification";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+const createClient = require("@azure-rest/azure-health-deidentification").default,
+  { isUnexpected } = require("@azure-rest/azure-health-deidentification");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint =
     process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
@@ -24,7 +21,7 @@ export async function main(): Promise<void> {
   const client = createClient(serviceEndpoint, credential);
   const jobName = "exampleJob";
 
-  const job: DeidentificationJob = {
+  const job = {
     operation: "Surrogate",
     sourceLocation: { location, prefix: inputPrefix },
     targetLocation: { location, prefix: OUTPUT_FOLDER },
@@ -41,3 +38,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

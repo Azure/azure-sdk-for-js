@@ -20,7 +20,7 @@ export async function main(): Promise<void> {
   const client = createClient(serviceEndpoint, credential);
 
   const content: DeidentificationContent = {
-    inputText: "Hello John!",
+    inputText: "Hello, John!",
   };
 
   const response = await client.path("/deid").post({ body: content });

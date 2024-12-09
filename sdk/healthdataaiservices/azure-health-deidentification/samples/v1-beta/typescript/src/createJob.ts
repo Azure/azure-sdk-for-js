@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.
+ * @summary This sample demonstrates how to create a job which will deidentify all files within a specific folder of a blob storage container.
  */
 
 import createClient, {
@@ -25,10 +25,9 @@ export async function main(): Promise<void> {
   const jobName = "exampleJob";
 
   const job: DeidentificationJob = {
-    dataType: "Plaintext",
     operation: "Surrogate",
     sourceLocation: { location, prefix: inputPrefix },
-    targetLocation: { location, prefix: OUTPUT_FOLDER },
+    targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
     customizations: {
       surrogateLocale: "en-US",
     }
