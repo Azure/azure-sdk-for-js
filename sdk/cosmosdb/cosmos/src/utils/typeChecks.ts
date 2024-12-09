@@ -80,7 +80,8 @@ export function isPrefixPartitionKey(
   partitionKeyDefinition: PartitionKeyDefinition,
 ): boolean {
   return (
-    partitionKeyDefinition !== undefined &&
+    partitionKeyDefinition &&
+    partitionKeyDefinition.paths &&
     partitionKeyDefinition.kind === PartitionKeyKind.MultiHash &&
     Array.isArray(partitionKey) &&
     partitionKey.length < partitionKeyDefinition.paths.length
