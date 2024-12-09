@@ -5,8 +5,7 @@
  * 
  * FILE: streaming.ts
  *
- * This sample demonstrates how to use agent operations in streaming from
- * the Azure Agents service using a synchronous client.
+ * @summary This sample demonstrates how to use agent operations in streaming from the Azure Agents service using a synchronous client.
  *
  * USAGE:
  *  npm node streaming.ts

@@ -5,7 +5,7 @@
  * 
  * FILE: vectorStores.ts
  *
- * This sample demonstrates how to create the vector store.
+ * @summary This sample demonstrates how to create the vector store.
  * 
  * USAGE:
  *  npm node vectorStores.ts

@@ -5,7 +5,7 @@
  * 
  * FILE: vectorStoreFilesPolling.ts
  *
- * This sample demonstrates how to create the vector store with the list of files using polling operation.
+ * @summary This sample demonstrates how to create the vector store with the list of files using polling operation.
  * 
  * USAGE:
  *  npm node vectorStoreFilesPolling.ts

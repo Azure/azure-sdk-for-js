@@ -5,8 +5,7 @@
  * 
  * FILE: codeInterpreter.ts
  *
- * This sample demonstrates how to use agent operations with code interpreter from
- * the Azure Agents service using a synchronous client.
+ * @summary This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
  *
  * USAGE:
  *  npm node codeInterpreter.ts

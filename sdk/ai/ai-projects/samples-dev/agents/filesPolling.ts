@@ -1,6 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: filesPolling.ts
+ *
+ * @summary This sample demonstrates how to upload a file and poll for its status using a synchronous client.
+ *
+ * USAGE:
+ *  npm node filesPolling.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity stream dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import {AIProjectsClient} from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,7 +41,7 @@ export async function main(): Promise<void> {
 
   // Upload file and poll
   const pollingOptions = { sleepIntervalInMs: 1000, abortSignal: abortController.signal };
-  const file = await client.agents.uploadFileAndPoll(readable, "assistants", "my-polling-file", pollingOptions);
+  const file = await client.agents.uploadFileAndPoll(readable, "assistants", "myPollingFile", pollingOptions);
   console.log(`Uploaded file with status ${file.status}, file ID : ${file.id}`);
 
   // Delete file

@@ -5,7 +5,7 @@
  * 
  * FILE: vectorStoresPolling.ts
  *
- * This sample demonstrates how to create the vector store using polling operation.
+ * @summary This sample demonstrates how to create the vector store using polling operation.
  * 
  * USAGE:
  *  npm node vectorStoresPolling.ts

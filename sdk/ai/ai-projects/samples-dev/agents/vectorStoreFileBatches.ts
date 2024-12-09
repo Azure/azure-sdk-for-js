@@ -5,7 +5,7 @@
  * 
  * FILE: vectorStoreFilesBatches.ts
  *
- * This sample demonstrates how to create the batch vector store with the list of files.
+ * @summary This sample demonstrates how to create the batch vector store with the list of files.
  *
  * USAGE:
  *  npm node vectorStoreFilesBatches.ts

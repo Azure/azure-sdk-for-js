@@ -5,9 +5,7 @@
  * 
  * FILE: agentsSharepoint.ts
  *
- * DESCRIPTION:
- *  This sample demonstrates how to use agent operations with the Sharepoint tool from
- *  the Azure Agents service using a asynchronous client.
+ * @summary DESCRIPTION: This sample demonstrates how to use agent operations with the Sharepoint tool from the Azure Agents service using a asynchronous client.
  *
  * USAGE:
  *  npm node agentsSharepoint.ts

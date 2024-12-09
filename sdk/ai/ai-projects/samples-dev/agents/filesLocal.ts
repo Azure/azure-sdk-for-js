@@ -5,8 +5,7 @@
  * 
  * FILE: filesLocal.ts
  *
- * This sample demonstrates how to use basic agent operations from
- * the Azure Agents service using a synchronous client.
+ * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
  *
  * USAGE:
  *  npm node filesLocal.ts

@@ -5,7 +5,7 @@
  * 
  * FILE: vectorStoreFiles.ts
  *
- * This sample demonstrates how to create the vector store with the list of files.
+ * @summary This sample demonstrates how to create the vector store with the list of files.
  * 
  * USAGE:
  *  npm node vectorStoreFiles.ts
