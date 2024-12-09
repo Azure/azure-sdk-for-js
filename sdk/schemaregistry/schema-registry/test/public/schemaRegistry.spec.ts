@@ -4,12 +4,12 @@
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { Schema, SchemaDescription, SchemaProperties } from "../../src/index.js";
 import { KnownSchemaFormats, SchemaRegistryClient } from "../../src/index.js";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import type { Format } from "./utils/recordedClient.js";
 import { createRecordedClient, recorderOptions } from "./utils/recordedClient.js";
 import { ClientSecretCredential } from "@azure/identity";
-import type { Context } from "mocha";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const options = {
   onResponse: (rawResponse: { status: number; bodyAsText?: string | null }) => {
