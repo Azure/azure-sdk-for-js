@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * 
  * FILE: messages.ts
  *
  * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * 
  * FILE: threads.ts
  *
  * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
@@ -18,16 +17,20 @@
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
-import {AIProjectsClient} from "@azure/ai-projects"
-import { DefaultAzureCredential } from "@azure/identity";
+const { AIProjectsClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
+  "<endpoint>>;<subscription>;<resource group>;<project>";
 
-export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+async function main() {
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   const thread = await client.agents.createThread();
 
@@ -45,3 +48,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

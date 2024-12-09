@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * 
  * FILE: streaming.ts
  *
  * @summary This sample demonstrates how to use agent operations in streaming from the Azure Agents service using a synchronous client.
