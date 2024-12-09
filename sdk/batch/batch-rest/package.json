@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/batch",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Batch Service Rest Level Client",
   "engines": {
     "node": ">=18.0.0"

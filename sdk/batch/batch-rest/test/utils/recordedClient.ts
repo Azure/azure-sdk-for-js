@@ -11,14 +11,11 @@ import {
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
-import {
-  // AzureCliCredential,
-  // AzureCliCredential,
-  InteractiveBrowserCredential,
-} from "@azure/identity";
+
 import { isNodeLike } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { EnvTokenCredential } from "./envTokenCredential.js";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -30,7 +27,7 @@ const recorderEnvSetup: RecorderStartOptions = {
     AZURE_BATCH_ACCESS_KEY: "api_key",
   },
   // see https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
-  removeCentralSanitizers: ["AZSDK3430", "AZSDK3479", "AZSDK3402", "AZSDK3493"],
+  removeCentralSanitizers: ["AZSDK3430", "AZSDK3479", "AZSDK3402", "AZSDK3493", "AZSDK4001"],
   sanitizerOptions: {
     bodyKeySanitizers: [
       {
@@ -71,14 +68,7 @@ export function createBatchClient(recorder?: Recorder, options: ClientOptions = 
     ? new NoOpCredential()
     : isNodeLike
       ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
-      : // : new AzureCliCredential();
-        new InteractiveBrowserCredential({
-          clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
-          tokenCachePersistenceOptions: {
-            enabled: true,
-            name: "batch-test-cache",
-          },
-        });
+      : new EnvTokenCredential();
 
   if (!isPlaybackMode() && !env.AZURE_BATCH_ENDPOINT) {
     throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
