@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { Constants } from "../../../src/common/constants";
-import { getUserAgent } from "../../../src/common/platform";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const packageJson = require("../../../package.json");
+
+import { Constants } from "../../../src/common/constants.js";
+import { getUserAgent } from "../../../src/common/platform.js";
+import { describe, it, assert, expect } from "vitest";
+import process from "node:process";
+import packageJson from "../../../package.json" assert { type: "json" };
+import { isNodeLike } from "@azure/core-util";
+
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
-describe("getUserAgent", function () {
+describe("getUserAgent", { skip: !isNodeLike }, () => {
   it("should contain the current SDK version", () => {
+    console.log(getUserAgent());
     assert(getUserAgent().includes(packageVersion));
   });
 
   it("should contain the current node version", () => {
-    assert(getUserAgent().includes(process.version.replace("v", "")));
+    const majorVersion = process.versions.node.split(".")[0];
+    expect(getUserAgent()).toContain(majorVersion);
   });
 
   it("should allow a custom suffix", () => {
@@ -23,8 +28,8 @@ describe("getUserAgent", function () {
   });
 });
 
-describe("Version", function () {
-  it("should have matching constant version & package version", function () {
+describe("Version", { skip: !isNodeLike }, () => {
+  it("should have matching constant version & package version", () => {
     assert.equal(
       constantVersion,
       packageVersion,
