@@ -4,15 +4,16 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PollerLike } from '@azure/core-lro';
-import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
@@ -65,17 +66,18 @@ export class KeyVaultAccessControlClient {
 }
 
 // @public
-export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
+export interface KeyVaultAdminPollOperationState<TResult> extends OperationState<TResult> {
     endTime?: Date;
     jobId?: string;
     startTime?: Date;
-    status?: string;
+    status: any;
     statusDetails?: string;
 }
 
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "PollerLike" needs to be exported by the entry point index.d.ts
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
@@ -86,7 +88,7 @@ export class KeyVaultBackupClient {
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
@@ -104,7 +106,7 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
 export interface KeyVaultBackupResult {
     endTime?: Date;
     folderUri?: string;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
@@ -137,7 +139,7 @@ export interface KeyVaultRestoreOperationState extends KeyVaultAdminPollOperatio
 // @public
 export interface KeyVaultRestoreResult {
     endTime?: Date;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
@@ -177,7 +179,7 @@ export interface KeyVaultSelectiveKeyRestoreOperationState extends KeyVaultAdmin
 // @public
 export interface KeyVaultSelectiveKeyRestoreResult {
     endTime?: Date;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
@@ -283,7 +285,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export interface SettingsClientOptions extends CommonClientOptions {
+export interface SettingsClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }

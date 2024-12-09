@@ -10,22 +10,18 @@ import type {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels.js";
-import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller.js";
-import { KeyVaultBackupOperationState } from "./lro/backup/operation.js";
-import { KeyVaultBackupPoller } from "./lro/backup/poller.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
-import { KeyVaultRestoreOperationState } from "./lro/restore/operation.js";
-import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
-import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
-import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
-import { LATEST_API_VERSION } from "./constants.js";
-import type { PollerLike } from "@azure/core-lro";
+import type { KeyVaultClient } from "./generated/keyVaultClient.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
-import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
-import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
+import type { PollerLike } from "./lro/shim.js";
+import { wrapPoller } from "./lro/shim.js";
+import {
+  KeyVaultAdminPollOperationState,
+  KeyVaultBackupOperationState,
+  KeyVaultRestoreOperationState,
+  KeyVaultSelectiveKeyRestoreOperationState,
+} from "./lro/models.js";
 
 export {
   KeyVaultBackupOperationState,
@@ -160,20 +156,20 @@ export class KeyVaultBackupClient {
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultBackupPoller({
-      blobStorageUri,
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
-
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
-
-    return poller;
+    return wrapPoller(
+      this.client.fullBackup({
+        abortSignal: options.abortSignal,
+        requestOptions: options.requestOptions,
+        azureStorageBlobContainerUri: {
+          storageResourceUri: blobStorageUri,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
+        },
+        onResponse: options.onResponse,
+        tracingOptions: options.tracingOptions,
+        updateIntervalInMs: options.intervalInMs,
+      }),
+    );
   }
 
   /**
@@ -260,20 +256,25 @@ export class KeyVaultBackupClient {
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultRestorePoller({
-      ...mappings.folderUriParts(folderUri),
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
+    const folderUriParts = mappings.folderUriParts(folderUri);
 
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
-
-    return poller;
+    return wrapPoller(
+      this.client.fullRestoreOperation({
+        abortSignal: options.abortSignal,
+        requestOptions: options.requestOptions,
+        restoreBlobDetails: {
+          folderToRestore: folderUriParts.folderName,
+          sasTokenParameters: {
+            storageResourceUri: folderUriParts.folderUri,
+            token: sasToken,
+            useManagedIdentity: sasToken === undefined,
+          },
+        },
+        onResponse: options.onResponse,
+        tracingOptions: options.tracingOptions,
+        updateIntervalInMs: options.intervalInMs,
+      }),
+    );
   }
 
   /**
@@ -371,20 +372,24 @@ export class KeyVaultBackupClient {
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultSelectiveKeyRestorePoller({
-      ...mappings.folderUriParts(folderUri),
-      keyName,
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
+    const folderUriParts = mappings.folderUriParts(folderUri);
 
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
-
-    return poller;
+    return wrapPoller(
+      this.client.selectiveKeyRestoreOperation(keyName, {
+        abortSignal: options.abortSignal,
+        requestOptions: options.requestOptions,
+        onResponse: options.onResponse,
+        restoreBlobDetails: {
+          folder: folderUriParts.folderName,
+          sasTokenParameters: {
+            storageResourceUri: folderUriParts.folderUri,
+            token: sasToken,
+            useManagedIdentity: sasToken === undefined,
+          },
+        },
+        tracingOptions: options.tracingOptions,
+        updateIntervalInMs: options.intervalInMs,
+      }),
+    );
   }
 }

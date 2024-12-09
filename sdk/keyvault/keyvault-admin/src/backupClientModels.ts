@@ -65,7 +65,7 @@ export interface KeyVaultBackupResult {
   /**
    * The start time of the backup operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the backup operation.
@@ -80,7 +80,7 @@ export interface KeyVaultRestoreResult {
   /**
    * The start time of the restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the restore operation.
@@ -95,7 +95,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
   /**
    * The start time of the selective key restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the selective key restore operation.
