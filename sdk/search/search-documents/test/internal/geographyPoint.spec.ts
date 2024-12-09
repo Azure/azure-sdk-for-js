@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import GeographyPoint from "../../src/geographyPoint.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("geographyPoint", () => {
   it("JSON.stringify", () => {
@@ -15,9 +16,5 @@ describe("geographyPoint", () => {
       coordinates: [-122.123889, 47.669444],
       crs: { type: "name", properties: { name: "EPSG:4326" } },
     });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 });

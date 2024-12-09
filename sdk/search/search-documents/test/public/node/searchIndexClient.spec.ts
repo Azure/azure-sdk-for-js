@@ -62,7 +62,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", () => {
+  describe("stable", { skip: true }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;

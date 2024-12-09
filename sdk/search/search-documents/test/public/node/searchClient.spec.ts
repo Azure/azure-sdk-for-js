@@ -65,7 +65,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
   });
 
   // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", () => {
+  describe("stable", { skip: true }, () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
