@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { odata } from "../../src";
+import { odata } from "../../src/index.js";
 
 describe("odata", function () {
   it("simple string isn't changed", function () {

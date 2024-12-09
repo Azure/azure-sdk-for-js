@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { createSynonymMapFromFile } from "../../../src";
-import type { SynonymMap } from "../../../src/serviceModels";
+import { createSynonymMapFromFile } from "../../../src/index.js";
+import type { SynonymMap } from "../../../src/serviceModels.js";
 
 describe("synonymmap", function () {
   it("create synonymmap from file(node)", async function () {

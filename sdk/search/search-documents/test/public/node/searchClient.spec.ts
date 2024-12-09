@@ -13,18 +13,18 @@ import type {
   SearchIndexClient,
   SelectArray,
   SelectFields,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
   KnownQuerySpeller,
   SearchClient,
-} from "../../../src";
-import { defaultServiceVersion } from "../../../src/serviceUtils";
-import type { Hotel } from "../utils/interfaces";
-import { createClients } from "../utils/recordedClient";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
+} from "../../../src/index.js";
+import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import type { Hotel } from "../utils/interfaces.js";
+import { createClients } from "../utils/recordedClient.js";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
 
 describe("SearchClient", function (this: Suite) {
   this.timeout(20_000);
@@ -76,8 +76,8 @@ describe("SearchClient", function (this: Suite) {
     let TEST_INDEX_NAME: string;
     let indexDefinition: SearchIndex;
 
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({
         searchClient,
@@ -535,7 +535,7 @@ describe("SearchClient", function (this: Suite) {
     it("search with vector", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
         env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
@@ -569,7 +569,7 @@ describe("SearchClient", function (this: Suite) {
     it("multi-vector search", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
         env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
@@ -609,7 +609,7 @@ describe("SearchClient", function (this: Suite) {
     it("oversampling compressed vectors", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       const embeddings = await openAIClient.getEmbeddings(

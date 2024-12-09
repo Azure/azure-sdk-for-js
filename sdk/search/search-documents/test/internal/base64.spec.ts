@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { decode, encode } from "../../src/base64";
+import { decode, encode } from "../../src/base64.js";
 
 describe("base64", function () {
   it("strings can roundtrip", function () {

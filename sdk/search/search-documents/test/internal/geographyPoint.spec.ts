@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import GeographyPoint from "../../src/geographyPoint";
+import GeographyPoint from "../../src/geographyPoint.js";
 
 describe("geographyPoint", function () {
   it("JSON.stringify", function () {

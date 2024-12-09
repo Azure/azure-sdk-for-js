@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { createSynonymMapFromFile } from "../../../src/synonymMapHelper.browser";
+import { createSynonymMapFromFile } from "../../../src/synonymMapHelper.browser.js";
 
 describe("synonymmap", function () {
   it("create synonymmap from file(browser)", async function () {

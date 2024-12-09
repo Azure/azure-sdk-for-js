@@ -11,18 +11,18 @@ import type {
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
-} from "../../../src";
-import { AzureKeyCredential, SearchIndexClient } from "../../../src";
-import { defaultServiceVersion } from "../../../src/serviceUtils";
-import type { Hotel } from "../utils/interfaces";
-import { createClients } from "../utils/recordedClient";
+} from "../../../src/index.js";
+import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
+import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import type { Hotel } from "../utils/interfaces.js";
+import { createClients } from "../utils/recordedClient.js";
 import {
   createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
-} from "../utils/setup";
+} from "../utils/setup.js";
 
 describe("SearchIndexClient", function (this: Suite) {
   this.timeout(20_000);
@@ -70,8 +70,8 @@ describe("SearchIndexClient", function (this: Suite) {
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
 
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         defaultServiceVersion,

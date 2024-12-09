@@ -7,11 +7,11 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
-import type { Hotel } from "./interfaces";
-import { createIndex, delay, WAIT_TIME } from "./setup";
+import type { Hotel } from "./interfaces.js";
+import { createIndex, delay, WAIT_TIME } from "./setup.js";
 
 import * as dotenv from "dotenv";
-import { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } from "./vectors";
+import { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } from "./vectors.js";
 dotenv.config();
 
 /**

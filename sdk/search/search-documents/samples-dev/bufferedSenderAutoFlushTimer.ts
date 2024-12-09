@@ -13,8 +13,8 @@ import {
   SearchIndexClient,
   SearchIndexingBufferedSender,
 } from "@azure/search-documents";
-import type { Hotel } from "./interfaces";
-import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
+import type { Hotel } from "./interfaces.js";
+import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();
