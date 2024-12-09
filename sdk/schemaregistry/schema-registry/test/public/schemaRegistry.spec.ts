@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import type { Schema, SchemaDescription, SchemaProperties } from "../../src";
-import { KnownSchemaFormats, SchemaRegistryClient } from "../../src";
+import type { Schema, SchemaDescription, SchemaProperties } from "../../src/index.js";
+import { KnownSchemaFormats, SchemaRegistryClient } from "../../src/index.js";
 import { assert, matrix } from "@azure-tools/test-utils";
-import type { Format } from "./utils/recordedClient";
-import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
+import type { Format } from "./utils/recordedClient.js";
+import { createRecordedClient, recorderOptions } from "./utils/recordedClient.js";
 import { ClientSecretCredential } from "@azure/identity";
 import type { Context } from "mocha";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
@@ -181,8 +181,8 @@ describe("SchemaRegistryClient", function () {
         let groupName: string;
         let schema: SchemaDescription;
 
-        beforeEach(async function (this: Context) {
-          recorder = new Recorder(this.currentTest);
+        beforeEach(async function (ctx) {
+          recorder = new Recorder(ctx);
           await recorder.start(recorderOptions);
           client = createRecordedClient({ recorder, format });
           groupName = assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP");
@@ -289,13 +289,13 @@ describe("SchemaRegistryClient", function () {
           assert.equal(found.definition, schema.definition);
         });
 
-        it("schema with whitespace", async function (this: Context) {
+        it("schema with whitespace", async function (ctx) {
           /**
            * Custom: The service doesn't validate/modify the schema.
            * Json: The service currently validates the input schema to have no
            * new lines.
            */
-          if (format !== KnownSchemaFormats.Avro) this.skip();
+          if (format !== KnownSchemaFormats.Avro) ctx.skip();
 
           const schema2 = {
             name: "azsdk_js_test2",
