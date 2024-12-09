@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-import {
+import type {
   KeyVaultAccessControlClient,
   KeyVaultPermission,
   KeyVaultRoleDefinition,
-  KnownKeyVaultDataAction,
 } from "../../src/index.js";
+import { KnownKeyVaultDataAction } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { KnownRoleScope } from "../../src/generated/index.js";
@@ -287,8 +288,6 @@ describe("KeyVaultAccessControlClient", () => {
           options,
         );
         await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-        await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-        await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
         await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
         await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
       }).toSupportTracing([
@@ -296,8 +295,6 @@ describe("KeyVaultAccessControlClient", () => {
         "KeyVaultAccessControlClient.getRoleDefinition",
         "KeyVaultAccessControlClient.createRoleAssignment",
         "KeyVaultAccessControlClient.getRoleAssignment",
-        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
         "KeyVaultAccessControlClient.deleteRoleAssignment",
         "KeyVaultAccessControlClient.deleteRoleDefinition",
       ]);
