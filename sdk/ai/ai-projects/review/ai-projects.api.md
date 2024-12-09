@@ -144,6 +144,7 @@ export interface AgentsOperations {
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -171,6 +172,7 @@ export class AIProjectsClient {
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
+    readonly telemetry: TelemetryOperations;
 }
 
 // @public (undocumented)
@@ -268,7 +270,7 @@ export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<ListConnectionsResponseOutput>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public
@@ -1456,6 +1458,14 @@ export interface SystemDataOutput {
     readonly createdBy?: string;
     readonly createdByType?: string;
     readonly lastModifiedAt?: string;
+}
+
+// @public
+export interface TelemetryOperations {
+    getConnectionString(): Promise<string>;
+    getSettings(): TelemetryOptions;
+    // Warning: (ae-forgotten-export) The symbol "TelemetryOptions" needs to be exported by the entry point index.d.ts
+    updateSettings(options: TelemetryOptions): void;
 }
 
 // @public

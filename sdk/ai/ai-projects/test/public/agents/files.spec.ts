@@ -42,6 +42,18 @@ describe("Agents - files", () => {
     assert.isNotEmpty(file);
   });
 
+  it("should upload file and poll", async function () {
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      }
+    });
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", 1000, "fileName");
+    assert.notInclude(["uploaded","pending","running"], file.status);
+    assert.isNotEmpty(file);
+  });
+
   it("should delete file", async function () {
     const fileContent = new ReadableStream({
       start(controller) {
