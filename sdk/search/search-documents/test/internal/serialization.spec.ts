@@ -72,7 +72,7 @@ describe("serialization.serialize", function () {
   });
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 });
 
@@ -171,6 +171,6 @@ describe("serialization.deserialize", function () {
   });
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 });

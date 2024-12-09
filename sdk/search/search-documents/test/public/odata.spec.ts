@@ -81,6 +81,6 @@ describe("odata", function () {
   });
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 });
