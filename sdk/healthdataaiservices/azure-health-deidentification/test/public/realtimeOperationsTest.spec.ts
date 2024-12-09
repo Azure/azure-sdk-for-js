@@ -44,7 +44,7 @@ describe("Realtime", () => {
       operation: "Surrogate",
       customizations: {
         surrogateLocale: "en-US",
-      }
+      },
     };
     const response = await client.path("/deid").post({ body: content });
     assert.equal(response.status, "200");
@@ -74,19 +74,13 @@ describe("Realtime", () => {
       operation: "Redact",
       customizations: {
         redactionFormat: "*{len}",
-      }
+      },
     };
     const response = await client.path("/deid").post({ body: content });
     assert.equal(response.status, "200");
     const output = response.body as DeidentificationResultOutput;
-    assert.isUndefined(
-      output.taggerResult,
-      "On Redact Operation, expect TaggerResult to be null.",
-    );
-    assert.isNotNull(
-      output.outputText,
-      "On Redact Operation, expect OutputText to be not null.",
-    );
+    assert.isUndefined(output.taggerResult, "On Redact Operation, expect TaggerResult to be null.");
+    assert.isNotNull(output.outputText, "On Redact Operation, expect OutputText to be not null.");
     assert.isTrue(
       (output.outputText as string).length === inputText.length,
       "Expected redactionFormat *{len} to preserve length.",

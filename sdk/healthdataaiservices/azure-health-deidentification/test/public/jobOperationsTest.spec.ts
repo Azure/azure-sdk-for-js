@@ -30,12 +30,12 @@ const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
 
 const fakeServiceEndpoint = "https://example.api.deid.azure.com";
-const fakeContinuationTokenSegment = "continuationToken=1234567890"; 
+const fakeContinuationTokenSegment = "continuationToken=1234567890";
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
   STORAGE_ACCOUNT_LOCATION:
     "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
-  CONTINUATION_TOKEN: fakeContinuationTokenSegment
+  CONTINUATION_TOKEN: fakeContinuationTokenSegment,
 };
 
 const generateJobName = (testName?: string): string => {
@@ -74,9 +74,9 @@ describe("Batch", () => {
           {
             regex: true,
             value: replaceableVariables.CONTINUATION_TOKEN,
-            target: "continuationToken=[A-Za-z0-9%._~-]+"
-          }
-        ]
+            target: "continuationToken=[A-Za-z0-9%._~-]+",
+          },
+        ],
       },
       removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
     });
@@ -109,7 +109,11 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
+        targetLocation: {
+          location: storageAccountLocation,
+          prefix: OUTPUT_FOLDER,
+          overwrite: true,
+        },
       };
 
       const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -169,7 +173,11 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
+        targetLocation: {
+          location: storageAccountLocation,
+          prefix: OUTPUT_FOLDER,
+          overwrite: true,
+        },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -235,7 +243,11 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
+        targetLocation: {
+          location: storageAccountLocation,
+          prefix: OUTPUT_FOLDER,
+          overwrite: true,
+        },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -322,7 +334,11 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
+        targetLocation: {
+          location: storageAccountLocation,
+          prefix: OUTPUT_FOLDER,
+          overwrite: true,
+        },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
