@@ -9,7 +9,7 @@ import type { Format } from "./utils/recordedClient.js";
 import { createRecordedClient, recorderOptions } from "./utils/recordedClient.js";
 import { ClientSecretCredential } from "@azure/identity";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const options = {
   onResponse: (rawResponse: { status: number; bodyAsText?: string | null }) => {
@@ -171,17 +171,17 @@ function getSchema(inputs: { format: Format; groupName: string }): SchemaDescrip
   };
 }
 
-describe("SchemaRegistryClient", function () {
+describe("SchemaRegistryClient", () => {
   matrix(
     [[KnownSchemaFormats.Avro, KnownSchemaFormats.Json, KnownSchemaFormats.Custom]] as const,
     async function (format: Format) {
-      describe(`Format: ${format}`, function () {
+      describe(`Format: ${format}`, () => {
         let recorder: Recorder;
         let client: SchemaRegistryClient;
         let groupName: string;
         let schema: SchemaDescription;
 
-        beforeEach(async function (ctx) {
+        beforeEach(async (ctx) => {
           recorder = new Recorder(ctx);
           await recorder.start(recorderOptions);
           client = createRecordedClient({ recorder, format });
@@ -192,7 +192,7 @@ describe("SchemaRegistryClient", function () {
           });
         });
 
-        afterEach(async function () {
+        afterEach(async () => {
           await recorder.stop();
         });
 
@@ -289,7 +289,7 @@ describe("SchemaRegistryClient", function () {
           assert.equal(found.definition, schema.definition);
         });
 
-        it("schema with whitespace", async function (ctx) {
+        it("schema with whitespace", async (ctx) => {
           /**
            * Custom: The service doesn't validate/modify the schema.
            * Json: The service currently validates the input schema to have no
