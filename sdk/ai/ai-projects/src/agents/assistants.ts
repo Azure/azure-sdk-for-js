@@ -6,7 +6,8 @@ import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput
 import { CreateAgentParameters, DeleteAgentParameters, GetAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreDataType } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
-import { traceEndCreateAgent, traceStartCreateAgent } from "./assistantsTrace.js";
+import { traceEndCreateOrUpdateAgent, traceStartCreateOrUpdateAgent } from "./assistantsTrace.js";
+import { traceEndAgentGeneric, traceStartAgentGeneric } from "./traceUtility.js";
 
 const expectedStatuses = ["200"];
 
@@ -34,55 +35,61 @@ export async function createAgent(
       }
       return result.body;
     },
-    traceStartCreateAgent, traceEndCreateAgent,
+    traceStartCreateOrUpdateAgent, traceEndCreateOrUpdateAgent,
   );
 }
 
 /** Gets a list of agents that were previously created. */
 export async function listAgents(
   context: Client,
-  options?: ListAgentsParameters,
+  options: ListAgentsParameters = {},
 ): Promise<OpenAIPageableListOfAgentOutput> {
   validateListAgentsParameters(options);
-  const result = await context
-    .path("/assistants")
-    .get(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("ListAgents", options || {}, async (updateOptions) => {
+    const result = await context
+      .path("/assistants")
+      .get(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  });
 }
 
 /** Retrieves an existing agent. */
 export async function getAgent(
   context: Client,
   assistantId: string,
-  options?: GetAgentParameters,
+  options: GetAgentParameters = {},
 ): Promise<AgentOutput> {
   validateAssistantId(assistantId);
-  const result = await context
-    .path("/assistants/{assistantId}", assistantId)
-    .get(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("GetAgent", options || {}, async (updateOptions) => {
+    const result = await context
+      .path("/assistants/{assistantId}", assistantId)
+      .get(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { agentId: assistantId } }));
 }
 
 /** Modifies an existing agent. */
 export async function updateAgent(
   context: Client,
   assistantId: string,
-  options?: UpdateAgentParameters,
+  options: UpdateAgentParameters = { body: {} },
 ): Promise<AgentOutput> {
   validateUpdateAgentParameters(assistantId, options);
-  const result = await context
-    .path("/assistants/{assistantId}", assistantId)
-    .post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("UpdateAgent", options, async (updateOptions) => {
+    const result = await context
+      .path("/assistants/{assistantId}", assistantId)
+      .post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartCreateOrUpdateAgent(span, updatedOptions, assistantId), traceEndCreateOrUpdateAgent,);
 }
 
 
@@ -90,16 +97,18 @@ export async function updateAgent(
 export async function deleteAgent(
   context: Client,
   assistantId: string,
-  options?: DeleteAgentParameters,
+  options: DeleteAgentParameters = {},
 ): Promise<AgentDeletionStatusOutput> {
   validateAssistantId(assistantId);
-  const result = await context
-    .path("/assistants/{assistantId}", assistantId)
-    .delete(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("DeleteAgent", options, async (updateOptions) => {
+    const result = await context
+      .path("/assistants/{assistantId}", assistantId)
+      .delete(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, traceStartAgentGeneric, traceEndAgentGeneric);
 }
 
 function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAgentParameters): void {
@@ -125,10 +134,10 @@ function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAg
         throw new Error("Only one vector store ID is allowed");
       }
       if (options.body.tool_resources.file_search.vector_stores) {
-         if (options.body.tool_resources.file_search.vector_stores.length > 1) {
-            throw new Error("Only one vector store is allowed");
-         }
-         validateVectorStoreDataType(options.body.tool_resources.file_search.vector_stores[0]?.configuration.data_sources);
+        if (options.body.tool_resources.file_search.vector_stores.length > 1) {
+          throw new Error("Only one vector store is allowed");
+        }
+        validateVectorStoreDataType(options.body.tool_resources.file_search.vector_stores[0]?.configuration.data_sources);
       }
     }
     if (options.body.tool_resources.azure_ai_search) {

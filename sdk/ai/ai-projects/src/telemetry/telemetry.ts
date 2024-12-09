@@ -3,6 +3,10 @@
 // Licensed under the MIT License.
 
 import { ConnectionsOperations } from "../connections/index.js";
+import { GetAppInsightsResponseOutput } from "../agents/inputOutputs.js";
+import { Client, createRestError } from "@azure-rest/core-client";
+
+const expectedStatuses = ["200"];
 
 /** 
  * Telemetry options
@@ -45,11 +49,15 @@ export function resetTelemetryOptions(): void {
  * @param connection - get the connection string
  * @returns The telemetry connection string
  */
-export async function getConnectionString(connection: ConnectionsOperations): Promise<string> {
+export async function getConnectionString(context: Client, connection: ConnectionsOperations): Promise<string> {
     if (!telemetryOptions.connectionString) {
         const workspace = await connection.getWorkspace();
         if (workspace.properties.applicationInsights) {
-            telemetryOptions.connectionString = workspace.properties.applicationInsights
+            const result = await context.path("/{appInsightsResourceUrl}", workspace.properties.applicationInsights).get();
+            if (!expectedStatuses.includes(result.status)) {
+                throw createRestError(result);
+            }
+            telemetryOptions.connectionString = (result.body as GetAppInsightsResponseOutput).properties.ConnectionString;
         }
         else {
             throw new Error("Application Insights connection string not found.")

@@ -2,8 +2,22 @@
 // Licensed under the MIT License.
 
 import { AgentsApiResponseFormat, AgentsApiResponseFormatOption, MessageContent, RunStepCompletionUsageOutput, ThreadMessage, ThreadMessageOptions, ToolOutput } from "./inputOutputs.js";
-import { Span, TracingAttributes, TracingUtility } from "../tracing.js";
+import { OptionsWithTracing, Span, TracingAttributeOptions, TracingAttributes, TracingUtility } from "../tracing.js";
 import { getTelemetryOptions } from "../telemetry/telemetry.js";
+
+export function traceStartAgentGeneric<Options extends OptionsWithTracing> (span: Span, options: Options): void {
+    const attributeOptions = options.tracingAttributeOptions || {} ;
+    TracingUtility.setSpanAttributes(span, options.tracingAttributeOptions?.operationName || "Agent_Operation" , UpdateWithAgentAttributes(attributeOptions))
+}
+export function traceEndAgentGeneric<Options extends OptionsWithTracing> (span: Span, _options: Options): void {
+    const attributeOptions = {};
+    TracingUtility.updateSpanAttributes(span, UpdateWithAgentAttributes(attributeOptions))
+}
+
+export function UpdateWithAgentAttributes(attributeOptions: Omit<TracingAttributeOptions, "operationName">): Omit<TracingAttributeOptions, "operationName"> {
+    attributeOptions.genAiSystem = TracingAttributes.AZ_AI_AGENT_SYSTEM
+    return attributeOptions;
+}
 
 /**
  * Adds a message event to the span.
@@ -48,9 +62,12 @@ export function addMessageEvent(span: Span, messageAttributes: ThreadMessageOpti
  */
 export function addInstructionsEvent(span: Span, instructionAttributes: { instructions?: string | null, additional_instructions?: string | null, threadId?: string, agentId?: string }): void {
     const eventBody: Record<string, unknown> = {};
-    eventBody.content = instructionAttributes.instructions && instructionAttributes.additional_instructions ? `${instructionAttributes.instructions} ${instructionAttributes.additional_instructions}` : instructionAttributes.instructions || instructionAttributes.additional_instructions;
+    if (instructionAttributes.instructions || instructionAttributes.additional_instructions) {
+        eventBody.content = instructionAttributes.instructions && instructionAttributes.additional_instructions ? `${instructionAttributes.instructions} ${instructionAttributes.additional_instructions}` : instructionAttributes.instructions || instructionAttributes.additional_instructions;
+    }
     const attributes = { eventContent: JSON.stringify(eventBody), threadId: instructionAttributes.threadId, agentId: instructionAttributes.agentId, genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM };
     TracingUtility.addSpanEvent(span, "gen_ai.system.message", attributes);
+
 }
 
 /**
@@ -75,8 +92,8 @@ export function formatAgentApiResponse(responseFormat: AgentsApiResponseFormatOp
  */
 export function addToolMessagesEvent(span: Span, tool_outputs: Array<ToolOutput>): void {
     tool_outputs.forEach(tool_output => {
-        const eventBody = {"content": tool_output.output, "id": tool_output.tool_call_id}
-        TracingUtility.addSpanEvent(span, "gen_ai.tool.message", {eventContent: JSON.stringify(eventBody), genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM});
+        const eventBody = { "content": tool_output.output, "id": tool_output.tool_call_id }
+        TracingUtility.addSpanEvent(span, "gen_ai.tool.message", { eventContent: JSON.stringify(eventBody), genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM });
     });
 
 }
@@ -89,8 +106,8 @@ function getMessageContent(messageContent: string | MessageContent[]): string | 
     const contentBody: { [key: string]: any } = {};
     messageContent.forEach(content => {
         const typedContent = content.type;
-        const {value, annotations} = (content as MessageContentExtended)[typedContent];
-        contentBody[typedContent] = {value, annotations};
+        const { value, annotations } = (content as MessageContentExtended)[typedContent];
+        contentBody[typedContent] = { value, annotations };
     });
     return contentBody;
 }

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { AgentThreadOutput } from "../generated/src/outputModels.js";
-import { TracingAttributes, TracingUtility, TracingOperationName, Span } from "../tracing.js";
+import { TracingUtility, TracingOperationName, Span } from "../tracing.js";
 import { CreateThreadParameters } from "../generated/src/parameters.js";
-import { addMessageEvent } from "./traceUtility.js";
+import { addMessageEvent, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 export function traceStartCreateThread(span: Span, options: CreateThreadParameters): void {
-    TracingUtility.setSpanAttributes(span, TracingOperationName.CREATE_THREAD, { genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM });
+    TracingUtility.setSpanAttributes(span, TracingOperationName.CREATE_THREAD, UpdateWithAgentAttributes({}));
     setSpanEvents(span, options);
 }
 

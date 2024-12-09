@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters } from "../generated/src/parameters.js";
+import { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { ThreadRunOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingAttributes, TracingUtility, TracingOperationName, Span } from "../tracing.js";
-import { addInstructionsEvent, addMessageEvent, addToolMessagesEvent, formatAgentApiResponse } from "./traceUtility.js";
+import { TracingAttributeOptions, TracingUtility, TracingOperationName, Span } from "../tracing.js";
+import { addInstructionsEvent, addMessageEvent, addToolMessagesEvent, formatAgentApiResponse, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 export function traceStartCreateRun(span: Span, options: CreateRunParameters | CreateThreadAndRunParameters, threadId?: string, operationName: string = TracingOperationName.CREATE_RUN): void {
 
@@ -18,12 +18,11 @@ export function traceStartCreateRun(span: Span, options: CreateRunParameters | C
         maxCompletionTokens: options.body.max_completion_tokens ?? undefined,
         maxPromptTokens: options.body.max_prompt_tokens ?? undefined,
         responseFormat: formatAgentApiResponse(options.body.response_format),
-        genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM
     }
     if ((options as CreateRunParameters).body.additional_instructions) {
         attributes.additional_instructions = (options as CreateRunParameters).body.additional_instructions ?? undefined;
     }
-    TracingUtility.setSpanAttributes(span, operationName, attributes);
+    TracingUtility.setSpanAttributes(span, operationName, UpdateWithAgentAttributes(attributes));
     setSpanEvents(span, options);
 }
 
@@ -31,7 +30,7 @@ export function traceStartCreateThreadAndRun(span: Span, options: CreateThreadAn
     traceStartCreateRun(span, options, undefined, TracingOperationName.CREATE_THREAD_RUN);
 }
 
-export async function traceEndCreateRun(span: Span, _options: CreateRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
+export async function traceEndCreateOrUpdateRun(span: Span, _options: CreateRunParameters | UpdateRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
     const resolvedResult = await result;
     TracingUtility.updateSpanAttributes(span, { runId: resolvedResult.id, runStatus: resolvedResult.status, responseModel: resolvedResult.model, usageCompletionTokens: resolvedResult.usage?.completion_tokens, usagePromptTokens: resolvedResult.usage?.prompt_tokens });
 }
@@ -39,7 +38,7 @@ export async function traceEndCreateRun(span: Span, _options: CreateRunParameter
 export function traceStartSubmitToolOutputsToRun(span: Span, options: SubmitToolOutputsToRunParameters, threadId: string,
     runId: string,): void {
     const attributes: TracingAttributeOptions = { threadId: threadId, runId: runId }
-    TracingUtility.setSpanAttributes(span, TracingOperationName.SUBMIT_TOOL_OUTPUTS, attributes);
+    TracingUtility.setSpanAttributes(span, TracingOperationName.SUBMIT_TOOL_OUTPUTS, UpdateWithAgentAttributes(attributes));
     addToolMessagesEvent(span, options.body.tool_outputs);
 }
 

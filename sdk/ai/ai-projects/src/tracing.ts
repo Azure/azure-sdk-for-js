@@ -36,6 +36,7 @@ export enum TracingAttributes {
 }
 export enum TracingOperationName {
     CREATE_AGENT = "create_agent",
+    CREATE_UPDATE_AGENT = "update_agent",
     CREATE_THREAD = "create_thread",
     CREATE_MESSAGE = "create_message",
     CREATE_RUN = "create_run",
@@ -73,6 +74,8 @@ export interface TracingAttributeOptions {
 }
 
 export type Span = Omit<TracingSpan, "end">;
+export type OptionsWithTracing = { tracingOptions?: OperationTracingOptions, tracingAttributeOptions?: TracingAttributeOptions};
+
 export class TracingUtility {
     private static tracingClient = createTracingClient({
         namespace: "Microsoft.CognitiveServices",
@@ -81,7 +84,7 @@ export class TracingUtility {
 
     });
 
-    static async withSpan<Options extends { tracingOptions?: OperationTracingOptions },
+    static async withSpan<Options extends OptionsWithTracing,
         Request extends (updatedOptions: Options) => ReturnType<Request>>(name: string, options: Options, request: Request,
             startTrace?: (span: Span, updatedOptions: Options,) => void,
             endTrace?: (span: Span, updatedOptions: Options, result: ReturnType<Request>) => void,
@@ -89,6 +92,7 @@ export class TracingUtility {
         return TracingUtility.tracingClient.withSpan(name, options, async (updatedOptions: Options, span: Span) => {
             if (startTrace) {
                 try {
+                    updatedOptions.tracingAttributeOptions = {...updatedOptions.tracingAttributeOptions, operationName: name};
                     startTrace(span, updatedOptions);
                 }
                 catch (e) {

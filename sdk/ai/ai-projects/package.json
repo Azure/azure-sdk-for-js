@@ -146,6 +146,13 @@
       }
     }
   },
+  "//sampleConfiguration": {
+    "productName": "Azure AI Projects",
+    "productSlugs": [
+      "azure"
+    ],
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
+  },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js"

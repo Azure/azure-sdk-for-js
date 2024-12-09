@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import { AgentOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingAttributes, TracingUtility, TracingOperationName, Span } from "../tracing.js";
-import { CreateAgentParameters } from "../generated/src/parameters.js";
-import { addInstructionsEvent, formatAgentApiResponse } from "./traceUtility.js";
+import { TracingAttributeOptions, TracingUtility, TracingOperationName, Span } from "../tracing.js";
+import { CreateAgentParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
+import { addInstructionsEvent, formatAgentApiResponse, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 /**
- * Traces the start of creating an agent.
+ * Traces the start of creating or updating an agent.
  * @param span - The span to trace.
  * @param options - The options for creating an agent.
  */
-export function traceStartCreateAgent(span: Span, options: CreateAgentParameters): void {
+export function traceStartCreateOrUpdateAgent(span: Span, options: CreateAgentParameters | UpdateAgentParameters, agentId?:string): void {
     const attributes: TracingAttributeOptions = {
         operationName: TracingOperationName.CREATE_AGENT,
         name: options.body.name ?? undefined,
@@ -21,9 +21,12 @@ export function traceStartCreateAgent(span: Span, options: CreateAgentParameters
         topP: options.body.top_p ?? undefined,
         temperature: options.body.temperature ?? undefined,
         responseFormat: formatAgentApiResponse(options.body.response_format),
-        genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM
     };
-    TracingUtility.setSpanAttributes(span,TracingOperationName.CREATE_AGENT, attributes)
+    if(agentId){
+        attributes.operationName = TracingOperationName.CREATE_UPDATE_AGENT
+        attributes.agentId = agentId
+    }
+    TracingUtility.setSpanAttributes(span, TracingOperationName.CREATE_AGENT, UpdateWithAgentAttributes(attributes))
     addInstructionsEvent(span, options.body);
 }
 
@@ -34,7 +37,7 @@ export function traceStartCreateAgent(span: Span, options: CreateAgentParameters
  * @param _options - The options for creating an agent.
  * @param result - The result of creating an agent.
  */
-export  async function traceEndCreateAgent(span: Span, _options: CreateAgentParameters, result: Promise<AgentOutput>): Promise<void> {
+export async function traceEndCreateOrUpdateAgent(span: Span, _options: CreateAgentParameters | UpdateAgentParameters, result: Promise<AgentOutput>): Promise<void> {
     const resolvedResult = await result;
     const attributes: TracingAttributeOptions = {
         agentId: resolvedResult.id,

@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 import { TokenCredential } from "@azure/core-auth";
 import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-import { Client } from "@azure-rest/core-client";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
 import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
 import { getTelemetryOperations, TelemetryOperations } from "./telemetry/index.js";
+import { Client } from "@azure-rest/core-client";
 
-export interface AIProjectsClientOptions extends ProjectsClientOptions{
+export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }
 
 export class AIProjectsClient {
   private _client: Client;
   private _connectionClient: Client;
+  private _telemetryClient: Client;
 
   /*
    * @param endpointParam - The Azure AI Studio project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
@@ -38,14 +39,23 @@ export class AIProjectsClient {
       credential,
       options,
     );
+
     this._connectionClient = createClient(endpointParam, subscriptionId,
       resourceGroupName,
       projectName,
       credential,
-      {...options, endpoint:connectionEndPoint})
+      { ...options, endpoint: connectionEndPoint })
+
+    this._telemetryClient = createClient(endpointParam, subscriptionId,
+      resourceGroupName,
+      projectName,
+      credential,
+      { ...options, apiVersion: "2020-02-02", endpoint: 'https://management.azure.com' })
+
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
-    this.telemetry = getTelemetryOperations(this.connections);
+    this.telemetry = getTelemetryOperations(this._telemetryClient, this.connections);
+
   }
 
   /**

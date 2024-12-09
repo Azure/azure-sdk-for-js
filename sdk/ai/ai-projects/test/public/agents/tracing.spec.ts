@@ -13,10 +13,10 @@ interface ExtendedMockTrackingSpan extends MockTracingSpan {
 }
 class ExtendedMockInstrumenter extends MockInstrumenter {
     extendSpan(span: any): void {
+        if (!span.events) {
+            span.events = [];
+        }
         span.addEvent = (eventName: string, options?: AddEventOptions) => {
-            if (!span.events) {
-                span.events = [];
-            }
             span.events.push({ name: eventName, ...options });
         }
     }
@@ -77,12 +77,12 @@ describe("Agent Tracing", () => {
         await agents.createRun("threadId", "agentId");
         const mockedInstrumenter = instrumenter as MockInstrumenter;
         assert.isAbove(mockedInstrumenter.startedSpans.length, 0);
-        const span = mockedInstrumenter.startedSpans[0];
+        const span = mockedInstrumenter.startedSpans[0] as ExtendedMockTrackingSpan;
         assert.equal(span.attributes["gen_ai.thread.id"], runResponse.thread_id);
         assert.equal(span.attributes["gen_ai.operation.name"], "create_run");
         assert.equal(span.attributes["gen_ai.agent.id"], runResponse.assistant_id);
         assert.equal(span.attributes["gen_ai.thread.run.status"], runResponse.status);
-
+        assert.equal(span.events!.length, 1);
     })
 
     it("create Thread", async function () {
