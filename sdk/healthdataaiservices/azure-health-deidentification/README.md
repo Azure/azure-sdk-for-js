@@ -54,7 +54,7 @@ The samples folder contains simple code examples to Deidentify text.
 Operation Modes:
 
 - Tag: Will return the offset, length, and PHI category of deidentified text.
-- Redact: Will return output text with placeholder stubbed text. See [redaction format tutorial](https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format) for more information.
+- Redact: Will return output text with placeholder stubbed text. See [redaction format tutorial](https://learn.microsoft.com/azure/healthcare-apis/deidentification/redaction-format) for more information.
 - Surrogate: Will return output text with synthetic replacements.
   - Input: `My name is John Smith`
   - Output: `My name is Tom Jones`
