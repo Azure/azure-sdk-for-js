@@ -30,7 +30,7 @@ jobs:
   - job: "Build"
 
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
-      TimeOutInMinutes: 240
+      timeoutInMinutes: 240
 
     pool:
       name: $(LINUXPOOL)
@@ -55,7 +55,7 @@ jobs:
   - job: "Analyze"
 
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
-      TimeOutInMinutes: 240
+      timeoutInMinutes: 240
 
     pool:
       name: $(LINUXPOOL)
