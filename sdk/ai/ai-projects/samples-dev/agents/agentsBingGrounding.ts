@@ -5,7 +5,7 @@
  * 
  * FILE: agentsBingGrounding.ts
  *
- * @summary DESCRIPTION: This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from the Azure Agents service using a asynchronous client.
+ * @summary This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from the Azure Agents service using a asynchronous client.
  *
  * USAGE:
  *  npm node agentsBingGrounding.ts
