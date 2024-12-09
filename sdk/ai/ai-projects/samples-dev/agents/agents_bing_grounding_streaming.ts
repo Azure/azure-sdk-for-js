@@ -22,7 +22,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
+import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
   const bingConnection = await client.connections.getConnection(process.env["BING_CONNECTION_NAME"] || "<connection-name>");
   const connectionId = bingConnection.id;
 
-  const bingTool = createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
+  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
 
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {

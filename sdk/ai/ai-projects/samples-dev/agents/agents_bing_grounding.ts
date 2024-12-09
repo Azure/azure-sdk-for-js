@@ -21,7 +21,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
+import { AIProjectsClient, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const connectionId = bingConnection.id;
 
   // Initialize agent bing tool with the connection id
-  const bingTool = createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
+  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
 
   // Create agent with the bing tool and process assistant run
   const agent  = await client.agents.createAgent(

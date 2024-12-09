@@ -318,29 +318,6 @@ export interface CreateAndRunThreadOptions {
 }
 
 // @public
-export function createAzureAISearchTool(indexConnectionId: string, indexName: string): {
-    definition: AzureAISearchToolDefinition;
-    resources: ToolResources;
-};
-
-// @public
-export function createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
-    definition: CodeInterpreterToolDefinition;
-    resources: ToolResources;
-};
-
-// @public
-export function createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
-    definition: ToolDefinition;
-};
-
-// @public
-export function createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
-    definition: FileSearchToolDefinition;
-    resources: ToolResources;
-};
-
-// @public
 export interface CreateRunOptions {
     additional_instructions?: string | null;
     additional_messages?: Array<ThreadMessage> | null;
@@ -1626,12 +1603,42 @@ export interface ToolResourcesOutput {
 
 // @public
 export class ToolSet {
-    addAzureAISearchTool(indexConnectionId: string, indexName: string): void;
-    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): void;
-    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): void;
-    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): void;
+    addAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
+}
+
+// @public
+export class ToolUtility {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
 }
 
 // @public

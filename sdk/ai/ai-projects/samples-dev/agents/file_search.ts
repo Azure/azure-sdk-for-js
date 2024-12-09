@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectsClient, createFileSearchTool, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   console.log(`Created vector store, ID: ${vectorStore.id}`);
 
   // Create file search tool
-  const fileSearchTool = createFileSearchTool([vectorStore.id]);
+  const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with tool
   const agent  = await client.agents.createAgent(

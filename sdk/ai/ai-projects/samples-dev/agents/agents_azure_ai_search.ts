@@ -21,7 +21,7 @@
  *  AZURE_AI_SEARCH_CONNECTION_NAME - the name of the connection with Azure AI search, must be a CognitiveSearch connection
  */
 
-import { AIProjectsClient, MessageContentOutput, isOutputOfType, MessageTextContentOutput, createAzureAISearchTool } from "@azure/ai-projects"
+import { AIProjectsClient, MessageContentOutput, isOutputOfType, MessageTextContentOutput, ToolUtility } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const connection = await client.connections.getConnection(connectionName);
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = createAzureAISearchTool(connection.id, connection.name)
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name)
 
   // Create agent with the Azure AI search tool
   const agent  = await client.agents.createAgent(

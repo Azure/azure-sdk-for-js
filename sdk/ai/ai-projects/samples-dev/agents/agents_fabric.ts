@@ -21,7 +21,7 @@
  *  FABRIC_CONNECTION_NAME
  */
 
-import { AIProjectsClient, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = createConnectionTool(connectionToolType.MicrosoftFabric, [connectionId]);
+  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [connectionId]);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
   const agent  = await client.agents.createAgent(

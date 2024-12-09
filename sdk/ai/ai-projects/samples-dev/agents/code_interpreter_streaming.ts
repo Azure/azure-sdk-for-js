@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput, MessageContentOutput, RunStreamEvent, MessageStreamEvent, ThreadRunOutput, MessageDeltaChunk, MessageDeltaTextContent, ErrorEvent, DoneEvent, createCodeInterpreterTool } from "@azure/ai-projects"
+import {AIProjectsClient, isOutputOfType, ToolUtility, MessageTextContentOutput, MessageImageFileContentOutput, RunStreamEvent, MessageStreamEvent, ThreadRunOutput, MessageDeltaChunk, MessageDeltaTextContent, ErrorEvent, DoneEvent } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 import * as fs from "fs";
-import { Readable } from "stream";
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
@@ -21,7 +20,7 @@ export async function main(): Promise<void> {
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
   // Create code interpreter tool
-  const codeInterpreterTool = createCodeInterpreterTool([localFile.id]);
+  const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
   const agent = await client.agents.createAgent("gpt-4o-mini", {

@@ -21,7 +21,7 @@
  *  SHAREPOINT_CONNECTION_NAME
  */
 
-import { AIProjectsClient, createConnectionTool, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const connectionId = sharepointConnection.id;
 
   // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = createConnectionTool(connectionToolType.SharepointGrounding, [connectionId]);
+  const sharepointTool = ToolUtility.createConnectionTool(connectionToolType.SharepointGrounding, [connectionId]);
 
   // Create agent with the Sharepoint tool and process assistant run
   const agent  = await client.agents.createAgent(
