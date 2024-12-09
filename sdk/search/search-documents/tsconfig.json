@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/search-documents": [
-        "./src/index"
-      ]
+      "@azure/search-documents": ["./src/index"]
     },
     "skipLibCheck": true,
     "module": "NodeNext",
