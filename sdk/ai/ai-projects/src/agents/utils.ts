@@ -140,6 +140,8 @@ export class ToolSet {
    * 
    * @param toolType - The type of the connection tool.
    * @param connectionIds - A list of the IDs of the connections to use.
+   * 
+   * @returns An object containing the definition for the connection tool
    */
   addConnectionTool(
     toolType: connectionToolType,
@@ -156,6 +158,8 @@ export class ToolSet {
    * @param vectorStoreIds - The ID of the vector store attached to this agent. There can be a maximum of 1 vector store attached to the agent.
    * @param vectorStores -  The list of vector store configuration objects from Azure. This list is limited to one element. The only element of this list contains the list of azure asset IDs used by the search tool.
    * @param definitionDetails - The input definition information for a file search tool as used to configure an agent.
+   * 
+   * @returns An object containing the definition and resources for the file search tool
    */
   addFileSearchTool(
     vectorStoreIds?: string[],
@@ -173,6 +177,8 @@ export class ToolSet {
    * 
    * @param fileIds - A list of file IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
    * @param dataSources - The data sources to be used. This option is mutually exclusive with fileIds.
+   * 
+   * @returns An object containing the definition and resources for the code interpreter tool
    */
   addCodeInterpreterTool(
     fileIds?: string[],
@@ -189,6 +195,8 @@ export class ToolSet {
    * 
    * @param indexConnectionId - The connection ID of the Azure AI search index.
    * @param indexName - The name of the Azure AI search index.
+   * 
+   * @returns An object containing the definition and resources for the Azure AI search tool
    */
   addAzureAISearchTool(
     indexConnectionId: string,
