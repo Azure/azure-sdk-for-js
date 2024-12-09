@@ -1,12 +1,10 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.5.1 (2024-12-09)
 
 ### Features Added
 
 - Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
-
-### Breaking Changes
 
 ### Bugs Fixed
 
