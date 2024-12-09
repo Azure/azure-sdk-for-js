@@ -10,10 +10,11 @@ import type { DeidentificationContent } from "../../src/models.js";
 import type { DeidentificationResultOutput } from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
-const fakeServiceEndpoint = "example.com";
+const fakeServiceEndpoint = "https://example.api.deid.azure.com";
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
 };
+const inputText = "Hello, my name is John Smith.";
 
 describe("Realtime", () => {
   let recorder: Recorder;
@@ -39,8 +40,11 @@ describe("Realtime", () => {
 
   it("surrogate returns expected", async function () {
     const content: DeidentificationContent = {
-      inputText: "Hello, my name is John Smith.",
+      inputText: inputText,
       operation: "Surrogate",
+      customizations: {
+        surrogateLocale: "en-US",
+      }
     };
     const response = await client.path("/deid").post({ body: content });
     assert.equal(response.status, "200");
@@ -64,9 +68,39 @@ describe("Realtime", () => {
     );
   }, 10000);
 
+  it("redact returns expected", async function () {
+    const content: DeidentificationContent = {
+      inputText: inputText,
+      operation: "Redact",
+      customizations: {
+        redactionFormat: "*{len}",
+      }
+    };
+    const response = await client.path("/deid").post({ body: content });
+    assert.equal(response.status, "200");
+    const output = response.body as DeidentificationResultOutput;
+    assert.isUndefined(
+      output.taggerResult,
+      "On Redact Operation, expect TaggerResult to be null.",
+    );
+    assert.isNotNull(
+      output.outputText,
+      "On Redact Operation, expect OutputText to be not null.",
+    );
+    assert.isTrue(
+      (output.outputText as string).length === inputText.length,
+      "Expected redactionFormat *{len} to preserve length.",
+    );
+    assert.notEqual(
+      content.inputText,
+      output.outputText,
+      "Expected output text to be different from input text.",
+    );
+  }, 10000);
+
   it("tag returns expected", async function () {
     const content: DeidentificationContent = {
-      inputText: "Hello, my name is John Smith.",
+      inputText: inputText,
       operation: "Tag",
     };
     const response = await client.path("/deid").post({ body: content });
@@ -75,8 +109,6 @@ describe("Realtime", () => {
     assert.isNotNull(output.taggerResult, "On Tag Operation, expect TaggerResult to be not null.");
     assert.isObject(output.taggerResult, "On Tag Operation, expect TaggerResult to be not null.");
     assert.isUndefined(output.outputText, "On Tag Operation, expect OutputText to be null.");
-    // assert.isTrue(output.taggerResult!.etag === undefined, "Expected Etag to be null.");
-    // assert.isTrue(output.taggerResult!.path === undefined, "Expected Path to be null.");
 
     assert.isTrue(
       output.taggerResult!.entities.length > 0,

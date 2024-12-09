@@ -33,7 +33,7 @@ export async function createRecordedDeidentificationClient(
   credentials: TokenCredential,
 ): Promise<DeidentificationClient> {
   const endpoint = isPlaybackMode()
-    ? "example.com"
+    ? "https://example.api.deid.azure.com"
     : assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
   const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
 

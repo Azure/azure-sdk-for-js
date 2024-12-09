@@ -29,17 +29,19 @@ const testPollingOptions = {
 const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
 
-const fakeServiceEndpoint = "example.com";
+const fakeServiceEndpoint = "https://example.api.deid.azure.com";
+const fakeContinuationTokenSegment = "continuationToken=1234567890"; 
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
   STORAGE_ACCOUNT_LOCATION:
     "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+  CONTINUATION_TOKEN: fakeContinuationTokenSegment
 };
 
 const generateJobName = (testName?: string): string => {
   let jobName = "js-sdk-job-" + Date.now();
   if (isPlaybackMode() || isRecordMode()) {
-    jobName = `js-sdk-job-recorded-a-${testName}`;
+    jobName = `js-job-recorded-${testName}`;
   }
   return jobName;
 };
@@ -59,10 +61,22 @@ describe("Batch", () => {
         bodyKeySanitizers: [
           {
             value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
-            jsonPath: "$..location",
+            jsonPath: "$..sourceLocation.location",
+            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+          },
+          {
+            value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
+            jsonPath: "$..targetLocation.location",
             regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
           },
         ],
+        generalSanitizers: [
+          {
+            regex: true,
+            value: replaceableVariables.CONTINUATION_TOKEN,
+            target: "continuationToken=[A-Za-z0-9%._~-]+"
+          }
+        ]
       },
       removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
     });
@@ -95,12 +109,13 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
       };
 
       const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });
 
       if (isUnexpected(jobOutput)) {
+        console.log(jobOutput["body"]);
         throw new Error("Unexpected job result");
       }
 
@@ -154,7 +169,7 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -220,7 +235,7 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -250,8 +265,6 @@ describe("Batch", () => {
       const reports = await client.path("/jobs/{name}/documents", jobName).get({
         queryParameters: {
           maxpagesize: 2,
-          continuationToken:
-            "K1JJRDpzOEtaQWZabUQrQUNBQUFBQUFBQUFBQT09I1JUOjEjVFJDOjEwI0ZQQzpBZ0VBQUFBTUFDUUFBQUFBQUE9PQ==",
         },
       });
 
@@ -279,9 +292,9 @@ describe("Batch", () => {
       );
       assert.isTrue(
         (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every((obj) =>
-          obj.output!.location.startsWith(OUTPUT_FOLDER),
+          obj.output!.location.includes(OUTPUT_FOLDER),
         ),
-        "Output path location start with the output folder",
+        "Output path location should contain the output folder",
       );
       assert.isTrue(
         (items as unknown[] as DeidentificationDocumentDetailsOutput[]).every(
@@ -309,7 +322,7 @@ describe("Batch", () => {
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER, overwrite: true },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });

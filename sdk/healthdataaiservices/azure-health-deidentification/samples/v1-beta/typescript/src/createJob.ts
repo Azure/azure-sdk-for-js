@@ -29,6 +29,9 @@ export async function main(): Promise<void> {
     operation: "Surrogate",
     sourceLocation: { location, prefix: inputPrefix },
     targetLocation: { location, prefix: OUTPUT_FOLDER },
+    customizations: {
+      surrogateLocale: "en-US",
+    }
   };
   const response = await client.path("/jobs/{name}", jobName).put({ body: job });
 

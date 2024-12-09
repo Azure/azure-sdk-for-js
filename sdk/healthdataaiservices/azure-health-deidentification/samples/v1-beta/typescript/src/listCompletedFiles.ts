@@ -27,9 +27,12 @@ export async function main(): Promise<void> {
 
   const job: DeidentificationJob = {
     dataType: "Plaintext",
-    operation: "Surrogate",
+    operation: "Redact",
     sourceLocation: { location, prefix: inputPrefix },
     targetLocation: { location, prefix: OUTPUT_FOLDER },
+    customizations: {
+      redactionFormat: "<{TYPE}>",
+    }
   };
 
   await client.path("/jobs/{name}", jobName).put({ body: job });
