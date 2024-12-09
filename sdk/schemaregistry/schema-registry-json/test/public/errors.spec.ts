@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
 import type { JsonSchemaSerializer } from "../../src/index.js";
-import type { Context } from "mocha";
 import type { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError.js";
 import { createTestRegistry } from "./utils/mockedRegistryClient.js";
@@ -11,6 +8,7 @@ import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializ
 import { createContentType, testGroup, testSchema } from "./utils/dummies.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Error scenarios", function () {
   let serializer: JsonSchemaSerializer;

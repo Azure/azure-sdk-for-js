@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
 import type { DeserializeOptions, JsonSchemaSerializer } from "../../src/index.js";
 import type { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient.js";
@@ -10,6 +8,7 @@ import { createContentType, encoder, testGroup } from "./utils/dummies.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assertError } from "./utils/assertError.js";
 import Ajv from "ajv";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Deserialize Validation", function () {
   let serializer: JsonSchemaSerializer;

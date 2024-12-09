@@ -3,13 +3,12 @@
 
 import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
 import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
-import { assert } from "@azure-tools/test-utils";
 import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies.js";
-import type { Context } from "mocha";
 import type { MessageContent } from "../../src/index.js";
 import { createTestRegistry } from "./utils/mockedRegistryClient.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { SchemaRegistry } from "@azure/schema-registry";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JsonSchemaSerializer", async function () {
   let serializerOptions: CreateTestSerializerOptions<any>;
