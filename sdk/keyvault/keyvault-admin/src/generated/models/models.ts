@@ -16,7 +16,7 @@ export interface FullBackupOperation {
   /** Identifier for the full backup operation. */
   jobId?: string;
   /** The Azure blob storage container Uri which contains the full backup */
-  azureStorageBlobContainerUri?: string;
+  folderUri?: string;
 }
 
 export function fullBackupOperationDeserializer(
@@ -33,7 +33,7 @@ export function fullBackupOperationDeserializer(
       ? item["endTime"]
       : new Date(item["endTime"] * 1000),
     jobId: item["jobId"],
-    azureStorageBlobContainerUri: item["azureStorageBlobContainerUri"],
+    folderUri: item["azureStorageBlobContainerUri"],
   };
 }
 

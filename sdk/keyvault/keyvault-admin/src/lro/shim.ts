@@ -81,7 +81,10 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
           "Operation state is not available. The poller may not have been started and you could await submitted() before calling getOperationState().",
         );
       }
-      return httpPoller.operationState;
+      return {
+        ...httpPoller.operationState,
+        isStarted: httpPoller.operationState.status !== "notStarted", // Shim for isStarted
+      };
     },
     getResult() {
       return httpPoller.result;

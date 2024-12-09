@@ -5,7 +5,6 @@
 
 import type { KeyVaultClient } from "../generated/keyVaultClient.js";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { OperationState } from "@azure/core-lro";
 import type {
   KeyVaultBackupResult,
   KeyVaultRestoreResult,
@@ -26,7 +25,7 @@ export interface KeyVaultAdminPollerOptions {
 /**
  * An interface representing the state of a Key Vault Admin Poller's operation.
  */
-export interface KeyVaultAdminPollOperationState<TResult> extends OperationState<TResult> {
+export interface KeyVaultAdminPollOperationState<TResult> {
   /**
    * Identifier for the full restore operation.
    */
@@ -35,6 +34,14 @@ export interface KeyVaultAdminPollOperationState<TResult> extends OperationState
    * Status of the restore operation.
    */
   status: any; // TODO
+  /**
+   * Will exist if the operation encountered any error.
+   */
+  error?: Error;
+  /**
+   * Will exist if the operation produced a result of the expected type.
+   */
+  result?: TResult;
   /**
    * The status details of restore operation.
    */
@@ -47,6 +54,10 @@ export interface KeyVaultAdminPollOperationState<TResult> extends OperationState
    * The end time of the restore operation in UTC
    */
   endTime?: Date;
+  /**
+   * isStarted
+   */
+  isStarted?: boolean;
 }
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {

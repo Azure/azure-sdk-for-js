@@ -66,9 +66,12 @@ export class KeyVaultAccessControlClient {
 }
 
 // @public
-export interface KeyVaultAdminPollOperationState<TResult> extends OperationState<TResult> {
+export interface KeyVaultAdminPollOperationState<TResult> {
     endTime?: Date;
+    error?: Error;
+    isStarted?: boolean;
     jobId?: string;
+    result?: TResult;
     startTime?: Date;
     status: any;
     statusDetails?: string;

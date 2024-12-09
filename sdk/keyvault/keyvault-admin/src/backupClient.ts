@@ -22,6 +22,7 @@ import {
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,
 } from "./lro/models.js";
+import { restorePoller } from "./generated/restorePollerHelpers.js";
 
 export {
   KeyVaultBackupOperationState,
@@ -156,6 +157,12 @@ export class KeyVaultBackupClient {
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
+    if (options.resumeFrom) {
+      return wrapPoller(
+        restorePoller(this.client, options.resumeFrom, this.client.fullBackup, options),
+      );
+    }
+
     return wrapPoller(
       this.client.fullBackup({
         abortSignal: options.abortSignal,
@@ -257,6 +264,12 @@ export class KeyVaultBackupClient {
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
     const folderUriParts = mappings.folderUriParts(folderUri);
+
+    if (options.resumeFrom) {
+      return wrapPoller(
+        restorePoller(this.client, options.resumeFrom, this.client.fullRestoreOperation, options),
+      );
+    }
 
     return wrapPoller(
       this.client.fullRestoreOperation({
@@ -373,6 +386,17 @@ export class KeyVaultBackupClient {
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
     const folderUriParts = mappings.folderUriParts(folderUri);
+
+    if (options.resumeFrom) {
+      return wrapPoller(
+        restorePoller(
+          this.client,
+          options.resumeFrom,
+          this.client.selectiveKeyRestoreOperation,
+          options,
+        ),
+      );
+    }
 
     return wrapPoller(
       this.client.selectiveKeyRestoreOperation(keyName, {
