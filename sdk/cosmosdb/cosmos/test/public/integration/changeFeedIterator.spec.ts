@@ -132,7 +132,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       while (iterator.hasMoreResults) {
         const { result: items } = await iterator.readNext();
         if (items.length === 0) break;
-        assert.equal(items.length, 10, "initial number of items should be equal 10");
+        assert.equal(items.length, 10, "initial number of items should be equal to 10");
       }
     });
 
@@ -159,7 +159,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       while (iterator2.hasMoreResults) {
         const { result: items } = await iterator2.readNext();
         if (items.length === 0) break;
-        assert.equal(items.length, 4, "Remaining number of items should be equal 4");
+        assert.equal(items.length, 4, "Remaining number of items should be equal to 4");
       }
     });
 
@@ -268,7 +268,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       while (iterator.hasMoreResults) {
         const { result: items } = await iterator.readNext();
         if (items.length === 0) break;
-        assert.equal(items.length, 20, "initial number of items should be equal 20");
+        assert.equal(items.length, 20, "initial number of items should be equal to 20");
       }
     });
 
@@ -295,7 +295,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       while (iterator2.hasMoreResults) {
         const { result: items } = await iterator2.readNext();
         if (items.length === 0) break;
-        assert.equal(items.length, 10, "Remaining number of items should be equal 10");
+        assert.equal(items.length, 10, "Remaining number of items should be equal to 10");
       }
     });
 
@@ -480,7 +480,7 @@ describe("test changefeed for feed range", function () {
     while (iterator.hasMoreResults) {
       const { result: items } = await iterator.readNext();
       if (items.length === 0) break;
-      assert.equal(items.length, 10, "initial number of items should be equal 10");
+      assert.equal(items.length, 10, "initial number of items should be equal to 10");
     }
   });
 
@@ -508,7 +508,7 @@ describe("test changefeed for feed range", function () {
     while (iterator2.hasMoreResults) {
       const { result: items } = await iterator2.readNext();
       if (items.length === 0) break;
-      assert.equal(items.length, 4, "Remaining number of items should be equal 4");
+      assert.equal(items.length, 4, "Remaining number of items should be equal to 4");
     }
   });
 

@@ -7,6 +7,7 @@ import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator"
 import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { changeFeedIteratorBuilder } from "./changeFeedIteratorBuilder";
 import type { PartitionKeyRangeCache } from "../../routing";
+import { ErrorResponse } from "@azure/cosmos";
 
 /**
  * @hidden
@@ -42,7 +43,11 @@ export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator
    */
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     if (!this.isInstantiated) {
-      await this.instantiateIterator();
+      try {
+        await this.instantiateIterator();
+      } catch (err) {
+        throw new ErrorResponse(err.message);
+      }
     }
     do {
       const result = await this.iterator.readNext();
@@ -55,19 +60,27 @@ export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator
    */
   public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     if (!this.isInstantiated) {
-      await this.instantiateIterator();
+      try {
+        await this.instantiateIterator();
+      } catch (err) {
+        throw new ErrorResponse(err.message);
+      }
     }
     return this.iterator.readNext();
   }
 
   private async instantiateIterator(): Promise<void> {
-    const iterator = await changeFeedIteratorBuilder(
-      this.cfOptions,
-      this.clientContext,
-      this.container,
-      this.partitionKeyRangeCache,
-    );
-    this.isInstantiated = true;
-    this.iterator = iterator;
+    try {
+      const iterator = await changeFeedIteratorBuilder(
+        this.cfOptions,
+        this.clientContext,
+        this.container,
+        this.partitionKeyRangeCache,
+      );
+      this.isInstantiated = true;
+      this.iterator = iterator;
+    } catch (err) {
+      throw new ErrorResponse(err.message);
+    }
   }
 }
