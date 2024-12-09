@@ -53,7 +53,7 @@ export async function getConnectionString(context: Client, connection: Connectio
     if (!telemetryOptions.connectionString) {
         const workspace = await connection.getWorkspace();
         if (workspace.properties.applicationInsights) {
-            const result = await context.path("/{appInsightsResourceUrl}", workspace.properties.applicationInsights).get();
+            const result = await context.path("/{appInsightsResourceUrl}", workspace.properties.applicationInsights).get({skipUrlEncoding:true});
             if (!expectedStatuses.includes(result.status)) {
                 throw createRestError(result);
             }

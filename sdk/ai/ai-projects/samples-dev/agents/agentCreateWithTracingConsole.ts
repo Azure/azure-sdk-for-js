@@ -63,7 +63,7 @@ export async function main(): Promise<void> {
         console.log(`Created Thread, thread ID:  ${thread.id}`);
 
         // Create message
-        const message = await client.agents.createMessage(thread.id, { role: "user", content: "What's the weather like in my favorite city?" })
+        const message = await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" })
         console.log(`Created message, message ID ${message.id}`);
 
         // Create run
@@ -79,6 +79,8 @@ export async function main(): Promise<void> {
         await client.agents.deleteAgent(agent.id);
 
         console.log(`Deleted agent`);
+
+        await client.agents.listMessages(thread.id)
 
         span.end();
     });
