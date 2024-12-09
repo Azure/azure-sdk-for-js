@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
     targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
     customizations: {
       redactionFormat: "<{TYPE}>",
-    }
+    },
   };
 
   await client.path("/jobs/{name}", jobName).put({ body: job });
