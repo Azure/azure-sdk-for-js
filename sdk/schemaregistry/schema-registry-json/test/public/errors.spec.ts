@@ -29,18 +29,22 @@ describe("Error scenarios", function () {
 
   describe("Schema validation", function () {
     it("unrecognized content type", async function () {
-      await expect(serializer.deserialize({
-    data: new Uint8Array(1),
-    contentType: "avro/binary+1234",
-})).rejects.toThrow(/avro\/binary.*application\/json/);
+      await expect(
+        serializer.deserialize({
+          data: new Uint8Array(1),
+          contentType: "avro/binary+1234",
+        }),
+      ).rejects.toThrow(/avro\/binary.*application\/json/);
     });
     it("a schema with non-json format", async function (ctx) {
-      await expect(registry.registerSchema({
-    name: "Name",
-    definition: "Definition",
-    format: "notjson",
-    groupName: testGroup,
-})).rejects.toThrow(/Invalid schema type for PUT request.*notjson/);
+      await expect(
+        registry.registerSchema({
+          name: "Name",
+          definition: "Definition",
+          format: "notjson",
+          groupName: testGroup,
+        }),
+      ).rejects.toThrow(/Invalid schema type for PUT request.*notjson/);
     });
     it("schema to serialize with is not found", async function () {
       const schema = JSON.stringify({
@@ -57,10 +61,12 @@ describe("Error scenarios", function () {
       await expect(serializer.serialize({ name: "Bob" }, schema)).rejects.toThrow(/not found/);
     });
     it("schema to deserialize with is not found", async function () {
-      await expect(serializer.deserialize({
-    data: Uint8Array.from([0]),
-    contentType: createContentType(randomUUID()),
-})).rejects.toThrow(/does not exist/);
+      await expect(
+        serializer.deserialize({
+          data: Uint8Array.from([0]),
+          contentType: createContentType(randomUUID()),
+        }),
+      ).rejects.toThrow(/does not exist/);
     });
     it("invalid schema at time of deserializing", async function (ctx) {
       /**
