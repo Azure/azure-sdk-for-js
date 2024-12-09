@@ -48,19 +48,19 @@ Use the AI Projects client library (in preview) to:
     - [Retrieve file](#retrieve-file)
     - [Tear down by deleting resource](#teardown)
     - [Tracing](#tracing)
-  - [Evaluation](#evaluation)
+    <!-- - [Evaluation](#evaluation)
     - [Evaluator](#evaluator)
     - [Run Evaluation in the cloud](#run-evaluation-in-the-cloud)
       - [Evaluators](#evaluators)
       - [Data to be evaluated](#data-to-be-evaluated)
         - [[Optional] Azure OpenAI Model](#optional-azure-openai-model)
-        - [Example Remote Evaluation](#example-remote-evaluation)
+        - [Example Remote Evaluation](#example-remote-evaluation) -->
   - [Tracing](#tracing)
     - [Installation](#installation)
     - [Tracing example](#tracing-example)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
-  - [Logging](#logging)
+  <!-- - [Logging](#logging) -->
   - [Reporting issues](#reporting-issues)
 - [Next steps](#next-steps)
 - [Contributing](#contributing)
@@ -959,8 +959,7 @@ Status code: 401 (Unauthorized)
 Operation returned an invalid status 'Unauthorized'
 ```
 
-<!-- TODO: Update logging information -->
-
+<!-- TODO: Revisit w/ logging sample
 ### Logging
 
 The client uses the standard [Python logging library](https://docs.python.org/3/library/logging.html). The SDK logs HTTP request and response details, which may be useful in troubleshooting. To log to stdout, add the following:
@@ -1002,6 +1001,7 @@ Note that the log level must be set to `logging.DEBUG` (see above code). Logs wi
 Be sure to protect non redacted logs to avoid compromising security.
 
 For more information, see [Configure logging in the Azure libraries for Python](https://aka.ms/azsdk/python/logging)
+-->
 
 ### Reporting issues
 
