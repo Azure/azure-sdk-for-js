@@ -26,7 +26,7 @@ import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import type { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
   const eventHubHostName = env.EVENTHUB_JSON_HOST_NAME || "";
@@ -52,7 +52,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
     return client;
   }
 
-  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async function () {
+  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async () => {
     let recorder: Recorder;
     let serializer: JsonSchemaSerializer<any>;
 
@@ -123,7 +123,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
     let writerSchema: string;
     let value: object;
 
-    beforeEach(async function () {
+    beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       client = createEventHubsTestClient({
         eventHubName: "scenario_1",
