@@ -10,59 +10,46 @@ import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AddOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CheckOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface OptOutAddResult {
-    // (undocumented)
     errorMessage?: string;
-    // (undocumented)
     httpStatusCode: number;
-    // (undocumented)
     to: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OptOutCheckResult {
-    // (undocumented)
     errorMessage?: string;
-    // (undocumented)
     httpStatusCode: number;
-    // (undocumented)
     isOptedOut: boolean;
-    // (undocumented)
     to: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OptOutRemoveResult {
-    // (undocumented)
     errorMessage?: string;
-    // (undocumented)
     httpStatusCode: number;
-    // (undocumented)
     to: string;
 }
 
-// @public (undocumented)
+// @public
 export class OptOutsClient {
     // Warning: (ae-forgotten-export) The symbol "SmsApiClient" needs to be exported by the entry point index.d.ts
     constructor(api: SmsApiClient);
-    // (undocumented)
     add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
-    // (undocumented)
     check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
-    // (undocumented)
     remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
 }
 
-// @public (undocumented)
+// @public
 export interface RemoveOptions extends OperationOptions {
 }
 
@@ -71,7 +58,6 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
-    // (undocumented)
     optOuts: OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
@@ -94,7 +80,7 @@ export interface SmsSendRequest {
     to: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface SmsSendResult {
     errorMessage?: string;
     httpStatusCode: number;

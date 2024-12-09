@@ -43,7 +43,7 @@ export interface SmsSendRequest {
 }
 
 /**
- * Options to configure Sms requests
+ * Options to configure Sms requests.
  */
 export interface SmsSendOptions extends OperationOptions {
   /**
@@ -60,6 +60,9 @@ export interface SmsSendOptions extends OperationOptions {
   deliveryReportTimeoutInSeconds?: number;
 }
 
+/**
+ * The result of Sms send request.
+ */
 export interface SmsSendResult {
   /**
    * The recipient's phone number in E.164 format.
@@ -97,6 +100,10 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
+  /**
+  * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
+  * to call Opt Out Management Api methods.
+  */
   public optOuts: OptOutsClient;
 
   /**
