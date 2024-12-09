@@ -3,8 +3,6 @@
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import { assert } from "chai";
-import type { Context, Suite } from "mocha";
 import type {
   AzureOpenAIVectorizer,
   SearchIndex,
@@ -23,6 +21,7 @@ import {
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("SearchIndexClient", function (this: Suite) {
   this.timeout(20_000);

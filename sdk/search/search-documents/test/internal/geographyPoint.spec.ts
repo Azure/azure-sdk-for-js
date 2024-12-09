@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
 import GeographyPoint from "../../src/geographyPoint.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("geographyPoint", function () {
   it("JSON.stringify", function () {

@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
 import GeographyPoint from "../../src/geographyPoint.js";
 import { deserialize, serialize } from "../../src/serialization.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("serialization.serialize", function () {
   it("nested", function () {

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { decode, encode } from "../../src/base64.js";
+import { describe, it, assert } from "vitest";
 
 describe("base64", function () {
   it("strings can roundtrip", function () {
