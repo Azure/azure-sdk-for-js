@@ -16,6 +16,7 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
+import { OptOutsClient } from "./optOutsClient.js";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -42,7 +43,7 @@ export interface SmsSendRequest {
 }
 
 /**
- * Options to configure Sms requests
+ * Options to configure Sms requests.
  */
 export interface SmsSendOptions extends OperationOptions {
   /**
@@ -59,6 +60,9 @@ export interface SmsSendOptions extends OperationOptions {
   deliveryReportTimeoutInSeconds?: number;
 }
 
+/**
+ * The result of Sms send request.
+ */
 export interface SmsSendResult {
   /**
    * The recipient's phone number in E.164 format.
@@ -96,6 +100,11 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
+  /**
+  * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
+  * to call Opt Out Management Api methods.
+  */
+  public optOuts: OptOutsClient;
 
   /**
    * Initializes a new instance of the SmsClient class.
@@ -141,6 +150,7 @@ export class SmsClient {
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.api = new SmsApiClient(url, internalPipelineOptions);
     this.api.pipeline.addPolicy(authPolicy);
+    this.optOuts = new OptOutsClient(this.api);
   }
 
   /**
