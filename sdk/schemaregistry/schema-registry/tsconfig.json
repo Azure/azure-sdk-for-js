@@ -2,13 +2,9 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/schema-registry": [
-        "./src/index"
-      ]
+      "@azure/schema-registry": ["./src/index"]
     },
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
