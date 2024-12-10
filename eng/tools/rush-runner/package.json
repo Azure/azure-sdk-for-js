@@ -3,6 +3,7 @@
   "type": "module",
   "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
+    "build": "npm run format && npm run lint && npm run test && npm run typecheck",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"test/**/*.js\"",
     "typecheck": "tsc",
     "lint": "eslint index.js test",
