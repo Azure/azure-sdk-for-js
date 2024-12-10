@@ -2,11 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
-import { LATEST_API_VERSION } from "./constants.js";
 import type { Setting as GeneratedSetting } from "./generated/index.js";
-import { KeyVaultClient } from "./generated/index.js";
-import { logger } from "./log.js";
+import type { KeyVaultClient } from "./generated/index.js";
 import type {
   UpdateSettingOptions,
   GetSettingOptions,
@@ -16,6 +13,7 @@ import type {
   SettingsClientOptions,
   BooleanKeyVaultSetting,
 } from "./settingsClientModels.js";
+import { createKeyVaultClient } from "./createKeyVaultClient.js";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
   if (generatedSetting.type === "boolean") {
@@ -76,27 +74,7 @@ export class KeyVaultSettingsClient {
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
-    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
-
-    const clientOptions = {
-      ...options,
-      loggingOptions: {
-        logger: logger.info,
-        additionalAllowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version",
-        ],
-      },
-    };
-
-    this.client = new KeyVaultClient(apiVersion, clientOptions);
-
-    // The authentication policy must come after the deserialization policy since the deserialization policy
-    // converts 401 responses to an Error, and we don't want to deal with that.
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
-      afterPolicies: ["deserializationPolicy"],
-    });
+    this.client = createKeyVaultClient(vaultUrl, credential, options);
   }
 
   /**
@@ -110,7 +88,7 @@ export class KeyVaultSettingsClient {
     options: UpdateSettingOptions = {},
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options),
+      await this.client.updateSetting(setting.name, { value: String(setting.value) }, options),
     );
   }
 
@@ -121,7 +99,7 @@ export class KeyVaultSettingsClient {
    * @param options - the optional parameters.
    */
   async getSetting(settingName: string, options: GetSettingOptions = {}): Promise<KeyVaultSetting> {
-    return makeSetting(await this.client.getSetting(this.vaultUrl, settingName, options));
+    return makeSetting(await this.client.getSetting(settingName, options));
   }
 
   /**
@@ -130,7 +108,7 @@ export class KeyVaultSettingsClient {
    * @param options - the optional parameters.
    */
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
-    const { settings } = await this.client.getSettings(this.vaultUrl, options);
+    const { settings } = await this.client.getSettings(options);
     return { settings: settings?.map(makeSetting) ?? [] };
   }
 }
