@@ -276,7 +276,7 @@ const vectorStore = await client.agents.createVectorStore({
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
 
-const fileSearchTool = createFileSearchTool([vectorStore.id]);
+const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "SDK Test Agent - Retrieval",
@@ -304,7 +304,7 @@ const fFile = await client.agents.uploadFile(
 );
 console.log(`Uploaded local file, file ID : ${file.id}`);
 
-const codeInterpreterTool = createCodeInterpreterTool([file.id]);
+const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([file.id]);
 
 // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
 const agent = await client.agents.createAgent("gpt-4o-mini", {
@@ -320,7 +320,7 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 
 #### Create Agent with Bing Grounding
 
-To enable your Agent to perform search through Bing search API, you use `createConnectionTool()` along with a connection.
+To enable your Agent to perform search through Bing search API, you use `ToolUtility.createConnectionTool()` along with a connection.
 
 Here is an example:
 
@@ -328,7 +328,7 @@ Here is an example:
 
 ```javascript
 const bingGroundingConnectionId = "<bingGroundingConnectionId>";
-const bingTool = createConnectionTool(connectionToolType.BingGrounding, [
+const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
   bingGroundingConnectionId,
 ]);
 
@@ -361,7 +361,7 @@ const cognitiveServicesConnectionName = "<cognitiveServicesConnectionName>";
 const cognitiveServicesConnection = await client.connections.getConnection(
   cognitiveServicesConnectionName,
 );
-const azureAISearchTool = createAzureAISearchTool(
+const azureAISearchTool = ToolUtility.createAzureAISearchTool(
   cognitiveServicesConnection.id,
   cognitiveServicesConnection.name,
 );
@@ -396,28 +396,30 @@ Here is an example:
 
 ```javascript
 class FunctionToolExecutor {
-  private functionTools: { func: Function, definition: FunctionDefinition }[];
+  private functionTools: { func: Function, definition: FunctionToolDefinition }[];
 
   constructor() {
     this.functionTools = [{
-      func: this.getUserFavoriteCity, definition: {
+      func: this.getUserFavoriteCity,
+      ...ToolUtility.createFunctionTool({
         name: "getUserFavoriteCity",
         description: "Gets the user's favorite city.",
         parameters: {}
-      }
+      })
     }, {
-      func: this.getCityNickname, definition: {
+      func: this.getCityNickname,
+      ...ToolUtility.createFunctionTool({
         name: "getCityNickname",
         description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
         parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" } } }
-      }
-    },
-    {
-      func: this.getWeather, definition: {
+      })
+    }, {
+      func: this.getWeather,
+      ...ToolUtility.createFunctionTool({
         name: "getWeather",
         description: "Gets the weather for a location.",
         parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" }, unit: { type: "string", enum: ['c', 'f'] } } }
-      }
+      })
     }];
   }
 
@@ -449,7 +451,7 @@ class FunctionToolExecutor {
         return undefined;
       }
     }
-    const result = this.functionTools.find((tool) => tool.definition.name === toolCall.function.name)?.func(...args);
+    const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
     return result ? {
       tool_call_id: toolCall.id,
       output: JSON.stringify(result)
@@ -457,7 +459,7 @@ class FunctionToolExecutor {
   }
 
   public getFunctionDefinitions(): FunctionToolDefinition[] {
-    return this.functionTools.map(tool => {return { type: "function", function: tool.definition}});
+    return this.functionTools.map(tool => {return tool.definition});
   }
 }
 
@@ -507,7 +509,7 @@ const vectorStore = await client.agents.createVectorStore({
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
 
-const fileSearchTool = createFileSearchTool([vectorStore.id]);
+const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "SDK Test Agent - Retrieval",
@@ -540,12 +542,12 @@ const message = await client.agents.createMessage(thread.id, {
 
 #### Create Message with File Search Attachment
 
-To attach a file to a message for content searching, you use `createFileSearchTool()` and the `attachments` argument:
+To attach a file to a message for content searching, you use `ToolUtility.createFileSearchTool()` and the `attachments` argument:
 
 <!-- SNIPPET:sample_agents_with_file_search_attachment.create_message_with_attachment -->
 
 ```javascript
-const fileSearchTool = createFileSearchTool();
+const fileSearchTool = ToolUtility.createFileSearchTool();
 const message = await client.agents.createMessage(thread.id, {
   role: "user",
   content: "What feature does Smart Eyewear offer?",
@@ -560,7 +562,7 @@ const message = await client.agents.createMessage(thread.id, {
 
 #### Create Message with Code Interpreter Attachment
 
-To attach a file to a message for data analysis, you use `createCodeInterpreterTool()` and the `attachment` argument.
+To attach a file to a message for data analysis, you use `ToolUtility.createCodeInterpreterTool()` and the `attachment` argument.
 
 Here is an example:
 
@@ -569,7 +571,7 @@ Here is an example:
 ```javascript
 // notice that CodeInterpreter must be enabled in the agent creation,
 // otherwise the agent will not be able to see the file attachment for code interpretation
-const codeInterpreterTool = createCodeInterpreterTool();
+const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
 const agent = await client.agents.createAgent("gpt-4-1106-preview", {
   name: "my-assistant",
   instructions: "You are helpful assistant",
