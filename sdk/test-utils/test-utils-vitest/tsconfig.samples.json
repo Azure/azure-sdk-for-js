@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-tools/test-utils-vitest": [
-        "./dist/esm"
-      ]
+      "@azure-tools/test-utils-vitest": ["./dist/esm"]
     }
   }
 }
