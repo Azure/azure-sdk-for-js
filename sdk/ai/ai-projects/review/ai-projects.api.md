@@ -541,9 +541,6 @@ export type Frequency = string;
 export type FrequencyOutput = string;
 
 // @public
-export function fromConnectionId(toolType: connectionToolType, connectionIds: string[]): ToolDefinitionParent;
-
-// @public
 export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;
 
 // @public
@@ -1612,6 +1609,49 @@ export interface ToolResourcesOutput {
     azure_ai_search?: AzureAISearchResourceOutput;
     code_interpreter?: CodeInterpreterToolResourceOutput;
     file_search?: FileSearchToolResourceOutput;
+}
+
+// @public
+export class ToolSet {
+    addAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
+    toolDefinitions: ToolDefinition[];
+    toolResources: ToolResources;
+}
+
+// @public
+export class ToolUtility {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createFunctionTool(functionDefinition: FunctionDefinition): {
+        definition: FunctionToolDefinition;
+    };
 }
 
 // @public
