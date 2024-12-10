@@ -966,8 +966,8 @@ const listDdosProtectionStatusOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top1,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.top2,
   ],
   urlParameters: [
     Parameters.$host,
