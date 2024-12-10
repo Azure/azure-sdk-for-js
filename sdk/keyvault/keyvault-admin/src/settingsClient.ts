@@ -73,7 +73,6 @@ export class KeyVaultSettingsClient {
    * @param options - options used to configure Key Vault API requests.
 
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
@@ -130,7 +129,6 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
     const { settings } = await this.client.getSettings(this.vaultUrl, options);
     return { settings: settings?.map(makeSetting) ?? [] };
