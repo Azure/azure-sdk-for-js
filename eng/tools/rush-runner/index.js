@@ -10,7 +10,7 @@ import {
   getDirectionMappedPackages,
   getServicePackages,
   reducedDependencyTestMatrix,
-} from "./helpers";
+} from "./helpers.js";
 
 const parseArgs = () => {
   if (
