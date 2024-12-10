@@ -34,8 +34,6 @@ async function listDistributionPolicies(): Promise<void> {
         console.log("Listing distribution policy with id: " + policy.distributionPolicy.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 
