@@ -40,108 +40,108 @@ import type {
 } from "./parameters.js";
 import type {
   KeyVaultConnectionsGet200Response,
-  KeyVaultConnectionsGetdefaultResponse,
+  KeyVaultConnectionsGetDefaultResponse,
   KeyVaultConnectionsCreate200Response,
-  KeyVaultConnectionsCreatedefaultResponse,
+  KeyVaultConnectionsCreateDefaultResponse,
   KeyVaultConnectionsDelete200Response,
   KeyVaultConnectionsDelete204Response,
-  KeyVaultConnectionsDeletedefaultResponse,
+  KeyVaultConnectionsDeleteDefaultResponse,
   KeyVaultConnectionsListAll200Response,
-  KeyVaultConnectionsListAlldefaultResponse,
+  KeyVaultConnectionsListAllDefaultResponse,
   ClassificationRulesGet200Response,
-  ClassificationRulesGetdefaultResponse,
+  ClassificationRulesGetDefaultResponse,
   ClassificationRulesCreateOrUpdate200Response,
   ClassificationRulesCreateOrUpdate201Response,
-  ClassificationRulesCreateOrUpdatedefaultResponse,
+  ClassificationRulesCreateOrUpdateDefaultResponse,
   ClassificationRulesDelete200Response,
   ClassificationRulesDelete204Response,
-  ClassificationRulesDeletedefaultResponse,
+  ClassificationRulesDeleteDefaultResponse,
   ClassificationRulesListAll200Response,
-  ClassificationRulesListAlldefaultResponse,
+  ClassificationRulesListAllDefaultResponse,
   ClassificationRulesListVersionsByClassificationRuleName200Response,
-  ClassificationRulesListVersionsByClassificationRuleNamedefaultResponse,
+  ClassificationRulesListVersionsByClassificationRuleNameDefaultResponse,
   ClassificationRulesTagClassificationVersion202Response,
-  ClassificationRulesTagClassificationVersiondefaultResponse,
+  ClassificationRulesTagClassificationVersionDefaultResponse,
   DataSourcesCreateOrUpdate200Response,
   DataSourcesCreateOrUpdate201Response,
-  DataSourcesCreateOrUpdatedefaultResponse,
+  DataSourcesCreateOrUpdateDefaultResponse,
   DataSourcesGet200Response,
-  DataSourcesGetdefaultResponse,
+  DataSourcesGetDefaultResponse,
   DataSourcesDelete200Response,
   DataSourcesDelete204Response,
-  DataSourcesDeletedefaultResponse,
+  DataSourcesDeleteDefaultResponse,
   DataSourcesListAll200Response,
-  DataSourcesListAlldefaultResponse,
+  DataSourcesListAllDefaultResponse,
   FiltersGet200Response,
-  FiltersGetdefaultResponse,
+  FiltersGetDefaultResponse,
   FiltersCreateOrUpdate200Response,
   FiltersCreateOrUpdate201Response,
-  FiltersCreateOrUpdatedefaultResponse,
+  FiltersCreateOrUpdateDefaultResponse,
   ScansCreateOrUpdate200Response,
   ScansCreateOrUpdate201Response,
-  ScansCreateOrUpdatedefaultResponse,
+  ScansCreateOrUpdateDefaultResponse,
   ScansGet200Response,
-  ScansGetdefaultResponse,
+  ScansGetDefaultResponse,
   ScansDelete200Response,
   ScansDelete204Response,
-  ScansDeletedefaultResponse,
+  ScansDeleteDefaultResponse,
   ScansListByDataSource200Response,
-  ScansListByDataSourcedefaultResponse,
+  ScansListByDataSourceDefaultResponse,
   ScanResultRunScan202Response,
-  ScanResultRunScandefaultResponse,
+  ScanResultRunScanDefaultResponse,
   ScanResultCancelScan202Response,
-  ScanResultCancelScandefaultResponse,
+  ScanResultCancelScanDefaultResponse,
   ScanResultListScanHistory200Response,
-  ScanResultListScanHistorydefaultResponse,
+  ScanResultListScanHistoryDefaultResponse,
   ScanRulesetsGet200Response,
-  ScanRulesetsGetdefaultResponse,
+  ScanRulesetsGetDefaultResponse,
   ScanRulesetsCreateOrUpdate200Response,
   ScanRulesetsCreateOrUpdate201Response,
-  ScanRulesetsCreateOrUpdatedefaultResponse,
+  ScanRulesetsCreateOrUpdateDefaultResponse,
   ScanRulesetsDelete200Response,
   ScanRulesetsDelete204Response,
-  ScanRulesetsDeletedefaultResponse,
+  ScanRulesetsDeleteDefaultResponse,
   ScanRulesetsListAll200Response,
-  ScanRulesetsListAlldefaultResponse,
+  ScanRulesetsListAllDefaultResponse,
   SystemScanRulesetsListAll200Response,
-  SystemScanRulesetsListAlldefaultResponse,
+  SystemScanRulesetsListAllDefaultResponse,
   SystemScanRulesetsGet200Response,
-  SystemScanRulesetsGetdefaultResponse,
+  SystemScanRulesetsGetDefaultResponse,
   SystemScanRulesetsGetByVersion200Response,
-  SystemScanRulesetsGetByVersiondefaultResponse,
+  SystemScanRulesetsGetByVersionDefaultResponse,
   SystemScanRulesetsGetLatest200Response,
-  SystemScanRulesetsGetLatestdefaultResponse,
+  SystemScanRulesetsGetLatestDefaultResponse,
   SystemScanRulesetsListVersionsByDataSource200Response,
-  SystemScanRulesetsListVersionsByDataSourcedefaultResponse,
+  SystemScanRulesetsListVersionsByDataSourceDefaultResponse,
   TriggersGetTrigger200Response,
-  TriggersGetTriggerdefaultResponse,
+  TriggersGetTriggerDefaultResponse,
   TriggersCreateTrigger200Response,
   TriggersCreateTrigger201Response,
-  TriggersCreateTriggerdefaultResponse,
+  TriggersCreateTriggerDefaultResponse,
   TriggersDeleteTrigger200Response,
   TriggersDeleteTrigger204Response,
-  TriggersDeleteTriggerdefaultResponse,
+  TriggersDeleteTriggerDefaultResponse,
 } from "./responses.js";
-import type { ClientOptions, Client } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface KeyVaultConnectionsGet {
   /** Gets key vault information */
   get(
     options?: KeyVaultConnectionsGetParameters,
-  ): Promise<KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetdefaultResponse>;
+  ): StreamableMethod<KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetDefaultResponse>;
   /** Creates an instance of a key vault connection */
   put(
     options: KeyVaultConnectionsCreateParameters,
-  ): Promise<KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreatedefaultResponse>;
+  ): StreamableMethod<
+    KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreateDefaultResponse
+  >;
   /** Deletes the key vault connection associated with the account */
   delete(
     options?: KeyVaultConnectionsDeleteParameters,
-  ): Promise<
+  ): StreamableMethod<
     | KeyVaultConnectionsDelete200Response
     | KeyVaultConnectionsDelete204Response
-    | KeyVaultConnectionsDeletedefaultResponse
+    | KeyVaultConnectionsDeleteDefaultResponse
   >;
 }
 
@@ -149,29 +149,31 @@ export interface KeyVaultConnectionsListAll {
   /** List key vault connections in account */
   get(
     options?: KeyVaultConnectionsListAllParameters,
-  ): Promise<KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAlldefaultResponse>;
+  ): StreamableMethod<
+    KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAllDefaultResponse
+  >;
 }
 
 export interface ClassificationRulesGet {
   /** Get a classification rule */
   get(
     options?: ClassificationRulesGetParameters,
-  ): Promise<ClassificationRulesGet200Response | ClassificationRulesGetdefaultResponse>;
+  ): StreamableMethod<ClassificationRulesGet200Response | ClassificationRulesGetDefaultResponse>;
   /** Creates or Updates a classification rule */
   put(
     options?: ClassificationRulesCreateOrUpdateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ClassificationRulesCreateOrUpdate200Response
     | ClassificationRulesCreateOrUpdate201Response
-    | ClassificationRulesCreateOrUpdatedefaultResponse
+    | ClassificationRulesCreateOrUpdateDefaultResponse
   >;
   /** Deletes a classification rule */
   delete(
     options?: ClassificationRulesDeleteParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ClassificationRulesDelete200Response
     | ClassificationRulesDelete204Response
-    | ClassificationRulesDeletedefaultResponse
+    | ClassificationRulesDeleteDefaultResponse
   >;
 }
 
@@ -179,16 +181,18 @@ export interface ClassificationRulesListAll {
   /** List classification rules in Account */
   get(
     options?: ClassificationRulesListAllParameters,
-  ): Promise<ClassificationRulesListAll200Response | ClassificationRulesListAlldefaultResponse>;
+  ): StreamableMethod<
+    ClassificationRulesListAll200Response | ClassificationRulesListAllDefaultResponse
+  >;
 }
 
 export interface ClassificationRulesListVersionsByClassificationRuleName {
   /** Lists the rule versions of a classification rule */
   get(
     options?: ClassificationRulesListVersionsByClassificationRuleNameParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ClassificationRulesListVersionsByClassificationRuleName200Response
-    | ClassificationRulesListVersionsByClassificationRuleNamedefaultResponse
+    | ClassificationRulesListVersionsByClassificationRuleNameDefaultResponse
   >;
 }
 
@@ -196,9 +200,9 @@ export interface ClassificationRulesTagClassificationVersion {
   /** Sets Classification Action on a specific classification rule version. */
   post(
     options: ClassificationRulesTagClassificationVersionParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ClassificationRulesTagClassificationVersion202Response
-    | ClassificationRulesTagClassificationVersiondefaultResponse
+    | ClassificationRulesTagClassificationVersionDefaultResponse
   >;
 }
 
@@ -206,20 +210,20 @@ export interface DataSourcesCreateOrUpdate {
   /** Creates or Updates a data source */
   put(
     options?: DataSourcesCreateOrUpdateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | DataSourcesCreateOrUpdate200Response
     | DataSourcesCreateOrUpdate201Response
-    | DataSourcesCreateOrUpdatedefaultResponse
+    | DataSourcesCreateOrUpdateDefaultResponse
   >;
   /** Get a data source */
   get(
     options?: DataSourcesGetParameters,
-  ): Promise<DataSourcesGet200Response | DataSourcesGetdefaultResponse>;
+  ): StreamableMethod<DataSourcesGet200Response | DataSourcesGetDefaultResponse>;
   /** Deletes a data source */
   delete(
     options?: DataSourcesDeleteParameters,
-  ): Promise<
-    DataSourcesDelete200Response | DataSourcesDelete204Response | DataSourcesDeletedefaultResponse
+  ): StreamableMethod<
+    DataSourcesDelete200Response | DataSourcesDelete204Response | DataSourcesDeleteDefaultResponse
   >;
 }
 
@@ -227,19 +231,21 @@ export interface DataSourcesListAll {
   /** List data sources in Data catalog */
   get(
     options?: DataSourcesListAllParameters,
-  ): Promise<DataSourcesListAll200Response | DataSourcesListAlldefaultResponse>;
+  ): StreamableMethod<DataSourcesListAll200Response | DataSourcesListAllDefaultResponse>;
 }
 
 export interface FiltersGet {
   /** Get a filter */
-  get(options?: FiltersGetParameters): Promise<FiltersGet200Response | FiltersGetdefaultResponse>;
+  get(
+    options?: FiltersGetParameters,
+  ): StreamableMethod<FiltersGet200Response | FiltersGetDefaultResponse>;
   /** Creates or updates a filter */
   put(
     options?: FiltersCreateOrUpdateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | FiltersCreateOrUpdate200Response
     | FiltersCreateOrUpdate201Response
-    | FiltersCreateOrUpdatedefaultResponse
+    | FiltersCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -247,67 +253,71 @@ export interface ScansCreateOrUpdate {
   /** Creates an instance of a scan */
   put(
     options: ScansCreateOrUpdateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ScansCreateOrUpdate200Response
     | ScansCreateOrUpdate201Response
-    | ScansCreateOrUpdatedefaultResponse
+    | ScansCreateOrUpdateDefaultResponse
   >;
   /** Gets a scan information */
-  get(options?: ScansGetParameters): Promise<ScansGet200Response | ScansGetdefaultResponse>;
+  get(
+    options?: ScansGetParameters,
+  ): StreamableMethod<ScansGet200Response | ScansGetDefaultResponse>;
   /** Deletes the scan associated with the data source */
   delete(
     options?: ScansDeleteParameters,
-  ): Promise<ScansDelete200Response | ScansDelete204Response | ScansDeletedefaultResponse>;
+  ): StreamableMethod<ScansDelete200Response | ScansDelete204Response | ScansDeleteDefaultResponse>;
 }
 
 export interface ScansListByDataSource {
   /** List scans in data source */
   get(
     options?: ScansListByDataSourceParameters,
-  ): Promise<ScansListByDataSource200Response | ScansListByDataSourcedefaultResponse>;
+  ): StreamableMethod<ScansListByDataSource200Response | ScansListByDataSourceDefaultResponse>;
 }
 
 export interface ScanResultRunScan {
   /** Runs the scan */
   put(
     options?: ScanResultRunScanParameters,
-  ): Promise<ScanResultRunScan202Response | ScanResultRunScandefaultResponse>;
+  ): StreamableMethod<ScanResultRunScan202Response | ScanResultRunScanDefaultResponse>;
 }
 
 export interface ScanResultCancelScan {
   /** Cancels a scan */
   post(
     options?: ScanResultCancelScanParameters,
-  ): Promise<ScanResultCancelScan202Response | ScanResultCancelScandefaultResponse>;
+  ): StreamableMethod<ScanResultCancelScan202Response | ScanResultCancelScanDefaultResponse>;
 }
 
 export interface ScanResultListScanHistory {
   /** Lists the scan history of a scan */
   get(
     options?: ScanResultListScanHistoryParameters,
-  ): Promise<ScanResultListScanHistory200Response | ScanResultListScanHistorydefaultResponse>;
+  ): StreamableMethod<
+    ScanResultListScanHistory200Response | ScanResultListScanHistoryDefaultResponse
+  >;
 }
 
 export interface ScanRulesetsGet {
   /** Get a scan ruleset */
   get(
     options?: ScanRulesetsGetParameters,
-  ): Promise<ScanRulesetsGet200Response | ScanRulesetsGetdefaultResponse>;
+  ): StreamableMethod<ScanRulesetsGet200Response | ScanRulesetsGetDefaultResponse>;
   /** Creates or Updates a scan ruleset */
   put(
     options?: ScanRulesetsCreateOrUpdateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ScanRulesetsCreateOrUpdate200Response
     | ScanRulesetsCreateOrUpdate201Response
-    | ScanRulesetsCreateOrUpdatedefaultResponse
+    | ScanRulesetsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a scan ruleset */
   delete(
     options?: ScanRulesetsDeleteParameters,
-  ): Promise<
+  ): StreamableMethod<
     | ScanRulesetsDelete200Response
     | ScanRulesetsDelete204Response
-    | ScanRulesetsDeletedefaultResponse
+    | ScanRulesetsDeleteDefaultResponse
   >;
 }
 
@@ -315,29 +325,31 @@ export interface ScanRulesetsListAll {
   /** List scan rulesets in Data catalog */
   get(
     options?: ScanRulesetsListAllParameters,
-  ): Promise<ScanRulesetsListAll200Response | ScanRulesetsListAlldefaultResponse>;
+  ): StreamableMethod<ScanRulesetsListAll200Response | ScanRulesetsListAllDefaultResponse>;
 }
 
 export interface SystemScanRulesetsListAll {
   /** List all system scan rulesets for an account */
   get(
     options?: SystemScanRulesetsListAllParameters,
-  ): Promise<SystemScanRulesetsListAll200Response | SystemScanRulesetsListAlldefaultResponse>;
+  ): StreamableMethod<
+    SystemScanRulesetsListAll200Response | SystemScanRulesetsListAllDefaultResponse
+  >;
 }
 
 export interface SystemScanRulesetsGet {
   /** Get a system scan ruleset for a data source */
   get(
     options?: SystemScanRulesetsGetParameters,
-  ): Promise<SystemScanRulesetsGet200Response | SystemScanRulesetsGetdefaultResponse>;
+  ): StreamableMethod<SystemScanRulesetsGet200Response | SystemScanRulesetsGetDefaultResponse>;
 }
 
 export interface SystemScanRulesetsGetByVersion {
   /** Get a scan ruleset by version */
   get(
     options?: SystemScanRulesetsGetByVersionParameters,
-  ): Promise<
-    SystemScanRulesetsGetByVersion200Response | SystemScanRulesetsGetByVersiondefaultResponse
+  ): StreamableMethod<
+    SystemScanRulesetsGetByVersion200Response | SystemScanRulesetsGetByVersionDefaultResponse
   >;
 }
 
@@ -345,16 +357,18 @@ export interface SystemScanRulesetsGetLatest {
   /** Get the latest version of a system scan ruleset */
   get(
     options?: SystemScanRulesetsGetLatestParameters,
-  ): Promise<SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestdefaultResponse>;
+  ): StreamableMethod<
+    SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestDefaultResponse
+  >;
 }
 
 export interface SystemScanRulesetsListVersionsByDataSource {
   /** List system scan ruleset versions in Data catalog */
   get(
     options?: SystemScanRulesetsListVersionsByDataSourceParameters,
-  ): Promise<
+  ): StreamableMethod<
     | SystemScanRulesetsListVersionsByDataSource200Response
-    | SystemScanRulesetsListVersionsByDataSourcedefaultResponse
+    | SystemScanRulesetsListVersionsByDataSourceDefaultResponse
   >;
 }
 
@@ -362,22 +376,22 @@ export interface TriggersGetTrigger {
   /** Gets trigger information */
   get(
     options?: TriggersGetTriggerParameters,
-  ): Promise<TriggersGetTrigger200Response | TriggersGetTriggerdefaultResponse>;
+  ): StreamableMethod<TriggersGetTrigger200Response | TriggersGetTriggerDefaultResponse>;
   /** Creates an instance of a trigger */
   put(
     options: TriggersCreateTriggerParameters,
-  ): Promise<
+  ): StreamableMethod<
     | TriggersCreateTrigger200Response
     | TriggersCreateTrigger201Response
-    | TriggersCreateTriggerdefaultResponse
+    | TriggersCreateTriggerDefaultResponse
   >;
   /** Deletes the trigger associated with the scan */
   delete(
     options?: TriggersDeleteTriggerParameters,
-  ): Promise<
+  ): StreamableMethod<
     | TriggersDeleteTrigger200Response
     | TriggersDeleteTrigger204Response
-    | TriggersDeleteTriggerdefaultResponse
+    | TriggersDeleteTriggerDefaultResponse
   >;
 }
 
@@ -402,7 +416,7 @@ export interface Routes {
   (
     path: "/classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/:tag",
     classificationRuleName: string,
-    classificationRuleVersion: string,
+    classificationRuleVersion: number,
   ): ClassificationRulesTagClassificationVersion;
   /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
   (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesCreateOrUpdate;
@@ -451,10 +465,36 @@ export interface Routes {
   /** Resource for '/systemScanRulesets/datasources/\{dataSourceType\}' has methods for the following verbs: get */
   (
     path: "/systemScanRulesets/datasources/{dataSourceType}",
-    dataSourceType: string,
+    dataSourceType:
+      | "None"
+      | "AzureSubscription"
+      | "AzureResourceGroup"
+      | "AzureSynapseWorkspace"
+      | "AzureSynapse"
+      | "AdlsGen1"
+      | "AdlsGen2"
+      | "AmazonAccount"
+      | "AmazonS3"
+      | "AmazonSql"
+      | "AzureCosmosDb"
+      | "AzureDataExplorer"
+      | "AzureFileService"
+      | "AzureSqlDatabase"
+      | "AmazonPostgreSql"
+      | "AzurePostgreSql"
+      | "SqlServerDatabase"
+      | "AzureSqlDatabaseManagedInstance"
+      | "AzureSqlDataWarehouse"
+      | "AzureMySql"
+      | "AzureStorage"
+      | "Teradata"
+      | "Oracle"
+      | "SapS4Hana"
+      | "SapEcc"
+      | "PowerBI",
   ): SystemScanRulesetsGet;
   /** Resource for '/systemScanRulesets/versions/\{version\}' has methods for the following verbs: get */
-  (path: "/systemScanRulesets/versions/{version}", version: string): SystemScanRulesetsGetByVersion;
+  (path: "/systemScanRulesets/versions/{version}", version: number): SystemScanRulesetsGetByVersion;
   /** Resource for '/systemScanRulesets/versions/latest' has methods for the following verbs: get */
   (path: "/systemScanRulesets/versions/latest"): SystemScanRulesetsGetLatest;
   /** Resource for '/systemScanRulesets/versions' has methods for the following verbs: get */
@@ -470,20 +510,3 @@ export interface Routes {
 export type PurviewScanningRestClient = Client & {
   path: Routes;
 };
-
-export default function PurviewScanning(
-  Endpoint: string,
-  credentials: TokenCredential,
-  options: ClientOptions = {},
-): PurviewScanningRestClient {
-  const baseUrl = options.baseUrl ?? `${Endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2018-12-01-preview";
-  options = {
-    ...options,
-    credentials: {
-      scopes: ["https://purview.azure.net/.default"],
-    },
-  };
-
-  return getClient(baseUrl, credentials, options) as PurviewScanningRestClient;
-}
