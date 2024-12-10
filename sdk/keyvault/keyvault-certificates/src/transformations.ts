@@ -32,6 +32,7 @@ import type {
   ErrorModel,
 } from "./generated/models/index.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -331,7 +332,6 @@ function getCertificateOperationErrorFromErrorModel(
 
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
-  vaultUrl: string,
   operation: CoreCertificateOperation,
 ): CertificateOperation {
   return {
@@ -351,7 +351,6 @@ export function getCertificateOperationFromCoreOperation(
     status: operation.status,
     statusDetails: operation.statusDetails,
     target: operation.target,
-    vaultUrl: vaultUrl,
   };
 }
 
@@ -389,4 +388,29 @@ export function getPropertiesFromCertificateBundle(
   };
 
   return abstractProperties;
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }
