@@ -211,7 +211,7 @@ const { QueueServiceClient } = require("@azure/storage-queue");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net${sas}`
+  `https://${account}.queue.core.windows.net?${sas}`
 );
 ```
 
