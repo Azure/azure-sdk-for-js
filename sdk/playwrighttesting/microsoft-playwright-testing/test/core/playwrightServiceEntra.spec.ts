@@ -13,14 +13,15 @@ describe("playwrightServiceEntra", () => {
   beforeEach(() => {
     vi.spyOn(console, "error").mockReturnValue(); // Mock console.error
     vi.spyOn(console, "log").mockReturnValue(); // Mock console.log
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
+    vi.stubEnv(
+      ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL,
+      "wss://eastus.playwright.microsoft.com/accounts/1234/browsers",
+    );
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    vi.unstubAllEnvs();
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
@@ -44,7 +45,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should throw error if entra id access token fetch fails", async () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: new Date().getTime() / 1000 + 10000 });
     vi.spyOn(
       playwrightServiceEntra["_entraIdAccessToken"],
@@ -88,10 +89,13 @@ describe("playwrightServiceEntra", () => {
     const newInterval = setInterval(() => {}, 100000);
     const setIntervalStub = vi.spyOn(global, "setInterval").mockImplementation(() => newInterval);
 
+    // @ts-expect-error private method
     playwrightServiceEntra.entraIdGlobalSetupRotationHandler();
 
     expect(setIntervalStub).toHaveBeenCalled();
+
     expect(setIntervalStub).toHaveBeenCalledWith(
+      // @ts-expect-error private method
       playwrightServiceEntra.entraIdAccessTokenRotation,
       EntraIdAccessTokenConstants.ROTATION_INTERVAL_PERIOD_IN_MINUTES * 60 * 1000,
     );
@@ -110,6 +114,7 @@ describe("playwrightServiceEntra", () => {
       "fetchEntraIdAccessToken",
     ).mockResolvedValue();
 
+    // @ts-expect-error private method
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(
@@ -133,6 +138,7 @@ describe("playwrightServiceEntra", () => {
       throw new Error();
     });
 
+    // @ts-expect-error private method
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(
@@ -150,6 +156,7 @@ describe("playwrightServiceEntra", () => {
     ).mockReturnValue(false);
     vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken");
 
+    // @ts-expect-error private method
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(

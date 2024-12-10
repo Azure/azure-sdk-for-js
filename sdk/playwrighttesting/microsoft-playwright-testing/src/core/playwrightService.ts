@@ -125,15 +125,17 @@ const getServiceConfig = (
       if (customerConfig.globalTeardown) {
         globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
       }
-      globalFunctions.globalSetup.push(require.resolve("./global/playwright-service-global-setup"));
+      globalFunctions.globalSetup.push(
+        require.resolve("./global/playwright-service-global-setup.ts"),
+      );
       globalFunctions.globalTeardown.push(
-        require.resolve("./global/playwright-service-global-teardown"),
+        require.resolve("./global/playwright-service-global-teardown.ts"),
       );
     } else {
       // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
-      globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
+      globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup.ts");
       globalFunctions.globalTeardown = require.resolve(
-        "./global/playwright-service-global-teardown",
+        "./global/playwright-service-global-teardown.ts",
       );
     }
   }

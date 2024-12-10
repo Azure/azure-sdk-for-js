@@ -31,12 +31,10 @@ describe("Service Utils", () => {
       InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION,
       MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
     );
-    vi.spyOn(console, "error");
-    vi.spyOn(console, "log");
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
     vi.unstubAllEnvs();
   });
 
@@ -151,7 +149,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if MPT PAT is valid", () => {
-    vi.spyOn(process, "exit");
+    vi.mock("node:process", { spy: true });
 
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
