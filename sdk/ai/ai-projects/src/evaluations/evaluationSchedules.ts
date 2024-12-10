@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { EvaluationSchedule, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
-import { CreateOrReplaceEvaluationScheduleParameters, DisableEvaluationScheduleParameters, GetEvaluationScheduleParameters, ListEvaluationScheduleParameters } from "./customModels.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { EvaluationSchedule, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
+import type { CreateOrReplaceScheduleParameters, DisableScheduleParameters, GetScheduleParameters, ListScheduleParameters } from "../generated/src/parameters.js";
 
 const expectedGetStatuses = ["200"];
 const expectedSuccessStatuses = ["200", "201"];
@@ -13,7 +14,7 @@ const expectedDisableStatuses = ["204"];
 export async function getSchedule(
     context: Client,
     evaluationName: string,
-    options?: GetEvaluationScheduleParameters,
+    options?: GetScheduleParameters,
   ): Promise<EvaluationSchedule> {
     const result = await context
     .path("/evaluations/schedules/{evaluationName}", evaluationName)
@@ -28,7 +29,7 @@ export async function getSchedule(
 export async function createOrReplaceSchedule(
     context: Client,
     scheduleName: string, 
-    options?: CreateOrReplaceEvaluationScheduleParameters,
+    options?: CreateOrReplaceScheduleParameters,
   ): Promise<EvaluationSchedule> {
     const result = await context
     .path("/evaluations/schedules/{scheduleName}", scheduleName)
@@ -42,7 +43,7 @@ export async function createOrReplaceSchedule(
 /** Resource list operation template. */
 export async function listSchedules(
     context: Client,
-    options?: ListEvaluationScheduleParameters,
+    options?: ListScheduleParameters,
   ): Promise<PagedEvaluationScheduleOutput> {
     const result = await context
     .path("/evaluations/schedules")
@@ -57,7 +58,7 @@ export async function listSchedules(
 export async function disableSchedule(
     context: Client,
     scheduleName: string,
-    options?: DisableEvaluationScheduleParameters,
+    options?: DisableScheduleParameters,
   ): Promise<void> {
     const result = await context
     .path("/evaluations/schedules/{scheduleName}/disable", scheduleName)

@@ -396,6 +396,8 @@ export interface CreateBodyParam {
   body: Evaluation;
 }
 
+export type CreateParameters = CreateBodyParam & RequestParameters;
+
 export interface ListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;

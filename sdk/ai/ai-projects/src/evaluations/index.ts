@@ -2,10 +2,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
-import { OptionalRequestParameters } from "../agents/customModels.js";
-import { Evaluation, EvaluationOutput, EvaluationSchedule, PagedEvaluationOutput, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
-import { ListEvaluationParameters, ListEvaluationScheduleParameters } from "./customModels.js";
+import type { Client } from "@azure-rest/core-client";
+import type { OptionalRequestParameters } from "../agents/customModels.js";
+import type { Evaluation, EvaluationOutput, EvaluationSchedule, PagedEvaluationOutput, PagedEvaluationScheduleOutput } from "../agents/inputOutputs.js";
+import type { ListQueryParamProperties } from "../generated/src/parameters.js";
 import { createEvaluation, getEvaluation, listEvaluations, updateEvaluation } from "./evaluations.js";
 import { createOrReplaceSchedule, disableSchedule, getSchedule, listSchedules } from "./evaluationSchedules.js";
 
@@ -22,7 +22,7 @@ export interface EvaluationsOperations {
   ) => Promise<EvaluationOutput>;
   /** Resource list operation template. */
   listEvaluations: (
-    options?: ListEvaluationParameters,
+    options?: ListQueryParamProperties,
     requestParams?: OptionalRequestParameters
   ) => Promise<PagedEvaluationOutput>;
   /** Resource update operation template. */
@@ -44,7 +44,7 @@ export interface EvaluationsOperations {
   ) => Promise<EvaluationSchedule>;
   /** Resource list operation template. */
   listSchedules: (
-    options?: ListEvaluationScheduleParameters,
+    options?: ListQueryParamProperties,
     requestParams?: OptionalRequestParameters
   ) => Promise<PagedEvaluationScheduleOutput>;
   /** Disable the evaluation schedule. */
@@ -60,15 +60,15 @@ function getEvaluations(context: Client): EvaluationsOperations {
       getEvaluation(context, evaluationId, requestParams),
     createEvaluation: (evaluation: Evaluation, requestParams?: OptionalRequestParameters) =>
       createEvaluation(context, { body: evaluation, ...requestParams }),
-    listEvaluations: (options?: ListEvaluationParameters, requestParams?: OptionalRequestParameters) =>
+    listEvaluations: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) =>
       listEvaluations(context, { queryParameters: options as Record<string, unknown>, ...requestParams }),
     updateEvaluation: (evaluationId: string, resource: Evaluation, requestParams?: OptionalRequestParameters) =>
-      updateEvaluation(context, evaluationId, { body: resource, ...requestParams }),
+      updateEvaluation(context, evaluationId, { body: resource, contentType: "application/merge-patch+json", ...requestParams }),
     getSchedule: (evaluationName: string, requestParams?: OptionalRequestParameters) =>
       getSchedule(context, evaluationName, requestParams),
     createOrReplaceSchedule: (scheduleName: string, resource: EvaluationSchedule, requestParams?: OptionalRequestParameters) =>
       createOrReplaceSchedule(context, scheduleName, { body: resource, ...requestParams }),
-    listSchedules: (options?: ListEvaluationScheduleParameters, requestParams?: OptionalRequestParameters) =>
+    listSchedules: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) =>
       listSchedules(context, { queryParameters: options as Record<string, unknown>, ...requestParams }),
     disableSchedule: (scheduleName: string, requestParams?: OptionalRequestParameters) =>
       disableSchedule(context, scheduleName, requestParams),
