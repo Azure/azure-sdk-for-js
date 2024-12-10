@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * @summary Displays the critical results of the Radiology Insights request.
  */
 import { DefaultAzureCredential, logger } from "@azure/identity";
 import "dotenv/config";
