@@ -31,8 +31,6 @@ async function listRouterJobs(): Promise<void> {
         console.log("Listing router job with id: " + policy.job.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

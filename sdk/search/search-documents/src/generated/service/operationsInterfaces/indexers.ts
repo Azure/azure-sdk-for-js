@@ -22,7 +22,7 @@ import {
   IndexersCreateResponse,
   IndexersGetStatusOptionalParams,
   IndexersGetStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Indexers. */
 export interface Indexers {

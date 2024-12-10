@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     rules: {
       "@azure/azure-sdk/ts-package-json-module": "warn",
@@ -14,4 +13,4 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-];
+]);
