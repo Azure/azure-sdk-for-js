@@ -129,7 +129,8 @@
     "esmDialects": [
       "browser"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",
