@@ -354,7 +354,7 @@ class MPTReporter implements Reporter {
         await this.storageClient.uploadBuffer(
           this.sasUri.uri,
           otherAttachment.body.toString((charset as any) || "utf-8"),
-          `${testExecutionId}/${otherAttachment.name}.txt`,
+          `${testExecutionId}/${otherAttachment.name}`,
         );
       }
 
