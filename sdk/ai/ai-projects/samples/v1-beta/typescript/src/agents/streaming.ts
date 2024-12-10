@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: streaming.ts
+ * This sample demonstrates how to use agent operations in streaming from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations in streaming from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node streaming.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to use agent operations in streaming.
  */
 
 import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "@azure/ai-projects"

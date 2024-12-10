@@ -2,20 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: agentsFabric.ts
+ * This sample demonstrates how to use agent operations with the Microsoft Fabric tool from the Azure Agents service using a asynchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with the Microsoft Fabric tool from the Azure Agents service using a asynchronous client.
- *
- * USAGE:
- *  npm node agentsFabric.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  FABRIC_CONNECTION_NAME
+ * @summary demonstrates how to use agent operations with the Microsoft Fabric tool.
  */
 
 import { AIProjectsClient, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";

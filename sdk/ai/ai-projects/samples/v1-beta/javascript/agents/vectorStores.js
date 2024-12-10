@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: vectorStores.ts
+ * This sample demonstrates how to create the vector store.
  *
- * @summary This sample demonstrates how to create the vector store.
- *
- * USAGE:
- *  npm node vectorStores.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to create the vector store.
  */
 
 const { AIProjectsClient } = require("@azure/ai-projects");

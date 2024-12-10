@@ -2,36 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: vectorStoreFiles.ts
+ * This sample demonstrates how to create the vector store with the list of files.
  *
- * @summary This sample demonstrates how to create the vector store with the list of files.
- *
- * USAGE:
- *  npm node vectorStoreFiles.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity stream dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to create the vector store with the list of files.
  */
 
-const { AIProjectsClient } = require("@azure/ai-projects");
-const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const { Readable } = require("stream");
+import { AIProjectsClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+import { Readable } from "stream";
 dotenv.config();
 
-const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
-async function main() {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+export async function main(): Promise<void> {
+  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Create vector store
   const vectorStore = await client.agents.createVectorStore();
@@ -46,21 +31,16 @@ async function main() {
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store file
-  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, {
-    fileId: file.id,
-  });
+  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
   console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
   // Retrieve vector store file
-  const _vectorStoreFile = await client.agents.getVectorStoreFile(
-    vectorStore.id,
-    vectorStoreFile.id,
-  );
+  const _vectorStoreFile = await client.agents.getVectorStoreFile(vectorStore.id, vectorStoreFile.id);
   console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
 
   // List vector store files
   const vectorStoreFiles = await client.agents.listVectorStoreFiles(vectorStore.id);
-  console.log(`List of vector store files: ${vectorStoreFiles.data.map((f) => f.id).join(", ")}`);
+  console.log(`List of vector store files: ${vectorStoreFiles.data.map(f => f.id).join(", ")}`);
 
   // Delete vector store file
   await client.agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
@@ -78,5 +58,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

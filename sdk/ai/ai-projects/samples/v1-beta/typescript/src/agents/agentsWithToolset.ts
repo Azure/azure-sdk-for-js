@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: agentsAzureAiSearch.ts
+ * This sample demonstrates how to use agent operations with toolset and iteration in streaming from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with toolset and iteration in streaming from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node agentsAzureAiSearch.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to use agent operations with toolset.
  */
 
 import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
@@ -30,13 +20,13 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file for code interpreter tool
-  const fileStream1 = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
+  const fileStream1 = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
   const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
-  const fileStream2 = fs.createReadStream("./samples-dev/agents/sampleFileForUpload.txt");
+  const fileStream2 = fs.createReadStream("samples-dev/data/sampleFileForUpload.txt");
   const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", "sampleFileForUpload.txt");
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 

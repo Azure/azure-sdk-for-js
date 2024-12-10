@@ -2,20 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: agentsBingGrounding.ts
+ * This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from the Azure Agents service using a asynchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from the Azure Agents service using a asynchronous client.
- *
- * USAGE:
- *  npm node agentsBingGrounding.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
+ * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool.
  */
 
 const {

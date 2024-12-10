@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: codeInterpreter.ts
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node codeInterpreter.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to use agent operations with code interpreter.
  */
 
 const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
@@ -34,7 +24,7 @@ async function main() {
   );
 
   // Upload file and wait for it to be processed
-  const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
+  const localFileStream = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "localFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -98,7 +88,7 @@ async function main() {
   const imageFile = messages.data[0].content[0].image_file;
   console.log(`Image file ID : ${imageFile}`);
   const imageFileName =
-    "samples-dev/agents/" +
+    "samples-dev/data/" +
     (await client.agents.getFile(imageFile.file_id)).filename +
     "ImageFile.png";
 

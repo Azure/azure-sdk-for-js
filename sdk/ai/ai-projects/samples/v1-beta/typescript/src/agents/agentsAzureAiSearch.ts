@@ -2,20 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: agentsAzureAiSearch.ts
+ * This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node agentsAzureAiSearch.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  AZURE_AI_SEARCH_CONNECTION_NAME - the name of the connection with Azure AI search, must be a CognitiveSearch connection
+ * @summary demonstrates how to use agent operations with the Azure AI Search tool.
  */
 
 import { AIProjectsClient, MessageContentOutput, isOutputOfType, MessageTextContentOutput, ToolUtility } from "@azure/ai-projects"

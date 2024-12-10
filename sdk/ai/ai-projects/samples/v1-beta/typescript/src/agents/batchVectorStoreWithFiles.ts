@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: vectorStoreFilesBatches.ts
+ * This sample demonstrates how to create the batch vector store with the list of files.
  *
- * @summary This sample demonstrates how to create the batch vector store with the list of files.
- *
- * USAGE:
- *  npm node vectorStoreFilesBatches.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to create the batch vector store with the list of files.
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";

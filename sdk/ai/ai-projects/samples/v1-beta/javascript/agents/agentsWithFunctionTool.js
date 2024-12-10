@@ -6,19 +6,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 
 /**
- * FILE: agentsFunction.ts
+ * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
+ * @summary demonstrates how to use basic agent operations using function tool.
  *
- * USAGE:
- *  npm node agentsFunction.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");

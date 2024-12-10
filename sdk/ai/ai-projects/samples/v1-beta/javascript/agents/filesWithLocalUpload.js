@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: filesLocal.ts
+ * This sample demonstrates how to use basic files agent operations with local file upload from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node filesLocal.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to use basic files agent operations with local file upload.
  */
 
 const { AIProjectsClient } = require("@azure/ai-projects");
@@ -34,7 +24,7 @@ async function main() {
   );
 
   // Upload local file
-  const localFileStream = fs.createReadStream("localFile.txt");
+  const localFileStream = fs.createReadStream("samples-dev/data/localFile.txt");
   const localFile = await client.agents.uploadFile(
     localFileStream,
     "assistants",

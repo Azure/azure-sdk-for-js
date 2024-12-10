@@ -2,19 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: vectorStoresPolling.ts
+ * This sample demonstrates how to create the vector store using polling operation.
  *
- * @summary This sample demonstrates how to create the vector store using polling operation.
- * 
- * USAGE:
- *  npm node vectorStoresPolling.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary demonstrates how to create the vector store using polling operation.
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";
@@ -48,5 +38,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });
