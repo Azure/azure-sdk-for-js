@@ -77,8 +77,7 @@ async function main() {
       description: "A composed model that classifies purchase order documents and extracts data from them.",
       componentModels: modelIds,
       modelId: composedModelId,
-
-    },
+    } as any,
   });
 
   if (isUnexpected(initialResponse)) {
@@ -107,7 +106,11 @@ async function main() {
 
     // For simplicity, this example will only show top-level field names
     console.log("  Fields:");
-
+    if (!schema) {
+      console.log("    <no fields>");
+      continue;
+    }
+    
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);
       console.log(`    ${fieldSchema.description || "<no description>"}`);

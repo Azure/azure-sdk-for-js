@@ -1,31 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/ai-metrics-advisor": ["./src/index"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts",
-    "./dist-samples/**/*.ts",
-    "./dom-shims.d.ts"
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
   ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
-  ]
+  "files": []
 }
