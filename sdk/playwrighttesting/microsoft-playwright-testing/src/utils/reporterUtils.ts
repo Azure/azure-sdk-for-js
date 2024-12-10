@@ -351,6 +351,16 @@ class ReporterUtils {
       return 0;
     }
   }
+
+  public static getBufferSize(attachmentBody: Buffer): number {
+    try {
+      const fileSizeInBytes = attachmentBody.length;
+      return fileSizeInBytes;
+    } catch (error) {
+      return 0;
+    }
+  }
+
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";
@@ -471,6 +481,11 @@ class ReporterUtils {
           attachmentStatus += ",";
         }
         attachmentStatus += "trace";
+      } else if (attachment.contentType === "text/plain") {
+        if (attachmentStatus !== "") {
+          attachmentStatus += ",";
+        }
+        attachmentStatus += "txt";
       }
     }
     return attachmentStatus;
