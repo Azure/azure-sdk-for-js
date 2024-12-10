@@ -3,10 +3,10 @@
 Use the AI Projects client library (in preview) to:
 
 - **Enumerate connections** in your Azure AI Studio project and get connection properties.
-  For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
-- **Get an authenticated Inference client** to do chat completions, for the default Azure OpenAI or AI Services connections in your Azure AI Studio project. Supports the AzureOpenAI client from the `openai` package, or clients from the `azure-ai-inference` package.
+For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
+<!-- - **Get an authenticated Inference client** to do chat completions, for the default Azure OpenAI or AI Services connections in your Azure AI Studio project. Supports the AzureOpenAI client from the `openai` package, or clients from the `azure-ai-inference` package. -->
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
-- **Run Evaluations** to assess the performance of generative AI applications using various evaluators and metrics. It includes built-in evaluators for quality, risk, and safety, and allows custom evaluators for specific needs.
+<!-- - **Run Evaluations** to assess the performance of generative AI applications using various evaluators and metrics. It includes built-in evaluators for quality, risk, and safety, and allows custom evaluators for specific needs. -->
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
@@ -69,7 +69,7 @@ Use the AI Projects client library (in preview) to:
 
 ### Prerequisite
 
-- Node <!-- Update node version --> or later.
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Studio](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 - The project connection string. It can be found in your Azure AI Studio project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
@@ -152,7 +152,7 @@ const connection = await client.connections.getConnectionWithSecrets("connection
 print(connection);
 ```
 
-<!-- TODO: Revisit with JS ChatCompletionsClient
+<!-- TODO: Revisit w/ inference
 ### Get an authenticated ChatCompletionsClient
 
 Your Azure AI Studio project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an already authenticated [ChatCompletionsClient](https://learn.microsoft.com/python/api/azure-ai-inference/azure.ai.inference.chatcompletionsclient?view=azure-python-preview) from the [azure-ai-inference](https://pypi.org/project/azure-ai-inference/) package, and execute a chat completions call.
@@ -179,7 +179,7 @@ print(response.choices[0].message.content)
 See the "inference" folder in the [package samples][samples] for additional samples, including getting an authenticated [EmbeddingsClient](https://learn.microsoft.com/python/api/azure-ai-inference/azure.ai.inference.embeddingsclient?view=azure-python-preview).
 -->
 
-<!-- TODO: Revisit with inference
+<!-- TODO: Revisit w/ inference
 ### Get an authenticated AzureOpenAI client
 
 Your Azure AI Studio project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an already authenticated [AzureOpenAI](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://www.npmjs.com/package/openai/) package, and execute a chat completions call.
@@ -1037,10 +1037,9 @@ additional questions or comments.
 [samples]: TODO <!-- TODO: Update link -->
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
-[azure_identity_credentials]: TODO <!-- TODO: Update link -->
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
-[azure_ai_evaluation]: TODO <!-- TODO: Update link -->
+[azure_ai_evaluation]: TODO <!-- TODO: Revisit w/ evaluation -->
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
