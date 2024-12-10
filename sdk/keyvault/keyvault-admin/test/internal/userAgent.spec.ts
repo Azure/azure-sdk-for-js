@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, expect } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {

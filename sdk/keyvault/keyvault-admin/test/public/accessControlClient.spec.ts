@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, type Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 import {
-  KeyVaultAccessControlClient,
-  KeyVaultPermission,
-  KeyVaultRoleDefinition,
+  type KeyVaultAccessControlClient,
+  type KeyVaultPermission,
+  type KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
 } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";

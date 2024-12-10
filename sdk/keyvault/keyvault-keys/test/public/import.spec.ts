@@ -6,7 +6,7 @@ import type { KeyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
 import { createRsaKey } from "./utils/crypto.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - import keys", () => {
   const prefix = `import${env.CERTIFICATE_NAME || "KeyName"}`;

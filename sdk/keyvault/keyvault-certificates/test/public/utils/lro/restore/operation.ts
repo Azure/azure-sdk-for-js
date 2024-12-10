@@ -93,7 +93,6 @@ async function cancel(this: RestoreCertificateBackupPollOperation): Promise<neve
 /**
  * Serializes the create certificate's poll operation
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({
     state: this.state,
