@@ -54,7 +54,7 @@ export interface AtlasEntityOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  status?: string;
+  status?: EntityStatusOutput;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -84,7 +84,7 @@ export interface AtlasClassificationOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  entityStatus?: string;
+  entityStatus?: EntityStatusOutput;
   /** Determines if propagations will be removed on entity deletion. */
   removePropagationsOnEntityDelete?: boolean;
   /** An array of time boundaries indicating validity periods. */
@@ -120,7 +120,7 @@ export interface AtlasTermAssignmentHeaderOutput {
    *
    * Possible values: "DISCOVERED", "PROPOSED", "IMPORTED", "VALIDATED", "DEPRECATED", "OBSOLETE", "OTHER"
    */
-  status?: string;
+  status?: AtlasTermAssignmentStatusOutput;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
@@ -175,7 +175,7 @@ export interface AtlasEntityHeaderOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  status?: string;
+  status?: EntityStatusOutput;
 }
 
 /** An error response from the service */
@@ -212,22 +212,11 @@ export interface AtlasClassificationsOutput {
    *
    * Possible values: "NONE", "ASC", "DESC"
    */
-  sortType?: string;
+  sortType?: SortTypeOutput;
   /** The start index of the page. */
   startIndex?: number;
   /** The total count of items. */
   totalCount?: number;
-}
-
-/** Business metadata to send to the service */
-export interface BusinessMetadataOptionsOutput {
-  /**
-   * InputStream of file
-   *
-   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
-   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
-   */
-  file: Uint8Array;
 }
 
 /** Bulk import result */
@@ -247,7 +236,7 @@ export interface ImportInfoOutput {
    *
    * Possible values: "SUCCESS", "FAILED"
    */
-  importStatus?: string;
+  importStatus?: ImportStatusOutput;
   /** parentObjectName */
   parentObjectName?: string;
   /** remarks */
@@ -317,7 +306,7 @@ export interface AtlasRelatedTermHeaderOutput {
    *
    * Possible values: "DRAFT", "ACTIVE", "DEPRECATED", "OBSOLETE", "OTHER"
    */
-  status?: string;
+  status?: AtlasTermRelationshipStatusOutput;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
@@ -405,7 +394,7 @@ export interface AtlasGlossaryTermOutput {
    *
    * Possible values: "Draft", "Approved", "Alert", "Expired"
    */
-  status?: string;
+  status?: TermStatusOutput;
   /** The nick name of the term. */
   nickName?: string;
   /** The hierarchy information of the term. */
@@ -501,7 +490,7 @@ export interface AtlasRelatedObjectIdOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  entityStatus?: string;
+  entityStatus?: EntityStatusOutput;
   /** Relationship type */
   relationshipType?: string;
   /**
@@ -516,7 +505,7 @@ export interface AtlasRelatedObjectIdOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  relationshipStatus?: string;
+  relationshipStatus?: StatusAtlasRelationshipOutput;
 }
 
 /**
@@ -547,7 +536,7 @@ export interface AtlasTermCategorizationHeaderOutput {
    *
    * Possible values: "DRAFT", "ACTIVE", "DEPRECATED", "OBSOLETE", "OTHER"
    */
-  status?: string;
+  status?: AtlasTermRelationshipStatusOutput;
 }
 
 /** The extended information of glossary. */
@@ -594,9 +583,9 @@ export interface QueryResultOutput {
    * The total number of search results (not the number of documents in a single
    * page).
    */
-  searchCount?: number;
+  "@search.count"?: number;
   /** 'True' if the '@search.count' is an approximate value and vise versa. */
-  searchCountApproximate?: boolean;
+  "@search.count.approximate"?: boolean;
   /** The token used to get next batch of data. Absent if there's no more data. */
   continuationToken?: string;
   /**
@@ -604,7 +593,7 @@ export interface QueryResultOutput {
    * contactId, and label. When the facet is specified in the request, the value of
    * the facet is returned as an element of @search.facets.
    */
-  searchFacets?: SearchFacetResultValueOutput;
+  "@search.facets"?: SearchFacetResultValueOutput;
   /** Search result value */
   value?: Array<SearchResultValueOutput>;
 }
@@ -651,14 +640,14 @@ export interface SearchResultValueOutput {
    * The search score calculated by the search engine. The results are ordered by
    * search score by default.
    */
-  searchScore?: number;
+  "@search.score"?: number;
   /**
    * A highlight list that consists of index fields id ,qualifiedName, name,
    * description, entityType. When the keyword appears in those fields, the value of
    * the field, attached with emphasis mark, is returned as an element of
    * @search.highlights.
    */
-  searchHighlights?: SearchHighlightsOutput;
+  "@search.highlights"?: SearchHighlightsOutput;
   /**
    * The object type of the record. Object type is the top-level property to
    * distinguish whether a record is an asset or a term.
@@ -761,12 +750,12 @@ export interface SuggestResultValueOutput {
    * The search score calculated by the search engine. The results are ordered by
    * search score by default.
    */
-  searchScore?: number;
+  "@search.score"?: number;
   /**
    * The target text that contains the keyword as prefix. The keyword is wrapped
    * with emphasis mark.
    */
-  searchText?: string;
+  "@search.text"?: string;
   /**
    * The object type of the record. Object type is the top-level property to
    * distinguish whether a record is an asset or a term.
@@ -848,7 +837,7 @@ export interface AtlasLineageInfoOutput {
    *
    * Possible values: "INPUT", "OUTPUT", "BOTH"
    */
-  lineageDirection?: string;
+  lineageDirection?: LineageDirectionOutput;
   /** An array of parentRelations relations. */
   parentRelations?: Array<ParentRelationOutput>;
   /** An array of lineage relations. */
@@ -904,7 +893,7 @@ export interface AtlasRelationshipOutput {
    *
    * Possible values: "ACTIVE", "DELETED"
    */
-  status?: string;
+  status?: StatusAtlasRelationshipOutput;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -938,7 +927,7 @@ export interface AtlasBusinessMetadataDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1024,7 +1013,7 @@ export interface NumberFormatOutput {
    *
    * Possible values: "UP", "DOWN", "CEILING", "FLOOR", "HALF_UP", "HALF_DOWN", "HALF_EVEN", "UNNECESSARY"
    */
-  roundingMode?: string;
+  roundingMode?: RoundingModeOutput;
 }
 
 /** The timezone information. */
@@ -1050,7 +1039,7 @@ export interface AtlasAttributeDefOutput {
    *
    * Possible values: "SINGLE", "LIST", "SET"
    */
-  cardinality?: string;
+  cardinality?: CardinalityValueOutput;
   /** An array of constraints. */
   constraints?: Array<AtlasConstraintDefOutput>;
   /** The default value of the attribute. */
@@ -1092,7 +1081,7 @@ export interface AtlasClassificationDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1159,7 +1148,7 @@ export interface AtlasEntityDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1208,7 +1197,7 @@ export interface AtlasRelationshipAttributeDefOutput {
    *
    * Possible values: "SINGLE", "LIST", "SET"
    */
-  cardinality?: string;
+  cardinality?: CardinalityValueOutput;
   /** An array of constraints. */
   constraints?: Array<AtlasConstraintDefOutput>;
   /** The default value of the attribute. */
@@ -1246,7 +1235,7 @@ export interface AtlasEnumDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1335,7 +1324,7 @@ export interface AtlasRelationshipDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1390,7 +1379,7 @@ export interface AtlasRelationshipDefOutput {
    *
    * Possible values: "ASSOCIATION", "AGGREGATION", "COMPOSITION"
    */
-  relationshipCategory?: string;
+  relationshipCategory?: RelationshipCategoryOutput;
   /** The label of the relationship. */
   relationshipLabel?: string;
 }
@@ -1407,7 +1396,7 @@ export interface AtlasRelationshipEndDefOutput {
    *
    * Possible values: "SINGLE", "LIST", "SET"
    */
-  cardinality?: string;
+  cardinality?: CardinalityValueOutput;
   /** The description of the relationship end definition. */
   description?: string;
   /** Determines if it is container. */
@@ -1427,7 +1416,7 @@ export interface AtlasStructDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1465,7 +1454,7 @@ export interface AtlasTypeDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1555,7 +1544,7 @@ export interface AtlasTypeDefOutput {
    *
    * Possible values: "ASSOCIATION", "AGGREGATION", "COMPOSITION"
    */
-  relationshipCategory?: string;
+  relationshipCategory?: RelationshipCategoryOutput;
   /** The label of the relationship. */
   relationshipLabel?: string;
   /** An array of attribute definitions. */
@@ -1587,7 +1576,7 @@ export interface TermTemplateDefOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1625,9 +1614,34 @@ export interface AtlasTypeDefHeaderOutput {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  category?: string;
+  category?: TypeCategoryOutput;
   /** The GUID of the type definition. */
   guid?: string;
   /** The name of the type definition. */
   name?: string;
 }
+
+/** Alias for EntityStatusOutput */
+export type EntityStatusOutput = string;
+/** Alias for AtlasTermAssignmentStatusOutput */
+export type AtlasTermAssignmentStatusOutput = string;
+/** Alias for SortTypeOutput */
+export type SortTypeOutput = string;
+/** Alias for ImportStatusOutput */
+export type ImportStatusOutput = string;
+/** Alias for AtlasTermRelationshipStatusOutput */
+export type AtlasTermRelationshipStatusOutput = string;
+/** Alias for TermStatusOutput */
+export type TermStatusOutput = string;
+/** Alias for StatusAtlasRelationshipOutput */
+export type StatusAtlasRelationshipOutput = string;
+/** Alias for LineageDirectionOutput */
+export type LineageDirectionOutput = string;
+/** Alias for TypeCategoryOutput */
+export type TypeCategoryOutput = string;
+/** Alias for RoundingModeOutput */
+export type RoundingModeOutput = string;
+/** Alias for CardinalityValueOutput */
+export type CardinalityValueOutput = string;
+/** Alias for RelationshipCategoryOutput */
+export type RelationshipCategoryOutput = string;
