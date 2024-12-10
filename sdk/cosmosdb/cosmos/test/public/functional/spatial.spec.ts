@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Database } from "../../../src";
-import { DataType, IndexKind } from "../../../src";
-import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Spatial Indexes", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+import type { Database } from "../../../src/index.js";
+import { DataType, IndexKind } from "../../../src/index.js";
+import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
+
+describe("Spatial Indexes", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
@@ -63,11 +62,11 @@ describe("Spatial Indexes", function (this: Suite) {
     assert.equal("location1", results[0].id);
   };
 
-  it("nativeApi Should support spatial index name based", async function () {
+  it("nativeApi Should support spatial index name based", async () => {
     await spatialIndexTest(false);
   });
 
-  it("nativeApi Should support spatial index name based with upsert", async function () {
+  it("nativeApi Should support spatial index name based with upsert", async () => {
     await spatialIndexTest(true);
   });
 });

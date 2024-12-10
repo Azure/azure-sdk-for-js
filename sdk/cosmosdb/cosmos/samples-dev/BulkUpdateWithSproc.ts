@@ -5,10 +5,9 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "@azure/cosmos";

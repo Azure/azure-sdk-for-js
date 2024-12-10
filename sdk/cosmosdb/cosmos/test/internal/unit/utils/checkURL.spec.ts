@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { sanitizeEndpoint } from "../../../../src/utils/checkURL";
+
+import { sanitizeEndpoint } from "../../../../src/utils/checkURL.js";
+import { describe, it, assert } from "vitest";
 
 describe("URL utils", function () {
   describe("sanitizeEndpoint", function () {
