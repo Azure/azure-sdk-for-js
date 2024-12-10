@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** The governance script for the application. */
 export interface ConstitutionOutput {
@@ -104,11 +104,43 @@ export interface LedgerQueryResultOutput {
 
 /** A receipt certifying the transaction at the specified id. */
 export interface TransactionReceiptOutput {
+  /** List of application claims. */
+  applicationClaims?: Array<ApplicationClaimOutput>;
   receipt?: ReceiptContentsOutput;
   /** State of a ledger query. */
   state: "Loading" | "Ready";
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   transactionId: string;
+}
+
+/** A claim of a ledger application. */
+export interface ApplicationClaimOutput {
+  /** An application claim in digested form. */
+  digest?: ClaimDigestOutput;
+  /** Represents the kind of an application claim. */
+  kind: "LedgerEntry" | "ClaimDigest";
+  /** An application claim derived from ledger entry data. */
+  ledgerEntry?: LedgerEntryClaimOutput;
+}
+
+/** An application claim in digested form. */
+export interface ClaimDigestOutput {
+  /** The digest of the application claim, in hexadecimal form. */
+  value?: string;
+  /** Represents the protocol to be used to compute the digest of a claim from the given claim data. */
+  protocol: "LedgerEntryV1";
+}
+
+/** An application claim derived from ledger entry data. */
+export interface LedgerEntryClaimOutput {
+  /** Identifier of a collection. */
+  collectionId?: string;
+  /** Contents of a ledger entry. */
+  contents?: string;
+  /** Base64-encoded secret key. */
+  secretKey?: string;
+  /** Represents the protocol to be used to compute the digest of a claim from the given claim data. */
+  protocol: "LedgerEntryV1";
 }
 
 export interface ReceiptContentsOutput {
@@ -139,6 +171,13 @@ export interface TransactionStatusOutput {
   state: "Committed" | "Pending";
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   transactionId: string;
+}
+
+/** Paginated users returned in response to a query. */
+export interface PagedUsersOutput {
+  ledgerUsers?: Array<LedgerUserOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
 }
 
 /** Details about a Confidential Ledger user. */
