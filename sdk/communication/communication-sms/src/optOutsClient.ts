@@ -12,15 +12,15 @@ import type { OperationOptions } from "@azure/core-client";
  * The result of Opt Out Check request.
  */
 export interface OptOutCheckResult {
-   /**
+  /**
    * The recipient's phone number in E.164 format.
    */
   to: string;
-   /**
+  /**
    * Indicates if the recipient's phone number in opted out from receiving messages or not.
    */
   isOptedOut: boolean;
-   /**
+  /**
    * HTTP Status code.
    */
   httpStatusCode: number;
@@ -38,7 +38,7 @@ export interface OptOutAddResult {
    * The recipient's phone number in E.164 format.
    */
   to: string;
-   /**
+  /**
    * HTTP Status code.
    */
   httpStatusCode: number;
@@ -56,7 +56,7 @@ export interface OptOutRemoveResult {
    * The recipient's phone number in E.164 format.
    */
   to: string;
-    /**
+  /**
    * HTTP Status code.
    */
   httpStatusCode: number;
@@ -92,8 +92,8 @@ export class OptOutsClient {
     this.api = api;
   }
 
-   /**
-   * Removes phone numbers from the optouts list. 
+  /**
+   * Removes phone numbers from the optouts list.
    *
    * @param from - The sender's phone number
    * @param to - The recipient's phone numbers
@@ -118,8 +118,8 @@ export class OptOutsClient {
     });
   }
 
-   /**
-   * Adds phone numbers from the optouts list. 
+  /**
+   * Adds phone numbers to the optouts list.
    *
    * @param from - The sender's phone number
    * @param to - The recipient's phone numbers
@@ -144,8 +144,8 @@ export class OptOutsClient {
     });
   }
 
-   /**
-   * Checks if phone numbers are in the optouts list. 
+  /**
+   * Checks if phone numbers are in the optouts list.
    *
    * @param from - The sender's phone number
    * @param to - The recipient's phone numbers

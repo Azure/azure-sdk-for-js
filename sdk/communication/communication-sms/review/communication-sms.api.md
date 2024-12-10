@@ -5,17 +5,16 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
-import * as coreClient from '@azure/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddOptions extends OperationOptions {
+export interface AddOptions {
 }
 
 // @public
-export interface CheckOptions extends OperationOptions {
+export interface CheckOptions {
 }
 
 // @public
@@ -41,16 +40,14 @@ export interface OptOutRemoveResult {
 }
 
 // @public
-export class OptOutsClient {
-    // Warning: (ae-forgotten-export) The symbol "SmsApiClient" needs to be exported by the entry point index.d.ts
-    constructor(api: SmsApiClient);
+export interface OptOutsClient {
     add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
     check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
     remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
 }
 
 // @public
-export interface RemoveOptions extends OperationOptions {
+export interface RemoveOptions {
 }
 
 // @public
