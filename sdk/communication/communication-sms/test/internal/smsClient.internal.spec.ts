@@ -20,7 +20,7 @@ import {
 import { assertIsFailureResult, assertIsSuccessResult } from "../public/utils/assertHelpers.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad: boolean) {
+matrix([[false, true]], async function (useAad: boolean) {
   describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
     let client: SmsClient;
@@ -168,6 +168,47 @@ matrix([[true, false]], async function (useAad: boolean) {
           assert.equal(e.statusCode, 401);
         }
       });
+    });
+
+    describe("Opt Outs Client", async () => {
+      it(
+        "OptOut Check must return as many results as there were recipients",
+        { timeout: 4000 },
+        async () => {
+          const fromNumber = env.AZURE_PHONE_NUMBER as string;
+          const validToNumber = env.AZURE_PHONE_NUMBER as string;
+          const results = await client.optOuts.check(fromNumber, [validToNumber]);
+
+          assert.lengthOf(results, 1, "must return as many results as there were recipients");
+          assert.equal(200, results[0].httpStatusCode);
+        },
+      );
+
+      it(
+        "OptOut Add must return as many results as there were recipients",
+        { timeout: 4000 },
+        async () => {
+          const fromNumber = env.AZURE_PHONE_NUMBER as string;
+          const validToNumber = env.AZURE_PHONE_NUMBER as string;
+          const results = await client.optOuts.add(fromNumber, [validToNumber]);
+
+          assert.lengthOf(results, 1, "must return as many results as there were recipients");
+          assert.equal(200, results[0].httpStatusCode);
+        },
+      );
+
+      it(
+        "OptOut Remove must return as many results as there were recipients",
+        { timeout: 4000 },
+        async () => {
+          const fromNumber = env.AZURE_PHONE_NUMBER as string;
+          const validToNumber = env.AZURE_PHONE_NUMBER as string;
+          const results = await client.optOuts.remove(fromNumber, [validToNumber]);
+
+          assert.lengthOf(results, 1, "must return as many results as there were recipients");
+          assert.equal(200, results[0].httpStatusCode);
+        },
+      );
     });
   });
 });

@@ -23,7 +23,7 @@ import {
 } from "./envVars.js";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { createClientLogger } from "@azure/logger";
-import type { AzureChatExtensionConfiguration } from "@azure/openai/types";
+import type { AzureChatExtensionConfiguration } from "../../../src/types/index.js";
 
 const logger = createClientLogger("openai");
 

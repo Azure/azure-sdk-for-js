@@ -1,12 +1,21 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
     "paths": {
       "@azure/search-documents": ["./src/index"]
     },
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["samples-dev/**/*.ts", "src/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
