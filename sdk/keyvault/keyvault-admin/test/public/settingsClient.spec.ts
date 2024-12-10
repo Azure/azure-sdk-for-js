@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { KeyVaultSettingsClient } from "../../src/settingsClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { KeyVaultSettingsClient } from "../../src/settingsClient.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 
