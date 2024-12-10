@@ -7,55 +7,57 @@ import {
   ServiceAuth,
   ServiceEnvironmentVariable,
   ServiceOS,
-} from "../../src/common/constants";
-import { ServiceErrorMessageConstants } from "../../src/common/messages";
-import * as utils from "../../src/utils/utils";
-import { getServiceConfig } from "../../src/core/playwrightService";
-import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
-import { expect } from "@azure-tools/test-utils";
-import sinon from "sinon";
+} from "../../src/common/constants.js";
+import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
+import * as utils from "../../src/utils/utils.js";
+import { getServiceConfig } from "../../src/core/playwrightService.js";
+import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const samplePlaywrightConfigInput = {
   globalSetup: "sample-setup.ts",
   globalTeardown: "sample-teardown.ts",
 };
 
-describe("getServiceConfig", () => {
-  let sandbox: sinon.SinonSandbox;
-
+describe("getServiceConfig", async () => {
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error");
-    sandbox.stub(console, "log");
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.47.0";
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
-  it("should exit with error message when fetching service config if service endpoint is not set", () => {
+  it("should exit with error message when fetching service config if service endpoint is not set", async () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
-    sandbox.restore();
-    const consoleErrorSpy = sandbox.stub(console, "error");
-    sandbox.stub(process, "exit").throws(new Error());
+
+    const consoleErrorSpy = vi.spyOn(console, "error");
+    vi.spyOn(process, "exit").mockImplementation(() => {
+      throw new Error();
+    });
+
     expect(() => getServiceConfig(samplePlaywrightConfigInput)).to.throw();
-    expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message)).to
-      .be.true;
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message,
+    );
   });
 
-  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", () => {
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
 
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
-    const config = getServiceConfig();
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
+    const config = testGetServiceConfig();
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(config).to.deep.equal({
       use: {
@@ -75,16 +77,18 @@ describe("getServiceConfig", () => {
     });
   });
 
-  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are string", () => {
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are string", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
 
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
-    const config = getServiceConfig(samplePlaywrightConfigInput);
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
+    const config = testGetServiceConfig(samplePlaywrightConfigInput);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    const customerConfig = require("../../src/common/customerConfig");
+    const customerConfig = await import("../../src/common/customerConfig.js");
     expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
     expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
     expect(config).to.deep.equal({
@@ -111,20 +115,22 @@ describe("getServiceConfig", () => {
     });
   });
 
-  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are list", () => {
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are list", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
 
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
     const sampleConfig = {
       globalSetup: ["sample-setup.ts"],
       globalTeardown: ["sample-teardown.ts"],
     };
-    const config = getServiceConfig(sampleConfig);
+    const config = testGetServiceConfig(sampleConfig);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    const customerConfig = require("../../src/common/customerConfig");
+    const customerConfig = await import("../../src/common/customerConfig.js");
     expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
     expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
     expect(config).to.deep.equal({
@@ -151,54 +157,68 @@ describe("getServiceConfig", () => {
     });
   });
 
-  it("should throw error when playwright version is 1.48.0 and input global files are list", () => {
+  it("should throw error when playwright version is 1.48.0 and input global files are list", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.48.0";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
 
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
     const sampleConfig = {
       globalSetup: ["sample-setup.ts"],
       globalTeardown: ["sample-teardown.ts"],
     };
-    expect(() => getServiceConfig(sampleConfig)).to.throw(
+    expect(() => testGetServiceConfig(sampleConfig)).to.throw(
       ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
     );
   });
 
-  it("should set customer config global setup and teardown scripts in the config if passed", () => {
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    getServiceConfig(samplePlaywrightConfigInput);
-    const customerConfig = require("../../src/common/customerConfig");
+  it("should set customer config global setup and teardown scripts in the config if passed", async () => {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    testGetServiceConfig(samplePlaywrightConfigInput);
+    const customerConfig = await import("../../src/common/customerConfig.js");
+
     expect(customerConfig.default.globalSetup).to.equal("sample-setup.ts");
     expect(customerConfig.default.globalTeardown).to.equal("sample-teardown.ts");
+
     delete require.cache[require.resolve("../../src/common/customerConfig")];
   });
 
-  it("should set customer config global setup and teardown scripts to null in the config if not passed", () => {
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    getServiceConfig({});
-    const customerConfig = require("../../src/common/customerConfig");
+  it("should set customer config global setup and teardown scripts to null in the config if not passed", async () => {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    testGetServiceConfig({});
+    const customerConfig = await import("../../src/common/customerConfig.js");
     expect(customerConfig.default.globalSetup).to.be.undefined;
     expect(customerConfig.default.globalTeardown).to.be.undefined;
   });
 
-  it("should set service config options as passed", () => {
+  it("should set service config options as passed", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    getServiceConfig(samplePlaywrightConfigInput, {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+
+    testGetServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
       runId: "1234",
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
+
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
     expect(playwrightServiceConfig.runId).to.equal("1234");
   });
 
-  it("should set service global setup and teardown for entra authentication", () => {
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    const config = getServiceConfig(samplePlaywrightConfigInput);
+  it("should set service global setup and teardown for entra authentication", async () => {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    const config = testGetServiceConfig(samplePlaywrightConfigInput);
     expect(config.globalSetup).to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
     );
@@ -207,10 +227,12 @@ describe("getServiceConfig", () => {
     );
   });
 
-  it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", () => {
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    sandbox.stub(utils, "validateMptPAT").returns();
-    const config = getServiceConfig(samplePlaywrightConfigInput, {
+  it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", async () => {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+    const config = testGetServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
     expect(config.globalSetup).not.to.equal(
@@ -221,10 +243,12 @@ describe("getServiceConfig", () => {
     );
   });
 
-  it("should set service global setup and teardown for entra id authentication even if pat is set", () => {
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+  it("should set service global setup and teardown for entra id authentication even if pat is set", async () => {
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
-    const config = getServiceConfig(samplePlaywrightConfigInput);
+    const config = testGetServiceConfig(samplePlaywrightConfigInput);
     expect(config.globalSetup).to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
     );
@@ -233,26 +257,30 @@ describe("getServiceConfig", () => {
     );
   });
 
-  it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
-    const processExitStub = sandbox.stub(process, "exit");
-    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10000 });
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+  it("should not set service global setup and teardown for mpt pat authentication if pat is set", async () => {
+    vi.spyOn(process, "exit");
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 + 10000 });
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
-    const config = getServiceConfig(samplePlaywrightConfigInput, {
+    const config = testGetServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
-    expect(config.globalSetup).to.be.undefined;
-    expect(config.globalTeardown).to.be.undefined;
-    processExitStub.restore();
+
+    assert.isUndefined(config.globalSetup);
+    assert.isUndefined(config.globalTeardown);
   });
 
-  it("should return service config with service connect options", () => {
+  it("should return service config with service connect options", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
-    const config = getServiceConfig(samplePlaywrightConfigInput);
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
+    const config = testGetServiceConfig(samplePlaywrightConfigInput);
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
@@ -271,32 +299,38 @@ describe("getServiceConfig", () => {
     });
   });
 
-  it("should not set connect options if disable scalable execution is true", () => {
+  it("should not set connect options if disable scalable execution is true", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    const config = getServiceConfig(samplePlaywrightConfigInput, { useCloudHostedBrowsers: false });
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    const config = testGetServiceConfig(samplePlaywrightConfigInput, {
+      useCloudHostedBrowsers: false,
+    });
     expect(config).to.deep.equal({
       globalSetup: require.resolve("../../src/core/global/playwright-service-global-setup"),
       globalTeardown: require.resolve("../../src/core/global/playwright-service-global-teardown"),
     });
   });
 
-  it("should set token credentials if passed on playwright service entra singleton object", () => {
+  it("should set token credentials if passed on playwright service entra singleton object", async () => {
     const accessToken = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
-    const { getServiceConfig } = require("../../src/core/playwrightService");
-    const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra");
+    const { getServiceConfig: testGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+    const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
     const credential = {
-      getToken: sinon.stub().resolves(accessToken),
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
-    getServiceConfig(samplePlaywrightConfigInput, {
+    testGetServiceConfig(samplePlaywrightConfigInput, {
       credential,
     });
     expect(playwrightServiceEntra.default._entraIdAccessToken._credential).to.equal(credential);
   });
 });
 
-describe("getConnectOptions", () => {
+describe("getConnectOptions", async () => {
   beforeEach(() => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
@@ -309,21 +343,23 @@ describe("getConnectOptions", () => {
 
   it("should set service connect options with passed values", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    const { getConnectOptions } = require("../../src/core/playwrightService");
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
     await getConnectOptions({
       runId: "1234",
       os: ServiceOS.WINDOWS,
     });
+
     const playwrightServiceConfig = new PlaywrightServiceConfig();
+
     expect(playwrightServiceConfig.runId).to.equal("1234");
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
   });
 
   it("should set service connect options with fetched token", async () => {
-    const sandbox = sinon.createSandbox();
-    const { getConnectOptions } = require("../../src/core/playwrightService");
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
     const mockVersion = "1.0.0";
-    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    vi.spyOn(await import("../../package.json"), "version").value(mockVersion);
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
@@ -338,32 +374,33 @@ describe("getConnectOptions", () => {
         slowMo: new PlaywrightServiceConfig().slowMo,
       },
     });
-    sandbox.restore();
   });
 
   it("should throw error if token is not set", async () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
-    const { getConnectOptions } = require("../../src/core/playwrightService");
-    await expect(getConnectOptions()).to.be.rejectedWith(
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    await expect(getConnectOptions()).rejects.toThrow(
       ServiceErrorMessageConstants.NO_AUTH_ERROR.message,
     );
   });
 
   it("should fetch entra token using credentials passed by customer", async () => {
-    const sandbox = sinon.createSandbox();
     const accessToken = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
-    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 });
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 });
     const credential = {
-      getToken: sandbox
-        .stub()
-        .resolves({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 }),
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 }),
     };
-    const { getConnectOptions } = require("../../src/core/playwrightService");
+
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
     await getConnectOptions({
       credential,
     });
-    expect(credential.getToken.called).to.be.true;
-    sandbox.restore();
+
+    expect(credential.getToken).toHaveBeenCalled();
   });
 });
