@@ -10,11 +10,11 @@ import type { OperationOptions } from '@azure/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddOptions {
+export interface AddOptions extends OperationOptions {
 }
 
 // @public
-export interface CheckOptions {
+export interface CheckOptions extends OperationOptions {
 }
 
 // @public
@@ -47,7 +47,7 @@ export interface OptOutsClient {
 }
 
 // @public
-export interface RemoveOptions {
+export interface RemoveOptions extends OperationOptions {
 }
 
 // @public

@@ -120,17 +120,17 @@ export interface OptOutsClient {
 /**
  * Client options used to configure OptOuts Client API Add requests.
  */
-export interface AddOptions {}
+export interface AddOptions extends OperationOptions {}
 
 /**
  * Client options used to configure OptOuts Client API Check requests.
  */
-export interface CheckOptions {}
+export interface CheckOptions extends OperationOptions {}
 
 /**
  * Client options used to configure OptOuts Client API Remove requests.
  */
-export interface RemoveOptions {}
+export interface RemoveOptions extends OperationOptions {}
 
 /**
  * The result of Opt Out Check request.
