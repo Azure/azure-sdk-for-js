@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   TextType,
   ProfanityAction,
   ProfanityMarker,
@@ -83,6 +83,8 @@ export interface TranslateQueryParamProperties {
   /**
    * Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed,
    * complete element. Possible values are: plain (default) or html.
+   *
+   * Possible values: "Plain", "Html"
    */
   textType?: TextType;
   /**
@@ -220,11 +222,10 @@ export interface FindSentenceBoundariesHeaderParam {
   headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type FindSentenceBoundariesParameters =
-  FindSentenceBoundariesQueryParam &
-    FindSentenceBoundariesHeaderParam &
-    FindSentenceBoundariesBodyParam &
-    RequestParameters;
+export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
+  FindSentenceBoundariesHeaderParam &
+  FindSentenceBoundariesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -257,11 +258,10 @@ export interface LookupDictionaryEntriesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type LookupDictionaryEntriesParameters =
-  LookupDictionaryEntriesQueryParam &
-    LookupDictionaryEntriesHeaderParam &
-    LookupDictionaryEntriesBodyParam &
-    RequestParameters;
+export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
+  LookupDictionaryEntriesHeaderParam &
+  LookupDictionaryEntriesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -294,8 +294,7 @@ export interface LookupDictionaryExamplesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type LookupDictionaryExamplesParameters =
-  LookupDictionaryExamplesQueryParam &
-    LookupDictionaryExamplesHeaderParam &
-    LookupDictionaryExamplesBodyParam &
-    RequestParameters;
+export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
+  LookupDictionaryExamplesHeaderParam &
+  LookupDictionaryExamplesBodyParam &
+  RequestParameters;
