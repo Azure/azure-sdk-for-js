@@ -24,7 +24,7 @@ const {
   ErrorEvent,
   MessageStreamEvent,
   RunStreamEvent,
-  fromConnectionId,
+  ToolUtility,
   connectionToolType,
   isOutputOfType,
 } = require("@azure/ai-projects");
@@ -49,8 +49,9 @@ async function main() {
   );
   const connectionId = bingConnection.id;
 
-  // Initialize agent bing tool with the connection id
-  const bingTool = fromConnectionId(connectionToolType.BingGrounding, [connectionId]);
+  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
+    connectionId,
+  ]);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.agents.createAgent(
@@ -58,13 +59,12 @@ async function main() {
     {
       name: "my-agent",
       instructions: "You are a helpful agent",
-      tools: [bingTool],
+      tools: [bingTool.definition],
     },
     {
       headers: { "x-ms-enable-preview": "true" },
     },
   );
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication

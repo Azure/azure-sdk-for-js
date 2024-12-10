@@ -17,9 +17,8 @@
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
-const { AIProjectsClient, isOutputOfType } = require("@azure/ai-projects");
+const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-
 require("dotenv").config();
 const fs = require("fs");
 const { delay } = require("@azure/core-util");
@@ -40,12 +39,15 @@ async function main() {
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
+  // Create code interpreter tool
+  const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
+
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
   const agent = await client.agents.createAgent("gpt-4o-mini", {
     name: "my-agent",
     instructions: "You are a helpful agent",
-    tools: [{ type: "code_interpreter" }],
-    tool_resources: { code_interpreter: { file_ids: [localFile.id] } },
+    tools: [codeInterpreterTool.definition],
+    tool_resources: codeInterpreterTool.resources,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -76,7 +78,7 @@ async function main() {
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
   await client.agents.deleteFile(localFile.id);
-  console.log(`Deleted file, file ID : ${localFile.id}`);
+  console.log(`Deleted file, file ID: ${localFile.id}`);
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: agentsSharepoint.ts
+ * FILE: agentsAzureAiSearch.ts
  *
- * @summary This sample demonstrates how to use agent operations with the Sharepoint tool from the Azure Agents service using a asynchronous client.
+ * @summary This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service using a synchronous client.
  *
  * USAGE:
- *  npm node agentsSharepoint.ts
+ *  npm node agentsAzureAiSearch.ts
  *
  *  Before running the sample:
  *
@@ -15,15 +15,10 @@
  *
  *  Set this environment variables with your own values:
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
- *  SHAREPOINT_CONNECTION_NAME
+ *  AZURE_AI_SEARCH_CONNECTION_NAME - the name of the connection with Azure AI search, must be a CognitiveSearch connection
  */
 
-const {
-  AIProjectsClient,
-  ToolUtility,
-  connectionToolType,
-  isOutputOfType,
-} = require("@azure/ai-projects");
+const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -41,29 +36,25 @@ async function main() {
     connectionString || "",
     new DefaultAzureCredential(),
   );
-  const sharepointConnection = await client.connections.getConnection(
-    process.env["SHAREPOINT_CONNECTION_NAME"] || "<connection-name>",
-  );
-  const connectionId = sharepointConnection.id;
+  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
+  const connection = await client.connections.getConnection(connectionName);
 
-  // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = ToolUtility.createConnectionTool(connectionToolType.SharepointGrounding, [
-    connectionId,
-  ]);
+  // Initialize Azure AI Search tool
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
 
-  // Create agent with the Sharepoint tool and process assistant run
+  // Create agent with the Azure AI search tool
   const agent = await client.agents.createAgent(
     "gpt-4-0125-preview",
     {
       name: "my-agent",
       instructions: "You are a helpful agent",
-      tools: [sharepointTool.definition],
+      tools: [azureAISearchTool.definition],
+      tool_resources: azureAISearchTool.resources,
     },
     {
       headers: { "x-ms-enable-preview": "true" },
     },
   );
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -73,7 +64,7 @@ async function main() {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "Hello, tell me about my health insurance options",
+    content: "Hello, send an email with the datetime and weather information in New York",
   });
   console.log(`Created message, message ID: ${message.id}`);
 

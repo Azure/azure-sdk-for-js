@@ -18,7 +18,7 @@
  *  FABRIC_CONNECTION_NAME
  */
 
-import { AIProjectsClient, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -36,14 +36,14 @@ export async function main(): Promise<void> {
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = fromConnectionId(connectionToolType.MicrosoftFabric, [connectionId]);
+  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [connectionId]);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: [fabricTool]
+      tools: [fabricTool.definition]
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });

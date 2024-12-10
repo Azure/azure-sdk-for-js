@@ -20,7 +20,7 @@
 
 const {
   AIProjectsClient,
-  fromConnectionId,
+  ToolUtility,
   connectionToolType,
   isOutputOfType,
 } = require("@azure/ai-projects");
@@ -47,7 +47,9 @@ async function main() {
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = fromConnectionId(connectionToolType.MicrosoftFabric, [connectionId]);
+  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [
+    connectionId,
+  ]);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
   const agent = await client.agents.createAgent(
@@ -55,7 +57,7 @@ async function main() {
     {
       name: "my-agent",
       instructions: "You are a helpful agent",
-      tools: [fabricTool],
+      tools: [fabricTool.definition],
     },
     {
       headers: { "x-ms-enable-preview": "true" },

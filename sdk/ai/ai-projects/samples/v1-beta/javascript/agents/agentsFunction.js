@@ -21,7 +21,7 @@
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
-const { AIProjectsClient, isOutputOfType } = require("@azure/ai-projects");
+const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -44,15 +44,15 @@ async function main() {
       this.functionTools = [
         {
           func: this.getUserFavoriteCity,
-          definition: {
+          ...ToolUtility.createFunctionTool({
             name: "getUserFavoriteCity",
             description: "Gets the user's favorite city.",
             parameters: {},
-          },
+          }),
         },
         {
           func: this.getCityNickname,
-          definition: {
+          ...ToolUtility.createFunctionTool({
             name: "getCityNickname",
             description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
             parameters: {
@@ -61,11 +61,11 @@ async function main() {
                 location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
               },
             },
-          },
+          }),
         },
         {
           func: this.getWeather,
-          definition: {
+          ...ToolUtility.createFunctionTool({
             name: "getWeather",
             description: "Gets the weather for a location.",
             parameters: {
@@ -75,7 +75,7 @@ async function main() {
                 unit: { type: "string", enum: ["c", "f"] },
               },
             },
-          },
+          }),
         },
       ];
     }
@@ -109,7 +109,7 @@ async function main() {
         }
       }
       const result = this.functionTools
-        .find((tool) => tool.definition.name === toolCall.function.name)
+        .find((tool) => tool.definition.function.name === toolCall.function.name)
         ?.func(...args);
       return result
         ? {
@@ -121,7 +121,7 @@ async function main() {
 
     getFunctionDefinitions() {
       return this.functionTools.map((tool) => {
-        return { type: "function", function: tool.definition };
+        return tool.definition;
       });
     }
   }
@@ -193,7 +193,6 @@ async function main() {
       }
     });
   });
-
   // Delete agent
   agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);

@@ -20,6 +20,7 @@
 const {
   AIProjectsClient,
   isOutputOfType,
+  ToolUtility,
   RunStreamEvent,
   MessageStreamEvent,
   ErrorEvent,
@@ -46,12 +47,15 @@ async function main() {
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
+  // Create code interpreter tool
+  const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
+
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
   const agent = await client.agents.createAgent("gpt-4o-mini", {
     name: "my-agent",
     instructions: "You are a helpful agent",
-    tools: [{ type: "code_interpreter" }],
-    tool_resources: { code_interpreter: { file_ids: [localFile.id] } },
+    tools: [codeInterpreterTool.definition],
+    tool_resources: codeInterpreterTool.resources,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
