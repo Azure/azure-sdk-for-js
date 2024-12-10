@@ -16,7 +16,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
   let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async function () {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenInteractive");
   });
 

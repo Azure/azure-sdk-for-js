@@ -1,15 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "target": "es2020",
-    "lib": ["DOM"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/identity-broker": ["./src/index"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }
