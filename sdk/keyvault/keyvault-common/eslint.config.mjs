@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     rules: {
       // this package does not have a module in `dist` because the directory does
@@ -18,4 +17,4 @@ export default [
       "@azure/azure-sdk/ts-package-json-homepage": "off",
     },
   },
-];
+]);

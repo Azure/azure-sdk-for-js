@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SchemaRegistryClient } from "./schemaRegistryClient";
+export { SchemaRegistryClient } from "./schemaRegistryClient.js";
 export {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
@@ -12,4 +12,4 @@ export {
   SchemaRegistry,
   SchemaRegistryClientOptions,
   SchemaProperties,
-} from "./models";
+} from "./models.js";

@@ -13,9 +13,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { RemoteRenderingImpl } from "./operations";
-import { RemoteRendering } from "./operationsInterfaces";
-import { RemoteRenderingRestClientOptionalParams } from "./models";
+import { RemoteRenderingImpl } from "./operations/index.js";
+import { RemoteRendering } from "./operationsInterfaces/index.js";
+import { RemoteRenderingRestClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class RemoteRenderingRestClient extends coreClient.ServiceClient {

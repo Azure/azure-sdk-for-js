@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
+import { assert } from "vitest";
 
 export async function assertError<T>(
   p: Promise<T>,

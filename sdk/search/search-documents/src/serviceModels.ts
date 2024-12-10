@@ -125,7 +125,7 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-} from "./generated/service/models";
+} from "./generated/service/models/index.js";
 
 /**
  * Options for a list skillsets operation.

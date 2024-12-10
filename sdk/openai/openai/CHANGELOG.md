@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds support for `ungrounded_material` in `ContentFilterResultsForChoiceOutput`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -29,16 +31,16 @@ This release adds types for Azure features supported in Azure OpenAI Service API
 
 ### Features Added
 
-- Add support for connecting to MongoDB in Azure On Your Data.
-- Add support for citation information in Azure On Your Data responses.
-- Add support for content filtering in image generation.
+- Adds support for connecting to MongoDB in Azure On Your Data.
+- Adds support for citation information in Azure On Your Data responses.
+- Adds support for content filtering in image generation.
 
 ### Breaking Changes
 
-- Remove the Azure ML connection in Azure On Your Data.
-- Remove the enhancements feature from chat completions.
-- Remove the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
-- Remove the `role_information` field from the On Your Data request models.
+- Removes the Azure ML connection in Azure On Your Data.
+- Removes the enhancements feature from chat completions.
+- Removes the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
+- Removes the `role_information` field from the On Your Data request models.
 
 ## 2.0.0-beta.2 (2024-09-09)
 

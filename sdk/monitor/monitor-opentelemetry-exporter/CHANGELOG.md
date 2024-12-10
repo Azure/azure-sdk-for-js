@@ -9,6 +9,7 @@
 ### Other Changes
 
 - Fix setting statsbeat custom dimensions.
+- EAI_AGAIN REST errors are considered retriable.
 
 ## 1.0.0-beta.27 (2024-10-23)
 

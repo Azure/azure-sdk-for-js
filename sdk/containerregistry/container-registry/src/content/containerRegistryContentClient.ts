@@ -4,11 +4,11 @@
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy, RestError } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "../generated";
-import { ChallengeHandler } from "../containerRegistryChallengeHandler";
-import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
-import { logger } from "../logger";
-import { calculateDigest } from "../utils/digest";
+import { GeneratedClient } from "../generated/index.js";
+import { ChallengeHandler } from "../containerRegistryChallengeHandler.js";
+import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential.js";
+import { logger } from "../logger.js";
+import { calculateDigest } from "../utils/digest.js";
 import type {
   DeleteBlobOptions,
   DeleteManifestOptions,
@@ -21,15 +21,14 @@ import type {
   SetManifestOptions,
   SetManifestResult,
   OciImageManifest,
-} from "./models";
-import { KnownManifestMediaType } from "./models";
+} from "./models.js";
+import { KnownManifestMediaType } from "./models.js";
 import type { CommonClientOptions } from "@azure/core-client";
-import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
-import { Readable } from "stream";
-import { tracingClient } from "../tracing";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import crypto from "crypto";
-import { RetriableReadableStream } from "../utils/retriableReadableStream";
+import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers.js";
+import { Readable } from "node:stream";
+import { tracingClient } from "../tracing.js";
+import crypto from "node:crypto";
+import { RetriableReadableStream } from "../utils/retriableReadableStream.js";
 
 const LATEST_API_VERSION = "2021-07-01";
 
