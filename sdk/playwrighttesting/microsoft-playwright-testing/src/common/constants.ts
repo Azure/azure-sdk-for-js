@@ -70,6 +70,7 @@ export class Constants {
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
   public static readonly API_VERSION = "2024-09-01-preview";
+  public static readonly OS = "Os";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
   public static readonly SupportedRegions: string[] = [
     "eastus",
