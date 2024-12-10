@@ -10,7 +10,8 @@
       ]
     },
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "resolveJsonModule": true,
   },
   "include": [
     "src/**/*.ts",
