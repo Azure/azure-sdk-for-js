@@ -6,19 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { NotificationHubsManagementClient } from "../src/notificationHubsManagementClient.js";
-import { assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,75 +37,93 @@ describe("NotificationHubs test", () => {
   let nameSpaceName: string;
   let notificationhubsName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new NotificationHubsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new NotificationHubsManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     nameSpaceName = "mynamespacexxx";
     notificationhubsName = "mynotificationhubsxxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("namespaces create test", async function () {
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,
+  it("namespaces create test", async () => {
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(
+      resourceGroup,
       nameSpaceName,
       {
         networkAcls: {
-          ipRules: [
-            { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
-          ],
+          ipRules: [{ ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] }],
           publicNetworkRule: { rights: ["Listen"] },
         },
         zoneRedundancy: "Enabled",
         sku: { name: "Standard", tier: "Standard" },
         tags: { tag1: "value1", tag2: "value2" },
-        location: location
-      }, testPollingOptions);
+        location: location,
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, nameSpaceName);
   });
 
-  it("namespaces get test", async function () {
+  it("namespaces get test", async () => {
     const res = await client.namespaces.get(resourceGroup, nameSpaceName);
     assert.equal(res.name, nameSpaceName);
   });
 
-  it("notificationHubs create test", async function () {
-    const res = await client.notificationHubs.createOrUpdate(resourceGroup, nameSpaceName, notificationhubsName, { location: location });
+  it("notificationHubs create test", async () => {
+    const res = await client.notificationHubs.createOrUpdate(
+      resourceGroup,
+      nameSpaceName,
+      notificationhubsName,
+      { location: location },
+    );
     await delay(isPlaybackMode() ? 1000 : 100000);
     assert.equal(res.name, notificationhubsName);
   });
 
-  it("notificationHubs get test", async function () {
-    const res = await client.notificationHubs.get(resourceGroup, nameSpaceName, notificationhubsName);
+  it("notificationHubs get test", async () => {
+    const res = await client.notificationHubs.get(
+      resourceGroup,
+      nameSpaceName,
+      notificationhubsName,
+    );
     assert.equal(res.name, notificationhubsName);
   });
 
-  it("notificationHubs list test", async function () {
+  it("notificationHubs list test", async () => {
     const resArray = new Array();
-    for await (let item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
+    for await (const item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("notificationHubs delete test", async function () {
-    const res = await client.notificationHubs.delete(resourceGroup, nameSpaceName, notificationhubsName);
+  it("notificationHubs delete test", async () => {
+    const res = await client.notificationHubs.delete(
+      resourceGroup,
+      nameSpaceName,
+      notificationhubsName,
+    );
     const resArray = new Array();
-    for await (let item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
+    for await (const item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function () {
+  it("namespaces delete test", async () => {
     const res = await client.namespaces.delete(resourceGroup, nameSpaceName);
   });
 });
