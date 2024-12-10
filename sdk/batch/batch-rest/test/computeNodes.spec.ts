@@ -231,7 +231,7 @@ describe("Compute node operations", async () => {
   it("should reimage a compute node successfully", async () => {
     const reimageNodeResult = await batchClient
       .path(
-        "/pools/{poolId}/nodes/{nodeId}/reboot",
+        "/pools/{poolId}/nodes/{nodeId}/reimage",
         recorder.variable("BASIC_POOL", BASIC_POOL),
         computeNodes[1],
       )
@@ -264,5 +264,35 @@ describe("Compute node operations", async () => {
     }
 
     assert.isAtLeast(uploadLogResult.body.numberOfFilesUploaded, 1);
+  });
+
+  it("should deallocate and then start a compute node successfully", async () => {
+    const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
+    const nodeId = computeNodes[3];
+
+    const deallocateNodeResult = await batchClient
+      .path("/pools/{poolId}/nodes/{nodeId}/deallocate", poolId, nodeId)
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(deallocateNodeResult.status, "202");
+
+    const checkIfDeallocated = async () => {
+      const nodes = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
+      if (isUnexpected(nodes)) {
+        assert.fail(`Received unexpected status code from listing nodes: ${nodes.status}
+              Response Body: ${nodes.body.message}`);
+      }
+      const node = nodes.body.value?.find((n) => n.id === nodeId);
+      if (node?.state === "deallocated") {
+        return node;
+      }
+      return null;
+    };
+
+    await waitForNotNull(checkIfDeallocated);
+
+    const startNodeResult = await batchClient
+      .path("/pools/{poolId}/nodes/{nodeId}/start", poolId, nodeId)
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(startNodeResult.status, "202");
   });
 });
