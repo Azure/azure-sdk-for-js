@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NotificationHubs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { NotificationHubs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NotificationHubsManagementClient } from "../notificationHubsManagementClient.js";
 import {
   NotificationHubResource,
   NotificationHubsListNextOptionalParams,
@@ -49,7 +49,7 @@ import {
   NotificationHubsGetPnsCredentialsResponse,
   NotificationHubsListNextResponse,
   NotificationHubsListAuthorizationRulesNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NotificationHubs operations. */

@@ -19,14 +19,14 @@ import {
   NamespacesImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   NotificationHubs,
   Namespaces,
   Operations,
   PrivateEndpointConnections,
-} from "./operationsInterfaces";
-import { NotificationHubsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NotificationHubsManagementClientOptionalParams } from "./models/index.js";
 
 export class NotificationHubsManagementClient extends coreClient.ServiceClient {
   $host: string;
