@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { ConnectionConfig, ConnectionContextBase } from "../../src";
+import { ConnectionConfig, ConnectionContextBase } from "../../src/index.js";
 import ws from "ws";
 
 describe("ConnectionContextBase (node.js)", function () {

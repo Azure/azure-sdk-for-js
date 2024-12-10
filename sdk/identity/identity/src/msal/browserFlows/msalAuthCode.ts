@@ -28,7 +28,6 @@ const redirectHash = self.location.hash;
  * @internal
  */
 export class MSALAuthCode extends MsalBrowser {
-  protected app?: msalBrowser.IPublicClientApplication;
   private loginHint?: string;
 
   /**

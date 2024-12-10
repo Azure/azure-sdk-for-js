@@ -1,21 +1,12 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     files: ["**/*.ts", "**/*.cts", "**/*.mts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.src.json", "./tsconfig.tests.json"],
+        project: ["./tsconfig.test.json"],
       },
     },
   },
-  {
-    files: ["*.md/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: null,
-      },
-    },
-  },
-];
+]);

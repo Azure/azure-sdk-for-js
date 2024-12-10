@@ -1,7 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
     // shebang needs to come first
     files: ["src/bin/gen-model.ts"],
@@ -11,4 +10,4 @@ export default [
       "@azure/azure-sdk/github-source-headers": "off",
     },
   },
-];
+]);
