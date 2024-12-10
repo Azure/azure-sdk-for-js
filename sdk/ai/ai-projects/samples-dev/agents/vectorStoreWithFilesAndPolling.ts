@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 /**
+ * This sample demonstrates how to create the vector store with the list of files using polling operation.
+ *
+ * @summary demonstrates how to create the vector store with the list of files using polling operation.
  * 
- * FILE: vectorStoreFilesPolling.ts
- *
- * @summary This sample demonstrates how to create the vector store with the list of files using polling operation.
- * 
- * USAGE:
- *  npm node vectorStoreFilesPolling.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity stream dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";

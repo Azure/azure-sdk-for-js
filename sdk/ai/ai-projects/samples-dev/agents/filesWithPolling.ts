@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * 
- * FILE: filesPolling.ts
+ * This sample demonstrates how to upload a file and poll for its status using a synchronous client.
  *
- * @summary This sample demonstrates how to upload a file and poll for its status using a synchronous client.
+ * @summary demonstrates how to upload a file and poll for its status.
  *
- * USAGE:
- *  npm node filesPolling.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity stream dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import {AIProjectsClient} from "@azure/ai-projects"

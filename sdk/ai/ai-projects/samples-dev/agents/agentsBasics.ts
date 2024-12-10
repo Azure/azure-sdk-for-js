@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * 
- * FILE: agentsBasics.ts
+ * This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
+ * @summary demonstrates how to use basic agent operations.
  *
- * USAGE:
- *  npm node agentsBasics.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import {AIProjectsClient} from "@azure/ai-projects"

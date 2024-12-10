@@ -1,21 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/** 
+ * This sample demonstrates how to use basic run agent operations from the Azure Agents service using a synchronous client.
  * 
- * FILE: runSteps.ts
+ * @summary demonstrates how to use basic run agent operations.
  *
- * @summary This sample demonstrates how to use basic agent operations from the Azure Agents service using a synchronous client.
- *
- * USAGE:
- *  npm node runSteps.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 

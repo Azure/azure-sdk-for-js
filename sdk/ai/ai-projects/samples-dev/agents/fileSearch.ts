@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * 
- * FILE: fileSearch.ts
+ * This sample demonstrates how to use agent operations with file searching from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with file searching from the Azure Agents service using a synchronous client.
+ * @summary This sample demonstrates how to use agent operations with file searching.
  *
- * USAGE:
- *  npm node fileSearch.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
@@ -32,7 +22,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file
-  const localFileStream = fs.createReadStream("./samples-dev/agents/sampleFileForUpload.txt");
+  const localFileStream = fs.createReadStream("./samples-dev/data/sampleFileForUpload.txt");
   const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
   console.log(`Uploaded file, file ID: ${file.id}`);
 

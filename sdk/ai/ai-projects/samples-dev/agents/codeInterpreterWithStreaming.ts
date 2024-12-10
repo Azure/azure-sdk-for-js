@@ -2,19 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * FILE: codeInterpreterStreaming.ts
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
+ * @summary demonstrates how to use agent operations with code interpreter.
  *
- * USAGE:
- *  npm node codeInterpreterStreaming.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import {AIProjectsClient, isOutputOfType, ToolUtility, MessageTextContentOutput, MessageImageFileContentOutput, RunStreamEvent, MessageStreamEvent, ThreadRunOutput, MessageDeltaChunk, MessageDeltaTextContent, ErrorEvent, DoneEvent } from "@azure/ai-projects"
@@ -30,7 +21,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
+  const localFileStream = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -113,7 +104,7 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFileOutput = (messages.data[0].content[0] as MessageImageFileContentOutput);
   const imageFile = imageFileOutput.image_file.file_id; 
-  const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
+  const imageFileName = "samples-dev/data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
   console.log(`Image file name : ${imageFileName}`);
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;

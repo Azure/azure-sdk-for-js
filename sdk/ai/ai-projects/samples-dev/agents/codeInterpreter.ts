@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * 
- * FILE: codeInterpreter.ts
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
  *
- * @summary This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
+ * @summary demonstrates how to use agent operations with code interpreter.
  *
- * USAGE:
- *  npm node codeInterpreter.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity @azure/core-util dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import {AIProjectsClient, isOutputOfType, MessageTextContentOutput, MessageImageFileContentOutput, ToolUtility } from "@azure/ai-projects"
@@ -31,7 +21,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const localFileStream = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
+  const localFileStream = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "localFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -93,7 +83,7 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
   console.log(`Image file ID : ${imageFile}`);
-  const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png";
+  const imageFileName = "samples-dev/data/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png";
 
   const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
   if (fileContent) {
