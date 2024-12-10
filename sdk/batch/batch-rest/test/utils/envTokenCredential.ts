@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 
 /**
  * A TokenCredential implementation that gets the token from the environment variable
