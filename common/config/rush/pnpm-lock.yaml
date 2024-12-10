@@ -3808,7 +3808,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3842,7 +3842,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3856,7 +3856,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/debug@4.1.12:
@@ -3899,7 +3899,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3918,20 +3918,20 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/fs-extra@8.1.5:
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3958,7 +3958,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -3970,7 +3970,7 @@ packages:
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/linkify-it@5.0.0:
@@ -4027,7 +4027,7 @@ packages:
   /@types/node-fetch@2.6.12:
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
       form-data: 4.0.1
     dev: false
 
@@ -4087,7 +4087,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4106,14 +4106,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
       '@types/send': 0.17.4
     dev: false
 
@@ -4144,7 +4144,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4197,7 +4197,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
     optional: true
 
@@ -5126,12 +5126,12 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /chai-as-promised@7.1.2(chai@4.5.0):
+  /chai-as-promised@7.1.2(chai@4.3.10):
     resolution: {integrity: sha512-aBDHZxRzYnUYuIAIPBH2s511DjlKPzXNlXSGFC8CwmroWQLfrW0LtE1nK3MAwwNhJPa9raEjNCmRoFpG0Hurdw==}
     peerDependencies:
       chai: '>= 2.1.2 < 6'
     dependencies:
-      chai: 4.5.0
+      chai: 4.3.10
       check-error: 1.0.3
     dev: false
 
@@ -5144,12 +5144,12 @@ packages:
       check-error: 2.1.1
     dev: false
 
-  /chai-exclude@2.1.1(chai@4.5.0):
+  /chai-exclude@2.1.1(chai@4.3.10):
     resolution: {integrity: sha512-IHgNmgAFOkyRPnmOtZio9UsOHQ6RnzVr2LOs+5V9urYYqjhV/ERLQapC0Eq2DmID5eDWyngAcBxNUm0ZK0QbrQ==}
     peerDependencies:
       chai: '>= 4.0.0 < 5'
     dependencies:
-      chai: 4.5.0
+      chai: 4.3.10
       fclone: 1.0.11
     dev: false
 
@@ -5953,7 +5953,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -11812,7 +11812,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-HR7zBN9+74lxas2r6nppdjRfRev03CshOxdxcIerWCQEgcIQn/38oqQ+RoRL2zixLCeC1HsHorxEeTTOMUwNGA==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-QO5oynBAKz7qpL0WPKrhzMRp/WpsKLZSSRwPKM+LT/4YC3gbyv69hebqORLGVEBAhkZUnlpLutSb4kjtIT08cQ==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -11823,6 +11823,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.5.0
       dotenv: 16.4.7
       eslint: 9.16.0
@@ -11840,18 +11842,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 11.0.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
@@ -11867,7 +11883,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       csv-parse: 5.6.0
       dotenv: 16.4.7
       eslint: 9.16.0
@@ -12095,13 +12111,36 @@ packages:
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/chai-as-promised': 7.1.8
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.7
       eslint: 9.16.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
@@ -12132,17 +12171,39 @@ packages:
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 5.1.2
+      chai-as-promised: 7.1.2(chai@4.3.10)
       chai-exclude: 3.0.0(chai@5.1.2)
       decompress: 4.2.1
       dotenv: 16.4.7
       eslint: 9.16.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
@@ -12173,14 +12234,20 @@ packages:
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.4.0
       '@azure/core-lro': 2.7.2
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.7
       eslint: 9.16.0
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
@@ -12211,13 +12278,34 @@ packages:
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.7
       eslint: 9.16.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
@@ -12248,13 +12336,36 @@ packages:
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/chai-as-promised': 7.1.8
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.7
       eslint: 9.16.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
@@ -12291,7 +12402,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -12560,7 +12671,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12584,7 +12695,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -12607,7 +12718,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -12630,7 +12741,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12654,7 +12765,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12678,7 +12789,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12703,7 +12814,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.7
       mkdirp: 3.0.1
@@ -12731,7 +12842,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12754,7 +12865,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -12777,7 +12888,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12801,7 +12912,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12826,7 +12937,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12851,7 +12962,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -12892,7 +13003,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12914,7 +13025,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -12935,7 +13046,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12959,7 +13070,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -12981,7 +13092,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13005,7 +13116,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13029,7 +13140,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13054,7 +13165,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13075,7 +13186,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13098,7 +13209,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13123,7 +13234,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13146,7 +13257,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13170,7 +13281,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13195,7 +13306,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13218,7 +13329,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13242,7 +13353,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13264,7 +13375,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13285,7 +13396,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13309,7 +13420,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13333,7 +13444,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13355,7 +13466,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13377,7 +13488,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13398,7 +13509,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -13421,7 +13532,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13446,7 +13557,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13471,7 +13582,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13497,7 +13608,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -13611,7 +13722,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       esm: 3.2.25
       mocha: 11.0.2
@@ -13636,7 +13747,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13698,7 +13809,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13720,7 +13831,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13743,7 +13854,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13804,7 +13915,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13828,7 +13939,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13854,7 +13965,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -13894,7 +14005,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13918,7 +14029,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13943,7 +14054,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13967,7 +14078,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -13991,7 +14102,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14014,7 +14125,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14037,7 +14148,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mkdirp: 3.0.1
       mocha: 11.0.2
@@ -14064,7 +14175,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14088,7 +14199,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14112,7 +14223,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14135,7 +14246,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14159,7 +14270,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14182,7 +14293,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14205,7 +14316,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14230,7 +14341,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14253,7 +14364,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14276,7 +14387,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14301,7 +14412,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14325,7 +14436,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14346,7 +14457,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14370,8 +14481,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14392,7 +14504,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14416,7 +14528,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14440,8 +14552,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14464,7 +14577,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14525,7 +14638,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14548,7 +14661,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14571,7 +14684,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14595,7 +14708,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14618,7 +14731,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14642,7 +14755,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14667,7 +14780,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14690,7 +14803,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14750,7 +14863,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14773,7 +14886,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14797,7 +14910,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14822,7 +14935,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14846,7 +14959,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14871,7 +14984,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14896,7 +15009,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -14955,7 +15068,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -14976,7 +15089,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15000,7 +15113,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15024,7 +15137,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15046,8 +15159,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15070,7 +15184,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15093,7 +15207,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.7
       mkdirp: 3.0.1
@@ -15122,7 +15236,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15146,7 +15260,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15171,7 +15285,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15194,7 +15308,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15255,7 +15369,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15278,7 +15392,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15302,7 +15416,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15326,7 +15440,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15349,7 +15463,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15374,7 +15488,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15399,7 +15513,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15424,7 +15538,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15445,7 +15559,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15469,7 +15583,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15493,7 +15607,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15553,7 +15667,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15577,7 +15691,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15601,7 +15715,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15625,7 +15739,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15649,7 +15763,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15673,7 +15787,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15695,7 +15809,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15717,7 +15831,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15739,7 +15853,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15761,7 +15875,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15784,7 +15898,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15808,7 +15922,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15833,7 +15947,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15854,7 +15968,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15876,8 +15990,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15900,7 +16015,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15924,7 +16039,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15948,7 +16063,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -15969,7 +16084,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -15991,7 +16106,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16015,7 +16130,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16036,7 +16151,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16060,7 +16175,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16082,7 +16197,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16106,7 +16221,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16128,7 +16243,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16151,7 +16266,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16211,7 +16326,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16235,7 +16350,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16257,7 +16372,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16281,7 +16396,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16306,7 +16421,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16366,7 +16481,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16391,7 +16506,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16416,7 +16531,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16441,7 +16556,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -16482,7 +16597,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16506,7 +16621,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16531,7 +16646,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16554,7 +16669,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16578,7 +16693,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16602,7 +16717,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16626,7 +16741,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16649,7 +16764,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16673,7 +16788,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16696,7 +16811,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16721,7 +16836,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16745,7 +16860,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16767,7 +16882,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16790,7 +16905,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16812,7 +16927,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16834,7 +16949,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16858,7 +16973,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16880,7 +16995,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16904,7 +17019,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16928,7 +17043,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16951,7 +17066,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16975,7 +17090,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -16997,7 +17112,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17022,7 +17137,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17045,7 +17160,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17069,7 +17184,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17094,7 +17209,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17118,7 +17233,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17142,8 +17257,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17167,8 +17283,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17191,7 +17308,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17215,7 +17332,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17241,7 +17358,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17266,8 +17383,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17290,7 +17408,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17314,7 +17432,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17338,7 +17456,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17360,7 +17478,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17381,7 +17499,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17405,7 +17523,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17429,7 +17547,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17451,7 +17569,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17475,7 +17593,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17499,7 +17617,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17524,7 +17642,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17549,7 +17667,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17574,8 +17692,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17598,7 +17717,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17622,7 +17741,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17646,7 +17765,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17669,7 +17788,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -17692,7 +17811,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17716,7 +17835,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17741,7 +17860,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       autorest: 3.7.1
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       karma: 6.4.4
@@ -17781,7 +17900,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17804,7 +17923,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17827,7 +17946,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17850,7 +17969,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17874,7 +17993,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17898,7 +18017,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17922,7 +18041,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17946,7 +18065,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17969,7 +18088,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -17994,7 +18113,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18054,7 +18173,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18077,7 +18196,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18102,7 +18221,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18126,8 +18245,9 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
+      esm: 3.2.25
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18148,7 +18268,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18172,7 +18292,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18197,7 +18317,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18220,7 +18340,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18243,7 +18363,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18266,7 +18386,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18288,7 +18408,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18312,7 +18432,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18335,7 +18455,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18359,7 +18479,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18381,7 +18501,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18442,7 +18562,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18464,7 +18584,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18524,7 +18644,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18547,7 +18667,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18571,7 +18691,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18595,7 +18715,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18619,7 +18739,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -18642,7 +18762,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18666,7 +18786,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -18688,7 +18808,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       mocha: 11.0.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
@@ -19424,14 +19544,34 @@ packages:
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 3.5.2
+      '@types/chai': 4.3.20
+      '@types/chai-as-promised': 7.1.8
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -19748,7 +19888,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -20154,14 +20294,37 @@ packages:
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
+      '@types/uuid': 8.3.4
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
+      uuid: 8.3.2
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20495,15 +20658,36 @@ packages:
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/functions': 3.5.1
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-json-preprocessor: 0.3.3(karma@6.4.4)
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20721,17 +20905,28 @@ packages:
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/msal-node': 2.16.2
       '@azure/msal-node-extensions': 1.5.0
+      '@types/jws': 3.2.10
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/qs': 6.9.17
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
       keytar: 7.9.0
+      mocha: 10.8.2
       playwright: 1.49.0
+      puppeteer: 23.10.1(typescript@5.6.3)
+      sinon: 17.0.1
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20760,14 +20955,26 @@ packages:
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 3.5.2
+      '@types/jws': 3.2.10
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/qs': 6.9.17
+      '@types/sinon': 17.0.3
+      '@types/uuid': 8.3.4
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
       keytar: 7.9.0
+      mocha: 10.8.2
       playwright: 1.49.0
+      puppeteer: 23.10.1(typescript@5.6.3)
+      sinon: 17.0.1
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -21415,15 +21622,38 @@ packages:
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/chai-as-promised': 7.1.8
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/uuid': 8.3.4
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.7
       eslint: 9.16.0
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-json-preprocessor: 0.3.3(karma@6.4.4)
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
+      uuid: 8.3.2
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22443,15 +22673,37 @@ packages:
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      sinon: 17.0.1
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22646,7 +22898,7 @@ packages:
       '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.3.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       eslint: 9.16.0
       events: 3.3.0
@@ -22762,7 +23014,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -22809,7 +23061,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -22853,7 +23105,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -22900,7 +23152,7 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -22942,7 +23194,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -22984,7 +23236,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      chai: 4.5.0
+      chai: 4.3.10
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.16.0
@@ -23436,9 +23688,9 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
-      chai: 4.5.0
-      chai-as-promised: 7.1.2(chai@4.5.0)
-      chai-exclude: 2.1.1(chai@4.5.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.2(chai@4.3.10)
+      chai-exclude: 2.1.1(chai@4.3.10)
       eslint: 9.16.0
       karma: 6.4.4
       karma-chrome-launcher: 3.2.0
