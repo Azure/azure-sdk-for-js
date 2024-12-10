@@ -10793,7 +10793,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.7.2
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -18721,7 +18721,7 @@ packages:
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
-      dotenv: 16.4.5
+      dotenv: 16.4.7
       eslint: 9.16.0
       loupe: 3.1.2
       playwright: 1.49.0
@@ -19758,7 +19758,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -20511,43 +20511,6 @@ packages:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.16.0
-      playwright: 1.49.0
-      tslib: 2.8.1
-      typescript: 5.6.3
-      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
-    dev: false
-
-  file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-6LdN/I3/IT+r5A4w8Ac5rRXYnfUzCGhSyEhSq0zB1vEsyX0oOz5viCnGYYqmiyOOfGvgqaMBOk4KwrCCeMcTOA==, tarball: file:projects/health-deidentification.tgz}
-    name: '@rush-temp/health-deidentification'
-    version: 0.0.0
-    dependencies:
-      '@types/node': 18.19.67
-      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
-      dotenv: 16.4.7
-      eslint: 9.16.0
-      loupe: 3.1.2
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -22644,7 +22607,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-3S94WjpWXw7riA1c+tkPKkCHWJJ9jqEbdpx4k2Z8cYJXfS2N8eH3bd4Mhk7qY7DdoOOG4qeOT6ofNyXT3WRXlg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-/zkv3RZpvF5SXN3aKwaX8QidH+/p6MUfd4j7BYtJRrTp+HCbscmtm+DrGZwqRHhUAUBdsbLQ3E/CXDMlfuOpig==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
