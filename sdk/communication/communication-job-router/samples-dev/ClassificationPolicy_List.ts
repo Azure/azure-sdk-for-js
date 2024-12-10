@@ -37,8 +37,6 @@ async function listClassificationPolicies(): Promise<void> {
         console.log("Listing classification policy with id: " + policy.classificationPolicy.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 
