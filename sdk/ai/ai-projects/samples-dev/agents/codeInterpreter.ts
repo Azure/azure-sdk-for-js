@@ -18,9 +18,8 @@
  *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
-import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput } from "@azure/ai-projects"
+import {AIProjectsClient, isOutputOfType, MessageTextContentOutput, MessageImageFileContentOutput, ToolUtility } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
-
 import * as dotenv from "dotenv";
 dotenv.config();
 import * as fs from "fs";
@@ -29,7 +28,6 @@ import { delay } from "@azure/core-util";
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
 export async function main(): Promise<void> {
-
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
@@ -38,12 +36,15 @@ export async function main(): Promise<void> {
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
+  // Create code interpreter tool
+  const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
+
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
   const agent = await client.agents.createAgent("gpt-4o-mini", {
     name: "my-agent",
     instructions: "You are a helpful agent",
-    tools: [{type: "code_interpreter"} as CodeInterpreterToolDefinition],
-    tool_resources: { code_interpreter: {file_ids: [localFile.id]} } as ToolResources
+    tools: [codeInterpreterTool.definition],
+    tool_resources: codeInterpreterTool.resources,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -66,14 +67,14 @@ export async function main(): Promise<void> {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-      // Check if you got "Rate limit is exceeded.", then you want to get more quota
-      console.log(`Run failed: ${run.last_error}`);
+    // Check if you got "Rate limit is exceeded.", then you want to get more quota
+    console.log(`Run failed: ${run.last_error}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
   await client.agents.deleteFile(localFile.id);
-  console.log(`Deleted file, file ID : ${localFile.id}`);
+  console.log(`Deleted file, file ID: ${localFile.id}`);
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);
@@ -96,14 +97,14 @@ export async function main(): Promise<void> {
 
   const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
   if (fileContent) {
-    const chunks: Buffer[] = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
+      const chunks: Buffer[] = [];
+      for await (const chunk of fileContent) {
+        chunks.push(Buffer.from(chunk));
+      }
+      const buffer = Buffer.concat(chunks);
+      fs.writeFileSync(imageFileName, buffer);
   } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
+      console.error("Failed to retrieve file content: fileContent is undefined");
   }
   console.log(`Saved image file to: ${imageFileName}`);
 

@@ -1,6 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * 
+ * FILE: agentsAzureAiSearch.ts
+ *
+ * @summary This sample demonstrates how to use agent operations with toolset and iteration in streaming from the Azure Agents service using a synchronous client.
+ *
+ * USAGE:
+ *  npm node agentsAzureAiSearch.ts
+ *
+ *  Before running the sample:
+ *
+ *  npm install @azure/ai-projects @azure/identity dotenv
+ *
+ *  Set this environment variables with your own values:
+ *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ */
+
 import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -14,15 +31,15 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file for code interpreter tool
-  const fileStream1 = fs.createReadStream("samples-dev/agents/nifty_500_quarterly_results.csv");
-  const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "my-local-file");
+  const fileStream1 = fs.createReadStream("samples-dev/agents/nifty500QuarterlyResults.csv");
+  const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
-  const fileStream2 = fs.createReadStream("./samples-dev/agents/sample_file_for_upload.txt");
-  const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", "sample_file_for_upload.txt");
-  console.log(`Uploaded file, ID: ${fileSearchFile.id}`);
+  const fileStream2 = fs.createReadStream("./samples-dev/agents/sampleFileForUpload.txt");
+  const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", "sampleFileForUpload.txt");
+  console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
   const vectorStore = await client.agents.createVectorStoreAndPoll({file_ids: [fileSearchFile.id]});

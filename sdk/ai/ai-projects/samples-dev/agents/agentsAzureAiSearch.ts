@@ -3,14 +3,12 @@
 
 /**
  * 
- * FILE: agents_azure_ai_search.ts
+ * FILE: agentsAzureAiSearch.ts
  *
- * DESCRIPTION:
- *  This sample demonstrates how to use agent operations with the 
- *  Azure AI Search tool from the Azure Agents service using a synchronous client.
+ * @summary This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service using a synchronous client.
  *
  * USAGE:
- *  npx ts-node agents_azure_ai_search.ts
+ *  npm node agentsAzureAiSearch.ts
  *
  *  Before running the sample:
  *
