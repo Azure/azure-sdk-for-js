@@ -5,22 +5,21 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status, and f) get test metrics
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
-import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "node:fs";
-import { randomUUID } from "node:crypto";
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected, getLongRunningPoller } = require("@azure-rest/load-testing");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { createReadStream } = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const readStream = createReadStream("./sample.jmx");
 
-async function main(): Promise<void> {
+async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
-  const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
-  const testId = randomUUID(); // ID to be assigned to a test
-  const testRunId = randomUUID(); // ID to be assigned to a testRun
+  const testId = uuidv4(); // ID to be assigned to a test
+  const testRunId = uuidv4(); // ID to be assigned to a testRun
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
@@ -41,9 +40,8 @@ async function main(): Promise<void> {
     throw testCreationResult.body.error;
   }
 
-  if (testCreationResult.body.testId === undefined) {
+  if (testCreationResult.body.testId === undefined)
     throw new Error("Test ID returned as undefined.");
-  }
 
   // Uploading .jmx file to a test
   const fileUploadResult = await client
@@ -63,16 +61,15 @@ async function main(): Promise<void> {
     fileValidateResult = await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(120 * 1000), // timeout of 120 seconds
     });
-  } catch (ex: any) {
-    new Error("Error in polling file Validation" + ex.message); // polling timed out
+  } catch (ex) {
+    new Error("Error in polling file Validation" + ex.message); //polling timed out
   }
 
-  if (fileValidatePoller.getOperationState().status !== "succeeded" && fileValidateResult) {
+  if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidateResult)
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
         fileValidateResult.body.validationFailureDetails,
     );
-  }
 
   // Creating/Updating app component
   const appComponentCreationResult = await client
@@ -107,9 +104,8 @@ async function main(): Promise<void> {
     throw testRunCreationResult.body.error;
   }
 
-  if (testRunCreationResult.body.testRunId === undefined) {
+  if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
-  }
 
   let testRunResult;
   const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
@@ -118,17 +114,16 @@ async function main(): Promise<void> {
     testRunResult = await testRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(300 * 1000), // timeout of 5 minutes
     });
-  } catch (ex: any) {
-    new Error("Error in polling test run completion" + ex.message); // polling timed out
+  } catch (ex) {
+    new Error("Error in polling test run completion" + ex.message); //polling timed out
   }
 
-  if (testRunPoller.getOperationState().status !== "succeeded") {
+  if (testRunPoller.getOperationState().status != "succeeded")
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
-  }
 
   if (testRunResult) {
-    const testRunStarttime = testRunResult.body.startDateTime;
-    const testRunEndTime = testRunResult.body.endDateTime;
+    let testRunStarttime = testRunResult.body.startDateTime;
+    let testRunEndTime = testRunResult.body.endDateTime;
 
     // get list of all metric namespaces and pick the first one
     const metricNamespaces = await client
