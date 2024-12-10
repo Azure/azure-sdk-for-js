@@ -1427,6 +1427,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.4.0:
+    resolution: {integrity: sha512-UmYG6dQ7p4MVHh/9UvVQDLlvMsA252EJKJBBeG1KkYsiKwwE1xxFbV5Mk0kt8lFe4h26ElnXXTe2B++u00ukoA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -16165,10 +16180,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-uHXY8aiy59HNsKOlADr+OcpDG8TihgYdOW4ZXH1ap6Lc+nlMFoMVFYFbM2O0w40S2Me9pQaUbHOe+/94MCjoWQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-lfEX/MNy4BjwajKfv7V7bZWKy8BWVMvd2mKUtPJ8VSFf1D03lrtMyavP1tLr9bQlnwyLzpRdYNONVVqGCrA+uA==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.4.0
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -16380,7 +16396,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-cVAhqcWQjDSupwUm6IMgEy+sUMRBkJz2v4JtXuAznwXp6lVCf6ZsVAX3mYQ5k3nTnJ4uLGShF8q4SRl5WUE0tQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-gEfTX82tHzQaJJYS0byxWzSvTX8QsQxYwYp7Iq33gIJpY79jCjCrWpQI9UzuuC9JNJg9bWphU/3RLU8PxhlqDw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16393,7 +16409,7 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
@@ -19748,7 +19764,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
