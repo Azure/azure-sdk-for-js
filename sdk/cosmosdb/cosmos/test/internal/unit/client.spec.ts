@@ -11,6 +11,7 @@ import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import type { MockInstance } from "vitest";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { isNodeLike } from "@azure/core-util";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -66,7 +67,7 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", () => {
+describe("Testing Credentials integration for Client", { skip: !isNodeLike }, async () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:6969";
   const aadToken = "aadToken";

@@ -37,7 +37,7 @@ import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
 import { assert, expect } from "vitest";
-import { AssertionError } from "node:assert";
+import { AssertionError } from "chai";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -265,7 +265,7 @@ function compareObjects(test: any, target: any, message: string): void {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
       ", ",
     )}] did not match.`;
-    throw new AssertionError({ message: errorMessage });
+    throw new AssertionError(errorMessage);
   }
 }
 
@@ -641,9 +641,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new AssertionError({
-    message: "Missing rejection" + (error ? " with " + error.name : ""),
-  });
+  throw new AssertionError("Missing rejection" + (error ? " with " + error.name : ""));
 }
 
 // helper functions for testing change feed allVersionsAndDeletes mode
