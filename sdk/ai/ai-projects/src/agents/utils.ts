@@ -123,6 +123,24 @@ export class ToolUtility {
       resources: { azure_ai_search: { indexes: [{ index_connection_id: indexConnectionId, index_name: indexName }] } }
     };
   }
+
+  /**
+   * Creates a function tool
+   * 
+   * @param functionDefinition - The function definition to use.
+   * 
+   * @returns An object containing the definition for the function tool.
+   */
+  static createFunctionTool(
+    functionDefinition: FunctionDefinition
+  ): { definition: FunctionToolDefinition } {    
+    return {
+      definition: {
+        type: "function",
+        function: functionDefinition
+      }
+    };
+  }
 }
 
 /**

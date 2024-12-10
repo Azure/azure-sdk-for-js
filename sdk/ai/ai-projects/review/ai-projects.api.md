@@ -1649,6 +1649,9 @@ export class ToolUtility {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
+    static createFunctionTool(functionDefinition: FunctionDefinition): {
+        definition: FunctionToolDefinition;
+    };
 }
 
 // @public
