@@ -11,6 +11,11 @@ export default mergeConfig(
     test: {
       fileParallelism: false,
       include: ["test/**/*.spec.ts"],
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
     },
   }),
 );
