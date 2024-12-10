@@ -78,7 +78,7 @@ const flatMap = (arr, f) => {
   return [].concat(...result);
 };
 
-const { baseDir, action, serviceDirs, rushParams, artifactNames } = parseArgs();
+const { baseDir, action, services: serviceDirs, flags: rushParams, artifactNames } = parseArgs();
 const actionComponents = action.toLowerCase().split(":");
 const { packageNames, packageDirs } = getServicePackages(baseDir, serviceDirs, artifactNames);
 
