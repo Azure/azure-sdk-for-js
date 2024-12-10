@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import PurviewCatalog from "@azure-rest/purview-catalog";
+import PurviewCatalog, { isUnexpected } from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,7 +20,7 @@ async function main(): Promise<void> {
 
   const dataSources = await client.path("/atlas/v2/types/typedefs").get();
 
-  if (dataSources.status !== "200") {
+  if (isUnexpected(dataSources)) {
     throw dataSources;
   }
 

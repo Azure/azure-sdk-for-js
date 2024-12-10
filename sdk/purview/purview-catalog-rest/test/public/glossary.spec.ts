@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewCatalogClient } from "../../src/index.js";
-import { getLongRunningPoller } from "../../src/index.js";
+import type { AtlasGlossaryOutput, PurviewCatalogClient } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -36,8 +36,12 @@ describe("purview catalog glossary test", () => {
 
     console.log("created glossary: ", glossary);
 
+    if (isUnexpected(glossary)) {
+      throw glossary;
+    }
     assert.strictEqual(glossary.status, "200");
-    glossaryGuid = glossary.status === "200" ? glossary?.body?.guid || "" : "";
+    const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput;
+    glossaryGuid = glossary.status === "200" ? atlasGlossaryOutput?.guid || "" : "";
   });
 
   it("should work with LRO helper", { timeout: 500000 }, async () => {
@@ -63,13 +67,13 @@ describe("purview catalog glossary test", () => {
       });
 
     console.log("LRO init resp: ", initialResponse);
-    const poller = getLongRunningPoller(client, initialResponse, {
+    const poller = await getLongRunningPoller(client, initialResponse, {
       intervalInMs: 100,
     });
 
     const result = await poller.pollUntilDone();
     console.log("LRO polling result:", result);
-    if (result.status === "500") {
+    if (isUnexpected(result)) {
       const error = `Unexpected status code ${result.status}`;
       assert.fail(error);
     }
