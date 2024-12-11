@@ -28,6 +28,7 @@ export default defineConfig({
       reportsDirectory: "coverage",
     },
     testTimeout: 1200000,
+    hookTimeout: 60000,
     typecheck: {
       enabled: true,
       tsconfig: "tsconfig.test.json",
