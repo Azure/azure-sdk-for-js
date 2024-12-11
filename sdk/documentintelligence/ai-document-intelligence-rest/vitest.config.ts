@@ -14,7 +14,7 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["test/**/figures.spec.ts"],
+    include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
     coverage: {
       include: ["src/**/*.ts"],

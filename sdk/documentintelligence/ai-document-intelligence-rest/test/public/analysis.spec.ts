@@ -1074,8 +1074,13 @@ describe("DocumentIntelligenceClient", () => {
         )
         .get();
 
-      // Header starts with a special character followed by "PNG"
-      assert.equal(output.body.toString().slice(1, 4), "PNG");
+      if (isUnexpected(output)) {
+        console.log(output);
+        throw new Error("The response was unexpected.");
+      }
+
+      const image = fs.readFileSync(path.join(ASSET_PATH, "1.1.png"));
+      assert.deepEqual(output.body, new Uint8Array(image));
     });
   });
 });
