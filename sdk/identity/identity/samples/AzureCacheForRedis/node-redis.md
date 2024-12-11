@@ -233,6 +233,7 @@ async function main() {
         console.log("Auth called...");
         await redisClient.auth({username: extractUsernameFromToken(accessToken),
             password: accessToken.token});
+        redisClient.password = accessToken.token;
     }
   }
 
