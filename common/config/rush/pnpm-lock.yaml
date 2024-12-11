@@ -13525,7 +13525,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-zgoR+wBMIqoaVj1fIAGWAcN49W4gLFgjkwC7myUjMkWzJaAf6tgwKATj0GX+lDpqNiUyqmtVf8kp89JbZJJW2Q==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-rSlIdnhZP7MJAyxZXPW4b8BvwlMEEw7dRdgctWs3+cEDSJs66ux8pBu4toh6qsAh2t/EW/5tagHHG5YLguQFbg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13539,7 +13539,7 @@ packages:
       '@types/node': 18.19.67
       chai: 4.3.10
       dotenv: 16.4.5
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
