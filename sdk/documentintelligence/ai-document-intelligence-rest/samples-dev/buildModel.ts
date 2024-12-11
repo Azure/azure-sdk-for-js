@@ -65,7 +65,10 @@ async function main() {
 
     // For simplicity, this example will only show top-level field names
     console.log("  Fields:");
-
+    if (!schema) {
+      console.log("    <no fields>");
+      continue;
+    }
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);
       console.log(`    ${fieldSchema.description || "<no description>"}`);

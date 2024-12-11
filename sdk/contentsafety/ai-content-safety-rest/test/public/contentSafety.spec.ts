@@ -9,15 +9,12 @@ import { isUnexpected, paginate } from "../../src/index.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import fs from "node:fs";
 import path from "node:path";
-import { isBrowser } from "@azure/core-util";
+import { isBrowser, delay } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
   let client: ContentSafetyClient;
-  function sleep(time: number): Promise<NodeJS.Timeout> {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
   function uint8ArrayToBase64(binary: Uint8Array): string {
     let binaryString = "";
     binary.forEach((byte) => {
@@ -130,7 +127,7 @@ describe("Content Safety Client Test", () => {
     assert.isArray(addBlockItemsResponse.body.blocklistItems);
 
     if (!isPlaybackMode()) {
-      await sleep(30000);
+      await delay(30000);
     }
   });
 

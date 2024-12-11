@@ -18,7 +18,7 @@ import { isError } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
-const isContentRecordingEnabled = () =>
+const isContentRecordingEnabled = (): boolean =>
   envVarToBoolean("AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED");
 
 enum TracingAttributesEnum {

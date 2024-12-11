@@ -30,7 +30,7 @@ const waitForLivenessRequest = async () => {
     // Wait for request from client device.
 };
 
-const sendTokenToClientDevices = async (token: string) => {
+const sendTokenToClientDevices = async (_token: string) => {
     // Send the token to client devices.
 };
 

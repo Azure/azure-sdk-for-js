@@ -3,7 +3,7 @@
 
 import type { ConversationAnalysisOptions } from "../../../src/index.js";
 import { ConversationAnalysisClient } from "../../../src/index.js";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -64,7 +64,7 @@ export function createClient(options: {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function startRecorder(currentTest?: Test): Promise<Recorder> {
+export async function startRecorder(currentTest?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderStartOptions);
   await recorder.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] });

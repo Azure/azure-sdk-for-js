@@ -59,13 +59,12 @@ async function main() {
           throw initialResponse.body.error;
         }
         const poller = await getLongRunningPoller(client, initialResponse);
-        const model = (
+        const { docTypes } = (
           (await (poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
         ).result!;
 
-        return model;
+        return docTypes;
       })
-      .map(async (model) => { return { modelId: (await model).modelId } })
   );
 
   // Finally, create the composed model.
@@ -74,11 +73,11 @@ async function main() {
 
   const initialResponse = await client.path("/documentModels:compose").post({
     body: {
-      description: "A composed model that classifies purchase order documents and extracts data from them.",
-      componentModels: modelIds,
       modelId: composedModelId,
-
-    },
+      description: "A composed model that classifies purchase order documents and extracts data from them.",
+      classifierId: "classifierId", // Add the appropriate classifier ID here
+      docTypes: { model1: modelIds[0]!.modelId, model2: modelIds[1]!.modelId },
+    }
   });
 
   if (isUnexpected(initialResponse)) {
@@ -107,6 +106,10 @@ async function main() {
 
     // For simplicity, this example will only show top-level field names
     console.log("  Fields:");
+    if (!schema) {
+      console.log("    <no fields>");
+      continue;
+    }
 
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);

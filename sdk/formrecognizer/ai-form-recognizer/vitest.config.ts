@@ -11,6 +11,11 @@ export default mergeConfig(
       include: ["test/**/*.spec.ts"],
       hookTimeout: 1200000,
       testTimeout: 1200000,
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
     },
   }),
 );

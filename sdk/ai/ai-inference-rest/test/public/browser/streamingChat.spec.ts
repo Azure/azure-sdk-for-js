@@ -54,7 +54,6 @@ describe("chat test suite", () => {
       const reader = (readableStream as any).getReader();
       const buffers: Uint8Array[] = [];
       try {
-        // eslint-disable-next-line no-constant-condition
         while (true) {
           const { value, done } = await reader.read();
           if (done) {
