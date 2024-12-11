@@ -42,7 +42,7 @@ async function main() {
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.agents.createAgent(
-    "gpt-4-0125-preview",
+    "gpt-4o",
     {
       name: "my-agent",
       instructions: "You are a helpful agent",
