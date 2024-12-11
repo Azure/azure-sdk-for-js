@@ -529,6 +529,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/durabletask/arm-durabletask/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

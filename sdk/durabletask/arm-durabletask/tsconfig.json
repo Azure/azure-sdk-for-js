@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "paths": { "@azure/arm-durabletask": ["./src/index"] }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "test/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
+}
