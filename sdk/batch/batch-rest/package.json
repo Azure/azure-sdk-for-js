@@ -49,7 +49,11 @@
     "constantPaths": [
       {
         "path": "src/batchClient.ts",
-        "prefix": "package-version"
+        "prefix": "userAgentInfo"
+      },
+      {
+        "path": "generated/batchClient.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },
