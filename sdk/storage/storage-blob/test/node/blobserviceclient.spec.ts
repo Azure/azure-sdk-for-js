@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   configureBlobStorageClient,
   getBSU,
@@ -13,8 +10,8 @@ import {
 import type { StorageSharedKeyCredential } from "../../src/index.js";
 import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;

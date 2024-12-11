@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { randomBytes } from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -15,6 +13,7 @@ import {
 } from "../../src/utils/utils.node.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";

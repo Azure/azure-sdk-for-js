@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -38,8 +36,8 @@ import {
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.node.js";
-import type { Context } from "mocha";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;

@@ -14,7 +14,7 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, assert } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
@@ -23,8 +23,8 @@ import type {
 } from "../src/index.js";
 import { ContainerClient, BlockBlobTier } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import type { Context } from "mocha";
 import type { Tags } from "../src/models.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;

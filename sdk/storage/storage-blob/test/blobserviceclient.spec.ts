@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { BlobServiceClient } from "../src/index.js";
 import {
   configureBlobStorageClient,
@@ -18,7 +15,7 @@ import {
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
 import type { Tags } from "../src/models.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;

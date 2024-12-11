@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   BlobClient,
   ContainerClient,
@@ -11,7 +9,7 @@ import {
 } from "../../src/index.js";
 import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils/index.js";
 import { env } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true

@@ -10,11 +10,10 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import { assert } from "chai";
 import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "../src/index.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {
   let containerName: string;

@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   getGenericBSU,
   getGenericCredential,
@@ -21,7 +19,7 @@ import type {
   StorageSharedKeyCredential,
 } from "../src/index.js";
 import { BlobServiceClient, newPipeline } from "../src/index.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;

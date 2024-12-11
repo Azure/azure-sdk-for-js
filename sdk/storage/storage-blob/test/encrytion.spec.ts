@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   createAndStartRecorder,
   getBSU,
@@ -12,7 +10,7 @@ import {
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Encryption Scope", function () {
   let blobServiceClient: BlobServiceClient;

@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src/index.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from Container", () => {
   let blobServiceClient: BlobServiceClient;

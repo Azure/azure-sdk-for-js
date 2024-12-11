@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import type { StorageSharedKeyCredential, ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   AppendBlobClient,
@@ -25,9 +22,9 @@ import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import type { Context } from "mocha";
 import { getBlobServiceAccountAudience } from "../../src/models.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;

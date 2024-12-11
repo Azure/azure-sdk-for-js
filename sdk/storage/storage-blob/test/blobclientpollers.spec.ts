@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { getBSU } from "./utils/index.js";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
@@ -16,8 +14,8 @@ import type {
   ContainerClient,
   BlobBeginCopyFromURLResponse,
 } from "../src/index.js";
-import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -32,8 +29,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   base64encode,
@@ -18,8 +15,8 @@ import type { ContainerClient, BlobClient } from "../src/index.js";
 import { BlockBlobClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { BlockBlobTier } from "../src/index.js";
-import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlockBlobClient", () => {
   let containerName: string;

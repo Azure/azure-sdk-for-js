@@ -4,7 +4,6 @@
 import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import { isNode } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -28,8 +27,8 @@ import type {
 import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { base64encode } from "../src/utils/utils.common.js";
-import type { Context } from "mocha";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
