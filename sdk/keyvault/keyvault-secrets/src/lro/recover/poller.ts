@@ -15,7 +15,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
   SecretProperties
 > {
   constructor(options: KeyVaultSecretPollerOptions) {
-    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedSecretPollOperationState | undefined;
 
@@ -28,7 +28,6 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
         ...state,
         name,
       },
-      vaultUrl,
       client,
       operationOptions,
     );
