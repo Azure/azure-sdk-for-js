@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
 import { CreateAgentParameters, DeleteAgentParameters, GetAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
+import { validateLimit, validateMetadata, validateOrder, validateVectorStoreDataType } from "./inputValidations.js";
 
 
 const expectedStatuses = ["200"];
@@ -109,8 +110,8 @@ function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAg
       if (options.body.tool_resources.code_interpreter.file_ids && options.body.tool_resources.code_interpreter.file_ids.length > 20) {
         throw new Error("A maximum of 20 file IDs are allowed");
       }
-      if (options.body.tool_resources.code_interpreter.data_sources && options.body.tool_resources.code_interpreter.data_sources.some(value => !["uri_asset", "id_asset"].includes(value.type))) {
-        throw new Error("Vector store data type must be one of 'uri_asset', 'id_asset'");
+      if (options.body.tool_resources.code_interpreter.data_sources) {
+        validateVectorStoreDataType(options.body.tool_resources.code_interpreter.data_sources);
       }
     }
     if (options.body.tool_resources.file_search) {
@@ -121,9 +122,7 @@ function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAg
          if (options.body.tool_resources.file_search.vector_stores.length > 1) {
             throw new Error("Only one vector store is allowed");
          }
-         if (options.body.tool_resources.file_search.vector_stores[0]?.configuration.data_sources.some(value => !["uri_asset", "id_asset"].includes(value.type))) {
-            throw new Error("Vector store data type must be one of 'uri_asset', 'id_asset'");
-         }
+         validateVectorStoreDataType(options.body.tool_resources.file_search.vector_stores[0]?.configuration.data_sources);
       }
     }
     if (options.body.tool_resources.azure_ai_search) {
@@ -136,24 +135,16 @@ function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAg
       throw new Error("Temperature must be between 0 and 2");
   }
   if (options.body.metadata) {
-    if (Object.keys(options.body.metadata).length > 16) {
-      throw new Error("Only 16 key/value pairs are allowed");
-    }
-    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
-      throw new Error("Keys must be less than 64 characters");
-    }
-    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
-      throw new Error("Values must be less than 512 characters");
-    }
+    validateMetadata(options.body.metadata);
   }
 }
 
 function validateListAgentsParameters(options?: ListAgentsParameters): void {
-  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
-      throw new Error("Limit must be between 1 and 100");
+  if (options?.queryParameters?.limit) {
+    validateLimit(options.queryParameters.limit);
   }
-  if (options?.queryParameters?.order && !["asc", "desc"].includes(options.queryParameters.order)) {
-      throw new Error("Order must be 'asc' or 'desc'");
+  if (options?.queryParameters?.order) {
+    validateOrder(options.queryParameters.order);
   }
 }
 
