@@ -37,8 +37,11 @@ import { X509 } from "jsrsasign";
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
-import { byteArrayToHex } from "../src/utils/base64.js";
 dotenv.config();
+
+function byteArrayToHex(value: Uint8Array): string {
+  return value.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
 
 async function modifyPolicyManagementCertificates() {
   writeBanner("Get Current Attestation Policy Management Certificates.");

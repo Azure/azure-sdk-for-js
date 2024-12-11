@@ -1,20 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "paths": {
-      "@azure-rest/batch": ["./src/index"]
-    }
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
-  ]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }
