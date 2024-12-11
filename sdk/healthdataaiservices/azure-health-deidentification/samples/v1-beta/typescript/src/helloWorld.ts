@@ -8,7 +8,7 @@
 import createClient, {
   DeidentificationContent,
   isUnexpected,
-} from "@azure-rest/health-deidentification";
+} from "@azure-rest/azure-health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,7 +20,7 @@ export async function main(): Promise<void> {
   const client = createClient(serviceEndpoint, credential);
 
   const content: DeidentificationContent = {
-    inputText: "Hello John!",
+    inputText: "Hello, John!",
   };
 
   const response = await client.path("/deid").post({ body: content });

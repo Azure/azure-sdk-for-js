@@ -22,10 +22,12 @@ async function main() {
   const jobName = "exampleJob";
 
   const job = {
-    dataType: "Plaintext",
-    operation: "Surrogate",
+    operation: "Redact",
     sourceLocation: { location, prefix: inputPrefix },
-    targetLocation: { location, prefix: OUTPUT_FOLDER },
+    targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
+    customizations: {
+      redactionFormat: "<{TYPE}>",
+    },
   };
 
   await client.path("/jobs/{name}", jobName).put({ body: job });

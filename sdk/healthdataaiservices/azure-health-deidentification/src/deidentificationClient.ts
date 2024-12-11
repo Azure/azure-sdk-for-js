@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { DeidentificationClient } from "./clientDefinitions.js";
+import { TokenCredential } from "@azure/core-auth";
+import { DeidentificationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface DeidentificationClientOptions extends ClientOptions {
@@ -22,9 +21,9 @@ export interface DeidentificationClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-07-12-preview", ...options }: DeidentificationClientOptions = {},
+  { apiVersion = "2024-11-15", ...options }: DeidentificationClientOptions = {},
 ): DeidentificationClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -60,5 +59,6 @@ export default function createClient(
       return next(req);
     },
   });
+
   return client;
 }

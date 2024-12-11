@@ -9,7 +9,7 @@ import createClient, {
   DeidentificationJob,
   isUnexpected,
   paginate,
-} from "@azure-rest/health-deidentification";
+} from "@azure-rest/azure-health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -26,10 +26,12 @@ export async function main(): Promise<void> {
   const jobName = "exampleJob";
 
   const job: DeidentificationJob = {
-    dataType: "Plaintext",
-    operation: "Surrogate",
+    operation: "Redact",
     sourceLocation: { location, prefix: inputPrefix },
-    targetLocation: { location, prefix: OUTPUT_FOLDER },
+    targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
+    customizations: {
+      redactionFormat: "<{TYPE}>",
+    },
   };
 
   await client.path("/jobs/{name}", jobName).put({ body: job });
