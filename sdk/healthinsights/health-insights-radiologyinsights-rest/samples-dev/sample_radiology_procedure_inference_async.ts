@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the radiology procedure of the Radiology Insights request.
+ * @summary Displays the radiology procedure of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
