@@ -154,7 +154,7 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
   },
   "extraFiles": {
-    "./samples-dev/example-data": [
+    "./samples-dev/data": [
       "javascript/data",
       "typescript/src/data"
     ]
