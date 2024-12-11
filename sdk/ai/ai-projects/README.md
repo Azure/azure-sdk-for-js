@@ -12,9 +12,8 @@ For example, get the inference endpoint URL and credentials associated with your
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples][samples]
 | [API reference documentation](https://aka.ms/azsdk/azure-ai-projects/python/reference) <!-- TODO: Update aka.ms/azsdk link -->
-| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects) <!-- TODO: Update aka.ms/azsdk link -->
+| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-projects/)
-| [AI Starter Template](https://aka.ms/azsdk/azure-ai-projects/python/ai-starter-template) <!-- TODO: Update aka.ms/azsdk link -->
 
 ## Table of contents
 
@@ -31,7 +30,7 @@ For example, get the inference endpoint URL and credentials associated with your
     - [Get properties of a connection by its connection name](#get-properties-of-a-connection-by-its-connection-name)
       <!-- - [Get an authenticated ChatCompletionsClient](#get-an-authenticated-chatcompletionsclient) -->
       <!-- - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client) -->
-  - [Agents (Private Preview)](#agents-private-preview)
+  - [Agents (Preview)](#agents-private-preview)
     - [Create an Agent](#create-agent) with:
       - [File Search](#create-agent-with-file-search)
       - [Code interpreter](#create-agent-with-code-interpreter)
@@ -221,8 +220,6 @@ Agents are actively being developed. A sign-up form for private preview is comin
 
 Here is an example of how to create an Agent:
 
-<!-- SNIPPET:sample_agents_basics.create_agent -->
-
 ```javascript
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
@@ -230,13 +227,9 @@ const agent = await client.agents.createAgent("gpt-4o", {
 });
 ```
 
-<!-- END SNIPPET -->
-
 To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `tool_resources` arguments.
 
 You can use `ToolSet` to do this:
-
-<!-- SNIPPET:sample_agents_run_with_toolset.create_agent_toolset -->
 
 ```javascript
 const toolSet = new ToolSet();
@@ -253,13 +246,9 @@ const agent = await client.agents.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Agent with File Search
 
 To perform file search by an Agent, we first need to upload a file, create a vector store, and associate the file to the vector store. Here is an example:
-
-<!-- SNIPPET:sample_agents_file_search.upload_file_create_vector_store_and_agent_with_file_search_tool -->
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
@@ -287,13 +276,9 @@ const agent = await client.agents.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Agent with Code Interpreter
 
 Here is an example to upload a file and use it for code interpreter by an Agent:
-
-<!-- SNIPPET:sample_agents_code_interpreter.upload_file_and_create_agent_with_code_interpreter -->
 
 ```javascript
 const fileStream = fs.createReadStream("nifty_500_quarterly_results.csv");
@@ -316,15 +301,11 @@ const agent = await client.agents.createAgent("gpt-4o-mini", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Agent with Bing Grounding
 
 To enable your Agent to perform search through Bing search API, you use `ToolUtility.createConnectionTool()` along with a connection.
 
 Here is an example:
-
-<!-- SNIPPET:sample_agents_bing_grounding.create_agent_with_bing_grounding_tool -->
 
 ```javascript
 const bingGroundingConnectionId = "<bingGroundingConnectionId>";
@@ -346,15 +327,11 @@ const agent = await client.agents.createAgent(
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Agent with Azure AI Search
 
 Azure AI Search is an enterprise search system for high-performance applications. It integrates with Azure OpenAI Service and Azure Machine Learning, offering advanced search technologies like vector search and full-text search. Ideal for knowledge base insights, information discovery, and automation
 
 Here is an example to integrate Azure AI Search:
-
-<!-- SNIPPET:sample_agents_azure_ai_search.create_agent_with_azure_ai_search_tool -->
 
 ```javascript
 const cognitiveServicesConnectionName = "<cognitiveServicesConnectionName>";
@@ -382,8 +359,6 @@ const agent = await client.agents.createAgent(
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Agent with Function Call
 
 You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `tool_resources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
@@ -391,8 +366,6 @@ You can enhance your Agents by defining callback functions as function tools. Th
 For more details about calling functions by code, refer to [`sample_agents_stream_eventhandler_with_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_stream_eventhandler_with_functions.py)<!-- TODO: Update sample/link --> and [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_functions.py)<!-- TODO: Update sample/link -->.
 
 Here is an example:
-
-<!-- SNIPPET:sample_agents_stream_eventhandler_with_toolset.create_agent_with_function_tool -->
 
 ```javascript
 class FunctionToolExecutor {
@@ -474,25 +447,17 @@ const agent = await client.agents.createAgent("gpt-4o",
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Thread
 
 For each session or conversation, a thread is required. Here is an example:
-
-<!-- SNIPPET:sample_agents_basics.create_thread -->
 
 ```javascript
 const thread = await client.agents.createThread();
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Thread with Tool Resource
 
 In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `tool_resources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `tool_resources` argument.
-
-<!-- SNIPPET:sample_agents_with_resources_in_thread.create_agent_and_thread_for_file_search -->
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
@@ -523,13 +488,9 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 const thread = await client.agents.createThread({ tool_resources: fileSearchTool.resources });
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Message
 
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
-
-<!-- SNIPPET:sample_agents_basics.create_message -->
 
 ```javascript
 const message = await client.agents.createMessage(thread.id, {
@@ -538,13 +499,9 @@ const message = await client.agents.createMessage(thread.id, {
 });
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Message with File Search Attachment
 
 To attach a file to a message for content searching, you use `ToolUtility.createFileSearchTool()` and the `attachments` argument:
-
-<!-- SNIPPET:sample_agents_with_file_search_attachment.create_message_with_attachment -->
 
 ```javascript
 const fileSearchTool = ToolUtility.createFileSearchTool();
@@ -558,15 +515,11 @@ const message = await client.agents.createMessage(thread.id, {
 });
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Message with Code Interpreter Attachment
 
 To attach a file to a message for data analysis, you use `ToolUtility.createCodeInterpreterTool()` and the `attachment` argument.
 
 Here is an example:
-
-<!-- SNIPPET:sample_agents_with_code_interpreter_file_attachment.create_agent_and_message_with_code_interpreter_file_attachment -->
 
 ```javascript
 // notice that CodeInterpreter must be enabled in the agent creation,
@@ -594,8 +547,6 @@ const message = await client.agents.createMessage(thread.id, {
 console.log(`Created message, message ID: ${message.id}`);
 ```
 
-<!-- END SNIPPET -->
-
 #### Create Run, Run_and_Process, or Stream
 
 To process your message, you can use `createRun`, `createAndProcessRun`, or `createRunStreaming`.
@@ -603,8 +554,6 @@ To process your message, you can use `createRun`, `createAndProcessRun`, or `cre
 `createRun` requests the Agent to process the message without polling for the result. If you are using `function tools`, your code is responsible for polling for the result and acknowledging the status of `Run`. When the status is `requires_action`, your code is responsible for calling the function tools. For a code sample, visit [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_functions.py). <!-- TODO: Update sample/link -->
 
 Here is an example of `createRun` and poll until the run is completed:
-
-<!-- SNIPPET:sample_agents_basics.create_run -->
 
 ```javascript
 let run = await client.agents.createRun(thread.id, agent.id);
@@ -621,25 +570,17 @@ while (
 }
 ```
 
-<!-- END SNIPPET -->
-
 To have the SDK poll on your behalf, use the `createAndProcessRun` method.
 
 Here is an example:
-
-<!-- SNIPPET:sample_agents_run_with_toolset.create_and_process_run -->
 
 ```javascript
 const run = await client.agents.createAndProcessRun(thread.id, agent.id);
 ```
 
-<!-- END SNIPPET -->
-
 With streaming, polling also need not be considered.
 
 Here is an example:
-
-<!-- SNIPPET:sample_agents_stream_eventhandler.create_stream -->
 
 ```javascript
 const streamEventMessages = await client.agents.createRunStreaming(thread.id, agent.id);
@@ -679,13 +620,9 @@ switch (eventMessage.event) {
 }
 ```
 
-<!-- END SNIPPET -->
-
 #### Retrieve Message
 
 To retrieve messages from agents, use the following example:
-
-<!-- SNIPPET:sample_agents_basics.list_messages -->
 
 ```javascript
 const messages = await client.agents.listMessages(thread.id);
@@ -701,15 +638,11 @@ for (const dataPoint of messages.data.reverse()) {
   }
 ```
 
-<!-- END SNIPPET -->
-
 ### Retrieve File
 
 Files uploaded by Agents cannot be retrieved back. If your use case need to access the file content uploaded by the Agents, you are advised to keep an additional copy accessible by your application. However, files generated by Agents are retrievable by `getFileContent`.
 
 Here is an example retrieving file ids from messages:
-
-<!-- SNIPPET:sample_agents_code_interpreter.get_messages_and_save_files -->
 
 ```javascript
 const messages = await client.agents.listMessages(thread.id);
@@ -734,8 +667,6 @@ console.log(`Saved image file to: ${imageFileName}`);
 
 To remove resources after completing tasks, use the following functions:
 
-<!-- SNIPPET:sample_agents_file_search.teardown -->
-
 ```javascript
 await client.agents.deleteVectorStore(vectorStore.id);
 console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
@@ -746,8 +677,6 @@ console.log(`Deleted file, file ID: ${file.id}`);
 project_client.agents.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
-
-<!-- END SNIPPET -->
 
 <!-- TODO: Revisit w/ evaluation
 ### Evaluation
@@ -875,10 +804,11 @@ Make sure to install OpenTelemetry and the Azure SDK tracing plugin via
 <!-- TODO: review dependencies -->
 
 ```bash
-npm install @opentelemetry/api
-npm install @opentelemetry/instrumentation
-npm install @opentelemetry/sdk-trace-node
-npm install @azure/core-tracing
+npm install @opentelemetry/api \
+  @opentelemetry/instrumentation \
+  @opentelemetry/sdk-trace-node \
+  @azure/opentelemetry-instrumentation-azure-sdk \
+  @azure/monitor-opentelemetry-exporter
 ```
 
 You will also need an exporter to send telemetry to your observability backend. You can print traces to the console or use a local viewer such as [Aspire Dashboard](https://learn.microsoft.com/dotnet/aspire/fundamentals/dashboard/standalone?tabs=bash).
@@ -890,15 +820,13 @@ To connect to Aspire Dashboard or another OpenTelemetry compatible backend, inst
 ```bash
 npm install @opentelemetry/exporter-trace-otlp-proto \
   @opentelemetry/exporter-metrics-otlp-proto
-
+```
 
 <!-- TODO: review/revise tracing example -->
 
 #### Tracing example
 
 Here is a code sample to be included above `createAgent`:
-
-<!-- SNIPPET:sample_agents_basics_with_azure_monitor_tracing.enable_tracing -->
 
 ```javascript
 import { trace } from "@opentelemetry/api";
@@ -935,13 +863,13 @@ await tracer.startActiveSpan("main", async (span) => {
 ...
 ```
 
-<!-- END SNIPPET -->
-
 ## Troubleshooting
 
 ### Exceptions
 
-Client methods that make service calls raise an [HttpResponseError](https://learn.microsoft.com/python/api/azure-core/azure.core.exceptions.httpresponseerror) exception for a non-success HTTP status code response from the service. The exception's `status_code` will hold the HTTP response status code (with `reason` showing the friendly name). The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
+Client methods that make service calls raise an [RestError](https://learn.microsoft.com/en-us/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
+
+<!-- TODO: Update -->
 
 ```python
 from azure.core.exceptions import HttpResponseError
@@ -1012,9 +940,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-projects/samples) folder, containing fully runnable Python code for synchronous and asynchronous clients. <!-- TODO: Update link -->
-
-Explore the [AI Starter Template](https://aka.ms/azsdk/azure-ai-projects/python/ai-starter-template). This template creates an Azure AI Studio hub, project and connected resources including Azure OpenAI Service, AI Search and more. It also deploys a simple chat application to Azure Container Apps. <!-- TODO: Update link -->
+Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-projects/samples) folder, containing fully runnable code. <!-- TODO: Update link -->
 
 ## Contributing
 
