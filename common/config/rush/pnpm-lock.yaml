@@ -16722,7 +16722,7 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-9q57XVyhkV3PMwa8Xoyhjkzu1nBNZ9FRvcgJVjreJxiB3MDIt5s6eIcG6w19OX0FisVNHvDTGDIC9EK6BxPE2Q==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-LSgllIb6zwmU2oCTDAfY8CXSTIxn4jNj0hXEbm4orOf68NksZDVwQwa/8Puuzsj5g7GYTUkxkfifDFEhvOJqVQ==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
@@ -16736,6 +16736,7 @@ packages:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.7
+      eslint: 9.16.0
       mocha: 11.0.2
       playwright: 1.49.1
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
@@ -16747,6 +16748,7 @@ packages:
       - '@vitest/browser'
       - '@vitest/ui'
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss

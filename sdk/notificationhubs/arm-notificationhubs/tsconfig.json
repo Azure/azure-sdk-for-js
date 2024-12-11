@@ -9,16 +9,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "declaration": true,
     "importHelpers": true,
     "paths": {
-      "@azure/arm-notificationhubs": [
-        "./src/index"
-      ]
+      "@azure/arm-notificationhubs": ["./src/index"]
     },
     "rootDir": "."
   },
@@ -31,7 +26,5 @@
     "test/**/*.mts",
     "test/**/*.cts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

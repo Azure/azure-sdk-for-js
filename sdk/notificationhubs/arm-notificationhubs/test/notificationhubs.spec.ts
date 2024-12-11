@@ -10,6 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { NotificationHubsManagementClient } from "../src/notificationHubsManagementClient.js";
+import type { NotificationHubResource } from "../src/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -103,7 +104,7 @@ describe("NotificationHubs test", () => {
   });
 
   it("notificationHubs list test", async () => {
-    const resArray = new Array();
+    const resArray: NotificationHubResource[] = [];
     for await (const item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
       resArray.push(item);
     }
@@ -116,7 +117,7 @@ describe("NotificationHubs test", () => {
       nameSpaceName,
       notificationhubsName,
     );
-    const resArray = new Array();
+    const resArray: NotificationHubResource[] = [];
     for await (const item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
       resArray.push(item);
     }
