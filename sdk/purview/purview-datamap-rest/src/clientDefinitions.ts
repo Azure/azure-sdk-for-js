@@ -114,8 +114,8 @@ import type {
   EntityGetDefaultResponse,
   EntityPartialUpdateAttributeByGuid200Response,
   EntityPartialUpdateAttributeByGuidDefaultResponse,
-  EntityDeleteOperation200Response,
-  EntityDeleteOperationDefaultResponse,
+  EntityDelete200Response,
+  EntityDeleteDefaultResponse,
   EntityGetClassification200Response,
   EntityGetClassificationDefaultResponse,
   EntityRemoveClassification204Response,
@@ -214,8 +214,8 @@ import type {
   GlossaryGetDefaultResponse,
   GlossaryUpdate200Response,
   GlossaryUpdateDefaultResponse,
-  GlossaryDeleteOperation204Response,
-  GlossaryDeleteOperationDefaultResponse,
+  GlossaryDelete204Response,
+  GlossaryDeleteDefaultResponse,
   GlossaryListCategories200Response,
   GlossaryListCategoriesDefaultResponse,
   GlossaryListCategoriesHeaders200Response,
@@ -246,8 +246,8 @@ import type {
   RelationshipUpdateDefaultResponse,
   RelationshipGet200Response,
   RelationshipGetDefaultResponse,
-  RelationshipDeleteOperation204Response,
-  RelationshipDeleteOperationDefaultResponse,
+  RelationshipDelete204Response,
+  RelationshipDeleteDefaultResponse,
   TypeGetBusinessMetadataDefByGuid200Response,
   TypeGetBusinessMetadataDefByGuidDefaultResponse,
   TypeGetBusinessMetadataDefByName200Response,
@@ -276,8 +276,8 @@ import type {
   TypeGetByGuidDefaultResponse,
   TypeGetByName200Response,
   TypeGetByNameDefaultResponse,
-  TypeDeleteOperation204Response,
-  TypeDeleteOperationDefaultResponse,
+  TypeDelete204Response,
+  TypeDeleteDefaultResponse,
   TypeList200Response,
   TypeListDefaultResponse,
   TypeBulkCreate200Response,
@@ -306,7 +306,7 @@ export interface EntityCreateOrUpdate {
    * For each contact type, the maximum number of contacts is 20.
    */
   post(
-    options?: EntityCreateOrUpdateParameters,
+    options: EntityCreateOrUpdateParameters,
   ): StreamableMethod<EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse>;
 }
 
@@ -326,7 +326,7 @@ export interface EntityListByGuids {
    * is 20.
    */
   post(
-    options?: EntityBulkCreateOrUpdateParameters,
+    options: EntityBulkCreateOrUpdateParameters,
   ): StreamableMethod<
     EntityBulkCreateOrUpdate200Response | EntityBulkCreateOrUpdateDefaultResponse
   >;
@@ -342,7 +342,7 @@ export interface EntityListByGuids {
 export interface EntityAddClassification {
   /** Associate a classification to multiple entities in bulk. */
   post(
-    options?: EntityAddClassificationParameters,
+    options: EntityAddClassificationParameters,
   ): StreamableMethod<EntityAddClassification204Response | EntityAddClassificationDefaultResponse>;
 }
 
@@ -367,7 +367,7 @@ export interface EntityGet {
   /** Delete an entity identified by its GUID. */
   delete(
     options?: EntityDeleteParameters,
-  ): StreamableMethod<EntityDeleteOperation200Response | EntityDeleteOperationDefaultResponse>;
+  ): StreamableMethod<EntityDelete200Response | EntityDeleteDefaultResponse>;
 }
 
 export interface EntityGetClassification {
@@ -445,7 +445,7 @@ export interface EntityGetByUniqueAttributes {
    * /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   put(
-    options?: EntityPartialUpdateByUniqueAttributesParameters,
+    options: EntityPartialUpdateByUniqueAttributesParameters,
   ): StreamableMethod<
     | EntityPartialUpdateByUniqueAttributes200Response
     | EntityPartialUpdateByUniqueAttributesDefaultResponse
@@ -504,7 +504,7 @@ export interface EntityAddClassificationsByUniqueAttribute {
 export interface EntityBulkSetClassifications {
   /** Set classifications on entities in bulk. */
   post(
-    options?: EntityBulkSetClassificationsParameters,
+    options: EntityBulkSetClassificationsParameters,
   ): StreamableMethod<
     EntityBulkSetClassifications200Response | EntityBulkSetClassificationsDefaultResponse
   >;
@@ -692,19 +692,15 @@ export interface GlossaryList {
   /**
    * Get all glossaries. Recommend using limit/offset to get pagination result.
    * Recommend using 'ignoreTermsAndCategories=true' and fetch terms/categories
-   * separately using
-   *
-   *  'GET /datamap/api/atlas/v2/glossary/{glossaryId}/terms'
-   * and
-   *
-   *  'GET '/datamap/api/atlas/v2/glossary/{glossaryId}/categories'.
+   * separately using 'GET /datamap/api/atlas/v2/glossary/{glossaryId}/terms'
+   * and 'GET '/datamap/api/atlas/v2/glossary/{glossaryId}/categories'.
    */
   get(
     options?: GlossaryListParameters,
   ): StreamableMethod<GlossaryList200Response | GlossaryListDefaultResponse>;
   /** Create a glossary. */
   post(
-    options?: GlossaryCreateParameters,
+    options: GlossaryCreateParameters,
   ): StreamableMethod<GlossaryCreate200Response | GlossaryCreateDefaultResponse>;
 }
 
@@ -720,7 +716,7 @@ export interface GlossaryCreateCategories {
 export interface GlossaryCreateCategory {
   /** Create a glossary category. */
   post(
-    options?: GlossaryCreateCategoryParameters,
+    options: GlossaryCreateCategoryParameters,
   ): StreamableMethod<GlossaryCreateCategory200Response | GlossaryCreateCategoryDefaultResponse>;
 }
 
@@ -731,7 +727,7 @@ export interface GlossaryGetCategory {
   ): StreamableMethod<GlossaryGetCategory200Response | GlossaryGetCategoryDefaultResponse>;
   /** Update the given glossary category by its GUID. */
   put(
-    options?: GlossaryUpdateCategoryParameters,
+    options: GlossaryUpdateCategoryParameters,
   ): StreamableMethod<GlossaryUpdateCategory200Response | GlossaryUpdateCategoryDefaultResponse>;
   /** Delete a glossary category. */
   delete(
@@ -775,7 +771,7 @@ export interface GlossaryListCategoryTerms {
 export interface GlossaryCreateTerm {
   /** Create a glossary term. */
   post(
-    options?: GlossaryCreateTermParameters,
+    options: GlossaryCreateTermParameters,
   ): StreamableMethod<GlossaryCreateTerm200Response | GlossaryCreateTermDefaultResponse>;
 }
 
@@ -786,7 +782,7 @@ export interface GlossaryGetTerm {
   ): StreamableMethod<GlossaryGetTerm200Response | GlossaryGetTermDefaultResponse>;
   /** Update the given glossary term by its GUID. */
   put(
-    options?: GlossaryUpdateTermParameters,
+    options: GlossaryUpdateTermParameters,
   ): StreamableMethod<GlossaryUpdateTerm200Response | GlossaryUpdateTermDefaultResponse>;
   /** Delete a glossary term. */
   delete(
@@ -865,7 +861,7 @@ export interface GlossaryGet {
   ): StreamableMethod<GlossaryGet200Response | GlossaryGetDefaultResponse>;
   /** Update the given glossary. */
   put(
-    options?: GlossaryUpdateParameters,
+    options: GlossaryUpdateParameters,
   ): StreamableMethod<GlossaryUpdate200Response | GlossaryUpdateDefaultResponse>;
   /**
    * Delete a glossary. Will delete underlying terms/categories together. Recommend
@@ -873,7 +869,7 @@ export interface GlossaryGet {
    */
   delete(
     options?: GlossaryDeleteParameters,
-  ): StreamableMethod<GlossaryDeleteOperation204Response | GlossaryDeleteOperationDefaultResponse>;
+  ): StreamableMethod<GlossaryDelete204Response | GlossaryDeleteDefaultResponse>;
 }
 
 export interface GlossaryListCategories {
@@ -953,21 +949,21 @@ export interface GlossaryListTermHeaders {
 export interface DiscoveryQuery {
   /** Get data using search. */
   post(
-    options?: DiscoveryQueryParameters,
+    options: DiscoveryQueryParameters,
   ): StreamableMethod<DiscoveryQuery200Response | DiscoveryQueryDefaultResponse>;
 }
 
 export interface DiscoverySuggest {
   /** Get search suggestions by query criteria. */
   post(
-    options?: DiscoverySuggestParameters,
+    options: DiscoverySuggestParameters,
   ): StreamableMethod<DiscoverySuggest200Response | DiscoverySuggestDefaultResponse>;
 }
 
 export interface DiscoveryAutoComplete {
   /** Get auto complete options. */
   post(
-    options?: DiscoveryAutoCompleteParameters,
+    options: DiscoveryAutoCompleteParameters,
   ): StreamableMethod<DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse>;
 }
 
@@ -1014,11 +1010,11 @@ export interface LineageGetByUniqueAttribute {
 export interface RelationshipCreate {
   /** Create a new relationship between entities. */
   post(
-    options?: RelationshipCreateParameters,
+    options: RelationshipCreateParameters,
   ): StreamableMethod<RelationshipCreate200Response | RelationshipCreateDefaultResponse>;
   /** Update an existing relationship between entities. */
   put(
-    options?: RelationshipUpdateParameters,
+    options: RelationshipUpdateParameters,
   ): StreamableMethod<RelationshipUpdate200Response | RelationshipUpdateDefaultResponse>;
 }
 
@@ -1030,9 +1026,7 @@ export interface RelationshipGet {
   /** Delete a relationship between entities by its GUID. */
   delete(
     options?: RelationshipDeleteParameters,
-  ): StreamableMethod<
-    RelationshipDeleteOperation204Response | RelationshipDeleteOperationDefaultResponse
-  >;
+  ): StreamableMethod<RelationshipDelete204Response | RelationshipDeleteDefaultResponse>;
 }
 
 export interface TypeGetBusinessMetadataDefByGuid {
@@ -1146,7 +1140,7 @@ export interface TypeGetByName {
   /** Delete API for type identified by its name. */
   delete(
     options?: TypeDeleteParameters,
-  ): StreamableMethod<TypeDeleteOperation204Response | TypeDeleteOperationDefaultResponse>;
+  ): StreamableMethod<TypeDelete204Response | TypeDeleteDefaultResponse>;
 }
 
 export interface TypeList {
@@ -1154,24 +1148,20 @@ export interface TypeList {
   get(
     options?: TypeListParameters,
   ): StreamableMethod<TypeList200Response | TypeListDefaultResponse>;
-  /**
-   * Create all atlas type definitions in bulk, only new definitions will be
-   * created.
-   * Any changes to the existing definitions will be discarded.
-   */
+  /** Create all atlas type definitions in bulk. Please avoid recreating existing types. */
   post(
-    options?: TypeBulkCreateParameters,
+    options: TypeBulkCreateParameters,
   ): StreamableMethod<TypeBulkCreate200Response | TypeBulkCreateDefaultResponse>;
   /**
    * Update all types in bulk, changes detected in the type definitions would be
    * persisted.
    */
   put(
-    options?: TypeBulkUpdateParameters,
+    options: TypeBulkUpdateParameters,
   ): StreamableMethod<TypeBulkUpdate200Response | TypeBulkUpdateDefaultResponse>;
   /** Delete API for all types in bulk. */
   delete(
-    options?: TypeBulkDeleteParameters,
+    options: TypeBulkDeleteParameters,
   ): StreamableMethod<TypeBulkDelete204Response | TypeBulkDeleteDefaultResponse>;
 }
 
