@@ -8,27 +8,43 @@ import { validateLimit, validateMessages, validateMetadata, validateOrder, valid
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateOrUpdateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
+import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
+import { AgentEventMessageStream } from "./streamingModels.js";
+import { AgentRunResponse } from "./customModels.js";
 
 const expectedStatuses = ["200"];
 
 /** Creates and starts a new run of the specified thread using the specified agent. */
-export async function createRun(
+export function createRun(
   context: Client,
   threadId: string,
   options: CreateRunParameters,
-): Promise<ThreadRunOutput> {
+): AgentRunResponse {
   validateThreadId(threadId);
   validateCreateRunParameters(options);
   options.body.stream = false;
-  return TracingUtility.withSpan("CreateRun", options, async (updateOptions) => {
-    const result = await context
-      .path("/threads/{threadId}/runs", threadId)
-      .post(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+  return {
+    then: function (onFulfilled, onrejected) {
+      return TracingUtility.withSpan("CreateRun", options, async (updateOptions) => {
+        const result = await context
+          .path("/threads/{threadId}/runs", threadId)
+          .post(updateOptions);
+        if (!expectedStatuses.includes(result.status)) {
+          if (onrejected) {
+            onrejected(createRestError(result));
+          }
+          throw createRestError(result);
+        }
+        if (onFulfilled) {
+          return onFulfilled(result.body);
+        }
+        return result.body;
+      }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return createRunStreaming(context, threadId, options);
     }
-    return result.body;
-  }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun);
+  }
 }
 
 /** Gets a list of runs for a specified thread. */
@@ -89,24 +105,37 @@ export async function updateRun(
 }
 
 /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
-export async function submitToolOutputsToRun(
+export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
   options: SubmitToolOutputsToRunParameters,
-): Promise<ThreadRunOutput> {
+): AgentRunResponse {
   validateThreadId(threadId);
   validateRunId(runId);
   options.body.stream = false;
-  return TracingUtility.withSpan("SubmitToolOutputsToRun", options, async (updateOptions) => {
-    const result = await context
-      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-      .post(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+  return {
+    then: function (onFulfilled, onrejected) {
+      return TracingUtility.withSpan("SubmitToolOutputsToRun", options, async (updateOptions) => {
+        const result = await context
+          .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+          .post(updateOptions);
+        if (!expectedStatuses.includes(result.status)) {
+          if (onrejected) {
+            onrejected(createRestError(result));
+          }
+          throw createRestError(result);
+        }
+        if (onFulfilled) {
+          return onFulfilled(result.body);
+        }
+        return result.body;
+      }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
     }
-    return result.body;
-  }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun);
+  }
 }
 
 /** Cancels a run of an in progress thread. */
@@ -130,19 +159,32 @@ export async function cancelRun(
 }
 
 /** Creates a new thread and immediately starts a run of that thread. */
-export async function createThreadAndRun(
+export function createThreadAndRun(
   context: Client,
   options: CreateThreadAndRunParameters,
-): Promise<ThreadRunOutput> {
+): AgentRunResponse {
   validateCreateThreadAndRunParameters(options);
   options.body.stream = false;
-  return TracingUtility.withSpan("CreateThreadAndRun", options, async (updateOptions) => {
-    const result = await context.path("/threads/runs").post(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+  return {
+    then: function (onFulfilled, onrejected) {
+      return TracingUtility.withSpan("CreateThreadAndRun", options, async (updateOptions) => {
+        const result = await context.path("/threads/runs").post(updateOptions);
+        if (!expectedStatuses.includes(result.status)) {
+          if (onrejected) {
+            onrejected(createRestError(result));
+          }
+          throw createRestError(result);
+        }
+        if (onFulfilled) {
+          return onFulfilled(result.body);
+        }
+        return result.body;
+      }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return createThreadAndRunStreaming(context, options);
     }
-    return result.body;
-  }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun);
+  }
 }
 
 function validateListRunsParameters(thread_id: string, options?: ListRunsParameters): void {
