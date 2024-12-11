@@ -56,8 +56,9 @@ export default function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-          }api-version=${apiVersion}`;
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
       }
 
       return next(req);
@@ -74,7 +75,7 @@ export default function createClient(
         logger.info(`Matched URL pattern for figures: ${req.url}`);
         req.streamResponseStatusCodes = new Set([200]);
         logger.info("Set streamResponseStatusCodes to 200 for the figures API");
-      };
+      }
 
       const response = await next(req);
 
@@ -88,9 +89,11 @@ export default function createClient(
         }
         logger.info("Converting readable stream to Uint8Array");
         // Casting Uint8Array as NodeJS.ReadableStream so that the users can directly consume Uint8Array response body
-        response.readableStreamBody = await streamToUint8Array(response.readableStreamBody) as unknown as NodeJS.ReadableStream;
+        response.readableStreamBody = (await streamToUint8Array(
+          response.readableStreamBody,
+        )) as unknown as NodeJS.ReadableStream;
         logger.info("ResponseStreamToUint8ArrayPolicy ends");
-      };
+      }
 
       return response;
     },
