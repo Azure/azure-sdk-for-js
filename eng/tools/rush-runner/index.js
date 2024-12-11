@@ -118,6 +118,7 @@ const restrictedToPackages = [
   "@azure-tools/test-recorder",
   "@azure-tools/test-credential",
   "@azure-tools/test-utils",
+  "@azure-tools/test-utils-vitest"
 ];
 
 /**
