@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use basic files agent operations from the Azure Agents service using a synchronous client.
+ * This sample demonstrates how to use basic files agent operations from the Azure Agents service.
  *
  * @summary demonstrates how to use basic files agent operations.
  */
@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
     const readable = new Readable();
     readable.push(fileContent);
     readable.push(null); // end the stream
-    const file = await client.agents.uploadFile(readable, "assistants", "myFile.txt");
+    const file = await client.agents.uploadFile(readable, "assistants");
     console.log(`Uploaded file, file ID : ${file.id}`);
 
     // List uploaded files

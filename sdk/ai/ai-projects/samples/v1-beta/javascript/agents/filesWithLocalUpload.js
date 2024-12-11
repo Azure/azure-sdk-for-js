@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use basic files agent operations with local file upload from the Azure Agents service using a synchronous client.
+ * This sample demonstrates how to use basic files agent operations with local file upload from the Azure Agents service.
  *
  * @summary demonstrates how to use basic files agent operations with local file upload.
  */
@@ -24,7 +24,7 @@ async function main() {
   );
 
   // Upload local file
-  const localFileStream = fs.createReadStream("samples-dev/data/localFile.txt");
+  const localFileStream = fs.createReadStream("./data/localFile.txt");
   const localFile = await client.agents.uploadFile(
     localFileStream,
     "assistants",

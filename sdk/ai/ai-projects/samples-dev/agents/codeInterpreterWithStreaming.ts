@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const localFileStream = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
+  const localFileStream = fs.createReadStream("./data/nifty500QuarterlyResults.csv");
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -104,7 +104,7 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFileOutput = (messages.data[0].content[0] as MessageImageFileContentOutput);
   const imageFile = imageFileOutput.image_file.file_id; 
-  const imageFileName = "samples-dev/data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
+  const imageFileName = "./data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
   console.log(`Image file name : ${imageFileName}`);
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;

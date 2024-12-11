@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service using a synchronous client.
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
  *
  * @summary demonstrates how to use agent operations with code interpreter.
  */
@@ -32,7 +32,7 @@ async function main() {
   );
 
   // Upload file and wait for it to be processed
-  const localFileStream = fs.createReadStream("samples-dev/data/nifty500QuarterlyResults.csv");
+  const localFileStream = fs.createReadStream("./data/nifty500QuarterlyResults.csv");
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -117,7 +117,7 @@ async function main() {
   const imageFileOutput = messages.data[0].content[0];
   const imageFile = imageFileOutput.image_file.file_id;
   const imageFileName =
-    "samples-dev/data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
+    "./data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png";
   console.log(`Image file name : ${imageFileName}`);
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;

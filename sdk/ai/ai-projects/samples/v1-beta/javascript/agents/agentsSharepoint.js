@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use agent operations with the Sharepoint tool from the Azure Agents service using a asynchronous client.
+ * This sample demonstrates how to use agent operations with the Sharepoint tool from the Azure Agents service.
  *
  * @summary demonstrates how to use agent operations with the Sharepoint tool.
  */
