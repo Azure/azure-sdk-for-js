@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Location, TestStep } from "@playwright/test/reporter";
-import type { ServiceAuth, ServiceOS } from "./constants";
+import type { ServiceAuth, ServiceOS } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
 
 export type JwtPayload = {
