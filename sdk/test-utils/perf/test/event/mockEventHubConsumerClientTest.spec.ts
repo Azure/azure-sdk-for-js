@@ -4,6 +4,7 @@
 import { PerfOptionDictionary } from "../../src/index.js";
 import { EventPerfTest } from "../../src/eventPerfTest.js";
 import { MockEventHubConsumerClient, Event, SubscribeOptions } from "./mockEventHubConsumerClient.js";
+import { describe, it, assert } from "vitest";
 
 export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptions> {
   public client: MockEventHubConsumerClient;

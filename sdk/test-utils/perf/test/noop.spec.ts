@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { PerfTest } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 /**
  * Should test the raw performance impact of the Perf framework for both synchronous and asynchronous tests.

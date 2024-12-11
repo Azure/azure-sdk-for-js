@@ -4,6 +4,7 @@
 import { PerfOptionDictionary } from "../../src/index.js";
 import { EventPerfTest } from "../../src/eventPerfTest.js";
 import { MockEventReceiver, Event } from "./mockEventReceiver.js";
+import { describe, it, assert } from "vitest";
 
 export class MockEventReceiverTest extends EventPerfTest {
   public client: MockEventReceiver;

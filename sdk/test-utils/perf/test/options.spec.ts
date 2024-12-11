@@ -3,6 +3,7 @@
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { PerfTest, PerfOptionDictionary } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 interface OptionsTestOptions {
   "non-req": string;

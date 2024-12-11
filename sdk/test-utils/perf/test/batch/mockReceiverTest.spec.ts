@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BatchPerfTest, PerfOptionDictionary } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 interface MockReceiverOptions {
   "max-message-count": number;

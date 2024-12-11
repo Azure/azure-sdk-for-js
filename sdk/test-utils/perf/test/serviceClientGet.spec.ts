@@ -5,6 +5,7 @@ import { createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipelin
 import { ServiceClient } from "@azure/core-client";
 import { PerfTest, PerfOptionDictionary, drainStream } from "../src/index.js";
 import { getCachedHttpsAgent } from "../src/utils/utils.js";
+import { describe, it, assert } from "vitest";
 
 interface ServiceClientGetOptions {
   "first-run-extra-requests": number;
