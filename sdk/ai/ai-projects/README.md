@@ -9,7 +9,6 @@ Use the AI Projects client library (in preview) to:
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples][samples]
-| [API reference documentation](https://aka.ms/azsdk/azure-ai-projects/python/reference) <!-- TODO: Update aka.ms/azsdk link -->
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-projects/)
 
@@ -478,7 +477,7 @@ console.log(`Created message, message ID: ${message.id}`);
 
 To process your message, you can use `createRun` or `createAndProcessRun`.
 
-`createRun` requests the Agent to process the message without polling for the result. If you are using `function tools`, your code is responsible for polling for the result and acknowledging the status of `Run`. When the status is `requires_action`, your code is responsible for calling the function tools. For a code sample, visit [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_functions.py). <!-- TODO: Update sample/link -->
+`createRun` requests the Agent to process the message without polling for the result. If you are using `function tools`, your code is responsible for polling for the result and acknowledging the status of `Run`. When the status is `requires_action`, your code is responsible for calling the function tools. For a code sample, visit [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples/agentsWithFunctionTool.ts).
 
 Here is an example of `createRun` and poll until the run is completed:
 
@@ -701,7 +700,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-projects/samples) folder, containing fully runnable code. <!-- TODO: Update link -->
+Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples) folder, containing fully runnable code.
 
 ## Contributing
 
@@ -722,7 +721,7 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: <!-- TODO: Update link -->
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
