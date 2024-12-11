@@ -4,14 +4,13 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -31,6 +30,11 @@ export default ConfidentialLedger;
 export type ConfidentialLedgerClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface ConfidentialLedgerClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface ConfidentialLedgerEnclavesOutput {
@@ -301,7 +305,7 @@ export interface GetLedgerEntryQueryParamProperties {
 export function getLedgerIdentity(ledgerId: string, identityServiceBaseUrl?: string): Promise<LedgerIdentity>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -546,6 +550,13 @@ export interface ListLedgerEntriesQueryParamProperties {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
 export interface PagedCollectionsOutput {
     // (undocumented)
     collections: Array<CollectionOutput>;
@@ -557,6 +568,11 @@ export interface PagedLedgerEntriesOutput {
     entries: Array<LedgerEntryOutput>;
     nextLink?: string;
     state: "Loading" | "Ready";
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
