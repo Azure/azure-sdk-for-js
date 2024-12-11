@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {AIProjectsClient, isOutputOfType, MessageContentOutput, MessageTextContentOutput} from "@azure/ai-projects"
+import {AIProjectsClient, MessageTextContentOutput} from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -18,13 +18,8 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID: ${message.id}`);
 
   const messages = await client.agents.listMessages(thread.id);
-  for (const dataPoint of messages.data.reverse()) {
-    const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
-    console.log( lastMessageContent);
-    if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
-      console.log(`${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`);
-    }
-  }
+  console.log(`Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContentOutput).text.value}`);
+
   const updatedMessage = await client.agents.updateMessage(thread.id, message.id, { metadata: {"introduction": "true"} });
   console.log(`Updated message metadata - introduction: ${updatedMessage.metadata?.introduction}`);
 

@@ -2,7 +2,7 @@
 
 Use the AI Projects client library (in preview) to:
 
-- **Enumerate connections** in your Azure AI Studio project and get connection properties.
+- **Enumerate connections** in your Azure AI Foundry project and get connection properties.
   For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
 - **Enable OpenTelemetry tracing**.
@@ -10,7 +10,7 @@ Use the AI Projects client library (in preview) to:
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples][samples]
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-projects/)
+| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
 ## Table of contents
 
@@ -57,8 +57,8 @@ Use the AI Projects client library (in preview) to:
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
-- A [project in Azure AI Studio](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
-- The project connection string. It can be found in your Azure AI Studio project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
+- A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
+- The project connection string. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
 - Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
   - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
@@ -96,13 +96,13 @@ const client = AIProjectsClient.fromConnectionString(
 
 ### Enumerate connections
 
-Your Azure AI Studio project has a "Management center". When you enter it, you will see a tab named "Connected resources" under your project. The `.connections` operations on the client allow you to enumerate the connections and get connection properties. Connection properties include the resource URL and authentication credentials, among other things.
+Your Azure AI Foundry project has a "Management center". When you enter it, you will see a tab named "Connected resources" under your project. The `.connections` operations on the client allow you to enumerate the connections and get connection properties. Connection properties include the resource URL and authentication credentials, among other things.
 
 Below are code examples of the connection operations. Full samples can be found under the "connections" folder in the [package samples][samples].
 
 #### Get properties of all connections
 
-To list the properties of all the connections in the Azure AI Studio project:
+To list the properties of all the connections in the Azure AI Foundry project:
 
 ```javascript
 const connections = await client.connections.listConnections();
@@ -475,10 +475,6 @@ console.log(`Created message, message ID: ${message.id}`);
 
 #### Create Run, Run_and_Process, or Stream
 
-To process your message, you can use `createRun` or `createAndProcessRun`.
-
-`createRun` requests the Agent to process the message without polling for the result. If you are using `function tools`, your code is responsible for polling for the result and acknowledging the status of `Run`. When the status is `requires_action`, your code is responsible for calling the function tools. For a code sample, visit [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples/agentsWithFunctionTool.ts).
-
 Here is an example of `createRun` and poll until the run is completed:
 
 ```javascript
@@ -496,12 +492,12 @@ while (
 }
 ```
 
-To have the SDK poll on your behalf, use the `createAndProcessRun` method.
+To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 
 Here is an example:
 
 ```javascript
-const run = await client.agents.createAndProcessRun(thread.id, agent.id);
+const run = await client.agents.createThreadAndRun(thread.id, agent.id);
 ```
 
 With streaming, polling also need not be considered.
@@ -606,7 +602,7 @@ console.log(`Deleted agent, agent ID: ${agent.id}`);
 
 ### Tracing
 
-You can add an Application Insights Azure resource to your Azure AI Studio project. See the Tracing tab in your studio. If one was enabled, you can get the Application Insights connection string, configure your Agents, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create an Agent.
+You can add an Application Insights Azure resource to your Azure AI Foundry project. See the Tracing tab in your studio. If one was enabled, you can get the Application Insights connection string, configure your Agents, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create an Agent.
 
 #### Installation
 
@@ -700,7 +696,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples) folder, containing fully runnable code.
+Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
 
 ## Contributing
 
@@ -721,7 +717,7 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/ai/ai-projects/samples
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
