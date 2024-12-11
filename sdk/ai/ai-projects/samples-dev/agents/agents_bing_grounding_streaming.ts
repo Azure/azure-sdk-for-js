@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   const message = await client.agents.createMessage(thread.id, {role: "user", content: "How does wikipedia explain Euler's Identity?"});
   console.log(`Created message, message ID: ${message.id}`);
 
-  const streamEventMessages = await client.agents.createRunStreaming(thread.id, agent.id);
+  const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {

@@ -38,14 +38,14 @@ describe("Agents - streaming", () => {
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming
-    const streamEventMessages = await agents.createRunStreaming(thread.id, agent.id );
+    const streamEventMessages = await agents.createRun(thread.id, agent.id).stream();
     let hasEventMessages = false;
 
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-         console.log(`Thread Run Created - ${( eventMessage.data as ThreadRunOutput).assistant_id}`)
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistant_id}`)
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
@@ -75,9 +75,10 @@ describe("Agents - streaming", () => {
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread and run streaming
-    const streamEventMessages = await agents.createThreadAndRunStreaming(agent.id,{
+    const streamEventMessages = await agents.createThreadAndRun(agent.id, {
       thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
-    });
+    }).stream();
+
     let hasEventMessages = false
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
