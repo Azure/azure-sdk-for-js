@@ -5,7 +5,6 @@
  * This sample demonstrates how to use basic thread agent operations from the Azure Agents service.
  *
  * @summary demonstrates how to use basic thread agent operations.
- *
  */
 
 import {AIProjectsClient} from "@azure/ai-projects"
