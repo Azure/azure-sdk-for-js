@@ -88,7 +88,7 @@ export default function createClient(
           });
         }
         logger.info("Converting readable stream to Uint8Array");
-        // Casting Uint8Array as NodeJS.ReadableStream so that the users can directly consume Uint8Array response body
+        // Casting Uint8Array as NodeJS.ReadableStream which gets passed on as response.body, this lets users consume Uint8Array response body directly
         response.readableStreamBody = (await streamToUint8Array(
           response.readableStreamBody,
         )) as unknown as NodeJS.ReadableStream;
