@@ -249,7 +249,7 @@ describe("model management", () => {
         (await (await poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
       ).result!;
 
-      assert.equal(modelId, modelId);
+      assert.equal(modelId, testModelId);
       if (!docTypes) {
         throw new Error("Expected docTypes to be defined");
       }
