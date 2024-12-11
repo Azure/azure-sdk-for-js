@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { GetConnectionResponseOutput, GetWorkspaceResponseOutput, ListConnectionsResponseOutput } from "./inputOutput.js";
+import { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
 import { GetWorkspaceParameters, GetConnectionParameters, GetConnectionWithSecretsParameters, ListConnectionsParameters } from "../generated/src/parameters.js";
 
 const expectedStatuses = ["200"];
@@ -23,12 +23,12 @@ export async function getWorkspace(
 export async function listConnections(
   context: Client,
   options?: ListConnectionsParameters
-): Promise<ListConnectionsResponseOutput> {
+): Promise<Array<GetConnectionResponseOutput>> {
   const result = await context.path("/connections").get(options);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
-  return result.body;
+  return result.body.value;
 }
 
 /** Get the details of a single connection, without credentials. */

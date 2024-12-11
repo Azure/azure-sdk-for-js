@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 
-import { AIProjectsClient, FunctionDefinition, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, RequiredToolCallOutput, SubmitToolOutputsActionOutput, ToolDefinition, ToolOutput, isOutputOfType } from "@azure/ai-projects"
+import { AIProjectsClient, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, RequiredToolCallOutput, SubmitToolOutputsActionOutput, ToolOutput, ToolUtility, isOutputOfType } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -20,28 +20,30 @@ export async function main(): Promise<void> {
     const agents = client.agents;
 
     class FunctionToolExecutor {
-        private functionTools: { func: Function, definition: FunctionDefinition }[];
+        private functionTools: { func: Function, definition: FunctionToolDefinition }[];
 
         constructor() {
             this.functionTools = [{
-                func: this.getUserFavoriteCity, definition: {
+                func: this.getUserFavoriteCity, 
+                ...ToolUtility.createFunctionTool({
                     name: "getUserFavoriteCity",
                     description: "Gets the user's favorite city.",
                     parameters: {}
-                }
+                })
             }, {
-                func: this.getCityNickname, definition: {
-                    name: "getCityNickname",
-                    description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
-                    parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" } } }
-                }
-            },
-            {
-                func: this.getWeather, definition: {
+                func: this.getCityNickname,
+                ...ToolUtility.createFunctionTool({
+                  name: "getCityNickname",
+                  description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
+                  parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" } } }
+                })
+            }, {
+                func: this.getWeather,
+                ...ToolUtility.createFunctionTool({
                     name: "getWeather",
                     description: "Gets the weather for a location.",
                     parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" }, unit: { type: "string", enum: ['c', 'f'] } } }
-                }
+                })
             }];
         }
 
@@ -73,7 +75,7 @@ export async function main(): Promise<void> {
                     return undefined;
                 }
             }
-            const result = this.functionTools.find((tool) => tool.definition.name === toolCall.function.name)?.func(...args);
+            const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
             return result ? {
                 tool_call_id: toolCall.id,
                 output: JSON.stringify(result)
@@ -81,7 +83,7 @@ export async function main(): Promise<void> {
         }
 
         public getFunctionDefinitions(): FunctionToolDefinition[] {
-            return this.functionTools.map(tool => {return { type: "function", function: tool.definition}});
+            return this.functionTools.map(tool => {return tool.definition});
         }
     }
 

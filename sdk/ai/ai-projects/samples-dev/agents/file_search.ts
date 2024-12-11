@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,14 +23,17 @@ export async function main(): Promise<void> {
   const vectorStore = await client.agents.createVectorStore({ file_ids: [file.id], name: "my_vector_store" });
   console.log(`Created vector store, ID: ${vectorStore.id}`);
 
-  // Create agent with files
+  // Create file search tool
+  const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
+
+  // Create agent with tool
   const agent  = await client.agents.createAgent(
     "gpt-4o",
     {
       name:"SDK Test Agent - Retrieval",
       instructions:"You are helpful agent that can help fetch data from files you know about.",
-      tools: [{type: "file_search" }],
-      tool_resources: {file_search: {vector_store_ids: [vectorStore.id]} }
+      tools: [fileSearchTool.definition],
+      tool_resources: fileSearchTool.resources
     }
   );
   console.log(`Created agent, agent ID : ${agent.id}`);

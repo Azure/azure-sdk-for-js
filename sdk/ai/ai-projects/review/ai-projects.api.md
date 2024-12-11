@@ -144,6 +144,7 @@ export interface AgentsOperations {
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -172,6 +173,7 @@ export class AIProjectsClient {
     readonly connections: ConnectionsOperations;
     readonly evaluations: EvaluationsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
+    readonly telemetry: TelemetryOperations;
 }
 
 // @public (undocumented)
@@ -269,7 +271,7 @@ export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<ListConnectionsResponseOutput>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public
@@ -550,9 +552,6 @@ export type Frequency = string;
 
 // @public
 export type FrequencyOutput = string;
-
-// @public
-export function fromConnectionId(toolType: connectionToolType, connectionIds: string[]): ToolDefinitionParent;
 
 // @public
 export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;
@@ -1479,6 +1478,14 @@ export interface SystemDataOutput {
 }
 
 // @public
+export interface TelemetryOperations {
+    getConnectionString(): Promise<string>;
+    getSettings(): TelemetryOptions;
+    // Warning: (ae-forgotten-export) The symbol "TelemetryOptions" needs to be exported by the entry point index.d.ts
+    updateSettings(options: TelemetryOptions): void;
+}
+
+// @public
 export interface ThreadDeletionStatusOutput {
     deleted: boolean;
     id: string;
@@ -1622,6 +1629,49 @@ export interface ToolResourcesOutput {
     azure_ai_search?: AzureAISearchResourceOutput;
     code_interpreter?: CodeInterpreterToolResourceOutput;
     file_search?: FileSearchToolResourceOutput;
+}
+
+// @public
+export class ToolSet {
+    addAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
+    toolDefinitions: ToolDefinition[];
+    toolResources: ToolResources;
+}
+
+// @public
+export class ToolUtility {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+        definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
+        definition: CodeInterpreterToolDefinition;
+        resources: ToolResources;
+    };
+    static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
+        definition: FileSearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createFunctionTool(functionDefinition: FunctionDefinition): {
+        definition: FunctionToolDefinition;
+    };
 }
 
 // @public
