@@ -5,13 +5,13 @@
   "description": "Performance test framework for the Azure SDK for JavaScript and TypeScript",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": "./dist/browser/index.js",
   "types": "./types/src/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npm run clean && tsc -p .",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
     "build:test": "echo not needed",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -30,14 +30,12 @@
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "npm run build && ts-node runAllTests.ts",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -67,16 +65,32 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/fs-extra": "^11.0.0",
     "@types/node": "^18.0.0",
+    "@vitest/browser": "^2.1.8",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "eslint": "^9.9.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.6.2"
+    "playwright": "^1.49.1",
+    "typescript": "~5.6.2",
+    "vitest": "^2.1.8"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
   }
 }
