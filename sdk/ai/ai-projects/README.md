@@ -12,7 +12,7 @@ For example, get the inference endpoint URL and credentials associated with your
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples][samples]
 | [API reference documentation](https://aka.ms/azsdk/azure-ai-projects/python/reference) <!-- TODO: Update aka.ms/azsdk link -->
-| [Package (npm)](https://aka.ms/azsdk/azure-ai-projects/python/package) <!-- TODO: Update aka.ms/azsdk link -->
+| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects) <!-- TODO: Update aka.ms/azsdk link -->
 | [SDK source code](https://aka.ms/azsdk/azure-ai-projects/python/code) <!-- TODO: Update aka.ms/azsdk link -->
 | [AI Starter Template](https://aka.ms/azsdk/azure-ai-projects/python/ai-starter-template) <!-- TODO: Update aka.ms/azsdk link -->
 
