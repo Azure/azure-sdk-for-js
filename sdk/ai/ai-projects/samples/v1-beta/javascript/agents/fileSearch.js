@@ -26,7 +26,7 @@ async function main() {
   );
 
   // Upload file
-  const localFileStream = fs.createReadStream("./data/sampleFileForUpload.txt");
+  const localFileStream = fs.createReadStream("./samples-dev/data/sampleFileForUpload.txt");
   const file = await client.agents.uploadFile(
     localFileStream,
     "assistants",

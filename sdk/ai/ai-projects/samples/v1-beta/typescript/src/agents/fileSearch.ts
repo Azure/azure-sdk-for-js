@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file
-  const localFileStream = fs.createReadStream("./data/sampleFileForUpload.txt");
+  const localFileStream = fs.createReadStream("./samples-dev/data/sampleFileForUpload.txt");
   const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
   console.log(`Uploaded file, file ID: ${file.id}`);
 
