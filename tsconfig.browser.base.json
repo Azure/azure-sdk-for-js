@@ -1,5 +1,6 @@
 {
-  "include": ["${configDir}/test/**/*.ts", "${configDir}/src/**/*.ts"],
+  "extends": ["./tsconfig", "./tsconfig.nonlib"],
+  "include": ["${configDir}/test", "${configDir}/src"],
   "exclude": ["${configDir}/test/**/node", "${configDir}/test/stress", "${configDir}/test/snippets.spec.ts"],
   "compilerOptions": {
     "outDir": "${configDir}/dist-test/browser",
