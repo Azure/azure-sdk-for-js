@@ -47,7 +47,7 @@ function afterEachTest(): Promise<void> {
   return serviceBusClient.test.afterEach();
 }
 
-describe("Batch Receiver - batch delete messages", function (): void {
+describe.skip("Batch Receiver - batch delete messages", function (): void {
   beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });

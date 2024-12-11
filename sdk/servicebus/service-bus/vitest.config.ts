@@ -11,7 +11,7 @@ export default mergeConfig(
       testTimeout: 600000,
       hookTimeout: 60000,
       fileParallelism: false,
-      include: ["test/internal/deleteMessages.spec.ts"],
+      include: ["test/**/*.spec.ts"],
       exclude: ["test/internal/connectionManagement.spec.ts"],
       fakeTimers: {
         toFake: [
