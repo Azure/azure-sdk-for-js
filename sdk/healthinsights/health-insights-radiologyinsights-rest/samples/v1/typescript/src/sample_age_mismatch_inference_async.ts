@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the age mismatch of the Radiology Insights request.
+ * @summary Displays the age mismatch of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 
+import * as dotenv from "dotenv";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
-import * as dotenv from "dotenv";
+} from "../src";
 
 dotenv.config();
 
@@ -115,7 +115,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const content = {
-    sourceType: `CLINICAL HISTORY:
+    sourceType: "inline",
+    value: `CLINICAL HISTORY:
     20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
     
     COMPARISON:
@@ -206,7 +207,7 @@ function createRequestBody(): CreateJobParameters {
     }
   };
 
-  const param = {
+  return {
     body: RadiologyInsightsJob,
   };
 

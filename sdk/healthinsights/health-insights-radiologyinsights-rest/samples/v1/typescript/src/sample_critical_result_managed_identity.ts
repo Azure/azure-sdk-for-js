@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * @summary Displays the critical results of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential, logger } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 import AzureHealthInsightsClient, {
@@ -13,7 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -174,7 +174,7 @@ function createRequestBody(): CreateJobParameters {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
   // create RI Data
@@ -182,10 +182,10 @@ function createRequestBody(): CreateJobParameters {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
-  const param = {
+  return {
     body: RadiologyInsightsJob,
   };
 
@@ -212,6 +212,7 @@ export async function main() {
       'Content-Type': 'application/json'
     },
   });
+
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
