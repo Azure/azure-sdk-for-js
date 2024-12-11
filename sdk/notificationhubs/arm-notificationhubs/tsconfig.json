@@ -3,13 +3,13 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
-    "target": "es6",
+    "target": "ES2020",
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6", "dom"],
+    "lib": ["dom"],
     "declaration": true,
     "importHelpers": true,
     "paths": {
@@ -25,6 +25,5 @@
     "test/**/*.ts",
     "test/**/*.mts",
     "test/**/*.cts"
-  ],
-  "exclude": ["node_modules"]
+  ]
 }
