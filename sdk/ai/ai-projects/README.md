@@ -43,7 +43,7 @@ For example, get the inference endpoint URL and credentials associated with your
     - [Create message](#create-message) with:
       - [File search attachment](#create-message-with-file-search-attachment)
       - [Code interpreter attachment](#create-message-with-code-interpreter-attachment)
-    - [Execute Run, Run_and_Process, or Stream](#create-run-run_and_process-or-stream)
+    - [Execute Run, Create Thread and Run, or Stream](#create-run-run_and_process-or-stream)
     - [Retrieve message](#retrieve-message)
     - [Retrieve file](#retrieve-file)
     - [Tear down by deleting resource](#teardown)
@@ -82,7 +82,7 @@ For example, get the inference endpoint URL and credentials associated with your
 ### Install the package
 
 ```bash
-npm install azure-ai-projects
+npm install @azure/ai-projects
 ```
 
 ## Key concepts
@@ -211,7 +211,7 @@ print(response.choices[0].message.content)
 See the "inference" folder in the [package samples][samples] for additional samples.
 -->
 
-### Agents (Private Preview)
+### Agents (Preview)
 
 Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples][samples] for additional Agent samples.
 
@@ -888,8 +888,9 @@ You will also need an exporter to send telemetry to your observability backend. 
 To connect to Aspire Dashboard or another OpenTelemetry compatible backend, install OTLP exporter:
 
 ```bash
-pip install opentelemetry-exporter-otlp
-```
+npm install @opentelemetry/exporter-trace-otlp-proto \
+  @opentelemetry/exporter-metrics-otlp-proto
+
 
 <!-- TODO: review/revise tracing example -->
 
