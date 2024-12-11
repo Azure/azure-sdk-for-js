@@ -80,7 +80,6 @@ export class HttpSender extends BaseSender {
    * Shutdown sender
    * @internal
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
   }
