@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { getBSU } from "./utils";
+import { getBSU } from "./utils/index.js";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   getUniqueName,
   recorderEnvSetupWithCopySource,
   testPollerProperties,
   uriSanitizers,
-} from "./utils/testutils.common";
+} from "./utils/testutils.common.js";
 import type {
   BlobClient,
   BlockBlobClient,
   ContainerClient,
   BlobBeginCopyFromURLResponse,
-} from "../src";
+} from "../src/index.js";
 import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 
@@ -31,8 +31,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
     await recorder.start(recorderEnvSetupWithCopySource);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
@@ -49,7 +49,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await destinationContainerClient.create();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }
@@ -61,7 +61,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   it("supports automatic polling via pollUntilDone", async function () {
     if (!isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
@@ -97,7 +97,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   it("supports manual polling via poll", async function () {
     if (!isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
@@ -136,15 +136,15 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports cancellation of the copy", async function (this: Context) {
+  it("supports cancellation of the copy", async function (ctx) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
       // these tests will only run with the unit tests with pre-recorded service responses.
-      this.skip();
+      ctx.skip();
     }
     if (!isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const newBlobClient = destinationContainerClient.getBlobClient(
@@ -163,15 +163,15 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports updating on progress events", async function (this: Context) {
+  it("supports updating on progress events", async function (ctx) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
       // these tests will only run with the unit tests with pre-recorded service responses.
-      this.skip();
+      ctx.skip();
     }
     if (!isNodeLike) {
-      this.skip();
+      ctx.skip();
     }
 
     const newBlobClient = destinationContainerClient.getBlobClient(
@@ -193,7 +193,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   it("supports restoring poller state from another poller", async function () {
     if (!isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const newBlobClient = destinationContainerClient.getBlobClient(

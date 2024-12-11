@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 
-import type { ContainerClient } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type { ContainerClient } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 
@@ -14,8 +14,8 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);

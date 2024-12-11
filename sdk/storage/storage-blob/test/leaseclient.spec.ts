@@ -3,9 +3,9 @@
 
 import { assert } from "chai";
 
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src/index.js";
 import type { Context } from "mocha";
 
 describe("LeaseClient from Container", () => {
@@ -15,8 +15,8 @@ describe("LeaseClient from Container", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -157,8 +157,8 @@ describe("LeaseClient from Blob", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);

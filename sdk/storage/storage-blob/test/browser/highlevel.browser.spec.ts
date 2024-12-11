@@ -13,9 +13,9 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.browser";
+} from "../utils/index.browser.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
 import type { Context } from "mocha";
 
 describe("Highlevel", () => {
@@ -32,8 +32,8 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
@@ -45,14 +45,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }
     await recorder.stop();
   });
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (isLiveMode()) {
       tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
@@ -61,7 +61,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
 
@@ -77,7 +77,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
 
@@ -95,7 +95,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -118,7 +118,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -140,7 +140,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
@@ -156,7 +156,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
@@ -172,7 +172,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should work with tags", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tags = {
@@ -192,7 +192,7 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
@@ -208,7 +208,7 @@ describe("Highlevel", () => {
 
   it("set tier while upload", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // single upload
     await blockBlobClient.uploadBrowserData(tempFile2, {

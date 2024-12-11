@@ -13,13 +13,13 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import type {
   StorageSharedKeyCredential,
   ContainerClient,
   BlobClient,
   BlobServiceClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   newPipeline,
   PageBlobClient,
@@ -27,11 +27,11 @@ import {
   BlobSASPermissions,
   StorageBlobAudience,
   getBlobServiceAccountAudience,
-} from "../../src";
+} from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -45,8 +45,8 @@ describe("PageBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -131,9 +131,9 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+  it("fetch a blob for disk with challenge Bearer token", async function (ctx): Promise<void> {
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/g15jvgx5jcgz/abcd?sv=2018-03-28&sr=b&si=76fa4842-d48b-45a8-ae15-a5bee9d8c5de&sig=***",
@@ -146,9 +146,9 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   // needs special setup to record
-  it.skip("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
+  it.skip("fetch a blob for disk with Bearer token", async function (ctx): Promise<void> {
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
@@ -279,7 +279,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("uploadPagesFromURL - source SAS and destination bearer token", async function (ctx) {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -319,7 +319,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source bear token and destination account key", async function (this: Context) {
+  it("uploadPagesFromURL - source bear token and destination account key", async function (ctx) {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -354,7 +354,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - destination bearer token", async function (this: Context) {
+  it("uploadPagesFromURL - destination bearer token", async function (ctx) {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);

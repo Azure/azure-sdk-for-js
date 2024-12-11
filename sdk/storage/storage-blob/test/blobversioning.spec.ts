@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { isNode, delay } from "@azure/core-util";
 import {
   getBSU,
@@ -11,7 +11,7 @@ import {
   getGenericCredential,
   getUniqueName,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -19,9 +19,9 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-} from "../src";
-import { BlobBatch } from "../src";
-import { setURLParameter } from "../src/utils/utils.common";
+} from "../src/index.js";
+import { BlobBatch } from "../src/index.js";
+import { setURLParameter } from "../src/utils/utils.common.js";
 import type { Context } from "mocha";
 
 describe("Blob versioning", () => {
@@ -37,8 +37,8 @@ describe("Blob versioning", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
@@ -105,10 +105,10 @@ describe("Blob versioning", () => {
     }
   });
 
-  it("download a version to file", async function (this: Context) {
+  it("download a version to file", async function (ctx) {
     if (!isNode || !isLiveMode()) {
       // downloadToFile only available in Node.js
-      this.skip();
+      ctx.skip();
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile",
@@ -160,7 +160,7 @@ describe("Blob versioning", () => {
 
   it("deleteBlobs should work for batch delete", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const blockBlobCount = 3;
     const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);

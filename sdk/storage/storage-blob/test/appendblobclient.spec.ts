@@ -5,8 +5,8 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
 
-import type { ContainerClient } from "../src";
-import { AppendBlobClient } from "../src";
+import type { ContainerClient } from "../src/index.js";
+import { AppendBlobClient } from "../src/index.js";
 import {
   bodyToString,
   configureBlobStorageClient,
@@ -15,7 +15,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 
 describe("AppendBlobClient", () => {
   let containerName: string;
@@ -25,8 +25,8 @@ describe("AppendBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers(

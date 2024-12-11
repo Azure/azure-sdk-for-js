@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobServiceClient } from "../src";
-import { BlockBlobClient } from "../src";
+import type { BlobServiceClient } from "../src/index.js";
+import { BlockBlobClient } from "../src/index.js";
 import {
   getBSU,
   getRecorderUniqueVariable,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index";
+} from "./utils/index.js";
 import { assert } from "chai";
-import { appendToURLPath, EscapePath } from "../src/utils/utils.common";
+import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient } from "../src";
+import type { ContainerClient } from "../src/index.js";
 import type { Context } from "mocha";
 
 describe("Special Naming Tests", () => {
@@ -23,8 +23,8 @@ describe("Special Naming Tests", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);

@@ -4,10 +4,10 @@
 import { assert } from "chai";
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 
-import type { ContainerClient, BlobServiceClient } from "../src";
-import { RestError } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
+import type { ContainerClient, BlobServiceClient } from "../src/index.js";
+import { RestError } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 
@@ -18,8 +18,8 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);

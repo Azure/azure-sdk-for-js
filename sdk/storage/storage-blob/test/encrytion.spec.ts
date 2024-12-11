@@ -8,10 +8,10 @@ import {
   getEncryptionScope_1,
   getEncryptionScope_2,
   getUniqueName,
-} from "./utils";
+} from "./utils/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
+import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import type { Context } from "mocha";
 
 describe("Encryption Scope", function () {
@@ -28,14 +28,14 @@ describe("Encryption Scope", function () {
   let encryptionScopeName2: string | undefined;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createAndStartRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createAndStartRecorder(ctx);
 
     try {
       encryptionScopeName1 = getEncryptionScope_1();
       encryptionScopeName2 = getEncryptionScope_2();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     blobServiceClient = getBSU(recorder);

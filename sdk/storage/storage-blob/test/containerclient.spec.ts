@@ -12,7 +12,7 @@ import {
   isSuperSet,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, assert } from "@azure-tools/test-utils";
 import type {
@@ -20,11 +20,11 @@ import type {
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
-} from "../src";
-import { ContainerClient, BlockBlobTier } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
+} from "../src/index.js";
+import { ContainerClient, BlockBlobTier } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import type { Context } from "mocha";
-import type { Tags } from "../src/models";
+import type { Tags } from "../src/models.js";
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -33,8 +33,8 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -836,7 +836,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
+  it("uploadBlockBlob and deleteBlob with tracing", async function (ctx) {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const blobHeaders: BlobHTTPHeaders = {
       blobCacheControl: "blobCacheControl",

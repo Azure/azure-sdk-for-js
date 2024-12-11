@@ -8,8 +8,8 @@ import {
   BlobServiceClient,
   BlockBlobClient,
   PageBlobClient,
-} from "../../src";
-import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
+} from "../../src/index.js";
+import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils/index.js";
 import { env } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 
@@ -24,9 +24,9 @@ describe("Emulator Tests", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
-      this.skip();
+      ctx.skip();
     }
     blobServiceClient = BlobServiceClient.fromConnectionString(
       getConnectionStringFromEnvironment(),
@@ -40,7 +40,7 @@ describe("Emulator Tests", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }

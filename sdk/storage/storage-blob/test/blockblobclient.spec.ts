@@ -13,11 +13,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ContainerClient, BlobClient } from "../src";
-import { BlockBlobClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { BlockBlobTier } from "../src";
+} from "./utils/index.js";
+import type { ContainerClient, BlobClient } from "../src/index.js";
+import { BlockBlobClient } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import { BlockBlobTier } from "../src/index.js";
 import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
 
@@ -30,8 +30,8 @@ describe("BlockBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -49,7 +49,7 @@ describe("BlockBlobClient", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }
@@ -279,7 +279,7 @@ describe("BlockBlobClient", () => {
 
   it("can be created with a sas connection string", async function () {
     if (isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(recorder),

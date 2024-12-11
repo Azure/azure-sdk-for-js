@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as buffer from "buffer";
-import * as fs from "fs";
-import * as path from "path";
-import { PassThrough, Readable } from "stream";
+import * as buffer from "node:buffer";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { PassThrough, Readable } from "node:stream";
 import {
   createRandomLocalFile,
   recorderEnvSetup,
@@ -13,14 +13,14 @@ import {
   getBSU,
   createRandomLocalFileWithTotalSize,
   getUniqueName,
-} from "../utils";
-import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+} from "../utils/index.js";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { streamToBuffer2 } from "../../src/utils/utils.node";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
+import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { streamToBuffer2 } from "../../src/utils/utils.node.js";
 import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 
@@ -40,8 +40,8 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -64,14 +64,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }
     await recorder.stop();
   });
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -90,14 +90,14 @@ describe("Highlevel", () => {
     );
   });
 
-  after(async function (this: Context) {
+  after(async function (ctx) {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
 
   it("put blob with maximum size", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const MB = 1024 * 1024;
     const maxPutBlobSizeLimitInMB = 5000;
@@ -117,7 +117,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadFile(tempFileLarge, {
       blockSize: 4 * 1024 * 1024,
@@ -140,7 +140,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should work with tags", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tags = {
@@ -160,7 +160,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -183,7 +183,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadFile(tempFileSmall, {
       maxSingleShotSize: 0,
@@ -235,7 +235,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -257,7 +257,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -279,7 +279,7 @@ describe("Highlevel", () => {
 
   it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const tempFile = await createRandomLocalFile(
       tempFolderPath,
@@ -300,7 +300,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should success", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -322,7 +322,7 @@ describe("Highlevel", () => {
 
   it("uploadStream with CPK should success", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
@@ -356,7 +356,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should success for tiny buffers", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
@@ -372,7 +372,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should work with tags", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
@@ -392,7 +392,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should abort", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortSignal.timeout(1);
@@ -409,7 +409,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should update progress event", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
@@ -439,7 +439,7 @@ describe("Highlevel", () => {
     "uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
     async function () {
       if (isNodeLike && !isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const tempFile = await createRandomLocalFile(
         tempFolderPath,
@@ -463,7 +463,7 @@ describe("Highlevel", () => {
 
   it("downloadToBuffer should success - without passing the buffer", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -495,7 +495,7 @@ describe("Highlevel", () => {
 
   it("downloadToBuffer should success", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -546,7 +546,7 @@ describe("Highlevel", () => {
 
   it("downloadToBuffer should abort", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -567,7 +567,7 @@ describe("Highlevel", () => {
 
   it("downloadToBuffer should update progress event", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 10);
@@ -617,7 +617,7 @@ describe("Highlevel", () => {
 
   it("blobclient.download should success when internal stream unexpected ends at the stream end", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -656,7 +656,7 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download full data successfully when internal stream unexpected ends", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -696,7 +696,7 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download partial data when internal stream unexpected ends", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -738,7 +738,7 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -778,7 +778,7 @@ describe("Highlevel", () => {
 
   it("blobclient.download should abort after retries", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -823,7 +823,7 @@ describe("Highlevel", () => {
 
   it("download abort should work when still fetching body", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
@@ -849,7 +849,7 @@ describe("Highlevel", () => {
 
   it("downloadToFile should success", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile.",
@@ -879,7 +879,7 @@ describe("Highlevel", () => {
 
   it("downloadToFile should fail when saving to directory", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -894,7 +894,7 @@ describe("Highlevel", () => {
 
   it("set tier while upload", async function () {
     if (isNodeLike && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // single upload
     await blockBlobClient.uploadFile(tempFileSmall, {

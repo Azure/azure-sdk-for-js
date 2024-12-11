@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
+import { readFileSync, unlinkSync, existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
@@ -15,13 +15,13 @@ import type {
   BlockBlobClient,
   ContainerClient,
   StorageSharedKeyCredential,
-} from "../../src";
+} from "../../src/index.js";
 import {
   BlobClient,
   BlobSASPermissions,
   generateBlobSASQueryParameters,
   newPipeline,
-} from "../../src";
+} from "../../src/index.js";
 import {
   bodyToString,
   configureBlobStorageClient,
@@ -34,12 +34,12 @@ import {
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
-import { streamToBuffer3 } from "../../src/utils/utils.node";
+} from "../utils/index.js";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
+import { streamToBuffer3 } from "../../src/utils/utils.node.js";
 import type { Context } from "mocha";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -53,8 +53,8 @@ describe("BlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -227,13 +227,13 @@ describe("BlobClient Node.js only", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it("syncCopyFromURL - destination encryption scope", async function (this: Context) {
+  it("syncCopyFromURL - destination encryption scope", async function (ctx) {
     let encryptionScopeName: string;
 
     try {
       encryptionScopeName = getEncryptionScope_1();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
@@ -268,7 +268,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("syncCopyFromURL - source SAS and destination bearer token", async function (ctx) {
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
@@ -302,7 +302,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL - destination bearer token", async function (this: Context) {
+  it("syncCopyFromURL - destination bearer token", async function (ctx) {
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
@@ -319,7 +319,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL - source bearer token and destination account key", async function (this: Context) {
+  it("syncCopyFromURL - source bearer token and destination account key", async function (ctx) {
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
@@ -703,7 +703,7 @@ describe("BlobClient Node.js only", () => {
 
   it("query should work with large file", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
@@ -732,7 +732,7 @@ describe("BlobClient Node.js only", () => {
 
   it("query should work with aborter", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
@@ -921,9 +921,9 @@ describe("BlobClient Node.js only", () => {
     response.readableStreamBody?.resume();
   });
 
-  it("query should work with Parquet input configuration", async function (this: Context) {
+  it("query should work with Parquet input configuration", async function (ctx) {
     // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
-    this.skip();
+    ctx.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
     await blockBlobClient.uploadFile(parquetFilePath);
 
@@ -986,13 +986,13 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     try {
       containerName = getImmutableContainerName();
     } catch {
-      this.skip();
+      ctx.skip();
     }
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
@@ -1004,7 +1004,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       const listResult = (
         await containerClient

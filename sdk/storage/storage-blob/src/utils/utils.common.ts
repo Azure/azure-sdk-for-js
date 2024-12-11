@@ -12,7 +12,7 @@ import type {
   BlobQueryCsvTextConfiguration,
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration,
-} from "../Clients";
+} from "../Clients.js";
 import type {
   QuerySerialization,
   BlobTags,
@@ -21,20 +21,20 @@ import type {
   ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
   PathStylePorts,
   URLConstants,
-} from "./constants";
+} from "./constants.js";
 import type {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
   HttpAuthorization,
-} from "../models";
+} from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
   BlobItemInternal as BlobItemInternalModel,
@@ -42,7 +42,7 @@ import type {
   BlobPrefix as BlobPrefixModel,
   PageBlobGetPageRangesDiffResponseModel,
   PageRangeInfo,
-} from "../generatedModels";
+} from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**

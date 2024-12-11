@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BaseRequestPolicy } from "./RequestPolicy";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,

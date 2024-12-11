@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
@@ -16,7 +16,7 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   BlockBlobClient,
@@ -24,10 +24,10 @@ import type {
   RehydratePriority,
   ObjectReplicationPolicy,
   BlobImmutabilityPolicyMode,
-} from "../src";
-import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { base64encode } from "../src/utils/utils.common";
+} from "../src/index.js";
+import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import { base64encode } from "../src/utils/utils.common.js";
 import type { Context } from "mocha";
 import { isRestError } from "@azure/core-rest-pipeline";
 
@@ -42,8 +42,8 @@ describe("BlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -62,7 +62,7 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       await containerClient.delete();
     }
@@ -215,7 +215,7 @@ describe("BlobClient", () => {
 
   it("download with progress report", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let downloadedBytes = 0;
     const result = await blobClient.download(0, undefined, {
@@ -742,7 +742,7 @@ describe("BlobClient", () => {
 
   it("beginCopyFromURL with rehydrate priority", async function () {
     if (!isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const newBlobURL = containerClient.getBlobClient(
       recorder.variable("copiedblobrehydrate", getUniqueName("copiedblobrehydrate")),
@@ -816,7 +816,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it("download with default parameters and tracing", async function (this: Context) {
+  it("download with default parameters and tracing", async function (ctx) {
     await assert.supportsTracing(
       (options) => blobClient.download(undefined, undefined, options),
       ["BlobClient-download"],
@@ -981,7 +981,7 @@ describe("BlobClient", () => {
   });
 
   // Skipped for now as it's not working in live tests pipeline.
-  it.skip("lastAccessed returned", async function (this: Context) {
+  it.skip("lastAccessed returned", async function (ctx) {
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 
@@ -1483,13 +1483,13 @@ describe("BlobClient - Object Replication", () => {
     },
   ];
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     // need special setup to re-record these tests
-    this.skip();
+    ctx.skip();
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU(recorder, "");
     destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
@@ -1554,9 +1554,9 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
   });
 
-  it("download to file", async function (this: Context) {
+  it("download to file", async function (ctx) {
     if (!isNode || !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const srcDownloadedFilePath = recorder.variable(
       "srcdownloadedfile",
@@ -1594,10 +1594,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     try {
       containerName = getImmutableContainerName();
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(ctx);
       await recorder.start(recorderEnvSetup);
       await recorder.addSanitizers(
         {
@@ -1611,11 +1611,11 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       blobName = recorder.variable("blob", getUniqueName("blob"));
       blobClient = containerClient.getBlobClient(blobName);
     } catch {
-      this.skip();
+      ctx.skip();
     }
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     if (containerClient) {
       const listResult = (await containerClient.listBlobsFlat().byPage().next()).value;
 

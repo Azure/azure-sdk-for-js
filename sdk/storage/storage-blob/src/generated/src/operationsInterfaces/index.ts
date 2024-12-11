@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./service";
-export * from "./container";
-export * from "./blob";
-export * from "./pageBlob";
-export * from "./appendBlob";
-export * from "./blockBlob";
+export * from "./service.js";
+export * from "./container.js";
+export * from "./blob.js";
+export * from "./pageBlob.js";
+export * from "./appendBlob.js";
+export * from "./blockBlob.js";
