@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import { AvroReadableFromStream } from "../../src";
-import { Readable } from "stream";
+import * as fs from "node:fs";
+import { AvroReadableFromStream } from "../../src/index.js";
+import { Readable } from "node:stream";
 import { assert } from "chai";
 
 describe("AvroReadableFromStream", () => {
