@@ -4,6 +4,7 @@ import { TokenCredential } from "@azure/core-auth";
 import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
 import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
+import { EvaluationsOperations, getEvaluationsOperations } from "./evaluations/index.js";
 import { getTelemetryOperations, TelemetryOperations } from "./telemetry/index.js";
 import { Client } from "@azure-rest/core-client";
 
@@ -54,6 +55,7 @@ export class AIProjectsClient {
 
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
+    this.evaluations = getEvaluationsOperations(this._client);
     this.telemetry = getTelemetryOperations(this._telemetryClient, this.connections);
 
   }
@@ -102,6 +104,9 @@ export class AIProjectsClient {
 
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+
+  /** The operation groups for evaluations */
+  public readonly evaluations: EvaluationsOperations;
 
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;

@@ -171,6 +171,7 @@ export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
+    readonly evaluations: EvaluationsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
     readonly telemetry: TelemetryOperations;
 }
@@ -443,6 +444,18 @@ export interface EvaluationScheduleOutput {
     trigger: TriggerOutput;
 }
 
+// @public (undocumented)
+export interface EvaluationsOperations {
+    createEvaluation: (evaluation: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+    createOrReplaceSchedule: (scheduleName: string, resource: EvaluationSchedule, requestParams?: OptionalRequestParameters) => Promise<EvaluationSchedule>;
+    disableSchedule: (scheduleName: string, requestParams?: OptionalRequestParameters) => Promise<void>;
+    getEvaluation: (evaluationId: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+    getSchedule: (evaluationName: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationSchedule>;
+    listEvaluations: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationOutput>;
+    listSchedules: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationScheduleOutput>;
+    updateEvaluation: (evaluationId: string, resource: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+}
+
 // @public
 export interface EvaluatorConfiguration {
     dataMapping?: Record<string, string>;
@@ -684,6 +697,13 @@ export interface ListQueryParameters {
     before?: string;
     limit?: number;
     order?: "asc" | "desc";
+}
+
+// @public (undocumented)
+export interface ListQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
 }
 
 // @public
