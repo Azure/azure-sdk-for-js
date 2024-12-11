@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeletedSecretBundle, SecretBundle } from "./generated/models/index.js";
+import type { DeletedSecretBundle, SecretBundle } from "./generated/models/index.js";
 import { parseKeyVaultSecretIdentifier } from "./identifier.js";
-import { DeletedSecret, KeyVaultSecret } from "./secretsModels.js";
+import type { DeletedSecret, KeyVaultSecret } from "./secretsModels.js";
 
 /**
  * @internal

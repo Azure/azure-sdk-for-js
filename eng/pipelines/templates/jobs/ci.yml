@@ -29,6 +29,9 @@ parameters:
 jobs:
   - job: "Build"
 
+    ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+      timeoutInMinutes: 240
+
     pool:
       name: $(LINUXPOOL)
       image: $(LINUXVMIMAGE)
@@ -50,6 +53,9 @@ jobs:
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
   - job: "Analyze"
+
+    ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+      timeoutInMinutes: 240
 
     pool:
       name: $(LINUXPOOL)
@@ -74,9 +80,17 @@ jobs:
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
+          ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
+            SparseCheckoutPaths: [ "**/package.json", "**/ci*.yml"]
           CloudConfig:
             Cloud: Public
           AdditionalParameters:
             ServiceDirectory: ${{ parameters.ServiceDirectory }}
             Artifacts: ${{ parameters.Artifacts }}
             TestProxy: ${{ parameters.TestProxy }}
+          ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
+            EnablePRGeneration: true
+            PreGenerationSteps:
+              - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+                parameters:
+                  ServiceDirectory: ${{parameters.ServiceDirectory}}

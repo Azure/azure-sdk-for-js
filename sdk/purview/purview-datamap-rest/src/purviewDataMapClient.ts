@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { PurviewDataMapClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PurviewDataMapClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`

@@ -3,20 +3,17 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { OperationOptions } from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { GeneratedClient } from "./generated/generatedClient";
-import {
-  MetricsAdvisorKeyCredential,
-  createMetricsAdvisorKeyCredentialPolicy,
-} from "./metricsAdvisorKeyCredentialPolicy";
-import {
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy.js";
+import type {
   AlertQueryTimeMode,
   AlertsPageResponse,
   AnomaliesPageResponse,
@@ -35,16 +32,20 @@ import {
   MetricFeedbackUnion,
   MetricSeriesDefinition,
   MetricSeriesPageResponse,
-} from "./models";
-import { FeedbackQueryTimeMode, FeedbackType, SeverityFilterCondition } from "./generated/models";
-import { fromServiceMetricFeedbackUnion, toServiceMetricFeedbackUnion } from "./transforms";
+} from "./models.js";
+import type {
+  FeedbackQueryTimeMode,
+  FeedbackType,
+  SeverityFilterCondition,
+} from "./generated/models/index.js";
+import { fromServiceMetricFeedbackUnion, toServiceMetricFeedbackUnion } from "./transforms.js";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
-} from "./constants";
-import { logger } from "./logger";
-import { tracingClient } from "./tracing";
+} from "./constants.js";
+import { logger } from "./logger.js";
+import { tracingClient } from "./tracing.js";
 
 /**
  * Client options used to configure Metrics Advisor API requests.

@@ -4,7 +4,7 @@
 import { exec } from "node:child_process";
 import fs from "node:fs";
 import path, { extname } from "node:path";
-import { CLIArguments, PlaywrightServiceInitConfig } from "./types.js";
+import type { CLIArguments, PlaywrightServiceInitConfig } from "./types.js";
 import { ErrorMessages, Extensions, Languages } from "./constants.js";
 
 export const executeCommand = (command: string): Promise<string> => {

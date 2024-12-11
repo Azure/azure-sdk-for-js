@@ -17,6 +17,7 @@ export { isError, getErrorMessage } from "./error.js";
 export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
 export { randomUUID } from "./uuidUtils.js";
+export { HttpMethods } from "./httpMethods.js";
 export {
   isBrowser,
   isBun,

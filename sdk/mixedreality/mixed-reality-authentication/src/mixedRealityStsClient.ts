@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import {
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
+import type {
   GetTokenOptionalParams,
-  MixedRealityStsRestClient,
   MixedRealityStsRestClientOptionalParams,
-} from "./generated";
-import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { MixedRealityAccountKeyCredential } from "./models/auth";
+} from "./generated/index.js";
+import { MixedRealityStsRestClient } from "./generated/index.js";
+import type { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options.js";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import { MixedRealityAccountKeyCredential } from "./models/auth.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
-import { generateCvBase } from "./util/cv";
-import { logger } from "./logger";
-import { mapToAccessToken } from "./models/mappers";
-import { tracingClient } from "./generated/tracing";
+import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint.js";
+import { generateCvBase } from "./util/cv.js";
+import { logger } from "./logger.js";
+import { mapToAccessToken } from "./models/mappers.js";
+import { tracingClient } from "./generated/tracing.js";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.

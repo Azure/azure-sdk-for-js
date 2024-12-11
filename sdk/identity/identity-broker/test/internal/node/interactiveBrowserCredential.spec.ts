@@ -1,54 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
-  useIdentityPlugin,
-} from "@azure/identity";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { nativeBrokerPlugin } from "../../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { nativeBrokerPlugin } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
-import http from "http";
+import type http from "node:http";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite) {
-  let cleanup: MsalTestCleanup;
+describe("InteractiveBrowserCredential (internal)", function () {
   let listen: http.Server | undefined;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-    recorder = setup.recorder;
-
-    // getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
-
-    doGetTokenSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenInteractive");
+  beforeEach(async function () {
+    doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenInteractive");
   });
+
   afterEach(async function () {
     if (listen) {
       listen.close();
     }
 
-    await cleanup();
+    vi.restoreAllMocks();
   });
-  it("Throws error when no plugin is imported", async function (this: Mocha.Context) {
+
+  it("Throws error when no plugin is imported", async function (ctx) {
     if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {
-        this.skip();
+        ctx.skip();
       }
       // These tests should not run live because this credential requires user interaction.
       // currently test with broker is hanging, so skipping in playback mode for the ci
       if (isLiveMode() || isPlaybackMode()) {
-        this.skip();
+        ctx.skip();
       }
       const winHandle = Buffer.from("srefleqr93285329lskadjffa");
       const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
@@ -65,19 +54,19 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
         );
       }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
     } else {
-      this.skip();
+      ctx.skip();
     }
   });
-  it("Accepts interactiveBrowserCredentialOptions", async function (this: Mocha.Context) {
+  it("Accepts interactiveBrowserCredentialOptions", async function (ctx) {
     if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {
-        this.skip();
+        ctx.skip();
       }
       // These tests should not run live because this credential requires user interaction.
       // currently test with broker is hanging, so skipping in playback mode for the ci
       if (isLiveMode() || isPlaybackMode()) {
-        this.skip();
+        ctx.skip();
       }
       useIdentityPlugin(nativeBrokerPlugin);
       const winHandle = Buffer.from("srefleqr93285329lskadjffa");
@@ -98,15 +87,16 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
       try {
         const accessToken = await credential.getToken(scope);
         assert.exists(accessToken.token);
-        assert.equal(doGetTokenSpy.callCount, 1);
-        const result = await doGetTokenSpy.lastCall.returnValue;
-        assert.equal(result.fromNativeBroker, true);
+        expect(doGetTokenSpy).toHaveBeenCalledOnce();
+        expect(doGetTokenSpy.mock.results[0].value).toEqual(
+          expect.objectContaining({ fromNativeBroker: true }),
+        );
       } catch (e) {
         console.log(e);
-        assert.equal(doGetTokenSpy.callCount, 1);
+        expect(doGetTokenSpy).toHaveBeenCalledOnce();
       }
     } else {
-      this.skip();
+      ctx.skip();
     }
   });
 });

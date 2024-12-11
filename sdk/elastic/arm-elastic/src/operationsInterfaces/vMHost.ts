@@ -14,13 +14,13 @@ import { VMResources, VMHostListOptionalParams } from "../models";
 export interface VMHost {
   /**
    * List the vm resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMHostListOptionalParams
+    options?: VMHostListOptionalParams,
   ): PagedAsyncIterableIterator<VMResources>;
 }

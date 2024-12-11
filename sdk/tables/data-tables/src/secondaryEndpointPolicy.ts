@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { OperationOptions } from "@azure/core-client";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 /**
  * The programmatic identifier of the tablesSecondaryEndpointPolicy.

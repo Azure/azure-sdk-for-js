@@ -13,7 +13,7 @@ import {
   PolicyCertificatesAddResponse,
   PolicyCertificatesRemoveOptionalParams,
   PolicyCertificatesRemoveResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PolicyCertificates. */
 export interface PolicyCertificates {

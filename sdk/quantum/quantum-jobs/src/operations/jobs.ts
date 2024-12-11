@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Jobs } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Jobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { QuantumJobClient } from "../quantumJobClient.js";
+import type {
   JobDetails,
   JobsListNextOptionalParams,
   JobsListOptionalParams,
@@ -23,10 +23,114 @@ import {
   JobsCreateOptionalParams,
   JobsCreateResponse,
   JobsCancelOptionalParams,
-  JobsListNextResponse
-} from "../models";
+  JobsListNextResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDetailsList,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDetails,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.jobId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDetails,
+    },
+    201: {
+      bodyMapper: Mappers.JobDetails,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  requestBody: Parameters.job,
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.jobId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.jobId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDetailsList,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+
 /** Class containing Jobs operations. */
 export class JobsImpl implements Jobs {
   private readonly client: QuantumJobClient;
@@ -43,9 +147,7 @@ export class JobsImpl implements Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  public list(
-    options?: JobsListOptionalParams
-  ): PagedAsyncIterableIterator<JobDetails> {
+  public list(options?: JobsListOptionalParams): PagedAsyncIterableIterator<JobDetails> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -56,12 +158,12 @@ export class JobsImpl implements Jobs {
       },
       byPage: () => {
         return this.listPagingPage(options);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): AsyncIterableIterator<JobDetails[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -74,7 +176,7 @@ export class JobsImpl implements Jobs {
   }
 
   private async *listPagingAll(
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): AsyncIterableIterator<JobDetails> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -85,18 +187,16 @@ export class JobsImpl implements Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: JobsListOptionalParams
-  ): Promise<JobsListResponse> {
+  private async _list(options?: JobsListOptionalParams): Promise<JobsListResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._list",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec
+          { updatedOptions },
+          listOperationSpec,
         ) as Promise<JobsListResponse>;
-      }
+      },
     );
   }
 
@@ -105,20 +205,13 @@ export class JobsImpl implements Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  async get(
-    jobId: string,
-    options?: JobsGetOptionalParams
-  ): Promise<JobsGetResponse> {
-    return tracingClient.withSpan(
-      "QuantumJobClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { jobId, options },
-          getOperationSpec
-        ) as Promise<JobsGetResponse>;
-      }
-    );
+  async get(jobId: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse> {
+    return tracingClient.withSpan("QuantumJobClient.get", options ?? {}, async (updatedOptions) => {
+      return this.client.sendOperationRequest(
+        { jobId, updatedOptions },
+        getOperationSpec,
+      ) as Promise<JobsGetResponse>;
+    });
   }
 
   /**
@@ -130,17 +223,17 @@ export class JobsImpl implements Jobs {
   async create(
     jobId: string,
     job: JobDetails,
-    options?: JobsCreateOptionalParams
+    options?: JobsCreateOptionalParams,
   ): Promise<JobsCreateResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient.create",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { jobId, job, options },
-          createOperationSpec
+          { jobId, job, updatedOptions },
+          createOperationSpec,
         ) as Promise<JobsCreateResponse>;
-      }
+      },
     );
   }
 
@@ -149,19 +242,16 @@ export class JobsImpl implements Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  async cancel(
-    jobId: string,
-    options?: JobsCancelOptionalParams
-  ): Promise<void> {
+  async cancel(jobId: string, options?: JobsCancelOptionalParams): Promise<void> {
     return tracingClient.withSpan(
       "QuantumJobClient.cancel",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { jobId, options },
-          cancelOperationSpec
+          { jobId, updatedOptions },
+          cancelOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -172,125 +262,17 @@ export class JobsImpl implements Jobs {
    */
   private async _listNext(
     nextLink: string,
-    options?: JobsListNextOptionalParams
+    options?: JobsListNextOptionalParams,
   ): Promise<JobsListNextResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._listNext",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { nextLink, options },
-          listNextOperationSpec
+          { nextLink, updatedOptions },
+          listNextOperationSpec,
         ) as Promise<JobsListNextResponse>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobDetailsList
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobDetails
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.jobId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobDetails
-    },
-    201: {
-      bodyMapper: Mappers.JobDetails
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  requestBody: Parameters.job,
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.jobId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.jobId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobDetailsList
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};

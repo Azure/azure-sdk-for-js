@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 
-import {
+import type {
   AssetConversion,
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
   AssetConversionPollerLike,
   AssetConversionSettings,
-  KnownAssetConversionStatus,
-  RemoteRenderingClient,
   RenderingSession,
   RenderingSessionPollerLike,
   RenderingSessionSettings,
-} from "../../src";
-import {
-  AccessToken,
-  AzureKeyCredential,
-  GetTokenOptions,
-  TokenCredential,
-} from "@azure/core-auth";
-import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient";
-
+} from "../../src/index.js";
+import { KnownAssetConversionStatus, RemoteRenderingClient } from "../../src/index.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient.js";
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /// No need to wait when polling in playback mode.
 const pollerSettings = isPlaybackMode() ? { intervalInMs: 1 } : {};
@@ -110,13 +102,13 @@ describe("RemoteRendering functional tests", () => {
   let client: RemoteRenderingClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = createRecorder(ctx);
     await recorder.start(recorderStartOptions);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     // Stop the recording.
     await recorder.stop();
   });
@@ -273,7 +265,7 @@ describe("RemoteRendering functional tests", () => {
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
-      size: "Tiny",
+      size: "Standard",
     };
 
     const sessionId: string = recorder.variable(

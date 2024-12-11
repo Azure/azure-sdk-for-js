@@ -1,150 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../helpers/serializerHelpers.js";
-import {
-  TrackedResource as TrackedResourceRest,
-  Fleet as FleetRest,
-  FleetProperties as FleetPropertiesRest,
-  SpotPriorityProfile as SpotPriorityProfileRest,
-  RegularPriorityProfile as RegularPriorityProfileRest,
-  VmSizeProfile as VmSizeProfileRest,
-  ComputeProfile as ComputeProfileRest,
-  BaseVirtualMachineProfile as BaseVirtualMachineProfileRest,
-  VirtualMachineScaleSetOSProfile as VirtualMachineScaleSetOSProfileRest,
-  WindowsConfiguration as WindowsConfigurationRest,
-  AdditionalUnattendContent as AdditionalUnattendContentRest,
-  PatchSettings as PatchSettingsRest,
-  WindowsVMGuestPatchAutomaticByPlatformSettings as WindowsVMGuestPatchAutomaticByPlatformSettingsRest,
-  WinRMConfiguration as WinRMConfigurationRest,
-  WinRMListener as WinRMListenerRest,
-  LinuxConfiguration as LinuxConfigurationRest,
-  SshConfiguration as SshConfigurationRest,
-  SshPublicKey as SshPublicKeyRest,
-  LinuxPatchSettings as LinuxPatchSettingsRest,
-  LinuxVMGuestPatchAutomaticByPlatformSettings as LinuxVMGuestPatchAutomaticByPlatformSettingsRest,
-  VaultSecretGroup as VaultSecretGroupRest,
-  SubResource as SubResourceRest,
-  VaultCertificate as VaultCertificateRest,
-  VirtualMachineScaleSetStorageProfile as VirtualMachineScaleSetStorageProfileRest,
-  ImageReference as ImageReferenceRest,
-  VirtualMachineScaleSetOSDisk as VirtualMachineScaleSetOSDiskRest,
-  DiffDiskSettings as DiffDiskSettingsRest,
-  VirtualHardDisk as VirtualHardDiskRest,
-  VirtualMachineScaleSetManagedDiskParameters as VirtualMachineScaleSetManagedDiskParametersRest,
-  DiskEncryptionSetParameters as DiskEncryptionSetParametersRest,
-  VMDiskSecurityProfile as VMDiskSecurityProfileRest,
-  VirtualMachineScaleSetDataDisk as VirtualMachineScaleSetDataDiskRest,
-  VirtualMachineScaleSetNetworkProfile as VirtualMachineScaleSetNetworkProfileRest,
-  ApiEntityReference as ApiEntityReferenceRest,
-  VirtualMachineScaleSetNetworkConfiguration as VirtualMachineScaleSetNetworkConfigurationRest,
-  VirtualMachineScaleSetNetworkConfigurationProperties as VirtualMachineScaleSetNetworkConfigurationPropertiesRest,
-  VirtualMachineScaleSetNetworkConfigurationDnsSettings as VirtualMachineScaleSetNetworkConfigurationDnsSettingsRest,
-  VirtualMachineScaleSetIPConfiguration as VirtualMachineScaleSetIPConfigurationRest,
-  VirtualMachineScaleSetIPConfigurationProperties as VirtualMachineScaleSetIPConfigurationPropertiesRest,
-  VirtualMachineScaleSetPublicIPAddressConfiguration as VirtualMachineScaleSetPublicIPAddressConfigurationRest,
-  VirtualMachineScaleSetPublicIPAddressConfigurationProperties as VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesRest,
-  VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings as VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsRest,
-  VirtualMachineScaleSetIpTag as VirtualMachineScaleSetIpTagRest,
-  PublicIPAddressSku as PublicIPAddressSkuRest,
-  SecurityProfile as SecurityProfileRest,
-  UefiSettings as UefiSettingsRest,
-  EncryptionIdentity as EncryptionIdentityRest,
-  ProxyAgentSettings as ProxyAgentSettingsRest,
-  DiagnosticsProfile as DiagnosticsProfileRest,
-  BootDiagnostics as BootDiagnosticsRest,
-  VirtualMachineScaleSetExtensionProfile as VirtualMachineScaleSetExtensionProfileRest,
-  VirtualMachineScaleSetExtension as VirtualMachineScaleSetExtensionRest,
-  VirtualMachineScaleSetExtensionProperties as VirtualMachineScaleSetExtensionPropertiesRest,
-  KeyVaultSecretReference as KeyVaultSecretReferenceRest,
-  ScheduledEventsProfile as ScheduledEventsProfileRest,
-  TerminateNotificationProfile as TerminateNotificationProfileRest,
-  OSImageNotificationProfile as OSImageNotificationProfileRest,
-  CapacityReservationProfile as CapacityReservationProfileRest,
-  ApplicationProfile as ApplicationProfileRest,
-  VMGalleryApplication as VMGalleryApplicationRest,
-  VirtualMachineScaleSetHardwareProfile as VirtualMachineScaleSetHardwareProfileRest,
-  VMSizeProperties as VMSizePropertiesRest,
-  ServiceArtifactReference as ServiceArtifactReferenceRest,
-  SecurityPostureReference as SecurityPostureReferenceRest,
-  ManagedServiceIdentity as ManagedServiceIdentityRest,
-  Plan as PlanRest,
-  FleetUpdate as FleetUpdateRest,
-  ManagedServiceIdentityUpdate as ManagedServiceIdentityUpdateRest,
-  ResourcePlanUpdate as ResourcePlanUpdateRest,
-} from "../rest/index.js";
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource) {
-  return item as any;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
-  return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    location: item["location"],
-  };
-}
-
 /** An Compute Fleet resource */
 export interface Fleet extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -157,14 +13,47 @@ export interface Fleet extends TrackedResource {
   plan?: Plan;
 }
 
-export function fleetSerializer(item: Fleet): FleetRest {
+export function fleetSerializer(item: Fleet): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    tags: item["tags"],
     location: item["location"],
-    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
-    zones: item["zones"],
-    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
-    plan: !item.plan ? item.plan : planSerializer(item.plan),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetPropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+  };
+}
+
+export function fleetDeserializer(item: any): Fleet {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetPropertiesDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
 }
 
@@ -178,6 +67,10 @@ export interface FleetProperties {
   regularPriorityProfile?: RegularPriorityProfile;
   /** List of VM sizes supported for Compute Fleet */
   vmSizesProfile: VmSizeProfile[];
+  /** Attribute based Fleet. */
+  vmAttributes?: VMAttributes;
+  /** Represents the configuration for additional locations where Fleet resources may be deployed. */
+  additionalLocationsProfile?: AdditionalLocationsProfile;
   /** Compute Profile to use for running user's workloads. */
   computeProfile: ComputeProfile;
   /** Specifies the time at which the Compute Fleet is created. */
@@ -186,39 +79,90 @@ export interface FleetProperties {
   readonly uniqueId?: string;
 }
 
-export function fleetPropertiesSerializer(item: FleetProperties): FleetPropertiesRest {
+export function fleetPropertiesSerializer(item: FleetProperties): any {
   return {
-    spotPriorityProfile: !item.spotPriorityProfile
-      ? item.spotPriorityProfile
-      : spotPriorityProfileSerializer(item.spotPriorityProfile),
-    regularPriorityProfile: !item.regularPriorityProfile
-      ? item.regularPriorityProfile
-      : regularPriorityProfileSerializer(item.regularPriorityProfile),
-    vmSizesProfile: item["vmSizesProfile"].map(vmSizeProfileSerializer),
-    computeProfile: computeProfileSerializer(item.computeProfile),
+    spotPriorityProfile: !item["spotPriorityProfile"]
+      ? item["spotPriorityProfile"]
+      : spotPriorityProfileSerializer(item["spotPriorityProfile"]),
+    regularPriorityProfile: !item["regularPriorityProfile"]
+      ? item["regularPriorityProfile"]
+      : regularPriorityProfileSerializer(item["regularPriorityProfile"]),
+    vmSizesProfile: vmSizeProfileArraySerializer(item["vmSizesProfile"]),
+    vmAttributes: !item["vmAttributes"]
+      ? item["vmAttributes"]
+      : vMAttributesSerializer(item["vmAttributes"]),
+    additionalLocationsProfile: !item["additionalLocationsProfile"]
+      ? item["additionalLocationsProfile"]
+      : additionalLocationsProfileSerializer(item["additionalLocationsProfile"]),
+    computeProfile: computeProfileSerializer(item["computeProfile"]),
   };
 }
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
+export function fleetPropertiesDeserializer(item: any): FleetProperties {
+  return {
+    provisioningState: !item["provisioningState"]
+      ? item["provisioningState"]
+      : provisioningStateDeserializer(item["provisioningState"]),
+    spotPriorityProfile: !item["spotPriorityProfile"]
+      ? item["spotPriorityProfile"]
+      : spotPriorityProfileDeserializer(item["spotPriorityProfile"]),
+    regularPriorityProfile: !item["regularPriorityProfile"]
+      ? item["regularPriorityProfile"]
+      : regularPriorityProfileDeserializer(item["regularPriorityProfile"]),
+    vmSizesProfile: vmSizeProfileArrayDeserializer(item["vmSizesProfile"]),
+    vmAttributes: !item["vmAttributes"]
+      ? item["vmAttributes"]
+      : vMAttributesDeserializer(item["vmAttributes"]),
+    additionalLocationsProfile: !item["additionalLocationsProfile"]
+      ? item["additionalLocationsProfile"]
+      : additionalLocationsProfileDeserializer(item["additionalLocationsProfile"]),
+    computeProfile: computeProfileDeserializer(item["computeProfile"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    uniqueId: item["uniqueId"],
+  };
+}
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
   Failed = "Failed",
   /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating",
 }
 
 /**
  * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded** \
  * **Failed** \
- * **Canceled**
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Migrating**
  */
-export type ResourceProvisioningState = string;
+
+export type ProvisioningState = string;
+
+export function provisioningStateSerializer(item: ProvisioningState): any {
+  return item;
+}
+
+export function provisioningStateDeserializer(item: any): ProvisioningState {
+  return item;
+}
 
 /** Configuration Options for Spot instances in Compute Fleet. */
 export interface SpotPriorityProfile {
@@ -241,7 +185,7 @@ export interface SpotPriorityProfile {
   maintain?: boolean;
 }
 
-export function spotPriorityProfileSerializer(item: SpotPriorityProfile): SpotPriorityProfileRest {
+export function spotPriorityProfileSerializer(item: SpotPriorityProfile): any {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -252,11 +196,22 @@ export function spotPriorityProfileSerializer(item: SpotPriorityProfile): SpotPr
   };
 }
 
-/** Known values of {@link EvictionPolicy} that the service accepts. */
+export function spotPriorityProfileDeserializer(item: any): SpotPriorityProfile {
+  return {
+    capacity: item["capacity"],
+    minCapacity: item["minCapacity"],
+    maxPricePerVM: item["maxPricePerVM"],
+    evictionPolicy: item["evictionPolicy"],
+    allocationStrategy: item["allocationStrategy"],
+    maintain: item["maintain"],
+  };
+}
+
+/** Different kind of eviction policies */
 export enum KnownEvictionPolicy {
-  /** Delete */
+  /** When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. */
   Delete = "Delete",
-  /** Deallocate */
+  /** When evicted, the Spot VM will be deallocated/stopped */
   Deallocate = "Deallocate",
 }
 
@@ -265,18 +220,18 @@ export enum KnownEvictionPolicy {
  * {@link KnownEvictionPolicy} can be used interchangeably with EvictionPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Delete** \
- * **Deallocate**
+ * **Delete**: When evicted, the Spot VM will be deleted and the corresponding capacity will be updated to reflect this. \
+ * **Deallocate**: When evicted, the Spot VM will be deallocated\/stopped
  */
 export type EvictionPolicy = string;
 
-/** Known values of {@link SpotAllocationStrategy} that the service accepts. */
+/** Spot allocation strategy types for Compute Fleet */
 export enum KnownSpotAllocationStrategy {
-  /** PriceCapacityOptimized */
+  /** Default. VM sizes distribution will be determined to optimize for both price and capacity. */
   PriceCapacityOptimized = "PriceCapacityOptimized",
-  /** LowestPrice */
+  /** VM sizes distribution will be determined to optimize for price. Note: Capacity will still be considered here but will be given much less weight. */
   LowestPrice = "LowestPrice",
-  /** CapacityOptimized */
+  /** VM sizes distribution will be determined to optimize for capacity. */
   CapacityOptimized = "CapacityOptimized",
 }
 
@@ -285,9 +240,9 @@ export enum KnownSpotAllocationStrategy {
  * {@link KnownSpotAllocationStrategy} can be used interchangeably with SpotAllocationStrategy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PriceCapacityOptimized** \
- * **LowestPrice** \
- * **CapacityOptimized**
+ * **PriceCapacityOptimized**: Default. VM sizes distribution will be determined to optimize for both price and capacity. \
+ * **LowestPrice**: VM sizes distribution will be determined to optimize for price. Note: Capacity will still be considered here but will be given much less weight. \
+ * **CapacityOptimized**: VM sizes distribution will be determined to optimize for capacity.
  */
 export type SpotAllocationStrategy = string;
 
@@ -301,9 +256,7 @@ export interface RegularPriorityProfile {
   allocationStrategy?: RegularPriorityAllocationStrategy;
 }
 
-export function regularPriorityProfileSerializer(
-  item: RegularPriorityProfile,
-): RegularPriorityProfileRest {
+export function regularPriorityProfileSerializer(item: RegularPriorityProfile): any {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -311,11 +264,19 @@ export function regularPriorityProfileSerializer(
   };
 }
 
-/** Known values of {@link RegularPriorityAllocationStrategy} that the service accepts. */
+export function regularPriorityProfileDeserializer(item: any): RegularPriorityProfile {
+  return {
+    capacity: item["capacity"],
+    minCapacity: item["minCapacity"],
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+/** Regular VM Allocation strategy types for Compute Fleet */
 export enum KnownRegularPriorityAllocationStrategy {
-  /** LowestPrice */
+  /** Default. VM sizes distribution will be determined to optimize for price. */
   LowestPrice = "LowestPrice",
-  /** Prioritized */
+  /** VM sizes distribution will be determined to optimize for the 'priority' as specified for each vm size. */
   Prioritized = "Prioritized",
 }
 
@@ -324,8 +285,8 @@ export enum KnownRegularPriorityAllocationStrategy {
  * {@link KnownRegularPriorityAllocationStrategy} can be used interchangeably with RegularPriorityAllocationStrategy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **LowestPrice** \
- * **Prioritized**
+ * **LowestPrice**: Default. VM sizes distribution will be determined to optimize for price. \
+ * **Prioritized**: VM sizes distribution will be determined to optimize for the 'priority' as specified for each vm size.
  */
 export type RegularPriorityAllocationStrategy = string;
 
@@ -340,37 +301,492 @@ export interface VmSizeProfile {
   rank?: number;
 }
 
-export function vmSizeProfileSerializer(item: VmSizeProfile): VmSizeProfileRest {
+export function vmSizeProfileSerializer(item: VmSizeProfile): any {
+  return { name: item["name"], rank: item["rank"] };
+}
+
+export function vmSizeProfileDeserializer(item: any): VmSizeProfile {
   return {
     name: item["name"],
     rank: item["rank"],
   };
 }
 
-/** Compute Profile to use for running user's workloads. */
-export interface ComputeProfile {
-  /** Base Virtual Machine Profile Properties to be specified according to "specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachineScaleSet.json#/definitions/VirtualMachineScaleSetVMProfile" */
-  baseVirtualMachineProfile: BaseVirtualMachineProfile;
-  /**
-   * Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machine scale sets and Virtual Machines.
-   * The default value will be the latest supported computeApiVersion by Compute Fleet.
-   */
-  computeApiVersion?: string;
-  /**
-   * Specifies the number of fault domains to use when creating the underlying VMSS.
-   * A fault domain is a logical group of hardware within an Azure datacenter.
-   * VMs in the same fault domain share a common power source and network switch.
-   * If not specified, defaults to 1, which represents "Max Spreading" (using as many fault domains as possible).
-   * This property cannot be updated.
-   */
-  platformFaultDomainCount?: number;
+export function vmSizeProfileArraySerializer(result: Array<VmSizeProfile>): any[] {
+  return result.map((item) => {
+    return vmSizeProfileSerializer(item);
+  });
 }
 
-export function computeProfileSerializer(item: ComputeProfile): ComputeProfileRest {
+export function vmSizeProfileArrayDeserializer(result: Array<VmSizeProfile>): any[] {
+  return result.map((item) => {
+    return vmSizeProfileDeserializer(item);
+  });
+}
+
+/** VMAttributes that will be used to filter VMSizes which will be used to build Fleet. */
+export interface VMAttributes {
+  /** The range of vCpuCount specified from Min to Max. Must be specified if VMAttributes are specified, either Min or Max is required if specified. */
+  vCpuCount: VMAttributeMinMaxInteger;
+  /** The range of memory specified from Min to Max. Must be specified if VMAttributes are specified, either Min or Max is required if specified. */
+  memoryInGiB: VMAttributeMinMaxDouble;
+  /** The range of memory in GiB per vCPU specified from min to max. Optional parameter. Either Min or Max is required if specified. */
+  memoryInGiBPerVCpu?: VMAttributeMinMaxDouble;
+  /**
+   * Specifies whether the VMSize supporting local storage should be used to build Fleet or not.
+   * Included - Default if not specified as most Azure VMs support local storage.
+   */
+  localStorageSupport?: VMAttributeSupport;
+  /**
+   * LocalStorageSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If localStorageSupport is "Excluded", this VMAttribute can not be used.
+   */
+  localStorageInGiB?: VMAttributeMinMaxDouble;
+  /**
+   * The local storage disk types specified as a list. LocalStorageSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If localStorageSupport is "Excluded", this VMAttribute can not be used.
+   */
+  localStorageDiskTypes?: LocalStorageDiskType[];
+  /** The range of data disk count specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  dataDiskCount?: VMAttributeMinMaxInteger;
+  /** The range of network interface count specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  networkInterfaceCount?: VMAttributeMinMaxInteger;
+  /** The range of network bandwidth in Mbps specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  networkBandwidthInMbps?: VMAttributeMinMaxDouble;
+  /** Specifies whether the VMSize supporting RDMA (Remote Direct Memory Access) should be used to build Fleet or not. */
+  rdmaSupport?: VMAttributeSupport;
+  /**
+   * The range of RDMA (Remote Direct Memory Access) network interface count specified from Min to Max. Optional parameter. Either Min or Max is required if specified.
+   * rdmaSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If rdmaSupport is "Excluded", this VMAttribute can not be used.
+   */
+  rdmaNetworkInterfaceCount?: VMAttributeMinMaxInteger;
+  /**
+   * Specifies whether the VMSize supporting accelerator should be used to build Fleet or not.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorSupport?: VMAttributeSupport;
+  /**
+   * The accelerator manufacturers specified as a list.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorManufacturers?: AcceleratorManufacturer[];
+  /**
+   * The accelerator types specified as a list. acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorTypes?: AcceleratorType[];
+  /**
+   * The range of accelerator count specified from min to max. Optional parameter. Either Min or Max is required if specified.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorCount?: VMAttributeMinMaxInteger;
+  /** The VM category specified as a list. Optional parameter. */
+  vmCategories?: VMCategory[];
+  /** The VM architecture types specified as a list. Optional parameter. */
+  architectureTypes?: ArchitectureType[];
+  /** The VM CPU manufacturers specified as a list. Optional parameter. */
+  cpuManufacturers?: CpuManufacturer[];
+  /** Specifies whether the VMSize supporting burstable capability should be used to build Fleet or not. */
+  burstableSupport?: VMAttributeSupport;
+  /** Specifies which VMSizes should be excluded while building Fleet. Optional parameter. */
+  excludedVMSizes?: string[];
+}
+
+export function vMAttributesSerializer(item: VMAttributes): any {
   return {
-    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(item.baseVirtualMachineProfile),
-    computeApiVersion: item["computeApiVersion"],
-    platformFaultDomainCount: item["platformFaultDomainCount"],
+    vCpuCount: vMAttributeMinMaxIntegerSerializer(item["vCpuCount"]),
+    memoryInGiB: vMAttributeMinMaxDoubleSerializer(item["memoryInGiB"]),
+    memoryInGiBPerVCpu: !item["memoryInGiBPerVCpu"]
+      ? item["memoryInGiBPerVCpu"]
+      : vMAttributeMinMaxDoubleSerializer(item["memoryInGiBPerVCpu"]),
+    localStorageSupport: item["localStorageSupport"],
+    localStorageInGiB: !item["localStorageInGiB"]
+      ? item["localStorageInGiB"]
+      : vMAttributeMinMaxDoubleSerializer(item["localStorageInGiB"]),
+    localStorageDiskTypes: !item["localStorageDiskTypes"]
+      ? item["localStorageDiskTypes"]
+      : item["localStorageDiskTypes"].map((p: any) => {
+          return p;
+        }),
+    dataDiskCount: !item["dataDiskCount"]
+      ? item["dataDiskCount"]
+      : vMAttributeMinMaxIntegerSerializer(item["dataDiskCount"]),
+    networkInterfaceCount: !item["networkInterfaceCount"]
+      ? item["networkInterfaceCount"]
+      : vMAttributeMinMaxIntegerSerializer(item["networkInterfaceCount"]),
+    networkBandwidthInMbps: !item["networkBandwidthInMbps"]
+      ? item["networkBandwidthInMbps"]
+      : vMAttributeMinMaxDoubleSerializer(item["networkBandwidthInMbps"]),
+    rdmaSupport: item["rdmaSupport"],
+    rdmaNetworkInterfaceCount: !item["rdmaNetworkInterfaceCount"]
+      ? item["rdmaNetworkInterfaceCount"]
+      : vMAttributeMinMaxIntegerSerializer(item["rdmaNetworkInterfaceCount"]),
+    acceleratorSupport: item["acceleratorSupport"],
+    acceleratorManufacturers: !item["acceleratorManufacturers"]
+      ? item["acceleratorManufacturers"]
+      : item["acceleratorManufacturers"].map((p: any) => {
+          return p;
+        }),
+    acceleratorTypes: !item["acceleratorTypes"]
+      ? item["acceleratorTypes"]
+      : item["acceleratorTypes"].map((p: any) => {
+          return p;
+        }),
+    acceleratorCount: !item["acceleratorCount"]
+      ? item["acceleratorCount"]
+      : vMAttributeMinMaxIntegerSerializer(item["acceleratorCount"]),
+    vmCategories: !item["vmCategories"]
+      ? item["vmCategories"]
+      : item["vmCategories"].map((p: any) => {
+          return p;
+        }),
+    architectureTypes: !item["architectureTypes"]
+      ? item["architectureTypes"]
+      : item["architectureTypes"].map((p: any) => {
+          return p;
+        }),
+    cpuManufacturers: !item["cpuManufacturers"]
+      ? item["cpuManufacturers"]
+      : item["cpuManufacturers"].map((p: any) => {
+          return p;
+        }),
+    burstableSupport: item["burstableSupport"],
+    excludedVMSizes: !item["excludedVMSizes"]
+      ? item["excludedVMSizes"]
+      : item["excludedVMSizes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function vMAttributesDeserializer(item: any): VMAttributes {
+  return {
+    vCpuCount: vMAttributeMinMaxIntegerDeserializer(item["vCpuCount"]),
+    memoryInGiB: vMAttributeMinMaxDoubleDeserializer(item["memoryInGiB"]),
+    memoryInGiBPerVCpu: !item["memoryInGiBPerVCpu"]
+      ? item["memoryInGiBPerVCpu"]
+      : vMAttributeMinMaxDoubleDeserializer(item["memoryInGiBPerVCpu"]),
+    localStorageSupport: item["localStorageSupport"],
+    localStorageInGiB: !item["localStorageInGiB"]
+      ? item["localStorageInGiB"]
+      : vMAttributeMinMaxDoubleDeserializer(item["localStorageInGiB"]),
+    localStorageDiskTypes: !item["localStorageDiskTypes"]
+      ? item["localStorageDiskTypes"]
+      : item["localStorageDiskTypes"].map((p: any) => {
+          return p;
+        }),
+    dataDiskCount: !item["dataDiskCount"]
+      ? item["dataDiskCount"]
+      : vMAttributeMinMaxIntegerDeserializer(item["dataDiskCount"]),
+    networkInterfaceCount: !item["networkInterfaceCount"]
+      ? item["networkInterfaceCount"]
+      : vMAttributeMinMaxIntegerDeserializer(item["networkInterfaceCount"]),
+    networkBandwidthInMbps: !item["networkBandwidthInMbps"]
+      ? item["networkBandwidthInMbps"]
+      : vMAttributeMinMaxDoubleDeserializer(item["networkBandwidthInMbps"]),
+    rdmaSupport: item["rdmaSupport"],
+    rdmaNetworkInterfaceCount: !item["rdmaNetworkInterfaceCount"]
+      ? item["rdmaNetworkInterfaceCount"]
+      : vMAttributeMinMaxIntegerDeserializer(item["rdmaNetworkInterfaceCount"]),
+    acceleratorSupport: item["acceleratorSupport"],
+    acceleratorManufacturers: !item["acceleratorManufacturers"]
+      ? item["acceleratorManufacturers"]
+      : item["acceleratorManufacturers"].map((p: any) => {
+          return p;
+        }),
+    acceleratorTypes: !item["acceleratorTypes"]
+      ? item["acceleratorTypes"]
+      : item["acceleratorTypes"].map((p: any) => {
+          return p;
+        }),
+    acceleratorCount: !item["acceleratorCount"]
+      ? item["acceleratorCount"]
+      : vMAttributeMinMaxIntegerDeserializer(item["acceleratorCount"]),
+    vmCategories: !item["vmCategories"]
+      ? item["vmCategories"]
+      : item["vmCategories"].map((p: any) => {
+          return p;
+        }),
+    architectureTypes: !item["architectureTypes"]
+      ? item["architectureTypes"]
+      : item["architectureTypes"].map((p: any) => {
+          return p;
+        }),
+    cpuManufacturers: !item["cpuManufacturers"]
+      ? item["cpuManufacturers"]
+      : item["cpuManufacturers"].map((p: any) => {
+          return p;
+        }),
+    burstableSupport: item["burstableSupport"],
+    excludedVMSizes: !item["excludedVMSizes"]
+      ? item["excludedVMSizes"]
+      : item["excludedVMSizes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** While retrieving VMSizes from CRS, Min = 0 (uint.MinValue) if not specified, Max = 4294967295 (uint.MaxValue) if not specified. This allows to filter VMAttributes on all available VMSizes. */
+export interface VMAttributeMinMaxInteger {
+  /** Min VMSize from CRS, Min = 0 (uint.MinValue) if not specified. */
+  min?: number;
+  /** Max VMSize from CRS, Max = 4294967295 (uint.MaxValue) if not specified. */
+  max?: number;
+}
+
+export function vMAttributeMinMaxIntegerSerializer(item: VMAttributeMinMaxInteger): any {
+  return { min: item["min"], max: item["max"] };
+}
+
+export function vMAttributeMinMaxIntegerDeserializer(item: any): VMAttributeMinMaxInteger {
+  return {
+    min: item["min"],
+    max: item["max"],
+  };
+}
+
+/** VMAttributes using double values. */
+export interface VMAttributeMinMaxDouble {
+  /** Minimum value. default 0. Double.MinValue() */
+  min?: number;
+  /** Maximum value. Double.MaxValue(1.7976931348623157E+308) */
+  max?: number;
+}
+
+export function vMAttributeMinMaxDoubleSerializer(item: VMAttributeMinMaxDouble): any {
+  return { min: item["min"], max: item["max"] };
+}
+
+export function vMAttributeMinMaxDoubleDeserializer(item: any): VMAttributeMinMaxDouble {
+  return {
+    min: item["min"],
+    max: item["max"],
+  };
+}
+
+/** VMSizes supported by Azure VMs. Included is a union of Excluded and Required. */
+export enum KnownVMAttributeSupport {
+  /** All VMSizes having the feature support will be excluded. */
+  Excluded = "Excluded",
+  /**  VMSizes that have the feature support and that do not have the feature support will be used. Included is a union of Excluded and Required. */
+  Included = "Included",
+  /** Only the VMSizes having the feature support will be used. */
+  Required = "Required",
+}
+
+/**
+ * VMSizes supported by Azure VMs. Included is a union of Excluded and Required. \
+ * {@link KnownVMAttributeSupport} can be used interchangeably with VMAttributeSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Excluded**: All VMSizes having the feature support will be excluded. \
+ * **Included**:  VMSizes that have the feature support and that do not have the feature support will be used. Included is a union of Excluded and Required. \
+ * **Required**: Only the VMSizes having the feature support will be used.
+ */
+export type VMAttributeSupport = string;
+
+/** Different kind of Local storage disk types supported by Azure VMs. */
+export enum KnownLocalStorageDiskType {
+  /** HDD DiskType. */
+  HDD = "HDD",
+  /** SDD DiskType. */
+  SSD = "SSD",
+}
+
+/**
+ * Different kind of Local storage disk types supported by Azure VMs. \
+ * {@link KnownLocalStorageDiskType} can be used interchangeably with LocalStorageDiskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HDD**: HDD DiskType. \
+ * **SSD**: SDD DiskType.
+ */
+export type LocalStorageDiskType = string;
+
+/** Accelerator manufacturers supported by Azure VMs. */
+export enum KnownAcceleratorManufacturer {
+  /** AMD GpuType */
+  AMD = "AMD",
+  /** Nvidia GpuType */
+  Nvidia = "Nvidia",
+  /** Xilinx GpuType */
+  Xilinx = "Xilinx",
+}
+
+/**
+ * Accelerator manufacturers supported by Azure VMs. \
+ * {@link KnownAcceleratorManufacturer} can be used interchangeably with AcceleratorManufacturer,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AMD**: AMD GpuType \
+ * **Nvidia**: Nvidia GpuType \
+ * **Xilinx**: Xilinx GpuType
+ */
+export type AcceleratorManufacturer = string;
+
+/** Accelerator types supported by Azure VMs. */
+export enum KnownAcceleratorType {
+  /** GPU Accelerator */
+  GPU = "GPU",
+  /** FPGA Accelerator */
+  FPGA = "FPGA",
+}
+
+/**
+ * Accelerator types supported by Azure VMs. \
+ * {@link KnownAcceleratorType} can be used interchangeably with AcceleratorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GPU**: GPU Accelerator \
+ * **FPGA**: FPGA Accelerator
+ */
+export type AcceleratorType = string;
+
+/**
+ * VMCategories defined for Azure VMs.
+ * See: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose
+ */
+export enum KnownVMCategory {
+  /** General purpose VM sizes provide balanced CPU-to-memory ratio. Ideal for testing and development, small to medium databases, and low to medium traffic web servers. */
+  GeneralPurpose = "GeneralPurpose",
+  /** Compute optimized VM sizes have a high CPU-to-memory ratio. These sizes are good for medium traffic web servers, network appliances, batch processes, and application servers. */
+  ComputeOptimized = "ComputeOptimized",
+  /** Memory optimized VM sizes offer a high memory-to-CPU ratio that is great for relational database servers, medium to large caches, and in-memory analytics. */
+  MemoryOptimized = "MemoryOptimized",
+  /**
+   * Storage optimized virtual machine (VM) sizes offer high disk throughput and IO, and are ideal for Big Data, SQL, NoSQL databases, data warehousing, and large transactional databases.
+   * Examples include Cassandra, MongoDB, Cloudera, and Redis.
+   */
+  StorageOptimized = "StorageOptimized",
+  /**
+   * GPU optimized VM sizes are specialized virtual machines available with single, multiple, or fractional GPUs.
+   * These sizes are designed for compute-intensive, graphics-intensive, and visualization workloads.
+   */
+  GpuAccelerated = "GpuAccelerated",
+  /**
+   * FPGA optimized VM sizes are specialized virtual machines available with single or multiple FPGA.
+   * These sizes are designed for compute-intensive workloads. This article provides information about the number and type of FPGA, vCPUs, data disks, and NICs.
+   * Storage throughput and network bandwidth are also included for each size in this grouping.
+   */
+  FpgaAccelerated = "FpgaAccelerated",
+  /**
+   * Azure High Performance Compute VMs are optimized for various HPC workloads such as computational fluid dynamics, finite element analysis, frontend and backend EDA,
+   * rendering, molecular dynamics, computational geo science, weather simulation, and financial risk analysis.
+   */
+  HighPerformanceCompute = "HighPerformanceCompute",
+}
+
+/**
+ * VMCategories defined for Azure VMs.
+ * See: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose \
+ * {@link KnownVMCategory} can be used interchangeably with VMCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GeneralPurpose**: General purpose VM sizes provide balanced CPU-to-memory ratio. Ideal for testing and development, small to medium databases, and low to medium traffic web servers. \
+ * **ComputeOptimized**: Compute optimized VM sizes have a high CPU-to-memory ratio. These sizes are good for medium traffic web servers, network appliances, batch processes, and application servers. \
+ * **MemoryOptimized**: Memory optimized VM sizes offer a high memory-to-CPU ratio that is great for relational database servers, medium to large caches, and in-memory analytics. \
+ * **StorageOptimized**: Storage optimized virtual machine (VM) sizes offer high disk throughput and IO, and are ideal for Big Data, SQL, NoSQL databases, data warehousing, and large transactional databases.
+ * Examples include Cassandra, MongoDB, Cloudera, and Redis. \
+ * **GpuAccelerated**: GPU optimized VM sizes are specialized virtual machines available with single, multiple, or fractional GPUs.
+ * These sizes are designed for compute-intensive, graphics-intensive, and visualization workloads. \
+ * **FpgaAccelerated**: FPGA optimized VM sizes are specialized virtual machines available with single or multiple FPGA.
+ * These sizes are designed for compute-intensive workloads. This article provides information about the number and type of FPGA, vCPUs, data disks, and NICs.
+ * Storage throughput and network bandwidth are also included for each size in this grouping. \
+ * **HighPerformanceCompute**: Azure High Performance Compute VMs are optimized for various HPC workloads such as computational fluid dynamics, finite element analysis, frontend and backend EDA,
+ * rendering, molecular dynamics, computational geo science, weather simulation, and financial risk analysis.
+ */
+export type VMCategory = string;
+
+/** Architecture types supported by Azure VMs. */
+export enum KnownArchitectureType {
+  /** ARM64 Architecture */
+  ARM64 = "ARM64",
+  /** X64 Architecture */
+  X64 = "X64",
+}
+
+/**
+ * Architecture types supported by Azure VMs. \
+ * {@link KnownArchitectureType} can be used interchangeably with ArchitectureType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ARM64**: ARM64 Architecture \
+ * **X64**: X64 Architecture
+ */
+export type ArchitectureType = string;
+
+/** Cpu Manufacturers  supported by Azure VMs. */
+export enum KnownCpuManufacturer {
+  /** Intel CPU. */
+  Intel = "Intel",
+  /** AMD CPU. */
+  AMD = "AMD",
+  /** Microsoft CPU. */
+  Microsoft = "Microsoft",
+  /** Ampere CPU. */
+  Ampere = "Ampere",
+}
+
+/**
+ * Cpu Manufacturers  supported by Azure VMs. \
+ * {@link KnownCpuManufacturer} can be used interchangeably with CpuManufacturer,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Intel**: Intel CPU. \
+ * **AMD**: AMD CPU. \
+ * **Microsoft**: Microsoft CPU. \
+ * **Ampere**: Ampere CPU.
+ */
+export type CpuManufacturer = string;
+
+/** Represents the configuration for additional locations where Fleet resources may be deployed. */
+export interface AdditionalLocationsProfile {
+  /** The list of location profiles. */
+  locationProfiles: LocationProfile[];
+}
+
+export function additionalLocationsProfileSerializer(item: AdditionalLocationsProfile): any {
+  return {
+    locationProfiles: locationProfileArraySerializer(item["locationProfiles"]),
+  };
+}
+
+export function additionalLocationsProfileDeserializer(item: any): AdditionalLocationsProfile {
+  return {
+    locationProfiles: locationProfileArrayDeserializer(item["locationProfiles"]),
+  };
+}
+
+/** Represents the profile for a single additional location in the Fleet. The location and the virtualMachineProfileOverride (optional). */
+export interface LocationProfile {
+  /** The ARM location name of the additional region. If LocationProfile is specified, then location is required. */
+  location: string;
+  /**
+   * An override for computeProfile.baseVirtualMachineProfile specific to this region.
+   * This override is merged with the base virtual machine profile to define the final virtual machine profile for the resources deployed in this location.
+   */
+  virtualMachineProfileOverride?: BaseVirtualMachineProfile;
+}
+
+export function locationProfileSerializer(item: LocationProfile): any {
+  return {
+    location: item["location"],
+    virtualMachineProfileOverride: !item["virtualMachineProfileOverride"]
+      ? item["virtualMachineProfileOverride"]
+      : baseVirtualMachineProfileSerializer(item["virtualMachineProfileOverride"]),
+  };
+}
+
+export function locationProfileDeserializer(item: any): LocationProfile {
+  return {
+    location: item["location"],
+    virtualMachineProfileOverride: !item["virtualMachineProfileOverride"]
+      ? item["virtualMachineProfileOverride"]
+      : baseVirtualMachineProfileDeserializer(item["virtualMachineProfileOverride"]),
   };
 }
 
@@ -453,48 +869,90 @@ export interface BaseVirtualMachineProfile {
   readonly timeCreated?: Date;
 }
 
-export function baseVirtualMachineProfileSerializer(
-  item: BaseVirtualMachineProfile,
-): BaseVirtualMachineProfileRest {
+export function baseVirtualMachineProfileSerializer(item: BaseVirtualMachineProfile): any {
   return {
-    osProfile: !item.osProfile
-      ? item.osProfile
-      : virtualMachineScaleSetOSProfileSerializer(item.osProfile),
-    storageProfile: !item.storageProfile
-      ? item.storageProfile
-      : virtualMachineScaleSetStorageProfileSerializer(item.storageProfile),
-    networkProfile: !item.networkProfile
-      ? item.networkProfile
-      : virtualMachineScaleSetNetworkProfileSerializer(item.networkProfile),
-    securityProfile: !item.securityProfile
-      ? item.securityProfile
-      : securityProfileSerializer(item.securityProfile),
-    diagnosticsProfile: !item.diagnosticsProfile
-      ? item.diagnosticsProfile
-      : diagnosticsProfileSerializer(item.diagnosticsProfile),
-    extensionProfile: !item.extensionProfile
-      ? item.extensionProfile
-      : virtualMachineScaleSetExtensionProfileSerializer(item.extensionProfile),
+    osProfile: !item["osProfile"]
+      ? item["osProfile"]
+      : virtualMachineScaleSetOSProfileSerializer(item["osProfile"]),
+    storageProfile: !item["storageProfile"]
+      ? item["storageProfile"]
+      : virtualMachineScaleSetStorageProfileSerializer(item["storageProfile"]),
+    networkProfile: !item["networkProfile"]
+      ? item["networkProfile"]
+      : virtualMachineScaleSetNetworkProfileSerializer(item["networkProfile"]),
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : securityProfileSerializer(item["securityProfile"]),
+    diagnosticsProfile: !item["diagnosticsProfile"]
+      ? item["diagnosticsProfile"]
+      : diagnosticsProfileSerializer(item["diagnosticsProfile"]),
+    extensionProfile: !item["extensionProfile"]
+      ? item["extensionProfile"]
+      : virtualMachineScaleSetExtensionProfileSerializer(item["extensionProfile"]),
     licenseType: item["licenseType"],
-    scheduledEventsProfile: !item.scheduledEventsProfile
-      ? item.scheduledEventsProfile
-      : scheduledEventsProfileSerializer(item.scheduledEventsProfile),
+    scheduledEventsProfile: !item["scheduledEventsProfile"]
+      ? item["scheduledEventsProfile"]
+      : scheduledEventsProfileSerializer(item["scheduledEventsProfile"]),
     userData: item["userData"],
-    capacityReservation: !item.capacityReservation
-      ? item.capacityReservation
-      : capacityReservationProfileSerializer(item.capacityReservation),
-    applicationProfile: !item.applicationProfile
-      ? item.applicationProfile
-      : applicationProfileSerializer(item.applicationProfile),
-    hardwareProfile: !item.hardwareProfile
-      ? item.hardwareProfile
-      : virtualMachineScaleSetHardwareProfileSerializer(item.hardwareProfile),
-    serviceArtifactReference: !item.serviceArtifactReference
-      ? item.serviceArtifactReference
-      : serviceArtifactReferenceSerializer(item.serviceArtifactReference),
-    securityPostureReference: !item.securityPostureReference
-      ? item.securityPostureReference
-      : securityPostureReferenceSerializer(item.securityPostureReference),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileSerializer(item["capacityReservation"]),
+    applicationProfile: !item["applicationProfile"]
+      ? item["applicationProfile"]
+      : applicationProfileSerializer(item["applicationProfile"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : virtualMachineScaleSetHardwareProfileSerializer(item["hardwareProfile"]),
+    serviceArtifactReference: !item["serviceArtifactReference"]
+      ? item["serviceArtifactReference"]
+      : serviceArtifactReferenceSerializer(item["serviceArtifactReference"]),
+    securityPostureReference: !item["securityPostureReference"]
+      ? item["securityPostureReference"]
+      : securityPostureReferenceSerializer(item["securityPostureReference"]),
+  };
+}
+
+export function baseVirtualMachineProfileDeserializer(item: any): BaseVirtualMachineProfile {
+  return {
+    osProfile: !item["osProfile"]
+      ? item["osProfile"]
+      : virtualMachineScaleSetOSProfileDeserializer(item["osProfile"]),
+    storageProfile: !item["storageProfile"]
+      ? item["storageProfile"]
+      : virtualMachineScaleSetStorageProfileDeserializer(item["storageProfile"]),
+    networkProfile: !item["networkProfile"]
+      ? item["networkProfile"]
+      : virtualMachineScaleSetNetworkProfileDeserializer(item["networkProfile"]),
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : securityProfileDeserializer(item["securityProfile"]),
+    diagnosticsProfile: !item["diagnosticsProfile"]
+      ? item["diagnosticsProfile"]
+      : diagnosticsProfileDeserializer(item["diagnosticsProfile"]),
+    extensionProfile: !item["extensionProfile"]
+      ? item["extensionProfile"]
+      : virtualMachineScaleSetExtensionProfileDeserializer(item["extensionProfile"]),
+    licenseType: item["licenseType"],
+    scheduledEventsProfile: !item["scheduledEventsProfile"]
+      ? item["scheduledEventsProfile"]
+      : scheduledEventsProfileDeserializer(item["scheduledEventsProfile"]),
+    userData: item["userData"],
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    applicationProfile: !item["applicationProfile"]
+      ? item["applicationProfile"]
+      : applicationProfileDeserializer(item["applicationProfile"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : virtualMachineScaleSetHardwareProfileDeserializer(item["hardwareProfile"]),
+    serviceArtifactReference: !item["serviceArtifactReference"]
+      ? item["serviceArtifactReference"]
+      : serviceArtifactReferenceDeserializer(item["serviceArtifactReference"]),
+    securityPostureReference: !item["securityPostureReference"]
+      ? item["securityPostureReference"]
+      : securityPostureReferenceDeserializer(item["securityPostureReference"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
   };
 }
 
@@ -570,22 +1028,41 @@ export interface VirtualMachineScaleSetOSProfile {
 
 export function virtualMachineScaleSetOSProfileSerializer(
   item: VirtualMachineScaleSetOSProfile,
-): VirtualMachineScaleSetOSProfileRest {
+): any {
   return {
     computerNamePrefix: item["computerNamePrefix"],
     adminUsername: item["adminUsername"],
     adminPassword: item["adminPassword"],
     customData: item["customData"],
-    windowsConfiguration: !item.windowsConfiguration
-      ? item.windowsConfiguration
-      : windowsConfigurationSerializer(item.windowsConfiguration),
-    linuxConfiguration: !item.linuxConfiguration
-      ? item.linuxConfiguration
-      : linuxConfigurationSerializer(item.linuxConfiguration),
-    secrets:
-      item["secrets"] === undefined
-        ? item["secrets"]
-        : item["secrets"].map(vaultSecretGroupSerializer),
+    windowsConfiguration: !item["windowsConfiguration"]
+      ? item["windowsConfiguration"]
+      : windowsConfigurationSerializer(item["windowsConfiguration"]),
+    linuxConfiguration: !item["linuxConfiguration"]
+      ? item["linuxConfiguration"]
+      : linuxConfigurationSerializer(item["linuxConfiguration"]),
+    secrets: !item["secrets"] ? item["secrets"] : vaultSecretGroupArraySerializer(item["secrets"]),
+    allowExtensionOperations: item["allowExtensionOperations"],
+    requireGuestProvisionSignal: item["requireGuestProvisionSignal"],
+  };
+}
+
+export function virtualMachineScaleSetOSProfileDeserializer(
+  item: any,
+): VirtualMachineScaleSetOSProfile {
+  return {
+    computerNamePrefix: item["computerNamePrefix"],
+    adminUsername: item["adminUsername"],
+    adminPassword: item["adminPassword"],
+    customData: item["customData"],
+    windowsConfiguration: !item["windowsConfiguration"]
+      ? item["windowsConfiguration"]
+      : windowsConfigurationDeserializer(item["windowsConfiguration"]),
+    linuxConfiguration: !item["linuxConfiguration"]
+      ? item["linuxConfiguration"]
+      : linuxConfigurationDeserializer(item["linuxConfiguration"]),
+    secrets: !item["secrets"]
+      ? item["secrets"]
+      : vaultSecretGroupArrayDeserializer(item["secrets"]),
     allowExtensionOperations: item["allowExtensionOperations"],
     requireGuestProvisionSignal: item["requireGuestProvisionSignal"],
   };
@@ -633,21 +1110,34 @@ export interface WindowsConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function windowsConfigurationSerializer(
-  item: WindowsConfiguration,
-): WindowsConfigurationRest {
+export function windowsConfigurationSerializer(item: WindowsConfiguration): any {
   return {
     provisionVMAgent: item["provisionVMAgent"],
     enableAutomaticUpdates: item["enableAutomaticUpdates"],
     timeZone: item["timeZone"],
-    additionalUnattendContent:
-      item["additionalUnattendContent"] === undefined
-        ? item["additionalUnattendContent"]
-        : item["additionalUnattendContent"].map(additionalUnattendContentSerializer),
-    patchSettings: !item.patchSettings
-      ? item.patchSettings
-      : patchSettingsSerializer(item.patchSettings),
-    winRM: !item.winRM ? item.winRM : winRMConfigurationSerializer(item.winRM),
+    additionalUnattendContent: !item["additionalUnattendContent"]
+      ? item["additionalUnattendContent"]
+      : additionalUnattendContentArraySerializer(item["additionalUnattendContent"]),
+    patchSettings: !item["patchSettings"]
+      ? item["patchSettings"]
+      : patchSettingsSerializer(item["patchSettings"]),
+    winRM: !item["winRM"] ? item["winRM"] : winRMConfigurationSerializer(item["winRM"]),
+    enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
+  };
+}
+
+export function windowsConfigurationDeserializer(item: any): WindowsConfiguration {
+  return {
+    provisionVMAgent: item["provisionVMAgent"],
+    enableAutomaticUpdates: item["enableAutomaticUpdates"],
+    timeZone: item["timeZone"],
+    additionalUnattendContent: !item["additionalUnattendContent"]
+      ? item["additionalUnattendContent"]
+      : additionalUnattendContentArrayDeserializer(item["additionalUnattendContent"]),
+    patchSettings: !item["patchSettings"]
+      ? item["patchSettings"]
+      : patchSettingsDeserializer(item["patchSettings"]),
+    winRM: !item["winRM"] ? item["winRM"] : winRMConfigurationDeserializer(item["winRM"]),
     enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
   };
 }
@@ -678,9 +1168,7 @@ export interface AdditionalUnattendContent {
   content?: string;
 }
 
-export function additionalUnattendContentSerializer(
-  item: AdditionalUnattendContent,
-): AdditionalUnattendContentRest {
+export function additionalUnattendContentSerializer(item: AdditionalUnattendContent): any {
   return {
     passName: item["passName"],
     componentName: item["componentName"],
@@ -689,11 +1177,23 @@ export function additionalUnattendContentSerializer(
   };
 }
 
-/** Known values of {@link SettingNames} that the service accepts. */
+export function additionalUnattendContentDeserializer(item: any): AdditionalUnattendContent {
+  return {
+    passName: item["passName"],
+    componentName: item["componentName"],
+    settingName: item["settingName"],
+    content: item["content"],
+  };
+}
+
+/**
+ * Specifies the name of the setting to which the content applies. Possible values
+ * are: FirstLogonCommands and AutoLogon.
+ */
 export enum KnownSettingNames {
-  /** AutoLogon */
+  /** AutoLogon setting */
   AutoLogon = "AutoLogon",
-  /** FirstLogonCommands */
+  /** FirstLogonCommands setting */
   FirstLogonCommands = "FirstLogonCommands",
 }
 
@@ -703,10 +1203,26 @@ export enum KnownSettingNames {
  * {@link KnownSettingNames} can be used interchangeably with SettingNames,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AutoLogon** \
- * **FirstLogonCommands**
+ * **AutoLogon**: AutoLogon setting \
+ * **FirstLogonCommands**: FirstLogonCommands setting
  */
 export type SettingNames = string;
+
+export function additionalUnattendContentArraySerializer(
+  result: Array<AdditionalUnattendContent>,
+): any[] {
+  return result.map((item) => {
+    return additionalUnattendContentSerializer(item);
+  });
+}
+
+export function additionalUnattendContentArrayDeserializer(
+  result: Array<AdditionalUnattendContent>,
+): any[] {
+  return result.map((item) => {
+    return additionalUnattendContentDeserializer(item);
+  });
+}
 
 /** Specifies settings related to VM Guest Patching on Windows. */
 export interface PatchSettings {
@@ -745,24 +1261,54 @@ export interface PatchSettings {
   automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function patchSettingsSerializer(item: PatchSettings): PatchSettingsRest {
+export function patchSettingsSerializer(item: PatchSettings): any {
   return {
     patchMode: item["patchMode"],
     enableHotpatching: item["enableHotpatching"],
     assessmentMode: item["assessmentMode"],
-    automaticByPlatformSettings: !item.automaticByPlatformSettings
-      ? item.automaticByPlatformSettings
-      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
+    automaticByPlatformSettings: !item["automaticByPlatformSettings"]
+      ? item["automaticByPlatformSettings"]
+      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
+          item["automaticByPlatformSettings"],
+        ),
   };
 }
 
-/** Known values of {@link WindowsVMGuestPatchMode} that the service accepts. */
+export function patchSettingsDeserializer(item: any): PatchSettings {
+  return {
+    patchMode: item["patchMode"],
+    enableHotpatching: item["enableHotpatching"],
+    assessmentMode: item["assessmentMode"],
+    automaticByPlatformSettings: !item["automaticByPlatformSettings"]
+      ? item["automaticByPlatformSettings"]
+      : windowsVMGuestPatchAutomaticByPlatformSettingsDeserializer(
+          item["automaticByPlatformSettings"],
+        ),
+  };
+}
+
+/**
+ * Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual
+ * machines associated to virtual machine scale set with OrchestrationMode as
+ * Flexible.
+ */
 export enum KnownWindowsVMGuestPatchMode {
-  /** Manual */
+  /**
+   * You control the application of patches to a virtual machine.
+   * You do this by applying patches manually inside the VM. In this mode,
+   * automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates
+   * must be false
+   */
   Manual = "Manual",
-  /** AutomaticByOS */
+  /**
+   * The virtual machine will automatically be updated by the OS.
+   * The property WindowsConfiguration.enableAutomaticUpdates must be true.
+   */
   AutomaticByOS = "AutomaticByOS",
-  /** AutomaticByPlatform */
+  /**
+   * The virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
+   */
   AutomaticByPlatform = "AutomaticByPlatform",
 }
 
@@ -773,17 +1319,22 @@ export enum KnownWindowsVMGuestPatchMode {
  * {@link KnownWindowsVMGuestPatchMode} can be used interchangeably with WindowsVMGuestPatchMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Manual** \
- * **AutomaticByOS** \
- * **AutomaticByPlatform**
+ * **Manual**: You control the application of patches to a virtual machine.
+ * You do this by applying patches manually inside the VM. In this mode,
+ * automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates
+ * must be false \
+ * **AutomaticByOS**: The virtual machine will automatically be updated by the OS.
+ * The property WindowsConfiguration.enableAutomaticUpdates must be true. \
+ * **AutomaticByPlatform**: The virtual machine will automatically updated by the platform. The properties
+ * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
  */
 export type WindowsVMGuestPatchMode = string;
 
-/** Known values of {@link WindowsPatchAssessmentMode} that the service accepts. */
+/** Specifies the mode of VM Guest patch assessment for the IaaS virtual machine. */
 export enum KnownWindowsPatchAssessmentMode {
-  /** ImageDefault */
+  /** You control the timing of patch assessments on a virtual machine. */
   ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
+  /** The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
   AutomaticByPlatform = "AutomaticByPlatform",
 }
 
@@ -792,8 +1343,8 @@ export enum KnownWindowsPatchAssessmentMode {
  * {@link KnownWindowsPatchAssessmentMode} can be used interchangeably with WindowsPatchAssessmentMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
+ * **ImageDefault**: You control the timing of patch assessments on a virtual machine. \
+ * **AutomaticByPlatform**: The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
  */
 export type WindowsPatchAssessmentMode = string;
 
@@ -813,22 +1364,31 @@ export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
 
 export function windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
   item: WindowsVMGuestPatchAutomaticByPlatformSettings,
-): WindowsVMGuestPatchAutomaticByPlatformSettingsRest {
+): any {
   return {
     rebootSetting: item["rebootSetting"],
     bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
-/** Known values of {@link WindowsVMGuestPatchAutomaticByPlatformRebootSetting} that the service accepts. */
+export function windowsVMGuestPatchAutomaticByPlatformSettingsDeserializer(
+  item: any,
+): WindowsVMGuestPatchAutomaticByPlatformSettings {
+  return {
+    rebootSetting: item["rebootSetting"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
+  };
+}
+
+/** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
 export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
-  /** Unknown */
+  /** Unknown Reboot setting */
   Unknown = "Unknown",
-  /** IfRequired */
+  /** IfRequired Reboot setting */
   IfRequired = "IfRequired",
-  /** Never */
+  /** Never Reboot setting */
   Never = "Never",
-  /** Always */
+  /** Always Reboot setting */
   Always = "Always",
 }
 
@@ -837,10 +1397,10 @@ export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
  * {@link KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting} can be used interchangeably with WindowsVMGuestPatchAutomaticByPlatformRebootSetting,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **IfRequired** \
- * **Never** \
- * **Always**
+ * **Unknown**: Unknown Reboot setting \
+ * **IfRequired**: IfRequired Reboot setting \
+ * **Never**: Never Reboot setting \
+ * **Always**: Always Reboot setting
  */
 export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
 
@@ -850,12 +1410,19 @@ export interface WinRMConfiguration {
   listeners?: WinRMListener[];
 }
 
-export function winRMConfigurationSerializer(item: WinRMConfiguration): WinRMConfigurationRest {
+export function winRMConfigurationSerializer(item: WinRMConfiguration): any {
   return {
-    listeners:
-      item["listeners"] === undefined
-        ? item["listeners"]
-        : item["listeners"].map(winRMListenerSerializer),
+    listeners: !item["listeners"]
+      ? item["listeners"]
+      : winRMListenerArraySerializer(item["listeners"]),
+  };
+}
+
+export function winRMConfigurationDeserializer(item: any): WinRMConfiguration {
+  return {
+    listeners: !item["listeners"]
+      ? item["listeners"]
+      : winRMListenerArrayDeserializer(item["listeners"]),
   };
 }
 
@@ -884,18 +1451,25 @@ export interface WinRMListener {
   certificateUrl?: string;
 }
 
-export function winRMListenerSerializer(item: WinRMListener): WinRMListenerRest {
+export function winRMListenerSerializer(item: WinRMListener): any {
+  return { protocol: item["protocol"], certificateUrl: item["certificateUrl"] };
+}
+
+export function winRMListenerDeserializer(item: any): WinRMListener {
   return {
     protocol: item["protocol"],
     certificateUrl: item["certificateUrl"],
   };
 }
 
-/** Known values of {@link ProtocolTypes} that the service accepts. */
+/**
+ * Specifies the protocol of WinRM listener. Possible values are: **http,**
+ * **https.**
+ */
 export enum KnownProtocolTypes {
-  /** Http */
+  /** Http protocol */
   Http = "Http",
-  /** Https */
+  /** Https protocol */
   Https = "Https",
 }
 
@@ -905,10 +1479,22 @@ export enum KnownProtocolTypes {
  * {@link KnownProtocolTypes} can be used interchangeably with ProtocolTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Http** \
- * **Https**
+ * **Http**: Http protocol \
+ * **Https**: Https protocol
  */
 export type ProtocolTypes = string;
+
+export function winRMListenerArraySerializer(result: Array<WinRMListener>): any[] {
+  return result.map((item) => {
+    return winRMListenerSerializer(item);
+  });
+}
+
+export function winRMListenerArrayDeserializer(result: Array<WinRMListener>): any[] {
+  return result.map((item) => {
+    return winRMListenerDeserializer(item);
+  });
+}
 
 /**
  * Specifies the Linux operating system settings on the virtual machine. For a
@@ -936,14 +1522,26 @@ export interface LinuxConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function linuxConfigurationSerializer(item: LinuxConfiguration): LinuxConfigurationRest {
+export function linuxConfigurationSerializer(item: LinuxConfiguration): any {
   return {
     disablePasswordAuthentication: item["disablePasswordAuthentication"],
-    ssh: !item.ssh ? item.ssh : sshConfigurationSerializer(item.ssh),
+    ssh: !item["ssh"] ? item["ssh"] : sshConfigurationSerializer(item["ssh"]),
     provisionVMAgent: item["provisionVMAgent"],
-    patchSettings: !item.patchSettings
-      ? item.patchSettings
-      : linuxPatchSettingsSerializer(item.patchSettings),
+    patchSettings: !item["patchSettings"]
+      ? item["patchSettings"]
+      : linuxPatchSettingsSerializer(item["patchSettings"]),
+    enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
+  };
+}
+
+export function linuxConfigurationDeserializer(item: any): LinuxConfiguration {
+  return {
+    disablePasswordAuthentication: item["disablePasswordAuthentication"],
+    ssh: !item["ssh"] ? item["ssh"] : sshConfigurationDeserializer(item["ssh"]),
+    provisionVMAgent: item["provisionVMAgent"],
+    patchSettings: !item["patchSettings"]
+      ? item["patchSettings"]
+      : linuxPatchSettingsDeserializer(item["patchSettings"]),
     enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
   };
 }
@@ -954,12 +1552,19 @@ export interface SshConfiguration {
   publicKeys?: SshPublicKey[];
 }
 
-export function sshConfigurationSerializer(item: SshConfiguration): SshConfigurationRest {
+export function sshConfigurationSerializer(item: SshConfiguration): any {
   return {
-    publicKeys:
-      item["publicKeys"] === undefined
-        ? item["publicKeys"]
-        : item["publicKeys"].map(sshPublicKeySerializer),
+    publicKeys: !item["publicKeys"]
+      ? item["publicKeys"]
+      : sshPublicKeyArraySerializer(item["publicKeys"]),
+  };
+}
+
+export function sshConfigurationDeserializer(item: any): SshConfiguration {
+  return {
+    publicKeys: !item["publicKeys"]
+      ? item["publicKeys"]
+      : sshPublicKeyArrayDeserializer(item["publicKeys"]),
   };
 }
 
@@ -983,11 +1588,27 @@ export interface SshPublicKey {
   keyData?: string;
 }
 
-export function sshPublicKeySerializer(item: SshPublicKey): SshPublicKeyRest {
+export function sshPublicKeySerializer(item: SshPublicKey): any {
+  return { path: item["path"], keyData: item["keyData"] };
+}
+
+export function sshPublicKeyDeserializer(item: any): SshPublicKey {
   return {
     path: item["path"],
     keyData: item["keyData"],
   };
+}
+
+export function sshPublicKeyArraySerializer(result: Array<SshPublicKey>): any[] {
+  return result.map((item) => {
+    return sshPublicKeySerializer(item);
+  });
+}
+
+export function sshPublicKeyArrayDeserializer(result: Array<SshPublicKey>): any[] {
+  return result.map((item) => {
+    return sshPublicKeyDeserializer(item);
+  });
 }
 
 /** Specifies settings related to VM Guest Patching on Linux. */
@@ -1016,21 +1637,37 @@ export interface LinuxPatchSettings {
   automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): LinuxPatchSettingsRest {
+export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): any {
   return {
     patchMode: item["patchMode"],
     assessmentMode: item["assessmentMode"],
-    automaticByPlatformSettings: !item.automaticByPlatformSettings
-      ? item.automaticByPlatformSettings
-      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
+    automaticByPlatformSettings: !item["automaticByPlatformSettings"]
+      ? item["automaticByPlatformSettings"]
+      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(item["automaticByPlatformSettings"]),
   };
 }
 
-/** Known values of {@link LinuxVMGuestPatchMode} that the service accepts. */
+export function linuxPatchSettingsDeserializer(item: any): LinuxPatchSettings {
+  return {
+    patchMode: item["patchMode"],
+    assessmentMode: item["assessmentMode"],
+    automaticByPlatformSettings: !item["automaticByPlatformSettings"]
+      ? item["automaticByPlatformSettings"]
+      : linuxVMGuestPatchAutomaticByPlatformSettingsDeserializer(
+          item["automaticByPlatformSettings"],
+        ),
+  };
+}
+
+/**
+ * Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual
+ * machines associated to virtual machine scale set with OrchestrationMode as
+ * Flexible.
+ */
 export enum KnownLinuxVMGuestPatchMode {
-  /** ImageDefault */
+  /** The virtual machine's default patching configuration is used. */
   ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
+  /** The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true. */
   AutomaticByPlatform = "AutomaticByPlatform",
 }
 
@@ -1041,16 +1678,22 @@ export enum KnownLinuxVMGuestPatchMode {
  * {@link KnownLinuxVMGuestPatchMode} can be used interchangeably with LinuxVMGuestPatchMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
+ * **ImageDefault**: The virtual machine's default patching configuration is used. \
+ * **AutomaticByPlatform**: The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true.
  */
 export type LinuxVMGuestPatchMode = string;
 
-/** Known values of {@link LinuxPatchAssessmentMode} that the service accepts. */
+/**
+ * Specifies the mode of VM Guest Patch Assessment for the IaaS virtual
+ * machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You
+ * control the timing of patch assessments on a virtual machine. <br /><br />
+ * **AutomaticByPlatform** - The platform will trigger periodic patch assessments.
+ * The property provisionVMAgent must be true.
+ */
 export enum KnownLinuxPatchAssessmentMode {
-  /** ImageDefault */
+  /** You control the timing of patch assessments on a virtual machine. */
   ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
+  /** The platform will trigger periodic patch assessments.The property provisionVMAgent must be true. */
   AutomaticByPlatform = "AutomaticByPlatform",
 }
 
@@ -1063,8 +1706,8 @@ export enum KnownLinuxPatchAssessmentMode {
  * {@link KnownLinuxPatchAssessmentMode} can be used interchangeably with LinuxPatchAssessmentMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
+ * **ImageDefault**: You control the timing of patch assessments on a virtual machine. \
+ * **AutomaticByPlatform**: The platform will trigger periodic patch assessments.The property provisionVMAgent must be true.
  */
 export type LinuxPatchAssessmentMode = string;
 
@@ -1084,22 +1727,34 @@ export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
 
 export function linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
   item: LinuxVMGuestPatchAutomaticByPlatformSettings,
-): LinuxVMGuestPatchAutomaticByPlatformSettingsRest {
+): any {
   return {
     rebootSetting: item["rebootSetting"],
     bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
-/** Known values of {@link LinuxVMGuestPatchAutomaticByPlatformRebootSetting} that the service accepts. */
+export function linuxVMGuestPatchAutomaticByPlatformSettingsDeserializer(
+  item: any,
+): LinuxVMGuestPatchAutomaticByPlatformSettings {
+  return {
+    rebootSetting: item["rebootSetting"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
+  };
+}
+
+/**
+ * Specifies the reboot setting for all AutomaticByPlatform patch installation
+ * operations.
+ */
 export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
-  /** Unknown */
+  /** Unknown Reboot setting */
   Unknown = "Unknown",
-  /** IfRequired */
+  /** IfRequired Reboot setting */
   IfRequired = "IfRequired",
-  /** Never */
+  /** Never Reboot setting */
   Never = "Never",
-  /** Always */
+  /** Always Reboot setting */
   Always = "Always",
 }
 
@@ -1109,10 +1764,10 @@ export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
  * {@link KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting} can be used interchangeably with LinuxVMGuestPatchAutomaticByPlatformRebootSetting,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **IfRequired** \
- * **Never** \
- * **Always**
+ * **Unknown**: Unknown Reboot setting \
+ * **IfRequired**: IfRequired Reboot setting \
+ * **Never**: Never Reboot setting \
+ * **Always**: Always Reboot setting
  */
 export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
 
@@ -1127,13 +1782,25 @@ export interface VaultSecretGroup {
   vaultCertificates?: VaultCertificate[];
 }
 
-export function vaultSecretGroupSerializer(item: VaultSecretGroup): VaultSecretGroupRest {
+export function vaultSecretGroupSerializer(item: VaultSecretGroup): any {
   return {
-    sourceVault: !item.sourceVault ? item.sourceVault : subResourceSerializer(item.sourceVault),
-    vaultCertificates:
-      item["vaultCertificates"] === undefined
-        ? item["vaultCertificates"]
-        : item["vaultCertificates"].map(vaultCertificateSerializer),
+    sourceVault: !item["sourceVault"]
+      ? item["sourceVault"]
+      : subResourceSerializer(item["sourceVault"]),
+    vaultCertificates: !item["vaultCertificates"]
+      ? item["vaultCertificates"]
+      : vaultCertificateArraySerializer(item["vaultCertificates"]),
+  };
+}
+
+export function vaultSecretGroupDeserializer(item: any): VaultSecretGroup {
+  return {
+    sourceVault: !item["sourceVault"]
+      ? item["sourceVault"]
+      : subResourceDeserializer(item["sourceVault"]),
+    vaultCertificates: !item["vaultCertificates"]
+      ? item["vaultCertificates"]
+      : vaultCertificateArrayDeserializer(item["vaultCertificates"]),
   };
 }
 
@@ -1143,7 +1810,11 @@ export interface SubResource {
   id?: string;
 }
 
-export function subResourceSerializer(item: SubResource): SubResourceRest {
+export function subResourceSerializer(item: SubResource): any {
+  return { id: item["id"] };
+}
+
+export function subResourceDeserializer(item: any): SubResource {
   return {
     id: item["id"],
   };
@@ -1182,11 +1853,42 @@ export interface VaultCertificate {
   certificateStore?: string;
 }
 
-export function vaultCertificateSerializer(item: VaultCertificate): VaultCertificateRest {
+export function vaultCertificateSerializer(item: VaultCertificate): any {
   return {
     certificateUrl: item["certificateUrl"],
     certificateStore: item["certificateStore"],
   };
+}
+
+export function vaultCertificateDeserializer(item: any): VaultCertificate {
+  return {
+    certificateUrl: item["certificateUrl"],
+    certificateStore: item["certificateStore"],
+  };
+}
+
+export function vaultCertificateArraySerializer(result: Array<VaultCertificate>): any[] {
+  return result.map((item) => {
+    return vaultCertificateSerializer(item);
+  });
+}
+
+export function vaultCertificateArrayDeserializer(result: Array<VaultCertificate>): any[] {
+  return result.map((item) => {
+    return vaultCertificateDeserializer(item);
+  });
+}
+
+export function vaultSecretGroupArraySerializer(result: Array<VaultSecretGroup>): any[] {
+  return result.map((item) => {
+    return vaultSecretGroupSerializer(item);
+  });
+}
+
+export function vaultSecretGroupArrayDeserializer(result: Array<VaultSecretGroup>): any[] {
+  return result.map((item) => {
+    return vaultSecretGroupDeserializer(item);
+  });
 }
 
 /** Describes a virtual machine scale set storage profile. */
@@ -1218,16 +1920,34 @@ export interface VirtualMachineScaleSetStorageProfile {
 
 export function virtualMachineScaleSetStorageProfileSerializer(
   item: VirtualMachineScaleSetStorageProfile,
-): VirtualMachineScaleSetStorageProfileRest {
+): any {
   return {
-    imageReference: !item.imageReference
-      ? item.imageReference
-      : imageReferenceSerializer(item.imageReference),
-    osDisk: !item.osDisk ? item.osDisk : virtualMachineScaleSetOSDiskSerializer(item.osDisk),
-    dataDisks:
-      item["dataDisks"] === undefined
-        ? item["dataDisks"]
-        : item["dataDisks"].map(virtualMachineScaleSetDataDiskSerializer),
+    imageReference: !item["imageReference"]
+      ? item["imageReference"]
+      : imageReferenceSerializer(item["imageReference"]),
+    osDisk: !item["osDisk"]
+      ? item["osDisk"]
+      : virtualMachineScaleSetOSDiskSerializer(item["osDisk"]),
+    dataDisks: !item["dataDisks"]
+      ? item["dataDisks"]
+      : virtualMachineScaleSetDataDiskArraySerializer(item["dataDisks"]),
+    diskControllerType: item["diskControllerType"],
+  };
+}
+
+export function virtualMachineScaleSetStorageProfileDeserializer(
+  item: any,
+): VirtualMachineScaleSetStorageProfile {
+  return {
+    imageReference: !item["imageReference"]
+      ? item["imageReference"]
+      : imageReferenceDeserializer(item["imageReference"]),
+    osDisk: !item["osDisk"]
+      ? item["osDisk"]
+      : virtualMachineScaleSetOSDiskDeserializer(item["osDisk"]),
+    dataDisks: !item["dataDisks"]
+      ? item["dataDisks"]
+      : virtualMachineScaleSetDataDiskArrayDeserializer(item["dataDisks"]),
     diskControllerType: item["diskControllerType"],
   };
 }
@@ -1282,13 +2002,26 @@ export interface ImageReference {
   communityGalleryImageId?: string;
 }
 
-export function imageReferenceSerializer(item: ImageReference): ImageReferenceRest {
+export function imageReferenceSerializer(item: ImageReference): any {
   return {
     id: item["id"],
     publisher: item["publisher"],
     offer: item["offer"],
     sku: item["sku"],
     version: item["version"],
+    sharedGalleryImageId: item["sharedGalleryImageId"],
+    communityGalleryImageId: item["communityGalleryImageId"],
+  };
+}
+
+export function imageReferenceDeserializer(item: any): ImageReference {
+  return {
+    id: item["id"],
+    publisher: item["publisher"],
+    offer: item["offer"],
+    sku: item["sku"],
+    version: item["version"],
+    exactVersion: item["exactVersion"],
     sharedGalleryImageId: item["sharedGalleryImageId"],
     communityGalleryImageId: item["communityGalleryImageId"],
   };
@@ -1354,35 +2087,61 @@ export interface VirtualMachineScaleSetOSDisk {
   deleteOption?: DiskDeleteOptionTypes;
 }
 
-export function virtualMachineScaleSetOSDiskSerializer(
-  item: VirtualMachineScaleSetOSDisk,
-): VirtualMachineScaleSetOSDiskRest {
+export function virtualMachineScaleSetOSDiskSerializer(item: VirtualMachineScaleSetOSDisk): any {
   return {
     name: item["name"],
     caching: item["caching"],
     writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
     createOption: item["createOption"],
-    diffDiskSettings: !item.diffDiskSettings
-      ? item.diffDiskSettings
-      : diffDiskSettingsSerializer(item.diffDiskSettings),
+    diffDiskSettings: !item["diffDiskSettings"]
+      ? item["diffDiskSettings"]
+      : diffDiskSettingsSerializer(item["diffDiskSettings"]),
     diskSizeGB: item["diskSizeGB"],
     osType: item["osType"],
-    image: !item.image ? item.image : virtualHardDiskSerializer(item.image),
-    vhdContainers: item["vhdContainers"],
-    managedDisk: !item.managedDisk
-      ? item.managedDisk
-      : virtualMachineScaleSetManagedDiskParametersSerializer(item.managedDisk),
+    image: !item["image"] ? item["image"] : virtualHardDiskSerializer(item["image"]),
+    vhdContainers: !item["vhdContainers"]
+      ? item["vhdContainers"]
+      : item["vhdContainers"].map((p: any) => {
+          return p;
+        }),
+    managedDisk: !item["managedDisk"]
+      ? item["managedDisk"]
+      : virtualMachineScaleSetManagedDiskParametersSerializer(item["managedDisk"]),
     deleteOption: item["deleteOption"],
   };
 }
 
-/** Known values of {@link CachingTypes} that the service accepts. */
+export function virtualMachineScaleSetOSDiskDeserializer(item: any): VirtualMachineScaleSetOSDisk {
+  return {
+    name: item["name"],
+    caching: item["caching"],
+    writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
+    createOption: item["createOption"],
+    diffDiskSettings: !item["diffDiskSettings"]
+      ? item["diffDiskSettings"]
+      : diffDiskSettingsDeserializer(item["diffDiskSettings"]),
+    diskSizeGB: item["diskSizeGB"],
+    osType: item["osType"],
+    image: !item["image"] ? item["image"] : virtualHardDiskDeserializer(item["image"]),
+    vhdContainers: !item["vhdContainers"]
+      ? item["vhdContainers"]
+      : item["vhdContainers"].map((p: any) => {
+          return p;
+        }),
+    managedDisk: !item["managedDisk"]
+      ? item["managedDisk"]
+      : virtualMachineScaleSetManagedDiskParametersDeserializer(item["managedDisk"]),
+    deleteOption: item["deleteOption"],
+  };
+}
+
+/** Specifies the caching requirements. */
 export enum KnownCachingTypes {
-  /** None */
+  /** 'None' is default for Standard Storage */
   None = "None",
-  /** ReadOnly */
+  /** 'ReadOnly' is default for Premium Storage */
   ReadOnly = "ReadOnly",
-  /** ReadWrite */
+  /** 'ReadWrite' is default for OS Disk */
   ReadWrite = "ReadWrite",
 }
 
@@ -1391,23 +2150,28 @@ export enum KnownCachingTypes {
  * {@link KnownCachingTypes} can be used interchangeably with CachingTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **ReadOnly** \
- * **ReadWrite**
+ * **None**: 'None' is default for Standard Storage \
+ * **ReadOnly**: 'ReadOnly' is default for Premium Storage \
+ * **ReadWrite**: 'ReadWrite' is default for OS Disk
  */
 export type CachingTypes = string;
 
-/** Known values of {@link DiskCreateOptionTypes} that the service accepts. */
+/** Specifies how the virtual machine should be created. */
 export enum KnownDiskCreateOptionTypes {
-  /** FromImage */
+  /**
+   * This value is used when you are using an image to create the virtual machine.
+   * If you are using a platform image, you also use the imageReference element
+   * described above. If you are using a marketplace image, you also use the
+   * plan element previously described.
+   */
   FromImage = "FromImage",
-  /** Empty */
+  /** This value is used when creating an empty data disk. */
   Empty = "Empty",
-  /** Attach */
+  /** This value is used when you are using a specialized disk to create the virtual machine. */
   Attach = "Attach",
-  /** Copy */
+  /** This value is used to create a data disk from a snapshot or another disk. */
   Copy = "Copy",
-  /** Restore */
+  /** This value is used to create a data disk from a disk restore point. */
   Restore = "Restore",
 }
 
@@ -1416,11 +2180,14 @@ export enum KnownDiskCreateOptionTypes {
  * {@link KnownDiskCreateOptionTypes} can be used interchangeably with DiskCreateOptionTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **FromImage** \
- * **Empty** \
- * **Attach** \
- * **Copy** \
- * **Restore**
+ * **FromImage**: This value is used when you are using an image to create the virtual machine.
+ * If you are using a platform image, you also use the imageReference element
+ * described above. If you are using a marketplace image, you also use the
+ * plan element previously described. \
+ * **Empty**: This value is used when creating an empty data disk. \
+ * **Attach**: This value is used when you are using a specialized disk to create the virtual machine. \
+ * **Copy**: This value is used to create a data disk from a snapshot or another disk. \
+ * **Restore**: This value is used to create a data disk from a disk restore point.
  */
 export type DiskCreateOptionTypes = string;
 
@@ -1444,16 +2211,20 @@ export interface DiffDiskSettings {
   placement?: DiffDiskPlacement;
 }
 
-export function diffDiskSettingsSerializer(item: DiffDiskSettings): DiffDiskSettingsRest {
+export function diffDiskSettingsSerializer(item: DiffDiskSettings): any {
+  return { option: item["option"], placement: item["placement"] };
+}
+
+export function diffDiskSettingsDeserializer(item: any): DiffDiskSettings {
   return {
     option: item["option"],
     placement: item["placement"],
   };
 }
 
-/** Known values of {@link DiffDiskOptions} that the service accepts. */
+/** Specifies the ephemeral disk option for operating system disk. */
 export enum KnownDiffDiskOptions {
-  /** Local */
+  /** Local Option. */
   Local = "Local",
 }
 
@@ -1462,17 +2233,27 @@ export enum KnownDiffDiskOptions {
  * {@link KnownDiffDiskOptions} can be used interchangeably with DiffDiskOptions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Local**
+ * **Local**: Local Option.
  */
 export type DiffDiskOptions = string;
 
-/** Known values of {@link DiffDiskPlacement} that the service accepts. */
+/**
+ * Specifies the ephemeral disk placement for operating system disk. This property
+ * can be used by user in the request to choose the location i.e, cache disk or
+ * resource disk space for Ephemeral OS disk provisioning. For more information on
+ * Ephemeral OS disk size requirements, please refer Ephemeral OS disk size
+ * requirements for Windows VM at
+ * https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+ * and Linux VM at
+ * https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+ * Minimum api-version for NvmeDisk: 2024-03-01.
+ */
 export enum KnownDiffDiskPlacement {
-  /** CacheDisk */
+  /** CacheDisk option. */
   CacheDisk = "CacheDisk",
-  /** ResourceDisk */
+  /** Resource Disk option. */
   ResourceDisk = "ResourceDisk",
-  /** NvmeDisk */
+  /** NvmeDisk option. */
   NvmeDisk = "NvmeDisk",
 }
 
@@ -1489,17 +2270,21 @@ export enum KnownDiffDiskPlacement {
  * {@link KnownDiffDiskPlacement} can be used interchangeably with DiffDiskPlacement,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CacheDisk** \
- * **ResourceDisk** \
- * **NvmeDisk**
+ * **CacheDisk**: CacheDisk option. \
+ * **ResourceDisk**: Resource Disk option. \
+ * **NvmeDisk**: NvmeDisk option.
  */
 export type DiffDiskPlacement = string;
 
-/** Known values of {@link OperatingSystemTypes} that the service accepts. */
+/**
+ * This property allows you to specify the type of the OS that is included in the
+ * disk if creating a VM from user-image or a specialized VHD. Possible values
+ * are: **Windows,** **Linux.**
+ */
 export enum KnownOperatingSystemTypes {
-  /** Windows */
+  /** Windows OS type */
   Windows = "Windows",
-  /** Linux */
+  /** Linux OS type */
   Linux = "Linux",
 }
 
@@ -1510,8 +2295,8 @@ export enum KnownOperatingSystemTypes {
  * {@link KnownOperatingSystemTypes} can be used interchangeably with OperatingSystemTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux**
+ * **Windows**: Windows OS type \
+ * **Linux**: Linux OS type
  */
 export type OperatingSystemTypes = string;
 
@@ -1521,7 +2306,11 @@ export interface VirtualHardDisk {
   uri?: string;
 }
 
-export function virtualHardDiskSerializer(item: VirtualHardDisk): VirtualHardDiskRest {
+export function virtualHardDiskSerializer(item: VirtualHardDisk): any {
+  return { uri: item["uri"] };
+}
+
+export function virtualHardDiskDeserializer(item: any): VirtualHardDisk {
   return {
     uri: item["uri"],
   };
@@ -1545,34 +2334,60 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 
 export function virtualMachineScaleSetManagedDiskParametersSerializer(
   item: VirtualMachineScaleSetManagedDiskParameters,
-): VirtualMachineScaleSetManagedDiskParametersRest {
+): any {
   return {
     storageAccountType: item["storageAccountType"],
-    diskEncryptionSet: !item.diskEncryptionSet
-      ? item.diskEncryptionSet
-      : diskEncryptionSetParametersSerializer(item.diskEncryptionSet),
-    securityProfile: !item.securityProfile
-      ? item.securityProfile
-      : vMDiskSecurityProfileSerializer(item.securityProfile),
+    diskEncryptionSet: !item["diskEncryptionSet"]
+      ? item["diskEncryptionSet"]
+      : diskEncryptionSetParametersSerializer(item["diskEncryptionSet"]),
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : vMDiskSecurityProfileSerializer(item["securityProfile"]),
   };
 }
 
-/** Known values of {@link StorageAccountTypes} that the service accepts. */
+export function virtualMachineScaleSetManagedDiskParametersDeserializer(
+  item: any,
+): VirtualMachineScaleSetManagedDiskParameters {
+  return {
+    storageAccountType: item["storageAccountType"],
+    diskEncryptionSet: !item["diskEncryptionSet"]
+      ? item["diskEncryptionSet"]
+      : diskEncryptionSetParametersDeserializer(item["diskEncryptionSet"]),
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : vMDiskSecurityProfileDeserializer(item["securityProfile"]),
+  };
+}
+
+/**
+ * Specifies the storage account type for the managed disk. Managed OS disk
+ * storage account type can only be set when you create the scale set. NOTE:
+ * UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk.
+ * Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS
+ * uses Premium SSD. UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD
+ * zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant
+ * storage. For more information regarding disks supported for Windows Virtual
+ * Machines, refer to
+ * https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for
+ * Linux Virtual Machines, refer to
+ * https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
+ */
 export enum KnownStorageAccountTypes {
-  /** Standard_LRS */
-  Standard_LRS = "Standard_LRS",
-  /** Premium_LRS */
-  Premium_LRS = "Premium_LRS",
-  /** StandardSSD_LRS */
-  StandardSSD_LRS = "StandardSSD_LRS",
-  /** UltraSSD_LRS */
-  UltraSSD_LRS = "UltraSSD_LRS",
-  /** Premium_ZRS */
-  Premium_ZRS = "Premium_ZRS",
-  /** StandardSSD_ZRS */
-  StandardSSD_ZRS = "StandardSSD_ZRS",
-  /** PremiumV2_LRS */
-  PremiumV2_LRS = "PremiumV2_LRS",
+  /** Standard_LRS option. */
+  StandardLRS = "Standard_LRS",
+  /** Premium_LRS option. */
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSD_LRS option. */
+  StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSD_LRS option. */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** Premium_ZRS option. */
+  PremiumZRS = "Premium_ZRS",
+  /** StandardSSD_ZRS option. */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** PremiumV2_LRS option. */
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -1590,13 +2405,13 @@ export enum KnownStorageAccountTypes {
  * {@link KnownStorageAccountTypes} can be used interchangeably with StorageAccountTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Standard_LRS** \
- * **Premium_LRS** \
- * **StandardSSD_LRS** \
- * **UltraSSD_LRS** \
- * **Premium_ZRS** \
- * **StandardSSD_ZRS** \
- * **PremiumV2_LRS**
+ * **Standard_LRS**: Standard_LRS option. \
+ * **Premium_LRS**: Premium_LRS option. \
+ * **StandardSSD_LRS**: StandardSSD_LRS option. \
+ * **UltraSSD_LRS**: UltraSSD_LRS option. \
+ * **Premium_ZRS**: Premium_ZRS option. \
+ * **StandardSSD_ZRS**: StandardSSD_ZRS option. \
+ * **PremiumV2_LRS**: PremiumV2_LRS option.
  */
 export type StorageAccountTypes = string;
 
@@ -1611,9 +2426,11 @@ export interface DiskEncryptionSetParameters {
   id?: string;
 }
 
-export function diskEncryptionSetParametersSerializer(
-  item: DiskEncryptionSetParameters,
-): DiskEncryptionSetParametersRest {
+export function diskEncryptionSetParametersSerializer(item: DiskEncryptionSetParameters): any {
+  return { id: item["id"] };
+}
+
+export function diskEncryptionSetParametersDeserializer(item: any): DiskEncryptionSetParameters {
   return {
     id: item["id"],
   };
@@ -1640,24 +2457,43 @@ export interface VMDiskSecurityProfile {
   diskEncryptionSet?: DiskEncryptionSetParameters;
 }
 
-export function vMDiskSecurityProfileSerializer(
-  item: VMDiskSecurityProfile,
-): VMDiskSecurityProfileRest {
+export function vMDiskSecurityProfileSerializer(item: VMDiskSecurityProfile): any {
   return {
     securityEncryptionType: item["securityEncryptionType"],
-    diskEncryptionSet: !item.diskEncryptionSet
-      ? item.diskEncryptionSet
-      : diskEncryptionSetParametersSerializer(item.diskEncryptionSet),
+    diskEncryptionSet: !item["diskEncryptionSet"]
+      ? item["diskEncryptionSet"]
+      : diskEncryptionSetParametersSerializer(item["diskEncryptionSet"]),
   };
 }
 
-/** Known values of {@link SecurityEncryptionTypes} that the service accepts. */
+export function vMDiskSecurityProfileDeserializer(item: any): VMDiskSecurityProfile {
+  return {
+    securityEncryptionType: item["securityEncryptionType"],
+    diskEncryptionSet: !item["diskEncryptionSet"]
+      ? item["diskEncryptionSet"]
+      : diskEncryptionSetParametersDeserializer(item["diskEncryptionSet"]),
+  };
+}
+
+/**
+ * Specifies the EncryptionType of the managed disk.
+ * **Note:** It can be set for only Confidential VMs.
+ */
 export enum KnownSecurityEncryptionTypes {
-  /** VMGuestStateOnly */
+  /**
+   * EncryptionType of the managed disk is set to VMGuestStateOnly for encryption
+   * of just the VMGuestState blob.
+   */
   VMGuestStateOnly = "VMGuestStateOnly",
-  /** DiskWithVMGuestState */
+  /**
+   * EncryptionType of the managed disk is set to DiskWithVMGuestState for encryption
+   * of the managed disk along with VMGuestState blob.
+   */
   DiskWithVMGuestState = "DiskWithVMGuestState",
-  /** NonPersistedTPM */
+  /**
+   * EncryptionType of the managed disk is set to NonPersistedTPM for not persisting
+   * firmware state in the VMGuestState blob.
+   */
   NonPersistedTPM = "NonPersistedTPM",
 }
 
@@ -1667,17 +2503,26 @@ export enum KnownSecurityEncryptionTypes {
  * {@link KnownSecurityEncryptionTypes} can be used interchangeably with SecurityEncryptionTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **VMGuestStateOnly** \
- * **DiskWithVMGuestState** \
- * **NonPersistedTPM**
+ * **VMGuestStateOnly**: EncryptionType of the managed disk is set to VMGuestStateOnly for encryption
+ * of just the VMGuestState blob. \
+ * **DiskWithVMGuestState**: EncryptionType of the managed disk is set to DiskWithVMGuestState for encryption
+ * of the managed disk along with VMGuestState blob. \
+ * **NonPersistedTPM**: EncryptionType of the managed disk is set to NonPersistedTPM for not persisting
+ * firmware state in the VMGuestState blob.
  */
 export type SecurityEncryptionTypes = string;
 
-/** Known values of {@link DiskDeleteOptionTypes} that the service accepts. */
+/**
+ * Specifies the behavior of the managed disk when the VM gets deleted, for
+ * example whether the managed disk is deleted or detached. Supported values are:
+ * **Delete.** If this value is used, the managed disk is deleted when VM gets
+ * deleted. **Detach.** If this value is used, the managed disk is retained after
+ * VM gets deleted. Minimum api-version: 2021-03-01.
+ */
 export enum KnownDiskDeleteOptionTypes {
-  /** Delete */
+  /** If this value is used, the managed disk is deleted when VM gets deleted. */
   Delete = "Delete",
-  /** Detach */
+  /** If this value is used, the managed disk is retained after VM gets deleted. */
   Detach = "Detach",
 }
 
@@ -1690,8 +2535,8 @@ export enum KnownDiskDeleteOptionTypes {
  * {@link KnownDiskDeleteOptionTypes} can be used interchangeably with DiskDeleteOptionTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Delete** \
- * **Detach**
+ * **Delete**: If this value is used, the managed disk is deleted when VM gets deleted. \
+ * **Detach**: If this value is used, the managed disk is retained after VM gets deleted.
  */
 export type DiskDeleteOptionTypes = string;
 
@@ -1749,7 +2594,7 @@ export interface VirtualMachineScaleSetDataDisk {
 
 export function virtualMachineScaleSetDataDiskSerializer(
   item: VirtualMachineScaleSetDataDisk,
-): VirtualMachineScaleSetDataDiskRest {
+): any {
   return {
     name: item["name"],
     lun: item["lun"],
@@ -1757,20 +2602,65 @@ export function virtualMachineScaleSetDataDiskSerializer(
     writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
     createOption: item["createOption"],
     diskSizeGB: item["diskSizeGB"],
-    managedDisk: !item.managedDisk
-      ? item.managedDisk
-      : virtualMachineScaleSetManagedDiskParametersSerializer(item.managedDisk),
+    managedDisk: !item["managedDisk"]
+      ? item["managedDisk"]
+      : virtualMachineScaleSetManagedDiskParametersSerializer(item["managedDisk"]),
     diskIOPSReadWrite: item["diskIOPSReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
     deleteOption: item["deleteOption"],
   };
 }
 
-/** Known values of {@link DiskControllerTypes} that the service accepts. */
+export function virtualMachineScaleSetDataDiskDeserializer(
+  item: any,
+): VirtualMachineScaleSetDataDisk {
+  return {
+    name: item["name"],
+    lun: item["lun"],
+    caching: item["caching"],
+    writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
+    createOption: item["createOption"],
+    diskSizeGB: item["diskSizeGB"],
+    managedDisk: !item["managedDisk"]
+      ? item["managedDisk"]
+      : virtualMachineScaleSetManagedDiskParametersDeserializer(item["managedDisk"]),
+    diskIOPSReadWrite: item["diskIOPSReadWrite"],
+    diskMBpsReadWrite: item["diskMBpsReadWrite"],
+    deleteOption: item["deleteOption"],
+  };
+}
+
+export function virtualMachineScaleSetDataDiskArraySerializer(
+  result: Array<VirtualMachineScaleSetDataDisk>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetDataDiskSerializer(item);
+  });
+}
+
+export function virtualMachineScaleSetDataDiskArrayDeserializer(
+  result: Array<VirtualMachineScaleSetDataDisk>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetDataDiskDeserializer(item);
+  });
+}
+
+/**
+ * Specifies the disk controller type configured for the VM and
+ * VirtualMachineScaleSet. This property is only supported for virtual machines
+ * whose operating system disk and VM sku supports Generation 2
+ * (https://docs.microsoft.com/en-us/azure/virtual-machines/generation-2), please
+ * check the HyperVGenerations capability returned as part of VM sku capabilities
+ * in the response of Microsoft.Compute SKUs api for the region contains V2
+ * (https://docs.microsoft.com/rest/api/compute/resourceskus/list). For more
+ * information about Disk Controller Types supported please refer to
+ * https://aka.ms/azure-diskcontrollertypes.
+ */
 export enum KnownDiskControllerTypes {
-  /** SCSI */
+  /** SCSI disk type */
   SCSI = "SCSI",
-  /** NVMe */
+  /** NVMe disk type */
   NVMe = "NVMe",
 }
 
@@ -1787,8 +2677,8 @@ export enum KnownDiskControllerTypes {
  * {@link KnownDiskControllerTypes} can be used interchangeably with DiskControllerTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SCSI** \
- * **NVMe**
+ * **SCSI**: SCSI disk type \
+ * **NVMe**: NVMe disk type
  */
 export type DiskControllerTypes = string;
 
@@ -1812,17 +2702,32 @@ export interface VirtualMachineScaleSetNetworkProfile {
 
 export function virtualMachineScaleSetNetworkProfileSerializer(
   item: VirtualMachineScaleSetNetworkProfile,
-): VirtualMachineScaleSetNetworkProfileRest {
+): any {
   return {
-    healthProbe: !item.healthProbe
-      ? item.healthProbe
-      : apiEntityReferenceSerializer(item.healthProbe),
-    networkInterfaceConfigurations:
-      item["networkInterfaceConfigurations"] === undefined
-        ? item["networkInterfaceConfigurations"]
-        : item["networkInterfaceConfigurations"].map(
-            virtualMachineScaleSetNetworkConfigurationSerializer,
-          ),
+    healthProbe: !item["healthProbe"]
+      ? item["healthProbe"]
+      : apiEntityReferenceSerializer(item["healthProbe"]),
+    networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
+      ? item["networkInterfaceConfigurations"]
+      : virtualMachineScaleSetNetworkConfigurationArraySerializer(
+          item["networkInterfaceConfigurations"],
+        ),
+    networkApiVersion: item["networkApiVersion"],
+  };
+}
+
+export function virtualMachineScaleSetNetworkProfileDeserializer(
+  item: any,
+): VirtualMachineScaleSetNetworkProfile {
+  return {
+    healthProbe: !item["healthProbe"]
+      ? item["healthProbe"]
+      : apiEntityReferenceDeserializer(item["healthProbe"]),
+    networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
+      ? item["networkInterfaceConfigurations"]
+      : virtualMachineScaleSetNetworkConfigurationArrayDeserializer(
+          item["networkInterfaceConfigurations"],
+        ),
     networkApiVersion: item["networkApiVersion"],
   };
 }
@@ -1836,7 +2741,11 @@ export interface ApiEntityReference {
   id?: string;
 }
 
-export function apiEntityReferenceSerializer(item: ApiEntityReference): ApiEntityReferenceRest {
+export function apiEntityReferenceSerializer(item: ApiEntityReference): any {
+  return { id: item["id"] };
+}
+
+export function apiEntityReferenceDeserializer(item: any): ApiEntityReference {
   return {
     id: item["id"],
   };
@@ -1852,12 +2761,23 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
 
 export function virtualMachineScaleSetNetworkConfigurationSerializer(
   item: VirtualMachineScaleSetNetworkConfiguration,
-): VirtualMachineScaleSetNetworkConfigurationRest {
+): any {
   return {
     name: item["name"],
-    properties: !item.properties
-      ? item.properties
-      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function virtualMachineScaleSetNetworkConfigurationDeserializer(
+  item: any,
+): VirtualMachineScaleSetNetworkConfiguration {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetNetworkConfigurationPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1898,19 +2818,45 @@ export interface VirtualMachineScaleSetNetworkConfigurationProperties {
 
 export function virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetNetworkConfigurationProperties,
-): VirtualMachineScaleSetNetworkConfigurationPropertiesRest {
+): any {
   return {
     primary: item["primary"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
     disableTcpStateTracking: item["disableTcpStateTracking"],
     enableFpga: item["enableFpga"],
-    networkSecurityGroup: !item.networkSecurityGroup
-      ? item.networkSecurityGroup
-      : subResourceSerializer(item.networkSecurityGroup),
-    dnsSettings: !item.dnsSettings
-      ? item.dnsSettings
-      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(item.dnsSettings),
-    ipConfigurations: item["ipConfigurations"].map(virtualMachineScaleSetIPConfigurationSerializer),
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : subResourceSerializer(item["networkSecurityGroup"]),
+    dnsSettings: !item["dnsSettings"]
+      ? item["dnsSettings"]
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(item["dnsSettings"]),
+    ipConfigurations: virtualMachineScaleSetIPConfigurationArraySerializer(
+      item["ipConfigurations"],
+    ),
+    enableIPForwarding: item["enableIPForwarding"],
+    deleteOption: item["deleteOption"],
+    auxiliaryMode: item["auxiliaryMode"],
+    auxiliarySku: item["auxiliarySku"],
+  };
+}
+
+export function virtualMachineScaleSetNetworkConfigurationPropertiesDeserializer(
+  item: any,
+): VirtualMachineScaleSetNetworkConfigurationProperties {
+  return {
+    primary: item["primary"],
+    enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+    disableTcpStateTracking: item["disableTcpStateTracking"],
+    enableFpga: item["enableFpga"],
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : subResourceDeserializer(item["networkSecurityGroup"]),
+    dnsSettings: !item["dnsSettings"]
+      ? item["dnsSettings"]
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsDeserializer(item["dnsSettings"]),
+    ipConfigurations: virtualMachineScaleSetIPConfigurationArrayDeserializer(
+      item["ipConfigurations"],
+    ),
     enableIPForwarding: item["enableIPForwarding"],
     deleteOption: item["deleteOption"],
     auxiliaryMode: item["auxiliaryMode"],
@@ -1926,9 +2872,25 @@ export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
 
 export function virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
   item: VirtualMachineScaleSetNetworkConfigurationDnsSettings,
-): VirtualMachineScaleSetNetworkConfigurationDnsSettingsRest {
+): any {
   return {
-    dnsServers: item["dnsServers"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function virtualMachineScaleSetNetworkConfigurationDnsSettingsDeserializer(
+  item: any,
+): VirtualMachineScaleSetNetworkConfigurationDnsSettings {
+  return {
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1945,12 +2907,23 @@ export interface VirtualMachineScaleSetIPConfiguration {
 
 export function virtualMachineScaleSetIPConfigurationSerializer(
   item: VirtualMachineScaleSetIPConfiguration,
-): VirtualMachineScaleSetIPConfigurationRest {
+): any {
   return {
     name: item["name"],
-    properties: !item.properties
-      ? item.properties
-      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function virtualMachineScaleSetIPConfigurationDeserializer(
+  item: any,
+): VirtualMachineScaleSetIPConfiguration {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetIPConfigurationPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1999,32 +2972,55 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
 
 export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetIPConfigurationProperties,
-): VirtualMachineScaleSetIPConfigurationPropertiesRest {
+): any {
   return {
-    subnet: !item.subnet ? item.subnet : apiEntityReferenceSerializer(item.subnet),
+    subnet: !item["subnet"] ? item["subnet"] : apiEntityReferenceSerializer(item["subnet"]),
     primary: item["primary"],
-    publicIPAddressConfiguration: !item.publicIPAddressConfiguration
-      ? item.publicIPAddressConfiguration
+    publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
+      ? item["publicIPAddressConfiguration"]
       : virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
-          item.publicIPAddressConfiguration,
+          item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
-    applicationGatewayBackendAddressPools:
-      item["applicationGatewayBackendAddressPools"] === undefined
-        ? item["applicationGatewayBackendAddressPools"]
-        : item["applicationGatewayBackendAddressPools"].map(subResourceSerializer),
-    applicationSecurityGroups:
-      item["applicationSecurityGroups"] === undefined
-        ? item["applicationSecurityGroups"]
-        : item["applicationSecurityGroups"].map(subResourceSerializer),
-    loadBalancerBackendAddressPools:
-      item["loadBalancerBackendAddressPools"] === undefined
-        ? item["loadBalancerBackendAddressPools"]
-        : item["loadBalancerBackendAddressPools"].map(subResourceSerializer),
-    loadBalancerInboundNatPools:
-      item["loadBalancerInboundNatPools"] === undefined
-        ? item["loadBalancerInboundNatPools"]
-        : item["loadBalancerInboundNatPools"].map(subResourceSerializer),
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
+      ? item["applicationGatewayBackendAddressPools"]
+      : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
+    applicationSecurityGroups: !item["applicationSecurityGroups"]
+      ? item["applicationSecurityGroups"]
+      : subResourceArraySerializer(item["applicationSecurityGroups"]),
+    loadBalancerBackendAddressPools: !item["loadBalancerBackendAddressPools"]
+      ? item["loadBalancerBackendAddressPools"]
+      : subResourceArraySerializer(item["loadBalancerBackendAddressPools"]),
+    loadBalancerInboundNatPools: !item["loadBalancerInboundNatPools"]
+      ? item["loadBalancerInboundNatPools"]
+      : subResourceArraySerializer(item["loadBalancerInboundNatPools"]),
+  };
+}
+
+export function virtualMachineScaleSetIPConfigurationPropertiesDeserializer(
+  item: any,
+): VirtualMachineScaleSetIPConfigurationProperties {
+  return {
+    subnet: !item["subnet"] ? item["subnet"] : apiEntityReferenceDeserializer(item["subnet"]),
+    primary: item["primary"],
+    publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
+      ? item["publicIPAddressConfiguration"]
+      : virtualMachineScaleSetPublicIPAddressConfigurationDeserializer(
+          item["publicIPAddressConfiguration"],
+        ),
+    privateIPAddressVersion: item["privateIPAddressVersion"],
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
+      ? item["applicationGatewayBackendAddressPools"]
+      : subResourceArrayDeserializer(item["applicationGatewayBackendAddressPools"]),
+    applicationSecurityGroups: !item["applicationSecurityGroups"]
+      ? item["applicationSecurityGroups"]
+      : subResourceArrayDeserializer(item["applicationSecurityGroups"]),
+    loadBalancerBackendAddressPools: !item["loadBalancerBackendAddressPools"]
+      ? item["loadBalancerBackendAddressPools"]
+      : subResourceArrayDeserializer(item["loadBalancerBackendAddressPools"]),
+    loadBalancerInboundNatPools: !item["loadBalancerInboundNatPools"]
+      ? item["loadBalancerInboundNatPools"]
+      : subResourceArrayDeserializer(item["loadBalancerInboundNatPools"]),
   };
 }
 
@@ -2049,13 +3045,27 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfiguration,
-): VirtualMachineScaleSetPublicIPAddressConfigurationRest {
+): any {
   return {
     name: item["name"],
-    properties: !item.properties
-      ? item.properties
-      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(item.properties),
-    sku: !item.sku ? item.sku : publicIPAddressSkuSerializer(item.sku),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(item["properties"]),
+    sku: !item["sku"] ? item["sku"] : publicIPAddressSkuSerializer(item["sku"]),
+  };
+}
+
+export function virtualMachineScaleSetPublicIPAddressConfigurationDeserializer(
+  item: any,
+): VirtualMachineScaleSetPublicIPAddressConfiguration {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesDeserializer(
+          item["properties"],
+        ),
+    sku: !item["sku"] ? item["sku"] : publicIPAddressSkuDeserializer(item["sku"]),
   };
 }
 
@@ -2084,19 +3094,41 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfigurationProperties,
-): VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesRest {
+): any {
   return {
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
-    dnsSettings: !item.dnsSettings
-      ? item.dnsSettings
-      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(item.dnsSettings),
-    ipTags:
-      item["ipTags"] === undefined
-        ? item["ipTags"]
-        : item["ipTags"].map(virtualMachineScaleSetIpTagSerializer),
-    publicIPPrefix: !item.publicIPPrefix
-      ? item.publicIPPrefix
-      : subResourceSerializer(item.publicIPPrefix),
+    dnsSettings: !item["dnsSettings"]
+      ? item["dnsSettings"]
+      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
+          item["dnsSettings"],
+        ),
+    ipTags: !item["ipTags"]
+      ? item["ipTags"]
+      : virtualMachineScaleSetIpTagArraySerializer(item["ipTags"]),
+    publicIPPrefix: !item["publicIPPrefix"]
+      ? item["publicIPPrefix"]
+      : subResourceSerializer(item["publicIPPrefix"]),
+    publicIPAddressVersion: item["publicIPAddressVersion"],
+    deleteOption: item["deleteOption"],
+  };
+}
+
+export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesDeserializer(
+  item: any,
+): VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
+  return {
+    idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
+    dnsSettings: !item["dnsSettings"]
+      ? item["dnsSettings"]
+      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsDeserializer(
+          item["dnsSettings"],
+        ),
+    ipTags: !item["ipTags"]
+      ? item["ipTags"]
+      : virtualMachineScaleSetIpTagArrayDeserializer(item["ipTags"]),
+    publicIPPrefix: !item["publicIPPrefix"]
+      ? item["publicIPPrefix"]
+      : subResourceDeserializer(item["publicIPPrefix"]),
     publicIPAddressVersion: item["publicIPAddressVersion"],
     deleteOption: item["deleteOption"],
   };
@@ -2121,22 +3153,36 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings,
-): VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsRest {
+): any {
   return {
     domainNameLabel: item["domainNameLabel"],
     domainNameLabelScope: item["domainNameLabelScope"],
   };
 }
 
-/** Known values of {@link DomainNameLabelScopeTypes} that the service accepts. */
+export function virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsDeserializer(
+  item: any,
+): VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
+  return {
+    domainNameLabel: item["domainNameLabel"],
+    domainNameLabelScope: item["domainNameLabelScope"],
+  };
+}
+
+/**
+ * The Domain name label scope.The concatenation of the hashed domain name label
+ * that generated according to the policy from domain name label scope and vm
+ * index will be the domain name labels of the PublicIPAddress resources that will
+ * be created
+ */
 export enum KnownDomainNameLabelScopeTypes {
-  /** TenantReuse */
+  /** TenantReuse type */
   TenantReuse = "TenantReuse",
-  /** SubscriptionReuse */
+  /** SubscriptionReuse type */
   SubscriptionReuse = "SubscriptionReuse",
-  /** ResourceGroupReuse */
+  /** ResourceGroupReuse type */
   ResourceGroupReuse = "ResourceGroupReuse",
-  /** NoReuse */
+  /** NoReuse type */
   NoReuse = "NoReuse",
 }
 
@@ -2148,10 +3194,10 @@ export enum KnownDomainNameLabelScopeTypes {
  * {@link KnownDomainNameLabelScopeTypes} can be used interchangeably with DomainNameLabelScopeTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TenantReuse** \
- * **SubscriptionReuse** \
- * **ResourceGroupReuse** \
- * **NoReuse**
+ * **TenantReuse**: TenantReuse type \
+ * **SubscriptionReuse**: SubscriptionReuse type \
+ * **ResourceGroupReuse**: ResourceGroupReuse type \
+ * **NoReuse**: NoReuse type
  */
 export type DomainNameLabelScopeTypes = string;
 
@@ -2163,20 +3209,42 @@ export interface VirtualMachineScaleSetIpTag {
   tag?: string;
 }
 
-export function virtualMachineScaleSetIpTagSerializer(
-  item: VirtualMachineScaleSetIpTag,
-): VirtualMachineScaleSetIpTagRest {
+export function virtualMachineScaleSetIpTagSerializer(item: VirtualMachineScaleSetIpTag): any {
+  return { ipTagType: item["ipTagType"], tag: item["tag"] };
+}
+
+export function virtualMachineScaleSetIpTagDeserializer(item: any): VirtualMachineScaleSetIpTag {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
   };
 }
 
-/** Known values of {@link IPVersion} that the service accepts. */
+export function virtualMachineScaleSetIpTagArraySerializer(
+  result: Array<VirtualMachineScaleSetIpTag>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetIpTagSerializer(item);
+  });
+}
+
+export function virtualMachineScaleSetIpTagArrayDeserializer(
+  result: Array<VirtualMachineScaleSetIpTag>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetIpTagDeserializer(item);
+  });
+}
+
+/**
+ * Available from Api-Version 2017-03-30 onwards, it represents whether the
+ * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible
+ * values are: 'IPv4' and 'IPv6'.
+ */
 export enum KnownIPVersion {
-  /** IPv4 */
+  /** IPv4 version */
   IPv4 = "IPv4",
-  /** IPv6 */
+  /** IPv6 version */
   IPv6 = "IPv6",
 }
 
@@ -2187,16 +3255,16 @@ export enum KnownIPVersion {
  * {@link KnownIPVersion} can be used interchangeably with IPVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IPv4** \
- * **IPv6**
+ * **IPv4**: IPv4 version \
+ * **IPv6**: IPv6 version
  */
 export type IPVersion = string;
 
-/** Known values of {@link DeleteOptions} that the service accepts. */
+/** Specify what happens to the network interface when the VM is deleted */
 export enum KnownDeleteOptions {
-  /** Delete */
+  /** Delete Option */
   Delete = "Delete",
-  /** Detach */
+  /** Detach Option */
   Detach = "Detach",
 }
 
@@ -2205,8 +3273,8 @@ export enum KnownDeleteOptions {
  * {@link KnownDeleteOptions} can be used interchangeably with DeleteOptions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Delete** \
- * **Detach**
+ * **Delete**: Delete Option \
+ * **Detach**: Detach Option
  */
 export type DeleteOptions = string;
 
@@ -2221,18 +3289,22 @@ export interface PublicIPAddressSku {
   tier?: PublicIPAddressSkuTier;
 }
 
-export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): PublicIPAddressSkuRest {
+export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): any {
+  return { name: item["name"], tier: item["tier"] };
+}
+
+export function publicIPAddressSkuDeserializer(item: any): PublicIPAddressSku {
   return {
     name: item["name"],
     tier: item["tier"],
   };
 }
 
-/** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
+/** Specify public IP sku name. */
 export enum KnownPublicIPAddressSkuName {
-  /** Basic */
+  /** Basic sku name */
   Basic = "Basic",
-  /** Standard */
+  /** Standard sku name */
   Standard = "Standard",
 }
 
@@ -2241,16 +3313,16 @@ export enum KnownPublicIPAddressSkuName {
  * {@link KnownPublicIPAddressSkuName} can be used interchangeably with PublicIPAddressSkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Basic** \
- * **Standard**
+ * **Basic**: Basic sku name \
+ * **Standard**: Standard sku name
  */
 export type PublicIPAddressSkuName = string;
 
-/** Known values of {@link PublicIPAddressSkuTier} that the service accepts. */
+/** Specify public IP sku tier */
 export enum KnownPublicIPAddressSkuTier {
-  /** Regional */
+  /** Regional sku tier */
   Regional = "Regional",
-  /** Global */
+  /** Global sku tier */
   Global = "Global",
 }
 
@@ -2259,18 +3331,49 @@ export enum KnownPublicIPAddressSkuTier {
  * {@link KnownPublicIPAddressSkuTier} can be used interchangeably with PublicIPAddressSkuTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Regional** \
- * **Global**
+ * **Regional**: Regional sku tier \
+ * **Global**: Global sku tier
  */
 export type PublicIPAddressSkuTier = string;
 
-/** Known values of {@link NetworkInterfaceAuxiliaryMode} that the service accepts. */
+export function subResourceArraySerializer(result: Array<SubResource>): any[] {
+  return result.map((item) => {
+    return subResourceSerializer(item);
+  });
+}
+
+export function subResourceArrayDeserializer(result: Array<SubResource>): any[] {
+  return result.map((item) => {
+    return subResourceDeserializer(item);
+  });
+}
+
+export function virtualMachineScaleSetIPConfigurationArraySerializer(
+  result: Array<VirtualMachineScaleSetIPConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetIPConfigurationSerializer(item);
+  });
+}
+
+export function virtualMachineScaleSetIPConfigurationArrayDeserializer(
+  result: Array<VirtualMachineScaleSetIPConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetIPConfigurationDeserializer(item);
+  });
+}
+
+/**
+ * Specifies whether the Auxiliary mode is enabled for the Network Interface
+ * resource.
+ */
 export enum KnownNetworkInterfaceAuxiliaryMode {
-  /** None */
+  /** None Mode */
   None = "None",
-  /** AcceleratedConnections */
+  /** AcceleratedConnections Mode */
   AcceleratedConnections = "AcceleratedConnections",
-  /** Floating */
+  /** Floating Mode */
   Floating = "Floating",
 }
 
@@ -2280,23 +3383,26 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
  * {@link KnownNetworkInterfaceAuxiliaryMode} can be used interchangeably with NetworkInterfaceAuxiliaryMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **AcceleratedConnections** \
- * **Floating**
+ * **None**: None Mode \
+ * **AcceleratedConnections**: AcceleratedConnections Mode \
+ * **Floating**: Floating Mode
  */
 export type NetworkInterfaceAuxiliaryMode = string;
 
-/** Known values of {@link NetworkInterfaceAuxiliarySku} that the service accepts. */
+/**
+ * Specifies whether the Auxiliary sku is enabled for the Network Interface
+ * resource.
+ */
 export enum KnownNetworkInterfaceAuxiliarySku {
-  /** None */
+  /** no sku */
   None = "None",
-  /** A1 */
+  /** A1 sku */
   A1 = "A1",
-  /** A2 */
+  /** A2 sku */
   A2 = "A2",
-  /** A4 */
+  /** A4 sku */
   A4 = "A4",
-  /** A8 */
+  /** A8 sku */
   A8 = "A8",
 }
 
@@ -2306,18 +3412,38 @@ export enum KnownNetworkInterfaceAuxiliarySku {
  * {@link KnownNetworkInterfaceAuxiliarySku} can be used interchangeably with NetworkInterfaceAuxiliarySku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **A1** \
- * **A2** \
- * **A4** \
- * **A8**
+ * **None**: no sku \
+ * **A1**: A1 sku \
+ * **A2**: A2 sku \
+ * **A4**: A4 sku \
+ * **A8**: A8 sku
  */
 export type NetworkInterfaceAuxiliarySku = string;
 
-/** Known values of {@link NetworkApiVersion} that the service accepts. */
+export function virtualMachineScaleSetNetworkConfigurationArraySerializer(
+  result: Array<VirtualMachineScaleSetNetworkConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetNetworkConfigurationSerializer(item);
+  });
+}
+
+export function virtualMachineScaleSetNetworkConfigurationArrayDeserializer(
+  result: Array<VirtualMachineScaleSetNetworkConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetNetworkConfigurationDeserializer(item);
+  });
+}
+
+/**
+ * specifies the Microsoft.Network API version used when creating networking
+ * resources in the Network Interface Configurations for Virtual Machine Scale Set
+ * with orchestration mode 'Flexible'
+ */
 export enum KnownNetworkApiVersion {
-  /** 2020-11-01 */
-  "2020-11-01" = "2020-11-01",
+  /** Initial version supported. Later versions are supported as well. */
+  V20201101 = "2020-11-01",
 }
 
 /**
@@ -2327,7 +3453,7 @@ export enum KnownNetworkApiVersion {
  * {@link KnownNetworkApiVersion} can be used interchangeably with NetworkApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2020-11-01**
+ * **2020-11-01**: Initial version supported. Later versions are supported as well.
  */
 export type NetworkApiVersion = string;
 
@@ -2367,19 +3493,35 @@ export interface SecurityProfile {
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
-export function securityProfileSerializer(item: SecurityProfile): SecurityProfileRest {
+export function securityProfileSerializer(item: SecurityProfile): any {
   return {
-    uefiSettings: !item.uefiSettings
-      ? item.uefiSettings
-      : uefiSettingsSerializer(item.uefiSettings),
+    uefiSettings: !item["uefiSettings"]
+      ? item["uefiSettings"]
+      : uefiSettingsSerializer(item["uefiSettings"]),
     encryptionAtHost: item["encryptionAtHost"],
     securityType: item["securityType"],
-    encryptionIdentity: !item.encryptionIdentity
-      ? item.encryptionIdentity
-      : encryptionIdentitySerializer(item.encryptionIdentity),
-    proxyAgentSettings: !item.proxyAgentSettings
-      ? item.proxyAgentSettings
-      : proxyAgentSettingsSerializer(item.proxyAgentSettings),
+    encryptionIdentity: !item["encryptionIdentity"]
+      ? item["encryptionIdentity"]
+      : encryptionIdentitySerializer(item["encryptionIdentity"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
+  };
+}
+
+export function securityProfileDeserializer(item: any): SecurityProfile {
+  return {
+    uefiSettings: !item["uefiSettings"]
+      ? item["uefiSettings"]
+      : uefiSettingsDeserializer(item["uefiSettings"]),
+    encryptionAtHost: item["encryptionAtHost"],
+    securityType: item["securityType"],
+    encryptionIdentity: !item["encryptionIdentity"]
+      ? item["encryptionIdentity"]
+      : encryptionIdentityDeserializer(item["encryptionIdentity"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -2400,18 +3542,29 @@ export interface UefiSettings {
   vTpmEnabled?: boolean;
 }
 
-export function uefiSettingsSerializer(item: UefiSettings): UefiSettingsRest {
+export function uefiSettingsSerializer(item: UefiSettings): any {
   return {
     secureBootEnabled: item["secureBootEnabled"],
     vTpmEnabled: item["vTpmEnabled"],
   };
 }
 
-/** Known values of {@link SecurityTypes} that the service accepts. */
+export function uefiSettingsDeserializer(item: any): UefiSettings {
+  return {
+    secureBootEnabled: item["secureBootEnabled"],
+    vTpmEnabled: item["vTpmEnabled"],
+  };
+}
+
+/**
+ * Specifies the SecurityType of the virtual machine. It has to be set to any
+ * specified value to enable UefiSettings. The default behavior is: UefiSettings
+ * will not be enabled unless this property is set.
+ */
 export enum KnownSecurityTypes {
-  /** TrustedLaunch */
+  /** TrustedLaunch security type */
   TrustedLaunch = "TrustedLaunch",
-  /** ConfidentialVM */
+  /** ConfidentialVM security type */
   ConfidentialVM = "ConfidentialVM",
 }
 
@@ -2422,8 +3575,8 @@ export enum KnownSecurityTypes {
  * {@link KnownSecurityTypes} can be used interchangeably with SecurityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TrustedLaunch** \
- * **ConfidentialVM**
+ * **TrustedLaunch**: TrustedLaunch security type \
+ * **ConfidentialVM**: ConfidentialVM security type
  */
 export type SecurityTypes = string;
 
@@ -2436,7 +3589,13 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-export function encryptionIdentitySerializer(item: EncryptionIdentity): EncryptionIdentityRest {
+export function encryptionIdentitySerializer(item: EncryptionIdentity): any {
+  return {
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+export function encryptionIdentityDeserializer(item: any): EncryptionIdentity {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
@@ -2466,7 +3625,7 @@ export interface ProxyAgentSettings {
   keyIncarnationId?: number;
 }
 
-export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): ProxyAgentSettingsRest {
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): any {
   return {
     enabled: item["enabled"],
     mode: item["mode"],
@@ -2474,11 +3633,24 @@ export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): ProxyAge
   };
 }
 
-/** Known values of {@link Mode} that the service accepts. */
+export function proxyAgentSettingsDeserializer(item: any): ProxyAgentSettings {
+  return {
+    enabled: item["enabled"],
+    mode: item["mode"],
+    keyIncarnationId: item["keyIncarnationId"],
+  };
+}
+
+/**
+ * Specifies the mode that ProxyAgent will execute on if the feature is enabled.
+ * ProxyAgent will start to audit or monitor but not enforce access control over
+ * requests to host endpoints in Audit mode, while in Enforce mode it will enforce
+ * access control. The default value is Enforce mode.
+ */
 export enum KnownMode {
-  /** Audit */
+  /** Audit Mode */
   Audit = "Audit",
-  /** Enforce */
+  /** Enforce Mode */
   Enforce = "Enforce",
 }
 
@@ -2490,8 +3662,8 @@ export enum KnownMode {
  * {@link KnownMode} can be used interchangeably with Mode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Audit** \
- * **Enforce**
+ * **Audit**: Audit Mode \
+ * **Enforce**: Enforce Mode
  */
 export type Mode = string;
 
@@ -2507,11 +3679,19 @@ export interface DiagnosticsProfile {
   bootDiagnostics?: BootDiagnostics;
 }
 
-export function diagnosticsProfileSerializer(item: DiagnosticsProfile): DiagnosticsProfileRest {
+export function diagnosticsProfileSerializer(item: DiagnosticsProfile): any {
   return {
-    bootDiagnostics: !item.bootDiagnostics
-      ? item.bootDiagnostics
-      : bootDiagnosticsSerializer(item.bootDiagnostics),
+    bootDiagnostics: !item["bootDiagnostics"]
+      ? item["bootDiagnostics"]
+      : bootDiagnosticsSerializer(item["bootDiagnostics"]),
+  };
+}
+
+export function diagnosticsProfileDeserializer(item: any): DiagnosticsProfile {
+  return {
+    bootDiagnostics: !item["bootDiagnostics"]
+      ? item["bootDiagnostics"]
+      : bootDiagnosticsDeserializer(item["bootDiagnostics"]),
   };
 }
 
@@ -2532,7 +3712,11 @@ export interface BootDiagnostics {
   storageUri?: string;
 }
 
-export function bootDiagnosticsSerializer(item: BootDiagnostics): BootDiagnosticsRest {
+export function bootDiagnosticsSerializer(item: BootDiagnostics): any {
+  return { enabled: item["enabled"], storageUri: item["storageUri"] };
+}
+
+export function bootDiagnosticsDeserializer(item: any): BootDiagnostics {
   return {
     enabled: item["enabled"],
     storageUri: item["storageUri"],
@@ -2554,12 +3738,22 @@ export interface VirtualMachineScaleSetExtensionProfile {
 
 export function virtualMachineScaleSetExtensionProfileSerializer(
   item: VirtualMachineScaleSetExtensionProfile,
-): VirtualMachineScaleSetExtensionProfileRest {
+): any {
   return {
-    extensions:
-      item["extensions"] === undefined
-        ? item["extensions"]
-        : item["extensions"].map(virtualMachineScaleSetExtensionSerializer),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : virtualMachineScaleSetExtensionArraySerializer(item["extensions"]),
+    extensionsTimeBudget: item["extensionsTimeBudget"],
+  };
+}
+
+export function virtualMachineScaleSetExtensionProfileDeserializer(
+  item: any,
+): VirtualMachineScaleSetExtensionProfile {
+  return {
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : virtualMachineScaleSetExtensionArrayDeserializer(item["extensions"]),
     extensionsTimeBudget: item["extensionsTimeBudget"],
   };
 }
@@ -2578,12 +3772,25 @@ export interface VirtualMachineScaleSetExtension {
 
 export function virtualMachineScaleSetExtensionSerializer(
   item: VirtualMachineScaleSetExtension,
-): VirtualMachineScaleSetExtensionRest {
+): any {
   return {
     name: item["name"],
-    properties: !item.properties
-      ? item.properties
-      : virtualMachineScaleSetExtensionPropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetExtensionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function virtualMachineScaleSetExtensionDeserializer(
+  item: any,
+): VirtualMachineScaleSetExtension {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualMachineScaleSetExtensionPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -2641,7 +3848,7 @@ export interface VirtualMachineScaleSetExtensionProperties {
 
 export function virtualMachineScaleSetExtensionPropertiesSerializer(
   item: VirtualMachineScaleSetExtensionProperties,
-): VirtualMachineScaleSetExtensionPropertiesRest {
+): any {
   return {
     forceUpdateTag: item["forceUpdateTag"],
     publisher: item["publisher"],
@@ -2649,15 +3856,42 @@ export function virtualMachineScaleSetExtensionPropertiesSerializer(
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: !item.settings ? item.settings : (serializeRecord(item.settings as any) as any),
-    protectedSettings: !item.protectedSettings
-      ? item.protectedSettings
-      : (serializeRecord(item.protectedSettings as any) as any),
-    provisionAfterExtensions: item["provisionAfterExtensions"],
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
+    provisionAfterExtensions: !item["provisionAfterExtensions"]
+      ? item["provisionAfterExtensions"]
+      : item["provisionAfterExtensions"].map((p: any) => {
+          return p;
+        }),
     suppressFailures: item["suppressFailures"],
-    protectedSettingsFromKeyVault: !item.protectedSettingsFromKeyVault
-      ? item.protectedSettingsFromKeyVault
-      : keyVaultSecretReferenceSerializer(item.protectedSettingsFromKeyVault),
+    protectedSettingsFromKeyVault: !item["protectedSettingsFromKeyVault"]
+      ? item["protectedSettingsFromKeyVault"]
+      : keyVaultSecretReferenceSerializer(item["protectedSettingsFromKeyVault"]),
+  };
+}
+
+export function virtualMachineScaleSetExtensionPropertiesDeserializer(
+  item: any,
+): VirtualMachineScaleSetExtensionProperties {
+  return {
+    forceUpdateTag: item["forceUpdateTag"],
+    publisher: item["publisher"],
+    type: item["type"],
+    typeHandlerVersion: item["typeHandlerVersion"],
+    autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
+    enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
+    provisioningState: item["provisioningState"],
+    provisionAfterExtensions: !item["provisionAfterExtensions"]
+      ? item["provisionAfterExtensions"]
+      : item["provisionAfterExtensions"].map((p: any) => {
+          return p;
+        }),
+    suppressFailures: item["suppressFailures"],
+    protectedSettingsFromKeyVault: !item["protectedSettingsFromKeyVault"]
+      ? item["protectedSettingsFromKeyVault"]
+      : keyVaultSecretReferenceDeserializer(item["protectedSettingsFromKeyVault"]),
   };
 }
 
@@ -2669,13 +3903,34 @@ export interface KeyVaultSecretReference {
   sourceVault: SubResource;
 }
 
-export function keyVaultSecretReferenceSerializer(
-  item: KeyVaultSecretReference,
-): KeyVaultSecretReferenceRest {
+export function keyVaultSecretReferenceSerializer(item: KeyVaultSecretReference): any {
   return {
     secretUrl: item["secretUrl"],
-    sourceVault: subResourceSerializer(item.sourceVault),
+    sourceVault: subResourceSerializer(item["sourceVault"]),
   };
+}
+
+export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretReference {
+  return {
+    secretUrl: item["secretUrl"],
+    sourceVault: subResourceDeserializer(item["sourceVault"]),
+  };
+}
+
+export function virtualMachineScaleSetExtensionArraySerializer(
+  result: Array<VirtualMachineScaleSetExtension>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetExtensionSerializer(item);
+  });
+}
+
+export function virtualMachineScaleSetExtensionArrayDeserializer(
+  result: Array<VirtualMachineScaleSetExtension>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetExtensionDeserializer(item);
+  });
 }
 
 /** Specifies Scheduled Event related configurations. */
@@ -2686,16 +3941,25 @@ export interface ScheduledEventsProfile {
   osImageNotificationProfile?: OSImageNotificationProfile;
 }
 
-export function scheduledEventsProfileSerializer(
-  item: ScheduledEventsProfile,
-): ScheduledEventsProfileRest {
+export function scheduledEventsProfileSerializer(item: ScheduledEventsProfile): any {
   return {
-    terminateNotificationProfile: !item.terminateNotificationProfile
-      ? item.terminateNotificationProfile
-      : terminateNotificationProfileSerializer(item.terminateNotificationProfile),
-    osImageNotificationProfile: !item.osImageNotificationProfile
-      ? item.osImageNotificationProfile
-      : oSImageNotificationProfileSerializer(item.osImageNotificationProfile),
+    terminateNotificationProfile: !item["terminateNotificationProfile"]
+      ? item["terminateNotificationProfile"]
+      : terminateNotificationProfileSerializer(item["terminateNotificationProfile"]),
+    osImageNotificationProfile: !item["osImageNotificationProfile"]
+      ? item["osImageNotificationProfile"]
+      : oSImageNotificationProfileSerializer(item["osImageNotificationProfile"]),
+  };
+}
+
+export function scheduledEventsProfileDeserializer(item: any): ScheduledEventsProfile {
+  return {
+    terminateNotificationProfile: !item["terminateNotificationProfile"]
+      ? item["terminateNotificationProfile"]
+      : terminateNotificationProfileDeserializer(item["terminateNotificationProfile"]),
+    osImageNotificationProfile: !item["osImageNotificationProfile"]
+      ? item["osImageNotificationProfile"]
+      : oSImageNotificationProfileDeserializer(item["osImageNotificationProfile"]),
   };
 }
 
@@ -2712,9 +3976,11 @@ export interface TerminateNotificationProfile {
   enable?: boolean;
 }
 
-export function terminateNotificationProfileSerializer(
-  item: TerminateNotificationProfile,
-): TerminateNotificationProfileRest {
+export function terminateNotificationProfileSerializer(item: TerminateNotificationProfile): any {
+  return { notBeforeTimeout: item["notBeforeTimeout"], enable: item["enable"] };
+}
+
+export function terminateNotificationProfileDeserializer(item: any): TerminateNotificationProfile {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -2734,9 +4000,11 @@ export interface OSImageNotificationProfile {
   enable?: boolean;
 }
 
-export function oSImageNotificationProfileSerializer(
-  item: OSImageNotificationProfile,
-): OSImageNotificationProfileRest {
+export function oSImageNotificationProfileSerializer(item: OSImageNotificationProfile): any {
+  return { notBeforeTimeout: item["notBeforeTimeout"], enable: item["enable"] };
+}
+
+export function oSImageNotificationProfileDeserializer(item: any): OSImageNotificationProfile {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -2754,13 +4022,19 @@ export interface CapacityReservationProfile {
   capacityReservationGroup?: SubResource;
 }
 
-export function capacityReservationProfileSerializer(
-  item: CapacityReservationProfile,
-): CapacityReservationProfileRest {
+export function capacityReservationProfileSerializer(item: CapacityReservationProfile): any {
   return {
-    capacityReservationGroup: !item.capacityReservationGroup
-      ? item.capacityReservationGroup
-      : subResourceSerializer(item.capacityReservationGroup),
+    capacityReservationGroup: !item["capacityReservationGroup"]
+      ? item["capacityReservationGroup"]
+      : subResourceSerializer(item["capacityReservationGroup"]),
+  };
+}
+
+export function capacityReservationProfileDeserializer(item: any): CapacityReservationProfile {
+  return {
+    capacityReservationGroup: !item["capacityReservationGroup"]
+      ? item["capacityReservationGroup"]
+      : subResourceDeserializer(item["capacityReservationGroup"]),
   };
 }
 
@@ -2773,12 +4047,19 @@ export interface ApplicationProfile {
   galleryApplications?: VMGalleryApplication[];
 }
 
-export function applicationProfileSerializer(item: ApplicationProfile): ApplicationProfileRest {
+export function applicationProfileSerializer(item: ApplicationProfile): any {
   return {
-    galleryApplications:
-      item["galleryApplications"] === undefined
-        ? item["galleryApplications"]
-        : item["galleryApplications"].map(vMGalleryApplicationSerializer),
+    galleryApplications: !item["galleryApplications"]
+      ? item["galleryApplications"]
+      : vMGalleryApplicationArraySerializer(item["galleryApplications"]),
+  };
+}
+
+export function applicationProfileDeserializer(item: any): ApplicationProfile {
+  return {
+    galleryApplications: !item["galleryApplications"]
+      ? item["galleryApplications"]
+      : vMGalleryApplicationArrayDeserializer(item["galleryApplications"]),
   };
 }
 
@@ -2813,9 +4094,7 @@ export interface VMGalleryApplication {
   enableAutomaticUpgrade?: boolean;
 }
 
-export function vMGalleryApplicationSerializer(
-  item: VMGalleryApplication,
-): VMGalleryApplicationRest {
+export function vMGalleryApplicationSerializer(item: VMGalleryApplication): any {
   return {
     tags: item["tags"],
     order: item["order"],
@@ -2824,6 +4103,29 @@ export function vMGalleryApplicationSerializer(
     treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
   };
+}
+
+export function vMGalleryApplicationDeserializer(item: any): VMGalleryApplication {
+  return {
+    tags: item["tags"],
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+    enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
+  };
+}
+
+export function vMGalleryApplicationArraySerializer(result: Array<VMGalleryApplication>): any[] {
+  return result.map((item) => {
+    return vMGalleryApplicationSerializer(item);
+  });
+}
+
+export function vMGalleryApplicationArrayDeserializer(result: Array<VMGalleryApplication>): any[] {
+  return result.map((item) => {
+    return vMGalleryApplicationDeserializer(item);
+  });
 }
 
 /** Specifies the hardware settings for the virtual machine scale set. */
@@ -2838,11 +4140,21 @@ export interface VirtualMachineScaleSetHardwareProfile {
 
 export function virtualMachineScaleSetHardwareProfileSerializer(
   item: VirtualMachineScaleSetHardwareProfile,
-): VirtualMachineScaleSetHardwareProfileRest {
+): any {
   return {
-    vmSizeProperties: !item.vmSizeProperties
-      ? item.vmSizeProperties
-      : vMSizePropertiesSerializer(item.vmSizeProperties),
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vMSizePropertiesSerializer(item["vmSizeProperties"]),
+  };
+}
+
+export function virtualMachineScaleSetHardwareProfileDeserializer(
+  item: any,
+): VirtualMachineScaleSetHardwareProfile {
+  return {
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vMSizePropertiesDeserializer(item["vmSizeProperties"]),
   };
 }
 
@@ -2867,7 +4179,14 @@ export interface VMSizeProperties {
   vCPUsPerCore?: number;
 }
 
-export function vMSizePropertiesSerializer(item: VMSizeProperties): VMSizePropertiesRest {
+export function vMSizePropertiesSerializer(item: VMSizeProperties): any {
+  return {
+    vCPUsAvailable: item["vCPUsAvailable"],
+    vCPUsPerCore: item["vCPUsPerCore"],
+  };
+}
+
+export function vMSizePropertiesDeserializer(item: any): VMSizeProperties {
   return {
     vCPUsAvailable: item["vCPUsAvailable"],
     vCPUsPerCore: item["vCPUsPerCore"],
@@ -2887,9 +4206,11 @@ export interface ServiceArtifactReference {
   id?: string;
 }
 
-export function serviceArtifactReferenceSerializer(
-  item: ServiceArtifactReference,
-): ServiceArtifactReferenceRest {
+export function serviceArtifactReferenceSerializer(item: ServiceArtifactReference): any {
+  return { id: item["id"] };
+}
+
+export function serviceArtifactReferenceDeserializer(item: any): ServiceArtifactReference {
   return {
     id: item["id"],
   };
@@ -2914,13 +4235,116 @@ export interface SecurityPostureReference {
   isOverridable?: boolean;
 }
 
-export function securityPostureReferenceSerializer(
-  item: SecurityPostureReference,
-): SecurityPostureReferenceRest {
+export function securityPostureReferenceSerializer(item: SecurityPostureReference): any {
   return {
     id: item["id"],
-    excludeExtensions: item["excludeExtensions"],
+    excludeExtensions: !item["excludeExtensions"]
+      ? item["excludeExtensions"]
+      : item["excludeExtensions"].map((p: any) => {
+          return p;
+        }),
     isOverridable: item["isOverridable"],
+  };
+}
+
+export function securityPostureReferenceDeserializer(item: any): SecurityPostureReference {
+  return {
+    id: item["id"],
+    excludeExtensions: !item["excludeExtensions"]
+      ? item["excludeExtensions"]
+      : item["excludeExtensions"].map((p: any) => {
+          return p;
+        }),
+    isOverridable: item["isOverridable"],
+  };
+}
+
+export function locationProfileArraySerializer(result: Array<LocationProfile>): any[] {
+  return result.map((item) => {
+    return locationProfileSerializer(item);
+  });
+}
+
+export function locationProfileArrayDeserializer(result: Array<LocationProfile>): any[] {
+  return result.map((item) => {
+    return locationProfileDeserializer(item);
+  });
+}
+
+/** Compute Profile to use for running user's workloads. */
+export interface ComputeProfile {
+  /** Base Virtual Machine Profile Properties to be specified according to "specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachineScaleSet.json#/definitions/VirtualMachineScaleSetVMProfile" */
+  baseVirtualMachineProfile: BaseVirtualMachineProfile;
+  /**
+   * Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machine scale sets and Virtual Machines.
+   * The default value will be the latest supported computeApiVersion by Compute Fleet.
+   */
+  computeApiVersion?: string;
+  /**
+   * Specifies the number of fault domains to use when creating the underlying VMSS.
+   * A fault domain is a logical group of hardware within an Azure datacenter.
+   * VMs in the same fault domain share a common power source and network switch.
+   * If not specified, defaults to 1, which represents "Max Spreading" (using as many fault domains as possible).
+   * This property cannot be updated.
+   */
+  platformFaultDomainCount?: number;
+  /**
+   * Specifies VMSS and VM API entity models support two additional capabilities as of today: ultraSSDEnabled and hibernationEnabled.
+   * ultraSSDEnabled: Enables UltraSSD_LRS storage account type on the VMSS VMs.
+   * hibernationEnabled: Enables the hibernation capability on the VMSS VMs.
+   * Default value is null if not specified. This property cannot be updated once set.
+   */
+  additionalVirtualMachineCapabilities?: AdditionalCapabilities;
+}
+
+export function computeProfileSerializer(item: ComputeProfile): any {
+  return {
+    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(
+      item["baseVirtualMachineProfile"],
+    ),
+    computeApiVersion: item["computeApiVersion"],
+    platformFaultDomainCount: item["platformFaultDomainCount"],
+    additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
+      ? item["additionalVirtualMachineCapabilities"]
+      : additionalCapabilitiesSerializer(item["additionalVirtualMachineCapabilities"]),
+  };
+}
+
+export function computeProfileDeserializer(item: any): ComputeProfile {
+  return {
+    baseVirtualMachineProfile: baseVirtualMachineProfileDeserializer(
+      item["baseVirtualMachineProfile"],
+    ),
+    computeApiVersion: item["computeApiVersion"],
+    platformFaultDomainCount: item["platformFaultDomainCount"],
+    additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
+      ? item["additionalVirtualMachineCapabilities"]
+      : additionalCapabilitiesDeserializer(item["additionalVirtualMachineCapabilities"]),
+  };
+}
+
+/** AdditionalCapabilities for VM. */
+export interface AdditionalCapabilities {
+  /**
+   * The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS.
+   * Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+   */
+  ultraSSDEnabled?: boolean;
+  /** The flag that enables or disables hibernation capability on the VM. */
+  hibernationEnabled?: boolean;
+}
+
+export function additionalCapabilitiesSerializer(item: AdditionalCapabilities): any {
+  return {
+    ultraSSDEnabled: item["ultraSSDEnabled"],
+    hibernationEnabled: item["hibernationEnabled"],
+  };
+}
+
+export function additionalCapabilitiesDeserializer(item: any): AdditionalCapabilities {
+  return {
+    ultraSSDEnabled: item["ultraSSDEnabled"],
+    hibernationEnabled: item["hibernationEnabled"],
   };
 }
 
@@ -2936,30 +4360,32 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): ManagedServiceIdentityRest {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
-    userAssignedIdentities: !item.userAssignedIdentities
-      ? item.userAssignedIdentities
-      : (serializeRecord(
-          item.userAssignedIdentities as any,
-          userAssignedIdentitySerializer,
-        ) as any),
+    userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: item["userAssignedIdentities"],
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export enum KnownManagedServiceIdentityType {
-  /** None */
+  /** No managed identity. */
   None = "None",
-  /** SystemAssigned */
+  /** System assigned managed identity. */
   SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
+  /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
-  /** SystemAssigned,UserAssigned */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -2967,10 +4393,10 @@ export enum KnownManagedServiceIdentityType {
  * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
 
@@ -2982,8 +4408,15 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity) {
-  return item as any;
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+  return item;
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
 }
 
 /** Plan for the resource. */
@@ -3000,7 +4433,7 @@ export interface Plan {
   version?: string;
 }
 
-export function planSerializer(item: Plan): PlanRest {
+export function planSerializer(item: Plan): any {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3010,33 +4443,120 @@ export function planSerializer(item: Plan): PlanRest {
   };
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
+export function planDeserializer(item: any): Plan {
+  return {
+    name: item["name"],
+    publisher: item["publisher"],
+    product: item["product"],
+    promotionCode: item["promotionCode"],
+    version: item["version"],
+  };
 }
 
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: item["tags"],
+    location: item["location"],
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
 }
+
+export function resourceSerializer(item: Resource): any {
+  return item;
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
 
 /** Fleet Update Model */
 export interface FleetUpdate {
@@ -3050,14 +4570,16 @@ export interface FleetUpdate {
   properties?: FleetProperties;
 }
 
-export function fleetUpdateSerializer(item: FleetUpdate): FleetUpdateRest {
+export function fleetUpdateSerializer(item: FleetUpdate): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    identity: !item.identity
-      ? item.identity
-      : managedServiceIdentityUpdateSerializer(item.identity),
-    plan: !item.plan ? item.plan : resourcePlanUpdateSerializer(item.plan),
-    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : resourcePlanUpdateSerializer(item["plan"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -3069,17 +4591,10 @@ export interface ManagedServiceIdentityUpdate {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentityUpdateSerializer(
-  item: ManagedServiceIdentityUpdate,
-): ManagedServiceIdentityUpdateRest {
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
   return {
     type: item["type"],
-    userAssignedIdentities: !item.userAssignedIdentities
-      ? item.userAssignedIdentities
-      : (serializeRecord(
-          item.userAssignedIdentities as any,
-          userAssignedIdentitySerializer,
-        ) as any),
+    userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
@@ -3097,7 +4612,7 @@ export interface ResourcePlanUpdate {
   version?: string;
 }
 
-export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): ResourcePlanUpdateRest {
+export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): any {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3115,12 +4630,40 @@ export interface _FleetListResult {
   nextLink?: string;
 }
 
+export function _fleetListResultDeserializer(item: any): _FleetListResult {
+  return {
+    value: fleetArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function fleetArraySerializer(result: Array<Fleet>): any[] {
+  return result.map((item) => {
+    return fleetSerializer(item);
+  });
+}
+
+export function fleetArrayDeserializer(result: Array<Fleet>): any[] {
+  return result.map((item) => {
+    return fleetDeserializer(item);
+  });
+}
+
 /** The response of a VirtualMachineScaleSet list operation. */
 export interface _VirtualMachineScaleSetListResult {
   /** The VirtualMachineScaleSet items on this page */
   value: VirtualMachineScaleSet[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _virtualMachineScaleSetListResultDeserializer(
+  item: any,
+): _VirtualMachineScaleSetListResult {
+  return {
+    value: virtualMachineScaleSetArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
 /** An AzureFleet's virtualMachineScaleSet */
@@ -3138,6 +4681,15 @@ export interface VirtualMachineScaleSet {
   readonly error?: ApiError;
 }
 
+export function virtualMachineScaleSetDeserializer(item: any): VirtualMachineScaleSet {
+  return {
+    id: item["id"],
+    type: item["type"],
+    operationStatus: provisioningStateDeserializer(item["operationStatus"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+  };
+}
+
 /** ApiError for Fleet */
 export interface ApiError {
   /** The error code. */
@@ -3152,6 +4704,18 @@ export interface ApiError {
   innererror?: InnerError;
 }
 
+export function apiErrorDeserializer(item: any): ApiError {
+  return {
+    code: item["code"],
+    target: item["target"],
+    message: item["message"],
+    details: !item["details"] ? item["details"] : apiErrorBaseArrayDeserializer(item["details"]),
+    innererror: !item["innererror"]
+      ? item["innererror"]
+      : innerErrorDeserializer(item["innererror"]),
+  };
+}
+
 /** API error base. */
 export interface ApiErrorBase {
   /** The error code. */
@@ -3162,6 +4726,20 @@ export interface ApiErrorBase {
   message?: string;
 }
 
+export function apiErrorBaseDeserializer(item: any): ApiErrorBase {
+  return {
+    code: item["code"],
+    target: item["target"],
+    message: item["message"],
+  };
+}
+
+export function apiErrorBaseArrayDeserializer(result: Array<ApiErrorBase>): any[] {
+  return result.map((item) => {
+    return apiErrorBaseDeserializer(item);
+  });
+}
+
 /** Inner error details. */
 export interface InnerError {
   /** The exception type. */
@@ -3170,12 +4748,34 @@ export interface InnerError {
   errorDetail?: string;
 }
 
+export function innerErrorDeserializer(item: any): InnerError {
+  return {
+    exceptionType: item["exceptionType"],
+    errorDetail: item["errorDetail"],
+  };
+}
+
+export function virtualMachineScaleSetArrayDeserializer(
+  result: Array<VirtualMachineScaleSet>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetDeserializer(item);
+  });
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
   value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _operationListResultDeserializer(item: any): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -3192,6 +4792,16 @@ export interface Operation {
   actionType?: ActionType;
 }
 
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3204,14 +4814,23 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
-  user = "user",
-  /** system */
-  system = "system",
-  /** user,system */
-  "user,system" = "user,system",
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
 }
 
 /**
@@ -3219,15 +4838,15 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
-/** Known values of {@link ActionType} that the service accepts. */
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export enum KnownActionType {
-  /** Internal */
+  /** Actions are for internal-only APIs. */
   Internal = "Internal",
 }
 
@@ -3236,16 +4855,12 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**
+ * **Internal**: Actions are for internal-only APIs.
  */
 export type ActionType = string;
-/** Api versions */
-export type Versions = "2023-11-01-preview" | "2024-05-01-preview";
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Migrating";
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { coreLogger } from "./logger";
 import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "./constants";
-import { AccessTokenClaims } from "./types";
+import type { AccessTokenClaims } from "./types";
 import { parseJwt } from "../utils/utils";
 import { ServiceErrorMessageConstants } from "./messages";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-import { OperationTracingOptions } from "./tracing/interfaces.js";
+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -204,11 +203,6 @@ export interface PipelineRequest {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Tracing options to use for any created Spans.
-   */
-  tracingOptions?: OperationTracingOptions;
-
-  /**
    * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -314,6 +308,8 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
+//                       need to worry about creating a cyclic dependency
 /**
  * Supported HTTP methods to use when making requests.
  */

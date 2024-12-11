@@ -9,7 +9,6 @@ import {
   DistributionPolicyItem,
   JobRouterAdministrationClient,
 } from "@azure/communication-job-router";
-import { assert } from "chai";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -35,8 +34,6 @@ async function listDistributionPolicies(): Promise<void> {
         console.log("Listing distribution policy with id: " + policy.distributionPolicy.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

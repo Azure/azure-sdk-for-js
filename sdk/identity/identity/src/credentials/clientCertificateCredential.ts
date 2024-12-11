@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
-import { createHash, createPrivateKey } from "crypto";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createHash, createPrivateKey } from "node:crypto";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 
-import { CertificateParts } from "../msal/types";
-import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { readFile } from "fs/promises";
-import { tracingClient } from "../util/tracing";
+import type { CertificateParts } from "../msal/types.js";
+import type { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions.js";
+import { credentialLogger } from "../util/logging.js";
+import { readFile } from "node:fs/promises";
+import { tracingClient } from "../util/tracing.js";
 
 const credentialName = "ClientCertificateCredential";
 const logger = credentialLogger(credentialName);

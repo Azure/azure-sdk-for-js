@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { decoder } from "../utils/dummies";
-import { MessagingTestClient } from "./models";
+import { decoder } from "../utils/dummies.js";
+import type { MessagingTestClient } from "./models.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 /**

@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -21,6 +21,9 @@ import {
   MonitoredResourcesImpl,
   DeploymentInfoImpl,
   ExternalUserImpl,
+  BillingInfoImpl,
+  ConnectedPartnerResourcesImpl,
+  OpenAIImpl,
   TagRulesImpl,
   VMHostImpl,
   VMIngestionImpl,
@@ -35,7 +38,7 @@ import {
   DetachAndDeleteTrafficFilterImpl,
   DetachTrafficFilterImpl,
   TrafficFiltersImpl,
-  OrganizationsImpl
+  OrganizationsImpl,
 } from "./operations";
 import {
   Operations,
@@ -44,6 +47,9 @@ import {
   MonitoredResources,
   DeploymentInfo,
   ExternalUser,
+  BillingInfo,
+  ConnectedPartnerResources,
+  OpenAI,
   TagRules,
   VMHost,
   VMIngestion,
@@ -58,7 +64,7 @@ import {
   DetachAndDeleteTrafficFilter,
   DetachTrafficFilter,
   TrafficFilters,
-  Organizations
+  Organizations,
 } from "./operationsInterfaces";
 import { MicrosoftElasticOptionalParams } from "./models";
 
@@ -70,14 +76,13 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the MicrosoftElastic class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   *                       00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MicrosoftElasticOptionalParams
+    options?: MicrosoftElasticOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -92,10 +97,10 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     }
     const defaults: MicrosoftElasticOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-elastic/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -105,20 +110,21 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -128,7 +134,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -138,9 +144,9 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -148,13 +154,16 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.elasticVersions = new ElasticVersionsImpl(this);
     this.monitoredResources = new MonitoredResourcesImpl(this);
     this.deploymentInfo = new DeploymentInfoImpl(this);
     this.externalUser = new ExternalUserImpl(this);
+    this.billingInfo = new BillingInfoImpl(this);
+    this.connectedPartnerResources = new ConnectedPartnerResourcesImpl(this);
+    this.openAI = new OpenAIImpl(this);
     this.tagRules = new TagRulesImpl(this);
     this.vMHost = new VMHostImpl(this);
     this.vMIngestion = new VMIngestionImpl(this);
@@ -163,13 +172,13 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     this.monitor = new MonitorImpl(this);
     this.allTrafficFilters = new AllTrafficFiltersImpl(this);
     this.listAssociatedTrafficFilters = new ListAssociatedTrafficFiltersImpl(
-      this
+      this,
     );
     this.createAndAssociateIPFilter = new CreateAndAssociateIPFilterImpl(this);
     this.createAndAssociatePLFilter = new CreateAndAssociatePLFilterImpl(this);
     this.associateTrafficFilter = new AssociateTrafficFilterImpl(this);
     this.detachAndDeleteTrafficFilter = new DetachAndDeleteTrafficFilterImpl(
-      this
+      this,
     );
     this.detachTrafficFilter = new DetachTrafficFilterImpl(this);
     this.trafficFilters = new TrafficFiltersImpl(this);
@@ -186,7 +195,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -200,7 +209,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -211,6 +220,9 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   monitoredResources: MonitoredResources;
   deploymentInfo: DeploymentInfo;
   externalUser: ExternalUser;
+  billingInfo: BillingInfo;
+  connectedPartnerResources: ConnectedPartnerResources;
+  openAI: OpenAI;
   tagRules: TagRules;
   vMHost: VMHost;
   vMIngestion: VMIngestion;

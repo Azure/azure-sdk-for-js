@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
  *
  * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseCreate.json
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseCreate.json
  */
 async function redisEnterpriseCreate() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
   const parameters = {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import {
+import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,

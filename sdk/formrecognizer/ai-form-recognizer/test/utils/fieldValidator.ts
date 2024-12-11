@@ -1,22 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-/**
- * This is a utility module for validating the contents of objects returned by document analysis methods using a simple
- * declarative "spec" format.
- */
-
-import { assert } from "chai";
-
-import { AnalyzedDocument } from "../../src/lro/analysis";
-import {
+import type { AnalyzedDocument } from "../../src/lro/analysis.js";
+import type {
   DocumentArrayField,
   DocumentDateField,
   DocumentField,
   DocumentObjectField,
   DocumentValueField,
-} from "../../src/models";
-import { logger } from "./recordedClients";
+} from "../../src/models/index.js";
+import { logger } from "./recordedClients.js";
+import { assert } from "vitest";
 
 /**
  * Similar to python's built-in `zip` function.
@@ -24,7 +17,7 @@ import { logger } from "./recordedClients";
  * @param arrays - the arrays to zip
  * @returns - an array that is "inverted" i.e. each result array contains an element from each input array in order.
  */
-const zip = (...arrays: unknown[][]) =>
+const zip = (...arrays: unknown[][]): unknown[][] =>
   arrays.length < 2 ? arrays : arrays[0].map((_, idx) => arrays.map((row) => row[idx]));
 
 /**
@@ -58,7 +51,7 @@ export type Validator = (document: AnalyzedDocument) => void;
  * @param field - the actual result field to validate
  * @returns void, throws if the field does not satisfy the spec
  */
-function validateSpec(spec: FieldSpec, field: DocumentField | undefined) {
+function validateSpec(spec: FieldSpec, field: DocumentField | undefined): void {
   if (field === undefined || spec === undefined) {
     assert.strictEqual((field as DocumentValueField<unknown>)?.value, spec as undefined);
   } else if (typeof spec === "function") {

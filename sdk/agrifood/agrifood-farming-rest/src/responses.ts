@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ApplicationDataListResponseOutput,
   ErrorResponseOutput,
   CascadeDeleteJobOutput,
@@ -82,7 +82,7 @@ import {
   WeatherDataProviderResponseOutput,
   ZoneListResponseOutput,
   ZoneOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Returns a paginated list of application data resources across all parties. */
 export interface ApplicationDataList200Response extends HttpResponse {

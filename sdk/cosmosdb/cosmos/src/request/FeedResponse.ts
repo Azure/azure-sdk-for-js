@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Constants } from "../common";
-import { CosmosHeaders, getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
+import type { CosmosHeaders } from "../queryExecutionContext/headerUtils";
+import { getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";
-import { CosmosDiagnostics } from "../CosmosDiagnostics";
+import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 
 export class FeedResponse<TResource> {
   constructor(

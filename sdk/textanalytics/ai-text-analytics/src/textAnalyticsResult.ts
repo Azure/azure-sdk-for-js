@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DocumentError,
   ErrorCodeValue,
   TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
@@ -11,8 +11,8 @@ import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
   TextDocumentStatistics,
-} from "./generated/models";
-import { sortResponseIdObjects } from "./util";
+} from "./generated/models/index.js";
+import { sortResponseIdObjects } from "./util.js";
 
 /**
  * An Error Code returned from the Text Analytics service. Possible

@@ -9,7 +9,7 @@
 import {
   DnsResourceReferenceRequest,
   DnsResourceReferenceGetByTargetResourcesOptionalParams,
-  DnsResourceReferenceGetByTargetResourcesResponse
+  DnsResourceReferenceGetByTargetResourcesResponse,
 } from "../models";
 
 /** Interface representing a DnsResourceReferenceOperations. */
@@ -21,6 +21,6 @@ export interface DnsResourceReferenceOperations {
    */
   getByTargetResources(
     parameters: DnsResourceReferenceRequest,
-    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams
+    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams,
   ): Promise<DnsResourceReferenceGetByTargetResourcesResponse>;
 }

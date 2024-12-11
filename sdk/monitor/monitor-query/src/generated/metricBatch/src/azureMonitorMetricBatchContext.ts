@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import {
   ApiVersion20240201,
   AzureMonitorMetricBatchOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {

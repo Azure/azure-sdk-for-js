@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
+import type { ShareClient } from "../src";
+import { ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("DirectoryClient", () => {
   let shareName: string;

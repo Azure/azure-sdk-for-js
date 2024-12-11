@@ -3,15 +3,15 @@
 
 import type { FullResult } from "@playwright/test/reporter";
 import { Constants } from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
+import type { EnvironmentVariables } from "../common/environmentVariables";
 import { HttpService } from "../common/httpService";
-import { Shard, UploadMetadata } from "../model/shard";
-import { StorageUri } from "../model/storageUri";
-import { TestResult } from "../model/testResult";
-import { TestRun } from "../model/testRun";
-import { CIInfo } from "./cIInfoProvider";
-import ReporterUtils from "./reporterUtils";
-import { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { Shard, UploadMetadata } from "../model/shard";
+import type { StorageUri } from "../model/storageUri";
+import type { TestResult } from "../model/testResult";
+import type { TestRun } from "../model/testRun";
+import type { CIInfo } from "./cIInfoProvider";
+import type ReporterUtils from "./reporterUtils";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { reporterLogger } from "../common/logger";
 
 export class ServiceClient {
@@ -40,9 +40,12 @@ export class ServiceClient {
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
+
+    // Escape the runId to avoid issues with special characters
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
-      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${escapedRunId}?api-version=${Constants.API_VERSION}`,
       JSON.stringify(testRun),
       this.envVariables.accessToken,
       "application/merge-patch+json",
@@ -72,9 +75,10 @@ export class ServiceClient {
 
   async postTestRunShardStart(): Promise<Shard> {
     const postTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -105,9 +109,10 @@ export class ServiceClient {
       attachmentMetadata,
       workers,
     );
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -147,9 +152,10 @@ export class ServiceClient {
   }
 
   async createStorageUri(): Promise<StorageUri> {
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}?api-version=${Constants.API_VERSION}`,
       null,
       this.envVariables.accessToken,
       "application/json",

@@ -1,14 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "lib": ["DOM"],
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/identity": ["./src/index"]
-    }
-  },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
-  "exclude": ["test/manual*/**/*", "integration/**", "node_modules"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }

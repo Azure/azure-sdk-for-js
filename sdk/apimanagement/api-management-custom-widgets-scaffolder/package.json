@@ -26,18 +26,16 @@
   "files": [
     "dist/",
     "bin/",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "type": "module",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && npm run bundle:bin && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "echo skip",
     "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -67,7 +65,6 @@
     "eslint": "^9.9.0",
     "magic-string": "^0.30.8",
     "prettier": "^3.3.3",
-    "rimraf": "^5.0.5",
     "rollup": "^4.14.0",
     "typescript": "~5.6.2",
     "vitest": "^2.0.5"
@@ -90,7 +87,8 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

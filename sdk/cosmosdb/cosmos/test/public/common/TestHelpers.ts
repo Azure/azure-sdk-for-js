@@ -2,17 +2,14 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
-import {
+import type {
   Container,
-  CosmosClient,
-  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
   MetadataLookUpDiagnostic,
-  MetadataLookUpType,
   PartitionKey,
   PartitionKeyDefinition,
   PermissionDefinition,
@@ -20,20 +17,29 @@ import {
   Response,
   UserDefinition,
 } from "../../../src";
-import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
-import { UserResponse } from "../../../src";
+import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src";
+import type {
+  ItemDefinition,
+  ItemResponse,
+  PermissionResponse,
+  Resource,
+  User,
+} from "../../../src";
+import type { UserResponse } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { DatabaseRequest } from "../../../src";
-import { ContainerRequest } from "../../../src";
+import type { DatabaseRequest } from "../../../src";
+import type { ContainerRequest } from "../../../src";
 import { AssertionError, expect } from "chai";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
-import { ExtractPromise } from "../../../src/utils/diagnostics";
+import type { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
+import fs from "fs";
+import path from "path";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -42,6 +48,7 @@ export const defaultClient = new CosmosClient({
   endpoint,
   key: masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  diagnosticLevel: CosmosDbDiagnosticLevel.info,
 });
 
 export const defaultComputeGatewayClient = new CosmosClient({
@@ -684,4 +691,16 @@ export async function changeFeedAllVersionsDeleteItems(
 export function isValidV4UUID(uuid: string): boolean {
   const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
   return uuidRegex.test(uuid);
+}
+
+export function readAndParseJSONFile(fileName: string): any {
+  const filePath = path.join(__dirname, fileName);
+  const rawData = fs.readFileSync(filePath, "utf-8");
+  let parsedData: any;
+  try {
+    parsedData = JSON.parse(rawData);
+  } catch (error) {
+    console.error("Error parsing JSON file:", error);
+  }
+  return parsedData;
 }

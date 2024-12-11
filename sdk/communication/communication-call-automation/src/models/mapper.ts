@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CompositeMapper } from "@azure/core-client";
+import type { CompositeMapper } from "@azure/core-client";
 
 export const CloudEventMapper: CompositeMapper = {
   type: {

@@ -1,80 +1,50 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/identity.d.ts",
-  "browser": {
-    "os": false,
-    "process": false,
-    "./dist-esm/src/credentials/azureCliCredential.js": "./dist-esm/src/credentials/azureCliCredential.browser.js",
-    "./dist-esm/src/credentials/azureDeveloperCliCredential.js": "./dist-esm/src/credentials/azureDeveloperCliCredential.browser.js",
-    "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
-    "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
-    "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
-    "./dist-esm/src/credentials/clientSecretCredential.js": "./dist-esm/src/credentials/clientSecretCredential.browser.js",
-    "./dist-esm/src/credentials/clientAssertionCredential.js": "./dist-esm/src/credentials/clientAssertionCredential.browser.js",
-    "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
-    "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
-    "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
-    "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
-    "./dist-esm/src/credentials/visualStudioCodeCredential.js": "./dist-esm/src/credentials/visualStudioCodeCredential.browser.js",
-    "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
-    "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
-    "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
-    "./dist-esm/src/credentials/azurePipelinesCredential.js": "./dist-esm/src/credentials/azurePipelinesCredential.browser.js",
-    "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
-    "./dist-esm/src/credentials/workloadIdentityCredential.js": "./dist-esm/src/credentials/workloadIdentityCredential.browser.js",
-    "./dist-esm/src/msal/msal.js": "./dist-esm/src/msal/msal.browser.js",
-    "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
-    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
-    "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
-    "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "//sampleConfiguration": {
     "productName": "Azure Identity",
     "productSlugs": [
-      "azure",
-      "azure-active-directory"
+      "entra",
+      "entra-id"
     ],
     "requiredResources": {
-      "Azure Active Directory App Registration": "https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app",
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      "Register an app with the Microsoft identity platform": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app",
+      "Set and retrieve a secret from Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/secrets/quick-create-portal"
     }
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:managed-identity": "dev-tool run test:node-ts-input -- --timeout 180000 'test/integration/**/*.spec.ts'",
-    "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 180000 'test/public/node/*.spec.ts' 'test/internal/node/*.spec.ts'",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "integration-test:managed-identity": "dev-tool run test:vitest -- --test-timeout 180000 --config ./vitest.managed-identity.config.ts",
+    "integration-test:node": "dev-tool run test:vitest --esm",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
-    "test:browser": "npm run clean && tsc -p . && dev-tool run bundle && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/snippets.spec.ts' --exclude 'test/integration/**/*.spec.ts' 'test/**/**/*.spec.ts'",
-    "unit-test:node:no-timeouts": "dev-tool run test:node-ts-input -- --timeout Infinite --exclude 'test/snippets.spec.ts' --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/identity.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -93,7 +63,7 @@
   "keywords": [
     "azure",
     "cloud",
-    "active directory",
+    "entra id",
     "authentication",
     "credential",
     "certificate",
@@ -110,58 +80,74 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.8.0",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.17.0",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.10.0",
+    "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-browser": "^3.14.0",
-    "@azure/msal-node": "^2.9.2",
+    "@azure/msal-node": "^2.15.0",
+    "@azure/msal-browser": "^3.26.1",
     "events": "^3.0.0",
     "jws": "^4.0.0",
-    "open": "^8.0.0",
+    "open": "^10.1.0",
     "stoppable": "^1.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "^4.2.0",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/jws": "^3.2.2",
-    "@types/mocha": "^10.0.0",
     "@types/ms": "^0.7.31",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
     "@types/stoppable": "^1.1.0",
-    "@types/uuid": "^8.0.0",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.3",
+    "@vitest/browser": "^2.1.4",
+    "@vitest/coverage-istanbul": "^2.1.4",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",
     "jsonwebtoken": "^9.0.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
     "ms": "^2.1.3",
-    "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
-    "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "ts-node": "^10.0.0",
+    "playwright": "^1.48.2",
     "typescript": "~5.6.2",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "vitest": "^2.1.4"
+  },
+  "type": "module",
+  "tshy": {
+    "project": "./tsconfig.src.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

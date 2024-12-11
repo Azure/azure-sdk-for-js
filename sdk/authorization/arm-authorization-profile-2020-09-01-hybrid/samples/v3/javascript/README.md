@@ -56,7 +56,7 @@ node globalAdministratorElevateAccessSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AUTHORIZATION_SUBSCRIPTION_ID="<authorization subscription id>" node globalAdministratorElevateAccessSample.js
+npx dev-tool run vendored cross-env AUTHORIZATION_SUBSCRIPTION_ID="<authorization subscription id>" node globalAdministratorElevateAccessSample.js
 ```
 
 ## Next Steps

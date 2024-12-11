@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Options to configure the {@link AvroReadable.read} operation.

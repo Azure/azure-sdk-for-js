@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./internal/_client.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { RegistrationDescription } from "../models/registration.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { RegistrationDescription } from "../models/registration.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 

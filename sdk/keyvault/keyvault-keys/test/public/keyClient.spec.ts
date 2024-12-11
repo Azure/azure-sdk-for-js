@@ -3,7 +3,7 @@
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
-import {
+import type {
   CreateEcKeyOptions,
   GetKeyOptions,
   KeyClient,
@@ -11,9 +11,9 @@ import {
 } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
@@ -445,7 +445,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       }
     });
 
-    it("can create an exportable key and release it", async function (ctx) {
+    it("can create an exportable key and release it", async function () {
       const keyName = recorder.variable(
         "exportkey",
         `exportkey-${Math.floor(Math.random() * 1000)}`,
@@ -490,7 +490,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       ).rejects.toThrow(/exportable/i);
     });
 
-    it("errors when updating an immutable release policy", async function (ctx) {
+    it("errors when updating an immutable release policy", async function () {
       const keyName = recorder.variable(
         "immutablerelease",
         `immutablerelease-${Math.floor(Math.random() * 1000)}`,

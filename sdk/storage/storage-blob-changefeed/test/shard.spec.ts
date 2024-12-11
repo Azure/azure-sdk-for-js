@@ -6,9 +6,9 @@ import * as sinon from "sinon";
 import { ShardFactory } from "../src/ShardFactory";
 import { ContainerClient } from "@azure/storage-blob";
 import { ChunkFactory } from "../src/ChunkFactory";
-import { ShardCursor } from "../src/models/ChangeFeedCursor";
+import type { ShardCursor } from "../src/models/ChangeFeedCursor";
 import { Chunk } from "../src/Chunk";
-import { BlobChangeFeedEvent } from "../src";
+import type { BlobChangeFeedEvent } from "../src";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;

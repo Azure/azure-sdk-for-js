@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AvroSerializer } from "../../src/index.js";
-import { SchemaRegistry } from "@azure/schema-registry";
+import type { AvroSerializer } from "../../src/index.js";
+import type { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError.js";
 import {
   createPipelineWithCredential,
@@ -12,7 +12,8 @@ import { createTestSerializer } from "./utils/mockedSerializer.js";
 import { testGroup, testSchemaName } from "./utils/dummies.js";
 import { v4 as uuid } from "uuid";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach, afterAll, expect } from "vitest";
 
 describe("Error scenarios", function () {

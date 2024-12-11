@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DnsResolver as DnsResolverMapper,
@@ -23,7 +23,15 @@ import {
   ForwardingRule as ForwardingRuleMapper,
   ForwardingRulePatch as ForwardingRulePatchMapper,
   VirtualNetworkLink as VirtualNetworkLinkMapper,
-  VirtualNetworkLinkPatch as VirtualNetworkLinkPatchMapper
+  VirtualNetworkLinkPatch as VirtualNetworkLinkPatchMapper,
+  DnsResolverPolicy as DnsResolverPolicyMapper,
+  DnsResolverPolicyPatch as DnsResolverPolicyPatchMapper,
+  DnsSecurityRule as DnsSecurityRuleMapper,
+  DnsSecurityRulePatch as DnsSecurityRulePatchMapper,
+  DnsResolverPolicyVirtualNetworkLink as DnsResolverPolicyVirtualNetworkLinkMapper,
+  DnsResolverPolicyVirtualNetworkLinkPatch as DnsResolverPolicyVirtualNetworkLinkPatchMapper,
+  DnsResolverDomainList as DnsResolverDomainListMapper,
+  DnsResolverDomainListPatch as DnsResolverDomainListPatchMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -33,14 +41,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DnsResolverMapper
+  mapper: DnsResolverMapper,
 };
 
 export const accept: OperationParameter = {
@@ -50,9 +58,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -61,24 +69,21 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -86,14 +91,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dnsResolverName: OperationURLParameter = {
@@ -102,21 +107,21 @@ export const dnsResolverName: OperationURLParameter = {
     serializedName: "dnsResolverName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01",
+    defaultValue: "2023-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch: OperationParameter = {
@@ -124,9 +129,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -134,14 +139,14 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DnsResolverPatchMapper
+  mapper: DnsResolverPatchMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -149,9 +154,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const virtualNetworkName: OperationURLParameter = {
@@ -160,9 +165,9 @@ export const virtualNetworkName: OperationURLParameter = {
     serializedName: "virtualNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -171,15 +176,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: InboundEndpointMapper
+  mapper: InboundEndpointMapper,
 };
 
 export const inboundEndpointName: OperationURLParameter = {
@@ -188,19 +193,19 @@ export const inboundEndpointName: OperationURLParameter = {
     serializedName: "inboundEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: InboundEndpointPatchMapper
+  mapper: InboundEndpointPatchMapper,
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: OutboundEndpointMapper
+  mapper: OutboundEndpointMapper,
 };
 
 export const outboundEndpointName: OperationURLParameter = {
@@ -209,19 +214,19 @@ export const outboundEndpointName: OperationURLParameter = {
     serializedName: "outboundEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: OutboundEndpointPatchMapper
+  mapper: OutboundEndpointPatchMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DnsForwardingRulesetMapper
+  mapper: DnsForwardingRulesetMapper,
 };
 
 export const dnsForwardingRulesetName: OperationURLParameter = {
@@ -230,19 +235,19 @@ export const dnsForwardingRulesetName: OperationURLParameter = {
     serializedName: "dnsForwardingRulesetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DnsForwardingRulesetPatchMapper
+  mapper: DnsForwardingRulesetPatchMapper,
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ForwardingRuleMapper
+  mapper: ForwardingRuleMapper,
 };
 
 export const forwardingRuleName: OperationURLParameter = {
@@ -251,19 +256,19 @@ export const forwardingRuleName: OperationURLParameter = {
     serializedName: "forwardingRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ForwardingRulePatchMapper
+  mapper: ForwardingRulePatchMapper,
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualNetworkLinkMapper
+  mapper: VirtualNetworkLinkMapper,
 };
 
 export const virtualNetworkLinkName: OperationURLParameter = {
@@ -272,12 +277,131 @@ export const virtualNetworkLinkName: OperationURLParameter = {
     serializedName: "virtualNetworkLinkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualNetworkLinkPatchMapper
+  mapper: VirtualNetworkLinkPatchMapper,
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverPolicyMapper,
+};
+
+export const dnsResolverPolicyName: OperationURLParameter = {
+  parameterPath: "dnsResolverPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]([a-zA-Z0-9_\\-]*[a-zA-Z0-9])?$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "dnsResolverPolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverPolicyPatchMapper,
+};
+
+export const virtualNetworkName1: OperationURLParameter = {
+  parameterPath: "virtualNetworkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.+$"),
+      MinLength: 1,
+    },
+    serializedName: "virtualNetworkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsSecurityRuleMapper,
+};
+
+export const dnsSecurityRuleName: OperationURLParameter = {
+  parameterPath: "dnsSecurityRuleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]([a-zA-Z0-9_\\-]*[a-zA-Z0-9])?$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "dnsSecurityRuleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsSecurityRulePatchMapper,
+};
+
+export const parameters16: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverPolicyVirtualNetworkLinkMapper,
+};
+
+export const dnsResolverPolicyVirtualNetworkLinkName: OperationURLParameter = {
+  parameterPath: "dnsResolverPolicyVirtualNetworkLinkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]([a-zA-Z0-9_\\-]*[a-zA-Z0-9])?$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "dnsResolverPolicyVirtualNetworkLinkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters17: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverPolicyVirtualNetworkLinkPatchMapper,
+};
+
+export const parameters18: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverDomainListMapper,
+};
+
+export const dnsResolverDomainListName: OperationURLParameter = {
+  parameterPath: "dnsResolverDomainListName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]([a-zA-Z0-9_\\-]*[a-zA-Z0-9])?$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "dnsResolverDomainListName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters19: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverDomainListPatchMapper,
 };

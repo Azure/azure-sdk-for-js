@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EntityCreateOrUpdateParameters,
   EntityListByGuidsParameters,
   EntityBulkCreateOrUpdateParameters,
@@ -98,8 +98,8 @@ import {
   TypeListHeadersParameters,
   TypeGetTermTemplateDefByGuidParameters,
   TypeGetTermTemplateDefByNameParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdateDefaultResponse,
   EntityListByGuids200Response,
@@ -292,8 +292,8 @@ import {
   TypeGetTermTemplateDefByGuidDefaultResponse,
   TypeGetTermTemplateDefByName200Response,
   TypeGetTermTemplateDefByNameDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdate {
   /**

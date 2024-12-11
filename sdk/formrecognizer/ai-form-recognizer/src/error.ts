@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel, InnerError } from "./generated";
+import type { ErrorModel, InnerError } from "./generated/index.js";
 
 /**
  * Returns the innermost error that has a message field.

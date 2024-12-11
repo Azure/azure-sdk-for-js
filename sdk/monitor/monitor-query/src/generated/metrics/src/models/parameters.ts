@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { SubscriptionScopeMetricsRequestBodyParameters as SubscriptionScopeMetricsRequestBodyParametersMapper } from "../models/mappers";
+import { SubscriptionScopeMetricsRequestBodyParameters as SubscriptionScopeMetricsRequestBodyParametersMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

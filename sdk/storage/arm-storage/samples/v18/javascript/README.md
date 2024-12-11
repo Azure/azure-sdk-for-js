@@ -138,7 +138,7 @@ node blobContainersClearLegalHoldSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env STORAGE_SUBSCRIPTION_ID="<storage subscription id>" STORAGE_RESOURCE_GROUP="<storage resource group>" node blobContainersClearLegalHoldSample.js
+npx dev-tool run vendored cross-env STORAGE_SUBSCRIPTION_ID="<storage subscription id>" STORAGE_RESOURCE_GROUP="<storage resource group>" node blobContainersClearLegalHoldSample.js
 ```
 
 ## Next Steps

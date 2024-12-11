@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Service Fabric node type of a given managed cluster.
  *
  * @summary Delete a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypeDeleteOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypeDeleteOperation_example.json
  */
 async function deleteANodeType() {
   const subscriptionId =

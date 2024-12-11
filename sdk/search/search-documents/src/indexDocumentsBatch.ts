@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IndexDocumentsAction } from "./indexModels";
+import type { IndexDocumentsAction } from "./indexModels.js";
 
 /**
  * Class used to perform batch operations

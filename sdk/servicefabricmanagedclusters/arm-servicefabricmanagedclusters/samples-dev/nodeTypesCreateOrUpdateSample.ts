@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationAutoScale_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationAutoScale_example.json
  */
 async function putANodeTypeWithAutoScaleParameters() {
   const subscriptionId =
@@ -98,7 +98,7 @@ async function putANodeTypeWithAutoScaleParameters() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperation_example_max.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperation_example_max.json
  */
 async function putANodeTypeWithMaximumParameters() {
   const subscriptionId =
@@ -194,6 +194,18 @@ async function putANodeTypeWithMaximumParameters() {
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
     useDefaultPublicLoadBalancer: true,
     useEphemeralOSDisk: true,
+    vmApplications: [
+      {
+        configurationReference:
+          "https://mystorageaccount.blob.core.windows.net/containername/blobname",
+        enableAutomaticUpgrade: true,
+        order: 1,
+        packageReferenceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Compute/galleries/myGallery/applications/myApplication/versions/1.0.0",
+        treatFailureAsDeploymentFailure: false,
+        vmGalleryTags: '{"Tag1":"Value1","Tag2":"Value2"}',
+      },
+    ],
     vmExtensions: [
       {
         name: "Microsoft.Azure.Geneva.GenevaMonitoring",
@@ -253,7 +265,7 @@ async function putANodeTypeWithMaximumParameters() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperation_example_min.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperation_example_min.json
  */
 async function putANodeTypeWithMinimumParameters() {
   const subscriptionId =
@@ -291,7 +303,7 @@ async function putANodeTypeWithMinimumParameters() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationStateless_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationStateless_example.json
  */
 async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
   const subscriptionId =
@@ -342,7 +354,7 @@ async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationCustomImage_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationCustomImage_example.json
  */
 async function putNodeTypeWithCustomVMImage() {
   const subscriptionId =
@@ -378,7 +390,7 @@ async function putNodeTypeWithCustomVMImage() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationDedicatedHost_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationDedicatedHost_example.json
  */
 async function putNodeTypeWithDedicatedHosts() {
   const subscriptionId =
@@ -422,7 +434,7 @@ async function putNodeTypeWithDedicatedHosts() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationCustomSharedGalleriesImage_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationCustomSharedGalleriesImage_example.json
  */
 async function putNodeTypeWithSharedGalleriesCustomVMImage() {
   const subscriptionId =
@@ -458,7 +470,7 @@ async function putNodeTypeWithSharedGalleriesCustomVMImage() {
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary Create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationVmImagePlan_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperationVmImagePlan_example.json
  */
 async function putNodeTypeWithVMImagePlan() {
   const subscriptionId =

@@ -4,7 +4,7 @@
 
 ```ts
 
-import { IdentityPlugin } from '@azure/identity';
+import type { IdentityPlugin } from '@azure/identity';
 
 // @public
 export const nativeBrokerPlugin: IdentityPlugin;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationTypeVersionsCreateOrUpdate202Response,
   ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
   ApplicationTypeVersionsDelete202Response,

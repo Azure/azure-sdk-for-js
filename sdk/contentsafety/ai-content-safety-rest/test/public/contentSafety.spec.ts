@@ -1,28 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { ContentSafetyClient, isUnexpected, paginate, TextBlocklistItemOutput } from "../../src";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import fs from "fs";
-import path from "path";
-import { isBrowser } from "@azure/core-util";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { createRecorder, createClient } from "./utils/recordedClient.js";
+import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import fs from "node:fs";
+import path from "node:path";
+import { isBrowser, delay } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
   let client: ContentSafetyClient;
-  function sleep(time: number): Promise<NodeJS.Timeout> {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  function uint8ArrayToBase64(binary: Uint8Array) {
+  function uint8ArrayToBase64(binary: Uint8Array): string {
     let binaryString = "";
     binary.forEach((byte) => {
       binaryString += String.fromCharCode(byte);
     });
-    return self.btoa(binaryString);
+    return globalThis.btoa(binaryString);
   }
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "sample";
@@ -30,16 +28,16 @@ describe("Content Safety Client Test", () => {
   const blockItemText3 = "image";
   let blockItemId: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
-    client = await createClient(recorder);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("analyze text", async function () {
+  it("analyze text", async () => {
     const response = await client.path("/text:analyze").post({
       body: {
         text: "This is a sample text",
@@ -55,11 +53,11 @@ describe("Content Safety Client Test", () => {
     assert.notExists(response.body.categoriesAnalysis[1]);
   });
 
-  it("analyze image", async function () {
+  it("analyze image", async () => {
     let base64Image: string;
     if (isBrowser) {
-      const imagePath = "/base/samples-dev/example-data/image.png";
-      const response = await fetch(imagePath);
+      const imagePath = "../../../samples-dev/example-data/image.png";
+      const response = await globalThis.fetch(imagePath);
       const buffer = await response.arrayBuffer();
       const binary = new Uint8Array(buffer);
       base64Image = uint8ArrayToBase64(binary);
@@ -85,7 +83,7 @@ describe("Content Safety Client Test", () => {
     assert.notExists(response.body.categoriesAnalysis[1]);
   });
 
-  it("create blocklist", async function () {
+  it("create blocklist", async () => {
     const createBlockListResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .patch({
@@ -101,7 +99,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(createBlockListResponse.body.blocklistName, blocklistName);
   });
 
-  it("add block items", async function () {
+  it("add block items", async () => {
     const addBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
       .post({
@@ -129,11 +127,11 @@ describe("Content Safety Client Test", () => {
     assert.isArray(addBlockItemsResponse.body.blocklistItems);
 
     if (!isPlaybackMode()) {
-      await sleep(30000);
+      await delay(30000);
     }
   });
 
-  it("analyze text with blocklist", async function () {
+  it("analyze text with blocklist", async () => {
     const analyzeTextResponse = await client.path("/text:analyze").post({
       body: {
         text: "This is a sample to test.",
@@ -148,7 +146,7 @@ describe("Content Safety Client Test", () => {
     assert.isArray(analyzeTextResponse.body.blocklistsMatch);
   });
 
-  it("list text blocklists", async function () {
+  it("list text blocklists", async () => {
     const listTextBlocklistsResponse = await client.path("/text/blocklists").get();
     if (isUnexpected(listTextBlocklistsResponse)) {
       throw new Error(listTextBlocklistsResponse.body?.error.message);
@@ -157,7 +155,7 @@ describe("Content Safety Client Test", () => {
     assert.isArray(listTextBlocklistsResponse.body.value);
   });
 
-  it("get text blocklist", async function () {
+  it("get text blocklist", async () => {
     const getTextBlocklistResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .get();
@@ -168,7 +166,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(getTextBlocklistResponse.body.blocklistName, blocklistName);
   });
 
-  it("list block items", async function () {
+  it("list block items", async () => {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get();
@@ -180,7 +178,7 @@ describe("Content Safety Client Test", () => {
     blockItemId = listBlockItemsResponse.body.value[1].blocklistItemId;
   });
 
-  it("list block items with pagination helper", async function () {
+  it("list block items with pagination helper", async () => {
     const dataSources = await client
       .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get();
@@ -197,7 +195,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(items[1].blocklistItemId, blockItemId);
   });
 
-  it("list block items with pagination 1", async function () {
+  it("list block items with pagination 1", async () => {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
@@ -217,7 +215,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(skip, "1");
   });
 
-  it("list block items with pagination 2", async function () {
+  it("list block items with pagination 2", async () => {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
@@ -238,7 +236,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(skip, "2");
   });
 
-  it("list block items with pagination 3", async function () {
+  it("list block items with pagination 3", async () => {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
@@ -257,7 +255,7 @@ describe("Content Safety Client Test", () => {
     assert.notExists(listBlockItemsResponse.body.nextLink);
   });
 
-  it("get block item", async function () {
+  it("get block item", async () => {
     const getBlockItemResponse = await client
       .path(
         "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
@@ -272,7 +270,7 @@ describe("Content Safety Client Test", () => {
     assert.equal(getBlockItemResponse.body.blocklistItemId, blockItemId);
   });
 
-  it("remove block item", async function () {
+  it("remove block item", async () => {
     const removeBlockItemResponse = await client
       .path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName)
       .post({
@@ -286,7 +284,7 @@ describe("Content Safety Client Test", () => {
     assert.strictEqual(removeBlockItemResponse.status, "204");
   });
 
-  it("delete blocklist", async function () {
+  it("delete blocklist", async () => {
     const deleteBlockListResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .delete();

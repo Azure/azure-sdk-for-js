@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MessagesServiceClient from "./messagesServiceClient";
-export * from "./generated/src/messagesServiceClient";
-export * from "./generated/src/parameters";
-export * from "./generated/src/responses";
-export * from "./generated/src/clientDefinitions";
-export * from "./generated/src/isUnexpected";
-export * from "./generated/src/models";
-export * from "./generated/src/outputModels";
-export * from "./generated/src/paginateHelper";
+import MessagesServiceClient from "./messagesServiceClient.js";
+export * from "./generated/src/messagesServiceClient.js";
+export * from "./generated/src/parameters.js";
+export * from "./generated/src/responses.js";
+export * from "./generated/src/clientDefinitions.js";
+export * from "./generated/src/isUnexpected.js";
+export * from "./generated/src/models.js";
+export * from "./generated/src/outputModels.js";
+export * from "./generated/src/paginateHelper.js";
 export default MessagesServiceClient;

@@ -10,7 +10,6 @@ import {
   ExceptionPolicyItem,
   JobRouterAdministrationClient,
 } from "@azure/communication-job-router";
-import { assert } from "chai";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -36,8 +35,6 @@ async function listExceptionPolicies(): Promise<void> {
         console.log("Listing exception policy with id: " + policy.exceptionPolicy.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

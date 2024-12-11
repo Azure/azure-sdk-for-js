@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DetectUnivariateEntireSeries200Response,
   DetectUnivariateEntireSeriesDefaultResponse,
   DetectUnivariateLastPoint200Response,
@@ -22,7 +22,7 @@ import {
   DetectMultivariateBatchAnomalyDefaultResponse,
   DetectMultivariateLastAnomaly200Response,
   DetectMultivariateLastAnomalyDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /timeseries/entire/detect": ["200"],

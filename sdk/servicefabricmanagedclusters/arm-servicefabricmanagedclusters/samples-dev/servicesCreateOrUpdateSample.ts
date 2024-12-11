@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary Create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ServicePutOperation_example_max.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ServicePutOperation_example_max.json
  */
 async function putAServiceWithMaximumParameters() {
   const subscriptionId =
@@ -93,7 +93,7 @@ async function putAServiceWithMaximumParameters() {
  * This sample demonstrates how to Create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary Create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ServicePutOperation_example_min.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ServicePutOperation_example_min.json
  */
 async function putAServiceWithMinimumParameters() {
   const subscriptionId =

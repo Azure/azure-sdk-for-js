@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
 } from "@azure/core-http-compat";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
+import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
 import { CredentialPolicy } from "./CredentialPolicy";

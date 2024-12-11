@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { afterAll, beforeAll, inject } from "vitest";
-import { AzureLogLevel, setLogLevel } from "@azure/logger";
+import { setLogLevel } from "@azure/logger";
+import { EnvVarKeys } from "./constants.js";
 
-const logLevel = inject("AZURE_LOG_LEVEL") as AzureLogLevel;
+const logLevel = inject(EnvVarKeys.AZURE_LOG_LEVEL);
 const localStorage: { debug?: string } = {};
 
 beforeAll(async function () {

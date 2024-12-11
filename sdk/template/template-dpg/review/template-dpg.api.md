@@ -4,9 +4,9 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AnalyzeResult {

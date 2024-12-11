@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
-import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
-import { DocumentField } from "./models/fields";
-import { isAcronymic, uncapitalize } from "./util";
+import type { DocumentFieldSchema, DocumentModelDetails } from "./generated/index.js";
+import type { AnalyzedDocument, AnalyzeResult } from "./lro/analysis.js";
+import type { DocumentField } from "./models/fields.js";
+import { isAcronymic, uncapitalize } from "./util.js";
 
 /**
  * A well-known model specification that supports extracting structured documents.

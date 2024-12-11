@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
+import type {
+  PiiResult,
+  TextDocumentBatchStatistics,
+  TextDocumentInput,
+} from "./generated/models/index.js";
+import type { RecognizePiiEntitiesResult } from "./recognizePiiEntitiesResult.js";
 import {
-  RecognizePiiEntitiesResult,
   makeRecognizePiiEntitiesErrorResult,
   makeRecognizePiiEntitiesResult,
-} from "./recognizePiiEntitiesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./recognizePiiEntitiesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Collection of `RecognizePiiEntitiesResult` objects corresponding to a batch of input documents, and

@@ -4,9 +4,9 @@
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
-import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
-import { Span } from "@opentelemetry/sdk-trace-base";
+import type { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
+import type { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import type { Span } from "@opentelemetry/sdk-trace-base";
 import { environmentCache } from "../../src/configuration.js";
 import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";

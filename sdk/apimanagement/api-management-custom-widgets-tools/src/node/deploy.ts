@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService.js";
-import { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import type { Config } from "./CustomWidgetBlobService.js";
+import CustomWidgetBlobService from "./CustomWidgetBlobService.js";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { APIM_CONFIG_FILE_NAME } from "../paths.js";
 import fs from "node:fs";
 import getStorageSasUrl from "./getStorageSasUrl.js";

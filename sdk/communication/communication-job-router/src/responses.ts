@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ClassificationPolicy,
   ExceptionPolicy,
   DistributionPolicy,
@@ -9,7 +9,7 @@ import {
   RouterJob,
   RouterWorker,
   JSONValue,
-} from "./models";
+} from "./models.js";
 
 export interface RouterJobResponse extends RouterJob {
   readonly id: string;
@@ -68,4 +68,4 @@ export type DeclineJobOfferResponse = {
 export {
   AcceptJobOfferResult as AcceptJobOfferResponse,
   UnassignJobResult as UnassignJobResponse,
-} from "./generated/src";
+} from "./generated/src/index.js";

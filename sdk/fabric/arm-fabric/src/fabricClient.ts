@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   getFabricCapacitiesOperations,
   FabricCapacitiesOperations,
 } from "./classic/fabricCapacities/index.js";
 import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { FabricClientOptionalParams } from "./api/fabricContext.js";
 

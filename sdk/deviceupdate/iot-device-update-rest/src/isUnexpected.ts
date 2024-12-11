@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
   DeviceUpdateImportUpdate200Response,
@@ -107,7 +107,7 @@ import {
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
   DeviceManagementListHealthOfDevicesdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/updates": ["200"],

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { LedgerEntry, LedgerUser } from "./models";
+import { LedgerEntry, LedgerUser } from "./models.js";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;

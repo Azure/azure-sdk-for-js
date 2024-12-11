@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { VisualFeatures, ImageUrl } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { VisualFeatures, ImageUrl } from "./models.js";
 
 export interface AnalyzeFromImageDataBodyParam {
   /**

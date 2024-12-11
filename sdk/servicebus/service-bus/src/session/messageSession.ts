@@ -1,44 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Constants,
-  ErrorNameConditionMapper,
-  MessagingError,
-  RetryOptions,
-  StandardAbortMessage,
-} from "@azure/core-amqp";
-import {
-  AmqpError,
-  EventContext,
-  OnAmqpEvent,
-  Receiver,
-  ReceiverEvents,
-  ReceiverOptions,
-} from "rhea-promise";
-import { ConnectionContext } from "../connectionContext.js";
+import type { MessagingError, RetryOptions } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, StandardAbortMessage } from "@azure/core-amqp";
+import type { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
+import type { ConnectionContext } from "../connectionContext.js";
 import { LinkEntity } from "../core/linkEntity.js";
-import { DispositionStatusOptions } from "../core/managementClient.js";
-import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver.js";
+import type { DispositionStatusOptions } from "../core/managementClient.js";
+import type { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver.js";
 import { receiverLogger as logger } from "../log.js";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js";
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils.js";
-import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver.js";
-import {
-  onMessageSettled,
-  DeferredPromiseAndTimer,
-  createReceiverOptions,
-} from "../core/shared.js";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { MinimalReceiver } from "../core/batchingReceiver.js";
+import { BatchingReceiverLite } from "../core/batchingReceiver.js";
+import type { DeferredPromiseAndTimer } from "../core/shared.js";
+import { onMessageSettled, createReceiverOptions } from "../core/shared.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper.js";
-import {
+import type {
   ServiceBusSessionReceiverOptions,
   ProcessErrorArgs,
   ReceiveMode,
   SubscribeOptions,
 } from "../models.js";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon.js";
 import { delay, isDefined } from "@azure/core-util";
@@ -272,7 +260,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._intermediateLink = link;
 
     const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
-    if (!this._providedSessionId && !receivedSessionId) {
+    if (this._providedSessionId === undefined && receivedSessionId === undefined) {
       // When we ask for any sessions (passing option of session-filter: undefined),
       // but don't receive one back, check whether service has sent any error.
       if (
@@ -293,7 +281,10 @@ export class MessageSession extends LinkEntity<Receiver> {
       // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
       // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
       errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
-    } else if (this._providedSessionId && receivedSessionId !== this._providedSessionId) {
+    } else if (
+      this._providedSessionId !== undefined &&
+      receivedSessionId !== this._providedSessionId
+    ) {
       // This code path is reached if the session is already locked by another receiver.
       // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
       errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
@@ -333,7 +324,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       const receivedSessionId = this.link.source?.filter?.[Constants.sessionFilterName];
 
-      if (!this._providedSessionId) this.sessionId = receivedSessionId;
+      if (this._providedSessionId === undefined) this.sessionId = receivedSessionId;
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"],
       );
@@ -359,7 +350,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((errObj as MessagingError).code === "OperationTimeoutError") {
-        if (this._providedSessionId) {
+        if (this._providedSessionId !== undefined) {
           errObj.message = `Failed to create a receiver for the requested session '${this._providedSessionId}' within allocated time and retry attempts.`;
         } else {
           errObj.message = "Failed to create a receiver within allocated time and retry attempts.";

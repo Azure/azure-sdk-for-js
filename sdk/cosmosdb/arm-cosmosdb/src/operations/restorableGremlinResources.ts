@@ -120,7 +120,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableGremlinResourcesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [

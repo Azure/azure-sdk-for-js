@@ -14,12 +14,13 @@ import { DnsManagementClient } from "../dnsManagementClient";
 import {
   DnsResourceReferenceRequest,
   DnsResourceReferenceGetByTargetResourcesOptionalParams,
-  DnsResourceReferenceGetByTargetResourcesResponse
+  DnsResourceReferenceGetByTargetResourcesResponse,
 } from "../models";
 
 /** Class containing DnsResourceReferenceOperations operations. */
 export class DnsResourceReferenceOperationsImpl
-  implements DnsResourceReferenceOperations {
+  implements DnsResourceReferenceOperations
+{
   private readonly client: DnsManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class DnsResourceReferenceOperationsImpl
    */
   getByTargetResources(
     parameters: DnsResourceReferenceRequest,
-    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams
+    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams,
   ): Promise<DnsResourceReferenceGetByTargetResourcesResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      getByTargetResourcesOperationSpec
+      getByTargetResourcesOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class DnsResourceReferenceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByTargetResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResourceReferenceResult
+      bodyMapper: Mappers.DnsResourceReferenceResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

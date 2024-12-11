@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsAbortError,
   assertThrowsRestError,
@@ -9,7 +10,7 @@ import {
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers.js";
-import { AppConfigurationClient } from "../../src/index.js";
+import type { AppConfigurationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
@@ -72,7 +73,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
   it.skip("accepts  operation options", async function (ctx) {
     // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+
     if (isPlaybackMode()) ctx.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,

@@ -4,9 +4,9 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AggregateLogsUploadError extends Error {

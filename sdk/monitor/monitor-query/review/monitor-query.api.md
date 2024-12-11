@@ -4,11 +4,11 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import * as coreClient from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type * as coreClient from '@azure/core-client';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";

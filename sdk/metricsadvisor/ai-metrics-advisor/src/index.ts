@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./metricsAdvisorClient";
-export * from "./models";
-export * from "./metricsAdvisorAdministrationClient";
+export * from "./metricsAdvisorClient.js";
+export * from "./models.js";
+export * from "./metricsAdvisorAdministrationClient.js";
 export {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorKeys,
-} from "./metricsAdvisorKeyCredentialPolicy";
+} from "./metricsAdvisorKeyCredentialPolicy.js";

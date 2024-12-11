@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { PlaywrightTestConfig } from '@playwright/test';
 import type { TokenCredential } from '@azure/identity';
 
 // @public
@@ -33,7 +34,7 @@ export type EndpointOptions = {
 export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">) => Promise<BrowserConnectOptions>;
 
 // @public
-export const getServiceConfig: (config: PlaywrightConfigInput, options?: PlaywrightServiceAdditionalOptions) => PlaywrightConfig;
+export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
 
 // @public
 export interface MPTReporterConfig {
@@ -45,21 +46,6 @@ export interface MPTReporterConfig {
 export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
 
 // @public
-export type PlaywrightConfig = {
-    use?: {
-        connectOptions: BrowserConnectOptions;
-    };
-    globalSetup?: string;
-    globalTeardown?: string;
-};
-
-// @public
-export type PlaywrightConfigInput = {
-    globalSetup?: string;
-    globalTeardown?: string;
-};
-
-// @public
 export type PlaywrightServiceAdditionalOptions = {
     serviceAuthType?: AuthenticationType;
     os?: OsType;
@@ -69,6 +55,7 @@ export type PlaywrightServiceAdditionalOptions = {
     exposeNetwork?: string;
     useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
+    runName?: string;
 };
 
 // @public
@@ -80,7 +67,6 @@ export const ServiceAuth: {
 // @public
 export const ServiceEnvironmentVariable: {
     PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_RUN_ID: string;
     PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;

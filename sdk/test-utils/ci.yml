@@ -47,3 +47,8 @@ extends:
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
         skipPublishDevFeed: true
+      - name: azure-test-utils-vitest
+        safeName: azuretestutilsvitest
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
+        skipPublishDevFeed: true

@@ -31,14 +31,17 @@
 
 import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils";
+import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils.js";
 import { X509 } from "jsrsasign";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { writeBanner } from "./utils/helpers";
-import { byteArrayToHex } from "../src/utils/base64";
+import { writeBanner } from "./utils/helpers.js";
 dotenv.config();
+
+function byteArrayToHex(value: Uint8Array): string {
+  return value.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
 
 async function modifyPolicyManagementCertificates() {
   writeBanner("Get Current Attestation Policy Management Certificates.");

@@ -7,7 +7,6 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("authorize_request_on_claim_challenge", () => {
-    // @ts-ignore
     const policy = bearerTokenAuthenticationPolicy({
       challengeCallbacks: {
         authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,

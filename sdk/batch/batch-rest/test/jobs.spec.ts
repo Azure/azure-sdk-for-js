@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   BatchJobCreateContent,
   CreateJobParameters,
   CreatePoolParameters,
   UpdateJobParameters,
-  isUnexpected,
 } from "../src/index.js";
+import { isUnexpected } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
@@ -219,6 +220,9 @@ describe("Job Operations Test", () => {
       .path("/jobs/{jobId}/terminate", recorder.variable("JOB_NAME", JOB_NAME))
       .post({
         contentType: "application/json; odata=minimalmetadata",
+        queryParameters: {
+          force: true,
+        },
       });
 
     assert.equal(terminateJobResult.status, "202");
@@ -237,7 +241,9 @@ describe("Job Operations Test", () => {
 
   it("should delete a job successfully", async function () {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
-    const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete();
+    const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete({
+      queryParameters: { force: true },
+    });
     assert.equal(deleteJobResult.status, "202");
   });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListSchemaGroupsParameters,
   ListSchemaVersionsParameters,
   GetSchemaByIdParameters,
@@ -9,7 +9,7 @@ import {
   GetSchemaPropertiesByContentParameters,
   RegisterSchemaParameters,
 } from "./parameters.js";
-import {
+import type {
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
   ListSchemaVersions200Response,
@@ -23,7 +23,7 @@ import {
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListSchemaGroups {
   /** Gets the list of schema groups user is authorized to access. */

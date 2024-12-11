@@ -1,13 +1,24 @@
 # Release History
 
-## 1.7.2 (Unreleased)
+## 1.8.1 (Unreleased)
 
 ### Features Added
-- Support for Live Metrics Filtering
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Should not use reserved 7th bit for statsbeat instrumentations.
+- Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
+
+### Other Changes
+
+## 1.8.0 (2024-10-23)
+
+### Features Added
+- Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
+- Support for Live Metrics Filtering.
+- Support parsing AAD Audience from the connection string for live metrics.
 
 ### Other Changes
 

@@ -6,45 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { WorkspaceOperations } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { WorkspaceOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
-import { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models/index.js";
 
-/** Class containing WorkspaceOperations operations. */
-export class WorkspaceOperationsImpl implements WorkspaceOperations {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class WorkspaceOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Get Workspace
-   * @param options The options parameters.
-   */
-  async get(
-    options?: WorkspaceGetOptionalParams,
-  ): Promise<WorkspaceGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          getOperationSpec,
-        ) as Promise<WorkspaceGetResponse>;
-      },
-    );
-  }
-}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -64,3 +33,30 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+
+/** Class containing WorkspaceOperations operations. */
+export class WorkspaceOperationsImpl implements WorkspaceOperations {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class WorkspaceOperations class.
+   * @param client - Reference to the service client
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Get Workspace
+   * @param options - The options parameters.
+   */
+  async get(options?: WorkspaceGetOptionalParams): Promise<WorkspaceGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
+      return this.client.sendOperationRequest(
+        { updatedOptions },
+        getOperationSpec,
+      ) as Promise<WorkspaceGetResponse>;
+    });
+  }
+}

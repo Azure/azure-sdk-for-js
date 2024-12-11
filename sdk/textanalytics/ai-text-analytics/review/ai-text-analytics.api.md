@@ -4,16 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureKeyCredential } from '@azure/core-auth';
-import { CancelOnProgress } from '@azure/core-lro';
-import { CommonClientOptions } from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, OperationMetadata {

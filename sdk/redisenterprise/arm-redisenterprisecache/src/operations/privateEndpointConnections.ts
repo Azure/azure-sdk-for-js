@@ -45,7 +45,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all the private endpoint connections associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -103,7 +103,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all the private endpoint connections associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -120,7 +120,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
@@ -145,7 +145,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
+   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
@@ -227,7 +227,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
+   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
@@ -254,7 +254,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
@@ -325,7 +325,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the

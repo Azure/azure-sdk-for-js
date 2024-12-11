@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpClient } from "../interfaces.js";
-import { Pipeline } from "../pipeline.js";
+import type { HttpClient } from "../interfaces.js";
+import type { Pipeline } from "../pipeline.js";
 import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
 import { createDefaultHttpClient } from "../defaultHttpClient.js";
 import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
-import { ClientOptions } from "./common.js";
+import type { TokenCredential } from "../auth/tokenCredential.js";
+import { isTokenCredential } from "../auth/tokenCredential.js";
+import type { KeyCredential } from "../auth/keyCredential.js";
+import { isKeyCredential } from "../auth/keyCredential.js";
+import type { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
 - [Package (NPM)](https://aka.ms/npm-azure-rest-ai-inference)
-- [API reference documentation](https://aka.ms/AAp1kxa)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
 
 ## Getting started
@@ -446,7 +446,8 @@ data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
 
 To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
 
-### Instrumentation (Chat Completions only)
+### Instrumentation 
+Currently instrumentation is only supported for `Chat Completion without streaming`.
 To enable instrumentation, it is required to register exporter(s).
 
 Here is an example to add console as a exporter:
@@ -476,7 +477,7 @@ if (connectionString) {
 provider.register();
 ```
 
-In addition, you need to register to use instrumentation for Azure SDK. You must do this before you import any dependency of `@azure-core-tracing`
+To use instrumentation for Azure SDK, you need to register it before importing any dependencies from `@azure/core-tracing`, such as `@azure-rest/ai-inference`.
 
 ```js
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
@@ -485,6 +486,8 @@ import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentat
 registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
 });
+
+import ModelClient from "@azure-rest/ai-inference";
 ```
 
 Finally when you are making a call for chat completion, you need to include

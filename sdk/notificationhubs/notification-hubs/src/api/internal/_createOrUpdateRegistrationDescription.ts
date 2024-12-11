@@ -6,10 +6,10 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../serializers/registrationSerializer.js";
-import { HttpMethods } from "@azure/core-rest-pipeline";
-import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { RegistrationDescription } from "../../models/registration.js";
+import type { HttpMethods } from "@azure/core-rest-pipeline";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { RegistrationDescription } from "../../models/registration.js";
 import { isDefined } from "../../utils/utils.js";
 
 /**

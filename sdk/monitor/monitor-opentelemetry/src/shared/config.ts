@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Resource,
-  ResourceDetectionConfig,
-  detectResourcesSync,
-  envDetectorSync,
-} from "@opentelemetry/resources";
-import {
+import type { ResourceDetectionConfig } from "@opentelemetry/resources";
+import { Resource, detectResourcesSync, envDetectorSync } from "@opentelemetry/resources";
+import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types";
-import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
 import {

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   CreatePoolParameters,
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
-  isUnexpected,
 } from "../src/index.js";
+import { isUnexpected, type GetPool200Response } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import moment from "moment";
@@ -63,7 +64,7 @@ describe("Autoscale operations", async () => {
                 Unable to provision resource needed for Job Testing.
                 Response Body: ${poolPostResult.body.message}`);
       }
-      const getSteadyPool = async () => {
+      const getSteadyPool = async (): Promise<GetPool200Response | null> => {
         const getPoolResult = await batchClient.path("/pools/{poolId}", BASIC_POOL).get();
         if (isUnexpected(getPoolResult)) {
           assert.fail(`Received unexpected status code from getting pool: ${getPoolResult.status}

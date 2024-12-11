@@ -2,27 +2,23 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the follow up recommendation of the Radiology Insights request.
+ * @summary Displays the follow up recommendation of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
+import "dotenv/config";
+import type { CreateJobParameters, RadiologyInsightsJobOutput } from "../src/index.js";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
   getLongRunningPoller,
-  isUnexpected
-} from "../src";
-
-dotenv.config();
+  isUnexpected,
+} from "../src/index.js";
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the follow up recommendation inference
+ * Print the follow up recommendation inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -30,37 +26,49 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; isConditional: any; isGuideline: any; isHedging: any; isOption: any; recommendedProcedure: any; }) => {
-          if (inference.kind === "followupRecommendation") {
-            console.log("Follow Up Recommendation Inference found");
-            console.log("   Is conditional: ", inference.isConditional);
-            console.log("   Is guidline: ", inference.isGuideline);
-            console.log("   Is hedging: ", inference.isHedging);
-            console.log("   Is option: ", inference.isOption);
+        patientResult.inferences.forEach(
+          (inference: {
+            kind: string;
+            isConditional: any;
+            isGuideline: any;
+            isHedging: any;
+            isOption: any;
+            recommendedProcedure: any;
+          }) => {
+            if (inference.kind === "followupRecommendation") {
+              console.log("Follow Up Recommendation Inference found");
+              console.log("   Is conditional: ", inference.isConditional);
+              console.log("   Is guidline: ", inference.isGuideline);
+              console.log("   Is hedging: ", inference.isHedging);
+              console.log("   Is option: ", inference.isOption);
 
-            var procedure = inference.recommendedProcedure;
-            if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
-              if ("code" in procedure) {
-                console.log("   Recommended Generic Procedure: ", procedure.code);
-              }
-              if ("description" in procedure) {
-                console.log("   Description: ", procedure.description);
-              }
-            } else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
-              procedure.procedureCodes?.forEach((procedureCode: any) => {
-                console.log("   Recommended Procedure Codes: ");
-                displayCodes(procedureCode);
-              });
-
-              if ("imagingProcedures" in procedure) {
-                procedure.imagingProcedures?.forEach((imagingProcedure: any) => {
-                  console.log("   Recommended Imaging Procedure Codes: ");
-                  displayImaging(imagingProcedure);
+              const procedure = inference.recommendedProcedure;
+              if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
+                if ("code" in procedure) {
+                  console.log("   Recommended Generic Procedure: ", procedure.code);
+                }
+                if ("description" in procedure) {
+                  console.log("   Description: ", procedure.description);
+                }
+              } else if (
+                "kind" in procedure &&
+                procedure.kind === "imagingProcedureRecommendation"
+              ) {
+                procedure.procedureCodes?.forEach((procedureCode: any) => {
+                  console.log("   Recommended Procedure Codes: ");
+                  displayCodes(procedureCode);
                 });
+
+                if ("imagingProcedures" in procedure) {
+                  procedure.imagingProcedures?.forEach((imagingProcedure: any) => {
+                    console.log("   Recommended Imaging Procedure Codes: ");
+                    displayImaging(imagingProcedure);
+                  });
+                }
               }
             }
-          }
-        });
+          },
+        );
       });
     }
   } else {
@@ -73,12 +81,20 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        console.log(
+          "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
       }
     });
   }
 
-  function displayImaging(images: { modality: { coding: any[]; }; anatomy: { coding: any[]; }; laterality: { coding: any[]; }; contrast: { code: { coding: any[]; }; }; view: { code: { coding: any[]; }; }; }) {
+  function displayImaging(images: {
+    modality: { coding: any[] };
+    anatomy: { coding: any[] };
+    laterality: { coding: any[] };
+    contrast: { code: { coding: any[] } };
+    view: { code: { coding: any[] } };
+  }): void {
     console.log("     Modality Codes: ");
     displayCodes(images.modality);
     console.log("     Anatomy Codes: ");
@@ -96,21 +112,18 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       displayCodes(images.view.code);
     }
   }
-
 }
-
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
-
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    display: "US PELVIS COMPLETE",
   };
 
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
@@ -121,10 +134,10 @@ function createRequestBody(): CreateJobParameters {
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -134,12 +147,12 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "US PELVIS COMPLETE",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
@@ -165,7 +178,7 @@ function createRequestBody(): CreateJobParameters {
     1. Normal pelvic sonography. Findings of testicular torsion.
     A new US pelvis within the next 6 months is recommended.
 
-    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
 
   const patientDocumentData = {
@@ -178,15 +191,14 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
-
 
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -200,21 +212,22 @@ function createRequestBody(): CreateJobParameters {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -223,7 +236,7 @@ function createRequestBody(): CreateJobParameters {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
   // create RI Data
@@ -231,16 +244,15 @@ function createRequestBody(): CreateJobParameters {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
   return {
     body: RadiologyInsightsJob,
   };
-
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -250,7 +262,9 @@ export async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

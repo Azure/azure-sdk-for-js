@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePipelinesCredential } from "../../../src";
+import { AzurePipelinesCredential } from "../../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert, expect } from "vitest";
 
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it("authenticates with a valid service connection", async function () {
+  it("authenticates with a valid service connection", async function (ctx) {
     if (!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID) {
-      this.skip();
+      ctx.skip();
     }
     // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
@@ -30,9 +30,9 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it("fails with invalid service connection", async function () {
+  it("fails with invalid service connection", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
@@ -45,16 +45,12 @@ describe("AzurePipelinesCredential", function () {
     );
     const regExp: RegExp =
       /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
-    await assert.isRejected(
-      credential.getToken(scope),
-      regExp,
-      "error thrown doesn't match or promise not rejected",
-    );
+    await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
-  it("failure includes the expected response headers", async function () {
+  it("failure includes the expected response headers", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
@@ -68,22 +64,14 @@ describe("AzurePipelinesCredential", function () {
     const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
     const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
 
-    await assert.isRejected(
-      credential.getToken(scope),
-      regExpHeader1,
-      "error thrown doesn't contain expected header 'x-vss-e2eid'",
-    );
+    await expect(credential.getToken(scope)).rejects.toThrow(regExpHeader1);
 
-    await assert.isRejected(
-      credential.getToken(scope),
-      regExpHeader2,
-      "error thrown doesn't contain expected header 'x-msedge-ref'",
-    );
+    await expect(credential.getToken(scope)).rejects.toThrow(regExpHeader2);
   });
 
-  it("fails with with invalid client id", async function () {
+  it("fails with with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
@@ -95,16 +83,12 @@ describe("AzurePipelinesCredential", function () {
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
-    await assert.isRejected(
-      credential.getToken(scope),
-      regExp,
-      "error thrown doesn't match or promise not rejected",
-    );
+    await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
-  it("fails with with invalid system access token", async function () {
+  it("fails with with invalid system access token", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
@@ -114,6 +98,6 @@ describe("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       "invalidSystemAccessToken",
     );
-    await assert.isRejected(credential.getToken(scope), /Status code: 401/);
+    await expect(credential.getToken(scope)).rejects.toThrow(/Status code: 401/);
   });
 });

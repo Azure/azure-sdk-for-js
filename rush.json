@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.131.4",
+  "rushVersion": "5.146.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.15.9",
+  "pnpmVersion": "9.15.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -570,9 +570,7 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -612,9 +610,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -985,7 +981,7 @@
     {
       "packageName": "@azure-rest/arm-network",
       "projectFolder": "sdk/network/arm-network-rest",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-compute",
@@ -995,7 +991,7 @@
     {
       "packageName": "@azure-rest/arm-compute",
       "projectFolder": "sdk/compute/arm-compute-rest",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-storage",
@@ -1055,7 +1051,7 @@
     {
       "packageName": "@azure-rest/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice-rest",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-resources-subscriptions",
@@ -1155,7 +1151,7 @@
     {
       "packageName": "@azure-rest/arm-containerservice",
       "projectFolder": "sdk/containerservice/arm-containerservice-rest",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-operations",
@@ -1190,7 +1186,7 @@
     {
       "packageName": "@azure-rest/arm-servicefabric",
       "projectFolder": "sdk/servicefabric/arm-servicefabric-rest",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-mysql",
@@ -2215,7 +2211,7 @@
     {
       "packageName": "@azure/arm-informaticadatamanagement",
       "projectFolder": "sdk/informatica/arm-informaticadatamanagement",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-oracledatabase",
@@ -2288,11 +2284,41 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-iotoperations",
+      "projectFolder": "sdk/iotoperations/arm-iotoperations",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
       "versionPolicyName": "management"
     },
-     {
+    {
+      "packageName": "@azure/arm-databoundaries",
+      "projectFolder": "sdk/databoundaries/arm-databoundaries",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerorchestratorruntime",
+      "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-neonpostgres",
+      "projectFolder": "sdk/neonpostgres/arm-neonpostgres",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-terraform",
+      "projectFolder": "sdk/terraform/arm-terraform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-connectedcache",
+      "projectFolder": "sdk/connectedcache/arm-connectedcache",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"

@@ -4,16 +4,58 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AddOptions extends OperationOptions {
+}
+
+// @public
+export interface CheckOptions extends OperationOptions {
+}
+
+// @public
+export interface OptOutAddResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    to: string;
+}
+
+// @public
+export interface OptOutCheckResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    isOptedOut: boolean;
+    to: string;
+}
+
+// @public
+export interface OptOutRemoveResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    to: string;
+}
+
+// @public
+export interface OptOutsClient {
+    add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+    check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
+    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+}
+
+// @public
+export interface RemoveOptions extends OperationOptions {
+}
 
 // @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
+    optOuts: OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 
@@ -35,7 +77,7 @@ export interface SmsSendRequest {
     to: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface SmsSendResult {
     errorMessage?: string;
     httpStatusCode: number;

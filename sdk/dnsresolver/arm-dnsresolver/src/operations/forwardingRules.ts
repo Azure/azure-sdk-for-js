@@ -26,7 +26,7 @@ import {
   ForwardingRulesDeleteOptionalParams,
   ForwardingRulesGetOptionalParams,
   ForwardingRulesGetResponse,
-  ForwardingRulesListNextResponse
+  ForwardingRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,12 +51,12 @@ export class ForwardingRulesImpl implements ForwardingRules {
   public list(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: ForwardingRulesListOptionalParams
+    options?: ForwardingRulesListOptionalParams,
   ): PagedAsyncIterableIterator<ForwardingRule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       dnsForwardingRulesetName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +73,9 @@ export class ForwardingRulesImpl implements ForwardingRules {
           resourceGroupName,
           dnsForwardingRulesetName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class ForwardingRulesImpl implements ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     options?: ForwardingRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ForwardingRule[]> {
     let result: ForwardingRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class ForwardingRulesImpl implements ForwardingRules {
       result = await this._list(
         resourceGroupName,
         dnsForwardingRulesetName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class ForwardingRulesImpl implements ForwardingRules {
         resourceGroupName,
         dnsForwardingRulesetName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class ForwardingRulesImpl implements ForwardingRules {
   private async *listPagingAll(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: ForwardingRulesListOptionalParams
+    options?: ForwardingRulesListOptionalParams,
   ): AsyncIterableIterator<ForwardingRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       dnsForwardingRulesetName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,7 +139,7 @@ export class ForwardingRulesImpl implements ForwardingRules {
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
     parameters: ForwardingRule,
-    options?: ForwardingRulesCreateOrUpdateOptionalParams
+    options?: ForwardingRulesCreateOrUpdateOptionalParams,
   ): Promise<ForwardingRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -147,9 +147,9 @@ export class ForwardingRulesImpl implements ForwardingRules {
         dnsForwardingRulesetName,
         forwardingRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -166,7 +166,7 @@ export class ForwardingRulesImpl implements ForwardingRules {
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
     parameters: ForwardingRulePatch,
-    options?: ForwardingRulesUpdateOptionalParams
+    options?: ForwardingRulesUpdateOptionalParams,
   ): Promise<ForwardingRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -174,9 +174,9 @@ export class ForwardingRulesImpl implements ForwardingRules {
         dnsForwardingRulesetName,
         forwardingRuleName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -191,16 +191,16 @@ export class ForwardingRulesImpl implements ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
-    options?: ForwardingRulesDeleteOptionalParams
+    options?: ForwardingRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         dnsForwardingRulesetName,
         forwardingRuleName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -215,16 +215,16 @@ export class ForwardingRulesImpl implements ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
-    options?: ForwardingRulesGetOptionalParams
+    options?: ForwardingRulesGetOptionalParams,
   ): Promise<ForwardingRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         dnsForwardingRulesetName,
         forwardingRuleName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -237,11 +237,11 @@ export class ForwardingRulesImpl implements ForwardingRules {
   private _list(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: ForwardingRulesListOptionalParams
+    options?: ForwardingRulesListOptionalParams,
   ): Promise<ForwardingRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsForwardingRulesetName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -256,11 +256,11 @@ export class ForwardingRulesImpl implements ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     nextLink: string,
-    options?: ForwardingRulesListNextOptionalParams
+    options?: ForwardingRulesListNextOptionalParams,
   ): Promise<ForwardingRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsForwardingRulesetName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -268,19 +268,18 @@ export class ForwardingRulesImpl implements ForwardingRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ForwardingRule
+      bodyMapper: Mappers.ForwardingRule,
     },
     201: {
-      bodyMapper: Mappers.ForwardingRule
+      bodyMapper: Mappers.ForwardingRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -289,28 +288,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsForwardingRulesetName,
-    Parameters.forwardingRuleName
+    Parameters.forwardingRuleName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ForwardingRule
+      bodyMapper: Mappers.ForwardingRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -319,26 +317,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsForwardingRulesetName,
-    Parameters.forwardingRuleName
+    Parameters.forwardingRuleName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -346,22 +343,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsForwardingRulesetName,
-    Parameters.forwardingRuleName
+    Parameters.forwardingRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules/{forwardingRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ForwardingRule
+      bodyMapper: Mappers.ForwardingRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -369,51 +365,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsForwardingRulesetName,
-    Parameters.forwardingRuleName
+    Parameters.forwardingRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsForwardingRulesets/{dnsForwardingRulesetName}/forwardingRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ForwardingRuleListResult
+      bodyMapper: Mappers.ForwardingRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsForwardingRulesetName
+    Parameters.dnsForwardingRulesetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ForwardingRuleListResult
+      bodyMapper: Mappers.ForwardingRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.dnsForwardingRulesetName
+    Parameters.dnsForwardingRulesetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

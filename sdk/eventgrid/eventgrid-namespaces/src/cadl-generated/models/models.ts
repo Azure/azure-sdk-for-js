@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel } from "@azure-rest/core-client";
+import type { ErrorModel } from "@azure-rest/core-client";
 
 /** Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. */
 export interface CloudEvent {

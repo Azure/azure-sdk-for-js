@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
-import { BrowserPushChannel } from "./installation.js";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import type { BrowserPushChannel } from "./installation.js";
 
 /**
  * Describes the options that can be provided while creating the NotificationHubsClientContext.

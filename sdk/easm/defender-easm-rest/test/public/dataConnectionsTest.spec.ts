@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import EasmDefender, { EasmClient, isUnexpected } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createRecorder } from "./utils/recordedClient.js";
+import type { EasmClient } from "../../src/index.js";
+import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Data Connections Test", () => {
   let recorder: Recorder;
@@ -16,8 +17,8 @@ describe("Data Connections Test", () => {
   let cluster_name: string;
   let database_name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
