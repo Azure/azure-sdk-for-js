@@ -77,7 +77,7 @@ async function main() {
       description: "A composed model that classifies purchase order documents and extracts data from them.",
       componentModels: modelIds,
       modelId: composedModelId,
-    } as any,
+    } as any, // https://github.com/Azure/autorest.typescript/issues/2127
   });
 
   if (isUnexpected(initialResponse)) {
