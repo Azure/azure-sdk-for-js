@@ -13,6 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 import * as fs from "fs";
+import path from "node:path";
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
@@ -20,7 +21,8 @@ export async function main(): Promise<void> {
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
     // Upload local file
-    const localFileStream = fs.createReadStream("./samples-dev/data/localFile.txt");
+    const filePath = path.resolve(__dirname, "./data/myLocalFile.txt");
+    const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile.txt");
 
     console.log(`Uploaded local file, file ID : ${localFile.id}`);

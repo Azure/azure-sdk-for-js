@@ -153,6 +153,12 @@
     ],
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
   },
+  "extraFiles": {
+    "./samples-dev/example-data": [
+      "javascript/data",
+      "typescript/src/data"
+    ]
+  },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js"

@@ -10,6 +10,7 @@ import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
+import path from "node:path";
 
 dotenv.config();
 
@@ -19,13 +20,15 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file for code interpreter tool
-  const fileStream1 = fs.createReadStream("./samples-dev/data/nifty500QuarterlyResults.csv");
+  const filePath1 = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
+  const fileStream1 = fs.createReadStream(filePath1);
   const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "myLocalFile");
 
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
-  const fileStream2 = fs.createReadStream("./samples-dev/data/sampleFileForUpload.txt");
+  const filePath2 = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
+  const fileStream2 = fs.createReadStream(filePath2);
   const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", "sampleFileForUpload.txt");
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 

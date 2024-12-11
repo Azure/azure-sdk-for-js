@@ -14,6 +14,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
 dotenv.config();
+const path = require("node:path");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
@@ -26,7 +27,8 @@ async function main() {
   );
 
   // Upload file
-  const localFileStream = fs.createReadStream("./samples-dev/data/sampleFileForUpload.txt");
+  const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
+  const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(
     localFileStream,
     "assistants",
