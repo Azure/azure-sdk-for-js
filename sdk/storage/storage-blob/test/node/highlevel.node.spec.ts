@@ -14,7 +14,12 @@ import {
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
+import type {
+  ContainerClient,
+  BlobClient,
+  BlockBlobClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";

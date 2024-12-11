@@ -8,7 +8,12 @@ import {
   getUniqueName,
 } from "./utils/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src/index.js";
+import type {
+  BlobServiceClient,
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+} from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 

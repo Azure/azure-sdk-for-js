@@ -12,7 +12,12 @@ import {
   uriSanitizers,
 } from "../utils/index.browser.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
+import type {
+  ContainerClient,
+  BlobClient,
+  BlockBlobClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Highlevel", () => {

@@ -31,7 +31,7 @@ import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -819,7 +819,9 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async function (ctx) {
-    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing(["BlobClient-download"]);
+    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing([
+      "BlobClient-download",
+    ]);
   });
 
   it("exists returns true on an existing blob", async function () {

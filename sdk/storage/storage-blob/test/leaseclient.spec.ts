@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src/index.js";
+import type {
+  ContainerClient,
+  BlobClient,
+  BlockBlobClient,
+  BlobServiceClient,
+} from "../src/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from Container", () => {

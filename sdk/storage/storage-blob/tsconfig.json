@@ -1,14 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "es2019"
-    ],
+    "lib": ["dom", "es2019"],
     "paths": {
-      "@azure/storage-blob": [
-        "./src/index"
-      ]
+      "@azure/storage-blob": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
