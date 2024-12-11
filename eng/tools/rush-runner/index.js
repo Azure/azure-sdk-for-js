@@ -16,6 +16,7 @@ const reducedDependencyTestMatrix = {
     "@azure/identity",
     "@azure/service-bus",
     "@azure/template",
+    "@azure-rest/ai-document-intelligence"
   ],
   "test-utils": [
     "@azure-tests/perf-storage-blob",
