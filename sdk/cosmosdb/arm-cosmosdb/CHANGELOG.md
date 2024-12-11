@@ -1,15 +1,25 @@
 # Release History
-
-## 17.0.0-beta.2 (Unreleased)
-
+    
+## 16.2.0 (2024-12-09)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface VectorEmbedding
+  - Added Interface VectorEmbeddingPolicy
+  - Added Interface VectorIndex
+  - Added Type Alias DistanceFunction
+  - Added Type Alias VectorDataType
+  - Added Type Alias VectorIndexType
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePerRegionPerPartitionAutoscale
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePerRegionPerPartitionAutoscale
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePerRegionPerPartitionAutoscale
+  - Interface IndexingPolicy has a new optional parameter vectorIndexes
+  - Interface SqlContainerResource has a new optional parameter vectorEmbeddingPolicy
+  - Added Enum KnownDistanceFunction
+  - Added Enum KnownVectorDataType
+  - Added Enum KnownVectorIndexType
+    
+    
 ## 17.0.0-beta.1 (2024-10-29)
 Compared with version 16.1.0
     
