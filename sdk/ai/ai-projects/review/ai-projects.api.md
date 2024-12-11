@@ -314,17 +314,6 @@ export interface CreateAndRunThreadOptions {
     truncation_strategy?: TruncationObject | null;
 }
 
-// @public (undocumented)
-export interface CreateEvaluationBodyParam {
-    body: Evaluation;
-}
-
-// @public (undocumented)
-export type CreateEvaluationParameters = CreateEvaluationBodyParam & RequestParameters;
-
-// @public (undocumented)
-export type CreateOrReplaceEvaluationScheduleParameters = RequestParameters;
-
 // @public
 export interface CreateRunOptions {
     additional_instructions?: string | null;
@@ -392,9 +381,6 @@ export interface DatasetOutput extends InputDataOutputParent {
     readonly type: "dataset";
 }
 
-// @public (undocumented)
-export type DisableEvaluationScheduleParameters = RequestParameters;
-
 // @public
 export enum DoneEvent {
     Done = "done"
@@ -429,9 +415,6 @@ export interface EvaluationOutput {
 }
 
 // @public
-export type EvaluationResourceMergeAndPatch = Partial<Evaluation>;
-
-// @public
 export interface EvaluationSchedule {
     data: ApplicationInsightsConfiguration;
     description?: string;
@@ -462,8 +445,8 @@ export interface EvaluationsOperations {
     disableSchedule: (scheduleName: string, requestParams?: OptionalRequestParameters) => Promise<void>;
     getEvaluation: (evaluationId: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
     getSchedule: (evaluationName: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationSchedule>;
-    listEvaluations: (options?: ListEvaluationParameters, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationOutput>;
-    listSchedules: (options?: ListEvaluationScheduleParameters, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationScheduleOutput>;
+    listEvaluations: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationOutput>;
+    listSchedules: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationScheduleOutput>;
     updateEvaluation: (evaluationId: string, resource: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
 }
 
@@ -620,12 +603,6 @@ export interface GetConnectionResponseOutput {
     properties: InternalConnectionPropertiesOutput;
 }
 
-// @public (undocumented)
-export type GetEvaluationParameters = RequestParameters;
-
-// @public (undocumented)
-export type GetEvaluationScheduleParameters = RequestParameters;
-
 // @public
 export interface GetWorkspaceResponseOutput {
     id: string;
@@ -709,18 +686,6 @@ export interface ListConnectionsQueryParamProperties {
 // @public
 export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
-}
-
-// @public (undocumented)
-export type ListEvaluationParameters = ListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export type ListEvaluationScheduleParameters = ListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListQueryParam {
-    // (undocumented)
-    queryParameters?: ListQueryParamProperties;
 }
 
 // @public
@@ -1705,11 +1670,6 @@ export interface UpdateAgentThreadOptions {
     tool_resources?: ToolResources | null;
 }
 
-// @public (undocumented)
-export interface UpdateBodyParam {
-    body: EvaluationResourceMergeAndPatch;
-}
-
 // @public
 export interface UpdateCodeInterpreterToolResourceOptions {
     file_ids?: string[];
@@ -1719,9 +1679,6 @@ export interface UpdateCodeInterpreterToolResourceOptions {
 export interface UpdateCodeInterpreterToolResourceOptionsOutput {
     file_ids?: string[];
 }
-
-// @public (undocumented)
-export type UpdateEvaluationParameters = UpdateBodyParam & RequestParameters;
 
 // @public
 export interface UpdateFileSearchToolResourceOptions {
