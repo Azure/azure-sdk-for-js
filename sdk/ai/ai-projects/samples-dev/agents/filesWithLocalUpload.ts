@@ -15,6 +15,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import * as fs from "fs";
 import path from "node:path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+console.log(__filename);
+const __dirname = path.dirname(__filename);
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
@@ -22,7 +27,7 @@ export async function main(): Promise<void> {
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
     // Upload local file
-    const filePath = path.resolve(__dirname, "./data/myLocalFile.txt");
+    const filePath = path.resolve(__dirname, "../data/localFile.txt");
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile.txt");
 

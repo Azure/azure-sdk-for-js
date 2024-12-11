@@ -14,6 +14,11 @@ dotenv.config();
 import * as fs from "fs";
 import { delay } from "@azure/core-util";
 import path from "node:path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+console.log(__filename);
+const __dirname = path.dirname(__filename);
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
@@ -21,7 +26,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
+  const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", "localFile");
 
@@ -84,7 +89,7 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
   console.log(`Image file ID : ${imageFile}`);
-  const imageFileName = "./data/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png";
+  const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png");
 
   const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
   if (fileContent) {

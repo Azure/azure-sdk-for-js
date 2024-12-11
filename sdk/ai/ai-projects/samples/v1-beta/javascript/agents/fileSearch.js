@@ -15,6 +15,11 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 dotenv.config();
 const path = require("node:path");
+const { fileURLToPath } = require("url");
+
+const __filename = fileURLToPath(import.meta.url);
+console.log(__filename);
+const __dirname = path.dirname(__filename);
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
@@ -27,7 +32,7 @@ async function main() {
   );
 
   // Upload file
-  const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
+  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(
     localFileStream,
