@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { PerfTest, PerfOptionDictionary } from "../src/index.js";
-import { describe, it, assert } from "vitest";
 
 /**
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods

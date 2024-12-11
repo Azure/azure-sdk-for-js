@@ -10,7 +10,6 @@ import {
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { randomUUID } from "@azure/core-util";
-import { describe, it, assert } from "vitest";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");

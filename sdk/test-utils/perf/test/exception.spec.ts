@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { PerfTest } from "../src/index.js";
-import { describe, it, assert } from "vitest";
 
 /**
  * Exception is designed to test the response speed of the Perf test framework

@@ -3,7 +3,6 @@
 
 import { PerfTest, PerfOptionDictionary } from "../src/index.js";
 import { delay } from "@azure/core-util";
-import { describe, it, assert } from "vitest";
 
 interface SleepOptions {
   "initial-delay-ms": number;

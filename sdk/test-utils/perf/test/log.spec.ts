@@ -3,7 +3,6 @@
 
 import { PerfTest } from "../src/index.js";
 import { delay } from "@azure/core-util";
-import { describe, it, assert } from "vitest";
 
 /**
  * Used for logging every step and property of the perf test

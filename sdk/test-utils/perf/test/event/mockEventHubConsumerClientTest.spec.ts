@@ -8,7 +8,6 @@ import {
   Event,
   SubscribeOptions,
 } from "./mockEventHubConsumerClient.js";
-import { describe, it, assert } from "vitest";
 
 export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptions> {
   public client: MockEventHubConsumerClient;
