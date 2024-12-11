@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2024-09-30)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh @azure-rest/purview-administration sdk
 
 ## 1.0.0-beta.1 (2021-10-15)
 
