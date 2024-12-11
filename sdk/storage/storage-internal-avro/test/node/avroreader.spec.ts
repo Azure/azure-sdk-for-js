@@ -5,7 +5,7 @@ import * as fs from "node:fs";
 import { AvroReadableFromStream, AvroReader } from "../../src/index.js";
 import { Readable } from "node:stream";
 import { arraysEqual } from "../../src/utils/utils.common.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 type Action = (o: Record<string, any> | null) => void;
 class TestCase {
