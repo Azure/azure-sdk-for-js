@@ -3,10 +3,8 @@
 Use the AI Projects client library (in preview) to:
 
 - **Enumerate connections** in your Azure AI Studio project and get connection properties.
-For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
-<!-- - **Get an authenticated Inference client** to do chat completions, for the default Azure OpenAI or AI Services connections in your Azure AI Studio project. Supports the AzureOpenAI client from the `openai` package, or clients from the `azure-ai-inference` package. -->
+  For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
-<!-- - **Run Evaluations** to assess the performance of generative AI applications using various evaluators and metrics. It includes built-in evaluators for quality, risk, and safety, and allows custom evaluators for specific needs. -->
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
@@ -28,8 +26,6 @@ For example, get the inference endpoint URL and credentials associated with your
     - [Get properties of all connections of a particular type](#get-properties-of-all-connections-of-a-particular-type)
     - [Get properties of a default connection](#get-properties-of-a-default-connection)
     - [Get properties of a connection by its connection name](#get-properties-of-a-connection-by-its-connection-name)
-      <!-- - [Get an authenticated ChatCompletionsClient](#get-an-authenticated-chatcompletionsclient) -->
-      <!-- - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client) -->
   - [Agents (Preview)](#agents-private-preview)
     - [Create an Agent](#create-agent) with:
       - [File Search](#create-agent-with-file-search)
@@ -47,19 +43,11 @@ For example, get the inference endpoint URL and credentials associated with your
     - [Retrieve file](#retrieve-file)
     - [Tear down by deleting resource](#teardown)
     - [Tracing](#tracing)
-    <!-- - [Evaluation](#evaluation)
-    - [Evaluator](#evaluator)
-    - [Run Evaluation in the cloud](#run-evaluation-in-the-cloud)
-      - [Evaluators](#evaluators)
-      - [Data to be evaluated](#data-to-be-evaluated)
-        - [[Optional] Azure OpenAI Model](#optional-azure-openai-model)
-        - [Example Remote Evaluation](#example-remote-evaluation) -->
   - [Tracing](#tracing)
     - [Installation](#installation)
     - [Tracing example](#tracing-example)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
-  <!-- - [Logging](#logging) -->
   - [Reporting issues](#reporting-issues)
 - [Next steps](#next-steps)
 - [Contributing](#contributing)
@@ -150,65 +138,6 @@ To get the connection properties with its authentication credentials:
 const connection = await client.connections.getConnectionWithSecrets("connectionName");
 print(connection);
 ```
-
-<!-- TODO: Revisit w/ inference
-### Get an authenticated ChatCompletionsClient
-
-Your Azure AI Studio project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an already authenticated [ChatCompletionsClient](https://learn.microsoft.com/python/api/azure-ai-inference/azure.ai.inference.chatcompletionsclient?view=azure-python-preview) from the [azure-ai-inference](https://pypi.org/project/azure-ai-inference/) package, and execute a chat completions call.
-
-First, install the package:
-
-```bash
-pip install azure-ai-inference
-```
-
-Then run this code (replace "gpt-4o" with your model deployment name):
-
-```python
-inference_client = project_client.inference.get_chat_completions_client()
-
-response = inference_client.complete(
-    model="gpt-4o", # Model deployment name
-    messages=[UserMessage(content="How many feet are in a mile?")]
-)
-
-print(response.choices[0].message.content)
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples, including getting an authenticated [EmbeddingsClient](https://learn.microsoft.com/python/api/azure-ai-inference/azure.ai.inference.embeddingsclient?view=azure-python-preview).
--->
-
-<!-- TODO: Revisit w/ inference
-### Get an authenticated AzureOpenAI client
-
-Your Azure AI Studio project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an already authenticated [AzureOpenAI](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://www.npmjs.com/package/openai/) package, and execute a chat completions call.
-
-First, install the package:
-
-```bash
-npm install openai
-```
-
-Then run the code below. Replace `gpt-4o` with your model deployment name, and update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-services/openai/reference#api-specs).
-
-```python
-aoai_client = project_client.inference.get_azure_openai_client(api_version="2024-06-01")
-
-response = aoai_client.chat.completions.create(
-    model="gpt-4o", # Model deployment name
-    messages=[
-        {
-            "role": "user",
-            "content": "How many feet are in a mile?",
-        },
-    ],
-)
-
-print(response.choices[0].message.content)
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples.
--->
 
 ### Agents (Preview)
 
@@ -362,8 +291,6 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 #### Create Agent with Function Call
 
 You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `tool_resources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
-
-For more details about calling functions by code, refer to [`sample_agents_stream_eventhandler_with_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_stream_eventhandler_with_functions.py)<!-- TODO: Update sample/link --> and [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_functions.py)<!-- TODO: Update sample/link -->.
 
 Here is an example:
 
@@ -549,7 +476,7 @@ console.log(`Created message, message ID: ${message.id}`);
 
 #### Create Run, Run_and_Process, or Stream
 
-To process your message, you can use `createRun`, `createAndProcessRun`, or `createRunStreaming`.
+To process your message, you can use `createRun` or `createAndProcessRun`.
 
 `createRun` requests the Agent to process the message without polling for the result. If you are using `function tools`, your code is responsible for polling for the result and acknowledging the status of `Run`. When the status is `requires_action`, your code is responsible for calling the function tools. For a code sample, visit [`sample_agents_functions.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agents_functions.py). <!-- TODO: Update sample/link -->
 
@@ -583,7 +510,7 @@ With streaming, polling also need not be considered.
 Here is an example:
 
 ```javascript
-const streamEventMessages = await client.agents.createRunStreaming(thread.id, agent.id);
+const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 ```
 
 Event handling can be done as follows:
@@ -678,121 +605,6 @@ project_client.agents.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 
-<!-- TODO: Revisit w/ evaluation
-### Evaluation
-
-Evaluation in Azure AI Project client library is designed to assess the performance of generative AI applications in the cloud. The output of Generative AI application is quantitively measured with mathematical based metrics, AI-assisted quality and safety metrics. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive insights into the application's capabilities and limitations.
-
-#### Evaluator
-
-Evaluators are custom or prebuilt classes or functions that are designed to measure the quality of the outputs from language models or generative AI applications.
-
-Evaluators are made available via [azure-ai-evaluation][azure_ai_evaluation] SDK for local experience and also in [Evaluator Library][evaluator_library] in Azure AI Studio for using them in the cloud.
-
-More details on built-in and custom evaluators can be found [here][evaluators].
-
-#### Run Evaluation in the cloud
-
-To run evaluation in the cloud the following are needed:
-
-- Evaluators
-- Data to be evaluated
-- [Optional] Azure Open AI model.
-
-##### Evaluators
-
-For running evaluator in the cloud, evaluator `ID` is needed. To get it via code you use [azure-ai-evaluation][azure_ai_evaluation]
-
-```python
-# pip install azure-ai-evaluation
-
-from azure.ai.evaluation import RelevanceEvaluator
-
-evaluator_id = RelevanceEvaluator.id
-```
-
-##### Data to be evaluated
-
-Evaluation in the cloud supports data in form of `jsonl` file. Data can be uploaded via the helper method `upload_file` on the project client.
-
-```python
-# Upload data for evaluation and get dataset id
-data_id, _ = project_client.upload_file("<data_file.jsonl>")
-```
-
-##### [Optional] Azure OpenAI Model
-
-Azure AI Studio project comes with a default Azure Open AI endpoint which can be easily accessed using following code. This gives you the endpoint details for you Azure OpenAI endpoint. Some of the evaluators need model that supports chat completion.
-
-```python
-default_connection = project_client.connections.get_default(connection_type=ConnectionType.AZURE_OPEN_AI)
-```
-
-##### Example Remote Evaluation
-
-```python
-import os
-from azure.ai.projects import AIProjectClient
-from azure.identity import DefaultAzureCredential
-from azure.ai.projects.models import Evaluation, Dataset, EvaluatorConfiguration, ConnectionType
-from azure.ai.evaluation import F1ScoreEvaluator, RelevanceEvaluator, HateUnfairnessEvaluator
-
-
-# Create project client
-project_client = AIProjectClient.from_connection_string(
-    credential=DefaultAzureCredential(),
-    conn_str=os.environ["PROJECT_CONNECTION_STRING"],
-)
-
-# Upload data for evaluation and get dataset id
-data_id, _ = project_client.upload_file("<data_file.jsonl>")
-
-deployment_name = "<deployment_name>"
-api_version = "<api_version>"
-
-# Create an evaluation
-evaluation = Evaluation(
-    display_name="Remote Evaluation",
-    description="Evaluation of dataset",
-    data=Dataset(id=data_id),
-    evaluators={
-        "f1_score": EvaluatorConfiguration(
-            id=F1ScoreEvaluator.id,
-        ),
-        "relevance": EvaluatorConfiguration(
-            id=RelevanceEvaluator.id,
-            init_params={
-                "model_config": default_connection.to_evaluator_model_config(
-                    deployment_name=deployment_name, api_version=api_version
-                )
-            },
-        ),
-        "violence": EvaluatorConfiguration(
-            id=ViolenceEvaluator.id,
-            init_params={"azure_ai_project": project_client.scope},
-        ),
-    },
-)
-
-
-evaluation_response = project_client.evaluations.create(
-    evaluation=evaluation,
-)
-
-# Get evaluation
-get_evaluation_response = project_client.evaluations.get(evaluation_response.id)
-
-print("----------------------------------------------------------------")
-print("Created evaluation, evaluation ID: ", get_evaluation_response.id)
-print("Evaluation status: ", get_evaluation_response.status)
-if isinstance(get_evaluation_response.properties, dict):
-    print("AI Studio URI: ", get_evaluation_response.properties["AiStudioEvaluationUri"])
-print("----------------------------------------------------------------")
-```
-
-NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evaluation SDK][evaluators].
--->
-
 ### Tracing
 
 You can add an Application Insights Azure resource to your Azure AI Studio project. See the Tracing tab in your studio. If one was enabled, you can get the Application Insights connection string, configure your Agents, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create an Agent.
@@ -800,8 +612,6 @@ You can add an Application Insights Azure resource to your Azure AI Studio proje
 #### Installation
 
 Make sure to install OpenTelemetry and the Azure SDK tracing plugin via
-
-<!-- TODO: review dependencies -->
 
 ```bash
 npm install @opentelemetry/api \
@@ -813,16 +623,12 @@ npm install @opentelemetry/api \
 
 You will also need an exporter to send telemetry to your observability backend. You can print traces to the console or use a local viewer such as [Aspire Dashboard](https://learn.microsoft.com/dotnet/aspire/fundamentals/dashboard/standalone?tabs=bash).
 
-<!-- TODO: Update this (?) -->
-
 To connect to Aspire Dashboard or another OpenTelemetry compatible backend, install OTLP exporter:
 
 ```bash
 npm install @opentelemetry/exporter-trace-otlp-proto \
   @opentelemetry/exporter-metrics-otlp-proto
 ```
-
-<!-- TODO: review/revise tracing example -->
 
 #### Tracing example
 
@@ -869,18 +675,17 @@ await tracer.startActiveSpan("main", async (span) => {
 
 Client methods that make service calls raise an [RestError](https://learn.microsoft.com/en-us/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
-<!-- TODO: Update -->
-
-```python
-from azure.core.exceptions import HttpResponseError
+```javascript
+import { RestError } from "@azure/core-rest-pipeline"
 
 ...
 
-try:
-    result = project_client.connections.list()
-except HttpResponseError as e:
-    print(f"Status code: {e.status_code} ({e.reason})")
-    print(e.message)
+try {
+  const result = await client.connections.listConnections();
+} catch (e as RestError) {
+  console.log(`Status code: ${e.code}`);
+  console.log(e.message);
+}
 ```
 
 For example, when you provide wrong credentials:
@@ -889,50 +694,6 @@ For example, when you provide wrong credentials:
 Status code: 401 (Unauthorized)
 Operation returned an invalid status 'Unauthorized'
 ```
-
-<!-- TODO: Revisit w/ logging sample
-### Logging
-
-The client uses the standard [Python logging library](https://docs.python.org/3/library/logging.html). The SDK logs HTTP request and response details, which may be useful in troubleshooting. To log to stdout, add the following:
-
-```python
-import sys
-import logging
-
-# Acquire the logger for this client library. Use 'azure' to affect both
-# 'azure.core` and `azure.ai.inference' libraries.
-logger = logging.getLogger("azure")
-
-# Set the desired logging level. logging.INFO or logging.DEBUG are good options.
-logger.setLevel(logging.DEBUG)
-
-# Direct logging output to stdout:
-handler = logging.StreamHandler(stream=sys.stdout)
-# Or direct logging output to a file:
-# handler = logging.FileHandler(filename="sample.log")
-logger.addHandler(handler)
-
-# Optional: change the default logging format. Here we add a timestamp.
-#formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s")
-#handler.setFormatter(formatter)
-```
-
-By default logs redact the values of URL query strings, the values of some HTTP request and response headers (including `Authorization` which holds the key or token), and the request and response payloads. To create logs without redaction, add `logging_enable = True` to the client constructor:
-
-```python
-project_client = AIProjectClient.from_connection_string(
-    credential=DefaultAzureCredential(),
-    conn_str=os.environ["PROJECT_CONNECTION_STRING"],
-    logging_enable = True
-)
-```
-
-Note that the log level must be set to `logging.DEBUG` (see above code). Logs will be redacted with any other log level.
-
-Be sure to protect non redacted logs to avoid compromising security.
-
-For more information, see [Configure logging in the Azure libraries for Python](https://aka.ms/azsdk/python/logging)
--->
 
 ### Reporting issues
 
@@ -961,12 +722,11 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: TODO <!-- TODO: Update link -->
+[samples]: <!-- TODO: Update link -->
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
-[azure_ai_evaluation]: TODO <!-- TODO: Revisit w/ evaluation -->
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
