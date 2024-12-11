@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getFleetsOperations, FleetsOperations } from "./classic/fleets/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  getFleetsOperations,
+  FleetsOperations,
+} from "./classic/fleets/index.js";
 import {
   createAzureFleet,
   AzureFleetContext,
@@ -26,7 +32,7 @@ export class AzureFleetClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createAzureFleet(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
