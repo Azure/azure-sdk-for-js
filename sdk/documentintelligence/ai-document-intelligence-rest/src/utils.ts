@@ -5,17 +5,17 @@ import { RestError } from "@azure/core-rest-pipeline";
 
 export function streamToUint8Array(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
   return new Promise<Uint8Array>((resolve, reject) => {
-    const buffer: Buffer[] = [];
+    const chunks: Buffer[] = [];
 
     stream.on("data", (chunk) => {
       if (Buffer.isBuffer(chunk)) {
-        buffer.push(chunk);
+        chunks.push(chunk);
       } else {
-        buffer.push(Buffer.from(chunk));
+        chunks.push(Buffer.from(chunk));
       }
     });
     stream.on("end", () => {
-      resolve(new Uint8Array(Buffer.concat(buffer)));
+      resolve(new Uint8Array(Buffer.concat(chunks)));
     });
     stream.on("error", (e) => {
       if (e && e?.name === "AbortError") {

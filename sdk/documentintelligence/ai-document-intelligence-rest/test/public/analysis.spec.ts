@@ -23,7 +23,7 @@ import type {
   DocumentModelDetailsOutput,
   DocumentTableOutput,
 } from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, streamToUint8Array } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -1081,8 +1081,8 @@ describe("DocumentIntelligenceClient", () => {
         throw new Error("The response was unexpected.");
       }
 
-      const image = fs.readFileSync(path.join(ASSET_PATH, "1.1.png"));
-      assert.deepEqual(output.body, new Uint8Array(image));
+      const image = fs.readFileSync(path.join(ASSET_PATH, "output", "1.1.png"));
+      assert.deepEqual(await streamToUint8Array(output.body as unknown as NodeJS.ReadableStream), new Uint8Array(image));
     });
   });
 });
