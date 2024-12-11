@@ -1082,7 +1082,10 @@ describe("DocumentIntelligenceClient", () => {
       }
 
       const image = fs.readFileSync(path.join(ASSET_PATH, "output", "1.1.png"));
-      assert.deepEqual(await streamToUint8Array(output.body as unknown as NodeJS.ReadableStream), new Uint8Array(image));
+      assert.deepEqual(
+        await streamToUint8Array(output.body as unknown as NodeJS.ReadableStream),
+        new Uint8Array(image),
+      );
     });
   });
 });
