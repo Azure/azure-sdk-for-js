@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import SystemEventsClient from "./systemEventsClient";
+import SystemEventsClient from "./systemEventsClient.js";
 
-export * from "./systemEventsClient";
+export * from "./systemEventsClient.js";
 // export * from "./parameters";
 // export * from "./responses";
-export * from "./clientDefinitions";
+export * from "./clientDefinitions.js";
 
 export default SystemEventsClient;

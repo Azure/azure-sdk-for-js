@@ -2,20 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * @summary Displays the critical results of the Radiology Insights request.
  */
 import { DefaultAzureCredential, logger } from "@azure/identity";
-import * as dotenv from "dotenv";
-
+import "dotenv/config";
+import type { CreateJobParameters, RadiologyInsightsJobOutput } from "../src/index.js";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
   getLongRunningPoller,
-  isUnexpected
-} from "../src";
-
-dotenv.config();
+  isUnexpected,
+} from "../src/index.js";
 
 // You will need to set this environment variables or edit the following values
 
@@ -23,14 +19,14 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
 
 /**
-    * Print the critical result inference
+ * Print the critical result inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
+      results.patientResults.forEach((patientResult: { inferences: any[] }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
             if (inference.kind === "criticalResult") {
@@ -52,15 +48,14 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
-
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    display: "US PELVIS COMPLETE",
   };
 
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
@@ -71,10 +66,10 @@ function createRequestBody(): CreateJobParameters {
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -84,12 +79,12 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "US PELVIS COMPLETE",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
@@ -129,15 +124,14 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
-
 
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -151,21 +145,22 @@ function createRequestBody(): CreateJobParameters {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -188,15 +183,14 @@ function createRequestBody(): CreateJobParameters {
   return {
     body: RadiologyInsightsJob,
   };
-
 }
 
-export async function main() {
-  //Create Managed Identity Credential
+export async function main(): Promise<void> {
+  // Create Managed Identity Credential
   const credential = new DefaultAzureCredential(
     clientID ? { managedIdentityClientId: clientID } : undefined,
   );
-  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
+  const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
   logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
 
   const client = AzureHealthInsightsClient(endpoint, credential);
@@ -206,12 +200,14 @@ export async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
-    headers: {
-      'Authorization': `Bearer ${tokenResponse?.token}`,
-      'Content-Type': 'application/json'
-    },
-  });
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter, {
+      headers: {
+        Authorization: `Bearer ${tokenResponse?.token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
   if (isUnexpected(initialResponse)) {
     throw initialResponse;

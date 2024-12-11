@@ -33,7 +33,8 @@ describe("instrumentation end-to-end tests", () => {
       assert.equal(inner.kind, SpanKind.CLIENT);
 
       // Check status
-      assert.deepEqual(coreRestPipeline.status, { code: SpanStatusCode.OK });
+      // https://github.com/Azure/azure-sdk-for-js/pull/32018 changed from OK to UNSET as per spec https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+      assert.deepEqual(coreRestPipeline.status, { code: SpanStatusCode.UNSET });
       assert.deepEqual(inner.status, { code: SpanStatusCode.OK });
       assert.deepEqual(outer.status, { code: SpanStatusCode.OK });
 

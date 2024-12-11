@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConfidentialLedgerClient } from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Colder endpoints", function () {
+describe("Colder endpoints", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should obtain constitution from ledger", async function () {
+  it("should obtain constitution from ledger", async () => {
     const result = await client.path("/app/governance/constitution").get();
 
     assert.equal(result.status, "200");
@@ -39,7 +38,7 @@ describe("Colder endpoints", function () {
     assert.typeOf(result.body.script, "string");
   });
 
-  it("should retrieve a list of consortium members", async function () {
+  it("should retrieve a list of consortium members", async () => {
     const result = await client.path("/app/governance/members").get();
 
     assert.equal(result.status, "200");
@@ -54,7 +53,7 @@ describe("Colder endpoints", function () {
     }
   });
 
-  it("should retrieve a list of enclave quotes", async function () {
+  it("should retrieve a list of enclave quotes", async () => {
     const result = await client.path("/app/enclaveQuotes").get();
 
     assert.equal(result.status, "200");

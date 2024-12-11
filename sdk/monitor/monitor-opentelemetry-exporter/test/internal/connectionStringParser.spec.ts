@@ -57,7 +57,7 @@ describe("ConnectionStringParser", () => {
       expectedInstrumentationKey?: string;
       expectedBreezeEndpoint: string;
       expectedLiveMetricsEndpoint: string;
-    }) => {
+    }): void => {
       const result = ConnectionStringParser.parse(options.connectionString);
 
       if (options.expectedAuthorization) {

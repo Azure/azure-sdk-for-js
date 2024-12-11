@@ -8,7 +8,7 @@ import type {
   CreateJob202Response,
   CreateJobLogicalResponse,
   CreateJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /oncophenotype/jobs/{jobId}": ["200"],

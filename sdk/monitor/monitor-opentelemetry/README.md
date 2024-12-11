@@ -259,6 +259,60 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
+#### Add Operation Name to Traces and Logs
+
+Use a custom span processor and log record processor in order to attach and correlate operation name from requests to dependencies and logs.
+
+```typescript
+import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
+import { Context, trace } from "@opentelemetry/api";
+
+class SpanEnrichingProcessor implements SpanProcessor {
+  forceFlush(): Promise<void> {
+    return Promise.resolve();
+  }
+  shutdown(): Promise<void> {
+    return Promise.resolve();
+  }
+  onStart(_span: Span, _context: Context): void {
+    const parentSpan = trace.getSpan(_context);
+    if (parentSpan && "name" in parentSpan) {
+        // If the parent span has a name we can assume it is a ReadableSpan and cast it.
+        _span.attributes[AI_OPERATION_NAME] = (parentSpan as unknown as ReadableSpan).name
+    }
+  }
+  onEnd(span: ReadableSpan) {}
+}
+
+class LogRecordEnrichingProcessor implements LogRecordProcessor {
+  forceFlush(): Promise<void> {
+    return Promise.resolve();
+  }
+  shutdown(): Promise<void> {
+    return Promise.resolve();
+  }
+  onEmit(_logRecord, _context): void {
+    const parentSpan = trace.getSpan(_context);
+    if (parentSpan && "name" in parentSpan) {
+        // If the parent span has a name we can assume it is a ReadableSpan and cast it.
+        _logRecord.attributes[AI_OPERATION_NAME] = (parentSpan as unknown as ReadableSpan).name;
+    }
+  }
+}
+
+// Enable Azure Monitor integration.
+const options: AzureMonitorOpenTelemetryOptions = {
+    // Add the SpanEnrichingProcessor
+    spanProcessors: [new SpanEnrichingProcessor()],
+    logRecordProcessors: [new LogRecordEnrichingProcessor()]
+}
+useAzureMonitor(options);
+```
+
 ### Filter telemetry
 
 You might use the following ways to filter out telemetry before it leaves your application.

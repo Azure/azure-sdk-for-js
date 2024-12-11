@@ -19,7 +19,7 @@ import {
   CopyAuthorization as CopyAuthorizationMapper,
   BuildDocumentClassifierRequest as BuildDocumentClassifierRequestMapper,
   ClassifyDocumentRequest as ClassifyDocumentRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: "contentType",

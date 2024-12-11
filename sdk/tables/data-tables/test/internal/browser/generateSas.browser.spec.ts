@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureNamedKeyCredential, generateTableSas } from "../../../src";
-
-import { assert } from "chai";
+import { AzureNamedKeyCredential, generateTableSas } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 // This file is empty as sas generation is not supported in browsers
 describe("generateSas Browser", function () {

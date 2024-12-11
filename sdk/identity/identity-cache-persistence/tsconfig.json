@@ -1,14 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "target": "es6",
-    "lib": ["DOM"],
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/identity-cache-persistence": ["./src/index"]
-    }
-  },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }

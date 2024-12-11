@@ -1,13 +1,12 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  { ignores: ["src/ws.browser.js"] },
-  ...azsdkEslint.configs.recommended,
+export default azsdkEslint.config([
   {
-    rules: {
-      "no-return-await": "off",
-      "no-empty": "off",
-      "no-constant-condition": "off",
+    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.test.json"],
+      },
     },
   },
-];
+]);
