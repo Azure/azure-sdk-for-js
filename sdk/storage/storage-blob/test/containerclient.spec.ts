@@ -14,7 +14,7 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
