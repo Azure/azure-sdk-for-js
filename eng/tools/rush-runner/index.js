@@ -46,10 +46,11 @@ const parseArgs = () => {
     } else {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
-        arg.split(" ").forEach((serviceDirectory) => services.push(serviceDirectory));
+        services.push(...arg.split(" "));
       }
     }
   }
+
   return { baseDir, action, services, flags, artifactNames };
 };
 
@@ -96,7 +97,7 @@ function rushRunAll(direction, packages) {
 /**
  * Helper function to invoke the rush logic split up by direction.
  *
- * @param {string[]} packagesWithDirection - Any array of strings containing ["direction packageName"...]
+ * @param {string[][]} packagesWithDirection - Any array of strings containing ["direction packageName"...]
  */
 function rushRunAllWithDirection(packagesWithDirection) {
   const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [
@@ -134,12 +135,17 @@ function tryGetPkgRelativePath(absolutePath) {
     : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
-const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
-if (isReducedTestScopeEnabled) {
-  // If a service is configured to have reduced test matrix then run rush for those reduced projects
-  console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
-  packageNames.push(...reducedDependencyTestMatrix[serviceDirs]);
+let isReducedTestScopeEnabled = false;
+
+for (const dir of serviceDirs) {
+  if (reducedDependencyTestMatrix[dir]) {
+    isReducedTestScopeEnabled = true;
+    // If a service is configured to have reduced test matrix then run rush for those reduced projects
+    console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
+    packageNames.push(...reducedDependencyTestMatrix[dir]);
+  }
 }
+
 const packagesWithDirection = getDirectionMappedPackages(packageNames, actionComponents);
 const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 let exitCode = 0;
