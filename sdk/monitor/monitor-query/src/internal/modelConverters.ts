@@ -273,7 +273,6 @@ export function convertResponseForMetrics(
     return metricObject;
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
   const obj: Omit<MetricsQueryResult, "getMetricByName"> = {

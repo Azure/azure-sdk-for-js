@@ -125,7 +125,8 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "browser": "./dist/browser/index.js",
   "exports": {

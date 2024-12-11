@@ -191,7 +191,6 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(

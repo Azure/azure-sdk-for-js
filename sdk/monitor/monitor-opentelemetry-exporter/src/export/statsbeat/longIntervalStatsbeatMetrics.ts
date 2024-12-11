@@ -116,7 +116,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     };
   }
 
-  private async initialize() {
+  private async initialize(): Promise<void> {
     try {
       await this.getResourceProvider();
 
@@ -141,7 +141,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private getEnvironmentStatus(observableResult: BatchObservableResult) {
+  private getEnvironmentStatus(observableResult: BatchObservableResult): void {
     this.setFeatures();
     let attributes;
     if (this.instrumentation) {
@@ -163,7 +163,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private setFeatures() {
+  private setFeatures(): void {
     const statsbeatFeatures = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
     if (statsbeatFeatures) {
       try {
@@ -177,7 +177,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private attachCallback(observableResult: ObservableResult) {
+  private attachCallback(observableResult: ObservableResult): void {
     const attributes = { ...this.commonProperties, ...this.attachProperties };
     observableResult.observe(1, attributes);
   }

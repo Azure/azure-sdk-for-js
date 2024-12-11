@@ -231,7 +231,7 @@ export abstract class BaseSender {
   /**
    * Disable collection of statsbeat metrics after max failures
    */
-  private incrementStatsbeatFailure() {
+  private incrementStatsbeatFailure(): void {
     this.statsbeatFailureCount++;
     if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
       this.shutdownStatsbeat();
@@ -241,7 +241,7 @@ export abstract class BaseSender {
   /**
    * Shutdown statsbeat metrics
    */
-  private shutdownStatsbeat() {
+  private shutdownStatsbeat(): void {
     this.networkStatsbeatMetrics?.shutdown();
     this.longIntervalStatsbeatMetrics?.shutdown();
     this.networkStatsbeatMetrics = undefined;
