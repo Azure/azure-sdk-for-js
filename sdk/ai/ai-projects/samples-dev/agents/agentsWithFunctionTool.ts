@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 
 /**
- * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service using a synchronous client.
+ * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service.
  *
  * @summary demonstrates how to use basic agent operations using function tool.
  *

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to upload a file and poll for its status using a synchronous client.
+ * This sample demonstrates how to upload a file and poll for its status.
  *
  * @summary demonstrates how to upload a file and poll for its status.
  *
