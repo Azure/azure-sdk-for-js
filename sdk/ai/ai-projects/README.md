@@ -8,10 +8,10 @@ Use the AI Projects client library (in preview) to:
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-| [Samples][samples]
-| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
 
-<!-- | [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview) -->
+<!-- | [Samples][samples]
+| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
+| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview) -->
 
 ## Table of contents
 
@@ -60,7 +60,7 @@ Use the AI Projects client library (in preview) to:
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 - The project connection string. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
-- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
+- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/en-us/javascript/api/%40azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/%40azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
   - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
@@ -722,7 +722,7 @@ additional questions or comments.
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
-[azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
+[azure_identity_npm]: https://www.npmjs.com/package/%40azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
