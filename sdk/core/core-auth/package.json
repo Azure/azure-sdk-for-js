@@ -31,6 +31,7 @@
   "react-native": "./dist/react-native/index.js",
   "files": [
     "dist/",
+    "!dist/**/*.map",
     "README.md",
     "LICENSE"
   ],
