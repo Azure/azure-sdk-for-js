@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils/index.js";
+import {
+  recorderEnvSetup,
+  getBlobChangeFeedClient,
+  streamToString,
+  uriSanitizers,
+} from "./utils/index.js";
 import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.js";
 import { BlobChangeFeedClient } from "../src/index.js";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
@@ -16,7 +21,7 @@ import { toHttpHeadersLike } from "@azure/core-http-compat";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -175,9 +180,9 @@ describe("BlobChangeFeedClient", async () => {
 
   it("tracing", async () => {
     await expect(async (options) => {
-    const pageIter = changeFeedClient.listChanges(options);
-    await pageIter.next();
-}).toSupportTracing(["ChangeFeedFactory-create", "ChangeFeed-getChange"]);
+      const pageIter = changeFeedClient.listChanges(options);
+      await pageIter.next();
+    }).toSupportTracing(["ChangeFeedFactory-create", "ChangeFeed-getChange"]);
   });
 });
 
