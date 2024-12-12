@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { FarmBeatsClient } from "./clientDefinitions";
+import type { FarmBeatsClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `FarmBeatsClient`

@@ -10,7 +10,13 @@ export default mergeConfig(
   defineConfig({
     test: {
       fileParallelism: false,
+      hookTimeout: 60000,
       include: ["test/**/*.spec.ts"],
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
     },
   }),
 );

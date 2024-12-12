@@ -8,17 +8,10 @@ export default azsdkEslint.config([
     },
   },
   {
-    files: ["test/snippets.spec.ts"],
-    rules: {
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-    },
-  },
-  {
     files: ["**/*.ts", "**/*.cts", "**/*.mts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.tests.json"],
+        project: ["./tsconfig.test.json"],
       },
     },
   },

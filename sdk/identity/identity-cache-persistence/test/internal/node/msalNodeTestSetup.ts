@@ -189,22 +189,22 @@ export async function msalNodeTestSetup(
   } else {
     const stubbedToken = testContextOrStubbedToken;
 
-    const publicClientMethods: Array<keyof PublicClientApplication> = [
+    const publicClientMethods = [
       "acquireTokenByCode",
       "acquireTokenByDeviceCode",
       "acquireTokenByRefreshToken",
       "acquireTokenByUsernamePassword",
       "acquireTokenInteractive",
       "acquireTokenSilent",
-    ];
-    const confidentialClientMethods: Array<keyof ConfidentialClientApplication> = [
+    ] as const;
+    const confidentialClientMethods = [
       "acquireTokenByClientCredential",
       "acquireTokenByCode",
       "acquireTokenByRefreshToken",
       "acquireTokenByUsernamePassword",
       "acquireTokenOnBehalfOf",
       "acquireTokenSilent",
-    ];
+    ] as const;
 
     publicClientMethods.forEach((method) =>
       vi

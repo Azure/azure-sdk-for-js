@@ -49,7 +49,13 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
       })
     : [];
 
-  return [...configs.recommended, ...updated];
+  return [
+    ...configs.recommended,
+    ...updated,
+    {
+      ignores: ["**/test/snippets.spec.ts", "**/test/stress"],
+    },
+  ];
 }
 
 export = {
