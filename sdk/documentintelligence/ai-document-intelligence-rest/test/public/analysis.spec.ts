@@ -1077,7 +1077,6 @@ describe("DocumentIntelligenceClient", () => {
         .get();
 
       if (isUnexpected(output)) {
-        console.log(output);
         throw new Error("The response was unexpected.");
       }
 
