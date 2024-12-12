@@ -421,6 +421,8 @@ export function createMsalClient(
       state.logger.getToken.info(
         "No cached account found in local state.",
       );
+      console.log("No cached account found in local state.");
+      console.log("state.cachedAccount", state.cachedAccount);
       throw new AuthenticationRequiredError({ scopes });
     }
 
@@ -449,7 +451,18 @@ export function createMsalClient(
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);
+    try{
+      if(app instanceof msal.PublicClientApplication){
+        return app.ssoSilent(silentRequest);
+      else {
+        return app.acquireTokenSilent(silentRequest);        
+      }
+      
+    }
+    catch(e){
+      throw new AuthenticationRequiredError({scopes, message: (e as any).message});
+    }
+   
   }
 
   /**
