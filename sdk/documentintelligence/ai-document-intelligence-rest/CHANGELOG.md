@@ -1,5 +1,56 @@
 # Release History
 
+## 1.0.0 (Unreleased)
+
+### Features Added
+
+- Exports method `streamToUint8Array` to support converting a `NodeJS.ReadableStream` to a `Uint8Array`. This is necessary to read the pdf and png responses from the results of an analysis.
+  ```js
+  // Example for the figures api that provides an image output
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          },
+          queryParameters: { output: ["figures"] },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse);
+
+      const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+      const figures = result.analyzeResult?.figures;
+      assert.isArray(figures);
+      assert.isNotEmpty(figures?.[0]);
+      const figureId = figures?.[0].id;
+      if (!figureId) {
+        throw new Error("Expected a figure ID.");
+      }
+
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+          "prebuilt-layout",
+          poller.getOperationId(),
+          figureId,
+        )
+        .get()
+        .asNodeStream();
+
+      if (output.status !== "200" || !output.body) {
+        throw new Error("The response was unexpected.");
+      }
+  ```
+
 ## 1.0.0-beta.3 (2024-08-20)
 
 ### Features Added
