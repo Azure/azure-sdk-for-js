@@ -30,7 +30,9 @@ export class Shard {
   private currentChunk: Chunk | undefined;
 
   constructor(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     chunkFactory: ChunkFactory,
     chunks: string[],
     currentChunk: Chunk | undefined,

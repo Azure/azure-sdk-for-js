@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvroReadable } from "../../storage-internal-avro/src/index.js";
-import { AvroReader } from "../../storage-internal-avro/src/index.js";
+import type { AvroReadable } from "@azure/storage-internal-avro";
+import { AvroReader } from "@azure/storage-internal-avro";
 
 /**
  * Creates AvroReaders.  Allows us to inject mock AvroReaders in the Chunk unit tests.
@@ -18,6 +18,7 @@ export class AvroReaderFactory {
   ): AvroReader;
 
   public create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     blockOffset?: number,

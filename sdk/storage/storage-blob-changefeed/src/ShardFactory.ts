@@ -23,11 +23,13 @@ export interface CreateShardOptions extends CommonOptions {
 export class ShardFactory {
   private readonly chunkFactory: ChunkFactory;
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(chunkFactory: ChunkFactory) {
     this.chunkFactory = chunkFactory;
   }
 
   public async create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
     shardPath: string,
     shardCursor?: ShardCursor,

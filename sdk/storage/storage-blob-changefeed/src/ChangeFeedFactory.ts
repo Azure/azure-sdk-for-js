@@ -14,7 +14,7 @@ import {
   getHost,
   parseDateFromSegmentPath,
 } from "./utils/utils.common.js";
-import { bodyToString } from "./utils/utils.node.js";
+import { bodyToString } from "./utils/utils.js";
 import { SegmentFactory } from "./SegmentFactory.js";
 import { ShardFactory } from "./ShardFactory.js";
 import { ChunkFactory } from "./ChunkFactory.js";

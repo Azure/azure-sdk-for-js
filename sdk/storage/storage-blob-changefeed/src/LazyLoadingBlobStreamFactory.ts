@@ -7,6 +7,7 @@ import { LazyLoadingBlobStream } from "./LazyLoadingBlobStream.js";
 
 export class LazyLoadingBlobStreamFactory {
   public create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     blobClient: BlobClient,
     offset: number,
     blockSize: number,

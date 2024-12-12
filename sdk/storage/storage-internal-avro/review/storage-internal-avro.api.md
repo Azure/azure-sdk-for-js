@@ -6,12 +6,15 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 
+// @public
+export interface AvroParseOptions {
+    abortSignal?: AbortSignalLike;
+}
+
 // @public (undocumented)
 export abstract class AvroReadable {
     // (undocumented)
     abstract get position(): number;
-    // Warning: (ae-forgotten-export) The symbol "AvroReadableReadOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     abstract read(size: number, options?: AvroReadableReadOptions): Promise<Uint8Array>;
 }
@@ -25,6 +28,11 @@ export class AvroReadableFromStream extends AvroReadable {
     read(size: number, options?: AvroReadableReadOptions): Promise<Uint8Array>;
 }
 
+// @public
+export interface AvroReadableReadOptions {
+    abortSignal?: AbortSignalLike;
+}
+
 // @public (undocumented)
 export class AvroReader {
     constructor(dataStream: AvroReadable);
@@ -35,8 +43,6 @@ export class AvroReader {
     hasNext(): boolean;
     // (undocumented)
     get objectIndex(): number;
-    // Warning: (ae-forgotten-export) The symbol "AvroParseOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     parseObjects(options?: AvroParseOptions): AsyncIterableIterator<Record<string, any> | null>;
 }

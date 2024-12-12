@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { ShardFactory } from "../src/ShardFactory.js";
 import { ContainerClient } from "@azure/storage-blob";
 import { ChunkFactory } from "../src/ChunkFactory.js";
@@ -13,18 +14,43 @@ describe("Shard", async () => {
   let containerClientSub: any;
   let chunkStub: any;
 
-  async function* fakeListBlobsFlat(option: { prefix: string }) {
+  async function* fakeListBlobsFlat(option: { prefix: string }): AsyncGenerator<
+    {
+      name: string;
+    },
+    void,
+    unknown
+  > {
     for (let i = 0; i < 5; i++) {
       yield { name: `${option.prefix}0000${i}.avro` };
     }
   }
 
   beforeEach(() => {
-    chunkStub = sinon.createStubInstance(Chunk);
-    containerClientSub = sinon.createStubInstance(ContainerClient);
-    containerClientSub.listBlobsFlat.callsFake(fakeListBlobsFlat);
-    chunkFactoryStub = sinon.createStubInstance(ChunkFactory);
-    chunkFactoryStub.create.returns(chunkStub);
+    vi.mock("@azure/storage-blob", async (importActual) => {
+      const imported = await importActual();
+      return {
+        ...(imported as any),
+        ContainerClient: vi.fn(),
+      };
+    });
+
+    vi.mock("../src/ChunkFactory.js", async (importActual) => {
+      const imported = await importActual();
+      return {
+        ...(imported as any),
+        ChunkFactory: vi.fn(),
+      };
+    });
+
+    chunkStub = vi.mocked(
+      new Chunk(expect.anything(), expect.anything(), expect.anything(), expect.anything()),
+      true,
+    );
+    containerClientSub = vi.mocked(new ContainerClient(expect.anything()), true);
+    containerClientSub.listBlobsFlat = vi.fn().mockImplementation(fakeListBlobsFlat);
+    chunkFactoryStub = vi.mocked(new ChunkFactory(expect.anything(), expect.anything()), true);
+    chunkFactoryStub.create = vi.fn().mockReturnValue(chunkStub);
   });
 
   afterEach(() => {
@@ -41,7 +67,7 @@ describe("Shard", async () => {
     };
 
     // build shard correctly
-    const shardPathWithoutContainer = shardPath.substr("$blobchangefeed/".length);
+    const shardPathWithoutContainer = shardPath.substring("$blobchangefeed/".length);
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
     const shard = await shardFactory.create(
       containerClientSub as any,
@@ -56,40 +82,44 @@ describe("Shard", async () => {
     );
 
     // shift to next chunk when currentChunk is done
-    chunkStub.hasNext.returns(false);
-    const nextChunkStub = sinon.createStubInstance(Chunk);
-    nextChunkStub.hasNext.returns(true);
+    chunkStub.hasNext = vi.fn().mockReturnValue(false);
+    const nextChunkStub = vi.mocked(
+      new Chunk(expect.anything(), expect.anything(), expect.anything(), expect.anything()),
+      true,
+    );
+    nextChunkStub.hasNext = vi.fn().mockReturnValue(true);
     const event = { id: "a" };
-    nextChunkStub.getChange.resolves(event as any);
+    nextChunkStub.getChange.mockResolvedValue(event as any);
     (nextChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 1}.avro`;
     chunkFactoryStub.create.returns(nextChunkStub);
 
     const change = await shard.getChange();
-    assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPathWithoutContainer}0000${chunkIndex + 1}.avro`,
-      ),
+    expect(chunkFactoryStub.create).toBeCalledWith(
+      containerClientSub,
+      `${shardPathWithoutContainer}0000${chunkIndex + 1}.avro`,
     );
+
     assert.deepStrictEqual(change, event as BlobChangeFeedEvent);
     const cursor2 = shard.getCursor();
     assert.deepStrictEqual(cursor2?.CurrentChunkPath, nextChunkStub.chunkPath);
 
     // chunks used up
-    nextChunkStub.hasNext.returns(false);
-    nextChunkStub.getChange.resolves(undefined);
-    const lastChunkStub = sinon.createStubInstance(Chunk);
-    lastChunkStub.hasNext.returns(false);
+    nextChunkStub.hasNext = vi.fn().mockReturnValue(false);
+    nextChunkStub.getChange = vi.fn().mockResolvedValue(undefined);
+    const lastChunkStub = vi.mocked(
+      new Chunk(expect.anything(), expect.anything(), expect.anything(), expect.anything()),
+      true,
+    );
+    lastChunkStub.hasNext.mockReturnValue(false);
     (lastChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 2}.avro`;
-    chunkFactoryStub.create.returns(lastChunkStub);
+    chunkFactoryStub.create = vi.fn().mockReturnValue(lastChunkStub);
 
     const change2 = await shard.getChange();
-    assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPathWithoutContainer}0000${chunkIndex + 2}.avro`,
-      ),
+    expect(chunkFactoryStub.create).toBeCalledWith(
+      containerClientSub,
+      `${shardPathWithoutContainer}0000${chunkIndex + 2}.avro`,
     );
+
     assert.equal(change2, undefined);
     const cursor3 = shard.getCursor();
     assert.deepStrictEqual(cursor3?.CurrentChunkPath, lastChunkStub.chunkPath);

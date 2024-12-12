@@ -4,8 +4,8 @@
 import type { AvroReaderFactory } from "./AvroReaderFactory.js";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk.js";
-import type { AvroReader } from "../../storage-internal-avro/src/index.js";
-import { streamToAvroReadable } from "./utils/utils.node.js";
+import type { AvroReader } from "@azure/storage-internal-avro";
+import { streamToAvroReadable } from "./utils/utils.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
 import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants.js";
@@ -27,7 +27,9 @@ export class ChunkFactory {
   private readonly maxTransferSize?: number;
 
   constructor(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     avroReaderFactory: AvroReaderFactory,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory,
     maxTransferSize?: number,
   ) {
@@ -37,6 +39,7 @@ export class ChunkFactory {
   }
 
   public async create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
     chunkPath: string,
     blockOffset?: number,
