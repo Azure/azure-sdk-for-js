@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext } from "../connectionContext.js";
-import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "../index.js";
-import {
+import type { ConnectionContext } from "../connectionContext.js";
+import type {
+  MessageHandlers,
+  ReceiveMessagesOptions,
+  ServiceBusReceivedMessage,
+} from "../index.js";
+import type {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
 } from "../models.js";
-import { MessageSession } from "../session/messageSession.js";
+import type { MessageSession } from "../session/messageSession.js";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -21,7 +25,7 @@ import {
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors.js";
-import { OnError, OnMessage } from "../core/messageReceiver.js";
+import type { OnError, OnMessage } from "../core/messageReceiver.js";
 import {
   abandonMessage,
   assertValidMessageHandlers,
@@ -31,23 +35,14 @@ import {
   getMessageIterator,
   wrapProcessErrorHandler,
 } from "./receiverCommon.js";
-import {
-  defaultMaxTimeAfterFirstMessageForBatchingMs,
-  MaxDeleteMessageCount,
-  ServiceBusReceiver,
-} from "./receiver.js";
-import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
-import {
-  Constants,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  ErrorNameConditionMapper,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
-import { AmqpError } from "rhea-promise";
+import type { ServiceBusReceiver } from "./receiver.js";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, MaxDeleteMessageCount } from "./receiver.js";
+import type Long from "long";
+import type { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { Constants, RetryOperationType, retry, ErrorNameConditionMapper } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AmqpError } from "rhea-promise";
 import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
 import { tracingClient } from "../diagnostics/tracing.js";
 import { receiverLogger as logger } from "../log.js";
@@ -337,15 +332,19 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       skipParsingBodyAsJson: this._skipParsingBodyAsJson,
       skipConvertingDate: this._skipConvertingDate,
     };
+    // omitMessageBody is available at runtime, but only exported in experimental subpath
+    const { fromSequenceNumber, omitMessageBody } = options as PeekMessagesOptions & {
+      omitMessageBody: boolean;
+    };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber !== undefined) {
+      if (fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            options.fromSequenceNumber,
+            fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       } else {
@@ -354,7 +353,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           .peekMessagesBySession(
             this.sessionId,
             maxMessageCount,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       }

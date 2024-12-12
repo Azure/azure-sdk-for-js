@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
-import {
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { delay } from "@azure/core-amqp";
+import type {
   EventData,
   EventDataBatch,
   EventHubBufferedProducerClientOptions,
   EventHubProducerClient,
   OperationOptions,
 } from "./index.js";
-import { isDefined, isObjectWithProperties, AbortOptions } from "@azure/core-util";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortOptions } from "@azure/core-util";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue.js";
 import { getPromiseParts } from "./util/getPromiseParts.js";
 import { logger } from "./logger.js";

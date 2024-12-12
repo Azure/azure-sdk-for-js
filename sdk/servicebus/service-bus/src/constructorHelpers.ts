@@ -1,26 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ConnectionConfig,
-  createSasTokenProvider,
-  RetryOptions,
-  SasTokenProvider,
-  WebSocketOptions,
-} from "@azure/core-amqp";
-import {
-  isNamedKeyCredential,
-  isSASCredential,
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { RetryOptions, SasTokenProvider, WebSocketOptions } from "@azure/core-amqp";
+import { ConnectionConfig, createSasTokenProvider } from "@azure/core-amqp";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext.js";
-import { UserAgentPolicyOptions } from "@azure/core-rest-pipeline";
-import {
-  parseServiceBusConnectionString,
-  ServiceBusConnectionStringProperties,
-} from "./util/connectionStringUtils.js";
+import type { UserAgentPolicyOptions } from "@azure/core-rest-pipeline";
+import type { ServiceBusConnectionStringProperties } from "./util/connectionStringUtils.js";
+import { parseServiceBusConnectionString } from "./util/connectionStringUtils.js";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.

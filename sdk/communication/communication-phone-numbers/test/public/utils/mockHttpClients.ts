@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   HttpHeaders,
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { PurchasedPhoneNumber } from "../../../src";
-import { PurchasedPhoneNumbers } from "../../../src/generated/src/models";
+import type { PurchasedPhoneNumber } from "../../../src/index.js";
+import type { PurchasedPhoneNumbers } from "../../../src/generated/src/models/index.js";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

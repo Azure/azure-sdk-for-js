@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Chunk } from "../src/Chunk";
 import * as sinon from "sinon";
 import { AvroReader } from "../../storage-internal-avro/src";
-import { BlobChangeFeedEvent } from "../src";
+import type { BlobChangeFeedEvent } from "../src";
 
 class FakeAvroReader {
   constructor(

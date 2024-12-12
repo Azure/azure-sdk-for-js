@@ -5,14 +5,15 @@
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
-import { JsonWebKey } from "../generated/models";
-import { base64UrlDecodeString } from "../utils/base64";
-import { bytesToString } from "../utils/utf8";
-import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
+import type { JsonWebKey } from "../generated/models/index.js";
+import { base64UrlDecodeString } from "../utils/base64.js";
+import { bytesToString } from "../utils/utf8.js";
+import type { AttestationSigner } from "./attestationSigner.js";
+import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
-import * as Mappers from "../generated/models/mappers";
-import { TypeDeserializer } from "../utils/typeDeserializer";
-import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers";
+import * as Mappers from "../generated/models/mappers.js";
+import { TypeDeserializer } from "../utils/typeDeserializer.js";
+import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
 
 /**
  * Options used to validate attestation tokens.

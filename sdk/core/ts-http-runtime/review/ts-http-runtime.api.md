@@ -5,19 +5,8 @@
 ```ts
 
 // @public
-export type AbortablePromiseBuilder<T> = (abortOptions: {
-    abortSignal?: AbortSignalLike;
-}) => Promise<T>;
-
-// @public
 export class AbortError extends Error {
     constructor(message?: string);
-}
-
-// @public
-export interface AbortOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -30,22 +19,8 @@ export interface AbortSignalLike {
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
+    refreshAfterTimestamp?: number;
     token: string;
-}
-
-// @public
-export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
-
-// @public
-export interface AddCredentialPipelinePolicyOptions {
-    clientOptions?: ClientOptions;
-    credential?: TokenCredential | KeyCredential;
-}
-
-// @public
-export interface AddEventOptions {
-    attributes?: Record<string, unknown>;
-    startTime?: Date;
 }
 
 // @public
@@ -55,7 +30,7 @@ export interface AdditionalPolicyConfig {
 }
 
 // @public
-export interface AddPipelineOptions {
+export interface AddPolicyOptions {
     afterPhase?: PipelinePhase;
     afterPolicies?: string[];
     beforePolicies?: string[];
@@ -72,59 +47,9 @@ export interface Agent {
 }
 
 // @public
-export interface AuthorizeRequestOnChallengeOptions {
-    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    logger?: TypeSpecRuntimeLogger;
-    request: PipelineRequest;
-    response: PipelineResponse;
-    scopes: string[];
-}
-
-// @public
-export interface AuthorizeRequestOptions {
-    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    logger?: TypeSpecRuntimeLogger;
-    request: PipelineRequest;
-    scopes: string[];
-}
-
-// @public
-export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
-
-// @public
-export interface BearerTokenAuthenticationPolicyOptions {
-    challengeCallbacks?: ChallengeCallbacks;
-    credential?: TokenCredential;
-    logger?: TypeSpecRuntimeLogger;
-    scopes: string | string[];
-}
-
-// @public
 export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
-}
-
-// @public
-export function calculateRetryDelay(retryAttempt: number, config: {
-    retryDelayInMs: number;
-    maxRetryDelayInMs: number;
-}): {
-    retryAfterInMs: number;
-};
-
-// @public
-export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
-    abortSignal?: AbortSignalLike;
-}): Promise<T[number]>;
-
-// @public
-export interface ChallengeCallbacks {
-    authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
-    authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 }
 
 // @public
@@ -140,7 +65,6 @@ export type ClientOptions = PipelineOptions & {
         scopes?: string[];
         apiKeyHeaderName?: string;
     };
-    baseUrl?: string;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
@@ -150,48 +74,10 @@ export type ClientOptions = PipelineOptions & {
 };
 
 // @public
-export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
-
-// @public
-export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
-
-// @public
-export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
-
-// @public
-export interface CreateAbortablePromiseOptions extends AbortOptions {
-    cleanupBeforeAbort?: () => void;
-}
-
-// @public
-export function createDefaultHttpClient(): HttpClient;
-
-// @public
-export function createEmptyPipeline(): Pipeline;
-
-// @public
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
-
-// @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
-
-// @public
-export interface CreateFileFromStreamOptions extends CreateFileOptions {
-    size?: number;
-}
-
-// @public
-export interface CreateFileOptions {
-    lastModified?: number;
-    type?: string;
-    webkitRelativePath?: string;
-}
+export function createClientLogger(namespace: string): TypeSpecRuntimeLogger;
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
-
-// @public
-export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
@@ -201,9 +87,6 @@ export function createRestError(response: PathUncheckedResponse): RestError;
 
 // @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
-
-// @public
-export function createTracingClient(options: TracingClientOptions): TracingClient;
 
 // @public
 export interface Debugger {
@@ -216,53 +99,12 @@ export interface Debugger {
 }
 
 // @public
-export function decompressResponsePolicy(): PipelinePolicy;
-
-// @public
-export const decompressResponsePolicyName = "decompressResponsePolicy";
-
-// @public
-export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
-
-// @public
-export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
-}
-
-// @public
-export function delay(timeInMs: number, options?: DelayOptions_2): Promise<void>;
-
-// @public
-interface DelayOptions_2 extends AbortOptions {
-}
-export { DelayOptions_2 as DelayOptions }
-
-// @public
 export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
-
-// @public
-export interface ErrorModel {
-    code: string;
-    details: Array<ErrorModel>;
-    innererror?: InnerError;
-    message: string;
-    target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error: ErrorModel;
-}
 
 // @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
-
-// @public
-export function formDataPolicy(): PipelinePolicy;
-
-// @public
-export const formDataPolicyName = "formDataPolicy";
 
 // @public
 export type FormDataValue = string | Blob | File;
@@ -280,15 +122,6 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 // @public
 export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
-// @public @deprecated
-export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
-
-// @public
-export function getErrorMessage(e: unknown): string;
-
-// @public
-export function getRandomIntegerInclusive(min: number, max: number): number;
-
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
@@ -298,9 +131,6 @@ export interface GetTokenOptions {
         timeout?: number;
     };
     tenantId?: string;
-    tracingOptions?: {
-        tracingContext?: TracingContext;
-    };
 }
 
 // @public
@@ -341,75 +171,13 @@ export type HttpResponse = {
 };
 
 // @public
-export interface InnerError {
-    code: string;
-    innererror?: InnerError;
-}
-
-// @public
-export interface Instrumenter {
-    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
-    startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-}
-
-// @public
-export interface InstrumenterSpanOptions extends TracingSpanOptions {
-    packageName: string;
-    packageVersion?: string;
-    tracingContext?: TracingContext;
-}
-
-// @public
-export interface InternalPipelineOptions extends PipelineOptions {
-    loggingOptions?: LogPolicyOptions;
-}
-
-// @public
-export const isBrowser: boolean;
-
-// @public
-export const isBun: boolean;
-
-// @public
-export function isDefined<T>(thing: T | undefined | null): thing is T;
-
-// @public
-export const isDeno: boolean;
-
-// @public
-export function isError(e: unknown): e is Error;
-
-// @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
-
-// @public @deprecated
-export const isNode: boolean;
-
-// @public
-export const isNodeLike: boolean;
-
-// @public
-export const isNodeRuntime: boolean;
-
-// @public
-export function isObject(input: unknown): input is UnknownObject;
-
-// @public
-export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
-
-// @public
-export const isReactNative: boolean;
 
 // @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public
-export const isWebWorker: boolean;
+export function isTokenCredential(credential: unknown): credential is TokenCredential;
 
 // @public
 export interface KeyCredential {
@@ -423,23 +191,11 @@ export interface KeyObject {
 }
 
 // @public
-export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
-
-// @public
-export const logPolicyName = "logPolicy";
-
-// @public
 export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
-
-// @public
-export function multipartPolicy(): PipelinePolicy;
-
-// @public
-export const multipartPolicyName = "multipartPolicy";
 
 // @public
 export interface MultipartRequestBody {
@@ -448,14 +204,10 @@ export interface MultipartRequestBody {
 }
 
 // @public
-export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
-
-// @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
-    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -472,22 +224,8 @@ export interface OperationRequestOptions {
 }
 
 // @public
-export interface OperationTracingOptions {
-    tracingContext?: TracingContext;
-}
-
-// @public
-export type OptionsWithTracingContext<Options extends {
-    tracingOptions?: OperationTracingOptions;
-}> = Options & {
-    tracingOptions: {
-        tracingContext: TracingContext;
-    };
-};
-
-// @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string | PathParameterWithOptions,
+pathParameter: string | number | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
@@ -495,7 +233,7 @@ pathParameter: string | PathParameterWithOptions,
 // @public
 export interface PathParameterWithOptions {
     allowReserved?: boolean;
-    value: string;
+    value: string | number;
 }
 
 // @public
@@ -508,7 +246,7 @@ export type PathUncheckedResponse = HttpResponse & {
 
 // @public
 export interface Pipeline {
-    addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
+    addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
     clone(): Pipeline;
     getOrderedPolicies(): PipelinePolicy[];
     removePolicy(options: {
@@ -556,7 +294,6 @@ export interface PipelineRequest {
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
-    tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials: boolean;
 }
@@ -578,7 +315,6 @@ export interface PipelineRequestOptions {
     requestId?: string;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
-    tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;
 }
@@ -602,14 +338,6 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings, options?: {
-    customNoProxyList?: string[];
-}): PipelinePolicy;
-
-// @public
-export const proxyPolicyName = "proxyPolicy";
-
-// @public
 export interface ProxySettings {
     host: string;
     password?: string;
@@ -624,9 +352,6 @@ export interface PxfObject {
 }
 
 // @public
-export function randomUUID(): string;
-
-// @public
 export type RawHttpHeaders = {
     [headerName: string]: string;
 };
@@ -636,12 +361,6 @@ export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 
 // @public
 export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
-
-// @public
-export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
-
-// @public
-export const redirectPolicyName = "redirectPolicy";
 
 // @public
 export interface RedirectPolicyOptions {
@@ -665,14 +384,8 @@ export type RequestParameters = {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     abortSignal?: AbortSignalLike;
-    tracingOptions?: OperationTracingOptions;
     onResponse?: RawResponseCallback;
 };
-
-// @public
-export type Resolved<T> = T extends {
-    then(onfulfilled: infer F): any;
-} ? F extends (value: infer V) => any ? Resolved<V> : never : T;
 
 // @public
 export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
@@ -710,20 +423,6 @@ export interface RestErrorOptions {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
-export type SpanStatus = SpanStatusSuccess | SpanStatusError;
-
-// @public
-export type SpanStatusError = {
-    status: "error";
-    error?: Error | string;
-};
-
-// @public
-export type SpanStatusSuccess = {
-    status: "success";
-};
-
-// @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
@@ -738,12 +437,6 @@ export interface TelemetryOptions {
 }
 
 // @public
-export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy;
-
-// @public
-export const tlsPolicyName = "tlsPolicy";
-
-// @public
 export interface TlsSettings {
     ca?: string | Buffer | Array<string | Buffer> | undefined;
     cert?: string | Buffer | Array<string | Buffer> | undefined;
@@ -755,78 +448,6 @@ export interface TlsSettings {
 // @public
 export interface TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
-
-// @public
-export interface TracingClient {
-    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
-    startSpan<Options extends {
-        tracingOptions?: OperationTracingOptions;
-    }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
-        span: TracingSpan;
-        updatedOptions: OptionsWithTracingContext<Options>;
-    };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-    withSpan<Options extends {
-        tracingOptions?: OperationTracingOptions;
-    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<Resolved<ReturnType<Callback>>>;
-}
-
-// @public
-export interface TracingClientOptions {
-    namespace: string;
-    packageName: string;
-    packageVersion?: string;
-}
-
-// @public
-export interface TracingContext {
-    deleteValue(key: symbol): TracingContext;
-    getValue(key: symbol): unknown;
-    setValue(key: symbol, value: unknown): TracingContext;
-}
-
-// @public
-export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;
-
-// @public
-export const tracingPolicyName = "tracingPolicy";
-
-// @public
-export interface TracingPolicyOptions {
-    additionalAllowedQueryParameters?: string[];
-    userAgentPrefix?: string;
-}
-
-// @public
-export interface TracingSpan {
-    addEvent?(name: string, options?: AddEventOptions): void;
-    end(): void;
-    isRecording(): boolean;
-    recordException(exception: Error | string): void;
-    setAttribute(name: string, value: unknown): void;
-    setStatus(status: SpanStatus): void;
-}
-
-// @public
-export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
-
-// @public
-export interface TracingSpanLink {
-    attributes?: {
-        [key: string]: unknown;
-    };
-    tracingContext: TracingContext;
-}
-
-// @public
-export interface TracingSpanOptions {
-    spanAttributes?: {
-        [key: string]: unknown;
-    };
-    spanKind?: TracingSpanKind;
-    spanLinks?: TracingSpanLink[];
 }
 
 // @public
@@ -849,24 +470,7 @@ export interface TypeSpecRuntimeLogger {
 }
 
 // @public
-export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
-
-// @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
-
-// @public
-export type UnknownObject = {
-    [s: string]: unknown;
-};
-
-// @public
-export function useInstrumenter(instrumenter: Instrumenter): void;
-
-// @public
-export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
-
-// @public
-export const userAgentPolicyName = "userAgentPolicy";
 
 // @public
 export interface UserAgentPolicyOptions {

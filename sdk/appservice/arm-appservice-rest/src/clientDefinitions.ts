@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AppServiceCertificateOrdersListParameters,
   AppServiceCertificateOrdersValidatePurchaseInformationParameters,
   AppServiceCertificateOrdersListByResourceGroupParameters,
@@ -655,7 +655,7 @@ import {
   WebAppsListWebJobsParameters,
   WebAppsGetWebJobParameters,
 } from "./parameters";
-import {
+import type {
   AppServiceCertificateOrdersList200Response,
   AppServiceCertificateOrdersListdefaultResponse,
   AppServiceCertificateOrdersValidatePurchaseInformation204Response,
@@ -2186,7 +2186,7 @@ import {
   WebAppsGetWebJob200Response,
   WebAppsGetWebJobdefaultResponse,
 } from "./responses";
-import { Client } from "@azure-rest/core-client";
+import type { Client } from "@azure-rest/core-client";
 
 export interface AppServiceCertificateOrdersList {
   /** List all certificate orders in a subscription. */

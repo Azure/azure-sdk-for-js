@@ -6,17 +6,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-  SelectFields,
-} from "@azure/search-documents";
-import { Hotel } from "./interfaces";
-import { createIndex, delay, WAIT_TIME } from "./setup";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SelectFields } from "@azure/search-documents";
+import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
+import type { Hotel } from "./interfaces.js";
+import { createIndex, delay, WAIT_TIME } from "./setup.js";
+import "dotenv/config";
 
 /**
  * This sample is to demonstrate the use of SearchClient.

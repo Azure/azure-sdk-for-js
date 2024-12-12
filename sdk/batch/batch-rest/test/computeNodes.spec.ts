@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
-  isUnexpected,
   CreatePoolParameters,
   CreateNodeUserParameters,
   ReplaceNodeUserParameters,
   UploadBatchServiceLogsContent,
   UploadNodeLogsParameters,
 } from "../src/index.js";
+import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
@@ -96,7 +97,7 @@ describe("Compute node operations", async () => {
   it("should list compute nodes successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const getListNodesResult = async () => {
+    const getListNodesResult = async (): Promise<ListNodes200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}
@@ -230,7 +231,7 @@ describe("Compute node operations", async () => {
   it("should reimage a compute node successfully", async () => {
     const reimageNodeResult = await batchClient
       .path(
-        "/pools/{poolId}/nodes/{nodeId}/reboot",
+        "/pools/{poolId}/nodes/{nodeId}/reimage",
         recorder.variable("BASIC_POOL", BASIC_POOL),
         computeNodes[1],
       )
@@ -263,5 +264,35 @@ describe("Compute node operations", async () => {
     }
 
     assert.isAtLeast(uploadLogResult.body.numberOfFilesUploaded, 1);
+  });
+
+  it("should deallocate and then start a compute node successfully", async () => {
+    const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
+    const nodeId = computeNodes[3];
+
+    const deallocateNodeResult = await batchClient
+      .path("/pools/{poolId}/nodes/{nodeId}/deallocate", poolId, nodeId)
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(deallocateNodeResult.status, "202");
+
+    const checkIfDeallocated = async (): Promise<BatchNodeOutput | null> => {
+      const nodes = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
+      if (isUnexpected(nodes)) {
+        assert.fail(`Received unexpected status code from listing nodes: ${nodes.status}
+              Response Body: ${nodes.body.message}`);
+      }
+      const node = nodes.body.value?.find((n) => n.id === nodeId);
+      if (node?.state === "deallocated") {
+        return node;
+      }
+      return null;
+    };
+
+    await waitForNotNull(checkIfDeallocated);
+
+    const startNodeResult = await batchClient
+      .path("/pools/{poolId}/nodes/{nodeId}/start", poolId, nodeId)
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(startNodeResult.status, "202");
   });
 });

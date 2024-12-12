@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions } from "@azure/core-client";
+import type { CommonClientOptions } from "@azure/core-client";
 
 /**
  * Valid string index types supported by the Form Recognizer service and SDK clients.

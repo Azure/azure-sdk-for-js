@@ -1,10 +1,9 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   {
     ignores: ["src/shims.d.ts"],
   },
-  ...azsdkEslint.configs.recommended,
   {
     files: ["samples-dev/**/*.ts"],
     rules: {
@@ -13,4 +12,4 @@ export default [
       "tsdoc/syntax": "off",
     },
   },
-];
+]);

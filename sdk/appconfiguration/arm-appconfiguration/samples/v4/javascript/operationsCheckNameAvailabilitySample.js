@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/CheckNameAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/CheckNameAvailable.json
  */
 async function configurationStoresCheckNameAvailable() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function configurationStoresCheckNameAvailable() {
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/CheckNameNotAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/CheckNameNotAvailable.json
  */
 async function configurationStoresCheckNameNotAvailable() {
   const subscriptionId =

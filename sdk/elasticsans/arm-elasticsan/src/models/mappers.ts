@@ -487,6 +487,13 @@ export const ElasticSanProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      autoScaleProperties: {
+        serializedName: "autoScaleProperties",
+        type: {
+          name: "Composite",
+          className: "AutoScaleProperties",
+        },
+      },
     },
   },
 };
@@ -679,6 +686,55 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoScaleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoScaleProperties",
+    modelProperties: {
+      scaleUpProperties: {
+        serializedName: "scaleUpProperties",
+        type: {
+          name: "Composite",
+          className: "ScaleUpProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ScaleUpProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleUpProperties",
+    modelProperties: {
+      unusedSizeTiB: {
+        serializedName: "unusedSizeTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      increaseCapacityUnitByTiB: {
+        serializedName: "increaseCapacityUnitByTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      capacityUnitScaleUpLimitTiB: {
+        serializedName: "capacityUnitScaleUpLimitTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      autoScalePolicyEnforcement: {
+        serializedName: "autoScalePolicyEnforcement",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ElasticSanUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -723,6 +779,13 @@ export const ElasticSanUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "publicNetworkAccess",
         type: {
           name: "String",
+        },
+      },
+      autoScaleProperties: {
+        serializedName: "autoScaleProperties",
+        type: {
+          name: "Composite",
+          className: "AutoScaleProperties",
         },
       },
     },

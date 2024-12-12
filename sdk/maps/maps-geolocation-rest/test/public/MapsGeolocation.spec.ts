@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import MapsGeolocation, { isUnexpected, MapsGeolocationClient } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { MapsGeolocationClient } from "../../src/index.js";
+import MapsGeolocation, { isUnexpected } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Authentication", function () {
+describe("Authentication", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should work with Microsoft Entra ID authentication", async function () {
-    /**
-     * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
-     * But it requires user's interaction, which is not testable in karma.
-     * */
-    if (!isNodeLike) this.skip();
+  /**
+   * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
+   * But it requires user's interaction, which is not testable in karma.
+   * */
+  it("should work with Microsoft Entra ID authentication", { skip: !isNodeLike }, async () => {
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
@@ -44,18 +44,18 @@ describe("Authentication", function () {
   });
 });
 
-describe("Endpoint can be overwritten", function () {
+describe("Endpoint can be overwritten", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should be executed without specifying baseUrl", async function () {
+  it("should be executed without specifying baseUrl", async () => {
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client
       .path("/geolocation/ip/{format}", "json")
@@ -64,7 +64,7 @@ describe("Endpoint can be overwritten", function () {
     assert.isOk(!isUnexpected(response));
   });
 
-  it("should be executed with different baseUrl", async function () {
+  it("should be executed with different baseUrl", async () => {
     const client = createClient(
       recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
@@ -80,16 +80,16 @@ describe("MapsGeolocation", () => {
   let recorder: Recorder;
   let client: MapsGeolocationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("can transform IP to location", async function () {
+  it("can transform IP to location", async () => {
     const response = await client
       .path("/geolocation/ip/{format}", "json")
       .get({ queryParameters: { ip: "2001:4898:80e8:b::189" } });

@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Attributes, SpanStatusCode } from "@opentelemetry/api";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
-  SEMRESATTRS_SERVICE_NAME,
-  SEMRESATTRS_SERVICE_NAMESPACE,
-  SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMATTRS_PEER_SERVICE,
   SEMATTRS_NET_PEER_NAME,
   SEMATTRS_NET_HOST_PORT,
@@ -23,17 +21,27 @@ import {
   DBSYSTEMVALUES_OTHER_SQL,
   DBSYSTEMVALUES_HSQLDB,
   DBSYSTEMVALUES_H2,
+  SEMRESATTRS_K8S_DEPLOYMENT_NAME,
+  SEMRESATTRS_K8S_REPLICASET_NAME,
+  SEMRESATTRS_K8S_STATEFULSET_NAME,
+  SEMRESATTRS_K8S_JOB_NAME,
+  SEMRESATTRS_K8S_CRONJOB_NAME,
+  SEMRESATTRS_K8S_DAEMONSET_NAME,
+  SEMRESATTRS_K8S_POD_NAME,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
-import {
+import type {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-  StandardMetricIds,
-  StandardMetricPropertyNames,
 } from "./types";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import { Resource } from "@opentelemetry/resources";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type { Resource } from "@opentelemetry/resources";
+import * as os from "os";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -79,18 +87,8 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   const dimensions: StandardMetricBaseDimensions = {};
   dimensions.IsAutocollected = "True";
   if (resource) {
-    const spanResourceAttributes = resource.attributes;
-    const serviceName = spanResourceAttributes[SEMRESATTRS_SERVICE_NAME];
-    const serviceNamespace = spanResourceAttributes[SEMRESATTRS_SERVICE_NAMESPACE];
-    if (serviceName) {
-      if (serviceNamespace) {
-        dimensions.cloudRoleName = `${serviceNamespace}.${serviceName}`;
-      } else {
-        dimensions.cloudRoleName = String(serviceName);
-      }
-    }
-    const serviceInstanceId = spanResourceAttributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
-    dimensions.cloudRoleInstance = String(serviceInstanceId);
+    dimensions.cloudRoleName = getCloudRole(resource);
+    dimensions.cloudRoleInstance = getCloudRoleInstance(resource);
   }
   return dimensions;
 }
@@ -170,4 +168,99 @@ export function convertDimensions(
     )[dim];
   }
   return convertedDimensions as Attributes;
+}
+
+// to get physical memory bytes
+export function getPhysicalMemory(): number {
+  return process.memoryUsage.rss();
+}
+
+// This function can get the normalized cpu, but it assumes that after this function is called,
+// that the process.hrtime.bigint() & process.cpuUsage() are called/stored to be used as the
+// parameters for the next call.
+export function getProcessorTimeNormalized(
+  lastHrTime: bigint,
+  lastCpuUsage: NodeJS.CpuUsage,
+): number {
+  let numCpus = os.cpus().length;
+  const usageDif = process.cpuUsage(lastCpuUsage);
+  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+
+  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+  // just for division safety, don't know a case in which this would actually happen
+  numCpus = numCpus === 0 ? 1 : numCpus;
+
+  return (usageDifMs / elapsedTimeMs / numCpus) * 100;
+}
+
+/**
+ * Gets the cloud role name based on the resource attributes
+ */
+export function getCloudRole(resource: Resource): string {
+  let cloudRole = "";
+  // Service attributes
+  const serviceName = resource.attributes[SEMRESATTRS_SERVICE_NAME];
+  const serviceNamespace = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE];
+  if (serviceName) {
+    // Custom Service name provided by customer is highest precedence
+    if (!String(serviceName).startsWith("unknown_service")) {
+      if (serviceNamespace) {
+        return `${serviceNamespace}.${serviceName}`;
+      } else {
+        return String(serviceName);
+      }
+    } else {
+      // Service attributes will be only used if K8S attributes are not present
+      if (serviceNamespace) {
+        cloudRole = `${serviceNamespace}.${serviceName}`;
+      } else {
+        cloudRole = String(serviceName);
+      }
+    }
+  }
+  // Kubernetes attributes should take precedence
+  const kubernetesDeploymentName = resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
+  if (kubernetesDeploymentName) {
+    return String(kubernetesDeploymentName);
+  }
+  const kuberneteReplicasetName = resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
+  if (kuberneteReplicasetName) {
+    return String(kuberneteReplicasetName);
+  }
+  const kubernetesStatefulSetName = resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
+  if (kubernetesStatefulSetName) {
+    return String(kubernetesStatefulSetName);
+  }
+  const kubernetesJobName = resource.attributes[SEMRESATTRS_K8S_JOB_NAME];
+  if (kubernetesJobName) {
+    return String(kubernetesJobName);
+  }
+  const kubernetesCronjobName = resource.attributes[SEMRESATTRS_K8S_CRONJOB_NAME];
+  if (kubernetesCronjobName) {
+    return String(kubernetesCronjobName);
+  }
+  const kubernetesDaemonsetName = resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
+  if (kubernetesDaemonsetName) {
+    return String(kubernetesDaemonsetName);
+  }
+  return cloudRole;
+}
+
+/**
+ * Gets the cloud role instance based on the resource attributes
+ */
+export function getCloudRoleInstance(resource: Resource): string {
+  // Kubernetes attributes should take precedence
+  const kubernetesPodName = resource.attributes[SEMRESATTRS_K8S_POD_NAME];
+  if (kubernetesPodName) {
+    return String(kubernetesPodName);
+  }
+  // Service attributes
+  const serviceInstanceId = resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
+  if (serviceInstanceId) {
+    return String(serviceInstanceId);
+  }
+  // Default
+  return os && os.hostname();
 }

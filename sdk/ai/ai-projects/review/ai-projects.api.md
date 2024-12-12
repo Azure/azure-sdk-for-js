@@ -46,6 +46,11 @@ export interface AgentOutput {
 }
 
 // @public
+export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
+    stream: () => Promise<AgentEventMessageStream>;
+};
+
+// @public
 export interface AgentsApiResponseFormat {
     type?: ApiResponseFormat;
 }
@@ -103,11 +108,9 @@ export interface AgentsOperations {
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
-    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
-    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
+    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AgentRunResponse;
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
-    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
+    createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AgentRunResponse;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
@@ -137,8 +140,7 @@ export interface AgentsOperations {
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
-    submitToolOutputsToRunStreaming: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
+    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;

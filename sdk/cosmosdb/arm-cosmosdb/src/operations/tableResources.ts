@@ -931,7 +931,7 @@ const migrateTableToAutoscaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -962,7 +962,7 @@ const migrateTableToManualThroughputOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -994,7 +994,7 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.BackupInformation,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     requestBody: Parameters.location,

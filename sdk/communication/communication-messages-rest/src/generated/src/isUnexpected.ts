@@ -8,7 +8,7 @@ import {
   SendDefaultResponse,
   ListTemplates200Response,
   ListTemplatesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /messages/streams/{id}": ["200"],

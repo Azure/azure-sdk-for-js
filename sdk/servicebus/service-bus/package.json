@@ -30,20 +30,19 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "npm run bundle",
     "build:node": "npm run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log coverage coverage-browser .nyc_output",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log coverage coverage-browser .nyc_output",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -113,7 +112,6 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.4.1",
-    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/chai-as-promised": "^8.0.1",
     "@types/debug": "^4.1.4",
@@ -126,14 +124,12 @@
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "chai-exclude": "^3.0.0",
-    "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "events": "^3.0.0",
     "https-proxy-agent": "^7.0.0",
     "playwright": "^1.46.1",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "uuid": "^8.3.0",
     "vitest": "^2.1.2",
@@ -141,9 +137,11 @@
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./experimental": "./src/experimental/index.ts"
     },
     "dialects": [
       "esm",
@@ -173,6 +171,24 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./experimental": {
+      "browser": {
+        "types": "./dist/browser/experimental/index.d.ts",
+        "default": "./dist/browser/experimental/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/experimental/index.d.ts",
+        "default": "./dist/react-native/experimental/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/experimental/index.d.ts",
+        "default": "./dist/esm/experimental/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/experimental/index.d.ts",
+        "default": "./dist/commonjs/experimental/index.js"
       }
     }
   }

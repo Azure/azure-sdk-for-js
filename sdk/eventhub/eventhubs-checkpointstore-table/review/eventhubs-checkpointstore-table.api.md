@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import { Checkpoint } from '@azure/event-hubs';
-import { CheckpointStore } from '@azure/event-hubs';
-import { PartitionOwnership } from '@azure/event-hubs';
-import { TableClient } from '@azure/data-tables';
+import type { Checkpoint } from '@azure/event-hubs';
+import type { CheckpointStore } from '@azure/event-hubs';
+import type { PartitionOwnership } from '@azure/event-hubs';
+import type { TableClient } from '@azure/data-tables';
 
 // @public
 export const logger: AzureLogger;

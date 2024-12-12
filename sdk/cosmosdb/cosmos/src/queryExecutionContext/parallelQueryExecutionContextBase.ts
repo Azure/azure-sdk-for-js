@@ -2,18 +2,19 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import { ClientContext } from "../ClientContext";
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import type { ClientContext } from "../ClientContext";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { FeedOptions, Response } from "../request";
-import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import type { FeedOptions, Response } from "../request";
+import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
-import { CosmosHeaders } from "./CosmosHeaders";
+import type { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
-import { ExecutionContext } from "./ExecutionContext";
+import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { SqlQuerySpec } from "./SqlQuerySpec";
+import type { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { MetadataLookUpType } from "../CosmosDiagnostics";

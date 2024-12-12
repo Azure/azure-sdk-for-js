@@ -46,7 +46,7 @@ node basicusage.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node basicusage.js
+npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection string>" node basicusage.js
 ```
 
 ## Next Steps

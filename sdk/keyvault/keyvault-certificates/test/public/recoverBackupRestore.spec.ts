@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 
-import { CertificateClient } from "../../src/index.js";
+import type { CertificateClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - restore certificates and recover backups", () => {

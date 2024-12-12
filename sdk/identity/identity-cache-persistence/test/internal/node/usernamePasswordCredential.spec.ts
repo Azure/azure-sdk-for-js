@@ -1,39 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable sort-imports */
-
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
-
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import assert from "assert";
-import { createPersistence } from "./setup.spec";
+import { createPersistence } from "./setup.spec.js";
+import type { MsalTestCleanup } from "./msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "./msalNodeTestSetup.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type { MockInstance } from "vitest";
 
-describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
+describe("UsernamePasswordCredential (internal)", () => {
   let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let getTokenSilentSpy: MockInstance;
+  let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async (ctx) => {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
+    getTokenSilentSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
-    doGetTokenSpy = setup.sandbox.spy(
-      PublicClientApplication.prototype,
-      "acquireTokenByUsernamePassword",
-    );
+    doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByUsernamePassword");
   });
 
   afterEach(async function () {
@@ -42,15 +35,15 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -72,15 +65,15 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -97,8 +90,8 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
     );
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
     // The cache should have a token a this point
     const result = await persistence?.load();
@@ -106,7 +99,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 });

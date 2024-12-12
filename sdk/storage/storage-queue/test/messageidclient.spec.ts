@@ -7,7 +7,7 @@ import { QueueClient } from "../src/QueueClient";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { getUniqueName, recorderEnvSetup } from "./utils/index.browser";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("QueueClient messageId methods", () => {
   let queueName: string;

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
@@ -16,7 +16,7 @@ import {
   UnassignJobOptions,
   DeclineJobOfferOptions,
   RouterWorker,
-} from "./models";
+} from "./models.js";
 
 export interface UpsertClassificationPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */

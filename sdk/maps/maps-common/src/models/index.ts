@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./geojsons";
-export * from "./models";
-export * from "./lro";
+export * from "./geojsons.js";
+export * from "./models.js";
+export * from "./lro.js";

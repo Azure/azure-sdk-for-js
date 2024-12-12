@@ -249,6 +249,8 @@ export interface ElasticSanProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Auto Scale Properties for Elastic San Appliance. */
+  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** The SKU name. Required for account creation; optional for update. */
@@ -333,6 +335,24 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The auto scale settings on Elastic San Appliance. */
+export interface AutoScaleProperties {
+  /** Scale up settings on Elastic San Appliance. */
+  scaleUpProperties?: ScaleUpProperties;
+}
+
+/** Scale up properties on Elastic San Appliance. */
+export interface ScaleUpProperties {
+  /** Unused size on Elastic San appliance in TiB. */
+  unusedSizeTiB?: number;
+  /** Unit to increase Capacity Unit on Elastic San appliance in TiB. */
+  increaseCapacityUnitByTiB?: number;
+  /** Maximum scale up size on Elastic San appliance in TiB. */
+  capacityUnitScaleUpLimitTiB?: number;
+  /** Enable or Disable scale up setting on Elastic San Appliance. */
+  autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
+}
+
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
   /** Properties of ElasticSan. */
@@ -349,6 +369,8 @@ export interface ElasticSanUpdateProperties {
   extendedCapacitySizeTiB?: number;
   /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Auto Scale Properties for Elastic San Appliance. */
+  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** List of Volume Groups */
@@ -918,6 +940,27 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link AutoScalePolicyEnforcement} that the service accepts. */
+export enum KnownAutoScalePolicyEnforcement {
+  /** None */
+  None = "None",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for AutoScalePolicyEnforcement. \
+ * {@link KnownAutoScalePolicyEnforcement} can be used interchangeably with AutoScalePolicyEnforcement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AutoScalePolicyEnforcement = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {

@@ -4,30 +4,30 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CancelOnProgress } from '@azure/core-lro';
+import type { CancelOnProgress } from '@azure/core-lro';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
-import { KeepAliveOptions } from '@azure/core-http-compat';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { ProxySettings } from '@azure/core-rest-pipeline';
-import { Readable } from 'stream';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
+import type { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-rest-pipeline';
-import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public

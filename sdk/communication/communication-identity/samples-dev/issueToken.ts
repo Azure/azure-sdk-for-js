@@ -9,9 +9,8 @@ import {
   CommunicationAccessToken,
   CommunicationIdentityClient,
   TokenScope,
+  GetTokenOptions,
 } from "@azure/communication-identity";
-
-import { GetTokenOptions } from "../src";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

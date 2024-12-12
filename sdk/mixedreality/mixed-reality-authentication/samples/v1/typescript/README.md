@@ -68,7 +68,7 @@ node dist/getToken.ts
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<mixedreality account domain>" MIXEDREALITY_ACCOUNT_ID="<mixedreality account id>" MIXEDREALITY_ACCOUNT_KEY="<mixedreality account key>" node dist/getToken.js
+npx dev-tool run vendored cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<mixedreality account domain>" MIXEDREALITY_ACCOUNT_ID="<mixedreality account id>" MIXEDREALITY_ACCOUNT_KEY="<mixedreality account key>" node dist/getToken.js
 ```
 
 ## Next Steps

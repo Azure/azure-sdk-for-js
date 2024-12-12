@@ -14,6 +14,7 @@ import {
 import {
   Fleet as FleetMapper,
   FleetPatch as FleetPatchMapper,
+  AutoUpgradeProfile as AutoUpgradeProfileMapper,
   FleetMember as FleetMemberMapper,
   FleetMemberUpdate as FleetMemberUpdateMapper,
   UpdateRun as UpdateRunMapper,
@@ -48,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2024-05-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -156,6 +157,27 @@ export const properties: OperationParameter = {
   mapper: FleetPatchMapper,
 };
 
+export const autoUpgradeProfileName: OperationURLParameter = {
+  parameterPath: "autoUpgradeProfileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+      MaxLength: 50,
+      MinLength: 1,
+    },
+    serializedName: "autoUpgradeProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AutoUpgradeProfileMapper,
+};
+
 export const fleetMemberName: OperationURLParameter = {
   parameterPath: "fleetMemberName",
   mapper: {
@@ -172,7 +194,7 @@ export const fleetMemberName: OperationURLParameter = {
   },
 };
 
-export const resource1: OperationParameter = {
+export const resource2: OperationParameter = {
   parameterPath: "resource",
   mapper: FleetMemberMapper,
 };
@@ -198,7 +220,7 @@ export const updateRunName: OperationURLParameter = {
   },
 };
 
-export const resource2: OperationParameter = {
+export const resource3: OperationParameter = {
   parameterPath: "resource",
   mapper: UpdateRunMapper,
 };
@@ -224,7 +246,7 @@ export const updateStrategyName: OperationURLParameter = {
   },
 };
 
-export const resource3: OperationParameter = {
+export const resource4: OperationParameter = {
   parameterPath: "resource",
   mapper: FleetUpdateStrategyMapper,
 };

@@ -36,12 +36,68 @@ export interface AssociateTrafficFilterAssociateOptionalParams extends coreClien
 }
 
 // @public
+export interface BillingInfo {
+    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+}
+
+// @public
+export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+// @public
+export interface BillingInfoResponse {
+    marketplaceSaasInfo?: MarketplaceSaaSInfo;
+    partnerBillingEntity?: PartnerBillingEntity;
+}
+
+// @public
 export interface CompanyInfo {
     business?: string;
     country?: string;
     domain?: string;
     employeesNumber?: string;
     state?: string;
+}
+
+// @public
+export interface ConnectedPartnerResourceProperties {
+    azureResourceId?: string;
+    location?: string;
+    partnerDeploymentName?: string;
+    partnerDeploymentUri?: string;
+}
+
+// @public
+export interface ConnectedPartnerResources {
+    list(resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams): PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
+}
+
+// @public
+export interface ConnectedPartnerResourcesListFormat {
+    properties?: ConnectedPartnerResourceProperties;
+}
+
+// @public
+export interface ConnectedPartnerResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
+
+// @public
+export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
+
+// @public
+export interface ConnectedPartnerResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ConnectedPartnerResourcesListResponse {
+    nextLink?: string;
+    value?: ConnectedPartnerResourcesListFormat[];
 }
 
 // @public
@@ -92,6 +148,7 @@ export type DeploymentInfoListResponse = DeploymentInfoResponse;
 export interface DeploymentInfoResponse {
     readonly deploymentUrl?: string;
     readonly diskCapacity?: string;
+    readonly elasticsearchEndPoint?: string;
     readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
     readonly memoryCapacity?: string;
     readonly status?: ElasticDeploymentStatus;
@@ -173,6 +230,19 @@ export interface ElasticMonitorResourceUpdateParameters {
 // @public
 export interface ElasticMonitorUpgrade {
     version?: string;
+}
+
+// @public
+export interface ElasticOrganizationToAzureSubscriptionMappingResponse {
+    properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties;
+}
+
+// @public
+export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties {
+    billedAzureSubscriptionId?: string;
+    elasticOrganizationId?: string;
+    elasticOrganizationName?: string;
+    readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
 }
 
 // @public
@@ -389,9 +459,12 @@ export type ManagedIdentityTypes = string;
 
 // @public
 export interface MarketplaceSaaSInfo {
+    billedAzureSubscriptionId?: string;
     marketplaceName?: string;
     marketplaceResourceId?: string;
+    marketplaceStatus?: string;
     marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
+    subscribed?: boolean;
 }
 
 // @public
@@ -410,6 +483,10 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     associateTrafficFilter: AssociateTrafficFilter;
+    // (undocumented)
+    billingInfo: BillingInfo;
+    // (undocumented)
+    connectedPartnerResources: ConnectedPartnerResources;
     // (undocumented)
     createAndAssociateIPFilter: CreateAndAssociateIPFilter;
     // (undocumented)
@@ -432,6 +509,8 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     monitoredResources: MonitoredResources;
     // (undocumented)
     monitors: Monitors;
+    // (undocumented)
+    openAI: OpenAI;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -528,7 +607,12 @@ export interface MonitorProperties {
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
     monitoringStatus?: MonitoringStatus;
+    planDetails?: PlanDetails;
     provisioningState?: ProvisioningState;
+    saaSAzureSubscriptionStatus?: string;
+    sourceCampaignId?: string;
+    sourceCampaignName?: string;
+    subscriptionState?: string;
     userInfo?: UserInfo;
     version?: string;
 }
@@ -612,6 +696,87 @@ export interface MonitorUpgradeOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export interface OpenAI {
+    createOrUpdate(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAICreateOrUpdateOptionalParams): Promise<OpenAICreateOrUpdateResponse>;
+    delete(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetOptionalParams): Promise<OpenAIGetResponse>;
+    getStatus(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetStatusOptionalParams): Promise<OpenAIGetStatusResponse>;
+    list(resourceGroupName: string, monitorName: string, options?: OpenAIListOptionalParams): PagedAsyncIterableIterator<OpenAIIntegrationRPModel>;
+}
+
+// @public
+export interface OpenAICreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: OpenAIIntegrationRPModel;
+}
+
+// @public
+export type OpenAICreateOrUpdateResponse = OpenAIIntegrationRPModel;
+
+// @public
+export interface OpenAIDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface OpenAIGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OpenAIGetResponse = OpenAIIntegrationRPModel;
+
+// @public
+export interface OpenAIGetStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OpenAIGetStatusResponse = OpenAIIntegrationStatusResponse;
+
+// @public
+export interface OpenAIIntegrationProperties {
+    key?: string;
+    readonly lastRefreshAt?: Date;
+    openAIResourceEndpoint?: string;
+    openAIResourceId?: string;
+}
+
+// @public
+export interface OpenAIIntegrationRPModel {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: OpenAIIntegrationProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface OpenAIIntegrationRPModelListResponse {
+    nextLink?: string;
+    value?: OpenAIIntegrationRPModel[];
+}
+
+// @public
+export interface OpenAIIntegrationStatusResponse {
+    properties?: OpenAIIntegrationStatusResponseProperties;
+}
+
+// @public
+export interface OpenAIIntegrationStatusResponseProperties {
+    status?: string;
+}
+
+// @public
+export interface OpenAIListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OpenAIListNextResponse = OpenAIIntegrationRPModelListResponse;
+
+// @public
+export interface OpenAIListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OpenAIListResponse = OpenAIIntegrationRPModelListResponse;
+
+// @public
 export interface OperationDisplay {
     description?: string;
     operation?: string;
@@ -658,6 +823,7 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export interface Organizations {
     getApiKey(options?: OrganizationsGetApiKeyOptionalParams): Promise<OrganizationsGetApiKeyResponse>;
+    getElasticToAzureSubscriptionMapping(options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
 }
 
 // @public
@@ -667,6 +833,29 @@ export interface OrganizationsGetApiKeyOptionalParams extends coreClient.Operati
 
 // @public
 export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
+
+// @public
+export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationsGetElasticToAzureSubscriptionMappingResponse = ElasticOrganizationToAzureSubscriptionMappingResponse;
+
+// @public
+export interface PartnerBillingEntity {
+    id?: string;
+    name?: string;
+    partnerEntityUri?: string;
+}
+
+// @public
+export interface PlanDetails {
+    offerID?: string;
+    planID?: string;
+    planName?: string;
+    publisherID?: string;
+    termID?: string;
+}
 
 // @public
 export type ProvisioningState = string;

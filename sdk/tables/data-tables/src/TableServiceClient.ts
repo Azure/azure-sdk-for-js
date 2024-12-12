@@ -1,54 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetPropertiesResponse,
   GetStatisticsResponse,
   ServiceProperties,
   SetPropertiesOptions,
   SetPropertiesResponse,
-} from "./generatedModels";
-import {
+} from "./generatedModels.js";
+import type {
   InternalClientPipelineOptions,
   OperationOptions,
   ServiceClientOptions,
 } from "@azure/core-client";
-import {
+import type {
   ListTableItemsOptions,
   TableItem,
   TableQueryOptions,
   TableServiceClientOptions,
-} from "./models";
-import {
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
-import { COSMOS_SCOPE, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { Service, Table } from "./generated";
+} from "./models.js";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential, isTokenCredential } from "@azure/core-auth";
+import { COSMOS_SCOPE, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants.js";
+import type { Service, Table } from "./generated/index.js";
 import {
   injectSecondaryEndpointHeader,
   tablesSecondaryEndpointPolicy,
-} from "./secondaryEndpointPolicy";
+} from "./secondaryEndpointPolicy.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TableItemResultPage } from "./models";
-import { apiVersionPolicy } from "./utils/apiVersionPolicy";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { handleTableAlreadyExists } from "./utils/errorHelpers";
-import { isCredential } from "./utils/isCredential";
-import { logger } from "./logger";
-import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
-import { tracingClient } from "./utils/tracing";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TableItemResultPage } from "./models.js";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy.js";
+import { getClientParamsFromConnectionString } from "./utils/connectionString.js";
+import { handleTableAlreadyExists } from "./utils/errorHelpers.js";
+import { isCredential } from "./utils/isCredential.js";
+import { logger } from "./logger.js";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy.js";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
+import { tracingClient } from "./utils/tracing.js";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you

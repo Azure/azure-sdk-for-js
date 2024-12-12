@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/2d3b08fe43bc4a573acd166d3d2ba0c631b016fb/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-01-05/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b478dcdabacb37945ff89daa0eda1ae1afc98db4/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-01-05/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 12.25.1
+package-version: 12.26.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1481,6 +1481,58 @@ directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
     transform: $.enum = [ "2025-01-05" ];
+```
+
+### Remove structured body parameters.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}]["get"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      delete $["x-ms-structured-body"];
+      delete $["x-ms-structured-content-length"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      delete $["x-ms-structured-body"];
+      delete $["x-ms-structured-content-length"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob"]["put"]["responses"]["201"]["headers"]    
+    transform: >
+      delete $["x-ms-structured-body"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block"]["put"]["responses"]["201"]["headers"]    
+    transform: >
+      delete $["x-ms-structured-body"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update"]["put"]["responses"]["201"]["headers"]    
+    transform: >
+      delete $["x-ms-structured-body"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock"]["put"]["responses"]["201"]["headers"]    
+    transform: >
+      delete $["x-ms-structured-body"];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

@@ -3,6 +3,8 @@
 
 import { RequestParameters } from "@azure-rest/core-client"
 import { AbortSignalLike } from "@azure/abort-controller";
+import { ThreadRunOutput } from "../generated/src/outputModels.js";
+import { AgentEventMessageStream } from "./streamingModels.js";
 
 /** Optional request paramters support passing headers, abort signal, etc */
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">
@@ -30,3 +32,8 @@ export interface PollingOptions {
   /** An AbortSignalLike object (as defined by \@azure/abort-controller) that can be used to cancel the polling operation. */
   abortSignal?: AbortSignalLike;
 }
+
+/** Agent run response with support to stream */
+export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
+  stream: () => Promise<AgentEventMessageStream>;
+};

@@ -2,27 +2,23 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the laterality discrepancy of the Radiology Insights request.
+ * @summary Displays the laterality discrepancy of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
+import "dotenv/config";
+import type { CreateJobParameters, RadiologyInsightsJobOutput } from "../src/index.js";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
   getLongRunningPoller,
-  isUnexpected
-} from "../src";
-
-dotenv.config();
+  isUnexpected,
+} from "../src/index.js";
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the laterality discrepancy recommendation inference
+ * Print the laterality discrepancy recommendation inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -30,12 +26,14 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; lateralityIndication: any }) => {
-          if (inference.kind === "lateralityDiscrepancy") {
-            console.log("Laterality Discrepancy Inference found: ");
-            displayCodes(inference.lateralityIndication);
-          }
-        });
+        patientResult.inferences.forEach(
+          (inference: { kind: string; lateralityIndication: any }) => {
+            if (inference.kind === "lateralityDiscrepancy") {
+              console.log("Laterality Discrepancy Inference found: ");
+              displayCodes(inference.lateralityIndication);
+            }
+          },
+        );
       });
     }
   } else {
@@ -48,26 +46,31 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + "), type: " + coding.type);
+        console.log(
+          "   Coding: " +
+            coding.code +
+            ", " +
+            coding.display +
+            " (" +
+            coding.system +
+            "), type: " +
+            coding.type,
+        );
       }
     });
   }
-
 }
-
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
-
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "26688-1",
-    display: "US BREAST - LEFT LIMITED"
+    display: "US BREAST - LEFT LIMITED",
   };
 
-
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
@@ -78,10 +81,10 @@ function createRequestBody(): CreateJobParameters {
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -91,12 +94,12 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US BREAST - LEFT LIMITED"
+    description: "US BREAST - LEFT LIMITED",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
@@ -107,7 +110,7 @@ function createRequestBody(): CreateJobParameters {
     Findings:
     Targeted imaging of the left breast is performed from the 6:00 to the 9:00 position.
     At the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification.
-    This may correspond to the mammographic finding. No other cystic or solid masses visualized.`
+    This may correspond to the mammographic finding. No other cystic or solid masses visualized.`,
   };
 
   const patientDocumentData = {
@@ -120,15 +123,14 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "US BREAST - LEFT LIMITED"
+    orderedProceduresAsCsv: "US BREAST - LEFT LIMITED",
   };
-
 
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -142,21 +144,22 @@ function createRequestBody(): CreateJobParameters {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -165,7 +168,7 @@ function createRequestBody(): CreateJobParameters {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
   // create RI Data
@@ -173,16 +176,15 @@ function createRequestBody(): CreateJobParameters {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
   return {
     body: RadiologyInsightsJob,
   };
-
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -192,7 +194,9 @@ export async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

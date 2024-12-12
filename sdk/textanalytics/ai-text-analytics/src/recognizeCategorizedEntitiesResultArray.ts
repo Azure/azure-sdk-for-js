@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EntitiesResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
+import type {
+  EntitiesResult,
+  TextDocumentBatchStatistics,
+  TextDocumentInput,
+} from "./generated/models/index.js";
+import type { RecognizeCategorizedEntitiesResult } from "./recognizeCategorizedEntitiesResult.js";
 import {
-  RecognizeCategorizedEntitiesResult,
   makeRecognizeCategorizedEntitiesErrorResult,
   makeRecognizeCategorizedEntitiesResult,
-} from "./recognizeCategorizedEntitiesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./recognizeCategorizedEntitiesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and

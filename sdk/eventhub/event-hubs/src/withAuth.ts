@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Constants,
-  TokenType,
-  defaultCancellableLock,
-  isSasTokenProvider,
-  SasTokenProvider,
-  CbsClient,
-  CbsResponse,
-} from "@azure/core-amqp";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext.js";
-import { createTimerLoop, TimerLoop } from "./util/timerLoop.js";
-import { SimpleLogger, logObj } from "./logger.js";
+import type { SasTokenProvider, CbsClient, CbsResponse } from "@azure/core-amqp";
+import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { TimerLoop } from "./util/timerLoop.js";
+import { createTimerLoop } from "./util/timerLoop.js";
+import type { SimpleLogger } from "./logger.js";
+import { logObj } from "./logger.js";
 
 /**
  *

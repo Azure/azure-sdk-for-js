@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Attributes } from "@opentelemetry/api";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
-import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
-import { createTagsFromResource } from "./common";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types";
+import type { Attributes } from "@opentelemetry/api";
+import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import { DataPointType } from "@opentelemetry/sdk-metrics";
+import type {
+  TelemetryItem as Envelope,
+  MetricsData,
+  MetricDataPoint,
+} from "../generated/index.js";
+import { createTagsFromResource } from "./common.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],

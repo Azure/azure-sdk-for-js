@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CorrelationRuleFilter,
   RuleProperties,
   ServiceBusMessage,
@@ -10,10 +10,8 @@ import {
   SqlRuleFilter,
 } from "../../src/index.js";
 import { TestClientType } from "../public/utils/testUtils.js";
-import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2.js";
+import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
 import { recreateSubscription } from "./utils/managementUtils.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 

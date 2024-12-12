@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConflictResolutionMode } from "./ConflictResolutionMode";
+import type { ConflictResolutionMode } from "./ConflictResolutionMode";
 
 /**
  * Represents the conflict resolution policy configuration for specifying how to resolve conflicts

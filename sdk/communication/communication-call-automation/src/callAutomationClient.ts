@@ -1,46 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import {
-  parseClientArguments,
-  isKeyCredential,
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import { logger } from "./models/logger";
-import {
+import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
+import { logger } from "./models/logger.js";
+import type {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
+  MicrosoftTeamsAppIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
   CustomCallingContextInternal,
-} from "./generated/src";
-import { CallConnection } from "./callConnection";
-import { CallRecording } from "./callRecording";
-import {
+} from "./generated/src/index.js";
+import { CallConnection } from "./callConnection.js";
+import { CallRecording } from "./callRecording.js";
+import type {
   AnswerCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
-} from "./models/options";
-import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
+} from "./models/options.js";
+import type { AnswerCallResult, CreateCallResult } from "./models/responses.js";
+import type {
+  CallConnectionProperties,
+  CallInvite,
+  CustomCallingContext,
+} from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
   communicationUserIdentifierConverter,
   communicationUserIdentifierModelConverter,
+  microsoftTeamsAppIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
+import type {
+  AnswerCallEventResult,
+  CreateCallEventResult,
+} from "./eventprocessor/eventResponses.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -49,6 +59,11 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
    * The identifier of the source of the call for call creating/answering/inviting operation.
    */
   sourceIdentity?: CommunicationUserIdentifier;
+  /**
+   * The identifier of the One Phone System bot for call creating operation.
+   * Should be mutually exclusive with sourceIdentity.
+   */
+  opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -65,6 +80,7 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
+  private readonly opsSourceIdentity?: MicrosoftTeamsAppIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
   private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
@@ -127,6 +143,7 @@ export class CallAutomationClient {
     );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
+    this.opsSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.opsSourceIdentity);
   }
 
   /**
@@ -245,6 +262,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      opsSource: this.opsSourceIdentity,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
@@ -277,6 +295,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      opsSource: this.opsSourceIdentity,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,

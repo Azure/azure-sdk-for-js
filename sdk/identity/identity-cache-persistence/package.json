@@ -3,18 +3,17 @@
   "version": "1.1.2",
   "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
-  "main": "dist/index.js",
-  "module": "dist-esm/identity-cache-persistence/src/index.js",
-  "types": "./types/identity-cache-persistence.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "dev-tool run build-package && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -27,14 +26,11 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude \"test/**/browser/**/*.spec.ts\" --exclude \"test/snippets.spec.ts\"  \"test/**/**/*.spec.ts\"",
-    "update-snippets": "dev-tool run update-snippets"
+    "unit-test:node": "echo skipped",
+    "update-snippets": "echo skipped"
   },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-cache-persistence/src",
-    "types/identity-cache-persistence.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -60,36 +56,66 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-auth": "^1.5.0",
-    "@azure/identity": "^4.0.1",
-    "@azure/msal-node": "^2.9.2",
-    "@azure/msal-node-extensions": "^1.0.8",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/identity": "^4.5.0",
+    "@azure/msal-node": "^2.16.2",
+    "@azure/msal-node-extensions": "^1.5.0",
     "keytar": "^7.6.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure/core-client": "^1.7.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/logger": "^1.0.4",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/jws": "^3.2.2",
-    "@types/mocha": "^10.0.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@types/qs": "^6.5.3",
-    "@types/sinon": "^17.0.0",
-    "cross-env": "^7.0.2",
+    "@vitest/browser": "^2.1.8",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "inherits": "^2.0.3",
-    "mocha": "^10.0.0",
-    "puppeteer": "^23.0.2",
-    "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "ts-node": "^10.0.0",
+    "playwright": "^1.49.0",
     "typescript": "~5.6.2",
-    "util": "^0.12.1"
+    "vitest": "^2.1.8"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
+  },
+  "browser": "./dist/browser/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 9.1.1 (Unreleased)
+## 9.2.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,47 @@
 
 ### Other Changes
 
+## 9.2.0-beta.1 (2024-10-18)
+Compared with version 9.1.0
+    
+### Features Added
+
+  - Added operation group ContainerGroupProfileOperations
+  - Added operation group ContainerGroupProfiles
+  - Added Interface ConfigMap
+  - Added Interface ContainerGroupProfile
+  - Added Interface ContainerGroupProfileGetByRevisionNumberOptionalParams
+  - Added Interface ContainerGroupProfileListAllRevisionsNextOptionalParams
+  - Added Interface ContainerGroupProfileListAllRevisionsOptionalParams
+  - Added Interface ContainerGroupProfileListResult
+  - Added Interface ContainerGroupProfilePatch
+  - Added Interface ContainerGroupProfileProperties
+  - Added Interface ContainerGroupProfileReferenceDefinition
+  - Added Interface ContainerGroupProfilesCreateOrUpdateOptionalParams
+  - Added Interface ContainerGroupProfilesDeleteOptionalParams
+  - Added Interface ContainerGroupProfilesGetOptionalParams
+  - Added Interface ContainerGroupProfilesListByResourceGroupNextOptionalParams
+  - Added Interface ContainerGroupProfilesListByResourceGroupOptionalParams
+  - Added Interface ContainerGroupProfilesListNextOptionalParams
+  - Added Interface ContainerGroupProfilesListOptionalParams
+  - Added Interface ContainerGroupProfilesPatchOptionalParams
+  - Added Interface StandbyPoolProfileDefinition
+  - Added Type Alias ContainerGroupProfileGetByRevisionNumberResponse
+  - Added Type Alias ContainerGroupProfileListAllRevisionsNextResponse
+  - Added Type Alias ContainerGroupProfileListAllRevisionsResponse
+  - Added Type Alias ContainerGroupProfilesCreateOrUpdateResponse
+  - Added Type Alias ContainerGroupProfilesGetResponse
+  - Added Type Alias ContainerGroupProfilesListByResourceGroupNextResponse
+  - Added Type Alias ContainerGroupProfilesListByResourceGroupResponse
+  - Added Type Alias ContainerGroupProfilesListNextResponse
+  - Added Type Alias ContainerGroupProfilesListResponse
+  - Added Type Alias ContainerGroupProfilesPatchResponse
+  - Interface Container has a new optional parameter configMap
+  - Interface ContainerGroupProperties has a new optional parameter containerGroupProfile
+  - Interface ContainerGroupProperties has a new optional parameter isCreatedFromStandbyPool
+  - Interface ContainerGroupProperties has a new optional parameter standbyPoolProfile
+    
+    
 ## 9.1.0 (2023-04-24)
     
 ### Features Added
@@ -89,4 +130,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

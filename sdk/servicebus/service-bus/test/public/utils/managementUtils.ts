@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { delay } from "../../../src/index.js";
-import { CreateTopicOptions } from "../../../src/index.js";
-import { CreateSubscriptionOptions } from "../../../src/index.js";
+import type { CreateTopicOptions } from "../../../src/index.js";
+import type { CreateSubscriptionOptions } from "../../../src/index.js";
 import { ServiceBusAdministrationClient } from "../../../src/index.js";
-import { CreateQueueOptions } from "../../../src/index.js";
+import type { CreateQueueOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
 import { should } from "./chai.js";

@@ -1,6 +1,6 @@
 # Release History
 
-## 21.2.0-beta.2 (Unreleased)
+## 21.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,37 @@
 
 ### Other Changes
 
+## 21.3.0 (2024-11-15)
+    
+### Features Added
+
+  - Added Interface AdvancedNetworking
+  - Added Interface AdvancedNetworkingObservability
+  - Added Interface AdvancedNetworkingSecurity
+  - Added Interface ManagedClusterNodeResourceGroupProfile
+  - Added Type Alias RestrictionLevel
+  - Interface AgentPool has a new optional parameter eTag
+  - Interface AgentPoolsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface AgentPoolsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface ContainerServiceNetworkProfile has a new optional parameter advancedNetworking
+  - Interface ManagedCluster has a new optional parameter eTag
+  - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter eTag
+  - Interface ManagedClustersCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface ManagedClustersCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface ManagedClustersUpdateTagsOptionalParams has a new optional parameter ifMatch
+  - Added Enum KnownRestrictionLevel
+    
+    
+## 21.2.0 (2024-10-15)
+    
+### Features Added
+
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+    
+    
 ## 21.2.0-beta.1 (2024-09-27)
 Compared with version 21.1.0
     

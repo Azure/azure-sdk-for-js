@@ -2,29 +2,33 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import {
+import type {
   CompositeMapper,
   DictionaryMapper,
   FullOperationResponse,
   Mapper,
-  MapperTypeNames,
   OperationArguments,
   OperationQueryParameter,
   OperationRequest,
   OperationSpec,
   ParameterPath,
   QueryCollectionFormat,
+} from "../src/index.js";
+import {
+  MapperTypeNames,
   ServiceClient,
   createSerializer,
   serializationPolicy,
 } from "../src/index.js";
-import {
+import type {
   HttpClient,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   RestError,
   SendRequest,
+} from "@azure/core-rest-pipeline";
+import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
@@ -33,7 +37,7 @@ import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
 } from "../src/operationHelpers.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { assertServiceClientResponse } from "./utils/serviceClient.js";
 import { deserializationPolicy } from "../src/deserializationPolicy.js";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";

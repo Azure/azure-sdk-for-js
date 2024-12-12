@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
 
 /**
  * Options for the {@link AzureDeveloperCliCredential}

@@ -10,6 +10,7 @@ import tsdoc from "eslint-plugin-tsdoc";
 const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
   "@typescript-eslint/no-require-imports": "error",
+  "@typescript-eslint/consistent-type-imports": "warn",
   "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
   "@typescript-eslint/explicit-module-boundary-types": ["error"],
   "@typescript-eslint/no-redeclare": ["error", { builtinGlobals: true }],
@@ -42,7 +43,7 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-empty-object-type": "off",
   "@typescript-eslint/no-namespace": "error",
   "@typescript-eslint/no-non-null-assertion": "off",
-  "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-unused-vars": "off", // typescript compiler already checks this
   "@typescript-eslint/no-unused-expressions": "off",
   "@typescript-eslint/no-useless-constructor": "error",
   "@typescript-eslint/no-var-requires": "off",
@@ -205,6 +206,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     files: ["samples-dev/**/*.ts", "*/*/samples-dev/**/*.ts"],
     rules: {
       "tsdoc/syntax": "off",
+      "n/no-process-exit": "off",
     },
   },
   {

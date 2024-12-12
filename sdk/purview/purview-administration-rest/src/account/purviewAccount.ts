@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { PurviewAccountRestClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PurviewAccountRestClient } from "./clientDefinitions.js";
 
 export function PurviewAccountClient(
   endpoint: string,

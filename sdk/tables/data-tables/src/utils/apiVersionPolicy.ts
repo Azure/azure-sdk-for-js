@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 /**
  * Name of the apiVersion Policy

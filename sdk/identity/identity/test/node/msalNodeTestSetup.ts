@@ -1,50 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AuthenticationResult,
-  ConfidentialClientApplication,
-  PublicClientApplication,
-} from "@azure/msal-node";
-import Sinon, { createSandbox } from "sinon";
-
-import { PlaybackTenantId } from "../msalTestUtils";
-import { Recorder } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+import type { AuthenticationResult } from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
+import { PlaybackTenantId } from "../msalTestUtils.js";
+import { Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
+import { vi } from "vitest";
 
 export type MsalTestCleanup = () => Promise<void>;
 
 export interface MsalTestSetupResponse {
   cleanup: MsalTestCleanup;
   recorder?: Recorder;
-  sandbox: Sinon.SinonSandbox;
+}
+
+/**
+ * Determines whether the given test is a Vitest Test.
+ * @param test - The test to check.
+ * @returns true if the given test is a Vitest Test.
+ */
+function isVitestTestContext(test: unknown): test is VitestTestContext {
+  return (
+    typeof test === "function" &&
+    "task" in test &&
+    typeof test.task === "object" &&
+    test.task != null &&
+    "name" in test.task
+  );
 }
 
 export async function msalNodeTestSetup(
-  testContext?: Test,
+  testContext?: VitestTestContext,
   playbackClientId?: string,
 ): Promise<{
   cleanup: MsalTestCleanup;
   recorder: Recorder;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(stubbedToken: AuthenticationResult): Promise<{
   cleanup: MsalTestCleanup;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(
-  testContextOrStubbedToken?: Test | AuthenticationResult,
+  testContextOrStubbedToken?: VitestTestContext | AuthenticationResult,
   playbackClientId = "azure_client_id",
 ): Promise<MsalTestSetupResponse> {
   const playbackValues = {
     correlationId: "client-request-id",
   };
 
-  const sandbox = createSandbox();
-
-  if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
+  if (isVitestTestContext(testContextOrStubbedToken)) {
     const testContext = testContextOrStubbedToken;
 
     const recorder = new Recorder(testContext);
@@ -97,6 +102,13 @@ export async function msalNodeTestSetup(
     // Playback sanitizers
     await recorder.addSanitizers(
       {
+        uriSanitizers: [
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
+          },
+        ],
         bodySanitizers: [
           {
             regex: true,
@@ -188,11 +200,11 @@ export async function msalNodeTestSetup(
     );
 
     return {
-      sandbox,
       recorder,
       async cleanup() {
         await recorder.stop();
-        sandbox.restore();
+        vi.unstubAllEnvs();
+        vi.restoreAllMocks();
       },
     };
   } else {
@@ -216,18 +228,19 @@ export async function msalNodeTestSetup(
     ];
 
     publicClientMethods.forEach((method) =>
-      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken),
+      vi
+        .spyOn(PublicClientApplication.prototype, method)
+        .mockImplementation(async () => stubbedToken ?? null),
     );
     confidentialClientMethods.forEach((method) =>
-      sandbox
-        .stub(ConfidentialClientApplication.prototype, method)
-        .callsFake(async () => stubbedToken),
+      vi
+        .spyOn(ConfidentialClientApplication.prototype, method)
+        .mockImplementation(async () => stubbedToken ?? null),
     );
 
     return {
-      sandbox,
       async cleanup() {
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   }

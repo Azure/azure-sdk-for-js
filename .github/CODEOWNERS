@@ -145,15 +145,15 @@
 # PRLabel: %Cognitive - Health Insights
 /sdk/healthinsights/ @tomsft @koen-mertens
 
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas
+
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @maorleger @schaabs @Azure/azure-sdk-write-identity
+/sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
 
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
-
-# PRLabel: %Iot
-# ServiceLabel: %Iot
-/sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @timovv
@@ -280,13 +280,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
-# ServiceOwners: @lomagdal2
-
-# PRLabel: %Cognitive - Content Safety
-/sdk/contentsafety/ @xirzec
-
-# ServiceLabel: %Cognitive - Content Safety
-# AzureSdkOwners: @xirzec
+# Service owner will be pranav-gupta-msft
 
 # PRLabel: %Operator Nexus - Network Cloud
 # ServiceLabel: %Operator Nexus - Network Cloud
@@ -319,6 +313,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # Managment API review files
 /sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
+# Cosmos API review files
+/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -412,6 +409,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -476,6 +476,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao
@@ -573,10 +576,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
 
-# ServiceLabel: %Health Deidentification
-# PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas
-
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 
@@ -588,6 +587,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/neonpostgres/arm-neonpostgres/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao
@@ -605,6 +607,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -618,6 +623,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao
@@ -914,6 +922,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -992,9 +1003,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
 
-# ServiceLabel: %AKS %Service Attention
-#/<NotInRepo>/          @Azure/aks-pm
-
 # ServiceLabel: %Alerts Management %Service Attention
 #/<NotInRepo>/          @liadtal @yairgil
 
@@ -1035,7 +1043,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @zhiyuanliang-ms @avanigupta
+#/<NotInRepo>/          @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1212,7 +1220,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Devtestlab %Service Attention
 #/<NotInRepo>/          @Tanmayeekamath
 
-# ServiceLabel: %Device Provisioning Service %Service Attention
+# ServiceLabel: %Device Update %Service Attention
 #/<NotInRepo>/          @nberdy
 
 # ServiceLabel: %Digital Twins %Service Attention
@@ -1250,9 +1258,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Lab Services %Service Attention
 #/<NotInRepo>/          @Tanmayeekamath
-
-# ServiceLabel: %Logic App %Service Attention
-#/<NotInRepo>/          @Azure/azure-logicapps-team
 
 # ServiceLabel: %LOUIS %Service Attention
 #/<NotInRepo>/          @minamnmik
@@ -1414,7 +1419,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @xgithubtriage
 
 # ServiceLabel: %Service Attention %Storsimple
-#/<NotInRepo>/          @anoobbacker @ganzee @manuaery @patelkunal
+#/<NotInRepo>/          @anoobbacker @ganzee @manuaery
 
 # ServiceLabel: %Service Attention %Stream Analytics
 #/<NotInRepo>/          @atpham256
@@ -1426,7 +1431,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-#/<NotInRepo>/          @wonner @zesluo
+#/<NotInRepo>/          @zesluo
 
 # ServiceLabel: %Service Attention %Tables
 #/<NotInRepo>/          @klaaslanghout
@@ -1463,9 +1468,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %SecurityInsights %Service Attention
 #/<NotInRepo>/          @amirkeren
-
-# ServiceLabel: %IoT - CLI %Service Attention
-#/<NotInRepo>/          @Azure/azure-iot-cli-triage
 
 # ServiceLabel: %Communication %Service Attention
 #/<NotInRepo>/          @acsdevx-msft

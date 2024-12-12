@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 export async function concurrentRun<T>(
   maxConcurrency: number,
@@ -13,14 +13,13 @@ export async function concurrentRun<T>(
   const promises: Array<Promise<void>> = [];
 
   function removePromise(p: Promise<void>): void {
-    promises.splice(promises.indexOf(p), 1);
+    void promises.splice(promises.indexOf(p), 1);
   }
   while (dataQueue.length) {
     while (dataQueue.length && promises.length < maxConcurrency) {
       const worker = dataQueue.pop();
       const promise = callback(worker!);
-      // eslint-disable-next-line promise/catch-or-return
-      promise.finally(() => removePromise(promise));
+      void promise.finally(() => removePromise(promise));
       promises.push(promise);
     }
     if (promises.length === maxConcurrency) {

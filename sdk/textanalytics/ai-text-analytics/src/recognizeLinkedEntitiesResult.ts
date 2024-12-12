@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
+import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import { DocumentLinkedEntities, LinkedEntity, TextAnalyticsError } from "./generated/models";
+} from "./textAnalyticsResult.js";
+import type {
+  DocumentLinkedEntities,
+  LinkedEntity,
+  TextAnalyticsError,
+} from "./generated/models/index.js";
 
 /**
  * The result of the recognize linked entities operation on a single document.

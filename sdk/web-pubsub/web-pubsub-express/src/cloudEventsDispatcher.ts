@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as utils from "./utils.js";
-import { IncomingMessage, ServerResponse } from "node:http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { URL } from "node:url";
 import { logger } from "./logger.js";
 

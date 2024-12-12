@@ -5,12 +5,12 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import {
+import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types";
-import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
 const ENV_CONFIGURATION_FILE = "APPLICATIONINSIGHTS_CONFIGURATION_FILE";

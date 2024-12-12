@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { ContainerDefinition, CosmosClient } from "../../../src";
-import { Container } from "../../../src/";
+import type { Suite } from "mocha";
+import type { ContainerDefinition } from "../../../src";
+import { CosmosClient } from "../../../src";
+import type { Container } from "../../../src/";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import {
@@ -267,7 +268,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe.skip("MakeList query iterator", function (this: Suite) {
+    describe("MakeList query iterator", function (this: Suite) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeList", async function () {
@@ -324,7 +325,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe.skip("MakeSet query iterator", function (this: Suite) {
+    describe("MakeSet query iterator", function (this: Suite) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeSet", async function () {

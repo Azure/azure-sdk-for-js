@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import {
+import type {
   AdmRegistrationDescription,
   AdmTemplateRegistrationDescription,
   AppleRegistrationDescription,
@@ -21,6 +21,8 @@ import {
   XiaomiTemplateRegistrationDescription,
   WindowsRegistrationDescription,
   WindowsTemplateRegistrationDescription,
+} from "../../../src/models/registration.js";
+import {
   createAdmRegistrationDescription,
   createAdmTemplateRegistrationDescription,
   createAppleRegistrationDescription,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BatchQueryRequest as GeneratedBatchQueryRequest,
   BatchQueryResponse as GeneratedBatchQueryResponse,
   BatchQueryResults as GeneratedBatchQueryResults,
@@ -10,57 +10,56 @@ import {
   QueryBatchResponse as GeneratedQueryBatchResponse,
   Table as GeneratedTable,
   QueryBody,
-} from "../generated/logquery/src";
+} from "../generated/logquery/src/index.js";
 
-import {
+import type {
   Metric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
   TimeSeriesElement as GeneratedTimeSeriesElement,
-} from "../generated/metrics/src";
+} from "../generated/metrics/src/index.js";
 
-import {
+import type {
   MetricDefinition as GeneratedMetricDefinition,
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-} from "../generated/metricsdefinitions/src";
+} from "../generated/metricsdefinitions/src/index.js";
 
-import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
-import { formatPreferHeader } from "./util";
+import type { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src/index.js";
+import { formatPreferHeader } from "./util.js";
 
-import {
+import type {
   ListMetricDefinitionsOptions,
   LogsQueryBatchResult,
   LogsTable,
   MetricsQueryOptions,
   MetricsQueryResult,
   QueryBatch,
-} from "../../src";
-import {
+} from "../../src/index.js";
+import type {
   Metric,
   MetricAvailability,
   MetricDefinition,
   MetricNamespace,
   TimeSeriesElement,
-  createMetricsQueryResult,
-  getMetricByName,
-} from "../models/publicMetricsModels";
-import { FullOperationResponse } from "@azure/core-client";
+} from "../models/publicMetricsModels.js";
+import { createMetricsQueryResult, getMetricByName } from "../models/publicMetricsModels.js";
+import type { FullOperationResponse } from "@azure/core-client";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
-} from "../timespanConversion";
-import {
+} from "../timespanConversion.js";
+import type {
   LogsErrorInfo,
   LogsQueryError,
   LogsQueryPartialResult,
-  LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-} from "../models/publicLogsModels";
-import {
+} from "../models/publicLogsModels.js";
+import { LogsQueryResultStatus } from "../models/publicLogsModels.js";
+import type {
   MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
   MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
-} from "../generated/metricBatch/src";
-import { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
+} from "../generated/metricBatch/src/index.js";
+import type { MetricsQueryResourcesOptions } from "../models/publicBatchModels.js";
 
 /**
  * @internal
@@ -274,7 +273,6 @@ export function convertResponseForMetrics(
     return metricObject;
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
   const obj: Omit<MetricsQueryResult, "getMetricByName"> = {

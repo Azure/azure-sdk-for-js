@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TextAnalysisAuthoringListProjectsParameters,
   TextAnalysisAuthoringCreateProjectParameters,
   TextAnalysisAuthoringGetProjectParameters,
@@ -39,8 +39,8 @@ import {
   TextAnalysisAuthoringListAssignedResourceDeploymentsParameters,
   TextAnalysisAuthoringGetSupportedLanguagesParameters,
   TextAnalysisAuthoringListTrainingConfigVersionsParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   TextAnalysisAuthoringListProjects200Response,
   TextAnalysisAuthoringListProjectsDefaultResponse,
   TextAnalysisAuthoringCreateProject200Response,
@@ -116,8 +116,8 @@ import {
   TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse,
   TextAnalysisAuthoringListTrainingConfigVersions200Response,
   TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListProjects {
   /** Lists the existing projects. */

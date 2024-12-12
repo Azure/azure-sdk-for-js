@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
@@ -32,19 +32,18 @@
   ],
   "browser": "./dist/browser/index.js",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "npm run clean && dev-tool run build-package",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log dist-browser statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log dist-browser statistics.html coverage && dev-tool run vendored rimraf --glob src/**/*.js && dev-tool run vendored rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- --test-timeout 5000000 --hook-timeout 100000",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm -- --test-timeout 5000000 --hook-timeout 100000",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -107,16 +106,13 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.4.1",
-    "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.1.2",
     "@vitest/coverage-istanbul": "^2.1.2",
-    "cross-env": "^7.0.2",
     "dayjs": "^1.10.7",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.47.2",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "vitest": "^2.1.2"
   },
@@ -133,7 +129,8 @@
     "esmDialects": [
       "browser"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

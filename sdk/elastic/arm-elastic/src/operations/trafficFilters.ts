@@ -27,18 +27,18 @@ export class TrafficFiltersImpl implements TrafficFilters {
 
   /**
    * Delete traffic filter from the account.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: TrafficFiltersDeleteOptionalParams
+    options?: TrafficFiltersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -46,22 +46,21 @@ export class TrafficFiltersImpl implements TrafficFilters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/deleteTrafficFilter",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/deleteTrafficFilter",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.rulesetId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

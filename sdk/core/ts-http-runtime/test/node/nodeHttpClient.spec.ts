@@ -3,9 +3,9 @@
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
-import { createDefaultHttpClient, createPipelineRequest, delay } from "../../src/index.js";
+import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
+import { createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {
   const actual = await vi.importActual("https");
@@ -25,6 +25,8 @@ vi.mock("http", async () => {
 
 import * as https from "https";
 import * as http from "http";
+import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
+import { delay } from "../../src/util/delay.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;

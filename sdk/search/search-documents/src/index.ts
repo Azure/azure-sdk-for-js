@@ -6,6 +6,7 @@ export {
   AutocompleteItem,
   AutocompleteMode,
   AutocompleteResult,
+  DebugInfo,
   FacetResult,
   HybridCountAndFacetMode,
   HybridSearch as HybridSearchOptions,
@@ -15,12 +16,12 @@ export {
   KnownHybridCountAndFacetMode,
   KnownQueryDebugMode,
   KnownQueryLanguage,
-  KnownQuerySpellerType,
+  KnownQuerySpellerType as KnownQuerySpeller,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
   KnownSemanticFieldState,
+  KnownSemanticQueryRewritesResultType,
   KnownSemanticSearchResultsType,
-  KnownSpeller,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   KnownVectorThresholdKind,
@@ -30,17 +31,20 @@ export {
   QueryLanguage,
   QueryResultDocumentRerankerInput,
   QueryResultDocumentSubscores,
-  QuerySpellerType,
+  QueryRewritesDebugInfo,
+  QueryRewritesValuesDebugInfo,
+  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
   SemanticFieldState,
+  SemanticQueryRewritesResultType,
   SingleVectorFieldResult,
-  Speller,
   TextResult,
   VectorsDebugInfo,
-} from "./generated/data/models";
+} from "./generated/data/models/index.js";
 export {
+  AIServicesAccountKey,
   AIStudioModelCatalogName,
   AnalyzedTokenInfo,
   AnalyzeResult,
@@ -72,6 +76,8 @@ export {
   DistanceScoringFunction,
   DistanceScoringParameters,
   DocumentExtractionSkill,
+  DocumentIntelligenceLayoutSkillMarkdownHeaderDepth,
+  DocumentIntelligenceLayoutSkillOutputMode,
   EdgeNGramTokenFilterSide,
   EdgeNGramTokenizer,
   ElisionTokenFilter,
@@ -100,6 +106,8 @@ export {
   KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCustomEntityLookupSkillLanguage,
+  KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth,
+  KnownDocumentIntelligenceLayoutSkillOutputMode,
   KnownEntityCategory,
   KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
@@ -112,6 +120,8 @@ export {
   KnownLexicalAnalyzerName,
   KnownLexicalNormalizerName,
   KnownLexicalNormalizerName as KnownNormalizerNames,
+  KnownMarkdownHeaderDepth,
+  KnownMarkdownParsingSubmode,
   KnownOcrLineEnding,
   KnownOcrSkillLanguage,
   KnownPIIDetectionSkillMaskingMode,
@@ -128,6 +138,7 @@ export {
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVectorSearchCompressionKind,
+  KnownVectorSearchCompressionRescoreStorageMethod,
   KnownVectorSearchCompressionTarget,
   KnownVectorSearchVectorizerKind,
   KnownVisualFeature,
@@ -144,6 +155,8 @@ export {
   MagnitudeScoringFunction,
   MagnitudeScoringParameters,
   MappingCharFilter,
+  MarkdownHeaderDepth,
+  MarkdownParsingSubmode,
   MergeSkill,
   MicrosoftLanguageStemmingTokenizer,
   MicrosoftLanguageTokenizer,
@@ -159,6 +172,7 @@ export {
   PatternReplaceTokenFilter,
   PhoneticEncoder,
   PhoneticTokenFilter,
+  RescoringOptions,
   ResourceCounter,
   ScalarQuantizationCompression,
   ScalarQuantizationParameters,
@@ -218,13 +232,14 @@ export {
   VectorEncodingFormat,
   VectorSearchCompression as BaseVectorSearchCompression,
   VectorSearchCompressionKind,
+  VectorSearchCompressionRescoreStorageMethod,
   VectorSearchCompressionTarget,
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-} from "./generated/service/models";
-export { default as GeographyPoint } from "./geographyPoint";
-export { IndexDocumentsBatch } from "./indexDocumentsBatch";
+} from "./generated/service/models/index.js";
+export { default as GeographyPoint } from "./geographyPoint.js";
+export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export {
   AutocompleteOptions,
   AutocompleteRequest,
@@ -238,6 +253,7 @@ export {
   ExtractDocumentKey,
   ExtractiveQueryAnswer,
   ExtractiveQueryCaption,
+  GenerativeQueryRewrites,
   GetDocumentOptions,
   IndexDocumentsAction,
   IndexDocumentsOptions,
@@ -248,6 +264,7 @@ export {
   QueryAnswer,
   QueryCaption,
   QueryResultDocumentSemanticField,
+  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchDocumentsResultBase,
@@ -289,20 +306,21 @@ export {
   VectorSearchOptions,
   VectorSimilarityThreshold,
   VectorThreshold,
-} from "./indexModels";
-export { odata } from "./odata";
-export { KnownSearchAudience } from "./searchAudience";
-export { SearchClient, SearchClientOptions } from "./searchClient";
-export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
-export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
+} from "./indexModels.js";
+export { odata } from "./odata.js";
+export { KnownSearchAudience } from "./searchAudience.js";
+export { SearchClient, SearchClientOptions } from "./searchClient.js";
+export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient.js";
+export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient.js";
 export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT,
   IndexDocumentsClient,
   SearchIndexingBufferedSender,
-} from "./searchIndexingBufferedSender";
+} from "./searchIndexingBufferedSender.js";
 export {
+  AIServicesAccountIdentity,
   AIServicesVisionParameters,
   AIServicesVisionVectorizer,
   AliasIterator,
@@ -347,6 +365,7 @@ export {
   DeleteIndexOptions,
   DeleteSkillsetOptions,
   DeleteSynonymMapOptions,
+  DocumentIntelligenceLayoutSkill,
   EdgeNGramTokenFilter,
   EntityCategory,
   EntityRecognitionSkill,
@@ -446,5 +465,5 @@ export {
   WebApiParameters,
   WebApiSkill,
   WebApiVectorizer,
-} from "./serviceModels";
-export { createSynonymMapFromFile } from "./synonymMapHelper";
+} from "./serviceModels.js";
+export { createSynonymMapFromFile } from "./synonymMapHelper.js";

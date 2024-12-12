@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionConfig } from "@azure/core-amqp";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ConnectionConfig } from "@azure/core-amqp";
+import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
-  ServiceBusClientOptions,
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
 } from "./constructorHelpers.js";
 import { ConnectionContext } from "./connectionContext.js";
-import {
+import type {
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
   ServiceBusSenderOptions,
 } from "./models.js";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver.js";
-import {
-  ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl,
-} from "./receivers/sessionReceiver.js";
-import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager.js";
-import { ServiceBusSender, ServiceBusSenderImpl } from "./sender.js";
+import type { ServiceBusReceiver } from "./receivers/receiver.js";
+import { ServiceBusReceiverImpl } from "./receivers/receiver.js";
+import type { ServiceBusSessionReceiver } from "./receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "./receivers/sessionReceiver.js";
+import type { ServiceBusRuleManager } from "./serviceBusRuleManager.js";
+import { ServiceBusRuleManagerImpl } from "./serviceBusRuleManager.js";
+import type { ServiceBusSender } from "./sender.js";
+import { ServiceBusSenderImpl } from "./sender.js";
 import { entityPathMisMatchError } from "./util/errors.js";
 import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";

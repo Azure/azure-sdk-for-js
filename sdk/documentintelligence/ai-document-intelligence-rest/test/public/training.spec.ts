@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  testPollingOptions,
-} from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, testPollingOptions } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
-import { assert, describe, beforeEach, afterEach, it, Context } from "vitest";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
-import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import {
+import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import type {
   AnalyzeResultOperationOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
   DocumentModelCopyToOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTypeDetails,
-  getLongRunningPoller,
-  isUnexpected,
-  paginate,
 } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
 
 describe("model management", () => {
   let recorder: Recorder;
@@ -236,11 +231,11 @@ describe("model management", () => {
   it.skip(`compose model`, async function () {
     // Helper function to train/validate single model
     async function makeModel(prefix: string): Promise<Record<string, DocumentTypeDetails>> {
-      const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
+      const testModelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
       const initialResponse = await client.path("/documentModels:build").post({
         body: {
           buildMode: "template",
-          modelId: modelId,
+          modelId: testModelId,
           azureBlobSource: {
             containerUrl: containerSasUrl(),
           },
@@ -250,15 +245,16 @@ describe("model management", () => {
         throw initialResponse.body.error;
       }
       const poller = getLongRunningPoller(client, initialResponse);
-      const model = (
+      const { modelId, docTypes } = (
         (await (await poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
       ).result!;
 
-      assert.equal(model.modelId, modelId);
-      assert.equal(model.modelId, modelId);
-      assert.ok(model.docTypes);
+      assert.equal(modelId, testModelId);
+      if (!docTypes) {
+        throw new Error("Expected docTypes to be defined");
+      }
 
-      return { modelId: model.docTypes };
+      return { modelId: docTypes };
     }
 
     const modelIdDoctypeMap = await Promise.all([makeModel("input1"), makeModel("input2")]);

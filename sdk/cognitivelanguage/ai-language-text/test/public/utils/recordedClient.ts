@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TextAnalysisClient, TextAnalysisClientOptions } from "../../../src/";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+import type { TextAnalysisClientOptions } from "../../../src/index.js";
+import { AzureKeyCredential, TextAnalysisClient } from "../../../src/index.js";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -27,6 +24,7 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK2015", "AZSDK2030", "AZSDK3430", "AZSDK3493", "AZSDK4001"],
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
@@ -67,7 +65,7 @@ export function createClient(
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function startRecorder(currentTest?: Test): Promise<Recorder> {
+export async function startRecorder(currentTest?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderStartOptions);
   await recorder.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] });

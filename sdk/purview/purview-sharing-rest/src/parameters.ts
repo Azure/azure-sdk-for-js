@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { ReceivedShare, TenantEmailRegistration, SentShare, SentShareInvitation } from "./models";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
+  ReceivedShare,
+  TenantEmailRegistration,
+  SentShare,
+  SentShareInvitation,
+} from "./models.js";
 
 export type ReceivedSharesGetReceivedShareParameters = RequestParameters;
 

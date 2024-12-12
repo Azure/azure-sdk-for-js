@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the tags of of a Service Fabric managed cluster resource with the specified name.
  *
  * @summary Update the tags of of a Service Fabric managed cluster resource with the specified name.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ManagedClusterPatchOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedClusterPatchOperation_example.json
  */
 async function patchAManagedCluster() {
   const subscriptionId =

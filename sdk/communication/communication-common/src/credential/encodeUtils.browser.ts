@@ -8,11 +8,7 @@ export function encodeUTF8fromBase64(str: string): Uint8Array {
     throw new Error("Your browser environment is missing the global `atob` function");
   }
   const binary = atob(str);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return bytes;
+  return Uint8Array.from(binary, (char) => char.charCodeAt(0));
 }
 
 export function encodeBase64(value: ArrayBuffer): string {
@@ -20,9 +16,6 @@ export function encodeBase64(value: ArrayBuffer): string {
     throw new Error("Your browser environment is missing the global `btoa` function");
   }
   const bytes = new Uint8Array(value);
-  let binary = "";
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
-  }
+  const binary = String.fromCharCode.apply(null, [...bytes]);
   return btoa(binary);
 }

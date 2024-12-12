@@ -6,10 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexClient, SynonymMap } from "@azure/search-documents";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SynonymMap } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents";
+import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
 const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";

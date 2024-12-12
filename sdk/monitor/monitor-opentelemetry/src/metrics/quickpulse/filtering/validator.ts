@@ -3,14 +3,13 @@
 
 import { TelemetryTypeError, UnexpectedFilterCreateError } from "./quickpulseErrors";
 import { KnownRequestColumns, KnownDependencyColumns } from "../types";
-import {
+import type {
   DerivedMetricInfo,
-  KnownTelemetryType,
   FilterInfo,
-  KnownPredicateType,
   DocumentFilterConjunctionGroupInfo,
   FilterConjunctionGroupInfo,
 } from "../../../generated";
+import { KnownTelemetryType, KnownPredicateType } from "../../../generated";
 import { getMsFromFilterTimestampString } from "../utils";
 
 const knownStringColumns = new Set<string>([

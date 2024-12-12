@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SipRouting } from "../operationsInterfaces";
+import { SipRouting } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SipRoutingClientContext } from "../sipRoutingClientContext";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SipRoutingClientContext } from "../sipRoutingClientContext.js";
 import {
   SipRoutingGetOptionalParams,
   SipRoutingGetResponse,
   SipRoutingUpdateOptionalParams,
   SipRoutingUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SipRouting operations. */
 export class SipRoutingImpl implements SipRouting {

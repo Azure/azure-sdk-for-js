@@ -7,14 +7,15 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { SearchClient, SelectFields } from "../src/index";
-import {
+import type { SelectFields } from "../src/index.js";
+import { SearchClient } from "../src/index.js";
+import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
   SuggestNarrowedModel,
-} from "../src/indexModels";
+} from "../src/indexModels.js";
 
 type Equals<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;

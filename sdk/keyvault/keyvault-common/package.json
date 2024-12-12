@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-common",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -10,12 +10,11 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && dev-tool run build-package",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -59,22 +58,19 @@
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/logger": "^1.1.5",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.2.0",
-    "@azure/core-util": "^1.10.1"
+    "@azure/core-util": "^1.10.0"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "cross-env": "^7.0.2",
     "eslint": "^9.9.0",
     "playwright": "^1.46.0",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
@@ -91,7 +87,8 @@
     "esmDialects": [
       "browser"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

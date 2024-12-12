@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ModelClient, isUnexpected, ChatCompletionsOutput } from "../../../src/index.js";
+import type { ModelClient, ChatCompletionsOutput } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
 import fs from "fs";
 import path from "path";
 
@@ -17,7 +18,7 @@ function getImageDataUrl(imageFile: string, imageFormat: string): string {
   } catch (error) {
     console.error(`Could not read '${imageFile}'.`);
     console.error("Set the correct path to the image file before running this sample.");
-    process.exit(1);
+    throw error;
   }
 }
 

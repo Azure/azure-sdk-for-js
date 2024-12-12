@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { KnownAssetConversionStatus } from "../generated/models/index";
-import { RemoteRendering } from "../generated/operationsInterfaces";
-import { getConversionInternal } from "../internal/commonQueries";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import { KnownAssetConversionStatus } from "../generated/models/index.js";
+import type { RemoteRendering } from "../generated/operationsInterfaces/index.js";
+import { getConversionInternal } from "../internal/commonQueries.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import { AssetConversion } from "../internal/assetConversion";
+import type { AssetConversion } from "../internal/assetConversion.js";
 
 /**
  * Options to configure the poller for the beginConversion operation.

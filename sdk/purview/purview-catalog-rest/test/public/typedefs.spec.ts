@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PurviewCatalogClient } from "../../src";
+import type { PurviewCatalogClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
-import { Context } from "mocha";
-
-describe("purview catalog tepedefs test", () => {
+describe("purview catalog tepedefs test", { timeout: 500000 }, () => {
   let recorder: Recorder;
   let client: PurviewCatalogClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -30,4 +28,4 @@ describe("purview catalog tepedefs test", () => {
 
     assert.isDefined(result.body.entityDefs?.length);
   });
-}).timeout(60000000000);
+});

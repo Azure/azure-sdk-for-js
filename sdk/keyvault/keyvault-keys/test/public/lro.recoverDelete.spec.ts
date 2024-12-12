@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 import { Recorder, env } from "@azure-tools/test-recorder";
 
-import { DeletedKey, KeyClient } from "../../src/index.js";
+import type { DeletedKey, KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type TestClient from "./utils/testClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `lroRecoverDelete${env.CERTIFICATE_NAME || "KeyName"}`;

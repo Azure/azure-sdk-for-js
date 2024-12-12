@@ -24,6 +24,12 @@ import {
   CassandraClustersListBySubscriptionResponse,
   CassandraClustersListByResourceGroupOptionalParams,
   CassandraClustersListByResourceGroupResponse,
+  CommandPublicResource,
+  CassandraClustersListCommandOptionalParams,
+  CassandraClustersListCommandResponse,
+  BackupResource,
+  CassandraClustersListBackupsOptionalParams,
+  CassandraClustersListBackupsResponse,
   CassandraClustersGetOptionalParams,
   CassandraClustersGetResponse,
   CassandraClustersDeleteOptionalParams,
@@ -34,6 +40,12 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CassandraClustersInvokeCommandAsyncOptionalParams,
+  CassandraClustersInvokeCommandAsyncResponse,
+  CassandraClustersGetCommandAsyncOptionalParams,
+  CassandraClustersGetCommandAsyncResponse,
+  CassandraClustersGetBackupOptionalParams,
+  CassandraClustersGetBackupResponse,
   CassandraClustersDeallocateOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersStatusOptionalParams,
@@ -140,6 +152,130 @@ export class CassandraClustersImpl implements CassandraClusters {
   ): AsyncIterableIterator<ClusterResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  public listCommand(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams,
+  ): PagedAsyncIterableIterator<CommandPublicResource> {
+    const iter = this.listCommandPagingAll(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCommandPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listCommandPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<CommandPublicResource[]> {
+    let result: CassandraClustersListCommandResponse;
+    result = await this._listCommand(resourceGroupName, clusterName, options);
+    yield result.value || [];
+  }
+
+  private async *listCommandPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams,
+  ): AsyncIterableIterator<CommandPublicResource> {
+    for await (const page of this.listCommandPagingPage(
+      resourceGroupName,
+      clusterName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List the backups of this cluster that are available to restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  public listBackups(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListBackupsOptionalParams,
+  ): PagedAsyncIterableIterator<BackupResource> {
+    const iter = this.listBackupsPagingAll(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBackupsPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listBackupsPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListBackupsOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<BackupResource[]> {
+    let result: CassandraClustersListBackupsResponse;
+    result = await this._listBackups(resourceGroupName, clusterName, options);
+    yield result.value || [];
+  }
+
+  private async *listBackupsPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListBackupsOptionalParams,
+  ): AsyncIterableIterator<BackupResource> {
+    for await (const page of this.listBackupsPagingPage(
+      resourceGroupName,
+      clusterName,
       options,
     )) {
       yield* page;
@@ -557,6 +693,172 @@ export class CassandraClustersImpl implements CassandraClusters {
   }
 
   /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  async beginInvokeCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersInvokeCommandAsyncResponse>,
+      CassandraClustersInvokeCommandAsyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<CassandraClustersInvokeCommandAsyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, body, options },
+      spec: invokeCommandAsyncOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CassandraClustersInvokeCommandAsyncResponse,
+      OperationState<CassandraClustersInvokeCommandAsyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  async beginInvokeCommandAsyncAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams,
+  ): Promise<CassandraClustersInvokeCommandAsyncResponse> {
+    const poller = await this.beginInvokeCommandAsync(
+      resourceGroupName,
+      clusterName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  private _listCommand(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams,
+  ): Promise<CassandraClustersListCommandResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listCommandOperationSpec,
+    );
+  }
+
+  /**
+   * Get details about a specified command that was run asynchronously.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param commandId Managed Cassandra cluster command id.
+   * @param options The options parameters.
+   */
+  getCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    commandId: string,
+    options?: CassandraClustersGetCommandAsyncOptionalParams,
+  ): Promise<CassandraClustersGetCommandAsyncResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, commandId, options },
+      getCommandAsyncOperationSpec,
+    );
+  }
+
+  /**
+   * List the backups of this cluster that are available to restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  private _listBackups(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListBackupsOptionalParams,
+  ): Promise<CassandraClustersListBackupsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listBackupsOperationSpec,
+    );
+  }
+
+  /**
+   * Get the properties of an individual backup of this cluster that is available to restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param backupId Id of a restorable backup of a Cassandra cluster.
+   * @param options The options parameters.
+   */
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    options?: CassandraClustersGetBackupOptionalParams,
+  ): Promise<CassandraClustersGetBackupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, backupId, options },
+      getBackupOperationSpec,
+    );
+  }
+
+  /**
    * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
    * the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an
    * already deallocated cluster. Use Start to restart the cluster.
@@ -754,7 +1056,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListClusters,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -770,7 +1072,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListClusters,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -790,7 +1092,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -812,7 +1114,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -842,7 +1144,7 @@ const createUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.body,
@@ -874,7 +1176,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.body,
@@ -906,7 +1208,7 @@ const invokeCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommandOutput,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.body1,
@@ -921,16 +1223,47 @@ const invokeCommandOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const deallocateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/deallocate",
+const invokeCommandAsyncOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommandAsync",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.CommandPublicResource,
+    },
+    201: {
+      bodyMapper: Mappers.CommandPublicResource,
+    },
+    202: {
+      bodyMapper: Mappers.CommandPublicResource,
+    },
+    204: {
+      bodyMapper: Mappers.CommandPublicResource,
+    },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listCommandOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListCommands,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -943,6 +1276,93 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getCommandAsyncOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands/{commandId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListCommands,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.commandId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBackupsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListBackups,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getBackupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups/{backupId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.backupId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deallocateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/deallocate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.xMsForceDeallocate],
+  serializer,
+};
 const startOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/start",
   httpMethod: "POST",
@@ -952,7 +1372,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -973,7 +1393,7 @@ const statusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CassandraClusterPublicStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

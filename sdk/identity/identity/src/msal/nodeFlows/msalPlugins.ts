@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalNode from "@azure/msal-node";
+import type * as msalNode from "@azure/msal-node";
 
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DEFAULT_TOKEN_CACHE_NAME } from "../../constants";
+import {
+  CACHE_CAE_SUFFIX,
+  CACHE_NON_CAE_SUFFIX,
+  DEFAULT_TOKEN_CACHE_NAME,
+} from "../../constants.js";
 
-import { MsalClientOptions } from "./msalClient";
-import { NativeBrokerPluginControl } from "../../plugins/provider";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import type { MsalClientOptions } from "./msalClient.js";
+import type { NativeBrokerPluginControl } from "../../plugins/provider.js";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 
 /**
  * Configuration for the plugins used by the MSAL node client.

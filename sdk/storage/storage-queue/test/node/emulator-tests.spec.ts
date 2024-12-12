@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { QueueClient, QueueServiceClient } from "../../src";
 import {
   getConnectionStringFromEnvironment,

@@ -4,7 +4,7 @@
 /**
  * Current version of the `@azure/identity` package.
  */
-export const SDK_VERSION = `4.5.0`;
+export const SDK_VERSION = `4.5.1`;
 
 /**
  * The default client ID for authentication
@@ -31,7 +31,10 @@ export enum AzureAuthorityHosts {
   AzureChina = "https://login.chinacloudapi.cn",
   /**
    * Germany-based Azure Authority Host
-   */
+   *
+   * @deprecated Microsoft Cloud Germany was closed on October 29th, 2021.
+   *
+   * */
   AzureGermany = "https://login.microsoftonline.de",
   /**
    * US Government Azure Authority Host
@@ -48,6 +51,12 @@ export enum AzureAuthorityHosts {
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+
+/**
+ * @internal
+ * The default environment host for Azure Public Cloud
+ */
+export const DefaultAuthority = "login.microsoftonline.com";
 
 /**
  * @internal

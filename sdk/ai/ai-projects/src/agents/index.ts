@@ -9,15 +9,14 @@ import { createThread, deleteThread, getThread, updateThread } from "./threads.j
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
-import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
-import { AgentEventMessageStream, UpdateRunOptions } from "./inputOutputs.js";
+import { UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import { PollingOptions, ListQueryParameters, OptionalRequestParameters } from "./customModels.js"; 
+import { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse } from "./customModels.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
@@ -76,7 +75,8 @@ export interface AgentsOperations {
     assistantId: string,
     options?: Omit<CreateRunOptions, "assistant_id">,
     requestParams?: OptionalRequestParameters
-  ) => Promise<ThreadRunOutput>;
+  ) => AgentRunResponse;
+
   /** Gets a list of runs for a specified thread. */
   listRuns: (
     threadId: string,
@@ -103,15 +103,7 @@ export interface AgentsOperations {
     tool_outputs: Array<ToolOutput>,
     stream?: boolean | null,
     options?: OptionalRequestParameters,
-  ) => Promise<ThreadRunOutput>;
-
-  /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
-  submitToolOutputsToRunStreaming: (
-    threadId: string,
-    runId: string,
-    tool_outputs: Array<ToolOutput>,
-    options?: OptionalRequestParameters,
-  ) => Promise<AgentEventMessageStream>;
+  ) => AgentRunResponse;
 
   /** Cancels a run of an in progress thread. */
   cancelRun: (
@@ -124,12 +116,7 @@ export interface AgentsOperations {
     assistantId: string,
     options?: Omit<CreateAndRunThreadOptions, "assistant_id">,
     requestParams?: OptionalRequestParameters
-  ) => Promise<ThreadRunOutput>;
-
-  /** Creates a new thread and immediately start a run of that thread and stream */
-  createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
-  /** Creates a new thread and immediately start a run of that thread and stream */
-  createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
+  ) => AgentRunResponse;
 
   /** Creates a new message on a specified thread. */
   createMessage: (
@@ -159,8 +146,8 @@ export interface AgentsOperations {
   /** Uploads a file for use by other operations. */
   uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
-    /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions , requestParams?: OptionalRequestParameters
+  /** Uploads a file for use by other operations. */
+  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -207,7 +194,7 @@ export interface AgentsOperations {
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
     vectorStoreOptions?: VectorStoreOptions,
-    pollingOptions?: PollingOptions, 
+    pollingOptions?: PollingOptions,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreOutput>;
 
@@ -223,7 +210,7 @@ export interface AgentsOperations {
     fileId: string,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreFileOutput>;
-    /** Returns a list of vector store files. */
+  /** Returns a list of vector store files. */
   listVectorStoreFiles: (
     vectorStoreId: string,
     options?: ListQueryParameters & FileStatusFilter,
@@ -333,19 +320,12 @@ function getAgents(context: Client): AgentsOperations {
       stream?: boolean | null,
       options?: OptionalRequestParameters,) =>
       submitToolOutputsToRun(context, threadId, runId, { body: { tool_outputs, stream }, ...options }),
-    submitToolOutputsToRunStreaming: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: OptionalRequestParameters) =>
-      submitToolOutputsToRunStreaming(context, threadId, runId, { body: { tool_outputs }, ...options }),
     cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>
       cancelRun(context, threadId, runId, requestParams),
     createThreadAndRun: (assistantId: string,
       options?: Omit<CreateAndRunThreadOptions, "assistant_id">,
       requestParams?: OptionalRequestParameters) =>
       createThreadAndRun(context, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
-    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) =>
-      createRunStreaming(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
-    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) =>
-      createThreadAndRunStreaming(context, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
-
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
       createMessage(context, threadId, { ...requestParams, body: options }),
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
@@ -361,7 +341,7 @@ function getAgents(context: Client): AgentsOperations {
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
-    uploadFileAndPoll: ( content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
       uploadFileAndPoll(context, {
         body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
         ...(requestParams as { [key: string]: any; }),
@@ -388,7 +368,7 @@ function getAgents(context: Client): AgentsOperations {
       createVectorStoreAndPoll(context, vectorStoreOptions, pollingOptions, requestParams),
 
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: {file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy} }),
+      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: { file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
       getVectorStoreFile(context, vectorStoreId, fileId, requestParams),
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>

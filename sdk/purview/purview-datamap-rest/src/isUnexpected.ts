@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdateDefaultResponse,
   EntityListByGuids200Response,
@@ -194,7 +194,7 @@ import {
   TypeGetTermTemplateDefByGuidDefaultResponse,
   TypeGetTermTemplateDefByName200Response,
   TypeGetTermTemplateDefByNameDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /atlas/v2/entity": ["200"],

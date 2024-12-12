@@ -116,7 +116,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableTableResourcesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [

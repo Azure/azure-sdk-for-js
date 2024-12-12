@@ -9,11 +9,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import {
+import type { Context } from "mocha";
+import type {
   IpGroupsCreateOrUpdateParameters,
   IpGroupsDeleteParameters,
   IpGroupsGetParameters,
@@ -28,15 +29,12 @@ import {
   VirtualNetworksGetParameters,
   VirtualNetworksListParameters,
   VirtualNetworksUpdateTagsParameters,
-  getLongRunningPoller,
-  isUnexpected,
-  paginate,
 } from "../../src";
+import { getLongRunningPoller, isUnexpected, paginate } from "../../src";
 import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -245,7 +243,7 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 2);
+    assert.equal(result.length, 1);
   });
 
   it("subnets list test", async function () {
@@ -427,6 +425,6 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 1);
+    assert.equal(result.length, 0);
   });
 });

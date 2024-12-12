@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   CreateProjectOptions,
   ExportedProject,
   TrainingJobOptions,
@@ -12,7 +12,7 @@ import {
   DeleteDeploymentOptions,
   AssignDeploymentResourcesOptions,
   UnassignDeploymentResourcesOptions,
-} from "./models";
+} from "./models.js";
 
 export interface TextAnalysisAuthoringListProjectsQueryParamProperties {
   /** The maximum number of resources to return from the collection. */

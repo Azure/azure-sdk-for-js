@@ -18,7 +18,7 @@ import {
   MonitorsCreateResponse,
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
-  MonitorsDeleteOptionalParams
+  MonitorsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,38 +29,38 @@ export interface Monitors {
    * @param options The options parameters.
    */
   list(
-    options?: MonitorsListOptionalParams
+    options?: MonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<ElasticMonitorResource>;
   /**
    * List all monitors under the specified resource group.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ElasticMonitorResource>;
   /**
    * Get the properties of a specific monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse>;
   /**
    * Create a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateResponse>,
@@ -69,46 +69,46 @@ export interface Monitors {
   >;
   /**
    * Create a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<MonitorsCreateResponse>;
   /**
    * Update a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse>;
   /**
    * Delete a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<void>;
 }

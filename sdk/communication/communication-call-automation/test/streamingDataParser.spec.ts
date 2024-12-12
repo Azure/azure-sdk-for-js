@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";
-import { streamingData } from "../src/utli/streamingDataParser";
-import { assert } from "chai";
+import type { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription.js";
+import { streamingData } from "../src/utli/streamingDataParser.js";
+import { describe, it, assert } from "vitest";
 
 describe("Stream data parser unit tests", function () {
   const encoder = new TextEncoder();

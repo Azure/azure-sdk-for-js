@@ -1,32 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/recordedClient";
-
-import { Context } from "mocha";
-import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { CreateOrReplaceWorkflowParameters } from "../../src/parameters";
-import { isUnexpected } from "../../src/isUnexpected";
-import { assert } from "chai";
+import { createClient } from "./utils/recordedClient.js";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
+import type { CreateOrReplaceWorkflowParameters } from "../../src/parameters.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Get a workflow", () => {
   let recorder: Recorder;
   let client: PurviewWorkflowClient;
   let workflowId: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     workflowId = "e3467b48-a9d8-11ed-afa1-0242ac120002";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should create a workflow", async function () {
+  it("should create a workflow", async () => {
     const options: CreateOrReplaceWorkflowParameters = {
       body: {
         name: "Create glossary term workflow",
@@ -109,7 +106,7 @@ describe("Get a workflow", () => {
     assert.equal(createResult.body.id, workflowId);
   });
 
-  it("should get a workflow", async function () {
+  it("should get a workflow", async () => {
     const getResult = await client.path("/workflows/{workflowId}", workflowId).get();
     if (isUnexpected(getResult)) {
       throw getResult.body.error;

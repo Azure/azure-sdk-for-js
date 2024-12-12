@@ -13,13 +13,12 @@ steps:
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
-      if ($folder -eq "*") { $folder = "" }
+      if ($folder -eq "*" -or $folder -eq "auto") { $folder = "" }
       echo "##vso[task.setvariable variable=folder]$folder"
     displayName: "Set folder variable for readme links"
 
+  # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - script: |
       npm install ./eng/tools/versioning
@@ -28,17 +27,9 @@ steps:
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 
-  - task: Powershell@2
-    inputs:
-      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
-      arguments: >
-        -ServiceDirectory ${{parameters.ServiceDirectory}}
-        -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
-        -AddDevVersion
-      pwsh: true
-      workingDirectory: $(Pipeline.Workspace)
-    displayName: Update package properties with dev version
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -47,7 +38,9 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
+
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
     - task: AzureCLI@2
       inputs:
@@ -60,10 +53,8 @@ steps:
           sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
           echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+  - pwsh: |
+      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
@@ -71,21 +62,21 @@ steps:
         RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
-    displayName: "Build samples"
+      node eng/tools/rush-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+    displayName: "Build samples for PR"
 
   - pwsh: |
       eng/tools/check-api-warning.ps1
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner.js unlink
+      node eng/tools/rush-runner/index.js unlink
     displayName: "Unlink dependencies"
 
   - template: ../steps/generate-doc.yml
@@ -93,19 +84,29 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
-      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+      $artifacts = "$(ArtifactPackageNames)".Split(",")
+
       foreach ($artifact in $artifacts)
       {
-        $artifactName = $artifact.name
-        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
-        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifact.skipPublishDocMs -ne $true)
+        $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
+        $packageJson = Join-Path $(Build.SourcesDirectory) $artifactDetails.DirectoryPath "package.json"
+
+        Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
+        New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
+        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+
+        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
+          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
-          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+          New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
         }
+        else {
+          Write-Host "Skipping documentation for package $artifact."
+        }
+
+        Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse
       }
     displayName: 'Copy Packages'
 

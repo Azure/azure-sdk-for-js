@@ -47,7 +47,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.2",
     "moment": "^2.29.1",
     "puppeteer": "^23.4.0",
     "rimraf": "^6.0.1",
@@ -76,7 +76,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf --glob node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",

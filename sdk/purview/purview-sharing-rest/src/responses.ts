@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ReceivedShareOutput,
   PurviewShareErrorOutput,
   OperationResponseOutput,
@@ -14,7 +14,7 @@ import {
   SentShareInvitationListOutput,
   SentShareInvitationOutput,
   ShareResourceListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get a received share */
 export interface ReceivedSharesGetReceivedShare200Response extends HttpResponse {

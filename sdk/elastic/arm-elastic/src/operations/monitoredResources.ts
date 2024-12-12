@@ -18,7 +18,7 @@ import {
   MonitoredResourcesListNextOptionalParams,
   MonitoredResourcesListOptionalParams,
   MonitoredResourcesListResponse,
-  MonitoredResourcesListNextResponse
+  MonitoredResourcesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,14 +36,14 @@ export class MonitoredResourcesImpl implements MonitoredResources {
 
   /**
    * List the resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredResourcesListOptionalParams
+    options?: MonitoredResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -61,9 +61,9 @@ export class MonitoredResourcesImpl implements MonitoredResources {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -71,7 +71,7 @@ export class MonitoredResourcesImpl implements MonitoredResources {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitoredResourcesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MonitoredResource[]> {
     let result: MonitoredResourcesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class MonitoredResourcesImpl implements MonitoredResources {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -99,12 +99,12 @@ export class MonitoredResourcesImpl implements MonitoredResources {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredResourcesListOptionalParams
+    options?: MonitoredResourcesListOptionalParams,
   ): AsyncIterableIterator<MonitoredResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -112,24 +112,24 @@ export class MonitoredResourcesImpl implements MonitoredResources {
 
   /**
    * List the resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredResourcesListOptionalParams
+    options?: MonitoredResourcesListOptionalParams,
   ): Promise<MonitoredResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -138,11 +138,11 @@ export class MonitoredResourcesImpl implements MonitoredResources {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitoredResourcesListNextOptionalParams
+    options?: MonitoredResourcesListNextOptionalParams,
   ): Promise<MonitoredResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,45 +150,44 @@ export class MonitoredResourcesImpl implements MonitoredResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listMonitoredResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listMonitoredResources",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
+      bodyMapper: Mappers.MonitoredResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
+      bodyMapper: Mappers.MonitoredResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

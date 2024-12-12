@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import * as sinon from "sinon";
 import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
-import { Context } from "mocha";
-import { Uuid } from "../../src/utils/uuid";
-import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
+import type { TableClient, TransactionAction } from "../../src/index.js";
+import { TableTransaction, odata } from "../../src/index.js";
+import { Uuid } from "../../src/utils/uuid.js";
+import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
 const partitionKey = "batchTest";
 const testEntities = [
@@ -19,35 +17,34 @@ const testEntities = [
 
 const suffix = isNodeLike ? "node" : "browser";
 
-describe("concurrent batch operations", function () {
+describe("concurrent batch operations", () => {
   const concurrentTableName = `concurrentBatchTableTest${suffix}`;
   let unRecordedClient: TableClient;
-  before(async function () {
+
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
       await unRecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       await unRecordedClient.deleteTable();
     }
   });
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+
+  beforeEach(async () => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
     unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
   });
 
-  it("should send concurrent transactions", async function () {
+  it("should send concurrent transactions", { skip: !isLiveMode() }, async () => {
     // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
-    if (!isLiveMode()) {
-      this.skip();
-    }
     await Promise.all([
       unRecordedClient.submitTransaction([
         ["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }],
@@ -65,37 +62,37 @@ describe("concurrent batch operations", function () {
   });
 });
 
-describe(`batch operations`, function () {
+describe(`batch operations`, () => {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
   const tableName = `batchTableTest${suffix}`;
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unRecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       await unRecordedClient.deleteTable();
     }
   });
 
-  it("should send a set of create actions when using TableTransaction Helper", async function () {
+  it("should send a set of create actions when using TableTransaction Helper", async () => {
     const transaction = new TableTransaction();
     transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
     transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
@@ -108,7 +105,7 @@ describe(`batch operations`, function () {
     assert.equal(result.getResponseForEntity("2")?.status, 204);
   });
 
-  it("should send a set of create batch operations", async function () {
+  it("should send a set of create batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -126,7 +123,7 @@ describe(`batch operations`, function () {
     });
   });
 
-  it("should send a set of update batch operations", async function () {
+  it("should send a set of update batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -150,7 +147,7 @@ describe(`batch operations`, function () {
     }
   });
 
-  it("should send a set of update batch operations with options", async function () {
+  it("should send a set of update batch operations with options", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -183,7 +180,7 @@ describe(`batch operations`, function () {
     }
   });
 
-  it("should send a set of upsert batch operations", async function () {
+  it("should send a set of upsert batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -216,7 +213,7 @@ describe(`batch operations`, function () {
     assert.equal(inserted?.rowKey, "4");
   });
 
-  it("should send a set of delete batch operations", async function () {
+  it("should send a set of delete batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -231,7 +228,7 @@ describe(`batch operations`, function () {
     });
   });
 
-  it("should send multiple transactions with the same partition key", async function () {
+  it("should send multiple transactions with the same partition key", async () => {
     const multiBatchPartitionKey = "multiBatch1";
     const actions1: TransactionAction[] = [
       ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
@@ -267,7 +264,7 @@ describe(`batch operations`, function () {
     assert.equal(entityCount, 6);
   });
 
-  it("should support empty partition and row keys", async function () {
+  it("should support empty partition and row keys", async () => {
     const actions1: TransactionAction[] = [["create", { partitionKey: "", rowKey: "", value: "" }]];
 
     await client.submitTransaction(actions1);
@@ -287,23 +284,23 @@ describe(`batch operations`, function () {
   });
 });
 
-describe("Handle suberror", function () {
+describe("Handle suberror", () => {
   let client: TableClient;
   let recorder: Recorder;
   const tableName = "noExistingTableError";
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
-  it("should handle sub request error", async function () {
+  it("should handle sub request error", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { LATEST_API_VERSION } from "./constants.js";
-import { KeyVaultClient, Setting as GeneratedSetting } from "./generated/index.js";
+import type { Setting as GeneratedSetting } from "./generated/index.js";
+import { KeyVaultClient } from "./generated/index.js";
 import { logger } from "./log.js";
-import {
+import type {
   UpdateSettingOptions,
   GetSettingOptions,
   ListSettingsOptions,
@@ -72,7 +73,6 @@ export class KeyVaultSettingsClient {
    * @param options - options used to configure Key Vault API requests.
 
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
@@ -129,7 +129,6 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
     const { settings } = await this.client.getSettings(this.vaultUrl, options);
     return { settings: settings?.map(makeSetting) ?? [] };

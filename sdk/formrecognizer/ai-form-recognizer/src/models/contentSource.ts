@@ -4,7 +4,7 @@
 import {
   AzureBlobContentSource as AzureBlobSourceDetails,
   AzureBlobFileListContentSource as AzureBlobFileListSourceDetails,
-} from "../generated";
+} from "../generated/index.js";
 
 export { AzureBlobSourceDetails, AzureBlobFileListSourceDetails };
 

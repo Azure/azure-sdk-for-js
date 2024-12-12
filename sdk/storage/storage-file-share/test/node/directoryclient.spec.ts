@@ -11,15 +11,10 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils";
-import {
-  newPipeline,
-  ShareDirectoryClient,
-  StorageSharedKeyCredential,
-  ShareClient,
-  getFileServiceAccountAudience,
-} from "../../src";
+import type { StorageSharedKeyCredential, ShareClient } from "../../src";
+import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DirectoryClient Node.js only", () => {

@@ -1,6 +1,6 @@
 {
   "name": "@azure/create-microsoft-playwright-testing",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Package to setup @azure/microsoft-playwright-testing",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/create-microsoft-playwright-testing/README.md",
   "sdk-type": "client",
@@ -36,12 +36,11 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
+    "clean": "dev-tool run vendored rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -70,9 +69,7 @@
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
     "@vitest/coverage-istanbul": "^2.1.2",
-    "cross-env": "^7.0.2",
     "eslint": "^9.9.0",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "vitest": "^2.1.2"
   },

@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
-import {
+import type {
   AnalyzeStatusOptionalParams as AnalyzeActionsOperationStatusOptions,
   AnalyzeJobState,
   AnalyzeResponse as BeginAnalyzeResponse,
   JobManifestTasks as GeneratedActions,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "../../generated/models";
-import {
+} from "../../generated/models/index.js";
+import type {
   AnalyzeActionsResult,
   PagedAnalyzeActionsResult,
   PagedAsyncIterableAnalyzeActionsResult,
-  createAnalyzeActionsResult,
-} from "../../analyzeActionsResult";
-import { PageSettings } from "@azure/core-paging";
-import { getOperationId, nextLinkToTopAndSkip, throwError } from "../../util";
-import { AnalysisPollOperation, AnalysisPollOperationState, OperationMetadata } from "../poller";
-import { GeneratedClient as Client } from "../../generated";
-import { logger } from "../../logger";
-import { TracingClient } from "@azure/core-tracing";
+} from "../../analyzeActionsResult.js";
+import { createAnalyzeActionsResult } from "../../analyzeActionsResult.js";
+import type { PageSettings } from "@azure/core-paging";
+import { getOperationId, nextLinkToTopAndSkip, throwError } from "../../util.js";
+import type { AnalysisPollOperationState, OperationMetadata } from "../poller.js";
+import { AnalysisPollOperation } from "../poller.js";
+import type { GeneratedClient as Client } from "../../generated/index.js";
+import { logger } from "../../logger.js";
+import type { TracingClient } from "@azure/core-tracing";
 
 /**
  * @internal

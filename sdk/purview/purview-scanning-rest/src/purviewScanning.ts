@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KeyVaultConnectionsGetParameters,
   KeyVaultConnectionsCreateParameters,
   KeyVaultConnectionsDeleteParameters,
@@ -37,8 +37,8 @@ import {
   TriggersGetTriggerParameters,
   TriggersCreateTriggerParameters,
   TriggersDeleteTriggerParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   KeyVaultConnectionsGet200Response,
   KeyVaultConnectionsGetdefaultResponse,
   KeyVaultConnectionsCreate200Response,
@@ -121,9 +121,10 @@ import {
   TriggersDeleteTrigger200Response,
   TriggersDeleteTrigger204Response,
   TriggersDeleteTriggerdefaultResponse,
-} from "./responses";
-import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+} from "./responses.js";
+import type { ClientOptions, Client } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface KeyVaultConnectionsGet {
   /** Gets key vault information */

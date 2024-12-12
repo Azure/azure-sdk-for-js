@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { TraceFlags } from "@opentelemetry/api";
-import { LogRecord, BatchLogRecordProcessor, LogRecordExporter } from "@opentelemetry/sdk-logs";
+import type { LogRecord, LogRecordExporter } from "@opentelemetry/sdk-logs";
+import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 /**
  * Azure Monitor BatchLogRecord Processor.

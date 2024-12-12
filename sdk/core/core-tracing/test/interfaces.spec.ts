@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as coreAuth from "@azure/core-auth";
-import * as coreTracing from "../src/index.js";
+import type * as coreAuth from "@azure/core-auth";
+import type * as coreTracing from "../src/index.js";
 import { describe, it, assert } from "vitest";
 import { createTracingContext } from "../src/tracingContext.js";
 

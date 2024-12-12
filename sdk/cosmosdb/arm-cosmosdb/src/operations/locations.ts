@@ -110,7 +110,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LocationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -126,7 +126,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LocationGetResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageClient as StorageClientContext } from "./generated/src/";
+import type { StorageClient as StorageClientContext } from "./generated/src/";
 import { StorageContextClient } from "./StorageContextClient";
-import { getCoreClientOptions, getCredentialFromPipeline, PipelineLike } from "./Pipeline";
+import type { PipelineLike } from "./Pipeline";
+import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { TokenCredential } from "@azure/core-auth";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { AnonymousCredential } from "./credentials/AnonymousCredential";
+import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { TokenCredential } from "@azure/core-auth";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * An interface for options common to every remote operation.

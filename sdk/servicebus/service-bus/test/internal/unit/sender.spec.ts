@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
-import { ConnectionContext } from "../../../src/connectionContext.js";
-import { ServiceBusMessage } from "../../../src/index.js";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type { ServiceBusMessage } from "../../../src/index.js";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender.js";
 import { createConnectionContextForTests } from "./unittestUtils.js";
 import {

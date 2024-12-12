@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeActionName,
   AnalyzeActionParameters,
   AnalyzeBatchAction,
@@ -11,22 +11,24 @@ import {
   RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   AnalyzeBatchActionUnion,
   GeneratedClientOptionalParams,
   LanguageDetectionInput,
   TextDocumentInput,
-} from "./generated/models";
-import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+} from "./generated/models/index.js";
+import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import {
   convertToLanguageDetectionInput,
   convertToTextDocumentInput,
   getOperationOptions,
   isStringArray,
-} from "./util";
+} from "./util.js";
 import {
   createAnalyzeBatchLro,
   createCreateAnalyzeBatchPollerLro,
@@ -34,13 +36,13 @@ import {
   createUpdateAnalyzeState,
   getDocIDsFromState,
   processAnalyzeResult,
-} from "./lro";
-import { throwError, transformActionResult } from "./transforms";
-import { GeneratedClient } from "./generated/generatedClient";
+} from "./lro.js";
+import { throwError, transformActionResult } from "./transforms.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createHttpPoller } from "@azure/core-lro";
-import { logger } from "./logger";
-import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { logger } from "./logger.js";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
 
 /**
  * A client for interacting with the text analysis features in Azure Cognitive

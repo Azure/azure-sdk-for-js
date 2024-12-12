@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubMessage, WebPubSubClientProtocol } from "@azure/web-pubsub-client";
+import type { WebPubSubMessage, WebPubSubClientProtocol } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufProtocolBase } from "./webPubSubProtobufProtocolBase.js";
 
 /**
