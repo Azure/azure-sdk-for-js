@@ -10,7 +10,7 @@ import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
-import { exists } from "node:fs/promises";
+import { existsSync } from "node:fs";
 
 const log = createPrinter("migrate-package");
 
@@ -185,7 +185,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
-  if (!(await exists(apiExtractorJsonPath))) {
+  if (!existsSync(apiExtractorJsonPath)) {
     log.warn(`Could not find api-extractor.json at ${apiExtractorJsonPath}`);
     return;
   }
