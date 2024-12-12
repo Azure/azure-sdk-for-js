@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DeviceUpdateListUpdatesParameters,
   DeviceUpdateImportUpdateParameters,
   DeviceUpdateGetUpdateParameters,
@@ -52,8 +52,8 @@ import {
   DeviceManagementListLogCollectionsParameters,
   DeviceManagementGetLogCollectionDetailedStatusParameters,
   DeviceManagementListHealthOfDevicesParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
   DeviceUpdateImportUpdate200Response,
@@ -159,8 +159,8 @@ import {
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
   DeviceManagementListHealthOfDevicesdefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DeviceUpdateListUpdates {
   /** Get a list of all updates that have been imported to Device Update for IoT Hub. */

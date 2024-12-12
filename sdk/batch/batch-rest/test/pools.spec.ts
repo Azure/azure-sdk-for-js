@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   BatchPoolResizeContent,
   BatchPoolUpdateContent,
@@ -13,13 +14,18 @@ import {
   ListPoolsParameters,
   ReplacePoolPropertiesParameters,
   ResizePoolParameters,
+} from "../src/index.js";
+import {
   isUnexpected,
   paginate,
+  type GetPool200Response,
+  type BatchPoolNodeCountsOutput,
 } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeEach, afterEach, assert, expect } from "vitest";
+import { waitForNodesToStart } from "./utils/pool.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -31,6 +37,7 @@ const ENDPOINT_POOL = getResourceName("Pool-Endpoint");
 const TEST_POOL3 = getResourceName("Pool-3");
 const SECURITY_PROFILE_POOL = getResourceName("Pool-SecurityProfile");
 const AUTO_OS_UPGRADE_POOL = getResourceName("Pool-AutoOSUpgrade");
+const CVM_POOL = getResourceName("Pool-Confidential");
 
 describe("Pool Operations Test", () => {
   let recorder: Recorder;
@@ -135,7 +142,7 @@ describe("Pool Operations Test", () => {
   it("should get a pool reference successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const getSteadyPool = async () => {
+    const getSteadyPool = async (): Promise<GetPool200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}
@@ -348,6 +355,13 @@ describe("Pool Operations Test", () => {
       body: {
         id: recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL),
         vmSize: VMSIZE_A1,
+        userAccounts: [
+          {
+            name: nonAdminPoolUser,
+            password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
+            elevationLevel: "nonadmin",
+          },
+        ],
         networkConfiguration: {
           endpointConfiguration: {
             inboundNATPools: [
@@ -365,15 +379,22 @@ describe("Pool Operations Test", () => {
                   },
                 ],
               },
+              {
+                name: "ssh",
+                protocol: "tcp",
+                backendPort: 22,
+                frontendPortRangeStart: 15000,
+                frontendPortRangeEnd: 15100,
+              },
             ],
           },
         },
         virtualMachineConfiguration: {
-          nodeAgentSKUId: "batch.node.ubuntu 18.04",
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
           imageReference: {
             publisher: "Canonical",
-            offer: "UbuntuServer",
-            sku: "18.04-LTS",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
           },
         },
         targetDedicatedNodes: 1,
@@ -387,25 +408,8 @@ describe("Pool Operations Test", () => {
 
   it("should get the details of a pool with endpoint configuration successfully", async () => {
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    const listNodes = async () => {
-      const listResult = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
-      if (isUnexpected(listResult)) {
-        assert.fail(`Received unexpected status code from list compute nodes: ${listResult.status}
-              Response Body: ${listResult.body.message}`);
-      }
 
-      const paginateResponse = paginate(batchClient, listResult);
-      const nodeList = [];
-      for await (const node of paginateResponse) {
-        nodeList.push(node);
-      }
-      if (nodeList.length > 0) {
-        return nodeList;
-      }
-      return null;
-    };
-
-    const nodeList = await waitForNotNull(listNodes);
+    const nodeList = await waitForNodesToStart(poolId, batchClient);
 
     assert.lengthOf(nodeList, 1);
     assert.isDefined(nodeList[0].endpointConfiguration);
@@ -420,9 +424,8 @@ describe("Pool Operations Test", () => {
   it("should get pool node counts successfully", async () => {
     // let poolList = [];
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    // eslint-disable-next-line no-constant-condition
 
-    const listNodeCounts = async () => {
+    const listNodeCounts = async (): Promise<BatchPoolNodeCountsOutput[] | null> => {
       const poolList = [];
       const listNodeCountResult = await batchClient.path("/nodecounts").get();
       if (isUnexpected(listNodeCountResult)) {
@@ -451,6 +454,28 @@ describe("Pool Operations Test", () => {
     assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
   });
 
+  it("should get a remote login settings successfully", async () => {
+    const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
+
+    const nodeList = await waitForNodesToStart(poolId, batchClient);
+
+    const node = nodeList[0];
+    if (!node.id) {
+      assert.fail("Node id is not defined in the node object");
+    }
+
+    const res = await batchClient
+      .path("/pools/{poolId}/nodes/{nodeId}/remoteloginsettings", poolId, node.id)
+      .get();
+
+    if (isUnexpected(res)) {
+      assert.fail(`Received unexpected status code from getting remote login settings: ${res.status}
+              Response Body: ${res.body.message}`);
+    }
+    expect(res.body.remoteLoginIPAddress).to.be.a("string");
+    expect(res.body.remoteLoginPort).to.be.a("number");
+  });
+
   it("should create a second pool successfully", async () => {
     const poolAddParams: CreatePoolParameters = {
       body: {
@@ -474,7 +499,7 @@ describe("Pool Operations Test", () => {
 
   it("should start pool resizing successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    const getSteadyPool = async () => {
+    const getSteadyPool = async (): Promise<GetPool200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}
@@ -672,6 +697,68 @@ describe("Pool Operations Test", () => {
         prioritizeUnhealthyInstances: false,
         rollbackFailedInstancesOnPolicyBreach: false,
       });
+    } finally {
+      await batchClient.path("/pools/{poolId}", poolId).delete();
+    }
+  });
+
+  it("should create a pool with confidential VM", async () => {
+    const poolId = recorder.variable("CVM_POOL", CVM_POOL);
+    const poolParams: CreatePoolParameters = {
+      body: {
+        id: poolId,
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          securityProfile: {
+            securityType: "confidentialVM",
+            encryptionAtHost: true,
+            uefiSettings: {
+              secureBootEnabled: true,
+              vTpmEnabled: true,
+            },
+          },
+          osDisk: {
+            managedDisk: {
+              securityProfile: {
+                securityEncryptionType: "VMGuestStateOnly",
+              },
+            },
+          },
+        },
+        targetDedicatedNodes: 0,
+      },
+      contentType: "application/json; odata=minimalmetadata",
+    };
+
+    const result = await batchClient.path("/pools").post(poolParams);
+
+    if (isUnexpected(result)) {
+      assert.fail(`Received unexpected status code from creating pool: ${result.status}`);
+    }
+
+    try {
+      const res = await batchClient.path("/pools/{poolId}", poolId).get();
+
+      if (isUnexpected(res)) {
+        assert.fail(`Received unexpected status code from getting pool: ${res.status}`);
+      }
+      const securityProfile = res.body.virtualMachineConfiguration!.securityProfile!;
+      assert.equal(securityProfile.securityType?.toLocaleLowerCase(), "confidentialvm");
+      assert.equal(securityProfile.encryptionAtHost, true);
+      assert.equal(securityProfile.uefiSettings!.secureBootEnabled, true);
+      assert.equal(securityProfile.uefiSettings!.vTpmEnabled, true);
+
+      const osDisk = res.body.virtualMachineConfiguration!.osDisk!;
+      assert.equal(
+        osDisk.managedDisk!.securityProfile!.securityEncryptionType?.toLocaleLowerCase(),
+        "vmgueststateonly",
+      );
     } finally {
       await batchClient.path("/pools/{poolId}", poolId).delete();
     }

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 export interface FabricContext extends Client {}
 
@@ -20,7 +20,10 @@ export function createFabric(
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentInfo = `azsdk-js-arm-fabric/1.0.1`;
+  const userAgentPrefix = prefixFromOptions
+    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+    : `azsdk-js-api ${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

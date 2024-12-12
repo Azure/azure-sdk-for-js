@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  VitestTestContext,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { ClientOptions } from "@azure-rest/core-client";
-import BatchServiceClient, { BatchClient } from "../../src/index.js";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { BatchClient } from "../../src/index.js";
+import BatchServiceClient from "../../src/index.js";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
-import {
-  // AzureCliCredential,
-  // AzureCliCredential,
-  InteractiveBrowserCredential,
-} from "@azure/identity";
-import { isNode } from "@azure-tools/test-utils";
+
+import { isNodeLike } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { EnvTokenCredential } from "./envTokenCredential.js";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -34,7 +27,7 @@ const recorderEnvSetup: RecorderStartOptions = {
     AZURE_BATCH_ACCESS_KEY: "api_key",
   },
   // see https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
-  removeCentralSanitizers: ["AZSDK3430", "AZSDK3479", "AZSDK3402", "AZSDK3493"],
+  removeCentralSanitizers: ["AZSDK3430", "AZSDK3479", "AZSDK3402", "AZSDK3493", "AZSDK4001"],
   sanitizerOptions: {
     bodyKeySanitizers: [
       {
@@ -61,7 +54,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(ctx: VitestTestContext): Promise<Recorder> {
+export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(ctx);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: ["client-request-id", "ocp-date", "accept-encoding"],
@@ -73,16 +66,9 @@ export async function createRecorder(ctx: VitestTestContext): Promise<Recorder> 
 export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
   const credential = isPlaybackMode()
     ? new NoOpCredential()
-    : isNode
+    : isNodeLike
       ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
-      : // : new AzureCliCredential();
-        new InteractiveBrowserCredential({
-          clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
-          tokenCachePersistenceOptions: {
-            enabled: true,
-            name: "batch-test-cache",
-          },
-        });
+      : new EnvTokenCredential();
 
   if (!isPlaybackMode() && !env.AZURE_BATCH_ENDPOINT) {
     throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");

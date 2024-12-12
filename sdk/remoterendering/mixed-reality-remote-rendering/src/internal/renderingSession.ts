@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  KnownRenderingSessionStatus,
-  RenderingServerSize,
-  SessionProperties,
-} from "../generated/index";
-import {
-  RemoteRenderingServiceError,
-  createRemoteRenderingServiceError,
-} from "../remoteRenderingServiceError";
+import type { RenderingServerSize, SessionProperties } from "../generated/index.js";
+import { KnownRenderingSessionStatus } from "../generated/index.js";
+import type { RemoteRenderingServiceError } from "../remoteRenderingServiceError.js";
+import { createRemoteRenderingServiceError } from "../remoteRenderingServiceError.js";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {

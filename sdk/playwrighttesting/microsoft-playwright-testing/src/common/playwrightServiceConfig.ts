@@ -6,7 +6,7 @@ import {
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "./constants";
-import { PlaywrightServiceAdditionalOptions, OsType } from "./types";
+import type { PlaywrightServiceAdditionalOptions, OsType } from "./types";
 import { getAndSetRunId } from "../utils/utils";
 
 class PlaywrightServiceConfig {

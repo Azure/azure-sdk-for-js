@@ -31,7 +31,7 @@ import { X509 } from "jsrsasign";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { writeBanner } from "./utils/helpers";
+import { writeBanner } from "./utils/helpers.js";
 dotenv.config();
 
 async function getPolicyManagementCertificates() {

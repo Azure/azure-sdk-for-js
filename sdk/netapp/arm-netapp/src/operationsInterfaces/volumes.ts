@@ -27,10 +27,14 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesResetCifsPasswordResponse,
+  VolumesSplitCloneFromParentOptionalParams,
+  VolumesSplitCloneFromParentResponse,
   VolumesBreakFileLocksOptionalParams,
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
   VolumesListGetGroupIdListForLdapUserResponse,
+  VolumesListQuotaReportOptionalParams,
+  VolumesListQuotaReportResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -41,6 +45,15 @@ import {
   AuthorizeRequest,
   VolumesAuthorizeReplicationOptionalParams,
   VolumesReInitializeReplicationOptionalParams,
+  PeerClusterForVolumeMigrationRequest,
+  VolumesPeerExternalClusterOptionalParams,
+  VolumesPeerExternalClusterResponse,
+  VolumesAuthorizeExternalReplicationOptionalParams,
+  VolumesAuthorizeExternalReplicationResponse,
+  VolumesFinalizeExternalReplicationOptionalParams,
+  VolumesFinalizeExternalReplicationResponse,
+  VolumesPerformReplicationTransferOptionalParams,
+  VolumesPerformReplicationTransferResponse,
   PoolChangeRequest,
   VolumesPoolChangeOptionalParams,
   VolumesRelocateOptionalParams,
@@ -307,6 +320,41 @@ export interface Volumes {
     options?: VolumesResetCifsPasswordOptionalParams,
   ): Promise<VolumesResetCifsPasswordResponse>;
   /**
+   *  Split operation to convert clone volume to an independent volume.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginSplitCloneFromParent(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesSplitCloneFromParentOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesSplitCloneFromParentResponse>,
+      VolumesSplitCloneFromParentResponse
+    >
+  >;
+  /**
+   *  Split operation to convert clone volume to an independent volume.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginSplitCloneFromParentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesSplitCloneFromParentOptionalParams,
+  ): Promise<VolumesSplitCloneFromParentResponse>;
+  /**
    * Break all the file locks on a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
@@ -375,6 +423,41 @@ export interface Volumes {
     body: GetGroupIdListForLdapUserRequest,
     options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
   ): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
+  /**
+   * Returns report of quotas for the volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginListQuotaReport(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListQuotaReportOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesListQuotaReportResponse>,
+      VolumesListQuotaReportResponse
+    >
+  >;
+  /**
+   * Returns report of quotas for the volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginListQuotaReportAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListQuotaReportOptionalParams,
+  ): Promise<VolumesListQuotaReportResponse>;
   /**
    * Break the replication connection on the destination volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -584,6 +667,154 @@ export interface Volumes {
     volumeName: string,
     options?: VolumesReInitializeReplicationOptionalParams,
   ): Promise<void>;
+  /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginPeerExternalCluster(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPeerExternalClusterResponse>,
+      VolumesPeerExternalClusterResponse
+    >
+  >;
+  /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginPeerExternalClusterAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<VolumesPeerExternalClusterResponse>;
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginAuthorizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesAuthorizeExternalReplicationResponse>,
+      VolumesAuthorizeExternalReplicationResponse
+    >
+  >;
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginAuthorizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<VolumesAuthorizeExternalReplicationResponse>;
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesFinalizeExternalReplicationResponse>,
+      VolumesFinalizeExternalReplicationResponse
+    >
+  >;
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<VolumesFinalizeExternalReplicationResponse>;
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPerformReplicationTransfer(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPerformReplicationTransferResponse>,
+      VolumesPerformReplicationTransferResponse
+    >
+  >;
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPerformReplicationTransferAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<VolumesPerformReplicationTransferResponse>;
   /**
    * Moves volume to another pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

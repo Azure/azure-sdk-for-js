@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QuantumJobClient } from "../../src";
+import { QuantumJobClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { getSanitizers } from "./recorderUtils";
-import { Test } from "mocha";
+import { getSanitizers } from "./recorderUtils.js";
 
-export async function authenticate(testContext: Test | undefined): Promise<any> {
+export async function authenticate(testContext: TestInfo | undefined): Promise<any> {
   const recorder = new Recorder(testContext);
   await recorder.start({
     envSetupForPlayback: {
@@ -36,7 +36,7 @@ export async function authenticate(testContext: Test | undefined): Promise<any> 
     recorder.configureClientOptions({
       endpoint: `https://${assertEnvironmentVariable("AZURE_QUANTUM_WORKSPACE_LOCATION")}.quantum.azure.com`,
       credentialScopes: "https://quantum.microsoft.com/.default",
-    })
+    }),
   );
 
   return { recorder, client, credential };

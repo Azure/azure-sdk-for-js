@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions, RequestParameters } from "./common.js";
+import type { OperationOptions, RequestParameters } from "./common.js";
 
 /**
  * Helper function to convert OperationOptions to RequestParameters
@@ -16,7 +16,6 @@ export function operationOptionsToRequestParameters(options: OperationOptions): 
     abortSignal: options.abortSignal,
     onUploadProgress: options.requestOptions?.onUploadProgress,
     onDownloadProgress: options.requestOptions?.onDownloadProgress,
-    tracingOptions: options.tracingOptions,
     headers: { ...options.requestOptions?.headers },
     onResponse: options.onResponse,
   };

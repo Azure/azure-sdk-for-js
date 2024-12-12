@@ -9,8 +9,6 @@
 
 import { ServiceAuth, ServiceOS, ServiceEnvironmentVariable } from "./common/constants";
 import type {
-  PlaywrightConfig,
-  PlaywrightConfigInput,
   OsType,
   AuthenticationType,
   BrowserConnectOptions,
@@ -27,8 +25,6 @@ export {
   ServiceOS,
   ServiceAuth,
   ServiceEnvironmentVariable,
-  PlaywrightConfig,
-  PlaywrightConfigInput,
   OsType,
   AuthenticationType,
   BrowserConnectOptions,

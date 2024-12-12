@@ -1,41 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { RetryConfig, RetryOptions, SendRequestOptions } from "@azure/core-amqp";
 import {
   Constants,
   RequestResponseLink,
-  RetryConfig,
   RetryOperationType,
-  RetryOptions,
-  SendRequestOptions,
   defaultCancellableLock,
   isSasTokenProvider,
   retry,
   translate,
 } from "@azure/core-amqp";
-import {
-  EventContext,
-  Message,
-  ReceiverEvents,
-  ReceiverOptions,
-  SenderEvents,
-  SenderOptions,
-} from "rhea-promise";
+import type { EventContext, Message, ReceiverOptions, SenderOptions } from "rhea-promise";
+import { ReceiverEvents, SenderEvents } from "rhea-promise";
+import type { SimpleLogger } from "./logger.js";
 import {
   logErrorStackTrace,
   createSimpleLogger,
   logger,
-  SimpleLogger,
   createManagementLogPrefix,
 } from "./logger.js";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error.js";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AccessToken } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext.js";
-import { OperationOptions } from "./util/operationOptions.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AccessToken } from "@azure/core-auth";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { OperationOptions } from "./util/operationOptions.js";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
 import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
-import { TimerLoop } from "./util/timerLoop.js";
+import type { TimerLoop } from "./util/timerLoop.js";
 import { withAuth } from "./withAuth.js";
 import { getRandomName } from "./util/utils.js";
 

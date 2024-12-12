@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DocumentAnalysisClient } from "../../src/documentAnalysisClient";
-import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient";
+import { DocumentAnalysisClient } from "../../src/documentAnalysisClient.js";
+import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient.js";
+import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { CopyAuthorization } from "../../src/generated/index.js";
+import type { FormRecognizerRequestBody } from "../../src/lro/analysis.js";
+import { describe, it, expect, beforeEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-import { assert } from "@azure-tools/test-utils";
-import { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { CopyAuthorization } from "../../src/generated";
-import { FormRecognizerRequestBody } from "../../src/lro/analysis";
+expect.extend({ toSupportTracing });
 
 // #region FakeClient
 
@@ -48,18 +50,18 @@ function fakeIt<Args extends unknown[]>(
 /**
  * Check that method spans are created correctly.
  */
-describe("supports tracing", function () {
-  describe("DocumentAnalysisClient", function () {
+describe("supports tracing", () => {
+  describe("DocumentAnalysisClient", () => {
     let dac: DocumentAnalysisClient;
 
-    beforeEach(function () {
+    beforeEach(() => {
       dac = new DocumentAnalysisClient("https://example.com", new AzureKeyCredential("fake"), {
         httpClient: fakeHttpClient,
       });
     });
 
-    it("beginAnalyzeDocument", () =>
-      assert.supportsTracing(
+    it("beginAnalyzeDocument", () => {
+      expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dac.beginAnalyzeDocument(
             "test",
@@ -67,14 +69,14 @@ describe("supports tracing", function () {
             options,
           );
         }),
-        ["DocumentAnalysisClient.beginAnalyzeDocument"],
-      ));
+      ).toSupportTracing(["DocumentAnalysisClient.beginAnalyzeDocument"]);
+    });
   });
 
-  describe("DocumentModelAdministrationClient", function () {
+  describe("DocumentModelAdministrationClient", () => {
     let dmac: DocumentModelAdministrationClient;
 
-    beforeEach(function () {
+    beforeEach(() => {
       dmac = new DocumentModelAdministrationClient(
         "https://example.com",
         new AzureKeyCredential("fake"),
@@ -84,64 +86,64 @@ describe("supports tracing", function () {
       );
     });
 
-    it("getModel", () =>
-      assert.supportsTracing(
+    it("getModel", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.getDocumentModel"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.getDocumentModel"]);
+    });
 
-    it("getOperation", () =>
-      assert.supportsTracing(
+    it("getOperation", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getOperation("test", options);
         }),
-        ["DocumentModelAdministrationClient.getOperation"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.getOperation"]);
+    });
 
-    it("getInfo", () =>
-      assert.supportsTracing(
+    it("getInfo", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getResourceDetails(options);
         }),
-        ["DocumentModelAdministrationClient.getResourceDetails"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.getResourceDetails"]);
+    });
 
-    it("deleteModel", () =>
-      assert.supportsTracing(
+    it("deleteModel", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.deleteDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.deleteDocumentModel"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.deleteDocumentModel"]);
+    });
 
-    it("beginBuildDocumentModel", () =>
-      assert.supportsTracing(
+    it("beginBuildDocumentModel", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
         }),
-        ["DocumentModelAdministrationClient.beginBuildDocumentModel"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.beginBuildDocumentModel"]);
+    });
 
-    it("beginComposeDocumentModel", () =>
-      assert.supportsTracing(
+    it("beginComposeDocumentModel", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.beginComposeDocumentModel("test", [], options);
         }),
-        ["DocumentModelAdministrationClient.beginComposeDocumentModel"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.beginComposeDocumentModel"]);
+    });
 
-    it("getCopyAuthorization", () =>
-      assert.supportsTracing(
+    it("getCopyAuthorization", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getCopyAuthorization("test", options);
         }),
-        ["DocumentModelAdministrationClient.getCopyAuthorization"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.getCopyAuthorization"]);
+    });
 
-    it("beginCopyModel", () =>
-      assert.supportsTracing(
+    it("beginCopyModel", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.beginCopyModelTo(
             "test",
@@ -156,7 +158,7 @@ describe("supports tracing", function () {
             options,
           );
         }),
-        ["DocumentModelAdministrationClient.beginCopyModel"],
-      ));
+      ).toSupportTracing(["DocumentModelAdministrationClient.beginCopyModel"]);
+    });
   });
 });

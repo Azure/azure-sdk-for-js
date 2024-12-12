@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "crypto";
+import type { PipelineResponse, HttpMethods } from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineResponse,
-  HttpMethods,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 import { reporterLogger } from "./logger";

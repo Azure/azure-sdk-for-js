@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AgentPoolsCreateOrUpdateParameters,
   AgentPoolsDeleteParameters,
   AgentPoolsGetAvailableAgentPoolVersionsParameters,
@@ -59,7 +59,7 @@ import {
   TrustedAccessRoleBindingsListParameters,
   TrustedAccessRolesListParameters,
 } from "./parameters";
-import {
+import type {
   AgentPoolsCreateOrUpdate200Response,
   AgentPoolsCreateOrUpdate201Response,
   AgentPoolsCreateOrUpdatedefaultResponse,
@@ -192,7 +192,7 @@ import {
   TrustedAccessRolesList200Response,
   TrustedAccessRolesListdefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface OperationsList {
   /** Gets a list of operations. */

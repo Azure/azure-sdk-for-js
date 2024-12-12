@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   AutocompleteMode,
+  DebugInfo,
   FacetResult,
   HybridSearch,
   IndexActionType,
@@ -18,14 +19,15 @@ import {
   QueryDebugMode,
   QueryLanguage,
   QueryResultDocumentRerankerInput,
+  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
   SemanticFieldState,
-  Speller,
+  SemanticQueryRewritesResultType,
   VectorsDebugInfo,
-} from "./generated/data/models";
-import GeographyPoint from "./geographyPoint";
+} from "./generated/data/models/index.js";
+import type GeographyPoint from "./geographyPoint.js";
 
 /**
  * Options for performing the count operation on the index.
@@ -242,6 +244,11 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
   kind: "text";
   /** The text to be vectorized to perform a vector search query. */
   text: string;
+  /**
+   * Can be configured to let a generative model rewrite the query before sending it to be
+   * vectorized.
+   */
+  queryRewrites?: QueryRewrites;
 }
 
 /** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
@@ -343,7 +350,7 @@ export interface BaseSearchRequestOptions<
   /**
    * Improve search recall by spell-correcting individual search query terms.
    */
-  speller?: Speller;
+  speller?: QuerySpeller;
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -443,7 +450,7 @@ export type SearchResult<
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly documentDebugInfo?: DocumentDebugInfo[];
+  readonly documentDebugInfo?: DocumentDebugInfo;
 };
 
 /**
@@ -477,6 +484,11 @@ export interface SearchDocumentsResultBase {
    */
   readonly answers?: QueryAnswerResult[];
   /**
+   * Debug information that applies to the search results as a whole.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly debugInfo?: DebugInfo;
+  /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -486,6 +498,11 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticSearchResultsType?: SemanticSearchResultsType;
+  /**
+   * Type of query rewrite that was used to retrieve documents.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 /**
@@ -952,6 +969,10 @@ export interface ExtractiveQueryAnswer {
    * The confidence threshold. Default threshold is 0.7
    */
   threshold?: number;
+  /**
+   * An optional upper bound on the number of characters in each answer.
+   */
+  maxAnswerLength?: number;
 }
 
 /**
@@ -965,6 +986,10 @@ export type QueryAnswer = ExtractiveQueryAnswer;
 export interface ExtractiveQueryCaption {
   captionType: "extractive";
   highlight?: boolean;
+  /**
+   * An optional upper bound on the number of characters in each caption.
+   */
+  maxCaptionLength?: number;
 }
 
 /**
@@ -1005,6 +1030,11 @@ export interface SemanticSearchOptions {
    */
   captions?: QueryCaption;
   /**
+   * When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will
+   * produce 10 (default) rewrites to help increase the recall of the request. Defaults to `none`.
+   */
+  queryRewrites?: QueryRewrites;
+  /**
    * Allows setting a separate search query that will be solely used for semantic reranking,
    * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
    * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
@@ -1018,6 +1048,17 @@ export interface SemanticSearchOptions {
    * Enables a debugging tool that can be used to further explore your search results.
    */
   debugMode?: QueryDebugMode;
+}
+
+/** Defines options for query rewrites. */
+export type QueryRewrites = GenerativeQueryRewrites;
+
+/** Generate alternative query terms to increase the recall of a search request. */
+export interface GenerativeQueryRewrites {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  rewritesType: "generative";
+  /** The number of query rewrites to generate. Defaults to 10.*/
+  count?: number;
 }
 
 /**

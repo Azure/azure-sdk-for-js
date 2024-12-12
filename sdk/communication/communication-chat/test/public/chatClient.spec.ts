@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../../src";
-import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
-import { isNode } from "@azure/core-util";
-import sinon from "sinon";
-import { CommunicationIdentifier } from "@azure/communication-common";
-import { Context } from "mocha";
-import { CommunicationUserToken } from "@azure/communication-identity";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import { isNodeLike } from "@azure/core-util";
+import type { ChatClient, ChatThreadClient } from "../../src/index.js";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import type { CommunicationUserToken } from "@azure/communication-identity";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
 
-describe("ChatClient", function () {
+describe("ChatClient", () => {
   let threadId: string | undefined;
   let recorder: Recorder;
   let chatClient: ChatClient;
@@ -20,15 +19,9 @@ describe("ChatClient", function () {
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
-  after(async function () {
-    // await deleteTestUser(testUser);
-    // await deleteTestUser(testUser2);
-    // await deleteTestUser(testUser3);
-  });
-
-  describe("Chat Operations", function () {
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
+  describe("Chat Operations", () => {
+    beforeEach(async (ctx) => {
+      recorder = await createRecorder(ctx);
       await recorder.setMatcher("HeaderlessMatcher");
       if (!communicationUserToken) {
         communicationUserToken = await createTestUser(recorder);
@@ -36,11 +29,11 @@ describe("ChatClient", function () {
       chatClient = createChatClient(communicationUserToken.token, recorder);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
-    it("successfully creates a thread", async function () {
+    it("successfully creates a thread", { timeout: 8000 }, async () => {
       testUser = communicationUserToken.user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -58,29 +51,24 @@ describe("ChatClient", function () {
 
       assert.isDefined(chatThread);
       assert.isDefined(chatThread?.id);
-    }).timeout(8000);
+    });
 
-    it("successfully retrieves a thread client", async function () {
+    it("successfully retrieves a thread client", async () => {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
       assert.isNotNull(chatThreadClient);
       assert.equal(chatThreadClient.threadId, threadId);
     });
 
-    it("successfully deletes a thread", async function () {
+    it("successfully deletes a thread", async () => {
       await chatClient.deleteChatThread(threadId!);
     });
   });
 
-  describe("Realtime Notifications", function () {
-    before(async function (this: Context) {
-      // Realtime notifications are browser only
-      if (isNode || !isLiveMode()) {
-        this.skip();
-      }
-
+  describe("Realtime Notifications", { skip: isNodeLike || !isLiveMode() }, () => {
+    beforeAll(async () => {
       // Create a thread
       const request = {
-        topic: "notifcation tests",
+        topic: "notification tests",
         participants: [{ id: testUser }],
       };
       const chatThreadResult = await chatClient.createChatThread(request);
@@ -90,13 +78,13 @@ describe("ChatClient", function () {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
     });
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       // Start notifications
       await chatClient.startRealtimeNotifications();
     });
 
-    it("successfully stops realtime notifications", async function () {
-      const listener = sinon.spy();
+    it("successfully stops realtime notifications", async () => {
+      const listener = vi.fn();
 
       chatClient.on("typingIndicatorReceived", listener);
       await chatClient.stopRealtimeNotifications();
@@ -105,173 +93,227 @@ describe("ChatClient", function () {
       // Allow time to see if notification comes in
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      sinon.assert.notCalled(listener);
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    it("successfully unsubscribes a listener", function (done) {
-      function listener(): void {
-        assert.fail();
-      }
+    it(
+      "successfully unsubscribes a listener",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            assert.fail();
+          }
 
-      chatClient.on("typingIndicatorReceived", listener);
-      chatClient.off("typingIndicatorReceived", listener);
+          chatClient.on("typingIndicatorReceived", listener);
+          chatClient.off("typingIndicatorReceived", listener);
 
-      // Send typing notification
-      chatThreadClient.sendTypingNotification();
+          // Send typing notification
+          chatThreadClient.sendTypingNotification();
 
-      // Wait a bit and fail if the notification comes in
-      setTimeout(done, 5000);
-    }).timeout(8000);
+          // Wait a bit and fail if the notification comes in
+          setTimeout(resolve, 5000);
+        }),
+    );
 
-    it("successfully listens to typingIndicatorReceivedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to typingIndicatorReceivedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("typingIndicatorReceived", listener);
+          chatClient.on("typingIndicatorReceived", listener);
 
-      // Send typing notification
-      chatThreadClient.sendTypingNotification();
-    }).timeout(8000);
+          // Send typing notification
+          chatThreadClient.sendTypingNotification();
+        }),
+    );
 
-    it("successfully listens to chatMessageEditedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatMessageEditedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatMessageEdited", listener);
+          chatClient.on("chatMessageEdited", listener);
 
-      // Edit message
-      const message = { content: "content" };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.updateMessage(result.id, {
-            content: "new content",
-          });
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+          // Edit message
+          const message = { content: "content" };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.updateMessage(result.id, {
+                content: "new content",
+              });
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-    it("successfully listens to chatMessageReceivedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatMessageReceivedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatMessageReceived", listener);
+          chatClient.on("chatMessageReceived", listener);
 
-      // Send message
-      const message = { content: `content` };
-      chatThreadClient.sendMessage(message);
-    }).timeout(8000);
+          // Send message
+          const message = { content: `content` };
+          chatThreadClient.sendMessage(message);
+        }),
+    );
 
-    it("successfully listens to chatMessageDeletedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatMessageDeletedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatMessageDeleted", listener);
+          chatClient.on("chatMessageDeleted", listener);
 
-      // Delete message
-      const message = { content: `content` };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.deleteMessage(result.id);
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+          // Delete message
+          const message = { content: `content` };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.deleteMessage(result.id);
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-    it("successfully listens to chatThreadCreatedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatThreadCreatedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatThreadCreated", listener);
+          chatClient.on("chatThreadCreated", listener);
 
-      // Create thread
-      const request = {
-        topic: "test create thread event",
-        participants: [{ id: testUser }],
-      };
-      chatClient.createChatThread(request);
-    }).timeout(8000);
+          // Create thread
+          const request = {
+            topic: "test create thread event",
+            participants: [{ id: testUser }],
+          };
+          chatClient.createChatThread(request);
+        }),
+    );
 
-    it("successfully listens to chatThreadDeletedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatThreadDeletedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatThreadDeleted", listener);
+          chatClient.on("chatThreadDeleted", listener);
 
-      // Delete thread
-      const request = {
-        topic: "test delete thread event",
-        participants: [{ id: testUser }],
-      };
-      chatClient
-        .createChatThread(request)
-        .then((result) => {
-          return chatClient.deleteChatThread(result.chatThread?.id as string);
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+          // Delete thread
+          const request = {
+            topic: "test delete thread event",
+            participants: [{ id: testUser }],
+          };
+          chatClient
+            .createChatThread(request)
+            .then((result) => {
+              return chatClient.deleteChatThread(result.chatThread?.id as string);
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-    it("successfully listens to chatThreadPropertiesUpdatedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatThreadPropertiesUpdatedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatThreadPropertiesUpdated", listener);
+          chatClient.on("chatThreadPropertiesUpdated", listener);
 
-      // Update thread
-      chatThreadClient.updateTopic("updated topic");
-    }).timeout(8000);
+          // Update thread
+          chatThreadClient.updateTopic("updated topic");
+        }),
+    );
 
-    it("successfully listens to participantsAddedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to participantsAddedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("participantsAdded", listener);
+          chatClient.on("participantsAdded", listener);
 
-      // Add participant
-      const request = {
-        participants: [{ id: testUser2 }],
-      };
-      chatThreadClient.addParticipants(request);
-    }).timeout(8000);
+          // Add participant
+          const request = {
+            participants: [{ id: testUser2 }],
+          };
+          chatThreadClient.addParticipants(request);
+        }),
+    );
 
-    it("successfully listens to participantsRemovedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to participantsRemovedEvents",
+      { timeout: 8000 },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("participantsRemoved", listener);
+          chatClient.on("participantsRemoved", listener);
 
-      // Remove participant
-      chatThreadClient.removeParticipant(testUser2);
-    }).timeout(8000);
+          // Remove participant
+          chatThreadClient.removeParticipant(testUser2);
+        }),
+    );
 
-    it("successfully listens to readReceiptReceivedEvents", function (this: Context, done) {
-      // TODO: Read receipt notification is timing out even with increased timeout
-      this.skip();
-      function listener(): void {
-        done();
-      }
+    // TODO: Read receipt notification is timing out even with increased timeout
+    it(
+      "successfully listens to readReceiptReceivedEvents",
+      { timeout: 8000, skip: true },
+      () =>
+        new Promise<void>((resolve) => {
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("readReceiptReceived", listener);
+          chatClient.on("readReceiptReceived", listener);
 
-      // Send read receipt
-      const message = { content: "content" };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.sendReadReceipt({
-            chatMessageId: result.id,
-          });
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+          // Send read receipt
+          const message = { content: "content" };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.sendReadReceipt({
+                chatMessageId: result.id,
+              });
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
   });
 });

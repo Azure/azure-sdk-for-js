@@ -12,13 +12,13 @@ import { DetachAndDeleteTrafficFilterDeleteOptionalParams } from "../models";
 export interface DetachAndDeleteTrafficFilter {
   /**
    * Detach and Delete traffic filter from the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: DetachAndDeleteTrafficFilterDeleteOptionalParams
+    options?: DetachAndDeleteTrafficFilterDeleteOptionalParams,
   ): Promise<void>;
 }

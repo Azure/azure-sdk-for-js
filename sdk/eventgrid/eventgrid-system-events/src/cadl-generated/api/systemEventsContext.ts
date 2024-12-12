@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { SystemEventsContext } from "../rest/index";
-import getClient from "../rest/index";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { SystemEventsContext } from "../rest/index.js";
+import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */
 export interface SystemEventsClientOptionalParams extends ClientOptions {}
 
-export { SystemEventsContext } from "../rest/index";
+export { SystemEventsContext } from "../rest/index.js";
 
 /** Azure Messaging EventGrid SystemEvents */
 export function createSystemEvents(

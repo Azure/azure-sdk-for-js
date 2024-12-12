@@ -4,14 +4,12 @@
 import { HttpResponse } from "@azure-rest/core-client";
 import {
   IpAddressToLocationResultOutput,
-  ErrorResponseOutput
-} from "./outputModels";
+  ErrorResponseOutput,
+} from "./outputModels.js";
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * This service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from.
+ * The `Get IP To Location` API is an HTTP `GET` request that, given an IP address, returns the ISO country code from which that IP address is located. Developers can use this information to block or alter certain content based on geographical locations where the application is being viewed from.
  */
 export interface GeolocationGetLocation200Response extends HttpResponse {
   status: "200";
@@ -19,10 +17,8 @@ export interface GeolocationGetLocation200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * This service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from.
+ * The `Get IP To Location` API is an HTTP `GET` request that, given an IP address, returns the ISO country code from which that IP address is located. Developers can use this information to block or alter certain content based on geographical locations where the application is being viewed from.
  */
 export interface GeolocationGetLocationDefaultResponse extends HttpResponse {
   status: string;

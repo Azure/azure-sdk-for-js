@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createUserUri,
   getIdFromLink,
@@ -9,10 +9,10 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { RequestOptions } from "../../request";
-import { Database } from "../Database";
+import type { RequestOptions } from "../../request";
+import type { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
-import { UserDefinition } from "./UserDefinition";
+import type { UserDefinition } from "./UserDefinition";
 import { UserResponse } from "./UserResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

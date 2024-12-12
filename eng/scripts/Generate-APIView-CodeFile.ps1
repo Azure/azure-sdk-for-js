@@ -1,7 +1,7 @@
 param (
   [Parameter(mandatory = $true)]
   $ArtifactPath,
-  $NpmDevopsFeedRegistry = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/"
+  $NpmDevopsFeedRegistry = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js@local/npm/registry/"
 )
 
 Set-StrictMode -Version 3
@@ -11,7 +11,8 @@ if (!(Test-Path -Path $ArtifactPath))
   exit 1
 }
 
-$apiviewParser = "@azure-tools/ts-genapi@2.0.2"
+
+$apiviewParser = "@azure-tools/ts-genapi@2.0.3"
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 $installedPath = npm ls @azure-tools/ts-genapi -p

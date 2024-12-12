@@ -27,6 +27,12 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
-    testTimeout: 60000,
+    testTimeout: 1200000,
+    hookTimeout: 60000,
+    typecheck: {
+      enabled: true,
+      tsconfig: "tsconfig.test.json",
+      include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+    },
   },
 });

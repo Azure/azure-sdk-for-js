@@ -6,16 +6,15 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
-import { Readable, ReadableOptions, PassThrough } from "stream";
+import type { ReadableOptions } from "stream";
+import { Readable, PassThrough } from "stream";
 import {
   readStreamToLocalFile,
   streamToBuffer2,
   streamToBuffer3,
 } from "../../src/utils/utils.node";
-import {
-  ReadableStreamGetter,
-  RetriableReadableStream,
-} from "../../src/utils/RetriableReadableStream";
+import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream";
+import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";

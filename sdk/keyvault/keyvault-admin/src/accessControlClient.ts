@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AccessControlClientOptions,
   CreateRoleAssignmentOptions,
   DeleteRoleAssignmentOptions,
@@ -20,9 +20,9 @@ import {
 } from "./accessControlModels.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { LATEST_API_VERSION } from "./constants.js";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
@@ -65,7 +65,6 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AccessControlClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;

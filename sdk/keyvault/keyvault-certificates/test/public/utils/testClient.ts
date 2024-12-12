@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CertificateClient, KeyVaultCertificate } from "../../../src/index.js";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { CertificateClient, KeyVaultCertificate } from "../../../src/index.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import { RestoreCertificateBackupPoller } from "./lro/restore/poller.js";
-import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation.js";
+import type { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation.js";
 import { testPollerProperties } from "./recorderUtils.js";
 
 export default class TestClient {
@@ -19,8 +19,7 @@ export default class TestClient {
     await this.client.purgeDeletedCertificate(certificateName);
   }
   public async flushCertificate(certificateName: string): Promise<void> {
-    const that = this;
-    const poller = await that.client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const poller = await this.client.beginDeleteCertificate(certificateName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeCertificate(certificateName);
   }

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsRender = require("../src/mapsRender").default;
+const MapsRender = require("@azure-rest/maps-render").default,
+  { isUnexpected } = require("@azure-rest/maps-render");
 
 /**
  * @summary How to get the copyright of tiles in a given bounding box.

@@ -13,12 +13,6 @@
     // Required Scripts
     {
       "commandKind": "bulk",
-      "name": "audit",
-      "summary": "Audit projects",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "build",
       "summary": "Build all projects that haven't been built, or have changed since they were last built",
       "description": "This command is similar to \"rush rebuild\", except that \"rush build\" performs...",
@@ -154,6 +148,20 @@
       "commandKind": "bulk",
       "name": "extract-api",
       "summary": "Run API Extractor on projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "typecheck",
+      "summary": "type check files that are not part of the build",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "update-snippets",
+      "summary": "Replace snippets placeholders with code extracted from TypeScript files",
       "enableParallelism": true,
       "ignoreMissingScript": true
     },

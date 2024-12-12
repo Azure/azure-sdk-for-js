@@ -54,9 +54,11 @@ export default leafCommand(commandInfo, async (options) => {
     // 1. Our baseline is the old generated code. Stash unstaged changes to the generated code to get at them
     let stashOutput: string;
     try {
-      stashOutput = await run(["git", "stash", "push", "--", sourceDirectory], {
-        captureOutput: true,
-      });
+      stashOutput = (
+        await run(["git", "stash", "push", "--", sourceDirectory], {
+          captureOutput: true,
+        })
+      ).output;
     } catch (e: unknown) {
       log(
         "Failed to stash changes to the generated code. This is likely because the generated code is not tracked. Commit the generated code and try again.",

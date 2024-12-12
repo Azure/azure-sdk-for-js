@@ -6,26 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Rooms } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Rooms } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RoomsRestClient } from "../roomsRestClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RoomsRestClient } from "../roomsRestClient.js";
 import {
-  RoomsCreateOptionalParams,
-  RoomsCreateResponse,
+  RoomModel,
+  RoomsListNextOptionalParams,
   RoomsListOptionalParams,
   RoomsListResponse,
+  RoomsCreateOptionalParams,
+  RoomsCreateResponse,
   RoomsGetOptionalParams,
   RoomsGetResponse,
   RoomsUpdateOptionalParams,
   RoomsUpdateResponse,
   RoomsDeleteOptionalParams,
-  RoomsListNextOptionalParams,
-  RoomsListNextResponse
-} from "../models";
+  RoomsListNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Rooms operations. */
 export class RoomsImpl implements Rooms {
   private readonly client: RoomsRestClient;
@@ -39,11 +43,65 @@ export class RoomsImpl implements Rooms {
   }
 
   /**
+   * Retrieves all created rooms.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: RoomsListOptionalParams,
+  ): PagedAsyncIterableIterator<RoomModel> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: RoomsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<RoomModel[]> {
+    let result: RoomsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: RoomsListOptionalParams,
+  ): AsyncIterableIterator<RoomModel> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Creates a new room.
    * @param options The options parameters.
    */
   async create(
-    options?: RoomsCreateOptionalParams
+    options?: RoomsCreateOptionalParams,
   ): Promise<RoomsCreateResponse> {
     return tracingClient.withSpan(
       "RoomsRestClient.create",
@@ -51,9 +109,9 @@ export class RoomsImpl implements Rooms {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          createOperationSpec
+          createOperationSpec,
         ) as Promise<RoomsCreateResponse>;
-      }
+      },
     );
   }
 
@@ -61,16 +119,18 @@ export class RoomsImpl implements Rooms {
    * Retrieves all created rooms.
    * @param options The options parameters.
    */
-  async list(options?: RoomsListOptionalParams): Promise<RoomsListResponse> {
+  private async _list(
+    options?: RoomsListOptionalParams,
+  ): Promise<RoomsListResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient.list",
+      "RoomsRestClient._list",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listOperationSpec
+          listOperationSpec,
         ) as Promise<RoomsListResponse>;
-      }
+      },
     );
   }
 
@@ -81,7 +141,7 @@ export class RoomsImpl implements Rooms {
    */
   async get(
     roomId: string,
-    options?: RoomsGetOptionalParams
+    options?: RoomsGetOptionalParams,
   ): Promise<RoomsGetResponse> {
     return tracingClient.withSpan(
       "RoomsRestClient.get",
@@ -89,9 +149,9 @@ export class RoomsImpl implements Rooms {
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<RoomsGetResponse>;
-      }
+      },
     );
   }
 
@@ -102,7 +162,7 @@ export class RoomsImpl implements Rooms {
    */
   async update(
     roomId: string,
-    options?: RoomsUpdateOptionalParams
+    options?: RoomsUpdateOptionalParams,
   ): Promise<RoomsUpdateResponse> {
     return tracingClient.withSpan(
       "RoomsRestClient.update",
@@ -110,9 +170,9 @@ export class RoomsImpl implements Rooms {
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, options },
-          updateOperationSpec
+          updateOperationSpec,
         ) as Promise<RoomsUpdateResponse>;
-      }
+      },
     );
   }
 
@@ -123,7 +183,7 @@ export class RoomsImpl implements Rooms {
    */
   async delete(
     roomId: string,
-    options?: RoomsDeleteOptionalParams
+    options?: RoomsDeleteOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "RoomsRestClient.delete",
@@ -131,9 +191,9 @@ export class RoomsImpl implements Rooms {
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, options },
-          deleteOperationSpec
+          deleteOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -142,19 +202,19 @@ export class RoomsImpl implements Rooms {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  async listNext(
+  private async _listNext(
     nextLink: string,
-    options?: RoomsListNextOptionalParams
+    options?: RoomsListNextOptionalParams,
   ): Promise<RoomsListNextResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient.listNext",
+      "RoomsRestClient._listNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          listNextOperationSpec
+          listNextOperationSpec,
         ) as Promise<RoomsListNextResponse>;
-      }
+      },
     );
   }
 }
@@ -166,21 +226,21 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.RoomModel,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsCreateExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsCreateExceptionHeaders,
+    },
   },
   requestBody: {
     parameterPath: {
       validFrom: ["options", "validFrom"],
       validUntil: ["options", "validUntil"],
       pstnDialOutEnabled: ["options", "pstnDialOutEnabled"],
-      participants: ["options", "participants"]
+      participants: ["options", "participants"],
     },
-    mapper: { ...Mappers.CreateRoomRequest, required: true }
+    mapper: { ...Mappers.CreateRoomRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
@@ -188,70 +248,70 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/rooms",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomsCollection
+      bodyMapper: Mappers.RoomsCollection,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsListExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsListExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.RoomModel,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsGetExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsGetExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.RoomModel,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsUpdateExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsUpdateExceptionHeaders,
+    },
   },
   requestBody: {
     parameterPath: {
       validFrom: ["options", "validFrom"],
       validUntil: ["options", "validUntil"],
-      pstnDialOutEnabled: ["options", "pstnDialOutEnabled"]
+      pstnDialOutEnabled: ["options", "pstnDialOutEnabled"],
     },
-    mapper: { ...Mappers.UpdateRoomRequest, required: true }
+    mapper: { ...Mappers.UpdateRoomRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
@@ -260,27 +320,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsDeleteExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomsCollection
+      bodyMapper: Mappers.RoomsCollection,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsListNextExceptionHeaders
-    }
+      headersMapper: Mappers.RoomsListNextExceptionHeaders,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
-import {
+import type {
   DecryptOptions,
   DecryptParameters,
   DecryptResult,
@@ -20,18 +20,14 @@ import {
   WrapResult,
 } from "../cryptographyClientModels.js";
 import { SDK_VERSION } from "../constants.js";
-import { UnwrapResult } from "../cryptographyClientModels.js";
+import type { UnwrapResult } from "../cryptographyClientModels.js";
 import { KeyVaultClient } from "../generated/index.js";
 import { parseKeyVaultKeyIdentifier } from "../identifier.js";
-import {
-  CryptographyClientOptions,
-  GetKeyOptions,
-  KeyVaultKey,
-  LATEST_API_VERSION,
-} from "../keysModels.js";
+import type { CryptographyClientOptions, GetKeyOptions, KeyVaultKey } from "../keysModels.js";
+import { LATEST_API_VERSION } from "../keysModels.js";
 import { getKeyFromKeyBundle } from "../transformations.js";
 import { createHash } from "./crypto.js";
-import { CryptographyProvider, CryptographyProviderOperation } from "./models.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./models.js";
 import { logger } from "../log.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { tracingClient } from "../tracing.js";

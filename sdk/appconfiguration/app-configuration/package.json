@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.7.1",
+  "version": "1.8.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -26,19 +26,18 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "dev-tool run build-package && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/swagger.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "integration-test:node": "dev-tool run test:vitest -- --test-timeout 180000",
+    "integration-test:node": "dev-tool run test:vitest --esm -- --test-timeout 180000",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",
@@ -92,7 +91,6 @@
     "@azure/eventgrid": "^5.0.0",
     "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.1.1",
     "@vitest/coverage-istanbul": "^2.1.1",
@@ -100,7 +98,6 @@
     "eslint": "^9.9.0",
     "nock": "^13.5.4",
     "playwright": "^1.47.2",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "vitest": "^2.1.1"
   },
@@ -132,7 +129,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "browser": "./dist/browser/index.js",
   "exports": {

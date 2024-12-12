@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the properties of the specified configuration store.
  *
  * @summary Gets the properties of the specified configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresGet.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresGet.json
  */
 async function configurationStoresGet() {
   const subscriptionId =

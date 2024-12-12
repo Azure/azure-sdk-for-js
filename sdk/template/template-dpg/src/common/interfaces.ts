@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
 export interface RequestOptions {
   requestOptions?: {

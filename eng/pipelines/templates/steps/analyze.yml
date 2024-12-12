@@ -4,13 +4,22 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
+      Artifacts: ${{ parameters.Artifacts }}
+
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: eng/scripts/spell-check-public-api.ps1
-      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      filePath: eng/scripts/spell-check-public-apis.ps1
+      arguments: -ChangedServices "$(ChangedServices)"
       pwsh: true
     displayName: Spell check public API
 
@@ -20,16 +29,9 @@ steps:
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+  - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'package-diffs'
-      SbomEnabled: false
-
-
-  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
-    parameters:
-      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
@@ -46,7 +48,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      ServiceDirectories: $(ChangedServicesCsv)
 
   - script: |
       npm ci
@@ -62,33 +64,21 @@ steps:
       node common/scripts/install-run-rush.js install
     displayName: "Install dependencies"
 
-  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
-    parameters:
-      Artifacts: ${{ parameters.Artifacts }}
-
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
 
   - template: /eng/pipelines/templates/steps/run-eslint.yml
     parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      ServiceDirectories: $(ChangedServices)
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
-  - script: |
-      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)"
-    condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-    displayName: "Audit libraries"
-
-  - ${{ each artifact in parameters.Artifacts }}:
-      - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
-        parameters:
-          PackageName: ${{artifact.name}}
-          ServiceName: ${{parameters.ServiceDirectory}}
-          ForRelease: false
+  - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
+    parameters:
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -99,7 +89,7 @@ steps:
     # Unlink node_modules folders to significantly improve performance of subsequent tasks
     # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner.js unlink
+      node eng/tools/rush-runner/index.js unlink
     displayName: "Unlink dependencies"
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
@@ -116,6 +106,12 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'reports'
+      SbomEnabled: false
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'package-diffs'
       SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

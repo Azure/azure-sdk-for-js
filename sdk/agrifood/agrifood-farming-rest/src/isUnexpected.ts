@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationDataList200Response,
   ApplicationDataListDefaultResponse,
   ApplicationDataCreateCascadeDeleteJob202Response,
@@ -424,7 +424,7 @@ import {
   ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
   ZonesCreateCascadeDeleteJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /application-data": ["200"],

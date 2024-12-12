@@ -5,8 +5,8 @@ import { assert } from "chai";
 
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
-import { Context } from "mocha";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
+import type { Context } from "mocha";
 
 describe("LeaseClient from Container", () => {
   let blobServiceClient: BlobServiceClient;

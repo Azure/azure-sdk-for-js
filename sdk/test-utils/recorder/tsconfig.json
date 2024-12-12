@@ -1,10 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "lib": ["dom"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }

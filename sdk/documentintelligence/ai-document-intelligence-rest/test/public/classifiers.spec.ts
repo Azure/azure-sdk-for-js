@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
-import { assert, describe, beforeEach, afterEach, it, Context } from "vitest";
+import type { Context } from "vitest";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
-import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import {
+import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import type {
   AnalyzeResultOperationOutput,
   DocumentClassifierBuildOperationDetailsOutput,
   DocumentClassifierDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
 } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import path from "path";
 import fs from "fs";
 

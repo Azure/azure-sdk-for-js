@@ -3,7 +3,7 @@
 
 import { KeyClient } from "../../src/index.js";
 import { SDK_VERSION } from "../../src/constants.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, assert } from "vitest";
 
 describe("Keys client's user agent", () => {

@@ -3,20 +3,21 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure/core-client";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
-import { tracingClient } from "./tracing";
-import {
+import type { GeneratedClient, RepositoryWriteableProperties } from "./generated/index.js";
+import { tracingClient } from "./tracing.js";
+import type {
   ArtifactManifestOrder,
   ContainerRepositoryProperties,
   ArtifactManifestProperties,
   ManifestPageResponse,
-} from "./models";
-import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
-import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
-import { extractNextLink } from "./utils/helpers";
+} from "./models.js";
+import type { RegistryArtifact } from "./registryArtifact.js";
+import { RegistryArtifactImpl } from "./registryArtifact.js";
+import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations.js";
+import { extractNextLink } from "./utils/helpers.js";
 
 /**
  * Options for delete repository operation.

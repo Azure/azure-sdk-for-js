@@ -14,14 +14,15 @@ import { ContainerInstanceManagementClient } from "../containerInstanceManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import { SubnetServiceAssociationLinkDeleteOptionalParams } from "../models";
 
 /** Class containing SubnetServiceAssociationLink operations. */
 export class SubnetServiceAssociationLinkImpl
-  implements SubnetServiceAssociationLink {
+  implements SubnetServiceAssociationLink
+{
   private readonly client: ContainerInstanceManagementClient;
 
   /**
@@ -35,7 +36,7 @@ export class SubnetServiceAssociationLinkImpl
   /**
    * Delete container group virtual network association links. The operation does not delete other
    * resources provided by the user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param options The options parameters.
@@ -44,25 +45,24 @@ export class SubnetServiceAssociationLinkImpl
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetServiceAssociationLinkDeleteOptionalParams
+    options?: SubnetServiceAssociationLinkDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -71,8 +71,8 @@ export class SubnetServiceAssociationLinkImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -80,19 +80,19 @@ export class SubnetServiceAssociationLinkImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualNetworkName, subnetName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -101,7 +101,7 @@ export class SubnetServiceAssociationLinkImpl
   /**
    * Delete container group virtual network association links. The operation does not delete other
    * resources provided by the user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param options The options parameters.
@@ -110,13 +110,13 @@ export class SubnetServiceAssociationLinkImpl
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetServiceAssociationLinkDeleteOptionalParams
+    options?: SubnetServiceAssociationLinkDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualNetworkName,
       subnetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -125,8 +125,7 @@ export class SubnetServiceAssociationLinkImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -134,8 +133,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -143,8 +142,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
-    Parameters.subnetName
+    Parameters.subnetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

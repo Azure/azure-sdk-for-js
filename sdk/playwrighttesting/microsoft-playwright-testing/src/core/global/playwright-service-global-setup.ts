@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { dirname } from "path";
-import { FullConfig } from "../../common/types";
+import type { FullConfig } from "../../common/types";
 import playwrightServiceEntra from "../playwrightServiceEntra";
 import { loadCustomerGlobalFunction } from "../../common/executor";
 import customerConfig from "../../common/customerConfig";
 
 const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<any> => {
   const rootDir = config.configFile ? dirname(config.configFile!) : process.cwd();
-  const customerGlobalSetupFunc = await loadCustomerGlobalFunction(
-    rootDir,
-    customerConfig.globalSetup,
-  );
+  let customerGlobalSetupFunc: any = null;
+  if (customerConfig.globalSetup && typeof customerConfig.globalSetup === "string") {
+    customerGlobalSetupFunc = await loadCustomerGlobalFunction(rootDir, customerConfig.globalSetup);
+  }
 
   await playwrightServiceEntra.globalSetup();
   if (customerGlobalSetupFunc) {

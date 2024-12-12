@@ -46,7 +46,7 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 2. Create a token provider by calling the `getBearerTokenProvider` with the desired credential type. For example, [DefaultAzureCredential][azure_identity_dac]:
 
-    ```js
+    ```ts
     import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
     const credential = new DefaultAzureCredential();
@@ -56,11 +56,11 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 3. Create the client by passing in the token provider:
 
-    ```js
+    ```ts
     import { AzureOpenAI } from "openai";
 
     const deployment = "Your deployment name";
-    const apiVersion = "2024-07-01-preview";
+    const apiVersion = "2024-11-01-preview";
     const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
     ```
 
@@ -126,7 +126,7 @@ export async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-07-01-preview";
+  const apiVersion = "2024-11-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     stream: true,
@@ -182,7 +182,7 @@ async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-07-01-preview";
+  const apiVersion = "2024-11-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     messages: [

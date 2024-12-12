@@ -27,8 +27,8 @@ export async function main() {
   const response = await client.path("/embeddings").post({
     body: {
       input: ["first phrase", "second phrase", "third phrase"],
-      model: modelName
-    }
+      model: modelName,
+    },
   });
 
   if (isUnexpected(response)) {
@@ -38,21 +38,27 @@ export async function main() {
     console.log(data);
   }
   console.log(response.body.usage);
-
 }
 
 /*
-  * This function creates a model client.
-  */
+ * This function creates a model client.
+ */
 function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
   if (key) {
-    return ModelClient(endpoint, new AzureKeyCredential(key));      
+    return ModelClient(endpoint, new AzureKeyCredential(key));
   } else {
-    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
     const clientOptions = { credentials: { scopes } };
-    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
 

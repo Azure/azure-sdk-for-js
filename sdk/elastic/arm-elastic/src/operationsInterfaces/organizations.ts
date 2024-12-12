@@ -8,7 +8,9 @@
 
 import {
   OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse
+  OrganizationsGetApiKeyResponse,
+  OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  OrganizationsGetElasticToAzureSubscriptionMappingResponse,
 } from "../models";
 
 /** Interface representing a Organizations. */
@@ -19,6 +21,13 @@ export interface Organizations {
    * @param options The options parameters.
    */
   getApiKey(
-    options?: OrganizationsGetApiKeyOptionalParams
+    options?: OrganizationsGetApiKeyOptionalParams,
   ): Promise<OrganizationsGetApiKeyResponse>;
+  /**
+   * Get Elastic Organization To Azure Subscription Mapping details for the logged-in user.
+   * @param options The options parameters.
+   */
+  getElasticToAzureSubscriptionMapping(
+    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
 }

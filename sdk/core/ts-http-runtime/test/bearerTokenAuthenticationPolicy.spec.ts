@@ -2,17 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
-import {
-  AuthorizeRequestOnChallengeOptions,
-  PipelinePolicy,
-  PipelineResponse,
-  SendRequest,
-  bearerTokenAuthenticationPolicy,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import type { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
+import type { PipelinePolicy, PipelineResponse, SendRequest } from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
+import type { AuthorizeRequestOnChallengeOptions } from "../src/policies/bearerTokenAuthenticationPolicy.js";
+import { bearerTokenAuthenticationPolicy } from "../src/policies/bearerTokenAuthenticationPolicy.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

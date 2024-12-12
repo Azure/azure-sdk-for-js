@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Agent } from "http";
+import type { Agent } from "http";
 
 /**
  * @hidden

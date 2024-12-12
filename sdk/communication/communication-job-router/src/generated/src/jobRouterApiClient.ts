@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { JobRouterAdministrationImpl, JobRouterImpl } from "./operations";
-import { JobRouterAdministration, JobRouter } from "./operationsInterfaces";
-import { JobRouterApiClientOptionalParams } from "./models";
+import { JobRouterAdministrationImpl, JobRouterImpl } from "./operations/index.js";
+import { JobRouterAdministration, JobRouter } from "./operationsInterfaces/index.js";
+import { JobRouterApiClientOptionalParams } from "./models/index.js";
 
 export class JobRouterApiClient extends coreClient.ServiceClient {
   endpoint: string;

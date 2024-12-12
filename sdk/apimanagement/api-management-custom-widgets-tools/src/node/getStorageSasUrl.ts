@@ -5,7 +5,7 @@ import {
   InteractiveBrowserCredential,
   type InteractiveBrowserCredentialNodeOptions as IBCNOptions,
 } from "@azure/identity";
-import { ServiceInformation } from "./deploy.js";
+import type { ServiceInformation } from "./deploy.js";
 import { getClient } from "@azure-rest/core-client";
 
 async function getAccessToken(

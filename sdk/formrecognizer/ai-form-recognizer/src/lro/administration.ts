@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-client";
-import { FormRecognizerError } from "../error";
-import {
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { OperationOptions } from "@azure/core-client";
+import { FormRecognizerError } from "../error.js";
+import type {
   DocumentModelDetails,
   OperationStatus,
   DocumentModelBuildOperationDetails,
@@ -12,9 +12,9 @@ import {
   DocumentModelComposeOperationDetails,
   DocumentClassifierDetails,
   DocumentClassifierBuildOperationDetails,
-} from "../generated";
-import { PollerOptions } from "../options/PollerOptions";
-import { OperationContext } from "./util/poller";
+} from "../generated/index.js";
+import type { PollerOptions } from "../options/PollerOptions.js";
+import type { OperationContext } from "./util/poller.js";
 
 /**
  * The possible types of all administration operation states.

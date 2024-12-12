@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ApplicationData,
   SearchBoundaryQuery,
   Boundary,
@@ -43,7 +43,7 @@ import {
   WeatherDataIngestionJob,
   WeatherDataProviderRequest,
   Zone,
-} from "./models";
+} from "./models.js";
 
 export interface ApplicationDataListQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */

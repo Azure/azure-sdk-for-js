@@ -3,23 +3,27 @@
 
 import { SecretClient } from "@azure/keyvault-secrets";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { MockEventHub, MockServerOptions } from "@azure/mock-hub";
+import type { MockServerOptions } from "@azure/mock-hub";
+import { MockEventHub } from "@azure/mock-hub";
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
 import type { GlobalSetupContext } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
+import type { AzureLogLevel } from "@azure/logger";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
-    [K in keyof typeof EnvVarKeys]: string;
-  };
+    [K in keyof Omit<typeof EnvVarKeys, "AZURE_LOG_LEVEL">]: string;
+  } & { AZURE_LOG_LEVEL: AzureLogLevel | undefined };
   export interface ProvidedContext extends MyEnvVarKeys {}
 }
 
-const defaultLogLevel = "error";
-
-function assertEnvironmentVariable(key: string): string {
+function assertEnvironmentVariable<K extends EnvVarKeys.AZURE_LOG_LEVEL>(
+  key: K,
+): AzureLogLevel | undefined;
+function assertEnvironmentVariable(key: string): string;
+function assertEnvironmentVariable(key: string): string | undefined {
   const value = process.env[key];
   // handle defaults
   if (!value) {
@@ -27,7 +31,7 @@ function assertEnvironmentVariable(key: string): string {
       case EnvVarKeys.TEST_MODE:
         return "mock";
       case EnvVarKeys.AZURE_LOG_LEVEL:
-        return defaultLogLevel;
+        return undefined;
       default:
         throw new Error(`Environment variable ${key} is not defined.`);
     }
@@ -48,6 +52,14 @@ function createMockServer(options: MockServerOptions = {}): MockEventHub {
     },
     ...options,
   });
+}
+
+function getAzureLogLevel(): AzureLogLevel | undefined {
+  const val = process.env[EnvVarKeys.AZURE_LOG_LEVEL];
+  if (![undefined, "error", "warning", "info", "verbose"].includes(val)) {
+    throw new Error(`Invalid value for ${EnvVarKeys.AZURE_LOG_LEVEL}: ${val}`);
+  }
+  return val as AzureLogLevel | undefined;
 }
 
 export default async function ({ provide }: GlobalSetupContext) {
@@ -75,7 +87,7 @@ export default async function ({ provide }: GlobalSetupContext) {
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);
   provide(EnvVarKeys.EVENTHUB_CONSUMER_GROUP_NAME, MOCKS.EVENTHUB_CONSUMER_GROUP_NAME);
   provide(EnvVarKeys.EVENTHUB_FQDN, MOCKS.EVENTHUB_FQDN);
-  provide(EnvVarKeys.AZURE_LOG_LEVEL, process.env[EnvVarKeys.AZURE_LOG_LEVEL] || defaultLogLevel);
+  provide(EnvVarKeys.AZURE_LOG_LEVEL, getAzureLogLevel());
   provide(EnvVarKeys.EVENTHUB_CONNECTION_STRING, MOCKS.EVENTHUB_CONNECTION_STRING_WITH_KEY);
   const server = createMockServer();
   await server.start();

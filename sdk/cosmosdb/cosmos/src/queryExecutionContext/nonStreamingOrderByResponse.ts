@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosHeaders } from "./CosmosHeaders";
-import { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
+import type { CosmosHeaders } from "./CosmosHeaders";
+import type { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
 
 export interface NonStreamingOrderByResponse {
   result: NonStreamingOrderByResult;

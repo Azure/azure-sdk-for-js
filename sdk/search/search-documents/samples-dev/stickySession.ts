@@ -7,12 +7,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { odata, SearchClient, SearchIndexClient } from "@azure/search-documents";
-import { Hotel } from "./interfaces";
-import { createIndex, delay, WAIT_TIME } from "./setup";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SearchClient } from "@azure/search-documents";
+import { odata, SearchIndexClient } from "@azure/search-documents";
+import type { Hotel } from "./interfaces.js";
+import { createIndex, delay, WAIT_TIME } from "./setup.js";
+import "dotenv/config";
 
 /**
  * If you're querying a replicated index, Azure AI Search may target any replica with your queries.

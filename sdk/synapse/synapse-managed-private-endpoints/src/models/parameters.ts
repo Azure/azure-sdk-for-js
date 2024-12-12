@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
-import { ManagedPrivateEndpoint as ManagedPrivateEndpointMapper } from "../models/mappers";
+import { ManagedPrivateEndpoint as ManagedPrivateEndpointMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -20,9 +20,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -31,10 +31,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -44,9 +44,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managedVirtualNetworkName: OperationURLParameter = {
@@ -55,9 +55,9 @@ export const managedVirtualNetworkName: OperationURLParameter = {
     serializedName: "managedVirtualNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managedPrivateEndpointName: OperationURLParameter = {
@@ -66,9 +66,9 @@ export const managedPrivateEndpointName: OperationURLParameter = {
     serializedName: "managedPrivateEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -78,14 +78,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managedPrivateEndpoint: OperationParameter = {
   parameterPath: "managedPrivateEndpoint",
-  mapper: ManagedPrivateEndpointMapper
+  mapper: ManagedPrivateEndpointMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -94,8 +94,8 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };

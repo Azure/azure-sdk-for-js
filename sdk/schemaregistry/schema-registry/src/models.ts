@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Properties of a schema.

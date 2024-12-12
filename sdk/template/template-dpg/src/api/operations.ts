@@ -9,11 +9,11 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { StreamableMethod } from "@azure-rest/core-client";
+import type { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { RequestOptions } from "../common/interfaces.js";
-import { WidgetServiceContext as Client } from "../rest/clientDefinitions.js";
-import {
+import type { RequestOptions } from "../common/interfaces.js";
+import type { WidgetServiceContext as Client } from "../rest/clientDefinitions.js";
+import type {
   AnalyzeWidget200Response,
   AnalyzeWidgetDefaultResponse,
   CreateWidget201Response,
@@ -26,10 +26,10 @@ import {
   ListWidgetsDefaultResponse,
   UpdateWidget200Response,
   UpdateWidgetDefaultResponse,
-  isUnexpected,
 } from "../rest/index.js";
+import { isUnexpected } from "../rest/index.js";
 import { foo } from "./foo.js";
-import { AnalyzeResult, ColorType, Widget } from "./models.js";
+import type { AnalyzeResult, ColorType, Widget } from "./models.js";
 
 export interface ListWidgetsOptions extends RequestOptions {}
 

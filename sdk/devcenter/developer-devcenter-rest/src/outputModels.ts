@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Paged } from "@azure/core-paging";
-import { ErrorModel } from "@azure-rest/core-client";
+import type { Paged } from "@azure/core-paging";
+import type { ErrorModel } from "@azure-rest/core-client";
 
 /** Project details. */
 export interface ProjectOutput {

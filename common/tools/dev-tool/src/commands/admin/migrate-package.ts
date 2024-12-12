@@ -89,6 +89,10 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await run(["rushx", "format"], { cwd: projectFolder });
   await commitChanges(projectFolder, "rushx format");
 
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
+
   return true;
 });
 
@@ -167,7 +171,7 @@ export default mergeConfig(
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
     extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
+    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
     exclude: ["./test/**/node/**/*.ts"],
     compilerOptions: {
       outDir: "./dist-test/browser",
@@ -176,7 +180,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
     },
   };
 
-  await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
+  await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
@@ -196,7 +200,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -219,6 +223,8 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
     "src/**/*.cts",
     "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
     "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts",
   ];
 
   // Remove old options
@@ -241,7 +247,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await addNewPackages(packageJson);
 
   // Sort the devDependencies
-  sortDevDependencies(packageJson);
+  sortPackage(packageJson);
 
   // Add tshy
   addTypeScriptHybridizer(packageJson);
@@ -266,7 +272,7 @@ function setScriptsSection(scripts: PackageJson["scripts"]): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   scripts["unit-test:browser"] =
-    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
+    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
   scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   for (const script of Object.keys(scripts)) {
@@ -319,9 +325,11 @@ async function addNewPackages(packageJson: any): Promise<void> {
     let latestVersion = desiredMinVersion;
     if (!latestVersion) {
       // Get the latest version from npm
-      latestVersion = await run(["npm", "view", newPackage, "version"], {
-        captureOutput: true,
-      });
+      latestVersion = (
+        await run(["npm", "view", newPackage, "version"], {
+          captureOutput: true,
+        })
+      ).output;
     }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
@@ -358,6 +366,7 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-mocha",
     "karma-mocha-reporter",
     "karma-sourcemap-loader",
+    "karma-source-map-support",
     "nyc",
     "puppeteer",
     "source-map-support",
@@ -382,9 +391,18 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortDevDependencies(packageJson: any): void {
+function sortPackage(packageJson: any): void {
+  if (packageJson.dependencies) {
+    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
+  }
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
+  }
+  if (packageJson.peerDependencies) {
+    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
+  }
+  if (packageJson.scripts) {
+    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
   }
 }
 

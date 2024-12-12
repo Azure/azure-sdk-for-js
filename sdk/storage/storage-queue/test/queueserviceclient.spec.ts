@@ -12,7 +12,7 @@ import {
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
 import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;

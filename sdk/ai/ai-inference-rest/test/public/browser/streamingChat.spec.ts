@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ModelClient } from "../../../src/index.js";
+import type { ModelClient } from "../../../src/index.js";
 
 describe("chat test suite", () => {
   let recorder: Recorder;
@@ -54,7 +54,6 @@ describe("chat test suite", () => {
       const reader = (readableStream as any).getReader();
       const buffers: Uint8Array[] = [];
       try {
-        // eslint-disable-next-line no-constant-condition
         while (true) {
           const { value, done } = await reader.read();
           if (done) {

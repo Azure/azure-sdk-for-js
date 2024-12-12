@@ -1,0 +1,3172 @@
+diff --git a/src/abort-controller/AbortError.ts b/src/abort-controller/AbortError.ts
+index 60662ec..1c6cf1a 100644
+--- a/src/abort-controller/AbortError.ts
++++ b/src/abort-controller/AbortError.ts
+@@ -8,7 +8,7 @@
+  *
+  * @example
+  * ```ts snippet:abort_error
+- * import { AbortError } from "@azure/abort-controller";
++ * import { AbortError } from "@typespec/ts-http-runtime";
+  *
+  * async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
+  *   if (options.abortSignal.aborted) {
+diff --git a/src/abort-controller/index.ts b/src/abort-controller/index.ts
+deleted file mode 100644
+index 7f2adc4..0000000
+--- a/src/abort-controller/index.ts
++++ /dev/null
+@@ -1,9 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-declare global {
+-  interface Event {}
+-}
+-
+-export { AbortError } from "./AbortError.js";
+-export { AbortSignalLike } from "./AbortSignalLike.js";
+diff --git a/src/accessTokenCache.ts b/src/accessTokenCache.ts
+index f8d603b..22e61bb 100644
+--- a/src/accessTokenCache.ts
++++ b/src/accessTokenCache.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AccessToken } from "@azure/core-auth";
++import type { AccessToken } from "./auth/tokenCredential.js";
+ 
+ /**
+  * Defines the default token refresh buffer duration.
+diff --git a/src/auth/azureKeyCredential.ts b/src/auth/azureKeyCredential.ts
+deleted file mode 100644
+index 65676e7..0000000
+--- a/src/auth/azureKeyCredential.ts
++++ /dev/null
+@@ -1,45 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { KeyCredential } from "./keyCredential.js";
+-
+-/**
+- * A static-key-based credential that supports updating
+- * the underlying key value.
+- */
+-export class AzureKeyCredential implements KeyCredential {
+-  private _key: string;
+-
+-  /**
+-   * The value of the key to be used in authentication
+-   */
+-  public get key(): string {
+-    return this._key;
+-  }
+-
+-  /**
+-   * Create an instance of an AzureKeyCredential for use
+-   * with a service client.
+-   *
+-   * @param key - The initial value of the key to use in authentication
+-   */
+-  constructor(key: string) {
+-    if (!key) {
+-      throw new Error("key must be a non-empty string");
+-    }
+-
+-    this._key = key;
+-  }
+-
+-  /**
+-   * Change the value of the key.
+-   *
+-   * Updates will take effect upon the next request after
+-   * updating the key value.
+-   *
+-   * @param newKey - The new key value to be used
+-   */
+-  public update(newKey: string): void {
+-    this._key = newKey;
+-  }
+-}
+diff --git a/src/auth/azureNamedKeyCredential.ts b/src/auth/azureNamedKeyCredential.ts
+deleted file mode 100644
+index 544c3c0..0000000
+--- a/src/auth/azureNamedKeyCredential.ts
++++ /dev/null
+@@ -1,88 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { isObjectWithProperties } from "@azure/core-util";
+-
+-/**
+- * Represents a credential defined by a static API name and key.
+- */
+-export interface NamedKeyCredential {
+-  /**
+-   * The value of the API key represented as a string
+-   */
+-  readonly key: string;
+-  /**
+-   * The value of the API name represented as a string.
+-   */
+-  readonly name: string;
+-}
+-
+-/**
+- * A static name/key-based credential that supports updating
+- * the underlying name and key values.
+- */
+-export class AzureNamedKeyCredential implements NamedKeyCredential {
+-  private _key: string;
+-  private _name: string;
+-
+-  /**
+-   * The value of the key to be used in authentication.
+-   */
+-  public get key(): string {
+-    return this._key;
+-  }
+-
+-  /**
+-   * The value of the name to be used in authentication.
+-   */
+-  public get name(): string {
+-    return this._name;
+-  }
+-
+-  /**
+-   * Create an instance of an AzureNamedKeyCredential for use
+-   * with a service client.
+-   *
+-   * @param name - The initial value of the name to use in authentication.
+-   * @param key - The initial value of the key to use in authentication.
+-   */
+-  constructor(name: string, key: string) {
+-    if (!name || !key) {
+-      throw new TypeError("name and key must be non-empty strings");
+-    }
+-
+-    this._name = name;
+-    this._key = key;
+-  }
+-
+-  /**
+-   * Change the value of the key.
+-   *
+-   * Updates will take effect upon the next request after
+-   * updating the key value.
+-   *
+-   * @param newName - The new name value to be used.
+-   * @param newKey - The new key value to be used.
+-   */
+-  public update(newName: string, newKey: string): void {
+-    if (!newName || !newKey) {
+-      throw new TypeError("newName and newKey must be non-empty strings");
+-    }
+-
+-    this._name = newName;
+-    this._key = newKey;
+-  }
+-}
+-
+-/**
+- * Tests an object to determine whether it implements NamedKeyCredential.
+- *
+- * @param credential - The assumed NamedKeyCredential to be tested.
+- */
+-export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential {
+-  return (
+-    isObjectWithProperties(credential, ["name", "key"]) &&
+-    typeof credential.key === "string" &&
+-    typeof credential.name === "string"
+-  );
+-}
+diff --git a/src/auth/azureSASCredential.ts b/src/auth/azureSASCredential.ts
+deleted file mode 100644
+index 045c639..0000000
+--- a/src/auth/azureSASCredential.ts
++++ /dev/null
+@@ -1,70 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { isObjectWithProperties } from "@azure/core-util";
+-
+-/**
+- * Represents a credential defined by a static shared access signature.
+- */
+-export interface SASCredential {
+-  /**
+-   * The value of the shared access signature represented as a string
+-   */
+-  readonly signature: string;
+-}
+-
+-/**
+- * A static-signature-based credential that supports updating
+- * the underlying signature value.
+- */
+-export class AzureSASCredential implements SASCredential {
+-  private _signature: string;
+-
+-  /**
+-   * The value of the shared access signature to be used in authentication
+-   */
+-  public get signature(): string {
+-    return this._signature;
+-  }
+-
+-  /**
+-   * Create an instance of an AzureSASCredential for use
+-   * with a service client.
+-   *
+-   * @param signature - The initial value of the shared access signature to use in authentication
+-   */
+-  constructor(signature: string) {
+-    if (!signature) {
+-      throw new Error("shared access signature must be a non-empty string");
+-    }
+-
+-    this._signature = signature;
+-  }
+-
+-  /**
+-   * Change the value of the signature.
+-   *
+-   * Updates will take effect upon the next request after
+-   * updating the signature value.
+-   *
+-   * @param newSignature - The new shared access signature value to be used
+-   */
+-  public update(newSignature: string): void {
+-    if (!newSignature) {
+-      throw new Error("shared access signature must be a non-empty string");
+-    }
+-
+-    this._signature = newSignature;
+-  }
+-}
+-
+-/**
+- * Tests an object to determine whether it implements SASCredential.
+- *
+- * @param credential - The assumed SASCredential to be tested.
+- */
+-export function isSASCredential(credential: unknown): credential is SASCredential {
+-  return (
+-    isObjectWithProperties(credential, ["signature"]) && typeof credential.signature === "string"
+-  );
+-}
+diff --git a/src/auth/index.ts b/src/auth/index.ts
+deleted file mode 100644
+index 446268b..0000000
+--- a/src/auth/index.ts
++++ /dev/null
+@@ -1,20 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-export { HttpMethods } from "@azure/core-util";
+-export { AzureKeyCredential } from "./azureKeyCredential.js";
+-export { KeyCredential, isKeyCredential } from "./keyCredential.js";
+-export {
+-  AzureNamedKeyCredential,
+-  NamedKeyCredential,
+-  isNamedKeyCredential,
+-} from "./azureNamedKeyCredential.js";
+-export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential.js";
+-
+-export {
+-  TokenCredential,
+-  GetTokenOptions,
+-  AccessToken,
+-  isTokenCredential,
+-} from "./tokenCredential.js";
+-
+-export { TracingContext } from "./tracing.js";
+diff --git a/src/auth/keyCredential.ts b/src/auth/keyCredential.ts
+index 9db25cf..df8291c 100644
+--- a/src/auth/keyCredential.ts
++++ b/src/auth/keyCredential.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { isObjectWithProperties } from "@azure/core-util";
++import { isObjectWithProperties } from "../util/typeGuards.js";
+ 
+ /**
+  * Represents a credential defined by a static API key.
+diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
+index 395b112..19d080b 100644
+--- a/src/auth/tokenCredential.ts
++++ b/src/auth/tokenCredential.ts
+@@ -1,9 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import type { TracingContext } from "./tracing.js";
+-import type { HttpMethods } from "@azure/core-util";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+ 
+ /**
+  * Represents a credential capable of providing an authentication token.
+@@ -39,15 +37,6 @@ export interface GetTokenOptions {
+      */
+     timeout?: number;
+   };
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: {
+-    /**
+-     * Tracing Context for the current request.
+-     */
+-    tracingContext?: TracingContext;
+-  };
+   /**
+    * Claim details to perform the Continuous Access Evaluation authentication flow
+    */
+@@ -60,28 +49,6 @@ export interface GetTokenOptions {
+    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
+    */
+   tenantId?: string;
+-
+-  /**
+-   * Options for Proof of Possession token requests
+-   */
+-  proofOfPossessionOptions?: {
+-    /**
+-     * The nonce value required for PoP token requests.
+-     * This is typically retrieved from the WWW-Authenticate header of a 401 challenge response.
+-     * This is used in combination with {@link resourceRequestUrl} and {@link resourceRequestMethod} to generate the PoP token.
+-     */
+-    nonce: string;
+-    /**
+-     * The HTTP method of the request.
+-     * This is used in combination with {@link resourceRequestUrl} and {@link nonce} to generate the PoP token.
+-     */
+-    resourceRequestMethod: HttpMethods;
+-    /**
+-     * The URL of the request.
+-     * This is used in combination with {@link resourceRequestMethod} and {@link nonce} to generate the PoP token.
+-     */
+-    resourceRequestUrl: string;
+-  };
+ }
+ 
+ /**
+@@ -103,26 +70,7 @@ export interface AccessToken {
+    */
+   refreshAfterTimestamp?: number;
+ 
+-  /** Type of token - `Bearer` or `pop` */
+-  tokenType?: "Bearer" | "pop";
+-}
+-
+-/**
+- * @internal
+- * @param accessToken - Access token
+- * @returns Whether a token is bearer type or not
+- */
+-export function isBearerToken(accessToken: AccessToken): boolean {
+-  return !accessToken.tokenType || accessToken.tokenType === "Bearer";
+-}
+-
+-/**
+- * @internal
+- * @param accessToken - Access token
+- * @returns Whether a token is Pop token or not
+- */
+-export function isPopToken(accessToken: AccessToken): boolean {
+-  return accessToken.tokenType === "pop";
++  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
+ }
+ 
+ /**
+diff --git a/src/auth/tracing.ts b/src/auth/tracing.ts
+deleted file mode 100644
+index 8e846bb..0000000
+--- a/src/auth/tracing.ts
++++ /dev/null
+@@ -1,32 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-// The interfaces in this file should be kept in sync with those
+-// found in the `@azure/core-tracing` package.
+-
+-/**
+- * An interface structurally compatible with OpenTelemetry.
+- */
+-export interface TracingContext {
+-  /**
+-   * Get a value from the context.
+-   *
+-   * @param key - key which identifies a context value
+-   */
+-  getValue(key: symbol): unknown;
+-  /**
+-   * Create a new context which inherits from this context and has
+-   * the given key set to the given value.
+-   *
+-   * @param key - context key for which to set the value
+-   * @param value - value to set for the given key
+-   */
+-  setValue(key: symbol, value: unknown): TracingContext;
+-  /**
+-   * Return a new context which inherits from this context but does
+-   * not contain a value for the given key.
+-   *
+-   * @param key - context key for which to clear a value
+-   */
+-  deleteValue(key: symbol): TracingContext;
+-}
+diff --git a/src/client/apiVersionPolicy.ts b/src/client/apiVersionPolicy.ts
+index 56cb7b8..da27584 100644
+--- a/src/client/apiVersionPolicy.ts
++++ b/src/client/apiVersionPolicy.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
++import type { PipelinePolicy } from "../pipeline.js";
+ import type { ClientOptions } from "./common.js";
+ 
+ export const apiVersionPolicyName = "ApiVersionPolicy";
+diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
+index 30dac33..66ea99c 100644
+--- a/src/client/clientHelpers.ts
++++ b/src/client/clientHelpers.ts
+@@ -1,15 +1,15 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+-import {
+-  bearerTokenAuthenticationPolicy,
+-  createDefaultHttpClient,
+-  createPipelineFromOptions,
+-} from "@azure/core-rest-pipeline";
+-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+-import { isTokenCredential } from "@azure/core-auth";
+-
++import type { HttpClient } from "../interfaces.js";
++import type { Pipeline } from "../pipeline.js";
++import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
++import { createDefaultHttpClient } from "../defaultHttpClient.js";
++import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
++import type { TokenCredential } from "../auth/tokenCredential.js";
++import { isTokenCredential } from "../auth/tokenCredential.js";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import { isKeyCredential } from "../auth/keyCredential.js";
+ import type { ClientOptions } from "./common.js";
+ import { apiVersionPolicy } from "./apiVersionPolicy.js";
+ import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
+@@ -77,10 +77,6 @@ export function createDefaultPipeline(
+   return pipeline;
+ }
+ 
+-function isKeyCredential(credential: any): credential is KeyCredential {
+-  return (credential as KeyCredential).key !== undefined;
+-}
+-
+ export function getCachedDefaultHttpsClient(): HttpClient {
+   if (!cachedHttpClient) {
+     cachedHttpClient = createDefaultHttpClient();
+diff --git a/src/client/common.ts b/src/client/common.ts
+index 026f516..5d588ed 100644
+--- a/src/client/common.ts
++++ b/src/client/common.ts
+@@ -3,19 +3,17 @@
+ 
+ import type {
+   HttpClient,
+-  LogPolicyOptions,
+-  Pipeline,
+-  PipelineOptions,
+-  PipelinePolicy,
+   PipelineRequest,
+   PipelineResponse,
+   RawHttpHeaders,
+   RequestBodyType,
+   TransferProgressEvent,
+-} from "@azure/core-rest-pipeline";
+-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import type { OperationTracingOptions } from "@azure/core-tracing";
++  RawHttpHeadersInput,
++} from "../interfaces.js";
++import type { Pipeline, PipelinePolicy } from "../pipeline.js";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
++import type { PipelineOptions } from "../createPipelineFromOptions.js";
++import type { LogPolicyOptions } from "../policies/logPolicy.js";
+ 
+ /**
+  * Shape of the default request parameters, this may be overridden by the specific
+@@ -74,11 +72,6 @@ export type RequestParameters = {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * A function to be called each time a response is received from the server
+    * while performing the requested operation.
+@@ -91,16 +84,9 @@ export type RequestParameters = {
+  * A function to be called each time a response is received from the server
+  * while performing the requested operation.
+  * May be called multiple times.
+- *
+- * This callback will be called with two parameters: the raw response, including headers and response body; and an error
+- * object which will be provided if an error was thrown while processing the request.
+- * The third __legacyError parameter is provided for backwards compatability only and will have an identical value to the `error` parameter.
+  */
+-export type RawResponseCallback = (
+-  rawResponse: FullOperationResponse,
+-  error?: unknown,
+-  __legacyError?: unknown,
+-) => void;
++// UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError parameter which was provided for backwards compatibility
++export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+ 
+ /**
+  * Wrapper object for http request and response. Deserialized object is stored in
+@@ -135,11 +121,6 @@ export interface OperationOptions {
+    * Options used when creating and sending HTTP requests for this operation.
+    */
+   requestOptions?: OperationRequestOptions;
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * A function to be called each time a response is received from the server
+    * while performing the requested operation.
+@@ -202,7 +183,7 @@ export interface Client {
+    * strong types. When used by the codegen this type gets overridden with the generated
+    * types. For example:
+    * ```typescript snippet:path_example
+-   * import { Client } from "@azure-rest/core-client";
++   * import { Client } from "@typespec/ts-http-runtime";
+    *
+    * type MyClient = Client & {
+    *   path: Routes;
+@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
+      */
+     apiKeyHeaderName?: string;
+   };
+-  /**
+-   * Base url for the client
+-   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
+-   */
+-  baseUrl?: string;
++
++  // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
++
+   /**
+    * Endpoint for the client
+    */
+diff --git a/src/client/dom.d.ts b/src/client/dom.d.ts
+deleted file mode 100644
+index eabe718..0000000
+--- a/src/client/dom.d.ts
++++ /dev/null
+@@ -1,4 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/// <reference lib="dom" />
+diff --git a/src/client/getClient.ts b/src/client/getClient.ts
+index f6415d8..2e4f603 100644
+--- a/src/client/getClient.ts
++++ b/src/client/getClient.ts
+@@ -1,9 +1,12 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+-import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
+-import type { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
++import type { TokenCredential } from "../auth/tokenCredential.js";
++import { isTokenCredential } from "../auth/tokenCredential.js";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import { isKeyCredential } from "../auth/keyCredential.js";
++import type { HttpClient, HttpMethods } from "../interfaces.js";
++import type { Pipeline } from "../pipeline.js";
+ import { createDefaultPipeline } from "./clientHelpers.js";
+ import type {
+   Client,
+@@ -11,10 +14,12 @@ import type {
+   HttpBrowserStreamResponse,
+   HttpNodeStreamResponse,
+   RequestParameters,
++  ResourceMethods,
+   StreamableMethod,
+ } from "./common.js";
+ import { sendRequest } from "./sendRequest.js";
+ import { buildRequestUrl } from "./urlHelpers.js";
++import type { PipelineOptions } from "../createPipelineFromOptions.js";
+ 
+ /**
+  * Creates a client with a default pipeline
+@@ -61,8 +66,8 @@ export function getClient(
+ 
+   const { allowInsecureConnection, httpClient } = clientOptions;
+   const endpointUrl = clientOptions.endpoint ?? endpoint;
+-  const client = (path: string, ...args: Array<any>) => {
+-    const getUrl = (requestOptions: RequestParameters) =>
++  const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
++    const getUrl = (requestOptions: RequestParameters): string =>
+       buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
+ 
+     return {
+diff --git a/src/client/helpers/isBinaryBody.ts b/src/client/helpers/isBinaryBody.ts
+deleted file mode 100644
+index ef06c77..0000000
+--- a/src/client/helpers/isBinaryBody.ts
++++ /dev/null
+@@ -1,22 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { isReadableStream } from "./isReadableStream.js";
+-
+-export function isBinaryBody(
+-  body: unknown,
+-): body is
+-  | Uint8Array
+-  | NodeJS.ReadableStream
+-  | ReadableStream<Uint8Array>
+-  | (() => NodeJS.ReadableStream)
+-  | (() => ReadableStream<Uint8Array>)
+-  | Blob {
+-  return (
+-    body !== undefined &&
+-    (body instanceof Uint8Array ||
+-      isReadableStream(body) ||
+-      typeof body === "function" ||
+-      body instanceof Blob)
+-  );
+-}
+diff --git a/src/client/helpers/isReadableStream-browser.mts b/src/client/helpers/isReadableStream-browser.mts
+deleted file mode 100644
+index 9d792bd..0000000
+--- a/src/client/helpers/isReadableStream-browser.mts
++++ /dev/null
+@@ -1,14 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * Checks if the body is a ReadableStream supported by browsers
+- * @internal
+- */
+-export function isReadableStream(body: unknown): body is ReadableStream {
+-  return Boolean(
+-    body &&
+-      typeof (body as ReadableStream).getReader === "function" &&
+-      typeof (body as ReadableStream).tee === "function",
+-  );
+-}
+diff --git a/src/client/helpers/isReadableStream.ts b/src/client/helpers/isReadableStream.ts
+deleted file mode 100644
+index 5963319..0000000
+--- a/src/client/helpers/isReadableStream.ts
++++ /dev/null
+@@ -1,10 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * Checks if the body is a ReadableStream supported by Node
+- * @internal
+- */
+-export function isReadableStream(body: unknown): body is NodeJS.ReadableStream {
+-  return Boolean(body) && typeof (body as any).pipe === "function";
+-}
+diff --git a/src/client/index.ts b/src/client/index.ts
+deleted file mode 100644
+index 1cd7d94..0000000
+--- a/src/client/index.ts
++++ /dev/null
+@@ -1,16 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * Azure Rest Core Client library for JavaScript
+- * @packageDocumentation
+- */
+-
+-export { createRestError } from "./restError.js";
+-export {
+-  addCredentialPipelinePolicy,
+-  AddCredentialPipelinePolicyOptions,
+-} from "./clientHelpers.js";
+-export { operationOptionsToRequestParameters } from "./operationOptionHelpers.js";
+-export * from "./getClient.js";
+-export * from "./common.js";
+diff --git a/src/client/keyCredentialAuthenticationPolicy.ts b/src/client/keyCredentialAuthenticationPolicy.ts
+index 06bc091..90e6659 100644
+--- a/src/client/keyCredentialAuthenticationPolicy.ts
++++ b/src/client/keyCredentialAuthenticationPolicy.ts
+@@ -1,13 +1,9 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { KeyCredential } from "@azure/core-auth";
+-import type {
+-  PipelinePolicy,
+-  PipelineRequest,
+-  PipelineResponse,
+-  SendRequest,
+-} from "@azure/core-rest-pipeline";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
++import type { PipelinePolicy } from "../pipeline.js";
+ 
+ /**
+  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+diff --git a/src/client/multipart.ts b/src/client/multipart.ts
+index e34a065..2bc3df1 100644
+--- a/src/client/multipart.ts
++++ b/src/client/multipart.ts
+@@ -1,14 +1,11 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type {
+-  BodyPart,
+-  MultipartRequestBody,
+-  RawHttpHeadersInput,
+-} from "@azure/core-rest-pipeline";
+-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+-import { stringToUint8Array } from "@azure/core-util";
+-import { isBinaryBody } from "./helpers/isBinaryBody.js";
++import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
++import { RestError } from "../restError.js";
++import { createHttpHeaders } from "../httpHeaders.js";
++import { stringToUint8Array } from "../util/bytesEncoding.js";
++import { isBinaryBody } from "../util/typeGuards.js";
+ 
+ /**
+  * Describes a single part in a multipart body.
+diff --git a/src/client/operationOptionHelpers.ts b/src/client/operationOptionHelpers.ts
+index c7c1eb6..15bdc45 100644
+--- a/src/client/operationOptionHelpers.ts
++++ b/src/client/operationOptionHelpers.ts
+@@ -16,7 +16,6 @@ export function operationOptionsToRequestParameters(options: OperationOptions):
+     abortSignal: options.abortSignal,
+     onUploadProgress: options.requestOptions?.onUploadProgress,
+     onDownloadProgress: options.requestOptions?.onDownloadProgress,
+-    tracingOptions: options.tracingOptions,
+     headers: { ...options.requestOptions?.headers },
+     onResponse: options.onResponse,
+   };
+diff --git a/src/client/restError.ts b/src/client/restError.ts
+index 1ecc969..9b98b21 100644
+--- a/src/client/restError.ts
++++ b/src/client/restError.ts
+@@ -1,8 +1,9 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
++import type { PipelineResponse } from "../interfaces.js";
++import { RestError } from "../restError.js";
++import { createHttpHeaders } from "../httpHeaders.js";
+ import type { PathUncheckedResponse } from "./common.js";
+ 
+ /**
+diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
+index 9e947e6..f2a1cac 100644
+--- a/src/client/sendRequest.ts
++++ b/src/client/sendRequest.ts
+@@ -5,19 +5,16 @@ import type {
+   HttpClient,
+   HttpMethods,
+   MultipartRequestBody,
+-  Pipeline,
+   PipelineRequest,
+   PipelineResponse,
+   RequestBodyType,
+-} from "@azure/core-rest-pipeline";
+-import {
+-  RestError,
+-  createHttpHeaders,
+-  createPipelineRequest,
+-  isRestError,
+-} from "@azure/core-rest-pipeline";
++} from "../interfaces.js";
++import { isRestError, RestError } from "../restError.js";
++import type { Pipeline } from "../pipeline.js";
++import { createHttpHeaders } from "../httpHeaders.js";
++import { createPipelineRequest } from "../pipelineRequest.js";
+ import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
+-import { isReadableStream } from "./helpers/isReadableStream.js";
++import { isReadableStream } from "../util/typeGuards.js";
+ import type { HttpResponse, RequestParameters } from "./common.js";
+ import type { PartDescriptor } from "./multipart.js";
+ import { buildMultipartBody } from "./multipart.js";
+@@ -63,7 +60,8 @@ export async function sendRequest(
+     if (isRestError(e) && e.response && options.onResponse) {
+       const { response } = e;
+       const rawHeaders = response.headers.toJSON();
+-      options?.onResponse({ ...response, request, rawHeaders }, e, e);
++      // UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError property
++      options?.onResponse({ ...response, request, rawHeaders }, e);
+     }
+ 
+     throw e;
+@@ -136,7 +134,6 @@ function buildPipelineRequest(
+     multipartBody,
+     headers,
+     allowInsecureConnection: options.allowInsecureConnection,
+-    tracingOptions: options.tracingOptions,
+     abortSignal: options.abortSignal,
+     onUploadProgress: options.onUploadProgress,
+     onDownloadProgress: options.onDownloadProgress,
+diff --git a/src/constants.ts b/src/constants.ts
+index b32fff7..e81a30d 100644
+--- a/src/constants.ts
++++ b/src/constants.ts
+@@ -1,6 +1,6 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-export const SDK_VERSION: string = "1.18.2";
++export const SDK_VERSION: string = "0.1.0";
+ 
+ export const DEFAULT_RETRY_POLICY_COUNT = 3;
+diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
+index 2a2bd41..6066e07 100644
+--- a/src/createPipelineFromOptions.ts
++++ b/src/createPipelineFromOptions.ts
+@@ -3,18 +3,16 @@
+ 
+ import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
+ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+-import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
++import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+ import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
+ import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+-import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+ import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
+ import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
+ import { formDataPolicy } from "./policies/formDataPolicy.js";
+-import { isNodeLike } from "@azure/core-util";
++import { isNodeLike } from "./util/checkEnvironment.js";
+ import { proxyPolicy } from "./policies/proxyPolicy.js";
+-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+ import { tlsPolicy } from "./policies/tlsPolicy.js";
+-import { tracingPolicy } from "./policies/tracingPolicy.js";
++import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+ 
+ /**
+  * Defines options that are used to configure the HTTP pipeline for
+@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+ 
+   pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
+   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
+-  pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
+   // The multipart policy is added after policies with no phase, so that
+   // policies can be added between it and formDataPolicy to modify
+   // properties (e.g., making the boundary constant in recorded tests).
+   pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
+   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
+-  pipeline.addPolicy(tracingPolicy({ ...options.userAgentOptions, ...options.loggingOptions }), {
+-    afterPhase: "Retry",
+-  });
+   if (isNodeLike) {
+     // Both XHR and Fetch expect to handle redirects automatically,
+     // so only include this policy when we're in Node.
+diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
+index e9751e2..e4f8769 100644
+--- a/src/fetchHttpClient.ts
++++ b/src/fetchHttpClient.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { AbortError } from "@azure/abort-controller";
++import { AbortError } from "./abort-controller/AbortError.js";
+ import type {
+   HttpClient,
+   HttpHeaders as PipelineHeaders,
+diff --git a/src/index.ts b/src/index.ts
+index aa95065..65e7734 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -9,115 +9,71 @@ declare global {
+   interface TransformStream<I = any, O = any> {}
+ }
+ 
+-export type { HttpMethods } from "@azure/core-util";
++export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++export { AbortError } from "./abort-controller/AbortError.js";
++export {
++  createClientLogger,
++  TypeSpecRuntimeLogger,
++  type TypeSpecRuntimeClientLogger,
++  type Debugger,
++} from "./logger/logger.js";
+ export type {
+-  Agent,
+   BodyPart,
+-  FormDataMap,
+   FormDataValue,
+-  HttpClient,
+-  HttpHeaders,
++  RawHttpHeaders,
+   KeyObject,
+-  MultipartRequestBody,
++  PxfObject,
++  HttpClient,
+   PipelineRequest,
+   PipelineResponse,
+-  PipelineRetryOptions,
+-  ProxySettings,
+-  PxfObject,
+-  RawHttpHeaders,
+-  RawHttpHeadersInput,
+-  RequestBodyType,
+   SendRequest,
+   TlsSettings,
++  Agent,
++  RequestBodyType,
++  FormDataMap,
++  HttpHeaders,
++  HttpMethods,
++  MultipartRequestBody,
+   TransferProgressEvent,
++  ProxySettings,
++  RawHttpHeadersInput,
++  PipelineRetryOptions,
+ } from "./interfaces.js";
+-export {
+-  type AddPolicyOptions as AddPipelineOptions,
+-  type PipelinePhase,
+-  type PipelinePolicy,
+-  type Pipeline,
+-  createEmptyPipeline,
+-} from "./pipeline.js";
+-export {
+-  createPipelineFromOptions,
+-  type TelemetryOptions,
+-  type InternalPipelineOptions,
+-  type PipelineOptions,
+-} from "./createPipelineFromOptions.js";
+-export { createDefaultHttpClient } from "./defaultHttpClient.js";
+ export { createHttpHeaders } from "./httpHeaders.js";
+-export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
+-export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
+-export {
+-  decompressResponsePolicy,
+-  decompressResponsePolicyName,
+-} from "./policies/decompressResponsePolicy.js";
+-export {
+-  exponentialRetryPolicy,
+-  type ExponentialRetryPolicyOptions,
+-  exponentialRetryPolicyName,
+-} from "./policies/exponentialRetryPolicy.js";
+-export {
+-  setClientRequestIdPolicy,
+-  setClientRequestIdPolicyName,
+-} from "./policies/setClientRequestIdPolicy.js";
+-export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
+-export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
++export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
+ export {
+-  redirectPolicy,
+-  redirectPolicyName,
+-  type RedirectPolicyOptions,
+-} from "./policies/redirectPolicy.js";
+-export {
+-  systemErrorRetryPolicy,
+-  type SystemErrorRetryPolicyOptions,
+-  systemErrorRetryPolicyName,
+-} from "./policies/systemErrorRetryPolicy.js";
+-export {
+-  throttlingRetryPolicy,
+-  throttlingRetryPolicyName,
+-  type ThrottlingRetryPolicyOptions,
+-} from "./policies/throttlingRetryPolicy.js";
+-export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
++  isTokenCredential,
++  type TokenCredential,
++  type GetTokenOptions,
++  type AccessToken,
++} from "./auth/tokenCredential.js";
++export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
++export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
++export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
++export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
++export { getClient } from "./client/getClient.js";
++export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
++export { createRestError } from "./client/restError.js";
+ export type {
+-  RetryStrategy,
+-  RetryInformation,
+-  RetryModifiers,
+-} from "./retryStrategies/retryStrategy.js";
+-export {
+-  tracingPolicy,
+-  tracingPolicyName,
+-  type TracingPolicyOptions,
+-} from "./policies/tracingPolicy.js";
+-export {
+-  defaultRetryPolicy,
+-  type DefaultRetryPolicyOptions,
+-} from "./policies/defaultRetryPolicy.js";
+-export {
+-  userAgentPolicy,
+-  userAgentPolicyName,
+-  type UserAgentPolicyOptions,
+-} from "./policies/userAgentPolicy.js";
+-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
+-export {
+-  bearerTokenAuthenticationPolicy,
+-  type BearerTokenAuthenticationPolicyOptions,
+-  bearerTokenAuthenticationPolicyName,
+-  type ChallengeCallbacks,
+-  type AuthorizeRequestOptions,
+-  type AuthorizeRequestOnChallengeOptions,
+-} from "./policies/bearerTokenAuthenticationPolicy.js";
+-export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
+-export {
+-  auxiliaryAuthenticationHeaderPolicy,
+-  type AuxiliaryAuthenticationHeaderPolicyOptions,
+-  auxiliaryAuthenticationHeaderPolicyName,
+-} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export {
+-  createFile,
+-  createFileFromStream,
+-  type CreateFileOptions,
+-  type CreateFileFromStreamOptions,
+-} from "./util/file.js";
++  Client,
++  ClientOptions,
++  OperationOptions,
++  AdditionalPolicyConfig,
++  PathUnchecked,
++  PathUncheckedResponse,
++  HttpResponse,
++  RawResponseCallback,
++  OperationRequestOptions,
++  PathParameters,
++  ResourceMethods,
++  PathParameterWithOptions,
++  StreamableMethod,
++  RequestParameters,
++  HttpNodeStreamResponse,
++  HttpBrowserStreamResponse,
++  FullOperationResponse,
++} from "./client/common.js";
++export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOptions.js";
++export type { LogPolicyOptions } from "./policies/logPolicy.js";
++export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
++export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
+diff --git a/src/interfaces.ts b/src/interfaces.ts
+index 26b806d..5d790ad 100644
+--- a/src/interfaces.ts
++++ b/src/interfaces.ts
+@@ -1,9 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import type { OperationTracingOptions } from "@azure/core-tracing";
+-import type { HttpMethods } from "@azure/core-util";
++import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+ 
+ /**
+  * A HttpHeaders collection represented as a simple JSON object.
+@@ -204,11 +202,6 @@ export interface PipelineRequest {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Tracing options to use for any created Spans.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * Callback which fires upon upload progress.
+    */
+@@ -315,6 +308,21 @@ export type TransferProgressEvent = {
+   loadedBytes: number;
+ };
+ 
++// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
++//                       need to worry about creating a cyclic dependency
++/**
++ * Supported HTTP methods to use when making requests.
++ */
++export type HttpMethods =
++  | "GET"
++  | "PUT"
++  | "POST"
++  | "DELETE"
++  | "PATCH"
++  | "HEAD"
++  | "OPTIONS"
++  | "TRACE";
++
+ /**
+  * Options to configure a proxy for outgoing requests (Node.js only).
+  */
+diff --git a/src/log.ts b/src/log.ts
+index db967c2..32452a9 100644
+--- a/src/log.ts
++++ b/src/log.ts
+@@ -1,5 +1,5 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { createClientLogger } from "@azure/logger";
+-export const logger = createClientLogger("core-rest-pipeline");
++import { createClientLogger } from "./logger/logger.js";
++export const logger = createClientLogger("ts-http-runtime");
+diff --git a/src/logger/debug.ts b/src/logger/debug.ts
+index d29ccec..3ba9f34 100644
+--- a/src/logger/debug.ts
++++ b/src/logger/debug.ts
+@@ -19,9 +19,9 @@ export interface Debug {
+   /**
+    * Enables a particular set of namespaces.
+    * To enable multiple separate them with commas, e.g. "info,debug".
+-   * Supports wildcards, e.g. "azure:*"
+-   * Supports skip syntax, e.g. "azure:*,-azure:storage:*" will enable
+-   * everything under azure except for things under azure:storage.
++   * Supports wildcards, e.g. "typeSpecRuntime:*"
++   * Supports skip syntax, e.g. "typeSpecRuntime:*,-typeSpecRuntime:storage:*" will enable
++   * everything under typeSpecRuntime except for things under typeSpecRuntime:storage.
+    */
+   enable: (namespaces: string) => void;
+   /**
+diff --git a/src/logger/index.ts b/src/logger/logger.ts
+similarity index 52%
+rename from src/logger/index.ts
+rename to src/logger/logger.ts
+index 3e33a3b..3654566 100644
+--- a/src/logger/index.ts
++++ b/src/logger/logger.ts
+@@ -1,22 +1,24 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import debug, { type Debugger } from "./debug.js";
+-export type { Debugger } from "./debug.js";
++import type { Debugger } from "./debug.js";
++import debug from "./debug.js";
++export { Debugger } from "./debug.js";
+ 
+-const registeredLoggers = new Set<AzureDebugger>();
++const registeredLoggers = new Set<TypeSpecRuntimeDebugger>();
+ const logLevelFromEnv =
+-  (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
++  (typeof process !== "undefined" && process.env && process.env.TYPESPEC_RUNTIME_LOG_LEVEL) ||
++  undefined;
+ 
+-let azureLogLevel: AzureLogLevel | undefined;
++let typeSpecRuntimeLogLevel: TypeSpecRuntimeLogLevel | undefined;
+ 
+ /**
+- * The AzureLogger provides a mechanism for overriding where logs are output to.
++ * The TypeSpecRuntimeLogger provides a mechanism for overriding where logs are output to.
+  * By default, logs are sent to stderr.
+  * Override the `log` method to redirect logs to another location.
+  */
+-export const AzureLogger: AzureClientLogger = debug("azure");
+-AzureLogger.log = (...args) => {
++export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger = debug("typeSpecRuntime");
++TypeSpecRuntimeLogger.log = (...args) => {
+   debug.log(...args);
+ };
+ 
+@@ -28,23 +30,23 @@ AzureLogger.log = (...args) => {
+  * - warning
+  * - error
+  */
+-export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
+-const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
++export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
++const TYPESPEC_RUNTIME_LOG_LEVELS = ["verbose", "info", "warning", "error"];
+ 
+-type AzureDebugger = Debugger & { level: AzureLogLevel };
++type TypeSpecRuntimeDebugger = Debugger & { level: TypeSpecRuntimeLogLevel };
+ 
+ /**
+- * An AzureClientLogger is a function that can log to an appropriate severity level.
++ * An TypeSpecRuntimeClientLogger is a function that can log to an appropriate severity level.
+  */
+-export type AzureClientLogger = Debugger;
++export type TypeSpecRuntimeClientLogger = Debugger;
+ 
+ if (logLevelFromEnv) {
+   // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
+-  if (isAzureLogLevel(logLevelFromEnv)) {
++  if (isTypeSpecRuntimeLogLevel(logLevelFromEnv)) {
+     setLogLevel(logLevelFromEnv);
+   } else {
+     console.error(
+-      `AZURE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${AZURE_LOG_LEVELS.join(
++      `TYPESPEC_RUNTIME_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
+         ", ",
+       )}.`,
+     );
+@@ -60,13 +62,13 @@ if (logLevelFromEnv) {
+  * - warning
+  * - error
+  */
+-export function setLogLevel(level?: AzureLogLevel): void {
+-  if (level && !isAzureLogLevel(level)) {
++export function setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
++  if (level && !isTypeSpecRuntimeLogLevel(level)) {
+     throw new Error(
+-      `Unknown log level '${level}'. Acceptable values: ${AZURE_LOG_LEVELS.join(",")}`,
++      `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
+     );
+   }
+-  azureLogLevel = level;
++  typeSpecRuntimeLogLevel = level;
+ 
+   const enabledNamespaces = [];
+   for (const logger of registeredLoggers) {
+@@ -81,8 +83,8 @@ export function setLogLevel(level?: AzureLogLevel): void {
+ /**
+  * Retrieves the currently specified log level.
+  */
+-export function getLogLevel(): AzureLogLevel | undefined {
+-  return azureLogLevel;
++export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
++  return typeSpecRuntimeLogLevel;
+ }
+ 
+ const levelMap = {
+@@ -96,7 +98,7 @@ const levelMap = {
+  * Defines the methods available on the SDK-facing logger.
+  */
+ // eslint-disable-next-line @typescript-eslint/no-redeclare
+-export interface AzureLogger {
++export interface TypeSpecRuntimeLogger {
+   /**
+    * Used for failures the program is unlikely to recover from,
+    * such as Out of Memory.
+@@ -121,13 +123,13 @@ export interface AzureLogger {
+ }
+ 
+ /**
+- * Creates a logger for use by the Azure SDKs that inherits from `AzureLogger`.
++ * Creates a logger for use by the SDKs that inherits from `TypeSpecRuntimeLogger`.
+  * @param namespace - The name of the SDK package.
+  * @hidden
+  */
+-export function createClientLogger(namespace: string): AzureLogger {
+-  const clientRootLogger: AzureClientLogger = AzureLogger.extend(namespace);
+-  patchLogMethod(AzureLogger, clientRootLogger);
++export function createClientLogger(namespace: string): TypeSpecRuntimeLogger {
++  const clientRootLogger: TypeSpecRuntimeClientLogger = TypeSpecRuntimeLogger.extend(namespace);
++  patchLogMethod(TypeSpecRuntimeLogger, clientRootLogger);
+   return {
+     error: createLogger(clientRootLogger, "error"),
+     warning: createLogger(clientRootLogger, "warning"),
+@@ -136,14 +138,20 @@ export function createClientLogger(namespace: string): AzureLogger {
+   };
+ }
+ 
+-function patchLogMethod(parent: AzureClientLogger, child: AzureClientLogger | AzureDebugger): void {
++function patchLogMethod(
++  parent: TypeSpecRuntimeClientLogger,
++  child: TypeSpecRuntimeClientLogger | TypeSpecRuntimeDebugger,
++): void {
+   child.log = (...args) => {
+     parent.log(...args);
+   };
+ }
+ 
+-function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDebugger {
+-  const logger: AzureDebugger = Object.assign(parent.extend(level), {
++function createLogger(
++  parent: TypeSpecRuntimeClientLogger,
++  level: TypeSpecRuntimeLogLevel,
++): TypeSpecRuntimeDebugger {
++  const logger: TypeSpecRuntimeDebugger = Object.assign(parent.extend(level), {
+     level,
+   });
+ 
+@@ -159,10 +167,12 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
+   return logger;
+ }
+ 
+-function shouldEnable(logger: AzureDebugger): boolean {
+-  return Boolean(azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]);
++function shouldEnable(logger: TypeSpecRuntimeDebugger): boolean {
++  return Boolean(
++    typeSpecRuntimeLogLevel && levelMap[logger.level] <= levelMap[typeSpecRuntimeLogLevel],
++  );
+ }
+ 
+-function isAzureLogLevel(logLevel: string): logLevel is AzureLogLevel {
+-  return AZURE_LOG_LEVELS.includes(logLevel as any);
++function isTypeSpecRuntimeLogLevel(logLevel: string): logLevel is TypeSpecRuntimeLogLevel {
++  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
+ }
+diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
+index 1ac007a..66abe50 100644
+--- a/src/nodeHttpClient.ts
++++ b/src/nodeHttpClient.ts
+@@ -5,7 +5,7 @@ import * as http from "node:http";
+ import * as https from "node:https";
+ import * as zlib from "node:zlib";
+ import { Transform } from "node:stream";
+-import { AbortError } from "@azure/abort-controller";
++import { AbortError } from "./abort-controller/AbortError.js";
+ import type {
+   HttpClient,
+   HttpHeaders,
+diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
+index 8d1648d..5f67f7d 100644
+--- a/src/pipelineRequest.ts
++++ b/src/pipelineRequest.ts
+@@ -4,6 +4,7 @@
+ import type {
+   FormDataMap,
+   HttpHeaders,
++  HttpMethods,
+   MultipartRequestBody,
+   PipelineRequest,
+   ProxySettings,
+@@ -11,10 +12,8 @@ import type {
+   TransferProgressEvent,
+ } from "./interfaces.js";
+ import { createHttpHeaders } from "./httpHeaders.js";
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import { randomUUID } from "@azure/core-util";
+-import type { OperationTracingOptions } from "@azure/core-tracing";
+-import type { HttpMethods } from "@azure/core-util";
++import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++import { randomUUID } from "./util/uuidUtils.js";
+ 
+ /**
+  * Settings to initialize a request.
+@@ -100,11 +99,6 @@ export interface PipelineRequestOptions {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Options used to create a span when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * Callback which fires upon upload progress.
+    */
+@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
+   public disableKeepAlive: boolean;
+   public abortSignal?: AbortSignalLike;
+   public requestId: string;
+-  public tracingOptions?: OperationTracingOptions;
+   public allowInsecureConnection?: boolean;
+   public onUploadProgress?: (progress: TransferProgressEvent) => void;
+   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
+     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
+     this.withCredentials = options.withCredentials ?? false;
+     this.abortSignal = options.abortSignal;
+-    this.tracingOptions = options.tracingOptions;
+     this.onUploadProgress = options.onUploadProgress;
+     this.onDownloadProgress = options.onDownloadProgress;
+     this.requestId = options.requestId || randomUUID();
+diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
+deleted file mode 100644
+index 55110a0..0000000
+--- a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
++++ /dev/null
+@@ -1,106 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
+-import type { AzureLogger } from "@azure/logger";
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-import { type AccessTokenGetter, createTokenCycler } from "../util/tokenCycler.js";
+-import { logger as coreLogger } from "../log.js";
+-import type { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy.js";
+-
+-/**
+- * The programmatic identifier of the auxiliaryAuthenticationHeaderPolicy.
+- */
+-export const auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
+-const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
+-
+-/**
+- * Options to configure the auxiliaryAuthenticationHeaderPolicy
+- */
+-export interface AuxiliaryAuthenticationHeaderPolicyOptions {
+-  /**
+-   * TokenCredential list used to get token from auxiliary tenants and
+-   * one credential for each tenant the client may need to access
+-   */
+-  credentials?: TokenCredential[];
+-  /**
+-   * Scopes depend on the cloud your application runs in
+-   */
+-  scopes: string | string[];
+-  /**
+-   * A logger can be sent for debugging purposes.
+-   */
+-  logger?: AzureLogger;
+-}
+-
+-async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<string> {
+-  const { scopes, getAccessToken, request } = options;
+-  const getTokenOptions: GetTokenOptions = {
+-    abortSignal: request.abortSignal,
+-    tracingOptions: request.tracingOptions,
+-  };
+-
+-  return (await getAccessToken(scopes, getTokenOptions))?.token ?? "";
+-}
+-
+-/**
+- * A policy for external tokens to `x-ms-authorization-auxiliary` header.
+- * This header will be used when creating a cross-tenant application we may need to handle authentication requests
+- * for resources that are in different tenants.
+- * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
+- */
+-export function auxiliaryAuthenticationHeaderPolicy(
+-  options: AuxiliaryAuthenticationHeaderPolicyOptions,
+-): PipelinePolicy {
+-  const { credentials, scopes } = options;
+-  const logger = options.logger || coreLogger;
+-  const tokenCyclerMap = new WeakMap<TokenCredential, AccessTokenGetter>();
+-
+-  return {
+-    name: auxiliaryAuthenticationHeaderPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      if (!request.url.toLowerCase().startsWith("https://")) {
+-        throw new Error(
+-          "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
+-        );
+-      }
+-      if (!credentials || credentials.length === 0) {
+-        logger.info(
+-          `${auxiliaryAuthenticationHeaderPolicyName} header will not be set due to empty credentials.`,
+-        );
+-        return next(request);
+-      }
+-
+-      const tokenPromises: Promise<string>[] = [];
+-      for (const credential of credentials) {
+-        let getAccessToken = tokenCyclerMap.get(credential);
+-        if (!getAccessToken) {
+-          getAccessToken = createTokenCycler(credential);
+-          tokenCyclerMap.set(credential, getAccessToken);
+-        }
+-        tokenPromises.push(
+-          sendAuthorizeRequest({
+-            scopes: Array.isArray(scopes) ? scopes : [scopes],
+-            request,
+-            getAccessToken,
+-            logger,
+-          }),
+-        );
+-      }
+-      const auxiliaryTokens = (await Promise.all(tokenPromises)).filter((token) => Boolean(token));
+-      if (auxiliaryTokens.length === 0) {
+-        logger.warning(
+-          `None of the auxiliary tokens are valid. ${AUTHORIZATION_AUXILIARY_HEADER} header will not be set.`,
+-        );
+-        return next(request);
+-      }
+-      request.headers.set(
+-        AUTHORIZATION_AUXILIARY_HEADER,
+-        auxiliaryTokens.map((token) => `Bearer ${token}`).join(", "),
+-      );
+-
+-      return next(request);
+-    },
+-  };
+-}
+diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
+index c0e38ca..1cd3978 100644
+--- a/src/policies/bearerTokenAuthenticationPolicy.ts
++++ b/src/policies/bearerTokenAuthenticationPolicy.ts
+@@ -1,14 +1,12 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+-import type { AzureLogger } from "@azure/logger";
++import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ import { createTokenCycler } from "../util/tokenCycler.js";
+ import { logger as coreLogger } from "../log.js";
+-import type { RestError } from "../restError.js";
+-import { isRestError } from "../restError.js";
+ 
+ /**
+  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+@@ -34,7 +32,7 @@ export interface AuthorizeRequestOptions {
+   /**
+    * A logger, if one was sent through the HTTP pipeline.
+    */
+-  logger?: AzureLogger;
++  logger?: TypeSpecRuntimeLogger;
+ }
+ 
+ /**
+@@ -60,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
+   /**
+    * A logger, if one was sent through the HTTP pipeline.
+    */
+-  logger?: AzureLogger;
++  logger?: TypeSpecRuntimeLogger;
+ }
+ 
+ /**
+@@ -101,43 +99,17 @@ export interface BearerTokenAuthenticationPolicyOptions {
+   /**
+    * A logger can be sent for debugging purposes.
+    */
+-  logger?: AzureLogger;
+-}
+-/**
+- * Try to send the given request.
+- *
+- * When a response is received, returns a tuple of the response received and, if the response was received
+- * inside a thrown RestError, the RestError that was thrown.
+- *
+- * Otherwise, if an error was thrown while sending the request that did not provide an underlying response, it
+- * will be rethrown.
+- */
+-async function trySendRequest(
+-  request: PipelineRequest,
+-  next: SendRequest,
+-): Promise<[PipelineResponse, RestError | undefined]> {
+-  try {
+-    return [await next(request), undefined];
+-  } catch (e: any) {
+-    if (isRestError(e) && e.response) {
+-      return [e.response, e];
+-    } else {
+-      throw e;
+-    }
+-  }
++  logger?: TypeSpecRuntimeLogger;
+ }
++
+ /**
+  * Default authorize request handler
+  */
+ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+   const { scopes, getAccessToken, request } = options;
+-  // Enable CAE true by default
+   const getTokenOptions: GetTokenOptions = {
+     abortSignal: request.abortSignal,
+-    tracingOptions: request.tracingOptions,
+-    enableCae: true,
+   };
+-
+   const accessToken = await getAccessToken(scopes, getTokenOptions);
+ 
+   if (accessToken) {
+@@ -149,34 +121,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
+  * We will retrieve the challenge only if the response status code was 401,
+  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+  */
+-function isChallengeResponse(response: PipelineResponse): boolean {
+-  return response.status === 401 && response.headers.has("WWW-Authenticate");
+-}
+-
+-/**
+- * Re-authorize the request for CAE challenge.
+- * The response containing the challenge is `options.response`.
+- * If this method returns true, the underlying request will be sent once again.
+- */
+-async function authorizeRequestOnCaeChallenge(
+-  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
+-  caeClaims: string,
+-): Promise<boolean> {
+-  const { scopes } = onChallengeOptions;
+-
+-  const accessToken = await onChallengeOptions.getAccessToken(scopes, {
+-    enableCae: true,
+-    claims: caeClaims,
+-  });
+-  if (!accessToken) {
+-    return false;
++function getChallenge(response: PipelineResponse): string | undefined {
++  const challenge = response.headers.get("WWW-Authenticate");
++  if (response.status === 401 && challenge) {
++    return challenge;
+   }
+-
+-  onChallengeOptions.request.headers.set(
+-    "Authorization",
+-    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+-  );
+-  return true;
++  return;
+ }
+ 
+ /**
+@@ -189,10 +139,10 @@ export function bearerTokenAuthenticationPolicy(
+   const { credential, scopes, challengeCallbacks } = options;
+   const logger = options.logger || coreLogger;
+   const callbacks = {
+-    authorizeRequest:
+-      challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+-    authorizeRequestOnChallenge:
+-      challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
++    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
++    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
++    // keep all other properties
++    ...challengeCallbacks,
+   };
+ 
+   // This function encapsulates the entire process of reliably retrieving the token
+@@ -234,40 +184,20 @@ export function bearerTokenAuthenticationPolicy(
+ 
+       let response: PipelineResponse;
+       let error: Error | undefined;
+-      let shouldSendRequest: boolean;
+-      [response, error] = await trySendRequest(request, next);
+-
+-      if (isChallengeResponse(response)) {
+-        let claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate"));
+-        // Handle CAE by default when receive CAE claim
+-        if (claims) {
+-          let parsedClaim: string;
+-          // Return the response immediately if claims is not a valid base64 encoded string
+       try {
+-            parsedClaim = atob(claims);
+-          } catch (e) {
+-            logger.warning(
+-              `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
+-            );
+-            return response;
+-          }
+-          shouldSendRequest = await authorizeRequestOnCaeChallenge(
+-            {
+-              scopes: Array.isArray(scopes) ? scopes : [scopes],
+-              response,
+-              request,
+-              getAccessToken,
+-              logger,
+-            },
+-            parsedClaim,
+-          );
+-          // Send updated request and handle response for RestError
+-          if (shouldSendRequest) {
+-            [response, error] = await trySendRequest(request, next);
+-          }
+-        } else if (callbacks.authorizeRequestOnChallenge) {
+-          // Handle custom challenges when client provides custom callback
+-          shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
++        response = await next(request);
++      } catch (err: any) {
++        error = err;
++        response = err.response;
++      }
++
++      if (
++        callbacks.authorizeRequestOnChallenge &&
++        response?.status === 401 &&
++        getChallenge(response)
++      ) {
++        // processes challenge
++        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+           scopes: Array.isArray(scopes) ? scopes : [scopes],
+           request,
+           response,
+@@ -275,41 +205,8 @@ export function bearerTokenAuthenticationPolicy(
+           logger,
+         });
+ 
+-          // Send updated request and handle response for RestError
+-          if (shouldSendRequest) {
+-            [response, error] = await trySendRequest(request, next);
+-          }
+-
+-          // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
+-          if (isChallengeResponse(response)) {
+-            claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate") as string);
+-            if (claims) {
+-              let parsedClaim: string;
+-              try {
+-                parsedClaim = atob(claims);
+-              } catch (e) {
+-                logger.warning(
+-                  `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
+-                );
+-                return response;
+-              }
+-
+-              shouldSendRequest = await authorizeRequestOnCaeChallenge(
+-                {
+-                  scopes: Array.isArray(scopes) ? scopes : [scopes],
+-                  response,
+-                  request,
+-                  getAccessToken,
+-                  logger,
+-                },
+-                parsedClaim,
+-              );
+-              // Send updated request and handle response for RestError
+         if (shouldSendRequest) {
+-                [response, error] = await trySendRequest(request, next);
+-              }
+-            }
+-          }
++          return next(request);
+         }
+       }
+ 
+@@ -321,64 +218,3 @@ export function bearerTokenAuthenticationPolicy(
+     },
+   };
+ }
+-
+-/**
+- *
+- * Interface to represent a parsed challenge.
+- *
+- * @internal
+- */
+-interface AuthChallenge {
+-  scheme: string;
+-  params: Record<string, string>;
+-}
+-
+-/**
+- * Converts: `Bearer a="b", c="d", Pop e="f", g="h"`.
+- * Into: `[ { scheme: 'Bearer', params: { a: 'b', c: 'd' } }, { scheme: 'Pop', params: { e: 'f', g: 'h' } } ]`.
+- *
+- * @internal
+- */
+-export function parseChallenges(challenges: string): AuthChallenge[] {
+-  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c=d`
+-  // The challenge regex captures parameteres with either quotes values or unquoted values
+-  const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
+-  // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
+-  // CAE challenge always have quoted parameters. For more reference, https://learn.microsoft.com/entra/identity-platform/claims-challenge
+-  const paramRegex = /(\w+)="([^"]*)"/g;
+-
+-  const parsedChallenges: AuthChallenge[] = [];
+-  let match;
+-
+-  // Iterate over each challenge match
+-  while ((match = challengeRegex.exec(challenges)) !== null) {
+-    const scheme = match[1];
+-    const paramsString = match[2];
+-    const params: Record<string, string> = {};
+-    let paramMatch;
+-
+-    // Iterate over each parameter match
+-    while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+-      params[paramMatch[1]] = paramMatch[2];
+-    }
+-
+-    parsedChallenges.push({ scheme, params });
+-  }
+-  return parsedChallenges;
+-}
+-
+-/**
+- * Parse a pipeline response and look for a CAE challenge with "Bearer" scheme
+- * Return the value in the header without parsing the challenge
+- * @internal
+- */
+-function getCaeChallengeClaims(challenges: string | undefined): string | undefined {
+-  if (!challenges) {
+-    return;
+-  }
+-  // Find all challenges present in the header
+-  const parsedChallenges = parseChallenges(challenges);
+-  return parsedChallenges.find(
+-    (x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims",
+-  )?.params.claims;
+-}
+diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
+index 86d7e12..4265f06 100644
+--- a/src/policies/formDataPolicy.ts
++++ b/src/policies/formDataPolicy.ts
+@@ -1,7 +1,8 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { isNodeLike, stringToUint8Array } from "@azure/core-util";
++import { stringToUint8Array } from "../util/bytesEncoding.js";
++import { isNodeLike } from "../util/checkEnvironment.js";
+ import { createHttpHeaders } from "../httpHeaders.js";
+ import type {
+   BodyPart,
+diff --git a/src/policies/logPolicy.ts b/src/policies/logPolicy.ts
+index a8383c6..6b7d1ab 100644
+--- a/src/policies/logPolicy.ts
++++ b/src/policies/logPolicy.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { Debugger } from "@azure/logger";
++import type { Debugger } from "../logger/logger.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ import { logger as coreLogger } from "../log.js";
+diff --git a/src/policies/multipartPolicy.ts b/src/policies/multipartPolicy.ts
+index 2b70494..268c132 100644
+--- a/src/policies/multipartPolicy.ts
++++ b/src/policies/multipartPolicy.ts
+@@ -1,11 +1,12 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { randomUUID, stringToUint8Array } from "@azure/core-util";
+ import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+-import { concat } from "../util/concat.js";
++import { stringToUint8Array } from "../util/bytesEncoding.js";
+ import { isBlob } from "../util/typeGuards.js";
++import { randomUUID } from "../util/uuidUtils.js";
++import { concat } from "../util/concat.js";
+ 
+ function generateBoundary(): string {
+   return `----AzSDKFormBoundary${randomUUID()}`;
+diff --git a/src/policies/ndJsonPolicy.ts b/src/policies/ndJsonPolicy.ts
+deleted file mode 100644
+index deeee45..0000000
+--- a/src/policies/ndJsonPolicy.ts
++++ /dev/null
+@@ -1,29 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-
+-/**
+- * The programmatic identifier of the ndJsonPolicy.
+- */
+-export const ndJsonPolicyName = "ndJsonPolicy";
+-
+-/**
+- * ndJsonPolicy is a policy used to control keep alive settings for every request.
+- */
+-export function ndJsonPolicy(): PipelinePolicy {
+-  return {
+-    name: ndJsonPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      // There currently isn't a good way to bypass the serializer
+-      if (typeof request.body === "string" && request.body.startsWith("[")) {
+-        const body = JSON.parse(request.body);
+-        if (Array.isArray(body)) {
+-          request.body = body.map((item) => JSON.stringify(item) + "\n").join("");
+-        }
+-      }
+-      return next(request);
+-    },
+-  };
+-}
+diff --git a/src/policies/retryPolicy.ts b/src/policies/retryPolicy.ts
+index 6d2afd5..badccb2 100644
+--- a/src/policies/retryPolicy.ts
++++ b/src/policies/retryPolicy.ts
+@@ -4,10 +4,11 @@
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ import { delay } from "../util/helpers.js";
+-import { type AzureLogger, createClientLogger } from "@azure/logger";
+ import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
+ import type { RestError } from "../restError.js";
+-import { AbortError } from "@azure/abort-controller";
++import { AbortError } from "../abort-controller/AbortError.js";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
++import { createClientLogger } from "../logger/logger.js";
+ import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+ 
+ const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
+@@ -28,7 +29,7 @@ export interface RetryPolicyOptions {
+   /**
+    * Logger. If it's not provided, a default logger is used.
+    */
+-  logger?: AzureLogger;
++  logger?: TypeSpecRuntimeLogger;
+ }
+ 
+ /**
+diff --git a/src/policies/setClientRequestIdPolicy.ts b/src/policies/setClientRequestIdPolicy.ts
+deleted file mode 100644
+index a40d4ab..0000000
+--- a/src/policies/setClientRequestIdPolicy.ts
++++ /dev/null
+@@ -1,30 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-
+-/**
+- * The programmatic identifier of the setClientRequestIdPolicy.
+- */
+-export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+-
+-/**
+- * Each PipelineRequest gets a unique id upon creation.
+- * This policy passes that unique id along via an HTTP header to enable better
+- * telemetry and tracing.
+- * @param requestIdHeaderName - The name of the header to pass the request ID to.
+- */
+-export function setClientRequestIdPolicy(
+-  requestIdHeaderName = "x-ms-client-request-id",
+-): PipelinePolicy {
+-  return {
+-    name: setClientRequestIdPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      if (!request.headers.has(requestIdHeaderName)) {
+-        request.headers.set(requestIdHeaderName, request.requestId);
+-      }
+-      return next(request);
+-    },
+-  };
+-}
+diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
+deleted file mode 100644
+index 4f54b0d..0000000
+--- a/src/policies/tracingPolicy.ts
++++ /dev/null
+@@ -1,174 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import {
+-  type TracingClient,
+-  type TracingContext,
+-  type TracingSpan,
+-  createTracingClient,
+-} from "@azure/core-tracing";
+-import { SDK_VERSION } from "../constants.js";
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-import { getUserAgentValue } from "../util/userAgent.js";
+-import { logger } from "../log.js";
+-import { getErrorMessage, isError } from "@azure/core-util";
+-import { isRestError } from "../restError.js";
+-import { Sanitizer } from "../util/sanitizer.js";
+-
+-/**
+- * The programmatic identifier of the tracingPolicy.
+- */
+-export const tracingPolicyName = "tracingPolicy";
+-
+-/**
+- * Options to configure the tracing policy.
+- */
+-export interface TracingPolicyOptions {
+-  /**
+-   * String prefix to add to the user agent logged as metadata
+-   * on the generated Span.
+-   * Defaults to an empty string.
+-   */
+-  userAgentPrefix?: string;
+-  /**
+-   * Query string names whose values will be logged when logging is enabled. By default no
+-   * query string values are logged.
+-   */
+-  additionalAllowedQueryParameters?: string[];
+-}
+-
+-/**
+- * A simple policy to create OpenTelemetry Spans for each request made by the pipeline
+- * that has SpanOptions with a parent.
+- * Requests made without a parent Span will not be recorded.
+- * @param options - Options to configure the telemetry logged by the tracing policy.
+- */
+-export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
+-  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
+-  const sanitizer = new Sanitizer({
+-    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
+-  });
+-  const tracingClient = tryCreateTracingClient();
+-
+-  return {
+-    name: tracingPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      if (!tracingClient) {
+-        return next(request);
+-      }
+-
+-      const userAgent = await userAgentPromise;
+-
+-      const spanAttributes = {
+-        "http.url": sanitizer.sanitizeUrl(request.url),
+-        "http.method": request.method,
+-        "http.user_agent": userAgent,
+-        requestId: request.requestId,
+-      };
+-      if (userAgent) {
+-        spanAttributes["http.user_agent"] = userAgent;
+-      }
+-
+-      const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
+-
+-      if (!span || !tracingContext) {
+-        return next(request);
+-      }
+-
+-      try {
+-        const response = await tracingClient.withContext(tracingContext, next, request);
+-        tryProcessResponse(span, response);
+-        return response;
+-      } catch (err: any) {
+-        tryProcessError(span, err);
+-        throw err;
+-      }
+-    },
+-  };
+-}
+-
+-function tryCreateTracingClient(): TracingClient | undefined {
+-  try {
+-    return createTracingClient({
+-      namespace: "",
+-      packageName: "@azure/core-rest-pipeline",
+-      packageVersion: SDK_VERSION,
+-    });
+-  } catch (e: unknown) {
+-    logger.warning(`Error when creating the TracingClient: ${getErrorMessage(e)}`);
+-    return undefined;
+-  }
+-}
+-
+-function tryCreateSpan(
+-  tracingClient: TracingClient,
+-  request: PipelineRequest,
+-  spanAttributes: Record<string, unknown>,
+-): { span: TracingSpan; tracingContext: TracingContext } | undefined {
+-  try {
+-    // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
+-    const { span, updatedOptions } = tracingClient.startSpan(
+-      `HTTP ${request.method}`,
+-      { tracingOptions: request.tracingOptions },
+-      {
+-        spanKind: "client",
+-        spanAttributes,
+-      },
+-    );
+-
+-    // If the span is not recording, don't do any more work.
+-    if (!span.isRecording()) {
+-      span.end();
+-      return undefined;
+-    }
+-
+-    // set headers
+-    const headers = tracingClient.createRequestHeaders(
+-      updatedOptions.tracingOptions.tracingContext,
+-    );
+-    for (const [key, value] of Object.entries(headers)) {
+-      request.headers.set(key, value);
+-    }
+-    return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
+-  } catch (e: any) {
+-    logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
+-    return undefined;
+-  }
+-}
+-
+-function tryProcessError(span: TracingSpan, error: unknown): void {
+-  try {
+-    span.setStatus({
+-      status: "error",
+-      error: isError(error) ? error : undefined,
+-    });
+-    if (isRestError(error) && error.statusCode) {
+-      span.setAttribute("http.status_code", error.statusCode);
+-    }
+-    span.end();
+-  } catch (e: any) {
+-    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
+-  }
+-}
+-
+-function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void {
+-  try {
+-    span.setAttribute("http.status_code", response.status);
+-    const serviceRequestId = response.headers.get("x-ms-request-id");
+-    if (serviceRequestId) {
+-      span.setAttribute("serviceRequestId", serviceRequestId);
+-    }
+-    // Per semantic conventions, only set the status to error if the status code is 4xx or 5xx.
+-    // Otherwise, the status MUST remain unset.
+-    // https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+-    if (response.status >= 400) {
+-      span.setStatus({
+-        status: "error",
+-      });
+-    }
+-    span.end();
+-  } catch (e: any) {
+-    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
+-  }
+-}
+diff --git a/src/restError.ts b/src/restError.ts
+index 0b2e69f..bc09e78 100644
+--- a/src/restError.ts
++++ b/src/restError.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { isError } from "@azure/core-util";
++import { isError } from "./util/error.js";
+ import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
+ import { custom } from "./util/inspect.js";
+ import { Sanitizer } from "./util/sanitizer.js";
+diff --git a/src/retryStrategies/exponentialRetryStrategy.ts b/src/retryStrategies/exponentialRetryStrategy.ts
+index c6943b8..568e864 100644
+--- a/src/retryStrategies/exponentialRetryStrategy.ts
++++ b/src/retryStrategies/exponentialRetryStrategy.ts
+@@ -3,7 +3,7 @@
+ 
+ import type { PipelineResponse } from "../interfaces.js";
+ import type { RestError } from "../restError.js";
+-import { calculateRetryDelay } from "@azure/core-util";
++import { calculateRetryDelay } from "../util/delay.js";
+ import type { RetryStrategy } from "./retryStrategy.js";
+ import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
+ 
+diff --git a/src/retryStrategies/retryStrategy.ts b/src/retryStrategies/retryStrategy.ts
+index a8b94fc..bc11b52 100644
+--- a/src/retryStrategies/retryStrategy.ts
++++ b/src/retryStrategies/retryStrategy.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AzureLogger } from "@azure/logger";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+ import type { PipelineResponse } from "../interfaces.js";
+ import type { RestError } from "../restError.js";
+ 
+@@ -57,7 +57,7 @@ export interface RetryStrategy {
+   /**
+    * Logger. If it's not provided, a default logger for all retry strategies is used.
+    */
+-  logger?: AzureLogger;
++  logger?: TypeSpecRuntimeLogger;
+   /**
+    * Function that determines how to proceed with the subsequent requests.
+    * @param state - Retry state
+diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
+index 2d4f87f..d0f7298 100644
+--- a/src/retryStrategies/throttlingRetryStrategy.ts
++++ b/src/retryStrategies/throttlingRetryStrategy.ts
+@@ -1,17 +1,17 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { PipelineResponse } from "../index.js";
++import type { PipelineResponse } from "../interfaces.js";
+ import { parseHeaderValueAsNumber } from "../util/helpers.js";
+ import type { RetryStrategy } from "./retryStrategy.js";
+ 
+ /**
+- * The header that comes back from Azure services representing
++ * The header that comes back from services representing
+  * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
+  */
+ const RetryAfterHeader = "Retry-After";
+ /**
+- * The headers that come back from Azure services representing
++ * The headers that come back from services representing
+  * the amount of time (minimum) to wait to retry.
+  *
+  * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds
+diff --git a/src/tracing/index.ts b/src/tracing/index.ts
+deleted file mode 100644
+index 8992d7a..0000000
+--- a/src/tracing/index.ts
++++ /dev/null
+@@ -1,23 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-export {
+-  AddEventOptions,
+-  Instrumenter,
+-  InstrumenterSpanOptions,
+-  OperationTracingOptions,
+-  OptionsWithTracingContext,
+-  Resolved,
+-  SpanStatus,
+-  SpanStatusError,
+-  SpanStatusSuccess,
+-  TracingClient,
+-  TracingClientOptions,
+-  TracingContext,
+-  TracingSpan,
+-  TracingSpanKind,
+-  TracingSpanLink,
+-  TracingSpanOptions,
+-} from "./interfaces.js";
+-export { useInstrumenter } from "./instrumenter.js";
+-export { createTracingClient } from "./tracingClient.js";
+diff --git a/src/tracing/instrumenter.ts b/src/tracing/instrumenter.ts
+deleted file mode 100644
+index 28f5729..0000000
+--- a/src/tracing/instrumenter.ts
++++ /dev/null
+@@ -1,84 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type {
+-  Instrumenter,
+-  InstrumenterSpanOptions,
+-  TracingContext,
+-  TracingSpan,
+-} from "./interfaces.js";
+-
+-import { createTracingContext } from "./tracingContext.js";
+-import { state } from "./state.js";
+-
+-export function createDefaultTracingSpan(): TracingSpan {
+-  return {
+-    end: () => {
+-      // noop
+-    },
+-    isRecording: () => false,
+-    recordException: () => {
+-      // noop
+-    },
+-    setAttribute: () => {
+-      // noop
+-    },
+-    setStatus: () => {
+-      // noop
+-    },
+-    addEvent: () => {
+-      // noop
+-    },
+-  };
+-}
+-
+-export function createDefaultInstrumenter(): Instrumenter {
+-  return {
+-    createRequestHeaders: (): Record<string, string> => {
+-      return {};
+-    },
+-    parseTraceparentHeader: (): TracingContext | undefined => {
+-      return undefined;
+-    },
+-    startSpan: (
+-      _name: string,
+-      spanOptions: InstrumenterSpanOptions,
+-    ): { span: TracingSpan; tracingContext: TracingContext } => {
+-      return {
+-        span: createDefaultTracingSpan(),
+-        tracingContext: createTracingContext({ parentContext: spanOptions.tracingContext }),
+-      };
+-    },
+-    withContext<
+-      CallbackArgs extends unknown[],
+-      Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-    >(
+-      _context: TracingContext,
+-      callback: Callback,
+-      ...callbackArgs: CallbackArgs
+-    ): ReturnType<Callback> {
+-      return callback(...callbackArgs);
+-    },
+-  };
+-}
+-
+-/**
+- * Extends the Azure SDK with support for a given instrumenter implementation.
+- *
+- * @param instrumenter - The instrumenter implementation to use.
+- */
+-export function useInstrumenter(instrumenter: Instrumenter): void {
+-  state.instrumenterImplementation = instrumenter;
+-}
+-
+-/**
+- * Gets the currently set instrumenter, a No-Op instrumenter by default.
+- *
+- * @returns The currently set instrumenter
+- */
+-export function getInstrumenter(): Instrumenter {
+-  if (!state.instrumenterImplementation) {
+-    state.instrumenterImplementation = createDefaultInstrumenter();
+-  }
+-  return state.instrumenterImplementation;
+-}
+diff --git a/src/tracing/interfaces.ts b/src/tracing/interfaces.ts
+deleted file mode 100644
+index 04d0785..0000000
+--- a/src/tracing/interfaces.ts
++++ /dev/null
+@@ -1,329 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * A narrower version of TypeScript 4.5's Awaited type which Recursively
+- * unwraps the "awaited type", emulating the behavior of `await`.
+- */
+-export type Resolved<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+-  ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
+-    ? Resolved<V> // recursively unwrap the value
+-    : never // the argument to `then` was not callable
+-  : T; // non-object or non-thenable
+-
+-/**
+- * Represents a client that can integrate with the currently configured {@link Instrumenter}.
+- *
+- * Create an instance using {@link createTracingClient}.
+- */
+-export interface TracingClient {
+-  /**
+-   * Wraps a callback in a tracing span, calls the callback, and closes the span.
+-   *
+-   * This is the primary interface for using Tracing and will handle error recording as well as setting the status on the span.
+-   *
+-   * Both synchronous and asynchronous functions will be awaited in order to reflect the result of the callback on the span.
+-   *
+-   * Example:
+-   *
+-   * ```ts snippet:with_span_example
+-   * import { createTracingClient } from "@azure/core-tracing";
+-   *
+-   * const tracingClient = createTracingClient({
+-   *   namespace: "test.namespace",
+-   *   packageName: "test-package",
+-   *   packageVersion: "1.0.0",
+-   * });
+-   * const options = {};
+-   * const myOperationResult = await tracingClient.withSpan(
+-   *   "myClassName.myOperationName",
+-   *   options,
+-   *   (updatedOptions) => {
+-   *     // Do something with the updated options.
+-   *     return "myOperationResult";
+-   *   },
+-   * );
+-   * ```
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
+-   * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
+-   */
+-  withSpan<
+-    Options extends { tracingOptions?: OperationTracingOptions },
+-    Callback extends (
+-      updatedOptions: Options,
+-      span: Omit<TracingSpan, "end">,
+-    ) => ReturnType<Callback>,
+-  >(
+-    name: string,
+-    operationOptions: Options,
+-    callback: Callback,
+-    spanOptions?: TracingSpanOptions,
+-  ): Promise<Resolved<ReturnType<Callback>>>;
+-  /**
+-   * Starts a given span but does not set it as the active span.
+-   *
+-   * You must end the span using {@link TracingSpan.end}.
+-   *
+-   * Most of the time you will want to use {@link withSpan} instead.
+-   *
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param operationOptions - The original operation options.
+-   * @param spanOptions - The options to use when creating the span.
+-   *
+-   * @returns A {@link TracingSpan} and the updated operation options.
+-   */
+-  startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
+-    name: string,
+-    operationOptions?: Options,
+-    spanOptions?: TracingSpanOptions,
+-  ): {
+-    span: TracingSpan;
+-    updatedOptions: OptionsWithTracingContext<Options>;
+-  };
+-  /**
+-   * Wraps a callback with an active context and calls the callback.
+-   * Depending on the implementation, this may set the globally available active context.
+-   *
+-   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withSpan} API.
+-   *
+-   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+-   * @param callback - The callback to be invoked with the given context set as the globally active context.
+-   * @param callbackArgs - The callback arguments.
+-   */
+-  withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback>;
+-
+-  /**
+-   * Parses a traceparent header value into a {@link TracingSpanContext}.
+-   *
+-   * @param traceparentHeader - The traceparent header to parse.
+-   * @returns An implementation-specific identifier for the span.
+-   */
+-  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+-
+-  /**
+-   * Creates a set of request headers to propagate tracing information to a backend.
+-   *
+-   * @param tracingContext - The context containing the span to propagate.
+-   * @returns The set of headers to add to a request.
+-   */
+-  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+-}
+-
+-/**
+- * Options that can be passed to {@link createTracingClient}
+- */
+-export interface TracingClientOptions {
+-  /** The value of the az.namespace tracing attribute on newly created spans. */
+-  namespace: string;
+-  /** The name of the package invoking this trace. */
+-  packageName: string;
+-  /** An optional version of the package invoking this trace. */
+-  packageVersion?: string;
+-}
+-
+-/** The kind of span. */
+-export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
+-
+-/** Options used to configure the newly created span. */
+-export interface TracingSpanOptions {
+-  /** The kind of span. Implementations should default this to "client". */
+-  spanKind?: TracingSpanKind;
+-  /** A collection of {@link TracingSpanLink} to link to this span. */
+-  spanLinks?: TracingSpanLink[];
+-  /** Initial set of attributes to set on a span. */
+-  spanAttributes?: { [key: string]: unknown };
+-}
+-
+-/** A pointer from the current {@link TracingSpan} to another span in the same or a different trace. */
+-export interface TracingSpanLink {
+-  /** The {@link TracingContext} containing the span context to link to. */
+-  tracingContext: TracingContext;
+-  /** A set of attributes on the link. */
+-  attributes?: { [key: string]: unknown };
+-}
+-
+-/**
+- * Represents an implementation agnostic instrumenter.
+- */
+-export interface Instrumenter {
+-  /**
+-   * Creates a new {@link TracingSpan} with the given name and options and sets it on a new context.
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param spanOptions - The options to use when creating the span.
+-   *
+-   * @returns A {@link TracingSpan} that can be used to end the span, and the context this span has been set on.
+-   */
+-  startSpan(
+-    name: string,
+-    spanOptions: InstrumenterSpanOptions,
+-  ): { span: TracingSpan; tracingContext: TracingContext };
+-  /**
+-   * Wraps a callback with an active context and calls the callback.
+-   * Depending on the implementation, this may set the globally available active context.
+-   *
+-   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+-   * @param callback - The callback to be invoked with the given context set as the globally active context.
+-   * @param callbackArgs - The callback arguments.
+-   */
+-  withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback>;
+-
+-  /**
+-   * Provides an implementation-specific method to parse a {@link https://www.w3.org/TR/trace-context/#traceparent-header}
+-   * into a {@link TracingSpanContext} which can be used to link non-parented spans together.
+-   */
+-  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+-  /**
+-   * Provides an implementation-specific method to serialize a {@link TracingSpan} to a set of headers.
+-   * @param tracingContext - The context containing the span to serialize.
+-   */
+-  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+-}
+-
+-/**
+- * Options passed to {@link Instrumenter.startSpan} as a superset of {@link TracingSpanOptions}.
+- */
+-export interface InstrumenterSpanOptions extends TracingSpanOptions {
+-  /** The name of the package invoking this trace. */
+-  packageName: string;
+-  /** The version of the package invoking this trace. */
+-  packageVersion?: string;
+-  /** The current tracing context. Defaults to an implementation-specific "active" context. */
+-  tracingContext?: TracingContext;
+-}
+-
+-/**
+- * Status representing a successful operation that can be sent to {@link TracingSpan.setStatus}
+- */
+-export type SpanStatusSuccess = { status: "success" };
+-
+-/**
+- * Status representing an error that can be sent to {@link TracingSpan.setStatus}
+- */
+-export type SpanStatusError = { status: "error"; error?: Error | string };
+-
+-/**
+- * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
+- *
+- * By default, all spans will be created with status "unset".
+- */
+-export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+-
+-/**
+- * Represents options you can pass to {@link TracingSpan.addEvent}.
+- */
+-export interface AddEventOptions {
+-  /**
+-   * A set of attributes to attach to the event.
+-   */
+-  attributes?: Record<string, unknown>;
+-  /**
+-   * The start time of the event.
+-   */
+-  startTime?: Date;
+-}
+-
+-/**
+- * Represents an implementation agnostic tracing span.
+- */
+-export interface TracingSpan {
+-  /**
+-   * Sets the status of the span. When an error is provided, it will be recorded on the span as well.
+-   *
+-   * @param status - The {@link SpanStatus} to set on the span.
+-   */
+-  setStatus(status: SpanStatus): void;
+-
+-  /**
+-   * Sets a given attribute on a span.
+-   *
+-   * @param name - The attribute's name.
+-   * @param value - The attribute's value to set. May be any non-nullish value.
+-   */
+-  setAttribute(name: string, value: unknown): void;
+-
+-  /**
+-   * Ends the span.
+-   */
+-  end(): void;
+-
+-  /**
+-   * Records an exception on a {@link TracingSpan} without modifying its status.
+-   *
+-   * When recording an unhandled exception that should fail the span, please use {@link TracingSpan.setStatus} instead.
+-   *
+-   * @param exception - The exception to record on the span.
+-   *
+-   */
+-  recordException(exception: Error | string): void;
+-
+-  /**
+-   * Returns true if this {@link TracingSpan} is recording information.
+-   *
+-   * Depending on the span implementation, this may return false if the span is not being sampled.
+-   */
+-  isRecording(): boolean;
+-
+-  /**
+-   * Adds an event to the span.
+-   */
+-  addEvent?(name: string, options?: AddEventOptions): void;
+-}
+-
+-/** An immutable context bag of tracing values for the current operation. */
+-export interface TracingContext {
+-  /**
+-   * Sets a given object on a context.
+-   * @param key - The key of the given context value.
+-   * @param value - The value to set on the context.
+-   *
+-   * @returns - A new context with the given value set.
+-   */
+-  setValue(key: symbol, value: unknown): TracingContext;
+-  /**
+-   * Gets an object from the context if it exists.
+-   * @param key - The key of the given context value.
+-   *
+-   * @returns - The value of the given context value if it exists, otherwise `undefined`.
+-   */
+-  getValue(key: symbol): unknown;
+-  /**
+-   * Deletes an object from the context if it exists.
+-   * @param key - The key of the given context value to delete.
+-   */
+-  deleteValue(key: symbol): TracingContext;
+-}
+-
+-/**
+- * Tracing options to set on an operation.
+- */
+-export interface OperationTracingOptions {
+-  /** The context to use for created Tracing Spans. */
+-  tracingContext?: TracingContext;
+-}
+-
+-/**
+- * A utility type for when we know a TracingContext has been set
+- * as part of an operation's options.
+- */
+-export type OptionsWithTracingContext<
+-  Options extends { tracingOptions?: OperationTracingOptions },
+-> = Options & {
+-  tracingOptions: {
+-    tracingContext: TracingContext;
+-  };
+-};
+diff --git a/src/tracing/state-browser.mts b/src/tracing/state-browser.mts
+deleted file mode 100644
+index 6e56271..0000000
+--- a/src/tracing/state-browser.mts
++++ /dev/null
+@@ -1,11 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { Instrumenter } from "./interfaces.js";
+-
+-/**
+- * Browser-only implementation of the module's state. The browser esm variant will not load the commonjs state, so we do not need to share state between the two.
+- */
+-export const state = {
+-  instrumenterImplementation: undefined as Instrumenter | undefined,
+-};
+diff --git a/src/tracing/state-cjs.cts b/src/tracing/state-cjs.cts
+deleted file mode 100644
+index 181bfa0..0000000
+--- a/src/tracing/state-cjs.cts
++++ /dev/null
+@@ -1,11 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * @internal
+- *
+- * Holds the singleton instrumenter, to be shared across CJS and ESM imports.
+- */
+-export const state = {
+-  instrumenterImplementation: undefined,
+-};
+diff --git a/src/tracing/state.ts b/src/tracing/state.ts
+deleted file mode 100644
+index c7e7a4a..0000000
+--- a/src/tracing/state.ts
++++ /dev/null
+@@ -1,14 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { Instrumenter } from "./interfaces.js";
+-// @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
+-// See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
+-import { state as cjsState } from "../commonjs/state.js";
+-
+-/**
+- * Defines the shared state between CJS and ESM by re-exporting the CJS state.
+- */
+-export const state = cjsState as {
+-  instrumenterImplementation: Instrumenter | undefined;
+-};
+diff --git a/src/tracing/tracingClient.ts b/src/tracing/tracingClient.ts
+deleted file mode 100644
+index 3e9603d..0000000
+--- a/src/tracing/tracingClient.ts
++++ /dev/null
+@@ -1,121 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type {
+-  OperationTracingOptions,
+-  OptionsWithTracingContext,
+-  Resolved,
+-  TracingClient,
+-  TracingClientOptions,
+-  TracingContext,
+-  TracingSpan,
+-  TracingSpanOptions,
+-} from "./interfaces.js";
+-import { getInstrumenter } from "./instrumenter.js";
+-import { knownContextKeys } from "./tracingContext.js";
+-
+-/**
+- * Creates a new tracing client.
+- *
+- * @param options - Options used to configure the tracing client.
+- * @returns - An instance of {@link TracingClient}.
+- */
+-export function createTracingClient(options: TracingClientOptions): TracingClient {
+-  const { namespace, packageName, packageVersion } = options;
+-
+-  function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
+-    name: string,
+-    operationOptions?: Options,
+-    spanOptions?: TracingSpanOptions,
+-  ): {
+-    span: TracingSpan;
+-    updatedOptions: OptionsWithTracingContext<Options>;
+-  } {
+-    const startSpanResult = getInstrumenter().startSpan(name, {
+-      ...spanOptions,
+-      packageName: packageName,
+-      packageVersion: packageVersion,
+-      tracingContext: operationOptions?.tracingOptions?.tracingContext,
+-    });
+-    let tracingContext = startSpanResult.tracingContext;
+-    const span = startSpanResult.span;
+-    if (!tracingContext.getValue(knownContextKeys.namespace)) {
+-      tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
+-    }
+-    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
+-    const updatedOptions: OptionsWithTracingContext<Options> = Object.assign({}, operationOptions, {
+-      tracingOptions: { ...operationOptions?.tracingOptions, tracingContext },
+-    });
+-
+-    return {
+-      span,
+-      updatedOptions,
+-    };
+-  }
+-
+-  async function withSpan<
+-    Options extends { tracingOptions?: OperationTracingOptions },
+-    Callback extends (
+-      updatedOptions: Options,
+-      span: Omit<TracingSpan, "end">,
+-    ) => ReturnType<Callback>,
+-  >(
+-    name: string,
+-    operationOptions: Options,
+-    callback: Callback,
+-    spanOptions?: TracingSpanOptions,
+-  ): Promise<Resolved<ReturnType<Callback>>> {
+-    const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
+-    try {
+-      const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
+-        Promise.resolve(callback(updatedOptions, span)),
+-      );
+-      span.setStatus({ status: "success" });
+-      return result as ReturnType<typeof withSpan>;
+-    } catch (err: any) {
+-      span.setStatus({ status: "error", error: err });
+-      throw err;
+-    } finally {
+-      span.end();
+-    }
+-  }
+-
+-  function withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback> {
+-    return getInstrumenter().withContext(context, callback, ...callbackArgs);
+-  }
+-
+-  /**
+-   * Parses a traceparent header value into a span identifier.
+-   *
+-   * @param traceparentHeader - The traceparent header to parse.
+-   * @returns An implementation-specific identifier for the span.
+-   */
+-  function parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined {
+-    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
+-  }
+-
+-  /**
+-   * Creates a set of request headers to propagate tracing information to a backend.
+-   *
+-   * @param tracingContext - The context containing the span to serialize.
+-   * @returns The set of headers to add to a request.
+-   */
+-  function createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
+-    return getInstrumenter().createRequestHeaders(tracingContext);
+-  }
+-
+-  return {
+-    startSpan,
+-    withSpan,
+-    withContext,
+-    parseTraceparentHeader,
+-    createRequestHeaders,
+-  };
+-}
+diff --git a/src/tracing/tracingContext.ts b/src/tracing/tracingContext.ts
+deleted file mode 100644
+index 84999ab..0000000
+--- a/src/tracing/tracingContext.ts
++++ /dev/null
+@@ -1,67 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { TracingContext, TracingSpan } from "./interfaces.js";
+-
+-/** @internal */
+-export const knownContextKeys = {
+-  span: Symbol.for("@azure/core-tracing span"),
+-  namespace: Symbol.for("@azure/core-tracing namespace"),
+-};
+-
+-/**
+- * Creates a new {@link TracingContext} with the given options.
+- * @param options - A set of known keys that may be set on the context.
+- * @returns A new {@link TracingContext} with the given options.
+- *
+- * @internal
+- */
+-export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
+-  let context: TracingContext = new TracingContextImpl(options.parentContext);
+-  if (options.span) {
+-    context = context.setValue(knownContextKeys.span, options.span);
+-  }
+-  if (options.namespace) {
+-    context = context.setValue(knownContextKeys.namespace, options.namespace);
+-  }
+-  return context;
+-}
+-
+-/** @internal */
+-export class TracingContextImpl implements TracingContext {
+-  private _contextMap: Map<symbol, unknown>;
+-  constructor(initialContext?: TracingContext) {
+-    this._contextMap =
+-      initialContext instanceof TracingContextImpl
+-        ? new Map<symbol, unknown>(initialContext._contextMap)
+-        : new Map();
+-  }
+-
+-  setValue(key: symbol, value: unknown): TracingContext {
+-    const newContext = new TracingContextImpl(this);
+-    newContext._contextMap.set(key, value);
+-    return newContext;
+-  }
+-
+-  getValue(key: symbol): unknown {
+-    return this._contextMap.get(key);
+-  }
+-
+-  deleteValue(key: symbol): TracingContext {
+-    const newContext = new TracingContextImpl(this);
+-    newContext._contextMap.delete(key);
+-    return newContext;
+-  }
+-}
+-
+-/**
+- * Represents a set of items that can be set when creating a new {@link TracingContext}.
+- */
+-export interface CreateTracingContextOptions {
+-  /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overridden. */
+-  parentContext?: TracingContext;
+-  /** An initial span to set on the context. */
+-  span?: TracingSpan;
+-  /** The namespace to set on any child spans. */
+-  namespace?: string;
+-}
+diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
+index ce29be9..cde2d52 100644
+--- a/src/util/aborterUtils.ts
++++ b/src/util/aborterUtils.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AbortSignalLike } from "@azure/abort-controller";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+ 
+ /**
+  * Options related to abort controller.
+diff --git a/src/util/concat.ts b/src/util/concat.ts
+index 457bc22..cbadccf 100644
+--- a/src/util/concat.ts
++++ b/src/util/concat.ts
+@@ -1,8 +1,8 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { Readable } from "node:stream";
+-import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
++import { Readable } from "stream";
++import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
+ import { isBlob } from "./typeGuards.js";
+ import { getRawContent } from "./file.js";
+ 
+diff --git a/src/util/createAbortablePromise.ts b/src/util/createAbortablePromise.ts
+index 25cf55a..685eaed 100644
+--- a/src/util/createAbortablePromise.ts
++++ b/src/util/createAbortablePromise.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { AbortError } from "@azure/abort-controller";
++import { AbortError } from "../abort-controller/AbortError.js";
+ import type { AbortOptions } from "./aborterUtils.js";
+ 
+ /**
+diff --git a/src/util/file.ts b/src/util/file.ts
+index 48d09e6..73d19de 100644
+--- a/src/util/file.ts
++++ b/src/util/file.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { isNodeLike } from "@azure/core-util";
++import { isNodeLike } from "./checkEnvironment.js";
+ import { isNodeReadableStream } from "./typeGuards.js";
+ 
+ /**
+@@ -42,9 +42,6 @@ const unimplementedMethods = {
+   arrayBuffer: () => {
+     throw new Error("Not implemented");
+   },
+-  bytes: () => {
+-    throw new Error("Not implemented");
+-  },
+   slice: () => {
+     throw new Error("Not implemented");
+   },
+diff --git a/src/util/helpers.ts b/src/util/helpers.ts
+index f6819e8..7272d5d 100644
+--- a/src/util/helpers.ts
++++ b/src/util/helpers.ts
+@@ -1,7 +1,8 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
++import { AbortError } from "../abort-controller/AbortError.js";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+ import type { PipelineResponse } from "../interfaces.js";
+ 
+ const StandardAbortMessage = "The operation was aborted.";
+diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
+deleted file mode 100644
+index 2748031..0000000
+--- a/src/util/httpMethods.ts
++++ /dev/null
+@@ -1,16 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * @public
+- * Supported HTTP methods to use when making requests.
+- */
+-export type HttpMethods =
+-  | "GET"
+-  | "PUT"
+-  | "POST"
+-  | "DELETE"
+-  | "PATCH"
+-  | "HEAD"
+-  | "OPTIONS"
+-  | "TRACE";
+diff --git a/src/util/index.ts b/src/util/index.ts
+deleted file mode 100644
+index e0af55f..0000000
+--- a/src/util/index.ts
++++ /dev/null
+@@ -1,31 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-export { delay, type DelayOptions, calculateRetryDelay } from "./delay.js";
+-export {
+-  type AbortOptions,
+-  cancelablePromiseRace,
+-  type AbortablePromiseBuilder,
+-} from "./aborterUtils.js";
+-export {
+-  createAbortablePromise,
+-  type CreateAbortablePromiseOptions,
+-} from "./createAbortablePromise.js";
+-export { getRandomIntegerInclusive } from "./random.js";
+-export { isObject, type UnknownObject } from "./object.js";
+-export { isError, getErrorMessage } from "./error.js";
+-export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
+-export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
+-export { randomUUID } from "./uuidUtils.js";
+-export { HttpMethods } from "./httpMethods.js";
+-export {
+-  isBrowser,
+-  isBun,
+-  isNode,
+-  isNodeLike,
+-  isNodeRuntime,
+-  isDeno,
+-  isReactNative,
+-  isWebWorker,
+-} from "./checkEnvironment.js";
+-export { uint8ArrayToString, stringToUint8Array, type EncodingType } from "./bytesEncoding.js";
+diff --git a/src/util/sanitizer.ts b/src/util/sanitizer.ts
+index 46654b9..be4f21e 100644
+--- a/src/util/sanitizer.ts
++++ b/src/util/sanitizer.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { type UnknownObject, isObject } from "@azure/core-util";
++import { type UnknownObject, isObject } from "./object.js";
+ 
+ /**
+  * @internal
+diff --git a/src/util/sha256.ts b/src/util/sha256.ts
+index 80a1a23..794d26a 100644
+--- a/src/util/sha256.ts
++++ b/src/util/sha256.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { createHash, createHmac } from "crypto";
++import { createHash, createHmac } from "node:crypto";
+ 
+ /**
+  * Generates a SHA-256 HMAC signature.
+diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
+index 32e2343..723a36d 100644
+--- a/src/util/tokenCycler.ts
++++ b/src/util/tokenCycler.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
++import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
+ import { delay } from "./helpers.js";
+ 
+ /**
+diff --git a/src/util/typeGuards.ts b/src/util/typeGuards.ts
+index 22a9cac..2b3f295 100644
+--- a/src/util/typeGuards.ts
++++ b/src/util/typeGuards.ts
+@@ -44,3 +44,41 @@ export function objectHasProperty<Thing, PropertyName extends string>(
+     isDefined(thing) && typeof thing === "object" && property in (thing as Record<string, unknown>)
+   );
+ }
++
++export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
++  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
++}
++
++export function isWebReadableStream(x: unknown): x is ReadableStream {
++  return Boolean(
++    x &&
++      typeof (x as ReadableStream).getReader === "function" &&
++      typeof (x as ReadableStream).tee === "function",
++  );
++}
++
++export function isBinaryBody(
++  body: unknown,
++): body is
++  | Uint8Array
++  | NodeJS.ReadableStream
++  | ReadableStream<Uint8Array>
++  | (() => NodeJS.ReadableStream)
++  | (() => ReadableStream<Uint8Array>)
++  | Blob {
++  return (
++    body !== undefined &&
++    (body instanceof Uint8Array ||
++      isReadableStream(body) ||
++      typeof body === "function" ||
++      body instanceof Blob)
++  );
++}
++
++export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
++  return isNodeReadableStream(x) || isWebReadableStream(x);
++}
++
++export function isBlob(x: unknown): x is Blob {
++  return typeof (x as Blob).stream === "function";
++}
+diff --git a/src/util/userAgent.ts b/src/util/userAgent.ts
+index b8950b5..3ef33c8 100644
+--- a/src/util/userAgent.ts
++++ b/src/util/userAgent.ts
+@@ -25,7 +25,7 @@ export function getUserAgentHeaderName(): string {
+  */
+ export async function getUserAgentValue(prefix?: string): Promise<string> {
+   const runtimeInfo = new Map<string, string>();
+-  runtimeInfo.set("core-rest-pipeline", SDK_VERSION);
++  runtimeInfo.set("ts-http-runtime", SDK_VERSION);
+   await setPlatformSpecificData(runtimeInfo);
+   const defaultAgent = getUserAgentString(runtimeInfo);
+   const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
+diff --git a/src/util/uuidUtils.ts b/src/util/uuidUtils.ts
+index bd11d61..3f6a12b 100644
+--- a/src/util/uuidUtils.ts
++++ b/src/util/uuidUtils.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { randomUUID as v4RandomUUID } from "crypto";
++import { randomUUID as v4RandomUUID } from "node:crypto";
+ 
+ interface Crypto {
+   randomUUID(): string;
+diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
+index 71bc439..c82fcb7 100644
+--- a/src/xhrHttpClient.ts
++++ b/src/xhrHttpClient.ts
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { AbortError } from "@azure/abort-controller";
++import { AbortError } from "./abort-controller/AbortError.js";
+ import type {
+   HttpClient,
+   HttpHeaders,

@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import { Expectation } from "./types";
-import {
+import { assert } from "vitest";
+import type { Expectation } from "./types.js";
+import type {
   MetricsData,
   MonitorBase,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   MonitorDomain,
-} from "../../src/generated";
-import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
+} from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
+import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers.js";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
 
-  assert.ok(actual.baseData);
+  assert.isDefined(actual.baseData);
   for (const [key, value] of Object.entries(expected.baseData!)) {
     const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? key;
+    assert.isDefined(actual.baseData);
     assert.deepStrictEqual(
-      actual.baseData[serializedKey],
+      actual.baseData![serializedKey],
       value,
-      `baseData.${serializedKey} should be equal\nActual: ${actual.baseData[serializedKey]}\nExpected: ${value}`,
+      `baseData.${serializedKey} should be equal\nActual: ${actual.baseData![serializedKey]}\nExpected: ${value}`,
     );
   }
 };

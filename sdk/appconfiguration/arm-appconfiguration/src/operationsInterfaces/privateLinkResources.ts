@@ -11,7 +11,7 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface PrivateLinkResources {
   listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams
+    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets a private link resource that need to be created for a configuration store.
@@ -39,6 +39,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     configStoreName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

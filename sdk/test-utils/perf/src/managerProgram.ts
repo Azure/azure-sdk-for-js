@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { exec } from "child_process";
 import os from "os";
 import { performStage } from "./barrier";

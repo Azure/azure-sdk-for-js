@@ -8,7 +8,7 @@ import {
   AmqpMessageProperties,
   Constants,
 } from "../src/index.js";
-import {
+import type {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,
   Message as RheaMessage,

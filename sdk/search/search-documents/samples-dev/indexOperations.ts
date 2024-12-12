@@ -6,10 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndex, SearchIndexClient, SearchIndexStatistics } from "@azure/search-documents";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SearchIndex, SearchIndexStatistics } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents";
+import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
 const TEST_INDEX_NAME = "example-index-sample-1";

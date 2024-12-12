@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import EasmDefender, { EasmClient, isUnexpected } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createRecorder } from "./utils/recordedClient.js";
+import type { EasmClient } from "../../src/index.js";
+import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Tasks Test", () => {
   let recorder: Recorder;
@@ -15,8 +16,8 @@ describe("Tasks Test", () => {
   let cancel_task_id: string;
   const UUID_REGEX: RegExp = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
@@ -34,7 +35,7 @@ describe("Tasks Test", () => {
     cancel_task_id = "efad1fac-52d5-4ea9-b601-d5bf54a83780";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

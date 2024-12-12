@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
-import { StorageClient } from "../../src/StorageClient";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { StorageClient } from "../../src/StorageClient";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 

@@ -70,15 +70,15 @@
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "lint": "eslint package.json api-extractor.json src test ",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test ",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run unit-test",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
@@ -99,13 +99,11 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",
-    "rimraf": "^5.0.5",
     "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
@@ -125,7 +123,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "module": "./dist/esm/index.js"
 }

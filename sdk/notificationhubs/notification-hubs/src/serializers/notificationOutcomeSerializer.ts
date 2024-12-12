@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   NotificationHubsMessageResponse,
   RegistrationResult,
 } from "../models/notificationDetails.js";

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src/index.js";
+import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
+import { delay } from "../../../src/index.js";
 import { assert } from "./chai.js";
 
 export class TestMessage {

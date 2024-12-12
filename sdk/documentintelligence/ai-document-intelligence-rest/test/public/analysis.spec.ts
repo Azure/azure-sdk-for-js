@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -14,16 +15,15 @@ import {
 } from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
-import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import {
+import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import type {
   AnalyzeResultOperationOutput,
   DocumentBarcodeOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTableOutput,
-  getLongRunningPoller,
-  isUnexpected,
 } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -993,7 +993,7 @@ describe("DocumentIntelligenceClient", () => {
 
       await poller.pollUntilDone();
 
-      const output = await client
+      await client
         .path(
           "/documentModels/{modelId}/analyzeResults/{resultId}",
           "prebuilt-read",
@@ -1063,7 +1063,9 @@ describe("DocumentIntelligenceClient", () => {
       assert.isArray(figures);
       assert.isNotEmpty(figures?.[0]);
       const figureId = figures?.[0].id;
-      assert.isDefined(figureId);
+      if (!figureId) {
+        throw new Error("Expected a figure ID.");
+      }
 
       const output = await client
         .path(

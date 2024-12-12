@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BroadcastSendNotificationOptions } from "../models/options.js";
-import { Notification } from "../models/notification.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
+import type { BroadcastSendNotificationOptions } from "../models/options.js";
+import type { Notification } from "../models/notification.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { sendNotificationInternal } from "./internal/_sendNotification.js";
 
 /**

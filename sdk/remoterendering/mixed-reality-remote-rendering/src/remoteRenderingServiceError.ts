@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RemoteRenderingServiceErrorInternal } from "./generated";
+import type { RemoteRenderingServiceErrorInternal } from "./generated/index.js";
 
 /** Error object containing details about a conversion or session failure. */
 export class RemoteRenderingServiceError extends Error {

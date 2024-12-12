@@ -3,8 +3,9 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { Histogram } from "@opentelemetry/sdk-metrics";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import type { Histogram } from "@opentelemetry/sdk-metrics";
 import {
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_NET_HOST_PORT,
@@ -14,6 +15,8 @@ import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_K8S_DEPLOYMENT_NAME,
+  SEMRESATTRS_K8S_POD_NAME,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
@@ -49,6 +52,32 @@ describe("#StandardMetricsHandler", () => {
   after(() => {
     exportStub.restore();
     autoCollect.shutdown();
+  });
+
+  it("should use AKS attributes to populate common dimensions on standard metrics", async () => {
+    const resource = new Resource({});
+    resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME] = "k8sDeploymentName";
+    resource.attributes[SEMRESATTRS_K8S_POD_NAME] = "k8sPodName";
+    const clientSpan: any = {
+      kind: SpanKind.CLIENT,
+      duration: [123456],
+      attributes: {
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+      },
+      status: { code: SpanStatusCode.OK },
+      resource: resource,
+    };
+    clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
+    autoCollect.recordSpan(clientSpan);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    assert.ok(exportStub.called);
+
+    const resourceMetrics = exportStub.args[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+    assert.strictEqual(metrics[0].dataPoints[0].attributes["cloud/roleName"], "k8sDeploymentName");
+    assert.strictEqual(metrics[0].dataPoints[0].attributes["cloud/roleInstance"], "k8sPodName");
   });
 
   it("should observe instruments during collection", async () => {

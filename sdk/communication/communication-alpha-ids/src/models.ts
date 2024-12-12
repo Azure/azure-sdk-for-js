@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type {
   AlphaIdsGetAlphaIdsOptionalParams,
   AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
   AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
-} from ".";
+} from "./index.js";
 /**
  * Additional options for the Get Alpha ID Configuration request.
  */
@@ -41,4 +41,4 @@ export {
   AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
   AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
   SupportedCountries,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";

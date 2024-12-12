@@ -2,19 +2,20 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { context } from "@opentelemetry/api";
-import {
+import type {
   ChatCompletionsOutput,
   ChatRequestMessage,
   ChatRequestToolMessage,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  isUnexpected,
   ModelClient,
 } from "../../src/index.js";
-import {
+import { isUnexpected } from "../../src/index.js";
+import type {
   AddEventOptions,
   Instrumenter,
   InstrumenterSpanOptions,
@@ -22,8 +23,8 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-  useInstrumenter,
 } from "@azure/core-tracing";
+import { useInstrumenter } from "@azure/core-tracing";
 
 describe("tracing test suite", () => {
   let recorder: Recorder;
@@ -56,7 +57,7 @@ describe("tracing test suite", () => {
     return `The temperature in ${location} is 72 degrees ${unit}`;
   };
 
-  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
     const dummyFunction = { name: "", arguments: "", id: "" };
     while (functionArray.length < toolCallArray.length) {
       functionArray.push(dummyFunction);
@@ -77,7 +78,14 @@ describe("tracing test suite", () => {
     }
   };
 
-  const handleToolCalls = (functionArray: Array<any>) => {
+  const handleToolCalls = (
+    functionArray: Array<any>,
+  ): {
+    role: string;
+    content: string;
+    tool_call_id: any;
+    name: any;
+  }[] => {
     const messageArray = [];
     for (const func of functionArray) {
       const funcArgs = JSON.parse(func.arguments);

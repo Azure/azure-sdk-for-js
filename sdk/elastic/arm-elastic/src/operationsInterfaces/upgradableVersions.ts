@@ -8,20 +8,20 @@
 
 import {
   UpgradableVersionsDetailsOptionalParams,
-  UpgradableVersionsDetailsResponse
+  UpgradableVersionsDetailsResponse,
 } from "../models";
 
 /** Interface representing a UpgradableVersions. */
 export interface UpgradableVersions {
   /**
    * List of upgradable versions for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   details(
     resourceGroupName: string,
     monitorName: string,
-    options?: UpgradableVersionsDetailsOptionalParams
+    options?: UpgradableVersionsDetailsOptionalParams,
   ): Promise<UpgradableVersionsDetailsResponse>;
 }

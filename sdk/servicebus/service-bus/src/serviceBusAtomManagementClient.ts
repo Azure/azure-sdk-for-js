@@ -2,89 +2,96 @@
 // Licensed under the MIT License.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
-import {
-  TokenCredential,
-  isTokenCredential,
-  NamedKeyCredential,
-  isNamedKeyCredential,
-} from "@azure/core-auth";
-import {
-  ServiceClient,
+import type { TokenCredential, NamedKeyCredential } from "@azure/core-auth";
+import { isTokenCredential, isNamedKeyCredential } from "@azure/core-auth";
+import type {
   OperationOptions,
   CommonClientOptions,
   FullOperationResponse,
 } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
-  bearerTokenAuthenticationPolicy,
-  RestError,
+import { ServiceClient } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
   PipelineResponse,
-  createPipelineFromOptions,
   PipelineRequest,
-  createPipelineRequest,
   PipelinePolicy,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CorrelationRuleFilter } from "./core/managementClient.js";
+import {
+  bearerTokenAuthenticationPolicy,
+  RestError,
+  createPipelineFromOptions,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import type { CorrelationRuleFilter } from "./core/managementClient.js";
 import { administrationLogger as logger } from "./log.js";
+import type { NamespaceProperties } from "./serializers/namespaceResourceSerializer.js";
 import {
   buildNamespace,
-  NamespaceProperties,
   NamespaceResourceSerializer,
 } from "./serializers/namespaceResourceSerializer.js";
+import type {
+  CreateQueueOptions,
+  InternalQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties,
+} from "./serializers/queueResourceSerializer.js";
 import {
   buildQueue,
   buildQueueOptions,
   buildQueueRuntimeProperties,
-  CreateQueueOptions,
-  InternalQueueOptions,
-  QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer.js";
-import {
-  buildRule,
+import type {
   CreateRuleOptions,
-  isSqlRuleAction,
   RuleProperties,
-  RuleResourceSerializer,
   SqlRuleAction,
   SqlRuleFilter,
 } from "./serializers/ruleResourceSerializer.js";
 import {
-  buildSubscription,
-  buildSubscriptionOptions,
-  buildSubscriptionRuntimeProperties,
+  buildRule,
+  isSqlRuleAction,
+  RuleResourceSerializer,
+} from "./serializers/ruleResourceSerializer.js";
+import type {
   CreateSubscriptionOptions,
   InternalSubscriptionOptions,
   SubscriptionProperties,
-  SubscriptionResourceSerializer,
   SubscriptionRuntimeProperties,
 } from "./serializers/subscriptionResourceSerializer.js";
+import {
+  buildSubscription,
+  buildSubscriptionOptions,
+  buildSubscriptionRuntimeProperties,
+  SubscriptionResourceSerializer,
+} from "./serializers/subscriptionResourceSerializer.js";
+import type {
+  CreateTopicOptions,
+  InternalTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties,
+} from "./serializers/topicResourceSerializer.js";
 import {
   buildTopic,
   buildTopicOptions,
   buildTopicRuntimeProperties,
-  CreateTopicOptions,
-  InternalTopicOptions,
-  TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties,
 } from "./serializers/topicResourceSerializer.js";
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper.js";
+import type { AtomXmlSerializer } from "./util/atomXmlHelper.js";
+import { executeAtomXmlOperation } from "./util/atomXmlHelper.js";
 import * as Constants from "./util/constants.js";
 import { parseURL } from "./util/parseUrl.js";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials.js";
 import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
+import type { ServiceBusAtomAPIVersion } from "./util/utils.js";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion,
 } from "./util/utils.js";
-import { HttpResponse } from "./util/compat/index.js";
+import type { HttpResponse } from "./util/compat/index.js";
 
 /**
  * Request options for list<entity-type>() operations

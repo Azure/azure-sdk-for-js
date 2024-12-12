@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationTypeVersionsCreateOrUpdateParameters,
   ApplicationTypeVersionsDeleteParameters,
   ApplicationTypeVersionsGetParameters,
@@ -33,7 +33,7 @@ import {
   ServicesListParameters,
   ServicesUpdateParameters,
 } from "./parameters";
-import {
+import type {
   ApplicationTypeVersionsCreateOrUpdate202Response,
   ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
   ApplicationTypeVersionsDelete202Response,
@@ -102,7 +102,7 @@ import {
   ServicesUpdate202Response,
   ServicesUpdatedefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ClustersGet {
   /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */
