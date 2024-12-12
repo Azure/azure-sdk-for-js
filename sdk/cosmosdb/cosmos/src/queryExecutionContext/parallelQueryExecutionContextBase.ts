@@ -678,4 +678,59 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       });
     });
   }
+
+  public async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<Response<void>> {
+    return new Promise<Response<void>>((resolve, reject) => {
+      this.sem.take(async () => {
+        if (this.err) {
+          // if there is a prior error return error
+          this.sem.leave();
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+          reject(this.err);
+          return;
+        }
+
+        try {
+          if (isOrderBy) {
+            while (
+              this.unfilledDocumentProducersQueue.isEmpty() &&
+              this.bufferedDocumentProducersQueue.size() > 0
+            ) {
+              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              const result = await documentProducer.fetchNextItem();
+              if (result) {
+                this.buffer.push(result);
+              }
+              if (documentProducer.peakNextItem() !== undefined) {
+                this.bufferedDocumentProducersQueue.enq(documentProducer);
+              } else if (documentProducer.hasMoreResults()) {
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              }
+            }
+          } else {
+            while (this.bufferedDocumentProducersQueue.size() > 0) {
+              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              this.buffer.push(...documentProducer.peekBufferedItems());
+              if (documentProducer.hasMoreResults()) {
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              }
+            }
+          }
+        } catch (err) {
+          this.err = err;
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+          reject(this.err);
+          return;
+        } finally {
+          // release the lock before returning
+          this.sem.leave();
+        }
+
+        resolve({
+          result: undefined,
+          headers: this._getAndResetActiveResponseHeaders(),
+        });
+      });
+    });
+  }
 }

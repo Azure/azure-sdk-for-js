@@ -28,4 +28,10 @@ export class ParallelQueryExecutionContext
   ): number {
     return docProd1.generation - docProd2.generation;
   }
+
+  public async bufferMore(): Promise<void> {
+    // TODO: need to upadte headers from here, so make sure it returns it
+    await this.bufferDocumentProducers();
+    await this.fillBufferFromBufferQueue();
+  }
 }

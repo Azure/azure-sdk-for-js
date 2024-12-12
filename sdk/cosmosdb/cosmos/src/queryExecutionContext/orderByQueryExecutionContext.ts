@@ -58,4 +58,9 @@ export class OrderByQueryExecutionContext
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
     return this.orderByComparator.compare(docProd1, docProd2);
   }
+
+  public async bufferMore(): Promise<void> {
+    await super.bufferDocumentProducers();
+    await super.fillBufferFromBufferQueue(true);
+  }
 }
