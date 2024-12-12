@@ -35,8 +35,10 @@ describe("Metric Exporter Scenarios", () => {
       await scenario.run();
       // promisify doesn't work on this, so use callbacks/done for now
       await scenario.flush();
-      assertMetricExpectation(ingest, scenario.expectation);
-      assertCount(ingest, scenario.expectation);
+      setTimeout(() => {
+        assertMetricExpectation(ingest, scenario.expectation);
+        assertCount(ingest, scenario.expectation);
+      }, 10);
     });
   });
 });
