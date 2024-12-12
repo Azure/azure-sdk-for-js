@@ -4,6 +4,7 @@
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
 import { ServiceBusTest } from "./sbBase.spec.js";
+import { describe, it, assert } from "vitest";
 
 interface SendTestOptions {
   messageBodySize: number;

@@ -6,6 +6,8 @@ import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 const connectionString = getEnvVar("SERVICEBUS_CONNECTION_STRING");

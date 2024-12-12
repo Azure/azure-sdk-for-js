@@ -9,6 +9,7 @@ import {
 import { PerfOptionDictionary, EventPerfTest } from "@azure-tools/test-perf";
 import { sendMessages } from "./receiveBatch.spec.js";
 import { ServiceBusTest } from "./sbBase.spec.js";
+import { describe, it, assert } from "vitest";
 
 interface ReceiverOptions {
   "number-of-messages": number;
