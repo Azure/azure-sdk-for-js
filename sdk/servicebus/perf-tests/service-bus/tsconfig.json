@@ -3,17 +3,13 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
+    "src/**/*.cts"
   ]
 }
