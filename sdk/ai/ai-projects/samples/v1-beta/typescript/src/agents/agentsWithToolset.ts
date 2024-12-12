@@ -11,11 +11,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-console.log(__filename);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -26,7 +21,6 @@ export async function main(): Promise<void> {
 
   // Upload file for code interpreter tool
   const filePath1 = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
-  console.log(filePath1);
   const fileStream1 = fs.createReadStream(filePath1);
   const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "myLocalFile");
 

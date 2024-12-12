@@ -15,11 +15,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import * as fs from "fs";
 import path from "node:path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-console.log(__filename);
-const __dirname = path.dirname(__filename);
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
