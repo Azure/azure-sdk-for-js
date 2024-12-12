@@ -50,7 +50,6 @@ export class TraceBasicScenario implements Scenario {
     provider.register();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const tracer = opentelemetry.trace.getTracer("basic");
     const root = tracer.startSpan(`${this.constructor.name}.Root`, {
@@ -93,7 +92,6 @@ export class TraceBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 
@@ -290,7 +288,6 @@ export class MetricBasicScenario implements Scenario {
     this._provider.addMetricReader(metricReader);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const meter = this._provider.getMeter("basic");
     const counter = meter.createCounter("testCounter");
@@ -479,7 +476,6 @@ export class LogBasicScenario implements Scenario {
     this._provider.addLogRecordProcessor(this._processor);
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const logger = this._provider.getLogger("basic");
 
@@ -507,7 +503,6 @@ export class LogBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 
