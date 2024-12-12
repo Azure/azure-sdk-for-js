@@ -8,8 +8,8 @@ The Azure Event Hubs client does not have any recorded tests and so, all the tes
 
 The Azure resources that are used by the tests in this project are:
 
-- An [Azure Event Hubs namespace](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#namespace) with atleast one Event Hub instance in it.
-- An [Azure Storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
+- An [Azure Event Hubs namespace](https://learn.microsoft.com/azure/event-hubs/event-hubs-features#namespace) with atleast one Event Hub instance in it.
+- An [Azure Storage account](https://learn.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
 - An Azure Active Directory application for the tests to use. See the [AAD based authentication](#aad-based-authentication) for steps to register the application.
 
 To run the live tests, you will also need to set the below environment variables:
@@ -27,6 +27,6 @@ The following steps will help you setup the AAD credentials.
 - In the Azure portal, go to your Azure Event Hubs namespace and assign the **Azure Event Hubs Data Owner** role to your principal.
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)  
   _Doing this would allow the principal to manage the resource, i.e., entity creation, deletion, etc._
-- For more information on securing your Azure Event Hubs namespace: [Learn more](https://docs.microsoft.com/azure/event-hubs/authorize-access-event-hubs)
+- For more information on securing your Azure Event Hubs namespace: [Learn more](https://learn.microsoft.com/azure/event-hubs/authorize-access-event-hubs)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Ftest%2FREADME.png)

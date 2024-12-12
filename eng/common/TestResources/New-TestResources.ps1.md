@@ -170,7 +170,7 @@ log redaction).
 A name to use in the resource group and passed to the ARM template as 'baseName'.
 Limit $BaseName to enough characters to be under limit plus prefixes specified in
 the ARM template.
-See also https://docs.microsoft.com/azure/architecture/best-practices/resource-naming
+See also https://learn.microsoft.com/azure/architecture/best-practices/resource-naming
 
 Note: The value specified for this parameter will be overriden and generated
 by New-TestResources.ps1 if $CI is specified.
@@ -311,7 +311,7 @@ it will need the permission 'Application.Read.All' for the Microsoft Graph API
 in order to query AAD.
 
 For more information on the relationship between AAD Applications and Service
-Principals see: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
+Principals see: https://learn.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 
 ```yaml
 Type: String

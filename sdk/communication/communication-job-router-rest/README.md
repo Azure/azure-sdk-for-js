@@ -264,7 +264,7 @@ const job = await routerClient.path("/routing/jobs/{id}", jobId).patch({
 
 ## Events
 
-Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://docs.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
+Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://learn.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
 
 In the previous example:
 

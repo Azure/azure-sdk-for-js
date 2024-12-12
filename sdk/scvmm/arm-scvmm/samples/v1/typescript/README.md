@@ -159,7 +159,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vmmserverslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/scvmm/arm-scvmm/samples/v1/typescript/src/vmmServersListByResourceGroupSample.ts
 [vmmserverslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/scvmm/arm-scvmm/samples/v1/typescript/src/vmmServersListBySubscriptionSample.ts
 [vmmserversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/scvmm/arm-scvmm/samples/v1/typescript/src/vmmServersUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/scvmm/arm-scvmm/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

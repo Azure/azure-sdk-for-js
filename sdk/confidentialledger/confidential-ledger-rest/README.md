@@ -251,4 +251,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[azure_resource_manager]: https://docs.microsoft.com/azure/azure-resource-manager/management/overview
+[azure_resource_manager]: https://learn.microsoft.com/azure/azure-resource-manager/management/overview

@@ -218,7 +218,7 @@ const classificationJob = await jobRouterClient.createJob("classification-job-id
 
 ## Events
 
-Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://docs.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
+Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://learn.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
 
 In the previous example:
 
@@ -329,7 +329,7 @@ If you'd like to contribute to this SDK, please read the [contributing guide](ht
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice

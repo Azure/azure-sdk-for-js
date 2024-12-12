@@ -13,7 +13,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/)
 - [Package (npm)](https://www.npmjs.com/package/@azure/notification-hubs)
-- [Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
+- [Product documentation](https://learn.microsoft.com/azure/notification-hubs/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev)
 
 **NOTE**: If you are coming from using the `azure-sb` package, see the [migration guide to move from azure-sb to @azure/notification-hubs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/migrationguide.md)
@@ -36,18 +36,18 @@ npm install @azure/notification-hubs
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
-- An [App Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/) resource.
+- An [App Notification Hubs](https://learn.microsoft.com/azure/notification-hubs/) resource.
 
 ### Create an Azure Notification Hubs resource
 
 An Azure Notification Hub can be created using the following methods:
 
-1. [Azure Portal](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-portal)
-2. [Azure CLI](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-azure-cli)
-3. [Bicep](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-bicep)
-4. [ARM Template](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-template)
+1. [Azure Portal](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-portal)
+2. [Azure CLI](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-azure-cli)
+3. [Bicep](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-bicep)
+4. [ARM Template](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-template)
 
-Once created, the Notification Hub can be configured using the [Azure Portal or Azure CLI](https://docs.microsoft.com/azure/notification-hubs/configure-notification-hub-portal-pns-settings?tabs=azure-portal).
+Once created, the Notification Hub can be configured using the [Azure Portal or Azure CLI](https://learn.microsoft.com/azure/notification-hubs/configure-notification-hub-portal-pns-settings?tabs=azure-portal).
 
 ### Importing the Client
 
@@ -91,7 +91,7 @@ const result = await createOrUpdateInstallation(context, installation);
 
 ### Authenticate the client
 
-Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
+Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
 
 Listen allows for a client to register itself via the Registration and Installations API. Send allows for the client to send notifications to devices using the send APIs. Finally, Manage allows the user to do Registration and Installation management, such as queries.
 
@@ -213,7 +213,7 @@ const installation = getInstallation(context, installationId);
 
 #### Registrations API
 
-A registration is associated with a PNS just as the installation above, with the unique device identifier from the PNS, and associated tags.  Templates registrations are a way of creating pre-defined body templates which can then be customized at send time with properties to fill in for the message.  For more information about templates, see [Templates documentation](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-templates-cross-platform-push-messages).
+A registration is associated with a PNS just as the installation above, with the unique device identifier from the PNS, and associated tags.  Templates registrations are a way of creating pre-defined body templates which can then be customized at send time with properties to fill in for the message.  For more information about templates, see [Templates documentation](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-templates-cross-platform-push-messages).
 
 An installation may be created in one of two ways, first by getting a registration ID from the server using `getInstallationId` and then `createOrUpdateRegistration` or via the `createRegistration` method.
 
@@ -315,7 +315,7 @@ for await (const pages of registrations.byPage()) {
 
 ### Send Operations
 
-Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
+Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
 For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
@@ -441,7 +441,7 @@ if (result.notificationId) {
 
 #### Audience Send
 
-In addition to targeting a single device, a user can target multiple devices using tags.  These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience.  For more information about tags and tags expressions, see [Routing and Tag Expressions](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
+In addition to targeting a single device, a user can target multiple devices using tags.  These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience.  For more information about tags and tags expressions, see [Routing and Tag Expressions](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
 
 If you wish to create a tag expression from an array of tags, there is a Tag Expression Builder available with the `createTagExpression` method which is exposed at the top level import or `@azure/notification-hubs/models/tagExpressionBuilder` modular import which creates an "or tag expression" from the tags.
 
@@ -563,9 +563,9 @@ We also need to provide polyfill for `TextEncoder` API and async iterator API. P
 
 ### Diagnose Dropped Notifications
 
-Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
+Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
 
-[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` and `sendBroadcastNotification` methods with the `enableTestSend` option:
+[Test send](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` and `sendBroadcastNotification` methods with the `enableTestSend` option:
 
 ```ts snippet:testSend_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
@@ -668,6 +668,6 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)
+- [Azure Notification Hubs](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%notificationhubs%2Fnotification-hubs%2FREADME.png)

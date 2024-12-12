@@ -13,7 +13,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller)
 - [Package (npm)](https://www.npmjs.com/package/@azure/abort-controller)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/overview/azure/abort-controller-readme)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/overview/azure/abort-controller-readme)
 
 ## Getting started
 

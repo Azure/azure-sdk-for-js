@@ -19,8 +19,8 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package
-- A [Storage account](https://docs.microsoft.com/azure/storage/tables/table-storage-overview)
+- An [Event Hubs Namespace](https://learn.microsoft.com/azure/event-hubs/) to use this package
+- A [Storage account](https://learn.microsoft.com/azure/storage/tables/table-storage-overview)
 
 ### Install the package
 
@@ -87,10 +87,10 @@ const checkpointStore =  new TableCheckpointStore(tableClient);
 ### Checkpoint events using Azure Table storage
 
 To checkpoint events received using Azure Table Storage, you will need to pass an object
-that is compatible with the [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
+that is compatible with the [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
 interface along with code to call the `updateCheckpoint()` method.
 
-In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
+In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");

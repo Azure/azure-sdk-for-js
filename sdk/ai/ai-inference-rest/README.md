@@ -545,6 +545,6 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_core_auth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-auth
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com

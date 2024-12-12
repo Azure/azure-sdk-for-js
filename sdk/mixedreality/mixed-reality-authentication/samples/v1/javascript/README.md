@@ -64,9 +64,9 @@ npx dev-tool run vendored cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<mixedreality a
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [gettoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixed-reality-authentication/samples/v1/javascript/getToken.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureobjectanchorsaccount]: https://docs.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account
-[createinstance_azureremoterenderingaccount]: https://docs.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup
-[createinstance_azurespatialanchorsaccount]: https://docs.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource
+[createinstance_azureobjectanchorsaccount]: https://learn.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account
+[createinstance_azureremoterenderingaccount]: https://learn.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup
+[createinstance_azurespatialanchorsaccount]: https://learn.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixed-reality-authentication/README.md

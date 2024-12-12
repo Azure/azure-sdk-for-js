@@ -5,7 +5,7 @@ An Azure Blob storage based solution to store checkpoints and to aid in load bal
 Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob)
 - [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 
 ## Getting started
@@ -20,8 +20,8 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/)
-- A [Storage account](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
+- An [Event Hubs Namespace](https://learn.microsoft.com/azure/event-hubs/)
+- A [Storage account](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
 
 ### Install the package
 
@@ -57,7 +57,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  A [BlobCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
+  A [BlobCheckpointStore](https://learn.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
 ## Examples
@@ -85,10 +85,10 @@ const checkpointStore =  new BlobCheckpointStore(containerClient);
 ### Checkpoint events using Azure Blob storage
 
 To checkpoint events received using Azure Blob Storage, you will need to pass an object
-that is compatible with the [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
+that is compatible with the [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
 interface along with code to call the `updateCheckpoint()` method.
 
-In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
+In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");

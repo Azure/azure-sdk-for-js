@@ -140,7 +140,7 @@ This release marks the general availability release of Azure Container Registry 
 - Added new properties to allow easier interaction with other docker tools:
   - `loginServer` in `ContainerRegistryClient`.
   - `fullyQualifiedName` in `ContainerRepository`
-- Added support for anonymous access. See [the service documentation](https://docs.microsoft.com/azure/container-registry/container-registry-faq#how-do-i-enable-anonymous-pull-access) for more information.
+- Added support for anonymous access. See [the service documentation](https://learn.microsoft.com/azure/container-registry/container-registry-faq#how-do-i-enable-anonymous-pull-access) for more information.
 
 ### Breaking Changes
 

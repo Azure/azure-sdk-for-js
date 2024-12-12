@@ -77,7 +77,7 @@ A custom subdomain, on the other hand, is a name that is unique to the resource.
 #### Create the client with a Microsoft Entra ID credential
 
 `AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Microsoft Entra ID using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
-Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
+Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://learn.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
 
 To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest) type shown below, or other credential types provided with the Azure SDK, please install the `@azure/identity` package:
 
@@ -85,7 +85,7 @@ To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@
 npm install --save @azure/identity
 ```
 
-You will also need to [register a new Microsoft Entra ID application and grant access](https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
+You will also need to [register a new Microsoft Entra ID application and grant access](https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
 
 Once completed, set the values of the client ID, tenant ID, and client secret of the Microsoft Entra ID application as environment variables:
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.

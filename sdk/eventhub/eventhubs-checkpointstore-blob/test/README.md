@@ -8,7 +8,7 @@ The Azure Event Hub Checkpoint Store Blob client does not have any recorded test
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
+- An [Azure Storage account](https://learn.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
 - An Entra ID application for the tests to use. See the [Entra ID authentication](#entra-id-authentication) for steps to register the application.
 
 To run the live tests, you will also need to set the below environment variables:

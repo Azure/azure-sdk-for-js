@@ -55,7 +55,7 @@ console.log(`Initialized client pointing to local path: ${client.repositoryLocat
 
 ### Publish Models
 
-Publishing models to the models repository requires [exercising](https://docs.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
+Publishing models to the models repository requires [exercising](https://learn.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
 
 ### Get Models
 
@@ -163,7 +163,7 @@ console.log(fullyQualifiedModelPath);
 
 ## Next steps
 
-- Review the [DTDL Spec](https://docs.microsoft.com/azure/iot-pnp/concepts-model-parser).
+- Review the [DTDL Spec](https://learn.microsoft.com/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
 - Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples#plug-and-play-examples).
 

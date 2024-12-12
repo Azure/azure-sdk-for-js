@@ -20,8 +20,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/data-tables)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/data-tables)
-- [Product documentation](https://docs.microsoft.com/azure/storage/tables/table-storage-overview/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/data-tables)
+- [Product documentation](https://learn.microsoft.com/azure/storage/tables/table-storage-overview/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples)
 
 ## Getting started
@@ -33,7 +33,7 @@ Currently supported environments:
 - LTS versions of Node.js
 - Latest versions of Safari, Chrome, Edge and Firefox
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://docs.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://learn.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://learn.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
 
 ### Install the `@azure/data-tables` package
 
@@ -68,7 +68,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 #### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -467,7 +467,7 @@ const client = new TableClient(
 ### General
 
 When you interact with Tables service using the Javascript/Typescript SDK, errors returned by the service correspond to the same HTTP status codes returned for REST API requests:
-[Storage Table Service Error Codes](https://docs.microsoft.com/rest/api/storageservices/table-service-error-codes)
+[Storage Table Service Error Codes](https://learn.microsoft.com/rest/api/storageservices/table-service-error-codes)
 
 ### Logging
 

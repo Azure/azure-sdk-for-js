@@ -12,7 +12,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-content-safety)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/samples)
 
 ## Getting started
@@ -1324,7 +1324,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Additional documentation
 
-For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on docs.microsoft.com.
+For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on learn.microsoft.com.
 
 ## Contributing
 

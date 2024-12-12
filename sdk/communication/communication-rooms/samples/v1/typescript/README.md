@@ -71,8 +71,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/typescript/src/participantOperations.ts
 [roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/typescript/src/roomOperations.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-rooms
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-rooms
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

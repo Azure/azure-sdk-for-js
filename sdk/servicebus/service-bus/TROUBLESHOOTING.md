@@ -29,7 +29,7 @@ This troubleshooting guide covers failure investigation techniques, common error
   - [How to browse session messages across all sessions](#how-to-browse-session-messages-across-all-sessions)
 - [Troubleshoot receiver issues when streaming messages via `subscribe()` methods](#troubleshoot-receiver-issues-when-streaming-messages-via-subscribe-methods)
   - [Autolock renewal is not working](#autolock-renewal-is-not-working)
-- [Quotas](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quotas)
+- [Quotas](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quotas)
 
 ## Handle Service Bus Errors
 The Service Bus client library will surface errors when an error is encountered by a service operation or within the client. For scenarios specific to Service Bus, a [ServiceBusError][ServiceBusError] is thrown; this is the most common error type that applications will encounter.
@@ -256,15 +256,15 @@ Information about Service Bus quotas can be found [here][ServiceBusQuotas].
 
 [ServiceBusError]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebuserror
 [CoreAmqpRetryOptions]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/retryoptions
-[ServiceBusQuotas]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quotas
+[ServiceBusQuotas]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quotas
 [MessingError]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/messagingerror
 [ServiceBusClient]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient
-[GetConnectionString]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal#get-the-connection-string
-[AuthorizeSAS]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas
-[RBAC]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-managed-service-identity
-[TroubleshootingGuide]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-troubleshooting-guide
+[GetConnectionString]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal#get-the-connection-string
+[AuthorizeSAS]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-sas
+[RBAC]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-managed-service-identity
+[TroubleshootingGuide]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-troubleshooting-guide
 [ProxySample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples-dev/useProxy.ts
-[ServiceBusIPAddresses]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-faq#what-ip-addresses-do-i-need-to-add-to-allowlist-
+[ServiceBusIPAddresses]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-faq#what-ip-addresses-do-i-need-to-add-to-allowlist-
 [ServiceBusReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver
 [ServiceBusSessionReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussessionreceiver
 [ServiceBusSender]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender
@@ -272,7 +272,7 @@ Information about Service Bus quotas can be found [here][ServiceBusQuotas].
 [AuthenticationAndTheAzureSDK]: https://devblogs.microsoft.com/azure-sdk/authentication-and-the-azure-sdk
 [ServiceBusMessageBatch]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusmessagebatch
 [SendMessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender#@azure-service-bus-servicebussender-sendmessages
-[LargeMessageSupport]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support
+[LargeMessageSupport]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support
 [ReceiveMessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#@azure-service-bus-servicebusreceiver-receivemessages
 [MessageState]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceivedmessage#@azure-service-bus-servicebusreceivedmessage-state
 [SequenceNumber]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceivedmessage#@azure-service-bus-servicebusreceivedmessage-sequencenumber

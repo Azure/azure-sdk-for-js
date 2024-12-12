@@ -188,5 +188,5 @@ PowerShell markdown documentation created with [platyPS][].
   [Update-TestResources.ps1]: https://aka.ms/azsdk/tools/Update-TestResources
   [Remove-TestResources.ps1]: https://aka.ms/azsdk/tools/Remove-TestResources
   [PowerShell]: https://github.com/PowerShell/PowerShell
-  [PowerShellAz]: https://docs.microsoft.com/powershell/azure/install-az-ps
+  [PowerShellAz]: https://learn.microsoft.com/powershell/azure/install-az-ps
   [platyPS]: https://github.com/PowerShell/platyPS

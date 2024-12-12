@@ -19,10 +19,10 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share)
-- [Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/storage-file-share)
+- [Product documentation](https://learn.microsoft.com/azure/storage/files/storage-files-introduction)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples)
-- [Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)
+- [Azure Storage File REST APIs](https://learn.microsoft.com/rest/api/storageservices/file-service-rest-api)
 
 ## Getting started
 
@@ -36,7 +36,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
+- A [Storage Account](https://learn.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 
@@ -99,7 +99,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 

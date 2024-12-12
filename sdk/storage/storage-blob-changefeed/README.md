@@ -15,8 +15,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
-- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
+- [Product documentation](https://learn.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples)
 
 ## Getting started
@@ -31,7 +31,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
+- A [Storage Account](https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
 

@@ -8,7 +8,7 @@ To manage your Azure Service Bus resources like namespaces, queues, topics, subs
 
 | NPM Package                                                              | Reference                                                                                                  |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| [@azure/arm-servicebus](https://npmjs.com/package/@azure/arm-servicebus) | [API Reference for @azure/arm-servicebus](https://docs.microsoft.com/javascript/api/@azure/arm-servicebus) |
+| [@azure/arm-servicebus](https://npmjs.com/package/@azure/arm-servicebus) | [API Reference for @azure/arm-servicebus](https://learn.microsoft.com/javascript/api/@azure/arm-servicebus) |
 
 ## Libraries for data access
 
@@ -17,6 +17,6 @@ This also allows to manage your Azure Service Bus resources like queues, topics,
 
 | NPM Package                                                        | Reference                                                                                            | Samples                                                                                                                              |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| [@azure/service-bus](https://npmjs.com/package/@azure/service-bus) | [API Reference for @azure/service-bus](https://docs.microsoft.com/javascript/api/@azure/service-bus) | [Samples for sending & receiving messages](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples) |
+| [@azure/service-bus](https://npmjs.com/package/@azure/service-bus) | [API Reference for @azure/service-bus](https://learn.microsoft.com/javascript/api/@azure/service-bus) | [Samples for sending & receiving messages](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples) |
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2FREADME.png)

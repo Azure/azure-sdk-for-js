@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservice-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-containerservice)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview)
 - [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

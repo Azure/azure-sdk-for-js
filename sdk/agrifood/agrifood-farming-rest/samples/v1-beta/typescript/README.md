@@ -75,6 +75,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [createparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1-beta/typescript/src/createParty.ts
 
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
+[createinstance_azurefarmbeatsserviceinstance]: https://learn.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

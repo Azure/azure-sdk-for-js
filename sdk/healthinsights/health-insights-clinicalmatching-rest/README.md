@@ -208,7 +208,7 @@ This code sample show common scenario operation with the Azure Health Insights C
 
 ### Additional documentation
 
-For more extensive documentation on Azure Health Insights Clinical Matching, see the [Clinical Matching documentation](https://learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview) on docs.microsoft.com.
+For more extensive documentation on Azure Health Insights Clinical Matching, see the [Clinical Matching documentation](https://learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview) on learn.microsoft.com.
 
 
 ## Contributing

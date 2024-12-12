@@ -3,7 +3,7 @@
 This document intends to demystify the configuration and use of [Microsoft
 Entra ID](https://learn.microsoft.com/azure/active-directory/develop/) with the Azure SDK libraries.
 Microsoft Entra ID implements the [OAuth 2.0 and OpenID Connect
-standards](https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-protocols)
+standards](https://learn.microsoft.com/azure/active-directory/develop/active-directory-v2-protocols)
 to provide authentication for users and services who may be granted access to
 Azure services.
 

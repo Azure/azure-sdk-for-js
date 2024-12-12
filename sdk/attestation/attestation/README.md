@@ -17,7 +17,7 @@ Key links:
 - [Source code][source_code]
 - [Package (NPM)][attestation_npm]
 - [API reference documentation][api_reference]
-- [Product documentation](https://docs.microsoft.com/azure/attestation/)
+- [Product documentation](https://learn.microsoft.com/azure/attestation/)
 
 ## Getting started
 
@@ -135,7 +135,7 @@ The [`AttestationResponse`][attestation_response] object contains two main attri
 
 Each attestation service instance has a policy applied to it which defines additional criteria which the customer has defined.
 
-For more information on attestation policies, see [Attestation Policy](https://docs.microsoft.com/azure/attestation/author-sign-policy)
+For more information on attestation policies, see [Attestation Policy](https://learn.microsoft.com/azure/attestation/author-sign-policy)
 
 ### Policy Management certificate management
 
@@ -163,7 +163,7 @@ RuntimeData refers to data which is presented to the Intel SGX Quote generation 
 
 InitTime data refers to data which is used to configure the SGX enclave being attested.
 
-> Note that InitTime data is not supported on Azure [DCsv2-Series](https://docs.microsoft.com/azure/virtual-machines/dcv2-series) virtual machines.
+> Note that InitTime data is not supported on Azure [DCsv2-Series](https://learn.microsoft.com/azure/virtual-machines/dcv2-series) virtual machines.
 
 ### Additional concepts
 
@@ -373,11 +373,11 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-Additional troubleshooting information for the MAA service can be found [here](https://docs.microsoft.com/azure/attestation/troubleshoot-guide)
+Additional troubleshooting information for the MAA service can be found [here](https://learn.microsoft.com/azure/attestation/troubleshoot-guide)
 
 ## Next steps
 
-For more information about the Microsoft Azure Attestation service, please see our [documentation page](https://docs.microsoft.com/azure/attestation/).
+For more information about the Microsoft Azure Attestation service, please see our [documentation page](https://learn.microsoft.com/azure/attestation/).
 
 ## Contributing
 
@@ -398,20 +398,20 @@ section of the project.
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/attestation
-[azure_identity]: https://docs.microsoft.com/javascript/api/@azure/identity
-[defaultazurecredential]: https://docs.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
+[azure_identity]: https://learn.microsoft.com/javascript/api/@azure/identity
+[defaultazurecredential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
 [attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.4/interfaces/policyresult.html
-[attestation_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient
-[attestation_admin_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
-[attestation_response]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationresponse
-[attestation_policy_result_parameters]: https://docs.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
-[attest_sgx]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient#attestSgxEnclave_Uint8Array__AttestSgxEnclaveOptions_
+[attestation_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationclient
+[attestation_admin_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
+[attestation_response]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationresponse
+[attestation_policy_result_parameters]: https://learn.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
+[attest_sgx]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationclient#attestSgxEnclave_Uint8Array__AttestSgxEnclaveOptions_
 [attestation_npm]: https://www.npmjs.com/package/@azure/attestation
-[api_reference]: https://docs.microsoft.com/javascript/api/@azure/attestation
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
+[api_reference]: https://learn.microsoft.com/javascript/api/@azure/attestation
+[style-guide-msft]: https://learn.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
 [microsoft_code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [json_web_token]: https://tools.ietf.org/html/rfc7519

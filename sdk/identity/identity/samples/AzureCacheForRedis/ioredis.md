@@ -94,13 +94,13 @@ main().catch((err) => {
 
 **Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch a Microsoft Entra access token. The samples also use the service principal name as the username. The other supported `TokenCredential` implementations that can be used from the [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library are as follows:
 
-* [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
-* [Client Secret Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
-* [Managed Identity Credential](https://docs.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
-* [Username Password Credential](https://docs.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
-* [Azure CLI Credential](https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
-* [Interactive Browser Credential](https://docs.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
-* [Device Code Credential](https://docs.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
+* [Client Certificate Credential](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
+* [Client Secret Credential](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
+* [Managed Identity Credential](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
+* [Username Password Credential](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
+* [Azure CLI Credential](https://learn.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
+* [Interactive Browser Credential](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
+* [Device Code Credential](https://learn.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
 
 #### Authenticate with Microsoft Entra ID: Handle Reauthentication
 

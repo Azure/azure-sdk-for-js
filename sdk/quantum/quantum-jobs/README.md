@@ -9,8 +9,8 @@ Azure Quantum is a Microsoft Azure service that you can use to run quantum compu
 
 Key links:
 - [Source code][source]
-- [API reference documentation](https://docs.microsoft.com/qsharp/api/)
-- [Product documentation](https://docs.microsoft.com/azure/quantum/)
+- [API reference documentation](https://learn.microsoft.com/qsharp/api/)
+- [Product documentation](https://learn.microsoft.com/azure/quantum/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
@@ -201,7 +201,7 @@ To enumerate all the jobs in the workspace, use the `jobs.list` method.
 
 ## Next steps
 
-- Visit our [Product documentation](https://docs.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
+- Visit our [Product documentation](https://learn.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
 
 ## Contributing
 
@@ -225,14 +225,14 @@ All Quantum Jobs service operations will throw a RequestFailedException on failu
 <!-- LINKS -->
 
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/src
-[resource-groups]: https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
-[workspaces]: https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
+[resource-groups]: https://learn.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
+[workspaces]: https://learn.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
 [location]: https://azure.microsoft.com/global-infrastructure/services/?products=quantum
-[blob-storage]: https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction
+[blob-storage]: https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction
 [contributing]: https://github.com/Azure/azure-sdk-for-js/tree/main/CONTRIBUTING.md
 [subscriptions]: https://ms.portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade
-[credentials]: https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
+[credentials]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
+[style-guide-msft]: https://learn.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)

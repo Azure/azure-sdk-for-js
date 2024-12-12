@@ -17,7 +17,7 @@ urlFragment: javascript-quickstart
 
 ![Quickstart sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-Demonstrates using JavaScript to use the [Azure Search SDK for JavaScript/TypeScript](https://docs.microsoft.com/javascript/api/overview/azure/search-documents-readme?view=azure-node-latest) to create an Azure Cognitive Search index, load it with documents, and then integrate that search resource with the [OpenAI SDK for JavaScript](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai). The index is modeled on a subset of the Hotels dataset, reduced for readability and comprehension. Index definition and documents are included in the code.
+Demonstrates using JavaScript to use the [Azure Search SDK for JavaScript/TypeScript](https://learn.microsoft.com/javascript/api/overview/azure/search-documents-readme?view=azure-node-latest) to create an Azure Cognitive Search index, load it with documents, and then integrate that search resource with the [OpenAI SDK for JavaScript](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai). The index is modeled on a subset of the Hotels dataset, reduced for readability and comprehension. Index definition and documents are included in the code.
 
 ## Prerequisites
 
@@ -80,6 +80,6 @@ The `main` function :
 
 ## Next steps
 
-You can learn more about Azure OpenAI on the [official documentation site](https://docs.microsoft.com/azure/ai-services/openai/).
+You can learn more about Azure OpenAI on the [official documentation site](https://learn.microsoft.com/azure/ai-services/openai/).
 
-You can view additional samples for JavaScript/TypeScript in the [azure-sdk-for-js repo](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/openai/openai/samples) or see the [documentation](https://docs.microsoft.com/javascript/api/overview/azure/openai-readme?view=azure-node-preview).
+You can view additional samples for JavaScript/TypeScript in the [azure-sdk-for-js repo](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/openai/openai/samples) or see the [documentation](https://learn.microsoft.com/javascript/api/overview/azure/openai-readme?view=azure-node-preview).

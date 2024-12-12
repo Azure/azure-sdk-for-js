@@ -39,7 +39,7 @@ These values can be obtained from the portal, here's the instructions:
 ### Get Client ID / Client Secret / Tenant ID
 
 For information on how to get Client ID, Client Secret, and Tenant ID,
-please refer to [this document](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal)
+please refer to [this document](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal)
 
 ### Setting Environment Variables
 

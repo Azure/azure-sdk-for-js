@@ -11,7 +11,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-conversations)
 - [API reference documentation](https://aka.ms/clujsapidocs)
-- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/language-service/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples-dev)
 
 ## Getting started
@@ -107,7 +107,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitivelanguage%2Fai-language-conversations%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

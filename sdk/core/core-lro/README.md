@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro)
 - [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/core-lro) 
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/samples)
 
 ## Getting started
