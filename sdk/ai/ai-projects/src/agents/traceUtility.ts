@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsApiResponseFormat, AgentsApiResponseFormatOption, MessageContent, RunStepCompletionUsageOutput, ThreadMessage, ThreadMessageOptions, ToolOutput } from "./inputOutputs.js";
-import { OptionsWithTracing, Span, TracingAttributeOptions, TracingAttributes, TracingUtility } from "../tracing.js";
+import type { AgentsApiResponseFormat, AgentsApiResponseFormatOption, MessageContent, RunStepCompletionUsageOutput, ThreadMessage, ThreadMessageOptions, ToolOutput } from "./inputOutputs.js";
+import type { OptionsWithTracing, Span, TracingAttributeOptions} from "../tracing.js";
+import { TracingAttributes, TracingUtility } from "../tracing.js";
 import { getTelemetryOptions } from "../telemetry/telemetry.js";
 
 export function traceStartAgentGeneric<Options extends OptionsWithTracing> (span: Span, options: Options): void {

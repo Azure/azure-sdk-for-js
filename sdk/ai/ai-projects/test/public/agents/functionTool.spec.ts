@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay, Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, SubmitToolOutputsActionOutput } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, SubmitToolOutputsActionOutput } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { isOutputOfType } from "../../../src/agents/utils.js";

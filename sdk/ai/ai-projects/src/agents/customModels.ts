@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client"
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ThreadRunOutput } from "../generated/src/outputModels.js";
-import { AgentEventMessageStream } from "./streamingModels.js";
+import type { RequestParameters } from "@azure-rest/core-client"
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { AgentEventMessageStream } from "./streamingModels.js";
 
 /** Optional request paramters support passing headers, abort signal, etc */
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">

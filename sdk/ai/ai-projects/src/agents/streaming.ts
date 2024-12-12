@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
-import { CreateRunParameters, CreateThreadAndRunBodyParam, SubmitToolOutputsToRunParameters } from "../generated/src/index.js";
-import { AgentEventMessage, AgentEventMessageStream } from "./streamingModels.js";
-import { createSseStream, EventMessageStream } from "@azure/core-sse";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { CreateRunParameters, CreateThreadAndRunBodyParam, SubmitToolOutputsToRunParameters } from "../generated/src/index.js";
+import type { AgentEventMessage, AgentEventMessageStream } from "./streamingModels.js";
+import type { EventMessageStream } from "@azure/core-sse";
+import { createSseStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { validateMessages, validateMetadata, validateRunId, validateThreadId, validateToolResources, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];

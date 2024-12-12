@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
-import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
-import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
-import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
+import type { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import type { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 
 const expectedStatuses = ["200"];

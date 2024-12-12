@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { Client} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
+import type { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
-import { VectorStoreOptions } from "../generated/src/models.js";
+import type { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import type { VectorStoreOptions } from "../generated/src/models.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];

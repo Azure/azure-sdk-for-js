@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { delay } from "@azure/core-util";
-import { PollOperationState, PollOperation, Poller } from "@azure/core-lro";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollingOptions } from "./customModels.js";
+import type { PollOperationState, PollOperation} from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollingOptions } from "./customModels.js";
 
 interface PollResult {
   status?: string;

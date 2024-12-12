@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageRole } from "../generated/src/models.js";
-import { AgentThreadOutput, RunStepOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { MessageRole } from "../generated/src/models.js";
+import type { AgentThreadOutput, RunStepOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 
 /**
 Each event in a server-sent events stream has an `event` and `data` property:

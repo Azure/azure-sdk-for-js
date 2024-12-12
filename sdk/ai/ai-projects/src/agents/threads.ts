@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
-import { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
+import type { Client} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
+import type { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateThread, traceStartCreateThread } from "./threadsTrace.js";
 import { validateMessages, validateMetadata, validateThreadId, validateToolResources } from "./inputValidations.js";

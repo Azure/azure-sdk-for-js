@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingUtility, TracingOperationName, Span } from "../tracing.js";
-import { CreateAgentParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
+import type { AgentOutput } from "../generated/src/outputModels.js";
+import type { TracingAttributeOptions, Span } from "../tracing.js";
+import { TracingUtility, TracingOperationName } from "../tracing.js";
+import type { CreateAgentParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
 import { addInstructionsEvent, formatAgentApiResponse, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 /**

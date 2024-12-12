@@ -3,9 +3,10 @@
 // Licensed under the MIT License.
 
 
-import { Client } from "@azure-rest/core-client";
-import { ConnectionsOperations } from "../connections/index.js";
-import { getConnectionString, getTelemetryOptions, resetTelemetryOptions, TelemetryOptions, updateTelemetryOptions } from "./telemetry.js";
+import type { Client } from "@azure-rest/core-client";
+import type { ConnectionsOperations } from "../connections/index.js";
+import type { TelemetryOptions} from "./telemetry.js";
+import { getConnectionString, getTelemetryOptions, resetTelemetryOptions, updateTelemetryOptions } from "./telemetry.js";
 
 /**
  * Telemetry operations

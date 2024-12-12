@@ -2,10 +2,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
-import { OptionalRequestParameters } from "../agents/customModels.js";
-import { ListConnectionsQueryParamProperties } from "../generated/src/parameters.js";
-import { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
+import type { Client } from "@azure-rest/core-client";
+import type { OptionalRequestParameters } from "../agents/customModels.js";
+import type { ListConnectionsQueryParamProperties } from "../generated/src/parameters.js";
+import type { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
 import { getConnection, getConnectionWithSecrets, getWorkspace, listConnections } from "./connections.js";
 
 export interface ConnectionsOperations {

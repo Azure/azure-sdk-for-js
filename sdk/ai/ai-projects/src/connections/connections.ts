@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
-import { GetWorkspaceParameters, GetConnectionParameters, GetConnectionWithSecretsParameters, ListConnectionsParameters } from "../generated/src/parameters.js";
+import type { Client} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
+import type { GetWorkspaceParameters, GetConnectionParameters, GetConnectionWithSecretsParameters, ListConnectionsParameters } from "../generated/src/parameters.js";
 
 const expectedStatuses = ["200"];
 

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { Client} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 import { validateLimit, validateMessages, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateOrUpdateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
-import { AgentEventMessageStream } from "./streamingModels.js";
-import { AgentRunResponse } from "./customModels.js";
+import type { AgentEventMessageStream } from "./streamingModels.js";
+import type { AgentRunResponse } from "./customModels.js";
 
 const expectedStatuses = ["200"];
 

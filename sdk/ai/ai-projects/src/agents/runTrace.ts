@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
-import { ThreadRunOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingUtility, TracingOperationName, Span } from "../tracing.js";
+import type { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
+import type { ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { TracingAttributeOptions, Span } from "../tracing.js";
+import { TracingUtility, TracingOperationName } from "../tracing.js";
 import { addInstructionsEvent, addMessageEvent, addToolMessagesEvent, formatAgentApiResponse, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 export function traceStartCreateRun(span: Span, options: CreateRunParameters | CreateThreadAndRunParameters, threadId?: string, operationName: string = TracingOperationName.CREATE_RUN): void {

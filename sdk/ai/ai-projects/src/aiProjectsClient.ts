@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
-import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
-import { getTelemetryOperations, TelemetryOperations } from "./telemetry/index.js";
-import { Client } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ProjectsClientOptions } from "./generated/src/projectsClient.js";
+import createClient from "./generated/src/projectsClient.js";
+import type { AgentsOperations} from "./agents/index.js";
+import { getAgentsOperations } from "./agents/index.js";
+import type { ConnectionsOperations} from "./connections/index.js";
+import { getConnectionsOperations } from "./connections/index.js";
+import type { TelemetryOperations } from "./telemetry/index.js";
+import { getTelemetryOperations } from "./telemetry/index.js";
+import type { Client } from "@azure-rest/core-client";
 
 export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }

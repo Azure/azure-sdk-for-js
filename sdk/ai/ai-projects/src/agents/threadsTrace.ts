@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentThreadOutput } from "../generated/src/outputModels.js";
-import { TracingUtility, TracingOperationName, Span } from "../tracing.js";
-import { CreateThreadParameters } from "../generated/src/parameters.js";
+import type { AgentThreadOutput } from "../generated/src/outputModels.js";
+import type { Span } from "../tracing.js";
+import { TracingUtility, TracingOperationName } from "../tracing.js";
+import type { CreateThreadParameters } from "../generated/src/parameters.js";
 import { addMessageEvent, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 export function traceStartCreateThread(span: Span, options: CreateThreadParameters): void {

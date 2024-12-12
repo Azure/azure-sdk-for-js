@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../generated/src/outputModels.js";
-import { GetRunStepParameters, ListRunStepsParameters } from "../generated/src/parameters.js";
+import type { Client} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../generated/src/outputModels.js";
+import type { GetRunStepParameters, ListRunStepsParameters } from "../generated/src/parameters.js";
 import { validateLimit, validateOrder, validateRunId, validateThreadId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];

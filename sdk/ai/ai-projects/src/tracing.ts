@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTracingClient, OperationTracingOptions, Resolved, SpanStatusError, TracingSpan } from "@azure/core-tracing";
+import type { OperationTracingOptions, Resolved, SpanStatusError, TracingSpan } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { PACKAGE_NAME, SDK_VERSION } from "./constants.js";
 import { getErrorMessage } from "@azure/core-util";
 import { logger } from "./logger.js";

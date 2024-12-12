@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
+import type {
   RecorderStartOptions,
-  VitestTestContext,
+  VitestTestContext} from "@azure-tools/test-recorder";
+import {
+  Recorder
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AIProjectsClient } from "../../../src/index.js";
-import { ClientOptions } from "@azure-rest/core-client";
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",

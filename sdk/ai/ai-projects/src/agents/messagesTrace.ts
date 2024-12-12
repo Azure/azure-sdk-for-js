@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CreateMessageParameters, ListMessagesParameters } from "../generated/src/parameters.js";
-import { TracingAttributes, TracingUtility, TracingOperationName, Span } from "../tracing.js";
-import { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
+import type { CreateMessageParameters, ListMessagesParameters } from "../generated/src/parameters.js";
+import type { Span } from "../tracing.js";
+import { TracingAttributes, TracingUtility, TracingOperationName } from "../tracing.js";
+import type { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
 import { addMessageEvent } from "./traceUtility.js";
 
 export function traceStartCreateMessage(span: Span, threadId: string, options: CreateMessageParameters): void {
