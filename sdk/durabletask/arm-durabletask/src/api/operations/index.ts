@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskContext as Client, OperationsListOptionalParams } from "../index.js";
+import {
+  DurableTaskContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
 import {
   _OperationListResult,
   _operationListResultDeserializer,

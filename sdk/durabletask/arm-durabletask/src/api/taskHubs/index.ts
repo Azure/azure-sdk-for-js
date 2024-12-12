@@ -15,11 +15,11 @@ import {
   _TaskHubListResult,
   _taskHubListResultDeserializer,
 } from "../../models/models.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -47,7 +47,9 @@ export function _taskHubsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _taskHubsGetDeserialize(result: PathUncheckedResponse): Promise<TaskHub> {
+export async function _taskHubsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TaskHub> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -120,21 +122,26 @@ export function taskHubsCreateOrUpdate(
   resource: TaskHub,
   options: TaskHubsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TaskHub>, TaskHub> {
-  return getLongRunningPoller(context, _taskHubsCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _taskHubsCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        taskHubName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<TaskHub>, TaskHub>;
+  return getLongRunningPoller(
+    context,
+    _taskHubsCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _taskHubsCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          schedulerName,
+          taskHubName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<TaskHub>, TaskHub>;
 }
 
 export function _taskHubsDeleteSend(
@@ -156,7 +163,9 @@ export function _taskHubsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _taskHubsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _taskHubsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -174,20 +183,25 @@ export function taskHubsDelete(
   taskHubName: string,
   options: TaskHubsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _taskHubsDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _taskHubsDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        taskHubName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _taskHubsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _taskHubsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          schedulerName,
+          taskHubName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _taskHubsListBySchedulerSend(

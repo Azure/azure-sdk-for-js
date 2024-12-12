@@ -47,5 +47,9 @@ export {
   TaskHubsDeleteOptionalParams,
   TaskHubsListBySchedulerOptionalParams,
 } from "./api/index.js";
-export { OperationsOperations, SchedulersOperations, TaskHubsOperations } from "./classic/index.js";
+export {
+  OperationsOperations,
+  SchedulersOperations,
+  TaskHubsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

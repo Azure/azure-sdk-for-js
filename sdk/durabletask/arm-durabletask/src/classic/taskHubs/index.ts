@@ -50,7 +50,10 @@ export interface TaskHubsOperations {
   ) => PagedAsyncIterableIterator<TaskHub>;
 }
 
-export function getTaskHubs(context: DurableTaskContext, subscriptionId: string) {
+export function getTaskHubs(
+  context: DurableTaskContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -58,7 +61,14 @@ export function getTaskHubs(context: DurableTaskContext, subscriptionId: string)
       taskHubName: string,
       options?: TaskHubsGetOptionalParams,
     ) =>
-      taskHubsGet(context, subscriptionId, resourceGroupName, schedulerName, taskHubName, options),
+      taskHubsGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        schedulerName,
+        taskHubName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
@@ -94,7 +104,13 @@ export function getTaskHubs(context: DurableTaskContext, subscriptionId: string)
       schedulerName: string,
       options?: TaskHubsListBySchedulerOptionalParams,
     ) =>
-      taskHubsListByScheduler(context, subscriptionId, resourceGroupName, schedulerName, options),
+      taskHubsListByScheduler(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        schedulerName,
+        options,
+      ),
   };
 }
 
