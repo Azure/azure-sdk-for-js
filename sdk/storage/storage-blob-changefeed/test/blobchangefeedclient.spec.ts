@@ -14,6 +14,9 @@ import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -171,13 +174,10 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        const pageIter = changeFeedClient.listChanges(options);
-        await pageIter.next();
-      },
-      ["ChangeFeedFactory-create", "ChangeFeed-getChange"],
-    );
+    await expect(async (options) => {
+    const pageIter = changeFeedClient.listChanges(options);
+    await pageIter.next();
+}).toSupportTracing(["ChangeFeedFactory-create", "ChangeFeed-getChange"]);
   });
 });
 
