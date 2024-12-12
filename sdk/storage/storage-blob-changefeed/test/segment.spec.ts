@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import * as sinon from "sinon";
 import { ContainerClient, BlobClient } from "@azure/storage-blob";
-import { Shard } from "../src/Shard";
-import { SegmentFactory } from "../src/SegmentFactory";
-import { ShardFactory } from "../src/ShardFactory";
-import type { BlobChangeFeedEvent } from "../src";
+import { Shard } from "../src/Shard.js";
+import { SegmentFactory } from "../src/SegmentFactory.js";
+import { ShardFactory } from "../src/ShardFactory.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";

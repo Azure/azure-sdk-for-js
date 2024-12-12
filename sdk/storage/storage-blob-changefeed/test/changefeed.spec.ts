@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import * as sinon from "sinon";
 import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
-import { SegmentFactory } from "../src/SegmentFactory";
-import { Segment } from "../src/Segment";
-import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
-import { getHost } from "../src/utils/utils.common";
-import type { BlobChangeFeedEvent } from "../src";
+import { SegmentFactory } from "../src/SegmentFactory.js";
+import { Segment } from "../src/Segment.js";
+import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
+import { getHost } from "../src/utils/utils.common.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");

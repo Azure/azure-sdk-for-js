@@ -3,12 +3,12 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { ShardFactory } from "../src/ShardFactory";
+import { ShardFactory } from "../src/ShardFactory.js";
 import { ContainerClient } from "@azure/storage-blob";
-import { ChunkFactory } from "../src/ChunkFactory";
-import type { ShardCursor } from "../src/models/ChangeFeedCursor";
-import { Chunk } from "../src/Chunk";
-import type { BlobChangeFeedEvent } from "../src";
+import { ChunkFactory } from "../src/ChunkFactory.js";
+import type { ShardCursor } from "../src/models/ChangeFeedCursor.js";
+import { Chunk } from "../src/Chunk.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;

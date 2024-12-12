@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Chunk } from "../src/Chunk";
+import { Chunk } from "../src/Chunk.js";
 import * as sinon from "sinon";
-import { AvroReader } from "../../storage-internal-avro/src";
-import type { BlobChangeFeedEvent } from "../src";
+import { AvroReader } from "../../storage-internal-avro/src/index.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
 
 class FakeAvroReader {
   constructor(

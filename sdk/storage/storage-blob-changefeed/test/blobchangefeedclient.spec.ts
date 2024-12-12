@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
-import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
-import { BlobChangeFeedClient } from "../src";
+import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils/index.js";
+import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.js";
+import { BlobChangeFeedClient } from "../src/index.js";
 import { assert } from "@azure-tools/test-utils";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
-import { SDK_VERSION } from "../src/utils/constants";
-import * as fs from "fs";
-import * as path from "path";
+import { SDK_VERSION } from "../src/utils/constants.js";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 import type { Context } from "mocha";
-import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
+import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
@@ -23,14 +23,14 @@ describe("BlobChangeFeedClient", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -187,14 +187,14 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -219,14 +219,14 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
 describe("Change feed event schema test", async () => {
   let recorder: Recorder;
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
