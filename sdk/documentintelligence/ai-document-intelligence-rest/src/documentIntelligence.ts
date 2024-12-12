@@ -6,7 +6,6 @@ import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
 import type { DocumentIntelligenceClient } from "./clientDefinitions.js";
-import { RestError } from "@azure/core-rest-pipeline";
 
 /** The optional parameters for the client */
 export interface DocumentIntelligenceClientOptions extends ClientOptions {
@@ -61,34 +60,6 @@ export default function createClient(
       }
 
       return next(req);
-    },
-  });
-
-  client.pipeline.addPolicy({
-    name: "ResponseStreamToUint8ArrayPolicy",
-    sendRequest: async (req, next) => {
-      const figuresUrlPattern = /\/documentModels\/[^/]+\/analyzeResults\/[^/]+\/figures\/[^/]+/;
-      if (req.method === "GET" && figuresUrlPattern.test(req.url)) {
-        logger.verbose(`Matched URL pattern for figures: ${req.url}`);
-        req.streamResponseStatusCodes = new Set([200]);
-        logger.verbose("Set streamResponseStatusCodes to 200 for the figures API");
-      }
-
-      const response = await next(req);
-
-      if (req.method === "GET" && figuresUrlPattern.test(req.url)) {
-        logger.verbose(`Handling response for figures URL: ${req.url}`);
-        if (!response.readableStreamBody) {
-          logger.error("Expected response to have a readable stream but found none");
-          throw new RestError("Expected response to have a readable stream", {
-            code: RestError.PARSE_ERROR,
-            statusCode: response.status,
-            request: req,
-            response,
-          });
-        }
-      }
-      return response;
     },
   });
 
