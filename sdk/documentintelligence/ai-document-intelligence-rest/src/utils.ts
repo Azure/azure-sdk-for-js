@@ -3,6 +3,9 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
+/**
+ * Converts a NodeJS.ReadableStream to a Uint8Array.
+ */
 export function streamToUint8Array(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
   return new Promise<Uint8Array>((resolve, reject) => {
     const chunks: Buffer[] = [];

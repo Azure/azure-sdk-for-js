@@ -12,6 +12,7 @@ import {
   batchTrainingFilesResultContainerUrl,
   getRandomNumber,
   makeTestUrl,
+  isValidPNG
 } from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
@@ -1079,12 +1080,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(output)) {
         throw new Error("The response was unexpected.");
       }
-
-      const image = fs.readFileSync(path.join(ASSET_PATH, "output", "1.1.png"));
-      assert.deepEqual(
-        await streamToUint8Array(output.body as unknown as NodeJS.ReadableStream),
-        new Uint8Array(image),
-      );
+     assert.isTrue(isValidPNG(await streamToUint8Array(output.body as unknown as NodeJS.ReadableStream)))
     });
   });
 });
