@@ -325,6 +325,9 @@ importers:
       '@rush-temp/arm-domainservices':
         specifier: file:./projects/arm-domainservices.tgz
         version: file:projects/arm-domainservices.tgz
+      '@rush-temp/arm-durabletask':
+        specifier: file:./projects/arm-durabletask.tgz
+        version: file:projects/arm-durabletask.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
       '@rush-temp/arm-dynatrace':
         specifier: file:./projects/arm-dynatrace.tgz
         version: file:projects/arm-dynatrace.tgz
@@ -2864,6 +2867,10 @@ packages:
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
     resolution: {integrity: sha512-4E4gNwGG0RGAqvHo8ExneMfHPn6WVY3Yy2C2F5XJXbdOKZiAdbWy9nXJtTk3LaU3h+TcXlKvjZY5QqHtD36kzA==, tarball: file:projects/arm-domainservices.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz':
+    resolution: {integrity: sha512-ToK19MZzvbAu7oy9LG4oJoNHcUHv2WiFeTkvrlsfo9jR/tAsHvu/zdIJMbs1eRYBWJxDKEIGel5HfMYuDPXkOg==, tarball: file:projects/arm-durabletask.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
@@ -12293,6 +12300,39 @@ snapshots:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+
+  '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))':
+    dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
+      '@types/node': 18.19.68
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      eslint: 9.16.0
+      playwright: 1.49.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
     dependencies:
