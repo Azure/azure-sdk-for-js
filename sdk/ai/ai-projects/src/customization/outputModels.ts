@@ -216,7 +216,7 @@ export interface AgentOutput {
   /** The object type, which is always assistant. */
   object: "assistant";
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: datetime;
+  createdAt: Date;
   /** The name of the agent. */
   name: string | null;
   /** The description of the agent. */
@@ -291,7 +291,7 @@ export interface AgentThreadOutput {
   /** The object type, which is always 'thread'. */
   object: "thread";
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: datetime;
+  createdAt: Date;
   /**
    * A set of resources that are made available to the agent's tools in this thread. The resources are specific to the type
    * of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list
