@@ -7,9 +7,5 @@
     "skipLibCheck": true
   },
   "compileOnSave": true,
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts"]
 }
