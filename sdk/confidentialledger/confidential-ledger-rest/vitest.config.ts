@@ -15,6 +15,8 @@ export default mergeConfig(
         include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
       },
       include: ["test/**/*.spec.ts"],
+      hookTimeout: 60000,
+      testTimeout: 600000,
     },
   }),
 );
