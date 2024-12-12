@@ -29,7 +29,7 @@ export function fromFunctionDefinition(functionDefintion: FunctionDefinition): F
     }
 }
 
-/** Types of connection tools sued to configure an agent */
+/** Types of connection tools used to configure an agent */
 export enum connectionToolType {
   /** Bing grounding search tool */
   BingGrounding = "bing_grounding",

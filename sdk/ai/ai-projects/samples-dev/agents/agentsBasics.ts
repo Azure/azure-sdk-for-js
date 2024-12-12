@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use basic thread agent operations from the Azure Agents service.
+ * This sample demonstrates how to use basic agent operations from the Azure Agents service.
  *
- * @summary demonstrates how to use basic thread agent operations.
+ * @summary demonstrates how to use basic agent operations.
  *
  */
 
@@ -18,18 +18,14 @@ const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  
+  const agent  = await client.agents.createAgent("gpt-4o",{name:"my-agent", instructions:"You are helpful agent"});
 
-  const thread = await client.agents.createThread();
+  console.log(`Created agent, agent ID : ${agent.id}`);
+  
+  client.agents.deleteAgent(agent.id);
 
-  console.log(`Created thread, thread ID : ${thread.id}`);
-
-  const _thread = await client.agents.getThread(thread.id);
-
-  console.log(`Retrieved thread, thread ID : ${_thread.id}`);
-
-  client.agents.deleteThread(thread.id);
-
-  console.log(`Deleted thread, thread ID : ${_thread.id}`);
+  console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 
 main().catch((err) => {

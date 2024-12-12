@@ -5,7 +5,6 @@
  * This sample demonstrates how to use basic message agent operations from the Azure Agents service.
  *
  * @summary demonstrates how to use basic message agent operations.
- *
  */
 
 import {AIProjectsClient, MessageTextContentOutput} from "@azure/ai-projects"

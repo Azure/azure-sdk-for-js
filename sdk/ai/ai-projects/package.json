@@ -146,6 +146,12 @@
     "productSlugs": [
       "azure"
     ],
+    "extraFiles": {
+      "./samples-dev/data": [
+        "javascript/data",
+        "typescript/src/data"
+      ]
+    },
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
   },
   "main": "./dist/commonjs/index.js",

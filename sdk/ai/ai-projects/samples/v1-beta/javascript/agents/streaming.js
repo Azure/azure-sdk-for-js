@@ -5,21 +5,33 @@
  * This sample demonstrates how to use agent operations in streaming from the Azure Agents service.
  *
  * @summary demonstrates how to use agent operations in streaming.
- *
  */
 
-import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "@azure/ai-projects"
-import { DefaultAzureCredential } from "@azure/identity";
+const {
+  AIProjectsClient,
+  DoneEvent,
+  ErrorEvent,
+  MessageStreamEvent,
+  RunStreamEvent,
+} = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
+  "<endpoint>>;<subscription>;<resource group>;<project>";
 
-export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+async function main() {
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
-  const agent = await client.agents.createAgent("gpt-4-1106-preview", { name: "my-assistant", instructions: "You are helpful agent" });
+  const agent = await client.agents.createAgent("gpt-4-1106-preview", {
+    name: "my-assistant",
+    instructions: "You are helpful agent",
+  });
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
@@ -31,21 +43,21 @@ export async function main(): Promise<void> {
 
   console.log(`Created message, thread ID : ${agent.id}`);
 
-    const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`)
+        console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
-          const messageDelta = eventMessage.data as MessageDeltaChunk;
+          const messageDelta = eventMessage.data;
           messageDelta.delta.content.forEach((contentPart) => {
             if (contentPart.type === "text") {
-              const textContent = contentPart as MessageDeltaTextContent
-              const textValue = textContent.text?.value || "No text"
-              console.log(`Text delta received:: ${textValue}`)
+              const textContent = contentPart;
+              const textValue = textContent.text?.value || "No text";
+              console.log(`Text delta received:: ${textValue}`);
             }
           });
         }
@@ -63,10 +75,12 @@ export async function main(): Promise<void> {
     }
   }
 
-  await client.agents.deleteAgent(agent.id)
+  await client.agents.deleteAgent(agent.id);
   console.log(`Delete agent, agent ID : ${agent.id}`);
 }
 
 main().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
