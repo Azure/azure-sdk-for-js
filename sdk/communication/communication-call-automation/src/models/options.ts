@@ -130,6 +130,8 @@ export interface AnswerCallOptions extends OperationOptions {
   transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
+  /** The Custom Context. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /**
