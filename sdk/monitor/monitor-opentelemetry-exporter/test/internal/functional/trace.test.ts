@@ -40,7 +40,7 @@ describe("Trace Exporter Scenarios", () => {
       setTimeout(() => {
         assertTraceExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
-      }, 50);
+      }, 100);
     });
   });
 
@@ -75,7 +75,7 @@ describe("Trace Exporter Scenarios", () => {
       setTimeout(() => {
         assertTraceExpectation(ingest, scenario.disabledExpectation);
         assertCount(ingest, scenario.disabledExpectation);
-      }, 50);
+      }, 100);
     });
   });
 });

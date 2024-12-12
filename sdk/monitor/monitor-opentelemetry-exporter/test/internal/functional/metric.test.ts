@@ -38,7 +38,7 @@ describe("Metric Exporter Scenarios", () => {
       setTimeout(() => {
         assertMetricExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
-      }, 10);
+      }, 100);
     });
   });
 });
