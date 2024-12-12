@@ -150,12 +150,13 @@ import type {
   CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller.js";
 import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller.js";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import { Batch } from "./utils/Batch.js";
-import { BufferScheduler } from "../../storage-common/src/index.js";
+import { BufferScheduler } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
@@ -192,7 +193,7 @@ import {
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node.js";
+} from "./utils/utils.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import {

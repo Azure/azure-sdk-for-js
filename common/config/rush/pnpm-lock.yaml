@@ -1167,10 +1167,13 @@ importers:
         version: file:projects/service-bus.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(rollup@4.28.1)(vite@5.4.11(@types/node@20.17.10))
       '@rush-temp/storage-blob':
         specifier: file:./projects/storage-blob.tgz
-        version: file:projects/storage-blob.tgz
+        version: file:projects/storage-blob.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
       '@rush-temp/storage-blob-changefeed':
         specifier: file:./projects/storage-blob-changefeed.tgz
         version: file:projects/storage-blob-changefeed.tgz
+      '@rush-temp/storage-common':
+        specifier: file:./projects/storage-common.tgz
+        version: file:projects/storage-common.tgz
       '@rush-temp/storage-file-datalake':
         specifier: file:./projects/storage-file-datalake.tgz
         version: file:projects/storage-file-datalake.tgz
@@ -1179,7 +1182,7 @@ importers:
         version: file:projects/storage-file-share.tgz
       '@rush-temp/storage-internal-avro':
         specifier: file:./projects/storage-internal-avro.tgz
-        version: file:projects/storage-internal-avro.tgz
+        version: file:projects/storage-internal-avro.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
       '@rush-temp/storage-queue':
         specifier: file:./projects/storage-queue.tgz
         version: file:projects/storage-queue.tgz
@@ -3991,7 +3994,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-o4fvn8N8oqpEZoE7QQGCAD4SNVl+N84tR9XHSflTNOgtAu/trEPPHIlfMGpxEtWoZ6ckdNN82+Qpp3hFwgUSkw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-IAPjo2o6trvYZinztzYIuvMdIiXFi2dxysTEs0EKspZf3+nL0mm4YVQ64FRh8ziQlqOiJoGMsPGFvlyUqDZRUg==, tarball: file:projects/storage-blob.tgz}
+    version: 0.0.0
+
+  '@rush-temp/storage-common@file:projects/storage-common.tgz':
+    resolution: {integrity: sha512-3igChIkhPMO0p4gvzRbaowpZXZktR3HRmLUkEDysHeKOvdx50Rcaxpg6dQm0zw6TVzMZCBa2Vysd9ZWEm3N7mg==, tarball: file:projects/storage-common.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
@@ -4003,7 +4010,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
-    resolution: {integrity: sha512-0/1MHKhTF7ZXrvNrPeDpGFLE+BihBnqf9K4+jceVs75PEunRPanEjFVoBgI71KVxNJzpEuZO3HpaOSFjSpqLIw==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-gE4lG0mtiCDlYC/yTUFViZV+gUAFJWCZB4IeZTnuGzVAknQrDCrkZ62L59PAvY0XcS857rnxNFOVVxJMkv9BFg==, tarball: file:projects/storage-internal-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
@@ -19234,45 +19241,49 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
+  '@rush-temp/storage-blob@file:projects/storage-blob.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      es6-promise: 4.2.8
       eslint: 9.16.0
       events: 3.3.0
-      inherits: 2.0.4
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 11.0.2
-      nyc: 17.1.0
-      puppeteer: 23.10.3(typescript@5.6.3)
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
+      playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.6.3
-      util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
+  '@rush-temp/storage-common@file:projects/storage-common.tgz':
+    dependencies:
+      '@types/node': 18.19.68
+      eslint: 9.16.0
+      tslib: 2.8.1
+      typescript: 5.6.3
+    transitivePeerDependencies:
       - jiti
       - supports-color
-      - utf-8-validate
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
     dependencies:
@@ -19358,41 +19369,37 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
+  '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))':
     dependencies:
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      es6-promise: 4.2.8
       eslint: 9.16.0
-      inherits: 2.0.4
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 11.0.2
-      nyc: 17.1.0
-      puppeteer: 23.10.3(typescript@5.6.3)
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
+      playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.6.3
-      util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
     dependencies:
@@ -20209,7 +20216,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 20.17.10
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
@@ -20288,7 +20295,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 20.17.10
 
   '@types/resolve@1.20.2': {}
 

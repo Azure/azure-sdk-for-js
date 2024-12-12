@@ -15,9 +15,9 @@ import type {
   ContainerClient,
 } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Encryption Scope", function () {
+describe("Encryption Scope", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -31,7 +31,7 @@ describe("Encryption Scope", function () {
   let encryptionScopeName2: string | undefined;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
 
     try {
@@ -49,14 +49,14 @@ describe("Encryption Scope", function () {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (containerClient) {
       await containerClient.delete();
     }
     await recorder.stop();
   });
 
-  it("create container", async function () {
+  it("create container", async () => {
     await containerClient.create();
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
@@ -76,7 +76,7 @@ describe("Encryption Scope", function () {
     });
   });
 
-  it("create container preventEncryptionScopeOverride", async function () {
+  it("create container preventEncryptionScopeOverride", async () => {
     await containerClient.create({
       containerEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName1,

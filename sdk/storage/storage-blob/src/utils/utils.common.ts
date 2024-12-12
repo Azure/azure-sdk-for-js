@@ -5,8 +5,6 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-
 import type {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
@@ -44,6 +42,10 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { base64encode, base64decode } from "./base64.js";
+
+// Re-export base64encode and base64decode from the appropriate file
+export { base64encode, base64decode };
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -250,6 +252,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"
@@ -457,24 +460,6 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 }
 
 /**
- * Base64 encode.
- *
- * @param content -
- */
-export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
-}
-
-/**
- * Base64 decode.
- *
- * @param encodedString -
- */
-export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
-}
-
-/**
  * Generate a 64 bytes base64 block ID string.
  *
  * @param blockIndex -
@@ -513,14 +498,14 @@ export async function delay(
     /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
-    const abortHandler = () => {
+    const abortHandler = (): void => {
       if (timeout !== undefined) {
         clearTimeout(timeout);
       }
       reject(abortError);
     };
 
-    const resolveHandler = () => {
+    const resolveHandler = (): void => {
       if (aborter !== undefined) {
         aborter.removeEventListener("abort", abortHandler);
       }

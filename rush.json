@@ -729,6 +729,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/storage-file-share",
       "projectFolder": "sdk/storage/storage-file-share",
       "versionPolicyName": "client"

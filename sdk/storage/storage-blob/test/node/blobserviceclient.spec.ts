@@ -11,17 +11,17 @@ import type { StorageSharedKeyCredential } from "../../src/index.js";
 import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -93,7 +93,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential, {
@@ -111,7 +111,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("can be created with a url and a pipeline", async () => {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
@@ -126,7 +126,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created from a connection string", async function () {
+  it("can be created from a connection string", async () => {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
     configureBlobStorageClient(recorder, newClient);
 
@@ -136,7 +136,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("can be created from a connection string and an option bag", async function () {
+  it("can be created from a connection string and an option bag", async () => {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
       retryOptions: {
         maxTries: 5,

@@ -1,12 +1,9 @@
-"use strict";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AvroReadableFromStream = void 0;
-const AvroReadable_js_1 = require("./AvroReadable.js");
-const abort_controller_1 = require("@azure/abort-controller");
-const ABORT_ERROR = new abort_controller_1.AbortError("Reading from the avro stream was aborted.");
-class AvroReadableFromStream extends AvroReadable_js_1.AvroReadable {
+import { AvroReadable } from "./AvroReadable.js";
+import { AbortError } from "@azure/abort-controller";
+const ABORT_ERROR = new AbortError("Reading from the avro stream was aborted.");
+export class AvroReadableFromStream extends AvroReadable {
     toUint8Array(data) {
         if (typeof data === "string") {
             return Buffer.from(data);
@@ -84,5 +81,4 @@ class AvroReadableFromStream extends AvroReadable_js_1.AvroReadable {
         }
     }
 }
-exports.AvroReadableFromStream = AvroReadableFromStream;
 //# sourceMappingURL=AvroReadableFromStream.js.map

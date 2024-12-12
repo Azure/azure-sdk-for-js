@@ -1,9 +1,6 @@
-"use strict";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AvroType = exports.AvroParser = void 0;
-class AvroParser {
+export class AvroParser {
     /**
      * Reads a fixed number of bytes from the stream.
      *
@@ -135,7 +132,6 @@ class AvroParser {
         return items;
     }
 }
-exports.AvroParser = AvroParser;
 var AvroComplex;
 (function (AvroComplex) {
     AvroComplex["RECORD"] = "record";
@@ -156,7 +152,7 @@ var AvroPrimitive;
     AvroPrimitive["BYTES"] = "bytes";
     AvroPrimitive["STRING"] = "string";
 })(AvroPrimitive || (AvroPrimitive = {}));
-class AvroType {
+export class AvroType {
     /**
      * Determines the AvroType from the Avro Schema.
      */
@@ -236,7 +232,6 @@ class AvroType {
         }
     }
 }
-exports.AvroType = AvroType;
 class AvroPrimitiveType extends AvroType {
     constructor(primitive) {
         super();

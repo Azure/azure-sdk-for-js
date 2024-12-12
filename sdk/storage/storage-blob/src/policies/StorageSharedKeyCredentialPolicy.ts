@@ -30,6 +30,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     factory: StorageSharedKeyCredential,
   ) {
     super(nextPolicy, options);

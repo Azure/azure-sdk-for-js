@@ -10,7 +10,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.browser.js";
+} from "../utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -18,7 +18,7 @@ import type {
   BlockBlobClient,
   BlobServiceClient,
 } from "../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel", () => {
   let containerName: string;
@@ -34,7 +34,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
@@ -47,24 +47,21 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async () => {
     if (containerClient) {
       await containerClient.delete();
     }
     await recorder.stop();
   });
 
-  before(async function (ctx) {
+  beforeAll(async () => {
     if (isLiveMode()) {
       tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     const aborter = AbortSignal.timeout(1);
 
     try {
@@ -77,10 +74,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     const aborter = AbortSignal.timeout(1);
 
     try {
@@ -95,10 +89,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -118,10 +109,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -140,10 +128,7 @@ describe("Highlevel", () => {
     assert.isTrue(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 2,
@@ -156,10 +141,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", { skip: !isLiveMode() }, async () => {
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0,
@@ -172,11 +154,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  it("uploadBrowserDataToBlockBlob should work with tags", { skip: !isLiveMode() }, async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2",
@@ -192,10 +170,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", { skip: !isLiveMode() }, async () => {
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 2,
@@ -208,10 +183,7 @@ describe("Highlevel", () => {
     assert.ok(arrayBufferEqual(buf1, buf2));
   });
 
-  it("set tier while upload", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("set tier while upload", { skip: !isLiveMode() }, async () => {
     // single upload
     await blockBlobClient.uploadBrowserData(tempFile2, {
       tier: "Hot",
@@ -226,8 +198,8 @@ describe("Highlevel", () => {
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
   });
 
-  it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async function () {
-    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob) {
+  it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
+    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob): Promise<void> {
       if (!actualBlob) {
         throw new Error("actualBlob is undefined");
       }

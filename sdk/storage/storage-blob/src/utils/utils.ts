@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as util from "node:util";
+import fs from "node:fs";
+import util from "node:util";
 import { REQUEST_TIMEOUT } from "./constants.js";
 
 /**

@@ -1,9 +1,6 @@
-"use strict";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.arraysEqual = arraysEqual;
-function arraysEqual(a, b) {
+export function arraysEqual(a, b) {
     if (a === b)
         return true;
     if (a == null || b == null)

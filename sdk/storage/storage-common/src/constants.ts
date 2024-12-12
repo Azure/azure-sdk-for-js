@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./BufferScheduler.browser";
+export const SDK_VERSION: string = "1.0.0";

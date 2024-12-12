@@ -28,6 +28,23 @@ import { env } from "@azure-tools/test-recorder";
 export * from "./testutils.common.js";
 config();
 
+// Functions with no-op implementations
+export async function blobToString(_blob: Blob): Promise<string> {
+  throw new Error("Not implemented");
+}
+
+export async function blobToArrayBuffer(_blob: Blob): Promise<ArrayBuffer> {
+  throw new Error("Not implemented");
+}
+
+export function arrayBufferEqual(_buf1: ArrayBuffer, _buf2: ArrayBuffer): boolean {
+  throw new Error("Not implemented");
+}
+
+export function getBrowserFile(_name: string, _size: number): File {
+  throw new Error("Not implemented");
+}
+
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
@@ -235,12 +252,13 @@ export async function createRandomLocalFile(
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(blockIndex: number) {
+    // @ts-expect-error - TS doesn't like the Buffer type here
+    function randomValueHex(blockIndex: number): string | Buffer<ArrayBufferLike> {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
-      let len = blockSizeOrContent;
+      let len = blockSizeOrContent as number;
       if (blockIndex === blockNumber && lastBlockSize !== 0) {
         len = lastBlockSize;
       }

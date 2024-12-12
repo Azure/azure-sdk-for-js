@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { getBSU } from "./utils/index.js";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
@@ -15,7 +16,7 @@ import type {
   BlobBeginCopyFromURLResponse,
 } from "../src/index.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;
@@ -29,7 +30,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
     await recorder.start(recorderEnvSetupWithCopySource);
@@ -47,7 +48,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await destinationContainerClient.create();
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async () => {
     if (containerClient) {
       await containerClient.delete();
     }
@@ -57,7 +58,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await recorder.stop();
   });
 
-  it("supports automatic polling via pollUntilDone", async function () {
+  it("supports automatic polling via pollUntilDone", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -93,7 +94,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports manual polling via poll", async function () {
+  it("supports manual polling via poll", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -134,7 +135,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports cancellation of the copy", async function (ctx) {
+  it("supports cancellation of the copy", async (ctx) => {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
@@ -161,7 +162,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports updating on progress events", async function (ctx) {
+  it("supports updating on progress events", async (ctx) => {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
@@ -189,7 +190,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
   });
 
-  it("supports restoring poller state from another poller", async function () {
+  it("supports restoring poller state from another poller", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }

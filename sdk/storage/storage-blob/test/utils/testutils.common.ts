@@ -10,7 +10,8 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 import type {
   FindReplaceSanitizer,
   RegexSanitizer,
-} from "@azure-tools/test-recorder/types/src/utils/utils";
+  TestInfo
+} from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -253,7 +254,7 @@ export function generateRandomUint8Array(byteLength: number): Uint8Array {
   return uint8Arr;
 }
 
-export async function createAndStartRecorder(testContext?: Mocha.Test): Promise<Recorder> {
+export async function createAndStartRecorder(testContext?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(testContext);
   await recorder.start(recorderEnvSetup);
   // SAS token may contain sensitive information
