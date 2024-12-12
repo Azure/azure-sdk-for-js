@@ -34,7 +34,7 @@ export default mergeConfig(
         enabled: true,
         tsconfig: "tsconfig.test.json",
         include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
-      }
+      },
     },
   })
 );
