@@ -8,9 +8,10 @@ Use the AI Projects client library (in preview) to:
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-| [Samples][samples]
+
+<!-- | [Samples][samples]
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview) -->
 
 ## Table of contents
 
@@ -59,7 +60,7 @@ Use the AI Projects client library (in preview) to:
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 - The project connection string. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
-- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
+- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/%40azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/%40azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
   - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
@@ -668,7 +669,7 @@ await tracer.startActiveSpan("main", async (span) => {
 
 ### Exceptions
 
-Client methods that make service calls raise an [RestError](https://learn.microsoft.com/en-us/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
+Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
 ```javascript
 import { RestError } from "@azure/core-rest-pipeline"
@@ -694,9 +695,9 @@ Operation returned an invalid status 'Unauthorized'
 
 To report issues with the client library, or request additional features, please open a GitHub issue [here](https://github.com/Azure/azure-sdk-for-js/issues)
 
-## Next steps
+<!-- ## Next steps
 
-Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
+Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code. -->
 
 ## Contributing
 
@@ -717,10 +718,11 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
+<!-- [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples -->
+
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
-[azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
+[azure_identity_npm]: https://www.npmjs.com/package/%40azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
