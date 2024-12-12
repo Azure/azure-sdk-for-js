@@ -7,28 +7,37 @@
     "inlineSources": true,
     "newLine": "LF",
     "target": "ES2017",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "module": "esNext",
-    "outDir": "./dist-esm",
+    "module": "NodeNext",
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "declarationDir": "./types/latest",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "esnext"
+    ],
     "esModuleInterop": true,
-
     "paths": {
-      "@azure/storage-blob-changefeed": ["./src/index"]
-    }
+      "@azure/storage-blob-changefeed": [
+        "./src/index"
+      ]
+    },
+    "rootDir": "."
   },
   "compileOnSave": true,
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "../storage-internal-avro/**/*.ts"
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
   ]
 }
