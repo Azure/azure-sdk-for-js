@@ -104,21 +104,6 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   return $uniqueResultSet
 }
 
-# function Get-AllPackageInfoFromRepo ([string]$ServiceDirectory = $null) {
-#   $pkgPropsResult = @()
-
-#   if ([string]::IsNullOrEmpty($ServiceDirectory)) {
-#     foreach ($dir in (Get-ChildItem (Join-Path $RepoRoot "sdk") -Directory)) {
-#       $pkgPropsResult += Get-PkgPropsForEntireService -serviceDirectoryPath $dir.FullName
-#     }
-#   }
-#   else {
-#     $pkgPropsResult = Get-PkgPropsForEntireService -serviceDirectoryPath (Join-Path $RepoRoot "sdk" $ServiceDirectory)
-#   }
-
-#   return $pkgPropsResult
-# }
-
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   $projectPath = (Join-Path $pkgPath "package.json")
   $packageProps = @()
