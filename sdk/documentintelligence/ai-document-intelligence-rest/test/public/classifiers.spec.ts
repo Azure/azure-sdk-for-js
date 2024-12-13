@@ -10,7 +10,7 @@ import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
 import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
 import type {
-  AnalyzeResultOperationOutput,
+  AnalyzeOperationOutput,
   DocumentClassifierBuildOperationDetailsOutput,
   DocumentClassifierDetailsOutput,
 } from "../../src/index.js";
@@ -120,7 +120,7 @@ describe.skip("classifiers", () => {
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
     const analyzeResult = (
-      (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
+      (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
     ).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
@@ -154,7 +154,7 @@ describe.skip("classifiers", () => {
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
     const analyzeResult = (
-      (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
+      (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
     ).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);

@@ -9,7 +9,7 @@ import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
 import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
 import type {
-  AnalyzeResultOperationOutput,
+  AnalyzeOperationOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
   DocumentModelCopyToOperationDetailsOutput,
@@ -138,7 +138,7 @@ describe("model management", () => {
             intervalInMs: testPollingOptions.updateIntervalInMs,
           });
           const analyzeResult = (
-            (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
+            (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
           ).analyzeResult;
 
           const documents = analyzeResult?.documents;
