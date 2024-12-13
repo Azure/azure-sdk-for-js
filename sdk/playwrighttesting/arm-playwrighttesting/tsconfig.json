@@ -1,33 +1,18 @@
 {
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
-    "strict": true,
-    "target": "es6",
-    "sourceMap": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "declaration": true,
-    "outDir": "./dist-esm",
-    "importHelpers": true,
-    "paths": {
-      "@azure/arm-playwrighttesting": [
-        "./src/index"
-      ]
-    }
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "paths": { "@azure/arm-playwrighttesting": ["./src/index"] }
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "test/**/*.ts",
+    "test/**/*.ts",
     "samples-dev/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }
