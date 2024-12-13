@@ -9,6 +9,7 @@ import {
   AnalyzeActionNames,
 } from "@azure/ai-language-text";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert } from "vitest";
 
 interface LanguageDetectionPerfTestOptions extends LanguageDetectionAction {
   "documents-count": number;
