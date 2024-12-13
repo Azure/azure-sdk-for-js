@@ -2161,6 +2161,13 @@ export interface PagingOptions<TResponse> {
 export type ParagraphRoleOutput = string;
 
 // @public
+export function parseOperationIdFromResponse(initialResponse: {
+    headers: {
+        "operation-location": string;
+    };
+}): string;
+
+// @public
 export interface ResourceDetailsOutput {
     customDocumentModels: CustomDocumentModelsDetailsOutput;
 }
@@ -2194,7 +2201,6 @@ export interface Routes {
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
-    getOperationId(): string;
     getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
