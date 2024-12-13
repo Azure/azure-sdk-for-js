@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { KeyCredential } from "@azure/core-auth";
-import { MapsTimeZoneClient } from "./clientDefinitions";
+import { MapsTimeZoneClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface MapsTimeZoneClientOptions extends ClientOptions {
