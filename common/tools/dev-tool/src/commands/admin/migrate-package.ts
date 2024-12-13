@@ -87,7 +87,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder });
+  await run(["rushx", "format"], { cwd: projectFolder, shell: true });
   await commitChanges(projectFolder, "rushx format");
 
   log.info(
@@ -333,6 +333,7 @@ async function addNewPackages(packageJson: any): Promise<void> {
       latestVersion = (
         await run(["npm", "view", newPackage, "version"], {
           captureOutput: true,
+          shell: true,
         })
       ).output;
     }
