@@ -3,10 +3,11 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-app-configuration": ["./src/index"]
+    }
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",

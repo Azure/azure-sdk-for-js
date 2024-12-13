@@ -1,10 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { AppConfigurationClient } from "@azure/app-configuration";
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 export abstract class AppConfigTest<TOptions> extends PerfTest<TOptions> {
   client: AppConfigurationClient;
