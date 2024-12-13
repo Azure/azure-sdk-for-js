@@ -32,6 +32,7 @@ The below table describes the relationship of each client and its supported API 
 
 | Service API version | Supported clients                                            | Package                                                       |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
+| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0`        |
 | 2024-07-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.3` |
 | 2024-02-29-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.2` |
 | 2023-10-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.1` |
