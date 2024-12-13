@@ -6,6 +6,8 @@ import { ContainerRegistryClient } from "@azure/container-registry";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 export abstract class ContainerRegistryTest<TOptions> extends PerfTest<TOptions> {

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec.js";
+import { describe, it, assert } from "vitest";
 
 export class RepositoryListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
   public options: PerfOptionDictionary<ContainerRegistryTestOptions> = {};
