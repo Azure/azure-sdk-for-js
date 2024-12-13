@@ -7,8 +7,8 @@ import {
   ServiceBusReceiver,
 } from "@azure/service-bus";
 import { PerfOptionDictionary, EventPerfTest } from "@azure-tools/test-perf";
-import { sendMessages } from "./receiveBatch.spec";
-import { ServiceBusTest } from "./sbBase.spec";
+import { sendMessages } from "./receiveBatch.spec.js";
+import { ServiceBusTest } from "./sbBase.spec.js";
 
 interface ReceiverOptions {
   "number-of-messages": number;

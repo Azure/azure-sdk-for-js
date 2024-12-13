@@ -3,7 +3,7 @@
 
 import { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { ServiceBusTest } from "./sbBase.spec";
+import { ServiceBusTest } from "./sbBase.spec.js";
 
 interface ReceiverOptions {
   "max-message-count": number;
