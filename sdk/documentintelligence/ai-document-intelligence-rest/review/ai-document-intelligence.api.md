@@ -2124,6 +2124,9 @@ export type SplitMode = string;
 export type SplitModeOutput = string;
 
 // @public
+export function streamToUint8Array(stream: NodeJS.ReadableStream): Promise<Uint8Array>;
+
+// @public
 export type StringIndexType = string;
 
 // @public
