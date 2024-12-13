@@ -61,23 +61,13 @@ export interface SchedulersOperations {
   ) => PagedAsyncIterableIterator<Scheduler>;
 }
 
-export function getSchedulers(
-  context: DurableTaskContext,
-  subscriptionId: string,
-) {
+export function getSchedulers(context: DurableTaskContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       schedulerName: string,
       options?: SchedulersGetOptionalParams,
-    ) =>
-      schedulersGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        options,
-      ),
+    ) => schedulersGet(context, subscriptionId, resourceGroupName, schedulerName, options),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
@@ -110,27 +100,13 @@ export function getSchedulers(
       resourceGroupName: string,
       schedulerName: string,
       options?: SchedulersDeleteOptionalParams,
-    ) =>
-      schedulersDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        options,
-      ),
+    ) => schedulersDelete(context, subscriptionId, resourceGroupName, schedulerName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SchedulersListByResourceGroupOptionalParams,
-    ) =>
-      schedulersListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: SchedulersListBySubscriptionOptionalParams,
-    ) => schedulersListBySubscription(context, subscriptionId, options),
+    ) => schedulersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: SchedulersListBySubscriptionOptionalParams) =>
+      schedulersListBySubscription(context, subscriptionId, options),
   };
 }
 
