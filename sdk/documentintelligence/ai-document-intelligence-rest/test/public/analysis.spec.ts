@@ -426,7 +426,7 @@ describe("DocumentIntelligenceClient", () => {
   describe("custom forms", () => {
     let _model: DocumentModelDetailsOutput;
     let modelName: string;
-  
+
     // We only want to create the model once, but because of the recorder's
     // precedence, we have to create it in a test, so one test will end up
     // recording the entire creation and the other tests will still be able
@@ -437,7 +437,7 @@ describe("DocumentIntelligenceClient", () => {
           "customFormModelName",
           `customFormModelName${getRandomNumber()}`,
         );
-  
+
         const initialResponse = await client.path("/documentModels:build").post({
           body: {
             buildMode: "template",
@@ -449,7 +449,7 @@ describe("DocumentIntelligenceClient", () => {
             },
           },
         });
-  
+
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
@@ -463,7 +463,7 @@ describe("DocumentIntelligenceClient", () => {
         _model = response;
         assert.ok(_model.modelId);
       }
-  
+
       return _model;
     }
     it.skip("with selection marks", async () => {
@@ -918,9 +918,9 @@ describe("DocumentIntelligenceClient", () => {
           batchOperationId,
         )
         .get();
-        if (isUnexpected(response)) {
-          throw response.body.error;
-        }
+      if (isUnexpected(response)) {
+        throw response.body.error;
+      }
       assert.ok(response.body);
       assert.equal(response.body.resultId, batchOperationId);
       assert.equal(response.body.status, "succeeded");
