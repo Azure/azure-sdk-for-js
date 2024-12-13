@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createPerfProgram } from "@azure-tools/test-perf";
-import { LanguageDetectionTest } from "./languageDetection.spec";
+import { LanguageDetectionTest } from "./languageDetection.spec.js";
 
 import dotenv from "dotenv";
 dotenv.config();
