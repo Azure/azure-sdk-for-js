@@ -12,7 +12,7 @@ export default mergeConfig(
       hookTimeout: 60000,
       fileParallelism: false,
       include: ["test/internal/unit/**/*.spec.ts"],
-      exclude: ["test/internal/{,!(unit)/**/}*.spec.ts"],
+      exclude: ["test/internal/{,!(unit)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
       fakeTimers: {
         toFake: [
           "setTimeout",
