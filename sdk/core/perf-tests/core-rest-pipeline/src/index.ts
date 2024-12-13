@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { createPerfProgram } from "@azure-tools/test-perf";
 import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChallengeAuthenticationPolicy/wwwChallenge.spec.js";
 import { CoreRestPipelineTest } from "./core-rest-pipeline.spec.js";
