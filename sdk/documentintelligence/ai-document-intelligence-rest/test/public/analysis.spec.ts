@@ -28,7 +28,7 @@ import type {
 import {
   getLongRunningPoller,
   isUnexpected,
-  parseOperationIdFromResponse,
+  parseResultIdFromResponse,
   streamToUint8Array,
 } from "../../src/index.js";
 
@@ -907,7 +907,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const batchOperationId = parseOperationIdFromResponse(initialResponse);
+      const batchResultId = parseResultIdFromResponse(initialResponse);
 
       const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
       await poller.pollUntilDone();
@@ -915,14 +915,14 @@ describe("DocumentIntelligenceClient", () => {
         .path(
           "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
           "prebuilt-layout",
-          batchOperationId,
+          batchResultId,
         )
         .get();
       if (isUnexpected(response)) {
         throw response.body.error;
       }
       assert.ok(response.body);
-      assert.equal(response.body.resultId, batchOperationId);
+      assert.equal(response.body.resultId, batchResultId);
       assert.equal(response.body.status, "succeeded");
       assert.equal(response.body.percentCompleted, 100);
     });
@@ -950,10 +950,10 @@ describe("DocumentIntelligenceClient", () => {
       const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
 
       await poller.pollUntilDone();
-      const operationId = parseOperationIdFromResponse(initialResponse);
+      const resultId = parseResultIdFromResponse(initialResponse);
 
       await client
-        .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-read", operationId)
+        .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-read", resultId)
         .get();
     });
 
@@ -980,13 +980,9 @@ describe("DocumentIntelligenceClient", () => {
 
       await poller.pollUntilDone();
 
-      const operationId = parseOperationIdFromResponse(initialResponse);
+      const resultId = parseResultIdFromResponse(initialResponse);
       const output = await client
-        .path(
-          "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
-          "prebuilt-read",
-          operationId,
-        )
+        .path("/documentModels/{modelId}/analyzeResults/{resultId}/pdf", "prebuilt-read", resultId)
         .get()
         .asNodeStream();
 
@@ -1028,12 +1024,12 @@ describe("DocumentIntelligenceClient", () => {
         throw new Error("Expected a figure ID.");
       }
 
-      const operationId = parseOperationIdFromResponse(initialResponse);
+      const resultId = parseResultIdFromResponse(initialResponse);
       const output = await client
         .path(
           "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
           "prebuilt-layout",
-          operationId,
+          resultId,
           figureId,
         )
         .get()

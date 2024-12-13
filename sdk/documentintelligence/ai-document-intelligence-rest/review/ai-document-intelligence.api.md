@@ -2236,7 +2236,7 @@ export interface PagingOptions<TResponse> {
 export type ParagraphRoleOutput = string;
 
 // @public
-export function parseOperationIdFromResponse(initialResponse: {
+export function parseResultIdFromResponse(initialResponse: {
     headers: {
         "operation-location": string;
     };

@@ -262,13 +262,13 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
 /**
  * Returns the operation-id from the operation-location header
  */
-function parseOperationId(operationLocationHeader: string): string {
+function parseResultId(operationLocationHeader: string): string {
   // regex to extract the operation id from the operation-location header with the regex "[^:]+://[^/]+/documentintelligence/.+/([^?/]+)"
   const regex = /[^:]+:\/\/[^/]+\/documentintelligence\/.+\/([^?/]+)/;
   const match = operationLocationHeader.match(regex);
   if (!match) {
     throw new Error(
-      `Failed to parse operation id from the operation-location header: ${operationLocationHeader}`,
+      `Failed to parse result id from the operation-location header: ${operationLocationHeader}`,
     );
   }
   return match[1];
@@ -277,11 +277,11 @@ function parseOperationId(operationLocationHeader: string): string {
 /**
  * Returns the operation-id from the initialResponse header
  */
-export function parseOperationIdFromResponse(initialResponse: {
+export function parseResultIdFromResponse(initialResponse: {
   headers: { "operation-location": string };
 }): string {
   const operationLocationHeader = initialResponse.headers["operation-location"];
-  return parseOperationId(operationLocationHeader);
+  return parseResultId(operationLocationHeader);
 }
 
 /**

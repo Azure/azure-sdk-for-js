@@ -79,7 +79,7 @@ import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
-  new DefaultAzureCredential(),
+  new DefaultAzureCredential()
 );
 ```
 
@@ -162,7 +162,7 @@ console.log(result);
 
 ```ts
 import {
-  parseOperationIdFromResponse,
+  parseResultIdFromResponse,
   AnalyzeResultOperationOutput,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
@@ -185,8 +185,8 @@ console.log("initialResponse: ", initialResponse);
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
-const operationId = parseOperationIdFromResponse(initialResponse);
-console.log("operationId: ", operationId);
+const resultId = parseResultIdFromResponse(initialResponse);
+console.log("resultId: ", resultId);
 console.log("model id: ", model.modelId);
 
 // (Optional) You can keep polling for the result which might take longer for the batch analysis which would incur costs.
@@ -194,10 +194,10 @@ console.log("model id: ", model.modelId);
 // const poller = await getLongRunningPoller(client, initialResponse);
 // await poller.pollUntilDone();
 
-// 2. At a later time, you can retrieve the operation result using the operationId
-const operationId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
+// 2. At a later time, you can retrieve the operation result using the resultId
+const resultId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
 const output = await client
-  .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-layout", operationId)
+  .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-layout", resultId)
   .get();
 console.log(output);
 ```
@@ -342,7 +342,7 @@ const output = await client
   .path(
     "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
     "prebuilt-read",
-    parseOperationIdFromResponse(initialResponse),
+    parseResultIdFromResponse(initialResponse)
   )
   .get();
 
@@ -384,8 +384,8 @@ const output = await client
   .path(
     "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
     "prebuilt-layout",
-    parseOperationIdFromResponse(initialResponse),
-    figureId,
+    parseResultIdFromResponse(initialResponse),
+    figureId
   )
   .get();
 

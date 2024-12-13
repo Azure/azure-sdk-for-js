@@ -5,53 +5,57 @@
 ### Features Added
 
 - Exports method `streamToUint8Array` to support converting a `NodeJS.ReadableStream` to a `Uint8Array`. This is necessary to read the pdf and png responses from the results of an analysis.
+
   ```js
   // Example for the figures api that provides an image output
-      const output = await client
-        .path(
-          "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
-          "prebuilt-layout",
-          operationId,
-          figureId,
-        )
-        .get()
-        .asNodeStream();
+  const output = await client
+    .path(
+      "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+      "prebuilt-layout",
+      resultId,
+      figureId
+    )
+    .get()
+    .asNodeStream();
 
-      if (output.status !== "200" || !output.body) {
-        throw new Error("The response was unexpected.");
-      }
+  if (output.status !== "200" || !output.body) {
+    throw new Error("The response was unexpected.");
+  }
   ```
-- New `parseOperationIdFromResponse` method has been added to parse `operationId` from the initial response of batch analysis requests which can later be used to get the analysis results.
+
+- New `parseResultIdFromResponse` method has been added to parse `operationId` from the initial response of batch analysis requests which can later be used to get the analysis results.
+
   ```js
-      // Example
-      const initialResponse = await client
-        .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
-        .post({
-          contentType: "application/json",
-          body: {
-            azureBlobSource: {
-              containerUrl: batchTrainingFilesContainerUrl(),
-            },
-            resultContainerUrl: batchTrainingFilesResultContainerUrl(),
-            resultPrefix: "result",
-          },
-        });
+  // Example
+  const initialResponse = await client
+    .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
+    .post({
+      contentType: "application/json",
+      body: {
+        azureBlobSource: {
+          containerUrl: batchTrainingFilesContainerUrl(),
+        },
+        resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+        resultPrefix: "result",
+      },
+    });
 
-      if (isUnexpected(initialResponse)) {
-        throw initialResponse.body.error;
-      }
-      const batchOperationId = parseOperationIdFromResponse(initialResponse);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+  const batchResultId = parseResultIdFromResponse(initialResponse);
 
-      const response = await client
-        .path(
-          "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
-          "prebuilt-layout",
-          batchOperationId,
-        )
-        .get();
+  const response = await client
+    .path(
+      "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
+      "prebuilt-layout",
+      batchResultId
+    )
+    .get();
   ```
 
 - **Interface Properties:**
+
   - `AnalyzeBatchDocumentsBodyParam`:
     - Changed `body` from optional to required.
   - `AnalyzeBatchOperationOutput`:
@@ -64,17 +68,16 @@
     - Added `modifiedDateTime`.
 
 - **New Interfaces:**
-Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
+  Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
   - **AnalyzeBatchDocumentsFeaturesQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `DocumentAnalysisFeature[]`.
   - **AnalyzeBatchDocumentsOutputQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `AnalyzeOutputOption[]`.
   - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `string[]`.
   - **AnalyzeDocumentFeaturesQueryParam**: Customizable `style` and `explode` options for single document analysis, with a value of type `DocumentAnalysisFeature[]`.
   - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Customizable `style` and `explode` options for document analysis from stream, with a value of type `DocumentAnalysisFeature[]`.
 
-
 ### Breaking Changes
 
-- Removes the `poller.getOperationId()` for a given polling operation in favour of the global `parseOperationIdFromResponse` method.
+- Removes the `poller.getOperationId()` for a given polling operation in favour of the global `parseResultIdFromResponse` method.
 
 ### Other Changes
 
