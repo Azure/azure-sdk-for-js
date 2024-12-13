@@ -5,6 +5,11 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.xml",
@@ -16,6 +21,7 @@ export default defineConfig({
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
     testTimeout: 12000000,
+    hookTimeout: 600000,
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
