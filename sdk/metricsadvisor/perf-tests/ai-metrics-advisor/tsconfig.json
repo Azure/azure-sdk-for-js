@@ -2,10 +2,11 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true,
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-ai-metrics-advisor": ["./src/index.ts"]
+    }
   },
   "compileOnSave": true,
   "include": [
