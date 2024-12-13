@@ -454,6 +454,7 @@ export function createMsalClient(
     try{
       if(app instanceof msal.PublicClientApplication){
         return app.ssoSilent(silentRequest);
+      }
       else {
         return app.acquireTokenSilent(silentRequest);        
       }
@@ -831,6 +832,7 @@ export function createMsalClient(
         loginHint: options?.loginHint,
         errorTemplate: options?.browserCustomizationOptions?.errorMessage,
         successTemplate: options?.browserCustomizationOptions?.successMessage,
+        prompt: options?.loginHint ? "login" : "select_account",
       };
     }
 

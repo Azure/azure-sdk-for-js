@@ -15,20 +15,20 @@ const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Microsoft Entr
 
 async function main() {
   const credential = new InteractiveBrowserCredential({
-    clientId,
-    tenantId,
     browserCustomizationOptions: {
       successMessage: "Authentication Completed. You can close the browser.",
     },
+    disableAutomaticAuthentication: true,
   });
 
-  const token = await credential.getToken("https://graph.microsoft.com/.default");
-  const authenticationRecord = await credential.authenticate("https://graph.microsoft.com/.default");
+  // const token = await credential.getToken("https://management.azure.com/.default");
+  // console.log(
+  //   "InteractiveBrowserCredential: Successfully got a token with expiry time:",
+  //   token.expiresOnTimestamp,
+  // );
+  const authenticationRecord = await credential.authenticate("https://management.azure.com/.default");
   console.log("InteractiveBrowserCredential: Authentication Record:", authenticationRecord);
-  console.log(
-    "InteractiveBrowserCredential: Successfully got a token with expiry time:",
-    token.expiresOnTimestamp,
-  );
+  
 
     const cred3 = new InteractiveBrowserCredential({
     clientId: "7960e60e-aabb-47e7-9ac5-7145dd8157a4",
@@ -59,11 +59,11 @@ async function main() {
   //   "InteractiveBrowserCredential: Successfully got a token with expiry time:",
   //   token3.expiresOnTimestamp,
   // );
-  const token4 = await credential.getToken("https://graph.microsoft.com/.default");
-  console.log(
-    "InteractiveBrowserCredential: Successfully got a token with expiry time:",
-    token4.expiresOnTimestamp,
-  );
+  // const token4 = await credential.getToken("https://graph.microsoft.com/.default");
+  // console.log(
+  //   "InteractiveBrowserCredential: Successfully got a token with expiry time:",
+  //   token4.expiresOnTimestamp,
+  // );
 }
 
 main().catch((err) => {
