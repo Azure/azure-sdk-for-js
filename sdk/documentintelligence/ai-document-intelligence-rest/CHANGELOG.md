@@ -51,17 +51,6 @@
         .get();
   ```
 
-- **New Interfaces:**
-Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
-  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `DocumentAnalysisFeature[]`.
-  - **AnalyzeBatchDocumentsOutputQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `AnalyzeOutputOption[]`.
-  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `string[]`.
-  - **AnalyzeDocumentFeaturesQueryParam**: Customizable `style` and `explode` options for single document analysis, with a value of type `DocumentAnalysisFeature[]`.
-  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Customizable `style` and `explode` options for document analysis from stream, with a value of type `DocumentAnalysisFeature[]`.
-
-
-### Breaking Changes
-
 - **Interface Properties:**
   - `AnalyzeBatchDocumentsBodyParam`:
     - Changed `body` from optional to required.
@@ -73,6 +62,19 @@ Define query parameters for various document analysis requests, offering flexibi
     - Added `modifiedDateTime`.
   - `DocumentModelDetailsOutput`:
     - Added `modifiedDateTime`.
+
+- **New Interfaces:**
+Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
+  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `DocumentAnalysisFeature[]`.
+  - **AnalyzeBatchDocumentsOutputQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `AnalyzeOutputOption[]`.
+  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `string[]`.
+  - **AnalyzeDocumentFeaturesQueryParam**: Customizable `style` and `explode` options for single document analysis, with a value of type `DocumentAnalysisFeature[]`.
+  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Customizable `style` and `explode` options for document analysis from stream, with a value of type `DocumentAnalysisFeature[]`.
+
+
+### Breaking Changes
+
+- Removes the `poller.getOperationId()` for a given polling operation in favour of the global `parseOperationIdFromResponse` method.
 
 ### Other Changes
 
