@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type { IanaIdOutput } from "../../src/index.js";
+import MapsTimeZone, { isUnexpected } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Authentication", function () {
   let recorder: Recorder;
 
   beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("should work with Microsoft Entra ID authentication", async function () {
+  it("should work with Microsoft Entra ID authentication", async function (ctx) {
     /**
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
@@ -29,7 +31,7 @@ describe("Authentication", function () {
     const client = MapsTimeZone(
       credential,
       env["MAPS_RESOURCE_CLIENT_ID"] as string,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const response = await client.path("/timezone/byId/{format}", "json").get({
@@ -43,7 +45,7 @@ describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
   beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
   });
 
   afterEach(async function () {
@@ -61,7 +63,7 @@ describe("Endpoint can be overwritten", function () {
 
   it("should be executed with different baseUrl", async function () {
     const client = createClient(
-      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
+      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
@@ -76,7 +78,7 @@ describe("MapsTimeZone", () => {
   let client: ReturnType<typeof MapsTimeZone>;
 
   beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
@@ -93,7 +95,7 @@ describe("MapsTimeZone", () => {
     } else {
       assert.isTrue(
         response.body.TimeZones?.length === 1,
-        "TimeZones array should contain one element."
+        "TimeZones array should contain one element.",
       );
     }
   });
