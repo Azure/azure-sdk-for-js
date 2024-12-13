@@ -8,6 +8,7 @@ import {
   TextAnalyticsClient,
 } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert } from "vitest";
 
 interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
   "documents-count": number;
