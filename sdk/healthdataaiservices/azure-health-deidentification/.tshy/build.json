@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.src.json",
   "compilerOptions": {
     "rootDir": "../src",
     "module": "nodenext",

@@ -8,6 +8,11 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
       include: ["test/**/*.spec.ts"],
       exclude: ["test/snippets.spec.ts"],
     },

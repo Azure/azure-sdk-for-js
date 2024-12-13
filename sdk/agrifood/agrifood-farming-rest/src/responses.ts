@@ -82,7 +82,7 @@ import type {
   WeatherDataProviderResponseOutput,
   ZoneListResponseOutput,
   ZoneOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Returns a paginated list of application data resources across all parties. */
 export interface ApplicationDataList200Response extends HttpResponse {

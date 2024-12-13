@@ -32,9 +32,9 @@ export default mergeConfig(
       },
       typecheck: {
         enabled: true,
-        tsconfig: "tsconfig.tests.json",
+        tsconfig: "tsconfig.test.json",
         include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
-      }
+      },
     },
   })
 );

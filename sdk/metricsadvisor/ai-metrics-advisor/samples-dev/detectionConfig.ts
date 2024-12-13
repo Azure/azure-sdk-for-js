@@ -7,28 +7,24 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import "dotenv/config";
+import type {
   AnomalyDetectionConfiguration,
   MetricDetectionCondition,
   MetricSeriesGroupDetectionCondition,
   MetricSingleSeriesDetectionCondition,
 } from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
+} from "@azure/ai-metrics-advisor";
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -55,7 +51,7 @@ export async function main() {
 async function getDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-) {
+): Promise<AnomalyDetectionConfiguration> {
   console.log("Retrieving an existing detection configuration...");
   const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
@@ -66,7 +62,7 @@ async function getDetectionConfig(
 async function createDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string,
-) {
+): Promise<AnomalyDetectionConfiguration> {
   const wholeSeriesDetectionCondition: MetricDetectionCondition = {
     conditionOperator: "AND",
     smartDetectionCondition: {
@@ -124,14 +120,14 @@ async function createDetectionConfig(
     seriesDetectionConditions,
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createDetectionConfig(config);
+  return adminClient.createDetectionConfig(config);
 }
 
 // updating an detection configuration
 async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   configId: string,
-) {
+): Promise<AnomalyDetectionConfiguration> {
   const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
     description: "new description",
@@ -184,7 +180,7 @@ async function updateDetectionConfig(
 async function deleteDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-) {
+): Promise<void> {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
   await adminClient.deleteDetectionConfig(detectionConfigId);
 }
@@ -192,7 +188,7 @@ async function deleteDetectionConfig(
 async function listDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string,
-) {
+): Promise<void> {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
   const iterator = adminClient.listDetectionConfigs(metricId);

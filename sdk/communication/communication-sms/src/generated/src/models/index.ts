@@ -61,6 +61,34 @@ export interface SmsSendResponseItem {
   errorMessage?: string;
 }
 
+/** An opt out request. */
+export interface OptOutRequest {
+  /** The sender's identifier (typically phone number in E.164 format) that is owned by the authenticated account. */
+  from: string;
+  recipients: OptOutRecipient[];
+}
+
+/** A single opt out recipient number. */
+export interface OptOutRecipient {
+  /** The recipient's phone number (in E.164 format). */
+  to: string;
+}
+
+/** Response for an opt out request. Validate the returned items in the response to see which recipients were successfully added or removed from the opt outs list. */
+export interface OptOutResponse {
+  value: OptOutResponseItem[];
+}
+
+export interface OptOutResponseItem {
+  /** The recipient phone number (in E.164 format). */
+  to: string;
+  httpStatusCode: number;
+  /** Optional flag specifying if number was Opted Out from receiving messages */
+  isOptedOut?: boolean;
+  /** Optional error message in case of 4xx/5xx errors. */
+  errorMessage?: string;
+}
+
 /** Known values of {@link SmsSendResponseItemRepeatabilityResult} that the service accepts. */
 export enum KnownSmsSendResponseItemRepeatabilityResult {
   /** Accepted */
@@ -84,6 +112,26 @@ export interface SmsSendOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the send operation. */
 export type SmsSendOperationResponse = SmsSendResponse;
+
+/** Optional parameters. */
+export interface OptOutsAddOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the add operation. */
+export type OptOutsAddResponse = OptOutResponse;
+
+/** Optional parameters. */
+export interface OptOutsRemoveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the remove operation. */
+export type OptOutsRemoveResponse = OptOutResponse;
+
+/** Optional parameters. */
+export interface OptOutsCheckOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the check operation. */
+export type OptOutsCheckResponse = OptOutResponse;
 
 /** Optional parameters. */
 export interface SmsApiClientOptionalParams

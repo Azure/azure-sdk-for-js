@@ -1,29 +1,12 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  {
-    ignores: ["test/stress"],
-  },
-  ...azsdkEslint.configs.recommended,
-  {
-    rules: {
-      "@azure/azure-sdk/ts-package-json-types": "off",
-    },
-  },
+export default azsdkEslint.config([
   {
     files: ["**/*.ts", "**/*.cts", "**/*.mts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.tests.json"],
+        project: ["./tsconfig.test.json"],
       },
     },
   },
-  {
-    files: ["*.md/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: null,
-      },
-    },
-  },
-];
+]);
