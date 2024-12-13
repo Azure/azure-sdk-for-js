@@ -47,6 +47,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
+    apiVersion?: string;
 }
 
 // @public

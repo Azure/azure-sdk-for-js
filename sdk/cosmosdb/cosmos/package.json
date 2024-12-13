@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.1.2",
+  "version": "4.2.1",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -114,7 +114,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "execa": "^5.0.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.2",
     "nock": "^13.5.4",
     "requirejs": "^2.3.5",
     "sinon": "^17.0.0",
@@ -141,7 +141,8 @@
       "ChangeFeedIteratorLatestVersion.ts",
       "ChangeFeedIteratorAllVersionsAndDeletes.ts",
       "Diagnostics.ts",
-      "HierarchicalPartitioning.ts"
+      "HierarchicalPartitioning.ts",
+      "FullTextSearch.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

@@ -12,7 +12,11 @@ export default mergeConfig(
       hookTimeout: 60000,
       fileParallelism: false,
       include: ["test/**/*.spec.ts"],
-      exclude: ["./node_modules/**/*"],
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      }
     },
   })
 );

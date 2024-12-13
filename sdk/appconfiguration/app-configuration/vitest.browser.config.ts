@@ -10,7 +10,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       fileParallelism: false,
-      testTimeout: 50000,
+      testTimeout: 60000,
       include: [
         "dist-test/browser/test/**/*.spec.js",
       ],

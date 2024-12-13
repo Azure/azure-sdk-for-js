@@ -31,7 +31,7 @@ import type { CIInfo } from "./cIInfoProvider";
 import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
 import type { StorageUri } from "../model/storageUri";
-
+import { getPackageVersion } from "./utils";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -272,7 +272,6 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -346,7 +345,6 @@ class ReporterUtils {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return 0;
     }
@@ -372,10 +370,12 @@ class ReporterUtils {
     const completed = Math.round(width * percent);
     const remaining = width - completed;
 
-    process.stdout.write("\r");
-    process.stdout.write(
-      `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
-    );
+    if (current % Math.round(total / 5) === 0 || current === total) {
+      process.stdout.write("\r");
+      process.stdout.write(
+        `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
+      );
+    }
   }
 
   private getTestRunConfig(): TestRunConfig {
@@ -393,7 +393,7 @@ class ReporterUtils {
       },
       testType: Constants.TEST_TYPE,
       testSdkLanguage: Constants.TEST_SDK_LANGUAGE,
-      reporterPackageVersion: Constants.REPORTER_PACKAGE_VERSION,
+      reporterPackageVersion: getPackageVersion(),
     };
     return testRunConfig;
   }
@@ -430,7 +430,6 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }

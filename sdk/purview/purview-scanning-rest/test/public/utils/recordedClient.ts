@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="esnext.asynciterable" />
-
-import type { PurviewScanningRestClient } from "../../../src";
-import PurviewScanning from "../../../src";
+import type { PurviewScanningRestClient } from "../../../src/index.js";
+import PurviewScanning from "../../../src/index.js";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 

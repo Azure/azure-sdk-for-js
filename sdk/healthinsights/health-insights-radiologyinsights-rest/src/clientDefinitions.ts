@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
-import type { CreateJobParameters, GetJobParameters } from "./parameters";
+import type { CreateJobParameters, GetJobParameters } from "./parameters.js";
 import type {
   CreateJob200Response,
   CreateJob201Response,
   CreateJobDefaultResponse,
   GetJob200Response,
   GetJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 /** Gets the Radiology Insights job. */
 export interface GetJob {

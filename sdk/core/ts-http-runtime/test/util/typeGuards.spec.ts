@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index.js";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/util/typeGuards.js";
 
 describe("Type guards", function () {
   describe("isDefined", function () {

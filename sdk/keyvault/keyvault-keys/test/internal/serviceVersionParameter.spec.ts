@@ -11,7 +11,7 @@ import type {
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import type { MockInstance } from "vitest";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;

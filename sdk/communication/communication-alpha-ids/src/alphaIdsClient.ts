@@ -10,17 +10,17 @@ import type {
   GetPreRegisteredAlphaIdCountriesOptions,
   AlphaId,
   SupportedCountries,
-} from "./models";
+} from "./models.js";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
+import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src/index.js";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
+import { logger } from "./utils/index.js";
+import { tracingClient } from "./generated/src/tracing.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies";
+import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies.js";
 
 /**
  * Client options used to configure the AlphaIdsClient API requests.

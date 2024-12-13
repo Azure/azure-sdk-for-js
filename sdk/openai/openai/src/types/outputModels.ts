@@ -43,6 +43,8 @@ export interface ContentFilterResultsForChoiceOutput {
   protected_material_text?: ContentFilterDetectionResultOutput;
   /** Information about detection of protected code material. */
   protected_material_code?: ContentFilterCitedDetectionResultOutput;
+  /** Information about detection of ungrounded material. */
+  ungrounded_material?: ContentFilterCompletionTextSpanResultOutput;
 }
 
 /** Represents a structured collection of result details for content filtering. */
@@ -66,50 +68,26 @@ export interface ContentFilterCitedDetectionResultOutput {
   license?: string;
 }
 
-/**
- * Represents the output results of Azure enhancements to chat completions, as configured via the matching input provided
- * in the request.
- */
-export interface AzureChatEnhancementsOutput {
-  /** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-  grounding?: AzureGroundingEnhancementOutput;
+/** Describes a span within generated completion text. */
+export interface ContentFilterCompletionTextSpanResultOutput {
+  /** A value indicating whether or not the content has been filtered. */
+  filtered: boolean;
+  /** A value indicating whether detection occurred, irrespective of severity or whether the content was filtered. */
+  detected: boolean;
+  /** The collection of completion text spans. */
+  details: ContentFilterCompletionTextSpan[];
 }
 
-/** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-export interface AzureGroundingEnhancementOutput {
-  /** The lines of text detected by the grounding enhancement. */
-  lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-/** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export interface AzureGroundingEnhancementLineOutput {
-  /** The text within the line. */
-  text: string;
-  /** An array of spans that represent detected objects and its bounding box information. */
-  spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-}
-
-/** A span object that represents a detected object and its bounding box information. */
-export interface AzureGroundingEnhancementLineSpanOutput {
-  /** The text content of the span that represents the detected object. */
-  text: string;
+/** Describes a span within generated completion text. Offset 0 is the first UTF32 code point of the completion text. */
+export interface ContentFilterCompletionTextSpan {
+  /** Offset of the UTF32 code point which begins the span. */
+  completion_start_offset: number;
   /**
-   * The character offset within the text where the span begins. This offset is defined as the position of the first
-   * character of the span, counting from the start of the text as Unicode codepoints.
+   * Offset of the first UTF32 code point which is excluded from the span.
+   * This field is always equal to completion_start_offset for empty spans.
+   * This field is always larger than completion_start_offset for non-empty spans.
    */
-  offset: number;
-  /** The length of the span in characters, measured in Unicode codepoints. */
-  length: number;
-  /** An array of objects representing points in the polygon that encloses the detected object. */
-  polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-}
-
-/** A representation of a single polygon point as used by the Azure grounding enhancement. */
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-  /** The x-coordinate (horizontal axis) of the point. */
-  x: number;
-  /** The y-coordinate (vertical axis) of the point. */
-  y: number;
+  completion_end_offset: number;
 }
 
 /**

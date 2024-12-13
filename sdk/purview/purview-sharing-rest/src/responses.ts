@@ -14,7 +14,7 @@ import type {
   SentShareInvitationListOutput,
   SentShareInvitationOutput,
   ShareResourceListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get a received share */
 export interface ReceivedSharesGetReceivedShare200Response extends HttpResponse {

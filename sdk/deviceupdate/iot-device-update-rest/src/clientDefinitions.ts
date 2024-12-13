@@ -52,7 +52,7 @@ import type {
   DeviceManagementListLogCollectionsParameters,
   DeviceManagementGetLogCollectionDetailedStatusParameters,
   DeviceManagementListHealthOfDevicesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   DeviceUpdateListUpdates200Response,
   DeviceUpdateListUpdatesdefaultResponse,
@@ -159,7 +159,7 @@ import type {
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
   DeviceManagementListHealthOfDevicesdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DeviceUpdateListUpdates {

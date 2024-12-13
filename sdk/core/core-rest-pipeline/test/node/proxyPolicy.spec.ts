@@ -9,8 +9,8 @@ import {
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-  Agent,
-  PipelineRequest,
+  type Agent,
+  type PipelineRequest,
 } from "../../src/index.js";
 import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
 

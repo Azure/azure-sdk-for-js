@@ -18,15 +18,11 @@ import type {
 import type {
   ContentFilterResultsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
-  AzureChatEnhancementsOutput,
   AzureChatExtensionsMessageContextOutput,
   ImageGenerationPromptFilterResults,
   ImageGenerationContentFilterResults,
 } from "./outputModels.js";
-import type {
-  AzureChatExtensionConfiguration,
-  AzureChatEnhancementConfiguration,
-} from "./models.js";
+import type { AzureChatExtensionConfiguration } from "./models.js";
 
 declare module "openai/resources/index" {
   interface Completion {
@@ -43,8 +39,6 @@ declare module "openai/resources/index" {
      *   This additional specification is only compatible with Azure OpenAI.
      */
     data_sources?: Array<AzureChatExtensionConfiguration>;
-    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
-    enhancements?: AzureChatEnhancementConfiguration;
   }
 
   interface ChatCompletionCreateParamsStreaming {
@@ -53,8 +47,6 @@ declare module "openai/resources/index" {
      *   This additional specification is only compatible with Azure OpenAI.
      */
     data_sources?: Array<AzureChatExtensionConfiguration>;
-    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
-    enhancements?: AzureChatEnhancementConfiguration;
   }
 
   interface ChatCompletion {
@@ -90,12 +82,6 @@ declare module "openai/resources/index" {
        * determines the intensity and risk level of harmful content) and if it has been filtered or not.
        */
       content_filter_results?: ContentFilterResultsForChoiceOutput;
-      /**
-       * Represents the output results of Azure OpenAI enhancements to chat completions, as configured via the matching input
-       * provided in the request. This supplementary information is only available when using Azure OpenAI and only when the
-       * request is configured to use enhancements.
-       */
-      enhancements?: AzureChatEnhancementsOutput;
     }
   }
 
@@ -115,12 +101,6 @@ declare module "openai/resources/index" {
        * determines the intensity and risk level of harmful content) and if it has been filtered or not.
        */
       content_filter_results?: ContentFilterResultsForChoiceOutput;
-      /**
-       * Represents the output results of Azure OpenAI enhancements to chat completions, as configured via the matching input
-       * provided in the request. This supplementary information is only available when using Azure OpenAI and only when the
-       * request is configured to use enhancements.
-       */
-      enhancements?: AzureChatEnhancementsOutput;
     }
 
     namespace Choice {
@@ -156,6 +136,13 @@ declare module "openai/resources/index" {
      * been filtered and its id.
      */
     prompt_filter_results?: ImageGenerationPromptFilterResults;
+  }
+
+  export interface UploadPart {
+    /**
+     * Azure-only field.
+     */
+    azure_block_id?: string;
   }
 }
 

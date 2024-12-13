@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { GetTokenOptions } from "@azure/core-auth";
-import { CredentialUnavailableError } from "../errors";
-import type { CredentialLogger } from "./logging";
+import { CredentialUnavailableError } from "../errors.js";
+import type { CredentialLogger } from "./logging.js";
 
 function createConfigurationErrorMessage(tenantId: string): string {
   return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`;

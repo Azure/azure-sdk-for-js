@@ -194,7 +194,7 @@ import type {
   TypeGetTermTemplateDefByGuidDefaultResponse,
   TypeGetTermTemplateDefByName200Response,
   TypeGetTermTemplateDefByNameDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /atlas/v2/entity": ["200"],

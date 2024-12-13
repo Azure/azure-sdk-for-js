@@ -17,6 +17,23 @@ export interface AbsoluteMonthlySchedule {
 }
 
 // @public
+export interface AdvancedNetworking {
+    enabled?: boolean;
+    observability?: AdvancedNetworkingObservability;
+    security?: AdvancedNetworkingSecurity;
+}
+
+// @public
+export interface AdvancedNetworkingObservability {
+    enabled?: boolean;
+}
+
+// @public
+export interface AdvancedNetworkingSecurity {
+    enabled?: boolean;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
@@ -28,6 +45,7 @@ export interface AgentPool extends SubResource {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
@@ -140,6 +158,8 @@ export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperat
 
 // @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -168,6 +188,7 @@ export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
 
 // @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -349,6 +370,7 @@ export interface ContainerServiceLinuxProfile {
 
 // @public
 export interface ContainerServiceNetworkProfile {
+    advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
@@ -745,6 +767,12 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownRestrictionLevel {
+    ReadOnly = "ReadOnly",
+    Unrestricted = "Unrestricted"
+}
+
+// @public
 export enum KnownScaleDownMode {
     Deallocate = "Deallocate",
     Delete = "Delete"
@@ -1016,6 +1044,7 @@ export interface ManagedCluster extends TrackedResource {
     dnsPrefix?: string;
     enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
+    readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -1031,6 +1060,7 @@ export interface ManagedCluster extends TrackedResource {
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
+    nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
     readonly powerState?: PowerState;
@@ -1096,6 +1126,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
@@ -1259,6 +1290,11 @@ export interface ManagedClusterNATGatewayProfile {
 }
 
 // @public
+export interface ManagedClusterNodeResourceGroupProfile {
+    restrictionLevel?: RestrictionLevel;
+}
+
+// @public
 export interface ManagedClusterOidcIssuerProfile {
     enabled?: boolean;
     readonly issuerURL?: string;
@@ -1408,6 +1444,8 @@ export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLa
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1422,6 +1460,7 @@ export interface ManagedClustersDeleteHeaders {
 
 // @public
 export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1749,6 +1788,7 @@ export interface ManagedClusterStorageProfileSnapshotController {
 
 // @public
 export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2052,6 +2092,9 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 export interface ResourceReference {
     id?: string;
 }
+
+// @public
+export type RestrictionLevel = string;
 
 // @public
 export interface RunCommandRequest {

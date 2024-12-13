@@ -35,8 +35,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -92,7 +90,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",
