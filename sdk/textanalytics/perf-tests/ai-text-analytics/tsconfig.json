@@ -2,9 +2,11 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "noEmit": true,
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-ai-text-analytics": ["./src/index.js"]
+    }
   },
   "include": [
     "src/**/*.ts",
