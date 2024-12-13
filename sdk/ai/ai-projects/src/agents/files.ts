@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
-import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
+import { FileDeletionStatusOutput, OpenAIFileOutput as _OpenAIFileOutput} from "../generated/src/outputModels.js";
 import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
+
+import { FileListResponseOutput, OpenAIFileOutput} from "../customization/outputModels.js";
+import { UploadFileParameters as _UploadFileParameters } from "../customization/parameters.js";
 
 const expectedStatuses = ["200"];
 
@@ -41,7 +44,7 @@ export async function uploadFile(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return convertOpenAIFileOutput(result.body); 
 }
 
 /** Uploads a file for use by other operations. */
@@ -95,7 +98,7 @@ export async function getFile(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return convertOpenAIFileOutput(result.body); 
 }
 
 /** Returns file content. */
@@ -122,4 +125,13 @@ function validateFileId(fileId: string): void {
   if (!fileId) {
     throw new Error("File ID is required");
   }
+}
+
+function convertOpenAIFileOutput(results: _OpenAIFileOutput): OpenAIFileOutput {
+  const { created_at, status_details, ...no_case_change } = results;
+  return {
+    ...no_case_change,
+    createdAt: new Date(created_at),
+    statusDetails: status_details,
+  };
 }
