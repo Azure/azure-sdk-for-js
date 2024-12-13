@@ -5,8 +5,7 @@ import { getEnvVar, BatchPerfTest } from "@azure-tools/test-perf";
 import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 
 // Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = getEnvVar("SERVICEBUS_CONNECTION_STRING");
 
