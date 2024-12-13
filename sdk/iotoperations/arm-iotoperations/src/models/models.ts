@@ -9,7 +9,9 @@ export interface DataflowEndpointResource extends ProxyResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function dataflowEndpointResourceSerializer(item: DataflowEndpointResource): any {
+export function dataflowEndpointResourceSerializer(
+  item: DataflowEndpointResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -18,7 +20,9 @@ export function dataflowEndpointResourceSerializer(item: DataflowEndpointResourc
   };
 }
 
-export function dataflowEndpointResourceDeserializer(item: any): DataflowEndpointResource {
+export function dataflowEndpointResourceDeserializer(
+  item: any,
+): DataflowEndpointResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -53,7 +57,9 @@ export interface DataflowEndpointProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function dataflowEndpointPropertiesSerializer(item: DataflowEndpointProperties): any {
+export function dataflowEndpointPropertiesSerializer(
+  item: DataflowEndpointProperties,
+): any {
   return {
     endpointType: item["endpointType"],
     dataExplorerSettings: !item["dataExplorerSettings"]
@@ -61,7 +67,9 @@ export function dataflowEndpointPropertiesSerializer(item: DataflowEndpointPrope
       : dataflowEndpointDataExplorerSerializer(item["dataExplorerSettings"]),
     dataLakeStorageSettings: !item["dataLakeStorageSettings"]
       ? item["dataLakeStorageSettings"]
-      : dataflowEndpointDataLakeStorageSerializer(item["dataLakeStorageSettings"]),
+      : dataflowEndpointDataLakeStorageSerializer(
+          item["dataLakeStorageSettings"],
+        ),
     fabricOneLakeSettings: !item["fabricOneLakeSettings"]
       ? item["fabricOneLakeSettings"]
       : dataflowEndpointFabricOneLakeSerializer(item["fabricOneLakeSettings"]),
@@ -77,7 +85,9 @@ export function dataflowEndpointPropertiesSerializer(item: DataflowEndpointPrope
   };
 }
 
-export function dataflowEndpointPropertiesDeserializer(item: any): DataflowEndpointProperties {
+export function dataflowEndpointPropertiesDeserializer(
+  item: any,
+): DataflowEndpointProperties {
   return {
     endpointType: item["endpointType"],
     dataExplorerSettings: !item["dataExplorerSettings"]
@@ -85,10 +95,14 @@ export function dataflowEndpointPropertiesDeserializer(item: any): DataflowEndpo
       : dataflowEndpointDataExplorerDeserializer(item["dataExplorerSettings"]),
     dataLakeStorageSettings: !item["dataLakeStorageSettings"]
       ? item["dataLakeStorageSettings"]
-      : dataflowEndpointDataLakeStorageDeserializer(item["dataLakeStorageSettings"]),
+      : dataflowEndpointDataLakeStorageDeserializer(
+          item["dataLakeStorageSettings"],
+        ),
     fabricOneLakeSettings: !item["fabricOneLakeSettings"]
       ? item["fabricOneLakeSettings"]
-      : dataflowEndpointFabricOneLakeDeserializer(item["fabricOneLakeSettings"]),
+      : dataflowEndpointFabricOneLakeDeserializer(
+          item["fabricOneLakeSettings"],
+        ),
     kafkaSettings: !item["kafkaSettings"]
       ? item["kafkaSettings"]
       : dataflowEndpointKafkaDeserializer(item["kafkaSettings"]),
@@ -98,9 +112,7 @@ export function dataflowEndpointPropertiesDeserializer(item: any): DataflowEndpo
     mqttSettings: !item["mqttSettings"]
       ? item["mqttSettings"]
       : dataflowEndpointMqttDeserializer(item["mqttSettings"]),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -146,9 +158,13 @@ export interface DataflowEndpointDataExplorer {
   batching?: BatchingConfiguration;
 }
 
-export function dataflowEndpointDataExplorerSerializer(item: DataflowEndpointDataExplorer): any {
+export function dataflowEndpointDataExplorerSerializer(
+  item: DataflowEndpointDataExplorer,
+): any {
   return {
-    authentication: dataflowEndpointDataExplorerAuthenticationSerializer(item["authentication"]),
+    authentication: dataflowEndpointDataExplorerAuthenticationSerializer(
+      item["authentication"],
+    ),
     database: item["database"],
     host: item["host"],
     batching: !item["batching"]
@@ -157,9 +173,13 @@ export function dataflowEndpointDataExplorerSerializer(item: DataflowEndpointDat
   };
 }
 
-export function dataflowEndpointDataExplorerDeserializer(item: any): DataflowEndpointDataExplorer {
+export function dataflowEndpointDataExplorerDeserializer(
+  item: any,
+): DataflowEndpointDataExplorer {
   return {
-    authentication: dataflowEndpointDataExplorerAuthenticationDeserializer(item["authentication"]),
+    authentication: dataflowEndpointDataExplorerAuthenticationDeserializer(
+      item["authentication"],
+    ),
     database: item["database"],
     host: item["host"],
     batching: !item["batching"]
@@ -182,13 +202,17 @@ export function dataflowEndpointDataExplorerAuthenticationSerializer(
   item: DataflowEndpointDataExplorerAuthentication,
 ): any {
   return {
-    method: dataExplorerAuthMethodSerializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
           item["userAssignedManagedIdentitySettings"],
@@ -200,13 +224,17 @@ export function dataflowEndpointDataExplorerAuthenticationDeserializer(
   item: any,
 ): DataflowEndpointDataExplorerAuthentication {
   return {
-    method: dataExplorerAuthMethodDeserializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentityDeserializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentityDeserializer(
           item["userAssignedManagedIdentitySettings"],
@@ -214,19 +242,8 @@ export function dataflowEndpointDataExplorerAuthenticationDeserializer(
   };
 }
 
-/** Alias for DataExplorerAuthMethod */
-export type DataExplorerAuthMethod = ManagedIdentityMethod;
-
-export function dataExplorerAuthMethodSerializer(item: DataExplorerAuthMethod): any {
-  return item;
-}
-
-export function dataExplorerAuthMethodDeserializer(item: any): DataExplorerAuthMethod {
-  return item;
-}
-
-/** Managed Identity Method */
-export enum KnownManagedIdentityMethod {
+/** DataflowEndpoint Data Explorer Authentication Method properties */
+export enum KnownDataExplorerAuthMethod {
   /** SystemAssignedManagedIdentity type */
   SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
   /** UserAssignedManagedIdentity type */
@@ -234,14 +251,14 @@ export enum KnownManagedIdentityMethod {
 }
 
 /**
- * Managed Identity Method \
- * {@link KnownManagedIdentityMethod} can be used interchangeably with ManagedIdentityMethod,
+ * DataflowEndpoint Data Explorer Authentication Method properties \
+ * {@link KnownDataExplorerAuthMethod} can be used interchangeably with DataExplorerAuthMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SystemAssignedManagedIdentity**: SystemAssignedManagedIdentity type \
  * **UserAssignedManagedIdentity**: UserAssignedManagedIdentity type
  */
-export type ManagedIdentityMethod = string;
+export type DataExplorerAuthMethod = string;
 
 /** DataflowEndpoint Authentication SystemAssignedManagedIdentity properties */
 export interface DataflowEndpointAuthenticationSystemAssignedManagedIdentity {
@@ -301,14 +318,18 @@ export interface BatchingConfiguration {
   maxMessages?: number;
 }
 
-export function batchingConfigurationSerializer(item: BatchingConfiguration): any {
+export function batchingConfigurationSerializer(
+  item: BatchingConfiguration,
+): any {
   return {
     latencySeconds: item["latencySeconds"],
     maxMessages: item["maxMessages"],
   };
 }
 
-export function batchingConfigurationDeserializer(item: any): BatchingConfiguration {
+export function batchingConfigurationDeserializer(
+  item: any,
+): BatchingConfiguration {
   return {
     latencySeconds: item["latencySeconds"],
     maxMessages: item["maxMessages"],
@@ -329,7 +350,9 @@ export function dataflowEndpointDataLakeStorageSerializer(
   item: DataflowEndpointDataLakeStorage,
 ): any {
   return {
-    authentication: dataflowEndpointDataLakeStorageAuthenticationSerializer(item["authentication"]),
+    authentication: dataflowEndpointDataLakeStorageAuthenticationSerializer(
+      item["authentication"],
+    ),
     host: item["host"],
     batching: !item["batching"]
       ? item["batching"]
@@ -367,16 +390,22 @@ export function dataflowEndpointDataLakeStorageAuthenticationSerializer(
   item: DataflowEndpointDataLakeStorageAuthentication,
 ): any {
   return {
-    method: dataLakeStorageAuthMethodSerializer(item["method"]),
+    method: item["method"],
     accessTokenSettings: !item["accessTokenSettings"]
       ? item["accessTokenSettings"]
-      : dataflowEndpointAuthenticationAccessTokenSerializer(item["accessTokenSettings"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+      : dataflowEndpointAuthenticationAccessTokenSerializer(
+          item["accessTokenSettings"],
+        ),
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
           item["userAssignedManagedIdentitySettings"],
@@ -388,16 +417,22 @@ export function dataflowEndpointDataLakeStorageAuthenticationDeserializer(
   item: any,
 ): DataflowEndpointDataLakeStorageAuthentication {
   return {
-    method: dataLakeStorageAuthMethodDeserializer(item["method"]),
+    method: item["method"],
     accessTokenSettings: !item["accessTokenSettings"]
       ? item["accessTokenSettings"]
-      : dataflowEndpointAuthenticationAccessTokenDeserializer(item["accessTokenSettings"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+      : dataflowEndpointAuthenticationAccessTokenDeserializer(
+          item["accessTokenSettings"],
+        ),
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentityDeserializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentityDeserializer(
           item["userAssignedManagedIdentitySettings"],
@@ -405,31 +440,26 @@ export function dataflowEndpointDataLakeStorageAuthenticationDeserializer(
   };
 }
 
-/** Alias for DataLakeStorageAuthMethod */
-export type DataLakeStorageAuthMethod = ManagedIdentityMethod | AccessTokenMethod;
-
-export function dataLakeStorageAuthMethodSerializer(item: DataLakeStorageAuthMethod): any {
-  return item;
-}
-
-export function dataLakeStorageAuthMethodDeserializer(item: any): DataLakeStorageAuthMethod {
-  return item;
-}
-
-/** Access Token Method */
-export enum KnownAccessTokenMethod {
+/** DataflowEndpoint Data Lake Storage Authentication Method properties */
+export enum KnownDataLakeStorageAuthMethod {
+  /** SystemAssignedManagedIdentity type */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity type */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
   /** AccessToken Option */
   AccessToken = "AccessToken",
 }
 
 /**
- * Access Token Method \
- * {@link KnownAccessTokenMethod} can be used interchangeably with AccessTokenMethod,
+ * DataflowEndpoint Data Lake Storage Authentication Method properties \
+ * {@link KnownDataLakeStorageAuthMethod} can be used interchangeably with DataLakeStorageAuthMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **SystemAssignedManagedIdentity**: SystemAssignedManagedIdentity type \
+ * **UserAssignedManagedIdentity**: UserAssignedManagedIdentity type \
  * **AccessToken**: AccessToken Option
  */
-export type AccessTokenMethod = string;
+export type DataLakeStorageAuthMethod = string;
 
 /** DataflowEndpoint Authentication Access Token properties */
 export interface DataflowEndpointAuthenticationAccessToken {
@@ -465,9 +495,13 @@ export interface DataflowEndpointFabricOneLake {
   batching?: BatchingConfiguration;
 }
 
-export function dataflowEndpointFabricOneLakeSerializer(item: DataflowEndpointFabricOneLake): any {
+export function dataflowEndpointFabricOneLakeSerializer(
+  item: DataflowEndpointFabricOneLake,
+): any {
   return {
-    authentication: dataflowEndpointFabricOneLakeAuthenticationSerializer(item["authentication"]),
+    authentication: dataflowEndpointFabricOneLakeAuthenticationSerializer(
+      item["authentication"],
+    ),
     names: dataflowEndpointFabricOneLakeNamesSerializer(item["names"]),
     oneLakePathType: item["oneLakePathType"],
     host: item["host"],
@@ -481,7 +515,9 @@ export function dataflowEndpointFabricOneLakeDeserializer(
   item: any,
 ): DataflowEndpointFabricOneLake {
   return {
-    authentication: dataflowEndpointFabricOneLakeAuthenticationDeserializer(item["authentication"]),
+    authentication: dataflowEndpointFabricOneLakeAuthenticationDeserializer(
+      item["authentication"],
+    ),
     names: dataflowEndpointFabricOneLakeNamesDeserializer(item["names"]),
     oneLakePathType: item["oneLakePathType"],
     host: item["host"],
@@ -505,13 +541,17 @@ export function dataflowEndpointFabricOneLakeAuthenticationSerializer(
   item: DataflowEndpointFabricOneLakeAuthentication,
 ): any {
   return {
-    method: fabricOneLakeAuthMethodSerializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
           item["userAssignedManagedIdentitySettings"],
@@ -523,13 +563,17 @@ export function dataflowEndpointFabricOneLakeAuthenticationDeserializer(
   item: any,
 ): DataflowEndpointFabricOneLakeAuthentication {
   return {
-    method: fabricOneLakeAuthMethodDeserializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentityDeserializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentityDeserializer(
           item["userAssignedManagedIdentitySettings"],
@@ -537,16 +581,23 @@ export function dataflowEndpointFabricOneLakeAuthenticationDeserializer(
   };
 }
 
-/** Alias for FabricOneLakeAuthMethod */
-export type FabricOneLakeAuthMethod = ManagedIdentityMethod;
-
-export function fabricOneLakeAuthMethodSerializer(item: FabricOneLakeAuthMethod): any {
-  return item;
+/** DataflowEndpoint Fabric One Lake Authentication Method properties */
+export enum KnownFabricOneLakeAuthMethod {
+  /** SystemAssignedManagedIdentity type */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity type */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
-export function fabricOneLakeAuthMethodDeserializer(item: any): FabricOneLakeAuthMethod {
-  return item;
-}
+/**
+ * DataflowEndpoint Fabric One Lake Authentication Method properties \
+ * {@link KnownFabricOneLakeAuthMethod} can be used interchangeably with FabricOneLakeAuthMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssignedManagedIdentity**: SystemAssignedManagedIdentity type \
+ * **UserAssignedManagedIdentity**: UserAssignedManagedIdentity type
+ */
+export type FabricOneLakeAuthMethod = string;
 
 /** Microsoft Fabric endpoint Names properties */
 export interface DataflowEndpointFabricOneLakeNames {
@@ -616,9 +667,13 @@ export interface DataflowEndpointKafka {
   cloudEventAttributes?: CloudEventAttributeType;
 }
 
-export function dataflowEndpointKafkaSerializer(item: DataflowEndpointKafka): any {
+export function dataflowEndpointKafkaSerializer(
+  item: DataflowEndpointKafka,
+): any {
   return {
-    authentication: dataflowEndpointKafkaAuthenticationSerializer(item["authentication"]),
+    authentication: dataflowEndpointKafkaAuthenticationSerializer(
+      item["authentication"],
+    ),
     consumerGroupId: item["consumerGroupId"],
     host: item["host"],
     batching: !item["batching"]
@@ -633,9 +688,13 @@ export function dataflowEndpointKafkaSerializer(item: DataflowEndpointKafka): an
   };
 }
 
-export function dataflowEndpointKafkaDeserializer(item: any): DataflowEndpointKafka {
+export function dataflowEndpointKafkaDeserializer(
+  item: any,
+): DataflowEndpointKafka {
   return {
-    authentication: dataflowEndpointKafkaAuthenticationDeserializer(item["authentication"]),
+    authentication: dataflowEndpointKafkaAuthenticationDeserializer(
+      item["authentication"],
+    ),
     consumerGroupId: item["consumerGroupId"],
     host: item["host"],
     batching: !item["batching"]
@@ -668,13 +727,17 @@ export function dataflowEndpointKafkaAuthenticationSerializer(
   item: DataflowEndpointKafkaAuthentication,
 ): any {
   return {
-    method: kafkaAuthMethodSerializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
           item["userAssignedManagedIdentitySettings"],
@@ -684,7 +747,9 @@ export function dataflowEndpointKafkaAuthenticationSerializer(
       : dataflowEndpointAuthenticationSaslSerializer(item["saslSettings"]),
     x509CertificateSettings: !item["x509CertificateSettings"]
       ? item["x509CertificateSettings"]
-      : dataflowEndpointAuthenticationX509Serializer(item["x509CertificateSettings"]),
+      : dataflowEndpointAuthenticationX509Serializer(
+          item["x509CertificateSettings"],
+        ),
   };
 }
 
@@ -692,13 +757,17 @@ export function dataflowEndpointKafkaAuthenticationDeserializer(
   item: any,
 ): DataflowEndpointKafkaAuthentication {
   return {
-    method: kafkaAuthMethodDeserializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentityDeserializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentityDeserializer(
           item["userAssignedManagedIdentitySettings"],
@@ -708,69 +777,38 @@ export function dataflowEndpointKafkaAuthenticationDeserializer(
       : dataflowEndpointAuthenticationSaslDeserializer(item["saslSettings"]),
     x509CertificateSettings: !item["x509CertificateSettings"]
       ? item["x509CertificateSettings"]
-      : dataflowEndpointAuthenticationX509Deserializer(item["x509CertificateSettings"]),
+      : dataflowEndpointAuthenticationX509Deserializer(
+          item["x509CertificateSettings"],
+        ),
   };
 }
 
-/** Alias for KafkaAuthMethod */
-export type KafkaAuthMethod =
-  | ManagedIdentityMethod
-  | SaslMethod
-  | X509CertificateMethod
-  | AnonymousMethod;
-
-export function kafkaAuthMethodSerializer(item: KafkaAuthMethod): any {
-  return item;
-}
-
-export function kafkaAuthMethodDeserializer(item: any): KafkaAuthMethod {
-  return item;
-}
-
-/** Sasl Method */
-export enum KnownSaslMethod {
+/** DataflowEndpoint Kafka Authentication Method properties */
+export enum KnownKafkaAuthMethod {
+  /** SystemAssignedManagedIdentity type */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity type */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
   /** Sasl Option */
   Sasl = "Sasl",
-}
-
-/**
- * Sasl Method \
- * {@link KnownSaslMethod} can be used interchangeably with SaslMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Sasl**: Sasl Option
- */
-export type SaslMethod = string;
-
-/** x509 Certificate Method */
-export enum KnownX509CertificateMethod {
   /** x509Certificate Option */
   X509Certificate = "X509Certificate",
-}
-
-/**
- * x509 Certificate Method \
- * {@link Knownx509CertificateMethod} can be used interchangeably with x509CertificateMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **X509Certificate**: x509Certificate Option
- */
-export type X509CertificateMethod = string;
-
-/** x509 Certificate Method */
-export enum KnownAnonymousMethod {
   /** Anonymous Option */
   Anonymous = "Anonymous",
 }
 
 /**
- * x509 Certificate Method \
- * {@link KnownAnonymousMethod} can be used interchangeably with AnonymousMethod,
+ * DataflowEndpoint Kafka Authentication Method properties \
+ * {@link KnownKafkaAuthMethod} can be used interchangeably with KafkaAuthMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **SystemAssignedManagedIdentity**: SystemAssignedManagedIdentity type \
+ * **UserAssignedManagedIdentity**: UserAssignedManagedIdentity type \
+ * **Sasl**: Sasl Option \
+ * **X509Certificate**: x509Certificate Option \
  * **Anonymous**: Anonymous Option
  */
-export type AnonymousMethod = string;
+export type KafkaAuthMethod = string;
 
 /** DataflowEndpoint Authentication Sasl properties */
 export interface DataflowEndpointAuthenticationSasl {
@@ -848,7 +886,9 @@ export interface DataflowEndpointKafkaBatching {
   maxMessages?: number;
 }
 
-export function dataflowEndpointKafkaBatchingSerializer(item: DataflowEndpointKafkaBatching): any {
+export function dataflowEndpointKafkaBatchingSerializer(
+  item: DataflowEndpointKafkaBatching,
+): any {
   return {
     mode: item["mode"],
     latencyMs: item["latencyMs"],
@@ -1001,11 +1041,15 @@ export interface DataflowEndpointLocalStorage {
   persistentVolumeClaimRef: string;
 }
 
-export function dataflowEndpointLocalStorageSerializer(item: DataflowEndpointLocalStorage): any {
+export function dataflowEndpointLocalStorageSerializer(
+  item: DataflowEndpointLocalStorage,
+): any {
   return { persistentVolumeClaimRef: item["persistentVolumeClaimRef"] };
 }
 
-export function dataflowEndpointLocalStorageDeserializer(item: any): DataflowEndpointLocalStorage {
+export function dataflowEndpointLocalStorageDeserializer(
+  item: any,
+): DataflowEndpointLocalStorage {
   return {
     persistentVolumeClaimRef: item["persistentVolumeClaimRef"],
   };
@@ -1037,9 +1081,13 @@ export interface DataflowEndpointMqtt {
   cloudEventAttributes?: CloudEventAttributeType;
 }
 
-export function dataflowEndpointMqttSerializer(item: DataflowEndpointMqtt): any {
+export function dataflowEndpointMqttSerializer(
+  item: DataflowEndpointMqtt,
+): any {
   return {
-    authentication: dataflowEndpointMqttAuthenticationSerializer(item["authentication"]),
+    authentication: dataflowEndpointMqttAuthenticationSerializer(
+      item["authentication"],
+    ),
     clientIdPrefix: item["clientIdPrefix"],
     host: item["host"],
     protocol: item["protocol"],
@@ -1053,9 +1101,13 @@ export function dataflowEndpointMqttSerializer(item: DataflowEndpointMqtt): any 
   };
 }
 
-export function dataflowEndpointMqttDeserializer(item: any): DataflowEndpointMqtt {
+export function dataflowEndpointMqttDeserializer(
+  item: any,
+): DataflowEndpointMqtt {
   return {
-    authentication: dataflowEndpointMqttAuthenticationDeserializer(item["authentication"]),
+    authentication: dataflowEndpointMqttAuthenticationDeserializer(
+      item["authentication"],
+    ),
     clientIdPrefix: item["clientIdPrefix"],
     host: item["host"],
     protocol: item["protocol"],
@@ -1087,13 +1139,17 @@ export function dataflowEndpointMqttAuthenticationSerializer(
   item: DataflowEndpointMqttAuthentication,
 ): any {
   return {
-    method: mqttAuthMethodSerializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
           item["userAssignedManagedIdentitySettings"],
@@ -1105,7 +1161,9 @@ export function dataflowEndpointMqttAuthenticationSerializer(
         ),
     x509CertificateSettings: !item["x509CertificateSettings"]
       ? item["x509CertificateSettings"]
-      : dataflowEndpointAuthenticationX509Serializer(item["x509CertificateSettings"]),
+      : dataflowEndpointAuthenticationX509Serializer(
+          item["x509CertificateSettings"],
+        ),
   };
 }
 
@@ -1113,13 +1171,17 @@ export function dataflowEndpointMqttAuthenticationDeserializer(
   item: any,
 ): DataflowEndpointMqttAuthentication {
   return {
-    method: mqttAuthMethodDeserializer(item["method"]),
-    systemAssignedManagedIdentitySettings: !item["systemAssignedManagedIdentitySettings"]
+    method: item["method"],
+    systemAssignedManagedIdentitySettings: !item[
+      "systemAssignedManagedIdentitySettings"
+    ]
       ? item["systemAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationSystemAssignedManagedIdentityDeserializer(
           item["systemAssignedManagedIdentitySettings"],
         ),
-    userAssignedManagedIdentitySettings: !item["userAssignedManagedIdentitySettings"]
+    userAssignedManagedIdentitySettings: !item[
+      "userAssignedManagedIdentitySettings"
+    ]
       ? item["userAssignedManagedIdentitySettings"]
       : dataflowEndpointAuthenticationUserAssignedManagedIdentityDeserializer(
           item["userAssignedManagedIdentitySettings"],
@@ -1131,39 +1193,38 @@ export function dataflowEndpointMqttAuthenticationDeserializer(
         ),
     x509CertificateSettings: !item["x509CertificateSettings"]
       ? item["x509CertificateSettings"]
-      : dataflowEndpointAuthenticationX509Deserializer(item["x509CertificateSettings"]),
+      : dataflowEndpointAuthenticationX509Deserializer(
+          item["x509CertificateSettings"],
+        ),
   };
 }
 
-/** Alias for MqttAuthMethod */
-export type MqttAuthMethod =
-  | ManagedIdentityMethod
-  | ServiceAccountTokenMethod
-  | X509CertificateMethod
-  | AnonymousMethod;
-
-export function mqttAuthMethodSerializer(item: MqttAuthMethod): any {
-  return item;
-}
-
-export function mqttAuthMethodDeserializer(item: any): MqttAuthMethod {
-  return item;
-}
-
-/** Service Account Token Method */
-export enum KnownServiceAccountTokenMethod {
+/** DataflowEndpoint Mqtt Authentication Method properties */
+export enum KnownMqttAuthMethod {
+  /** SystemAssignedManagedIdentity type */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity type */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
   /** ServiceAccountToken Option */
   ServiceAccountToken = "ServiceAccountToken",
+  /** x509Certificate Option */
+  X509Certificate = "X509Certificate",
+  /** Anonymous Option */
+  Anonymous = "Anonymous",
 }
 
 /**
- * Service Account Token Method \
- * {@link KnownServiceAccountTokenMethod} can be used interchangeably with ServiceAccountTokenMethod,
+ * DataflowEndpoint Mqtt Authentication Method properties \
+ * {@link KnownMqttAuthMethod} can be used interchangeably with MqttAuthMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ServiceAccountToken**: ServiceAccountToken Option
+ * **SystemAssignedManagedIdentity**: SystemAssignedManagedIdentity type \
+ * **UserAssignedManagedIdentity**: UserAssignedManagedIdentity type \
+ * **ServiceAccountToken**: ServiceAccountToken Option \
+ * **X509Certificate**: x509Certificate Option \
+ * **Anonymous**: Anonymous Option
  */
-export type ServiceAccountTokenMethod = string;
+export type MqttAuthMethod = string;
 
 /** Service Account Token for BrokerAuthentication */
 export interface DataflowEndpointAuthenticationServiceAccountToken {
@@ -1220,7 +1281,8 @@ export enum KnownMqttRetainType {
  * **Never**: Never retain messages.
  */
 export type MqttRetainType = string;
-/** The provisioning state of a resource type. */
+
+/** The enum defining status of resource. */
 export enum KnownProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
@@ -1228,38 +1290,30 @@ export enum KnownProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Resource creation was provisioning. */
+  /** Resource is getting provisioned. */
   Provisioning = "Provisioning",
-  /** Resource creation was updating. */
+  /** Resource is Updating. */
   Updating = "Updating",
-  /** Resource creation was deleting. */
+  /** Resource is Deleting. */
   Deleting = "Deleting",
-  /** Resource creation was accepted. */
+  /** Resource has been Accepted. */
   Accepted = "Accepted",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The enum defining status of resource. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation canceled. \
- * **Provisioning**: Resource creation provisioning. \
- * **Updating**: Resource creation updating. \
- * **Deleting**: Resource creation deleting. \
- * **Accepted**: Resource creation was accepted.
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: Resource is getting provisioned. \
+ * **Updating**: Resource is Updating. \
+ * **Deleting**: Resource is Deleting. \
+ * **Accepted**: Resource has been Accepted.
  */
 export type ProvisioningState = string;
-
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
 
 /** Extended location is an extension of Azure locations. They provide a way to use their Azure ARC enabled Kubernetes clusters as target locations for deploying Azure services instances. */
 export interface ExtendedLocation {
@@ -1360,7 +1414,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -1479,10 +1535,24 @@ export function dataflowPropertiesDeserializer(item: any): DataflowProperties {
   return {
     mode: item["mode"],
     operations: dataflowOperationArrayDeserializer(item["operations"]),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
+}
+
+export function dataflowOperationArraySerializer(
+  result: Array<DataflowOperation>,
+): any[] {
+  return result.map((item) => {
+    return dataflowOperationSerializer(item);
+  });
+}
+
+export function dataflowOperationArrayDeserializer(
+  result: Array<DataflowOperation>,
+): any[] {
+  return result.map((item) => {
+    return dataflowOperationDeserializer(item);
+  });
 }
 
 /** Dataflow Operation properties. NOTE - One only method is allowed to be used for one entry. */
@@ -1508,10 +1578,14 @@ export function dataflowOperationSerializer(item: DataflowOperation): any {
       : dataflowSourceOperationSettingsSerializer(item["sourceSettings"]),
     builtInTransformationSettings: !item["builtInTransformationSettings"]
       ? item["builtInTransformationSettings"]
-      : dataflowBuiltInTransformationSettingsSerializer(item["builtInTransformationSettings"]),
+      : dataflowBuiltInTransformationSettingsSerializer(
+          item["builtInTransformationSettings"],
+        ),
     destinationSettings: !item["destinationSettings"]
       ? item["destinationSettings"]
-      : dataflowDestinationOperationSettingsSerializer(item["destinationSettings"]),
+      : dataflowDestinationOperationSettingsSerializer(
+          item["destinationSettings"],
+        ),
   };
 }
 
@@ -1524,10 +1598,14 @@ export function dataflowOperationDeserializer(item: any): DataflowOperation {
       : dataflowSourceOperationSettingsDeserializer(item["sourceSettings"]),
     builtInTransformationSettings: !item["builtInTransformationSettings"]
       ? item["builtInTransformationSettings"]
-      : dataflowBuiltInTransformationSettingsDeserializer(item["builtInTransformationSettings"]),
+      : dataflowBuiltInTransformationSettingsDeserializer(
+          item["builtInTransformationSettings"],
+        ),
     destinationSettings: !item["destinationSettings"]
       ? item["destinationSettings"]
-      : dataflowDestinationOperationSettingsDeserializer(item["destinationSettings"]),
+      : dataflowDestinationOperationSettingsDeserializer(
+          item["destinationSettings"],
+        ),
   };
 }
 
@@ -1635,7 +1713,9 @@ export function dataflowBuiltInTransformationSettingsSerializer(
     filter: !item["filter"]
       ? item["filter"]
       : dataflowBuiltInTransformationFilterArraySerializer(item["filter"]),
-    map: !item["map"] ? item["map"] : dataflowBuiltInTransformationMapArraySerializer(item["map"]),
+    map: !item["map"]
+      ? item["map"]
+      : dataflowBuiltInTransformationMapArraySerializer(item["map"]),
   };
 }
 
@@ -1677,6 +1757,22 @@ export enum KnownTransformationSerializationFormat {
  * **Parquet**: Parquet Format
  */
 export type TransformationSerializationFormat = string;
+
+export function dataflowBuiltInTransformationDatasetArraySerializer(
+  result: Array<DataflowBuiltInTransformationDataset>,
+): any[] {
+  return result.map((item) => {
+    return dataflowBuiltInTransformationDatasetSerializer(item);
+  });
+}
+
+export function dataflowBuiltInTransformationDatasetArrayDeserializer(
+  result: Array<DataflowBuiltInTransformationDataset>,
+): any[] {
+  return result.map((item) => {
+    return dataflowBuiltInTransformationDatasetDeserializer(item);
+  });
+}
 
 /** Dataflow BuiltIn Transformation dataset properties */
 export interface DataflowBuiltInTransformationDataset {
@@ -1720,19 +1816,19 @@ export function dataflowBuiltInTransformationDatasetDeserializer(
   };
 }
 
-export function dataflowBuiltInTransformationDatasetArraySerializer(
-  result: Array<DataflowBuiltInTransformationDataset>,
+export function dataflowBuiltInTransformationFilterArraySerializer(
+  result: Array<DataflowBuiltInTransformationFilter>,
 ): any[] {
   return result.map((item) => {
-    return dataflowBuiltInTransformationDatasetSerializer(item);
+    return dataflowBuiltInTransformationFilterSerializer(item);
   });
 }
 
-export function dataflowBuiltInTransformationDatasetArrayDeserializer(
-  result: Array<DataflowBuiltInTransformationDataset>,
+export function dataflowBuiltInTransformationFilterArrayDeserializer(
+  result: Array<DataflowBuiltInTransformationFilter>,
 ): any[] {
   return result.map((item) => {
-    return dataflowBuiltInTransformationDatasetDeserializer(item);
+    return dataflowBuiltInTransformationFilterDeserializer(item);
   });
 }
 
@@ -1789,19 +1885,19 @@ export enum KnownFilterType {
  */
 export type FilterType = string;
 
-export function dataflowBuiltInTransformationFilterArraySerializer(
-  result: Array<DataflowBuiltInTransformationFilter>,
+export function dataflowBuiltInTransformationMapArraySerializer(
+  result: Array<DataflowBuiltInTransformationMap>,
 ): any[] {
   return result.map((item) => {
-    return dataflowBuiltInTransformationFilterSerializer(item);
+    return dataflowBuiltInTransformationMapSerializer(item);
   });
 }
 
-export function dataflowBuiltInTransformationFilterArrayDeserializer(
-  result: Array<DataflowBuiltInTransformationFilter>,
+export function dataflowBuiltInTransformationMapArrayDeserializer(
+  result: Array<DataflowBuiltInTransformationMap>,
 ): any[] {
   return result.map((item) => {
-    return dataflowBuiltInTransformationFilterDeserializer(item);
+    return dataflowBuiltInTransformationMapDeserializer(item);
   });
 }
 
@@ -1874,22 +1970,6 @@ export enum KnownDataflowMappingType {
  */
 export type DataflowMappingType = string;
 
-export function dataflowBuiltInTransformationMapArraySerializer(
-  result: Array<DataflowBuiltInTransformationMap>,
-): any[] {
-  return result.map((item) => {
-    return dataflowBuiltInTransformationMapSerializer(item);
-  });
-}
-
-export function dataflowBuiltInTransformationMapArrayDeserializer(
-  result: Array<DataflowBuiltInTransformationMap>,
-): any[] {
-  return result.map((item) => {
-    return dataflowBuiltInTransformationMapDeserializer(item);
-  });
-}
-
 /** Dataflow Destination Operation properties */
 export interface DataflowDestinationOperationSettings {
   /** Reference to the Endpoint CR. Can be of Broker, Kafka, Fabric, ADLS, ADX type. */
@@ -1916,18 +1996,6 @@ export function dataflowDestinationOperationSettingsDeserializer(
   };
 }
 
-export function dataflowOperationArraySerializer(result: Array<DataflowOperation>): any[] {
-  return result.map((item) => {
-    return dataflowOperationSerializer(item);
-  });
-}
-
-export function dataflowOperationArrayDeserializer(result: Array<DataflowOperation>): any[] {
-  return result.map((item) => {
-    return dataflowOperationDeserializer(item);
-  });
-}
-
 /** The response of a DataflowResource list operation. */
 export interface _DataflowResourceListResult {
   /** The DataflowResource items on this page */
@@ -1936,20 +2004,26 @@ export interface _DataflowResourceListResult {
   nextLink?: string;
 }
 
-export function _dataflowResourceListResultDeserializer(item: any): _DataflowResourceListResult {
+export function _dataflowResourceListResultDeserializer(
+  item: any,
+): _DataflowResourceListResult {
   return {
     value: dataflowResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function dataflowResourceArraySerializer(result: Array<DataflowResource>): any[] {
+export function dataflowResourceArraySerializer(
+  result: Array<DataflowResource>,
+): any[] {
   return result.map((item) => {
     return dataflowResourceSerializer(item);
   });
 }
 
-export function dataflowResourceArrayDeserializer(result: Array<DataflowResource>): any[] {
+export function dataflowResourceArrayDeserializer(
+  result: Array<DataflowResource>,
+): any[] {
   return result.map((item) => {
     return dataflowResourceDeserializer(item);
   });
@@ -1963,7 +2037,9 @@ export interface DataflowProfileResource extends ProxyResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function dataflowProfileResourceSerializer(item: DataflowProfileResource): any {
+export function dataflowProfileResourceSerializer(
+  item: DataflowProfileResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1972,7 +2048,9 @@ export function dataflowProfileResourceSerializer(item: DataflowProfileResource)
   };
 }
 
-export function dataflowProfileResourceDeserializer(item: any): DataflowProfileResource {
+export function dataflowProfileResourceDeserializer(
+  item: any,
+): DataflowProfileResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1997,7 +2075,9 @@ export interface DataflowProfileProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function dataflowProfilePropertiesSerializer(item: DataflowProfileProperties): any {
+export function dataflowProfilePropertiesSerializer(
+  item: DataflowProfileProperties,
+): any {
   return {
     diagnostics: !item["diagnostics"]
       ? item["diagnostics"]
@@ -2006,15 +2086,15 @@ export function dataflowProfilePropertiesSerializer(item: DataflowProfilePropert
   };
 }
 
-export function dataflowProfilePropertiesDeserializer(item: any): DataflowProfileProperties {
+export function dataflowProfilePropertiesDeserializer(
+  item: any,
+): DataflowProfileProperties {
   return {
     diagnostics: !item["diagnostics"]
       ? item["diagnostics"]
       : profileDiagnosticsDeserializer(item["diagnostics"]),
     instanceCount: item["instanceCount"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -2028,15 +2108,23 @@ export interface ProfileDiagnostics {
 
 export function profileDiagnosticsSerializer(item: ProfileDiagnostics): any {
   return {
-    logs: !item["logs"] ? item["logs"] : diagnosticsLogsSerializer(item["logs"]),
-    metrics: !item["metrics"] ? item["metrics"] : metricsSerializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : diagnosticsLogsSerializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : metricsSerializer(item["metrics"]),
   };
 }
 
 export function profileDiagnosticsDeserializer(item: any): ProfileDiagnostics {
   return {
-    logs: !item["logs"] ? item["logs"] : diagnosticsLogsDeserializer(item["logs"]),
-    metrics: !item["metrics"] ? item["metrics"] : metricsDeserializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : diagnosticsLogsDeserializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : metricsDeserializer(item["metrics"]),
   };
 }
 
@@ -2113,7 +2201,9 @@ export interface BrokerAuthorizationResource extends ProxyResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function brokerAuthorizationResourceSerializer(item: BrokerAuthorizationResource): any {
+export function brokerAuthorizationResourceSerializer(
+  item: BrokerAuthorizationResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -2122,7 +2212,9 @@ export function brokerAuthorizationResourceSerializer(item: BrokerAuthorizationR
   };
 }
 
-export function brokerAuthorizationResourceDeserializer(item: any): BrokerAuthorizationResource {
+export function brokerAuthorizationResourceDeserializer(
+  item: any,
+): BrokerAuthorizationResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -2145,9 +2237,13 @@ export interface BrokerAuthorizationProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function brokerAuthorizationPropertiesSerializer(item: BrokerAuthorizationProperties): any {
+export function brokerAuthorizationPropertiesSerializer(
+  item: BrokerAuthorizationProperties,
+): any {
   return {
-    authorizationPolicies: authorizationConfigSerializer(item["authorizationPolicies"]),
+    authorizationPolicies: authorizationConfigSerializer(
+      item["authorizationPolicies"],
+    ),
   };
 }
 
@@ -2155,10 +2251,10 @@ export function brokerAuthorizationPropertiesDeserializer(
   item: any,
 ): BrokerAuthorizationProperties {
   return {
-    authorizationPolicies: authorizationConfigDeserializer(item["authorizationPolicies"]),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    authorizationPolicies: authorizationConfigDeserializer(
+      item["authorizationPolicies"],
+    ),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -2173,15 +2269,37 @@ export interface AuthorizationConfig {
 export function authorizationConfigSerializer(item: AuthorizationConfig): any {
   return {
     cache: item["cache"],
-    rules: !item["rules"] ? item["rules"] : authorizationRuleArraySerializer(item["rules"]),
+    rules: !item["rules"]
+      ? item["rules"]
+      : authorizationRuleArraySerializer(item["rules"]),
   };
 }
 
-export function authorizationConfigDeserializer(item: any): AuthorizationConfig {
+export function authorizationConfigDeserializer(
+  item: any,
+): AuthorizationConfig {
   return {
     cache: item["cache"],
-    rules: !item["rules"] ? item["rules"] : authorizationRuleArrayDeserializer(item["rules"]),
+    rules: !item["rules"]
+      ? item["rules"]
+      : authorizationRuleArrayDeserializer(item["rules"]),
   };
+}
+
+export function authorizationRuleArraySerializer(
+  result: Array<AuthorizationRule>,
+): any[] {
+  return result.map((item) => {
+    return authorizationRuleSerializer(item);
+  });
+}
+
+export function authorizationRuleArrayDeserializer(
+  result: Array<AuthorizationRule>,
+): any[] {
+  return result.map((item) => {
+    return authorizationRuleDeserializer(item);
+  });
 }
 
 /** AuthorizationConfig Rule Properties */
@@ -2206,12 +2324,30 @@ export function authorizationRuleSerializer(item: AuthorizationRule): any {
 
 export function authorizationRuleDeserializer(item: any): AuthorizationRule {
   return {
-    brokerResources: brokerResourceRuleArrayDeserializer(item["brokerResources"]),
+    brokerResources: brokerResourceRuleArrayDeserializer(
+      item["brokerResources"],
+    ),
     principals: principalDefinitionDeserializer(item["principals"]),
     stateStoreResources: !item["stateStoreResources"]
       ? item["stateStoreResources"]
       : stateStoreResourceRuleArrayDeserializer(item["stateStoreResources"]),
   };
+}
+
+export function brokerResourceRuleArraySerializer(
+  result: Array<BrokerResourceRule>,
+): any[] {
+  return result.map((item) => {
+    return brokerResourceRuleSerializer(item);
+  });
+}
+
+export function brokerResourceRuleArrayDeserializer(
+  result: Array<BrokerResourceRule>,
+): any[] {
+  return result.map((item) => {
+    return brokerResourceRuleDeserializer(item);
+  });
 }
 
 /** Broker Resource Rule properties. This defines the objects that represent the actions or topics, such as - method.Connect, method.Publish, etc. */
@@ -2277,18 +2413,6 @@ export enum KnownBrokerResourceDefinitionMethods {
  */
 export type BrokerResourceDefinitionMethods = string;
 
-export function brokerResourceRuleArraySerializer(result: Array<BrokerResourceRule>): any[] {
-  return result.map((item) => {
-    return brokerResourceRuleSerializer(item);
-  });
-}
-
-export function brokerResourceRuleArrayDeserializer(result: Array<BrokerResourceRule>): any[] {
-  return result.map((item) => {
-    return brokerResourceRuleDeserializer(item);
-  });
-}
-
 /** PrincipalDefinition properties of Rule */
 export interface PrincipalDefinition {
   /** A list of key-value pairs that match the attributes of the clients. The attributes are case-sensitive and must match the attributes provided by the clients during authentication. */
@@ -2319,7 +2443,9 @@ export function principalDefinitionSerializer(item: PrincipalDefinition): any {
   };
 }
 
-export function principalDefinitionDeserializer(item: any): PrincipalDefinition {
+export function principalDefinitionDeserializer(
+  item: any,
+): PrincipalDefinition {
   return {
     attributes: !item["attributes"]
       ? item["attributes"]
@@ -2339,6 +2465,22 @@ export function principalDefinitionDeserializer(item: any): PrincipalDefinition 
   };
 }
 
+export function stateStoreResourceRuleArraySerializer(
+  result: Array<StateStoreResourceRule>,
+): any[] {
+  return result.map((item) => {
+    return stateStoreResourceRuleSerializer(item);
+  });
+}
+
+export function stateStoreResourceRuleArrayDeserializer(
+  result: Array<StateStoreResourceRule>,
+): any[] {
+  return result.map((item) => {
+    return stateStoreResourceRuleDeserializer(item);
+  });
+}
+
 /** State Store Resource Rule properties. */
 export interface StateStoreResourceRule {
   /** Allowed keyTypes pattern, string, binary. The key type used for matching, for example pattern tries to match the key to a glob-style pattern and string checks key is equal to value provided in keys. */
@@ -2349,7 +2491,9 @@ export interface StateStoreResourceRule {
   method: StateStoreResourceDefinitionMethods;
 }
 
-export function stateStoreResourceRuleSerializer(item: StateStoreResourceRule): any {
+export function stateStoreResourceRuleSerializer(
+  item: StateStoreResourceRule,
+): any {
   return {
     keyType: item["keyType"],
     keys: item["keys"].map((p: any) => {
@@ -2359,7 +2503,9 @@ export function stateStoreResourceRuleSerializer(item: StateStoreResourceRule): 
   };
 }
 
-export function stateStoreResourceRuleDeserializer(item: any): StateStoreResourceRule {
+export function stateStoreResourceRuleDeserializer(
+  item: any,
+): StateStoreResourceRule {
   return {
     keyType: item["keyType"],
     keys: item["keys"].map((p: any) => {
@@ -2411,34 +2557,6 @@ export enum KnownStateStoreResourceDefinitionMethods {
  */
 export type StateStoreResourceDefinitionMethods = string;
 
-export function stateStoreResourceRuleArraySerializer(
-  result: Array<StateStoreResourceRule>,
-): any[] {
-  return result.map((item) => {
-    return stateStoreResourceRuleSerializer(item);
-  });
-}
-
-export function stateStoreResourceRuleArrayDeserializer(
-  result: Array<StateStoreResourceRule>,
-): any[] {
-  return result.map((item) => {
-    return stateStoreResourceRuleDeserializer(item);
-  });
-}
-
-export function authorizationRuleArraySerializer(result: Array<AuthorizationRule>): any[] {
-  return result.map((item) => {
-    return authorizationRuleSerializer(item);
-  });
-}
-
-export function authorizationRuleArrayDeserializer(result: Array<AuthorizationRule>): any[] {
-  return result.map((item) => {
-    return authorizationRuleDeserializer(item);
-  });
-}
-
 /** The response of a BrokerAuthorizationResource list operation. */
 export interface _BrokerAuthorizationResourceListResult {
   /** The BrokerAuthorizationResource items on this page */
@@ -2480,7 +2598,9 @@ export interface BrokerAuthenticationResource extends ProxyResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function brokerAuthenticationResourceSerializer(item: BrokerAuthenticationResource): any {
+export function brokerAuthenticationResourceSerializer(
+  item: BrokerAuthenticationResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -2489,7 +2609,9 @@ export function brokerAuthenticationResourceSerializer(item: BrokerAuthenticatio
   };
 }
 
-export function brokerAuthenticationResourceDeserializer(item: any): BrokerAuthenticationResource {
+export function brokerAuthenticationResourceDeserializer(
+  item: any,
+): BrokerAuthenticationResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -2516,7 +2638,9 @@ export function brokerAuthenticationPropertiesSerializer(
   item: BrokerAuthenticationProperties,
 ): any {
   return {
-    authenticationMethods: brokerAuthenticatorMethodsArraySerializer(item["authenticationMethods"]),
+    authenticationMethods: brokerAuthenticatorMethodsArraySerializer(
+      item["authenticationMethods"],
+    ),
   };
 }
 
@@ -2527,10 +2651,24 @@ export function brokerAuthenticationPropertiesDeserializer(
     authenticationMethods: brokerAuthenticatorMethodsArrayDeserializer(
       item["authenticationMethods"],
     ),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
+}
+
+export function brokerAuthenticatorMethodsArraySerializer(
+  result: Array<BrokerAuthenticatorMethods>,
+): any[] {
+  return result.map((item) => {
+    return brokerAuthenticatorMethodsSerializer(item);
+  });
+}
+
+export function brokerAuthenticatorMethodsArrayDeserializer(
+  result: Array<BrokerAuthenticatorMethods>,
+): any[] {
+  return result.map((item) => {
+    return brokerAuthenticatorMethodsDeserializer(item);
+  });
 }
 
 /** Set of broker authentication policies. Only one method is supported for each entry. */
@@ -2545,7 +2683,9 @@ export interface BrokerAuthenticatorMethods {
   x509Settings?: BrokerAuthenticatorMethodX509;
 }
 
-export function brokerAuthenticatorMethodsSerializer(item: BrokerAuthenticatorMethods): any {
+export function brokerAuthenticatorMethodsSerializer(
+  item: BrokerAuthenticatorMethods,
+): any {
   return {
     method: item["method"],
     customSettings: !item["customSettings"]
@@ -2553,14 +2693,18 @@ export function brokerAuthenticatorMethodsSerializer(item: BrokerAuthenticatorMe
       : brokerAuthenticatorMethodCustomSerializer(item["customSettings"]),
     serviceAccountTokenSettings: !item["serviceAccountTokenSettings"]
       ? item["serviceAccountTokenSettings"]
-      : brokerAuthenticatorMethodSatSerializer(item["serviceAccountTokenSettings"]),
+      : brokerAuthenticatorMethodSatSerializer(
+          item["serviceAccountTokenSettings"],
+        ),
     x509Settings: !item["x509Settings"]
       ? item["x509Settings"]
       : brokerAuthenticatorMethodX509Serializer(item["x509Settings"]),
   };
 }
 
-export function brokerAuthenticatorMethodsDeserializer(item: any): BrokerAuthenticatorMethods {
+export function brokerAuthenticatorMethodsDeserializer(
+  item: any,
+): BrokerAuthenticatorMethods {
   return {
     method: item["method"],
     customSettings: !item["customSettings"]
@@ -2568,7 +2712,9 @@ export function brokerAuthenticatorMethodsDeserializer(item: any): BrokerAuthent
       : brokerAuthenticatorMethodCustomDeserializer(item["customSettings"]),
     serviceAccountTokenSettings: !item["serviceAccountTokenSettings"]
       ? item["serviceAccountTokenSettings"]
-      : brokerAuthenticatorMethodSatDeserializer(item["serviceAccountTokenSettings"]),
+      : brokerAuthenticatorMethodSatDeserializer(
+          item["serviceAccountTokenSettings"],
+        ),
     x509Settings: !item["x509Settings"]
       ? item["x509Settings"]
       : brokerAuthenticatorMethodX509Deserializer(item["x509Settings"]),
@@ -2612,7 +2758,9 @@ export function brokerAuthenticatorMethodCustomSerializer(
   item: BrokerAuthenticatorMethodCustom,
 ): any {
   return {
-    auth: !item["auth"] ? item["auth"] : brokerAuthenticatorCustomAuthSerializer(item["auth"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : brokerAuthenticatorCustomAuthSerializer(item["auth"]),
     caCertConfigMap: item["caCertConfigMap"],
     endpoint: item["endpoint"],
     headers: item["headers"],
@@ -2623,7 +2771,9 @@ export function brokerAuthenticatorMethodCustomDeserializer(
   item: any,
 ): BrokerAuthenticatorMethodCustom {
   return {
-    auth: !item["auth"] ? item["auth"] : brokerAuthenticatorCustomAuthDeserializer(item["auth"]),
+    auth: !item["auth"]
+      ? item["auth"]
+      : brokerAuthenticatorCustomAuthDeserializer(item["auth"]),
     caCertConfigMap: item["caCertConfigMap"],
     endpoint: item["endpoint"],
     headers: item["headers"],
@@ -2636,7 +2786,9 @@ export interface BrokerAuthenticatorCustomAuth {
   x509: X509ManualCertificate;
 }
 
-export function brokerAuthenticatorCustomAuthSerializer(item: BrokerAuthenticatorCustomAuth): any {
+export function brokerAuthenticatorCustomAuthSerializer(
+  item: BrokerAuthenticatorCustomAuth,
+): any {
   return { x509: x509ManualCertificateSerializer(item["x509"]) };
 }
 
@@ -2654,11 +2806,15 @@ export interface X509ManualCertificate {
   secretRef: string;
 }
 
-export function x509ManualCertificateSerializer(item: X509ManualCertificate): any {
+export function x509ManualCertificateSerializer(
+  item: X509ManualCertificate,
+): any {
   return { secretRef: item["secretRef"] };
 }
 
-export function x509ManualCertificateDeserializer(item: any): X509ManualCertificate {
+export function x509ManualCertificateDeserializer(
+  item: any,
+): X509ManualCertificate {
   return {
     secretRef: item["secretRef"],
   };
@@ -2670,7 +2826,9 @@ export interface BrokerAuthenticatorMethodSat {
   audiences: string[];
 }
 
-export function brokerAuthenticatorMethodSatSerializer(item: BrokerAuthenticatorMethodSat): any {
+export function brokerAuthenticatorMethodSatSerializer(
+  item: BrokerAuthenticatorMethodSat,
+): any {
   return {
     audiences: item["audiences"].map((p: any) => {
       return p;
@@ -2678,7 +2836,9 @@ export function brokerAuthenticatorMethodSatSerializer(item: BrokerAuthenticator
   };
 }
 
-export function brokerAuthenticatorMethodSatDeserializer(item: any): BrokerAuthenticatorMethodSat {
+export function brokerAuthenticatorMethodSatDeserializer(
+  item: any,
+): BrokerAuthenticatorMethodSat {
   return {
     audiences: item["audiences"].map((p: any) => {
       return p;
@@ -2689,16 +2849,23 @@ export function brokerAuthenticatorMethodSatDeserializer(item: any): BrokerAuthe
 /** X509 for BrokerAuthentication. */
 export interface BrokerAuthenticatorMethodX509 {
   /** X509 authorization attributes properties. */
-  authorizationAttributes?: Record<string, BrokerAuthenticatorMethodX509Attributes>;
+  authorizationAttributes?: Record<
+    string,
+    BrokerAuthenticatorMethodX509Attributes
+  >;
   /** Name of the trusted client ca cert resource. */
   trustedClientCaCert?: string;
 }
 
-export function brokerAuthenticatorMethodX509Serializer(item: BrokerAuthenticatorMethodX509): any {
+export function brokerAuthenticatorMethodX509Serializer(
+  item: BrokerAuthenticatorMethodX509,
+): any {
   return {
     authorizationAttributes: !item["authorizationAttributes"]
       ? item["authorizationAttributes"]
-      : brokerAuthenticatorMethodX509AttributesRecordSerializer(item["authorizationAttributes"]),
+      : brokerAuthenticatorMethodX509AttributesRecordSerializer(
+          item["authorizationAttributes"],
+        ),
     trustedClientCaCert: item["trustedClientCaCert"],
   };
 }
@@ -2709,31 +2876,10 @@ export function brokerAuthenticatorMethodX509Deserializer(
   return {
     authorizationAttributes: !item["authorizationAttributes"]
       ? item["authorizationAttributes"]
-      : brokerAuthenticatorMethodX509AttributesRecordDeserializer(item["authorizationAttributes"]),
+      : brokerAuthenticatorMethodX509AttributesRecordDeserializer(
+          item["authorizationAttributes"],
+        ),
     trustedClientCaCert: item["trustedClientCaCert"],
-  };
-}
-
-/** BrokerAuthenticatorMethodX509Attributes properties. */
-export interface BrokerAuthenticatorMethodX509Attributes {
-  /** Attributes object. */
-  attributes: Record<string, string>;
-  /** Subject of the X509 attribute. */
-  subject: string;
-}
-
-export function brokerAuthenticatorMethodX509AttributesSerializer(
-  item: BrokerAuthenticatorMethodX509Attributes,
-): any {
-  return { attributes: item["attributes"], subject: item["subject"] };
-}
-
-export function brokerAuthenticatorMethodX509AttributesDeserializer(
-  item: any,
-): BrokerAuthenticatorMethodX509Attributes {
-  return {
-    attributes: item["attributes"],
-    subject: item["subject"],
   };
 }
 
@@ -2761,20 +2907,27 @@ export function brokerAuthenticatorMethodX509AttributesRecordDeserializer(
   return result;
 }
 
-export function brokerAuthenticatorMethodsArraySerializer(
-  result: Array<BrokerAuthenticatorMethods>,
-): any[] {
-  return result.map((item) => {
-    return brokerAuthenticatorMethodsSerializer(item);
-  });
+/** BrokerAuthenticatorMethodX509Attributes properties. */
+export interface BrokerAuthenticatorMethodX509Attributes {
+  /** Attributes object. */
+  attributes: Record<string, string>;
+  /** Subject of the X509 attribute. */
+  subject: string;
 }
 
-export function brokerAuthenticatorMethodsArrayDeserializer(
-  result: Array<BrokerAuthenticatorMethods>,
-): any[] {
-  return result.map((item) => {
-    return brokerAuthenticatorMethodsDeserializer(item);
-  });
+export function brokerAuthenticatorMethodX509AttributesSerializer(
+  item: BrokerAuthenticatorMethodX509Attributes,
+): any {
+  return { attributes: item["attributes"], subject: item["subject"] };
+}
+
+export function brokerAuthenticatorMethodX509AttributesDeserializer(
+  item: any,
+): BrokerAuthenticatorMethodX509Attributes {
+  return {
+    attributes: item["attributes"],
+    subject: item["subject"],
+  };
 }
 
 /** The response of a BrokerAuthenticationResource list operation. */
@@ -2818,7 +2971,9 @@ export interface BrokerListenerResource extends ProxyResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function brokerListenerResourceSerializer(item: BrokerListenerResource): any {
+export function brokerListenerResourceSerializer(
+  item: BrokerListenerResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -2827,7 +2982,9 @@ export function brokerListenerResourceSerializer(item: BrokerListenerResource): 
   };
 }
 
-export function brokerListenerResourceDeserializer(item: any): BrokerListenerResource {
+export function brokerListenerResourceDeserializer(
+  item: any,
+): BrokerListenerResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -2854,7 +3011,9 @@ export interface BrokerListenerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function brokerListenerPropertiesSerializer(item: BrokerListenerProperties): any {
+export function brokerListenerPropertiesSerializer(
+  item: BrokerListenerProperties,
+): any {
   return {
     serviceName: item["serviceName"],
     ports: listenerPortArraySerializer(item["ports"]),
@@ -2862,15 +3021,31 @@ export function brokerListenerPropertiesSerializer(item: BrokerListenerPropertie
   };
 }
 
-export function brokerListenerPropertiesDeserializer(item: any): BrokerListenerProperties {
+export function brokerListenerPropertiesDeserializer(
+  item: any,
+): BrokerListenerProperties {
   return {
     serviceName: item["serviceName"],
     ports: listenerPortArrayDeserializer(item["ports"]),
     serviceType: item["serviceType"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
+}
+
+export function listenerPortArraySerializer(
+  result: Array<ListenerPort>,
+): any[] {
+  return result.map((item) => {
+    return listenerPortSerializer(item);
+  });
+}
+
+export function listenerPortArrayDeserializer(
+  result: Array<ListenerPort>,
+): any[] {
+  return result.map((item) => {
+    return listenerPortDeserializer(item);
+  });
 }
 
 /** Defines a TCP port on which a `BrokerListener` listens. */
@@ -2926,8 +3101,12 @@ export function tlsCertMethodSerializer(item: TlsCertMethod): any {
     mode: item["mode"],
     certManagerCertificateSpec: !item["certManagerCertificateSpec"]
       ? item["certManagerCertificateSpec"]
-      : certManagerCertificateSpecSerializer(item["certManagerCertificateSpec"]),
-    manual: !item["manual"] ? item["manual"] : x509ManualCertificateSerializer(item["manual"]),
+      : certManagerCertificateSpecSerializer(
+          item["certManagerCertificateSpec"],
+        ),
+    manual: !item["manual"]
+      ? item["manual"]
+      : x509ManualCertificateSerializer(item["manual"]),
   };
 }
 
@@ -2936,8 +3115,12 @@ export function tlsCertMethodDeserializer(item: any): TlsCertMethod {
     mode: item["mode"],
     certManagerCertificateSpec: !item["certManagerCertificateSpec"]
       ? item["certManagerCertificateSpec"]
-      : certManagerCertificateSpecDeserializer(item["certManagerCertificateSpec"]),
-    manual: !item["manual"] ? item["manual"] : x509ManualCertificateDeserializer(item["manual"]),
+      : certManagerCertificateSpecDeserializer(
+          item["certManagerCertificateSpec"],
+        ),
+    manual: !item["manual"]
+      ? item["manual"]
+      : x509ManualCertificateDeserializer(item["manual"]),
   };
 }
 
@@ -2975,7 +3158,9 @@ export interface CertManagerCertificateSpec {
   san?: SanForCert;
 }
 
-export function certManagerCertificateSpecSerializer(item: CertManagerCertificateSpec): any {
+export function certManagerCertificateSpecSerializer(
+  item: CertManagerCertificateSpec,
+): any {
   return {
     duration: item["duration"],
     secretName: item["secretName"],
@@ -2988,7 +3173,9 @@ export function certManagerCertificateSpecSerializer(item: CertManagerCertificat
   };
 }
 
-export function certManagerCertificateSpecDeserializer(item: any): CertManagerCertificateSpec {
+export function certManagerCertificateSpecDeserializer(
+  item: any,
+): CertManagerCertificateSpec {
   return {
     duration: item["duration"],
     secretName: item["secretName"],
@@ -3011,11 +3198,15 @@ export interface CertManagerIssuerRef {
   name: string;
 }
 
-export function certManagerIssuerRefSerializer(item: CertManagerIssuerRef): any {
+export function certManagerIssuerRefSerializer(
+  item: CertManagerIssuerRef,
+): any {
   return { group: item["group"], kind: item["kind"], name: item["name"] };
 }
 
-export function certManagerIssuerRefDeserializer(item: any): CertManagerIssuerRef {
+export function certManagerIssuerRefDeserializer(
+  item: any,
+): CertManagerIssuerRef {
   return {
     group: item["group"],
     kind: item["kind"],
@@ -3049,14 +3240,18 @@ export interface CertManagerPrivateKey {
   rotationPolicy: PrivateKeyRotationPolicy;
 }
 
-export function certManagerPrivateKeySerializer(item: CertManagerPrivateKey): any {
+export function certManagerPrivateKeySerializer(
+  item: CertManagerPrivateKey,
+): any {
   return {
     algorithm: item["algorithm"],
     rotationPolicy: item["rotationPolicy"],
   };
 }
 
-export function certManagerPrivateKeyDeserializer(item: any): CertManagerPrivateKey {
+export function certManagerPrivateKeyDeserializer(
+  item: any,
+): CertManagerPrivateKey {
   return {
     algorithm: item["algorithm"],
     rotationPolicy: item["rotationPolicy"],
@@ -3142,18 +3337,6 @@ export function sanForCertDeserializer(item: any): SanForCert {
       return p;
     }),
   };
-}
-
-export function listenerPortArraySerializer(result: Array<ListenerPort>): any[] {
-  return result.map((item) => {
-    return listenerPortSerializer(item);
-  });
-}
-
-export function listenerPortArrayDeserializer(result: Array<ListenerPort>): any[] {
-  return result.map((item) => {
-    return listenerPortDeserializer(item);
-  });
 }
 
 /** Kubernetes Service Types supported by Listener */
@@ -3262,7 +3445,9 @@ export interface BrokerProperties {
 
 export function brokerPropertiesSerializer(item: BrokerProperties): any {
   return {
-    advanced: !item["advanced"] ? item["advanced"] : advancedSettingsSerializer(item["advanced"]),
+    advanced: !item["advanced"]
+      ? item["advanced"]
+      : advancedSettingsSerializer(item["advanced"]),
     cardinality: !item["cardinality"]
       ? item["cardinality"]
       : cardinalitySerializer(item["cardinality"]),
@@ -3281,7 +3466,9 @@ export function brokerPropertiesSerializer(item: BrokerProperties): any {
 
 export function brokerPropertiesDeserializer(item: any): BrokerProperties {
   return {
-    advanced: !item["advanced"] ? item["advanced"] : advancedSettingsDeserializer(item["advanced"]),
+    advanced: !item["advanced"]
+      ? item["advanced"]
+      : advancedSettingsDeserializer(item["advanced"]),
     cardinality: !item["cardinality"]
       ? item["cardinality"]
       : cardinalityDeserializer(item["cardinality"]),
@@ -3295,9 +3482,7 @@ export function brokerPropertiesDeserializer(item: any): BrokerProperties {
       ? item["generateResourceLimits"]
       : generateResourceLimitsDeserializer(item["generateResourceLimits"]),
     memoryProfile: item["memoryProfile"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -3313,7 +3498,9 @@ export interface AdvancedSettings {
 
 export function advancedSettingsSerializer(item: AdvancedSettings): any {
   return {
-    clients: !item["clients"] ? item["clients"] : clientConfigSerializer(item["clients"]),
+    clients: !item["clients"]
+      ? item["clients"]
+      : clientConfigSerializer(item["clients"]),
     encryptInternalTraffic: item["encryptInternalTraffic"],
     internalCerts: !item["internalCerts"]
       ? item["internalCerts"]
@@ -3323,7 +3510,9 @@ export function advancedSettingsSerializer(item: AdvancedSettings): any {
 
 export function advancedSettingsDeserializer(item: any): AdvancedSettings {
   return {
-    clients: !item["clients"] ? item["clients"] : clientConfigDeserializer(item["clients"]),
+    clients: !item["clients"]
+      ? item["clients"]
+      : clientConfigDeserializer(item["clients"]),
     encryptInternalTraffic: item["encryptInternalTraffic"],
     internalCerts: !item["internalCerts"]
       ? item["internalCerts"]
@@ -3381,11 +3570,15 @@ export interface SubscriberQueueLimit {
   strategy?: SubscriberMessageDropStrategy;
 }
 
-export function subscriberQueueLimitSerializer(item: SubscriberQueueLimit): any {
+export function subscriberQueueLimitSerializer(
+  item: SubscriberQueueLimit,
+): any {
   return { length: item["length"], strategy: item["strategy"] };
 }
 
-export function subscriberQueueLimitDeserializer(item: any): SubscriberQueueLimit {
+export function subscriberQueueLimitDeserializer(
+  item: any,
+): SubscriberQueueLimit {
   return {
     length: item["length"],
     strategy: item["strategy"],
@@ -3420,7 +3613,9 @@ export interface CertManagerCertOptions {
   privateKey: CertManagerPrivateKey;
 }
 
-export function certManagerCertOptionsSerializer(item: CertManagerCertOptions): any {
+export function certManagerCertOptionsSerializer(
+  item: CertManagerCertOptions,
+): any {
   return {
     duration: item["duration"],
     renewBefore: item["renewBefore"],
@@ -3428,7 +3623,9 @@ export function certManagerCertOptionsSerializer(item: CertManagerCertOptions): 
   };
 }
 
-export function certManagerCertOptionsDeserializer(item: any): CertManagerCertOptions {
+export function certManagerCertOptionsDeserializer(
+  item: any,
+): CertManagerCertOptions {
   return {
     duration: item["duration"],
     renewBefore: item["renewBefore"],
@@ -3517,19 +3714,33 @@ export interface BrokerDiagnostics {
 
 export function brokerDiagnosticsSerializer(item: BrokerDiagnostics): any {
   return {
-    logs: !item["logs"] ? item["logs"] : diagnosticsLogsSerializer(item["logs"]),
-    metrics: !item["metrics"] ? item["metrics"] : metricsSerializer(item["metrics"]),
-    selfCheck: !item["selfCheck"] ? item["selfCheck"] : selfCheckSerializer(item["selfCheck"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : diagnosticsLogsSerializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : metricsSerializer(item["metrics"]),
+    selfCheck: !item["selfCheck"]
+      ? item["selfCheck"]
+      : selfCheckSerializer(item["selfCheck"]),
     traces: !item["traces"] ? item["traces"] : tracesSerializer(item["traces"]),
   };
 }
 
 export function brokerDiagnosticsDeserializer(item: any): BrokerDiagnostics {
   return {
-    logs: !item["logs"] ? item["logs"] : diagnosticsLogsDeserializer(item["logs"]),
-    metrics: !item["metrics"] ? item["metrics"] : metricsDeserializer(item["metrics"]),
-    selfCheck: !item["selfCheck"] ? item["selfCheck"] : selfCheckDeserializer(item["selfCheck"]),
-    traces: !item["traces"] ? item["traces"] : tracesDeserializer(item["traces"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : diagnosticsLogsDeserializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : metricsDeserializer(item["metrics"]),
+    selfCheck: !item["selfCheck"]
+      ? item["selfCheck"]
+      : selfCheckDeserializer(item["selfCheck"]),
+    traces: !item["traces"]
+      ? item["traces"]
+      : tracesDeserializer(item["traces"]),
   };
 }
 
@@ -3622,7 +3833,9 @@ export interface DiskBackedMessageBuffer {
   persistentVolumeClaimSpec?: VolumeClaimSpec;
 }
 
-export function diskBackedMessageBufferSerializer(item: DiskBackedMessageBuffer): any {
+export function diskBackedMessageBufferSerializer(
+  item: DiskBackedMessageBuffer,
+): any {
   return {
     maxSize: item["maxSize"],
     ephemeralVolumeClaimSpec: !item["ephemeralVolumeClaimSpec"]
@@ -3634,7 +3847,9 @@ export function diskBackedMessageBufferSerializer(item: DiskBackedMessageBuffer)
   };
 }
 
-export function diskBackedMessageBufferDeserializer(item: any): DiskBackedMessageBuffer {
+export function diskBackedMessageBufferDeserializer(
+  item: any,
+): DiskBackedMessageBuffer {
   return {
     maxSize: item["maxSize"],
     ephemeralVolumeClaimSpec: !item["ephemeralVolumeClaimSpec"]
@@ -3726,11 +3941,15 @@ export interface LocalKubernetesReference {
   name: string;
 }
 
-export function localKubernetesReferenceSerializer(item: LocalKubernetesReference): any {
+export function localKubernetesReferenceSerializer(
+  item: LocalKubernetesReference,
+): any {
   return { apiGroup: item["apiGroup"], kind: item["kind"], name: item["name"] };
 }
 
-export function localKubernetesReferenceDeserializer(item: any): LocalKubernetesReference {
+export function localKubernetesReferenceDeserializer(
+  item: any,
+): LocalKubernetesReference {
   return {
     apiGroup: item["apiGroup"],
     kind: item["kind"],
@@ -3759,7 +3978,9 @@ export function kubernetesReferenceSerializer(item: KubernetesReference): any {
   };
 }
 
-export function kubernetesReferenceDeserializer(item: any): KubernetesReference {
+export function kubernetesReferenceDeserializer(
+  item: any,
+): KubernetesReference {
   return {
     apiGroup: item["apiGroup"],
     kind: item["kind"],
@@ -3799,22 +4020,46 @@ export interface VolumeClaimSpecSelector {
   matchLabels?: Record<string, string>;
 }
 
-export function volumeClaimSpecSelectorSerializer(item: VolumeClaimSpecSelector): any {
+export function volumeClaimSpecSelectorSerializer(
+  item: VolumeClaimSpecSelector,
+): any {
   return {
     matchExpressions: !item["matchExpressions"]
       ? item["matchExpressions"]
-      : volumeClaimSpecSelectorMatchExpressionsArraySerializer(item["matchExpressions"]),
+      : volumeClaimSpecSelectorMatchExpressionsArraySerializer(
+          item["matchExpressions"],
+        ),
     matchLabels: item["matchLabels"],
   };
 }
 
-export function volumeClaimSpecSelectorDeserializer(item: any): VolumeClaimSpecSelector {
+export function volumeClaimSpecSelectorDeserializer(
+  item: any,
+): VolumeClaimSpecSelector {
   return {
     matchExpressions: !item["matchExpressions"]
       ? item["matchExpressions"]
-      : volumeClaimSpecSelectorMatchExpressionsArrayDeserializer(item["matchExpressions"]),
+      : volumeClaimSpecSelectorMatchExpressionsArrayDeserializer(
+          item["matchExpressions"],
+        ),
     matchLabels: item["matchLabels"],
   };
+}
+
+export function volumeClaimSpecSelectorMatchExpressionsArraySerializer(
+  result: Array<VolumeClaimSpecSelectorMatchExpressions>,
+): any[] {
+  return result.map((item) => {
+    return volumeClaimSpecSelectorMatchExpressionsSerializer(item);
+  });
+}
+
+export function volumeClaimSpecSelectorMatchExpressionsArrayDeserializer(
+  result: Array<VolumeClaimSpecSelectorMatchExpressions>,
+): any[] {
+  return result.map((item) => {
+    return volumeClaimSpecSelectorMatchExpressionsDeserializer(item);
+  });
 }
 
 /** VolumeClaimSpecSelectorMatchExpressions properties */
@@ -3879,33 +4124,21 @@ export enum KnownOperatorValues {
  */
 export type OperatorValues = string;
 
-export function volumeClaimSpecSelectorMatchExpressionsArraySerializer(
-  result: Array<VolumeClaimSpecSelectorMatchExpressions>,
-): any[] {
-  return result.map((item) => {
-    return volumeClaimSpecSelectorMatchExpressionsSerializer(item);
-  });
-}
-
-export function volumeClaimSpecSelectorMatchExpressionsArrayDeserializer(
-  result: Array<VolumeClaimSpecSelectorMatchExpressions>,
-): any[] {
-  return result.map((item) => {
-    return volumeClaimSpecSelectorMatchExpressionsDeserializer(item);
-  });
-}
-
 /** GenerateResourceLimits properties */
 export interface GenerateResourceLimits {
   /** The toggle to enable/disable cpu resource limits. */
   cpu?: OperationalMode;
 }
 
-export function generateResourceLimitsSerializer(item: GenerateResourceLimits): any {
+export function generateResourceLimitsSerializer(
+  item: GenerateResourceLimits,
+): any {
   return { cpu: item["cpu"] };
 }
 
-export function generateResourceLimitsDeserializer(item: any): GenerateResourceLimits {
+export function generateResourceLimitsDeserializer(
+  item: any,
+): GenerateResourceLimits {
   return {
     cpu: item["cpu"],
   };
@@ -3943,20 +4176,26 @@ export interface _BrokerResourceListResult {
   nextLink?: string;
 }
 
-export function _brokerResourceListResultDeserializer(item: any): _BrokerResourceListResult {
+export function _brokerResourceListResultDeserializer(
+  item: any,
+): _BrokerResourceListResult {
   return {
     value: brokerResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function brokerResourceArraySerializer(result: Array<BrokerResource>): any[] {
+export function brokerResourceArraySerializer(
+  result: Array<BrokerResource>,
+): any[] {
   return result.map((item) => {
     return brokerResourceSerializer(item);
   });
 }
 
-export function brokerResourceArrayDeserializer(result: Array<BrokerResource>): any[] {
+export function brokerResourceArrayDeserializer(
+  result: Array<BrokerResource>,
+): any[] {
   return result.map((item) => {
     return brokerResourceDeserializer(item);
   });
@@ -4028,9 +4267,7 @@ export function instancePropertiesSerializer(item: InstanceProperties): any {
 export function instancePropertiesDeserializer(item: any): InstanceProperties {
   return {
     description: item["description"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
     version: item["version"],
     schemaRegistryRef: schemaRegistryRefDeserializer(item["schemaRegistryRef"]),
   };
@@ -4064,14 +4301,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -4112,11 +4353,15 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -4173,20 +4418,26 @@ export interface _InstanceResourceListResult {
   nextLink?: string;
 }
 
-export function _instanceResourceListResultDeserializer(item: any): _InstanceResourceListResult {
+export function _instanceResourceListResultDeserializer(
+  item: any,
+): _InstanceResourceListResult {
   return {
     value: instanceResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function instanceResourceArraySerializer(result: Array<InstanceResource>): any[] {
+export function instanceResourceArraySerializer(
+  result: Array<InstanceResource>,
+): any[] {
   return result.map((item) => {
     return instanceResourceSerializer(item);
   });
 }
 
-export function instanceResourceArrayDeserializer(result: Array<InstanceResource>): any[] {
+export function instanceResourceArrayDeserializer(
+  result: Array<InstanceResource>,
+): any[] {
   return result.map((item) => {
     return instanceResourceDeserializer(item);
   });
@@ -4200,11 +4451,19 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -4225,7 +4484,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -4254,11 +4515,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
+  /** Indicates the operation is initiated by a user. */
   User = "user",
-  /** system */
+  /** Indicates the operation is initiated by a system. */
   System = "system",
-  /** user,system */
+  /** Indicates the operation is initiated by a user or system. */
   UserSystem = "user,system",
 }
 
@@ -4288,8 +4549,8 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
+/** Api versions */
+export enum KnownVersions {
+  /** 2024-11-01 version */
+  "V2024-11-01" = "2024-11-01",
 }

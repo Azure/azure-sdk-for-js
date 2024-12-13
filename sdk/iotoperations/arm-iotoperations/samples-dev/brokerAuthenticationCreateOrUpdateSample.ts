@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_Complex.json
  */
 async function brokerAuthenticationCreateOrUpdateComplex() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,8 @@ async function brokerAuthenticationCreateOrUpdateComplex() {
               trustedClientCaCert: "my-ca",
               authorizationAttributes: {
                 root: {
-                  subject: "CN = Contoso Root CA Cert, OU = Engineering, C = US",
+                  subject:
+                    "CN = Contoso Root CA Cert, OU = Engineering, C = US",
                   attributes: { organization: "contoso" },
                 },
                 intermediate: {
@@ -61,7 +62,7 @@ async function brokerAuthenticationCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerAuthenticationCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

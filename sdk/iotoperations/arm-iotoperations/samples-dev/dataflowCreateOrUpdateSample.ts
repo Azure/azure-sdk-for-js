@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_ComplexContextualization.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexContextualization.json
  */
 async function dataflowCreateOrUpdateComplexContextualization() {
   const credential = new DefaultAzureCredential();
@@ -71,7 +71,7 @@ async function dataflowCreateOrUpdateComplexContextualization() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_ComplexEventHub.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexEventHub.json
  */
 async function dataflowCreateOrUpdateComplexEventHub() {
   const credential = new DefaultAzureCredential();
@@ -157,7 +157,7 @@ async function dataflowCreateOrUpdateComplexEventHub() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_FilterToTopic.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_FilterToTopic.json
  */
 async function dataflowCreateOrUpdateFilterToTopic() {
   const credential = new DefaultAzureCredential();
@@ -218,7 +218,7 @@ async function dataflowCreateOrUpdateFilterToTopic() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -249,7 +249,8 @@ async function dataflowCreateOrUpdate() {
               datasets: [
                 {
                   key: "qsfqcgxaxnhfumrsdsokwyv",
-                  description: "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+                  description:
+                    "Lorem ipsum odor amet, consectetuer adipiscing elit.",
                   schemaRef: "n",
                   inputs: ["mosffpsslifkq"],
                   expression: "aatbwomvflemsxialv",
@@ -258,7 +259,8 @@ async function dataflowCreateOrUpdate() {
               filter: [
                 {
                   type: "Filter",
-                  description: "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+                  description:
+                    "Lorem ipsum odor amet, consectetuer adipiscing elit.",
                   inputs: ["sxmjkbntgb"],
                   expression: "n",
                 },
@@ -266,7 +268,8 @@ async function dataflowCreateOrUpdate() {
               map: [
                 {
                   type: "NewProperties",
-                  description: "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+                  description:
+                    "Lorem ipsum odor amet, consectetuer adipiscing elit.",
                   inputs: ["xsbxuk"],
                   expression: "txoiltogsarwkzalsphvlmt",
                   output: "nvgtmkfl",
@@ -293,7 +296,7 @@ async function dataflowCreateOrUpdate() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_SimpleEventGrid.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleEventGrid.json
  */
 async function dataflowCreateOrUpdateSimpleEventGrid() {
   const credential = new DefaultAzureCredential();
@@ -339,7 +342,7 @@ async function dataflowCreateOrUpdateSimpleEventGrid() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_SimpleFabric.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleFabric.json
  */
 async function dataflowCreateOrUpdateSimpleFabric() {
   const credential = new DefaultAzureCredential();

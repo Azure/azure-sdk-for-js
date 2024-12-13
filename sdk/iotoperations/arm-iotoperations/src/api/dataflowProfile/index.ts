@@ -15,11 +15,11 @@ import {
   _DataflowProfileResourceListResult,
   _dataflowProfileResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -121,22 +121,33 @@ export function dataflowProfileCreateOrUpdate(
   dataflowProfileName: string,
   resource: DataflowProfileResource,
   options: DataflowProfileCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource> {
-  return getLongRunningPoller(context, _dataflowProfileCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _dataflowProfileCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
+): PollerLike<
+  OperationState<DataflowProfileResource>,
+  DataflowProfileResource
+> {
+  return getLongRunningPoller(
+    context,
+    _dataflowProfileCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _dataflowProfileCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          dataflowProfileName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<DataflowProfileResource>,
+    DataflowProfileResource
+  >;
 }
 
 export function _dataflowProfileDeleteSend(
@@ -178,20 +189,25 @@ export function dataflowProfileDelete(
   dataflowProfileName: string,
   options: DataflowProfileDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _dataflowProfileDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _dataflowProfileDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _dataflowProfileDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _dataflowProfileDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          dataflowProfileName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _dataflowProfileListByResourceGroupSend(

@@ -34,7 +34,10 @@ export interface DataflowProfileOperations {
     dataflowProfileName: string,
     resource: DataflowProfileResource,
     options?: DataflowProfileCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
+  ) => PollerLike<
+    OperationState<DataflowProfileResource>,
+    DataflowProfileResource
+  >;
   /** Delete a DataflowProfileResource */
   delete: (
     resourceGroupName: string,
@@ -50,7 +53,10 @@ export interface DataflowProfileOperations {
   ) => PagedAsyncIterableIterator<DataflowProfileResource>;
 }
 
-export function getDataflowProfile(context: IoTOperationsContext, subscriptionId: string) {
+export function getDataflowProfile(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

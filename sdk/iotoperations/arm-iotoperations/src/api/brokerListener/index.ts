@@ -15,11 +15,11 @@ import {
   _BrokerListenerResourceListResult,
   _brokerListenerResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -129,22 +129,30 @@ export function brokerListenerCreateOrUpdate(
   resource: BrokerListenerResource,
   options: BrokerListenerCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource> {
-  return getLongRunningPoller(context, _brokerListenerCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _brokerListenerCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        listenerName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
+  return getLongRunningPoller(
+    context,
+    _brokerListenerCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerListenerCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          listenerName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<BrokerListenerResource>,
+    BrokerListenerResource
+  >;
 }
 
 export function _brokerListenerDeleteSend(
@@ -189,21 +197,26 @@ export function brokerListenerDelete(
   listenerName: string,
   options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _brokerListenerDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _brokerListenerDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        listenerName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _brokerListenerDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerListenerDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          listenerName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerListenerListByResourceGroupSend(

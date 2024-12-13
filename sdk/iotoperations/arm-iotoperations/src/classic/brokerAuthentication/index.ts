@@ -36,7 +36,10 @@ export interface BrokerAuthenticationOperations {
     authenticationName: string,
     resource: BrokerAuthenticationResource,
     options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+  ) => PollerLike<
+    OperationState<BrokerAuthenticationResource>,
+    BrokerAuthenticationResource
+  >;
   /** Delete a BrokerAuthenticationResource */
   delete: (
     resourceGroupName: string,
@@ -54,7 +57,10 @@ export interface BrokerAuthenticationOperations {
   ) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
 }
 
-export function getBrokerAuthentication(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerAuthentication(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

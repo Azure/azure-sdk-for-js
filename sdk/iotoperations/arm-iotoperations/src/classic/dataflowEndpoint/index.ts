@@ -34,7 +34,10 @@ export interface DataflowEndpointOperations {
     dataflowEndpointName: string,
     resource: DataflowEndpointResource,
     options?: DataflowEndpointCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
+  ) => PollerLike<
+    OperationState<DataflowEndpointResource>,
+    DataflowEndpointResource
+  >;
   /** Delete a DataflowEndpointResource */
   delete: (
     resourceGroupName: string,
@@ -50,7 +53,10 @@ export interface DataflowEndpointOperations {
   ) => PagedAsyncIterableIterator<DataflowEndpointResource>;
 }
 
-export function getDataflowEndpoint(context: IoTOperationsContext, subscriptionId: string) {
+export function getDataflowEndpoint(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

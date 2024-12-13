@@ -15,11 +15,11 @@ import {
   _BrokerAuthenticationResourceListResult,
   _brokerAuthenticationResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -132,7 +132,10 @@ export function brokerAuthenticationCreateOrUpdate(
   options: BrokerAuthenticationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource> {
+): PollerLike<
+  OperationState<BrokerAuthenticationResource>,
+  BrokerAuthenticationResource
+> {
   return getLongRunningPoller(
     context,
     _brokerAuthenticationCreateOrUpdateDeserialize,
@@ -153,7 +156,10 @@ export function brokerAuthenticationCreateOrUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+  ) as PollerLike<
+    OperationState<BrokerAuthenticationResource>,
+    BrokerAuthenticationResource
+  >;
 }
 
 export function _brokerAuthenticationDeleteSend(

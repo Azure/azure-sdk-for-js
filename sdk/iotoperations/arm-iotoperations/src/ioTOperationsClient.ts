@@ -1,9 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getInstanceOperations, InstanceOperations } from "./classic/instance/index.js";
-import { getBrokerOperations, BrokerOperations } from "./classic/broker/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  getInstanceOperations,
+  InstanceOperations,
+} from "./classic/instance/index.js";
+import {
+  getBrokerOperations,
+  BrokerOperations,
+} from "./classic/broker/index.js";
 import {
   getBrokerListenerOperations,
   BrokerListenerOperations,
@@ -20,7 +29,10 @@ import {
   getDataflowProfileOperations,
   DataflowProfileOperations,
 } from "./classic/dataflowProfile/index.js";
-import { getDataflowOperations, DataflowOperations } from "./classic/dataflow/index.js";
+import {
+  getDataflowOperations,
+  DataflowOperations,
+} from "./classic/dataflow/index.js";
 import {
   getDataflowEndpointOperations,
   DataflowEndpointOperations,
@@ -49,7 +61,7 @@ export class IoTOperationsClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createIoTOperations(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
@@ -58,12 +70,27 @@ export class IoTOperationsClient {
     this.operations = getOperationsOperations(this._client);
     this.instance = getInstanceOperations(this._client, subscriptionId);
     this.broker = getBrokerOperations(this._client, subscriptionId);
-    this.brokerListener = getBrokerListenerOperations(this._client, subscriptionId);
-    this.brokerAuthentication = getBrokerAuthenticationOperations(this._client, subscriptionId);
-    this.brokerAuthorization = getBrokerAuthorizationOperations(this._client, subscriptionId);
-    this.dataflowProfile = getDataflowProfileOperations(this._client, subscriptionId);
+    this.brokerListener = getBrokerListenerOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.brokerAuthentication = getBrokerAuthenticationOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.brokerAuthorization = getBrokerAuthorizationOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.dataflowProfile = getDataflowProfileOperations(
+      this._client,
+      subscriptionId,
+    );
     this.dataflow = getDataflowOperations(this._client, subscriptionId);
-    this.dataflowEndpoint = getDataflowEndpointOperations(this._client, subscriptionId);
+    this.dataflowEndpoint = getDataflowEndpointOperations(
+      this._client,
+      subscriptionId,
+    );
   }
 
   /** The operation groups for Operations */

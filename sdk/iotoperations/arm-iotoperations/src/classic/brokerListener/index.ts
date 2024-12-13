@@ -36,7 +36,10 @@ export interface BrokerListenerOperations {
     listenerName: string,
     resource: BrokerListenerResource,
     options?: BrokerListenerCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
+  ) => PollerLike<
+    OperationState<BrokerListenerResource>,
+    BrokerListenerResource
+  >;
   /** Delete a BrokerListenerResource */
   delete: (
     resourceGroupName: string,
@@ -54,7 +57,10 @@ export interface BrokerListenerOperations {
   ) => PagedAsyncIterableIterator<BrokerListenerResource>;
 }
 
-export function getBrokerListener(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerListener(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

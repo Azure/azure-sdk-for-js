@@ -8,13 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DataflowEndpointResource
  *
  * @summary delete a DataflowEndpointResource
- * x-ms-original-file: 2024-09-15-preview/DataflowEndpoint_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowEndpoint_Delete_MaximumSet_Gen.json
  */
 async function dataflowEndpointDelete() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
-  await client.dataflowEndpoint.delete("rgiotoperations", "resource-name123", "resource-name123");
+  await client.dataflowEndpoint.delete(
+    "rgiotoperations",
+    "resource-name123",
+    "resource-name123",
+  );
 }
 
 async function main() {
