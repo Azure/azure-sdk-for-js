@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, HttpResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { Client, HttpResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   CancelOnProgress,
   CreateHttpPollerOptions,
   RunningOperation,
   OperationResponse,
   OperationState,
-  createHttpPoller,
 } from "@azure/core-lro";
-import {
+import { createHttpPoller } from "@azure/core-lro";
+import type {
   AnalyzeDocumentFromStream202Response,
   AnalyzeDocumentFromStreamDefaultResponse,
   AnalyzeDocumentFromStreamLogicalResponse,
@@ -118,8 +118,8 @@ export interface SimplePollerLike<
  */
 export async function getLongRunningPoller<
   TResult extends
-  | AnalyzeBatchDocumentsLogicalResponse
-  | AnalyzeBatchDocumentsDefaultResponse,
+    | AnalyzeBatchDocumentsLogicalResponse
+    | AnalyzeBatchDocumentsDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -150,8 +150,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | BuildClassifierLogicalResponse
-  | BuildClassifierDefaultResponse,
+    | BuildClassifierLogicalResponse
+    | BuildClassifierDefaultResponse,
 >(
   client: Client,
   initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse,
@@ -159,8 +159,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | CopyClassifierToLogicalResponse
-  | CopyClassifierToDefaultResponse,
+    | CopyClassifierToLogicalResponse
+    | CopyClassifierToDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -170,8 +170,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | AnalyzeDocumentFromStreamLogicalResponse
-  | AnalyzeDocumentFromStreamDefaultResponse,
+    | AnalyzeDocumentFromStreamLogicalResponse
+    | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -181,8 +181,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | ClassifyDocumentFromStreamLogicalResponse
-  | ClassifyDocumentFromStreamDefaultResponse,
+    | ClassifyDocumentFromStreamLogicalResponse
+    | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:

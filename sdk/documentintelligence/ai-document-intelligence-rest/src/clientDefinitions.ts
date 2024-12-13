@@ -9,7 +9,7 @@ import {
   GetDocumentClassifierCopyToOperationParameters,
   GetDocumentClassifierBuildOperationParameters,
   GetOperationParameters,
-  GetResourceInfoParameters,
+  GetResourceDetailsParameters,
   GetAnalyzeResultParameters,
   DeleteAnalyzeResultParameters,
   GetAnalyzeResultPdfParameters,
@@ -52,8 +52,8 @@ import {
   GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
   GetOperationDefaultResponse,
-  GetResourceInfo200Response,
-  GetResourceInfoDefaultResponse,
+  GetResourceDetails200Response,
+  GetResourceDetailsDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
   DeleteAnalyzeResult204Response,
@@ -160,12 +160,12 @@ export interface GetDocumentModelBuildOperation {
   ): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
 }
 
-export interface GetResourceInfo {
+export interface GetResourceDetails {
   /** Return information about the current resource. */
   get(
-    options?: GetResourceInfoParameters,
+    options?: GetResourceDetailsParameters,
   ): StreamableMethod<
-    GetResourceInfo200Response | GetResourceInfoDefaultResponse
+    GetResourceDetails200Response | GetResourceDetailsDefaultResponse
   >;
 }
 
@@ -389,7 +389,7 @@ export interface Routes {
     operationId: string,
   ): GetDocumentModelBuildOperation;
   /** Resource for '/info' has methods for the following verbs: get */
-  (path: "/info"): GetResourceInfo;
+  (path: "/info"): GetResourceDetails;
   /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get, delete */
   (
     path: "/documentModels/{modelId}/analyzeResults/{resultId}",

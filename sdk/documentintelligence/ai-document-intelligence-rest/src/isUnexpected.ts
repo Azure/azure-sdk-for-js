@@ -16,8 +16,8 @@ import {
   GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
   GetOperationDefaultResponse,
-  GetResourceInfo200Response,
-  GetResourceInfoDefaultResponse,
+  GetResourceDetails200Response,
+  GetResourceDetailsDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
   DeleteAnalyzeResult204Response,
@@ -153,8 +153,8 @@ export function isUnexpected(
   response: GetOperation200Response | GetOperationDefaultResponse,
 ): response is GetOperationDefaultResponse;
 export function isUnexpected(
-  response: GetResourceInfo200Response | GetResourceInfoDefaultResponse,
-): response is GetResourceInfoDefaultResponse;
+  response: GetResourceDetails200Response | GetResourceDetailsDefaultResponse,
+): response is GetResourceDetailsDefaultResponse;
 export function isUnexpected(
   response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse,
 ): response is GetAnalyzeResultDefaultResponse;
@@ -289,8 +289,8 @@ export function isUnexpected(
     | GetDocumentClassifierBuildOperationDefaultResponse
     | GetOperation200Response
     | GetOperationDefaultResponse
-    | GetResourceInfo200Response
-    | GetResourceInfoDefaultResponse
+    | GetResourceDetails200Response
+    | GetResourceDetailsDefaultResponse
     | GetAnalyzeResult200Response
     | GetAnalyzeResultDefaultResponse
     | DeleteAnalyzeResult204Response
@@ -361,7 +361,7 @@ export function isUnexpected(
   | GetDocumentClassifierCopyToOperationDefaultResponse
   | GetDocumentClassifierBuildOperationDefaultResponse
   | GetOperationDefaultResponse
-  | GetResourceInfoDefaultResponse
+  | GetResourceDetailsDefaultResponse
   | GetAnalyzeResultDefaultResponse
   | DeleteAnalyzeResultDefaultResponse
   | GetAnalyzeResultPdfDefaultResponse
