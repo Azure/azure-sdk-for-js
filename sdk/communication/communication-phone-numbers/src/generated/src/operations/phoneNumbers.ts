@@ -1402,7 +1402,7 @@ const operatorInformationSearchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperatorInformationResult,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
+      bodyMapper: Mappers.CommunicationError,
     },
   },
   requestBody: {
