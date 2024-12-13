@@ -4,7 +4,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-/* eslint-disable @typescript-eslint/no-invalid-this */
 
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 

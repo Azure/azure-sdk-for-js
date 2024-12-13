@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, type Recorder } from "@azure-tools/test-recorder";
 
-import { KeyVaultAccessControlClient } from "../../src/index.js";
+import type { KeyVaultAccessControlClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { AbortError } from "@azure/abort-controller";

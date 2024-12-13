@@ -3,7 +3,7 @@
 
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
+import type { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models.js";
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */

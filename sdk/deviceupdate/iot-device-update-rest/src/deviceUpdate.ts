@@ -5,7 +5,7 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import type { TokenCredential } from "@azure/core-auth";
-import type { DeviceUpdateClient } from "./clientDefinitions";
+import type { DeviceUpdateClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface DeviceUpdateClientOptions extends ClientOptions {

@@ -37,7 +37,6 @@ class TestExporter extends AzureMonitorMetricExporter {
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
   }
-  // eslint-disable-next-line @typescript-eslint/require-await
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
     testMetrics.resource = new Resource({

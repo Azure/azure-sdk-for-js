@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** List of job details. */
 export interface JobDetailsList {
@@ -196,7 +196,7 @@ export enum KnownJobStatus {
   /** Failed */
   Failed = "Failed",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -219,7 +219,7 @@ export enum KnownProviderAvailability {
   /** Degraded */
   Degraded = "Degraded",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
 }
 
 /**
@@ -240,7 +240,7 @@ export enum KnownTargetAvailability {
   /** Degraded */
   Degraded = "Degraded",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
 }
 
 /**
@@ -259,7 +259,7 @@ export enum KnownDimensionScope {
   /** Workspace */
   Workspace = "Workspace",
   /** Subscription */
-  Subscription = "Subscription"
+  Subscription = "Subscription",
 }
 
 /**
@@ -277,7 +277,7 @@ export enum KnownMeterPeriod {
   /** None */
   None = "None",
   /** Monthly */
-  Monthly = "Monthly"
+  Monthly = "Monthly",
 }
 
 /**
@@ -312,29 +312,25 @@ export type JobsCreateResponse = JobDetails;
 export interface JobsCancelOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobDetailsList;
 
 /** Optional parameters. */
-export interface ProvidersGetStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProvidersGetStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
 export type ProvidersGetStatusResponse = ProviderStatusList;
 
 /** Optional parameters. */
-export interface ProvidersGetStatusNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProvidersGetStatusNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatusNext operation. */
 export type ProvidersGetStatusNextResponse = ProviderStatusList;
 
 /** Optional parameters. */
-export interface StorageSasUriOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StorageSasUriOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the sasUri operation. */
 export type StorageSasUriResponse = SasUriResponse;
@@ -346,15 +342,13 @@ export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
 export type QuotasListResponse = QuotaList;
 
 /** Optional parameters. */
-export interface QuotasListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotasListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotasListNextResponse = QuotaList;
 
 /** Optional parameters. */
-export interface QuantumJobClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface QuantumJobClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
