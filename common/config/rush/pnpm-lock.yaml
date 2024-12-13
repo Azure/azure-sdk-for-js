@@ -46,6 +46,9 @@ importers:
       '@rush-temp/ai-metrics-advisor':
         specifier: file:./projects/ai-metrics-advisor.tgz
         version: file:projects/ai-metrics-advisor.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
+      '@rush-temp/ai-projects':
+        specifier: file:./projects/ai-projects.tgz
+        version: file:projects/ai-projects.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
@@ -2492,6 +2495,10 @@ packages:
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
     resolution: {integrity: sha512-Xy0ImIzleKUA7VxBCkv4huvwqPjtZXDt3FAgUez7wyDUMS7OC1XVAvyg5pKcIPZLXGmHJ//3S54/2Lbzx+G14A==, tarball: file:projects/ai-metrics-advisor.tgz}
+    version: 0.0.0
+
+  '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
+    resolution: {integrity: sha512-An0NSlmnxdzyz3fJsmr5h2F8pWGS00aGo9ihdlCfCtxiHu8+6BhF8FHX/9gKuJiMTSJxmwFlJ51GmpGcX9qS0g==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -10216,6 +10223,46 @@ snapshots:
       - bufferutil
       - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
+  '@rush-temp/ai-projects@file:projects/ai-projects.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))':
+    dependencies:
+      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.29.0(@opentelemetry/api@1.9.0)
+      '@types/node': 18.19.68
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.5.4)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      playwright: 1.49.1
+      prettier: 3.4.2
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.8.1
+      typescript: 5.5.4
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jsdom
       - less
       - lightningcss
@@ -20480,6 +20527,27 @@ snapshots:
       - utf-8-validate
       - vite
 
+  '@vitest/browser@2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.5.4)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.8(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))
+      '@vitest/utils': 2.1.8
+      magic-string: 0.30.15
+      msw: 2.6.8(@types/node@18.19.68)(typescript@5.5.4)
+      sirv: 3.0.0
+      tinyrainbow: 1.2.0
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.49.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -23014,6 +23082,31 @@ snapshots:
       yargs: 17.7.2
     optionalDependencies:
       typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@types/node'
+
+  msw@2.6.8(@types/node@18.19.68)(typescript@5.5.4):
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.1
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 5.1.0(@types/node@18.19.68)
+      '@mswjs/interceptors': 0.37.3
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      chalk: 4.1.2
+      graphql: 16.9.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      strict-event-emitter: 0.5.1
+      type-fest: 4.30.0
+      yargs: 17.7.2
+    optionalDependencies:
+      typescript: 5.5.4
     transitivePeerDependencies:
       - '@types/node'
 
