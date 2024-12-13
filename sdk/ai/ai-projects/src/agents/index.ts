@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, StreamableMethod } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { type Client, type StreamableMethod } from "@azure-rest/core-client";
+import type { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
-import { UpdateMessageOptions } from "./messagesModels.js";
-import { UpdateRunOptions } from "./inputOutputs.js";
+import type { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
+import type { UpdateMessageOptions } from "./messagesModels.js";
+import type { UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
-import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
+import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams } from "./customModels.js";
+
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
@@ -73,8 +74,7 @@ export interface AgentsOperations {
   createRun: (
     threadId: string,
     assistantId: string,
-    options?: Omit<CreateRunOptions, "assistant_id">,
-    requestParams?: OptionalRequestParameters
+    options?: CreateRunOptionalParams
   ) => AgentRunResponse;
 
   /** Gets a list of runs for a specified thread. */
@@ -308,8 +308,8 @@ function getAgents(context: Client): AgentsOperations {
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) =>
       deleteThread(context, threadId, requestParams),
 
-    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) =>
-      createRun(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId, } }),
+    createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) =>
+      createRun(context, threadId, assistantId, options || {assistantId}),
     listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
       listRuns(context, threadId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>

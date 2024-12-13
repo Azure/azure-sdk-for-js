@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ToolDefinition, UpdateToolResourcesOptions, VectorStoreDataSource } from "../generated/src/models.js";
+import type { ToolDefinition, UpdateToolResourcesOptions, VectorStoreDataSource } from "../generated/src/models.js";
 
 export function validateVectorStoreDataType(data_sources: VectorStoreDataSource[]): void {
   if (!data_sources.some(value => !["uri_asset", "id_asset"].includes(value.type))) {

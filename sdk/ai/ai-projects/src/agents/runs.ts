@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 import { validateLimit, validateMessages, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateOrUpdateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
-import { AgentEventMessageStream } from "./streamingModels.js";
-import { AgentRunResponse } from "./customModels.js";
+import type { AgentEventMessageStream } from "./streamingModels.js";
+import type { AgentRunResponse, CreateRunOptionalParams } from "./customModels.js";
+import { convertCreateRunOptions } from "../customization/convertModelsToWrite.js";
+import { convertThreadRunOutput } from "../customization/convertOutputModelsFromWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -18,14 +21,23 @@ const expectedStatuses = ["200"];
 export function createRun(
   context: Client,
   threadId: string,
-  options: CreateRunParameters,
+  assistantId: string,
+  options: CreateRunOptionalParams,
 ): AgentRunResponse {
+
+  const createRunOptions: GeneratedParameters.CreateRunParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...convertCreateRunOptions({...options, assistantId}),
+      stream: false
+    }
+  };
+
   validateThreadId(threadId);
-  validateCreateRunParameters(options);
-  options.body.stream = false;
+  validateCreateRunParameters(createRunOptions);
   return {
     then: function (onFulfilled, onrejected) {
-      return TracingUtility.withSpan("CreateRun", options, async (updateOptions) => {
+     return TracingUtility.withSpan("CreateRun", createRunOptions, async (updateOptions) => {
         const result = await context
           .path("/threads/{threadId}/runs", threadId)
           .post(updateOptions);
@@ -36,13 +48,13 @@ export function createRun(
           throw createRestError(result);
         }
         if (onFulfilled) {
-          return onFulfilled(result.body);
+          return onFulfilled(convertThreadRunOutput(result.body));
         }
         return result.body;
       }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return createRunStreaming(context, threadId, options);
+      return createRunStreaming(context, threadId, createRunOptions);
     }
   }
 }
@@ -51,7 +63,7 @@ export function createRun(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options?: ListRunsParameters,
+  options?: GeneratedParameters.ListRunsParameters,
 ): Promise<OpenAIPageableListOfThreadRunOutput> {
   validateListRunsParameters(threadId, options);
   return TracingUtility.withSpan("ListRuns", options || {}, async (updateOptions) => {
@@ -70,7 +82,7 @@ export async function getRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: GetRunParameters,
+  options?: GeneratedParameters.GetRunParameters,
 ): Promise<ThreadRunOutput> {
   validateThreadId(threadId);
   validateRunId(runId);
@@ -90,7 +102,7 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: UpdateRunParameters,
+  options?: GeneratedParameters.UpdateRunParameters,
 ): Promise<ThreadRunOutput> {
   validateUpdateRunParameters(threadId, runId, options);
   return TracingUtility.withSpan("UpdateRun", options || { body: {} }, async (updateOptions) => {
@@ -109,7 +121,7 @@ export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: SubmitToolOutputsToRunParameters,
+  options: GeneratedParameters.SubmitToolOutputsToRunParameters,
 ): AgentRunResponse {
   validateThreadId(threadId);
   validateRunId(runId);
@@ -143,7 +155,7 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: CancelRunParameters,
+  options?: GeneratedParameters.CancelRunParameters,
 ): Promise<ThreadRunOutput> {
   validateThreadId(threadId);
   validateRunId(runId);
@@ -161,7 +173,7 @@ export async function cancelRun(
 /** Creates a new thread and immediately starts a run of that thread. */
 export function createThreadAndRun(
   context: Client,
-  options: CreateThreadAndRunParameters,
+  options: GeneratedParameters.CreateThreadAndRunParameters,
 ): AgentRunResponse {
   validateCreateThreadAndRunParameters(options);
   options.body.stream = false;
@@ -187,7 +199,7 @@ export function createThreadAndRun(
   }
 }
 
-function validateListRunsParameters(thread_id: string, options?: ListRunsParameters): void {
+function validateListRunsParameters(thread_id: string, options?: GeneratedParameters.ListRunsParameters): void {
   validateThreadId(thread_id);
   if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
     throw new Error("Limit must be between 1 and 100");
@@ -200,7 +212,7 @@ function validateListRunsParameters(thread_id: string, options?: ListRunsParamet
   }
 }
 
-function validateUpdateRunParameters(thread_id: string, run_id: string, options?: UpdateRunParameters): void {
+function validateUpdateRunParameters(thread_id: string, run_id: string, options?: GeneratedParameters.UpdateRunParameters): void {
   validateThreadId(thread_id);
   validateRunId(run_id);
   if (options?.body.metadata) {
@@ -208,7 +220,7 @@ function validateUpdateRunParameters(thread_id: string, run_id: string, options?
   }
 }
 
-function validateCreateRunParameters(options: CreateRunParameters | CreateThreadAndRunParameters): void {
+function validateCreateRunParameters(options: GeneratedParameters.CreateRunParameters | GeneratedParameters.CreateThreadAndRunParameters): void {
   if ('additional_messages' in options.body && options.body.additional_messages) {
     options.body.additional_messages.forEach(message => validateMessages(message.role));
   }
@@ -229,7 +241,7 @@ function validateCreateRunParameters(options: CreateRunParameters | CreateThread
   }
 }
 
-function validateCreateThreadAndRunParameters(options: CreateThreadAndRunParameters): void {
+function validateCreateThreadAndRunParameters(options: GeneratedParameters.CreateThreadAndRunParameters): void {
   validateCreateRunParameters(options);
   if (options.body.thread?.messages) {
     options.body.thread?.messages.forEach(message => validateMessages(message.role));

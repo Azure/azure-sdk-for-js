@@ -4,10 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
-import { RequestParameters } from '@azure-rest/core-client';
+import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -20,7 +21,10 @@ export interface AgentDeletionStatusOutput {
 
 // @public
 export interface AgentEventMessage {
-    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
+    // Warning: (ae-forgotten-export) The symbol "AgentThreadOutput_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RunStepOutput_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput_2" needs to be exported by the entry point index.d.ts
+    data: AgentThreadOutput_2 | ThreadRunOutput | RunStepOutput_2 | ThreadMessageOutput_2 | MessageDeltaChunk | RunStepDeltaChunk | string;
     event: AgentStreamEventType | string;
 }
 
@@ -38,10 +42,12 @@ export interface AgentOutput {
     model: string;
     name: string | null;
     object: "assistant";
-    response_format?: AgentsApiResponseFormatOptionOutput | null;
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOptionOutput_2" needs to be exported by the entry point index.d.ts
+    response_format?: AgentsApiResponseFormatOptionOutput_2 | null;
     temperature: number | null;
     tool_resources: ToolResourcesOutput | null;
-    tools: Array<ToolDefinitionOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+    tools: Array<ToolDefinitionOutput_2>;
     top_p: number | null;
 }
 
@@ -64,8 +70,11 @@ export type AgentsApiResponseFormatModeOutput = string;
 // @public
 export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
 
+// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatModeOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOutput_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput;
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput_2 | AgentsApiResponseFormatOutput_2;
 
 // @public
 export interface AgentsApiResponseFormatOutput {
@@ -81,8 +90,11 @@ export type AgentsApiToolChoiceOptionMode = string;
 // @public
 export type AgentsApiToolChoiceOptionModeOutput = string;
 
+// Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOptionModeOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "AgentsNamedToolChoiceOutput_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput | AgentsNamedToolChoiceOutput;
+export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput_2 | AgentsNamedToolChoiceOutput_2;
 
 // @public
 export interface AgentsNamedToolChoice {
@@ -104,11 +116,11 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 
 // @public (undocumented)
 export interface AgentsOperations {
-    cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
-    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AgentRunResponse;
+    createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AgentRunResponse;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
@@ -125,7 +137,8 @@ export interface AgentsOperations {
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
-    getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ThreadRunOutput_2" needs to be exported by the entry point index.d.ts
+    getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
@@ -143,7 +156,7 @@ export interface AgentsOperations {
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
-    updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
@@ -320,6 +333,11 @@ export interface CreateAndRunThreadOptions {
     top_p?: number | null;
     truncation_strategy?: TruncationObject | null;
 }
+
+// Warning: (ae-forgotten-export) The symbol "CreateRunOptions_2" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type CreateRunOptionalParams = Omit<CreateRunOptions_2, "assistant_id"> & OperationOptions;
 
 // @public
 export interface CreateRunOptions {
@@ -732,7 +750,8 @@ export interface MessageContentParent {
 // @public
 export interface MessageDelta {
     content: MessageDeltaContent[];
-    role: MessageRole;
+    // Warning: (ae-forgotten-export) The symbol "MessageRole_2" needs to be exported by the entry point index.d.ts
+    role: MessageRole_2;
 }
 
 // @public
@@ -1022,7 +1041,7 @@ export interface OpenAIPageableListOfThreadMessageOutput {
 
 // @public
 export interface OpenAIPageableListOfThreadRunOutput {
-    data: Array<ThreadRunOutput>;
+    data: Array<ThreadRunOutput_2>;
     first_id: string;
     has_more: boolean;
     last_id: string;
@@ -1099,8 +1118,11 @@ export interface RecurrenceTriggerOutput extends TriggerOutputParent {
     readonly type: "Recurrence";
 }
 
+// Warning: (ae-forgotten-export) The symbol "RequiredActionOutputParent_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsActionOutput_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
+export type RequiredActionOutput = RequiredActionOutputParent_2 | SubmitToolOutputsActionOutput_2;
 
 // @public
 export interface RequiredActionOutputParent {
@@ -1132,9 +1154,9 @@ export interface RequiredToolCallOutputParent {
 
 // @public
 export interface RunCompletionUsageOutput {
-    completion_tokens: number;
-    prompt_tokens: number;
-    total_tokens: number;
+    completionTokens: number;
+    promptTokens: number;
+    totalTokens: number;
 }
 
 // @public
@@ -1520,33 +1542,33 @@ export interface ThreadMessageOutput {
 
 // @public
 export interface ThreadRunOutput {
-    assistant_id: string;
-    cancelled_at: number | null;
-    completed_at: number | null;
-    created_at: number;
-    expires_at: number | null;
-    failed_at: number | null;
+    assistantId: string;
+    cancelledAt: Date | null;
+    completedAt: Date | null;
+    createdAt: Date;
+    expiresAt: Date | null;
+    failedAt: Date | null;
     id: string;
-    incomplete_details: IncompleteRunDetailsOutput | null;
+    incompleteDetails: IncompleteRunDetailsOutput | null;
     instructions: string;
-    last_error: RunErrorOutput | null;
-    max_completion_tokens: number | null;
-    max_prompt_tokens: number | null;
+    lastError: RunErrorOutput | null;
+    maxCompletionTokens: number | null;
+    maxPromptTokens: number | null;
     metadata: Record<string, string> | null;
     model: string;
     object: "thread.run";
     parallelToolCalls?: boolean;
-    required_action?: RequiredActionOutput | null;
-    response_format: AgentsApiResponseFormatOptionOutput | null;
-    started_at: number | null;
+    requiredAction?: RequiredActionOutput | null;
+    responseFormat: AgentsApiResponseFormatOptionOutput | null;
+    startedAt: Date | null;
     status: RunStatusOutput;
     temperature?: number | null;
-    thread_id: string;
-    tool_choice: AgentsApiToolChoiceOptionOutput | null;
-    tool_resources?: UpdateToolResourcesOptionsOutput | null;
+    threadId: string;
+    toolChoice: AgentsApiToolChoiceOptionOutput | null;
+    toolResources?: UpdateToolResourcesOptionsOutput | null;
     tools: Array<ToolDefinitionOutput>;
-    top_p?: number | null;
-    truncation_strategy: TruncationObjectOutput | null;
+    topP?: number | null;
+    truncationStrategy: TruncationObjectOutput | null;
     usage: RunCompletionUsageOutput | null;
 }
 
@@ -1578,8 +1600,17 @@ export interface ToolConnectionOutput {
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
 
+// Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutputParent_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CodeInterpreterToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "FileSearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "FunctionToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BingGroundingToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "MicrosoftFabricToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharepointToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "AzureAISearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent_2 | CodeInterpreterToolDefinitionOutput_2 | FileSearchToolDefinitionOutput_2 | FunctionToolDefinitionOutput_2 | BingGroundingToolDefinitionOutput_2 | MicrosoftFabricToolDefinitionOutput_2 | SharepointToolDefinitionOutput_2 | AzureAISearchToolDefinitionOutput_2;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1682,8 +1713,9 @@ export interface TruncationObject {
 
 // @public
 export interface TruncationObjectOutput {
-    last_messages?: number | null;
-    type: TruncationStrategyOutput;
+    lastMessages?: number | null;
+    // Warning: (ae-forgotten-export) The symbol "TruncationStrategyOutput_2" needs to be exported by the entry point index.d.ts
+    type: TruncationStrategyOutput_2;
 }
 
 // @public
@@ -1753,9 +1785,12 @@ export interface UpdateToolResourcesOptions {
 
 // @public
 export interface UpdateToolResourcesOptionsOutput {
-    azure_ai_search?: AzureAISearchResourceOutput;
-    code_interpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
-    file_search?: UpdateFileSearchToolResourceOptionsOutput;
+    // Warning: (ae-forgotten-export) The symbol "AzureAISearchResourceOutput_2" needs to be exported by the entry point index.d.ts
+    azureAISearch?: AzureAISearchResourceOutput_2;
+    // Warning: (ae-forgotten-export) The symbol "UpdateCodeInterpreterToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
+    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput_2;
+    // Warning: (ae-forgotten-export) The symbol "UpdateFileSearchToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
+    fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
 }
 
 // @public
