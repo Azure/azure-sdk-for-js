@@ -6,6 +6,8 @@ import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "@azure/ai-met
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 export abstract class MetricsAdvisorTest<TOptions> extends PerfTest<TOptions> {
