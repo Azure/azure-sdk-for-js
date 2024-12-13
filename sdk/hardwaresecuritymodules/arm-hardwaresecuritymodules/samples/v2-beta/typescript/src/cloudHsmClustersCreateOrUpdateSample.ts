@@ -11,7 +11,7 @@
 import {
   CloudHsmClustersCreateOrUpdateOptionalParams,
   AzureHSMResourceProvider,
-  CloudHsmClusterSku
+  CloudHsmClusterSku,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Create or Update a Cloud HSM Cluster in the specified subscription.
  *
  * @summary Create or Update a Cloud HSM Cluster in the specified subscription.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmCluster_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function cloudHsmClusterCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -33,17 +33,18 @@ async function cloudHsmClusterCreateOrUpdateMaximumSetGen() {
   const cloudHsmClusterName = "chsm1";
   const tags = { dept: "hsm", environment: "dogfood" };
   const location = "eastus2";
-  const sku: CloudHsmClusterSku = { name: "Standard_B1", family: "B" };
   const identity = {
     type: "UserAssigned",
     userAssignedIdentities: {
-      "/subscriptions/00000000000000000000000000000000/resourceGroups/contosoResources/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-    }
+      "/subscriptions/00000000000000000000000000000000/resourceGroups/contosoResources/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+        {},
+    },
   };
+  const sku: CloudHsmClusterSku = { name: "Standard_B1", family: "B" };
   const options: CloudHsmClustersCreateOrUpdateOptionalParams = {
     tags,
+    identity,
     sku,
-    identity
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
@@ -51,7 +52,7 @@ async function cloudHsmClusterCreateOrUpdateMaximumSetGen() {
     resourceGroupName,
     cloudHsmClusterName,
     location,
-    options
+    options,
   );
   console.log(result);
 }

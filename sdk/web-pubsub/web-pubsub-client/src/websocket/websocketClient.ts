@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { CloseEvent, MessageEvent, ErrorEvent } from "ws";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import WebSocket from "ws";
-import type { WebSocketClientLike, WebSocketClientFactoryLike } from "./websocketClientLike";
+import type { WebSocketClientLike, WebSocketClientFactoryLike } from "./websocketClientLike.js";
 
 export class WebSocketClient implements WebSocketClientLike {
   private _socket: WebSocket;

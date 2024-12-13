@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CallAutomationApiClient } from "./generated/src/callAutomationApiClient";
+import type { CallAutomationApiClient } from "./generated/src/callAutomationApiClient.js";
 import type {
   AddPipelineOptions,
   PipelineRequest,
@@ -10,7 +10,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import type { DeleteRecordingOptions, DownloadRecordingOptions } from "./models/options";
+import type { DeleteRecordingOptions, DownloadRecordingOptions } from "./models/options.js";
 
 /** Class containing ContentDownloading operations. */
 export class ContentDownloaderImpl {

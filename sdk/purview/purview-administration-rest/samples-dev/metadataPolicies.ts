@@ -19,7 +19,7 @@ dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List metadata policies sample ==");
   const client = PurviewMetadataPoliciesClient(endpoint, new DefaultAzureCredential());
 

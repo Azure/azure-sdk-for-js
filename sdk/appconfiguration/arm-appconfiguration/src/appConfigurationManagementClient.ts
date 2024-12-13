@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,7 +20,8 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   KeyValuesImpl,
-  ReplicasImpl
+  ReplicasImpl,
+  SnapshotsImpl,
 } from "./operations";
 import {
   ConfigurationStores,
@@ -28,7 +29,8 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   KeyValues,
-  Replicas
+  Replicas,
+  Snapshots,
 } from "./operationsInterfaces";
 import { AppConfigurationManagementClientOptionalParams } from "./models";
 
@@ -46,7 +48,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AppConfigurationManagementClientOptionalParams
+    options?: AppConfigurationManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,10 +63,10 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AppConfigurationManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/4.0.1`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/4.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -74,20 +76,21 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -97,7 +100,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -107,9 +110,9 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -117,13 +120,14 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01";
+    this.apiVersion = options.apiVersion || "2024-05-01";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.keyValues = new KeyValuesImpl(this);
     this.replicas = new ReplicasImpl(this);
+    this.snapshots = new SnapshotsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -136,7 +140,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -150,7 +154,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -161,4 +165,5 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   keyValues: KeyValues;
   replicas: Replicas;
+  snapshots: Snapshots;
 }

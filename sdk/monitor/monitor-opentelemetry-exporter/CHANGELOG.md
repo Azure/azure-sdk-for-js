@@ -1,5 +1,16 @@
 # Release History
 
+## 1.0.0-beta.28 ()
+
+### Features Added
+
+- Added support for operation name on dependencies and logs.
+
+### Other Changes
+
+- Fix setting statsbeat custom dimensions.
+- EAI_AGAIN REST errors are considered retriable.
+
 ## 1.0.0-beta.27 (2024-10-23)
 
 ### Other Changes

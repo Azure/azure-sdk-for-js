@@ -19,8 +19,9 @@ import {
   DedicatedHsmUpdateOptionalParams,
   DedicatedHsmUpdateResponse,
   DedicatedHsmDeleteOptionalParams,
+  DedicatedHsmDeleteResponse,
   DedicatedHsmGetOptionalParams,
-  DedicatedHsmGetResponse
+  DedicatedHsmGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,35 +30,35 @@ export interface DedicatedHsmOperations {
   /**
    * The List operation gets information about the dedicated hsms associated with the subscription and
    * within the specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DedicatedHsmListByResourceGroupOptionalParams
+    options?: DedicatedHsmListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHsm>;
   /**
    * The List operation gets information about the dedicated HSMs associated with the subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DedicatedHsmListBySubscriptionOptionalParams
+    options?: DedicatedHsmListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHsm>;
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * dedicated hsm resource. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Create or Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the dedicated Hsm
    * @param parameters Parameters to create or update the dedicated hsm
    * @param options The options parameters.
@@ -66,7 +67,7 @@ export interface DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     parameters: DedicatedHsm,
-    options?: DedicatedHsmCreateOrUpdateOptionalParams
+    options?: DedicatedHsmCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHsmCreateOrUpdateResponse>,
@@ -75,7 +76,7 @@ export interface DedicatedHsmOperations {
   >;
   /**
    * Create or Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the dedicated Hsm
    * @param parameters Parameters to create or update the dedicated hsm
    * @param options The options parameters.
@@ -84,18 +85,18 @@ export interface DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     parameters: DedicatedHsm,
-    options?: DedicatedHsmCreateOrUpdateOptionalParams
+    options?: DedicatedHsmCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHsmCreateOrUpdateResponse>;
   /**
    * Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param name Name of the dedicated HSM
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmUpdateOptionalParams
+    options?: DedicatedHsmUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHsmUpdateResponse>,
@@ -104,46 +105,51 @@ export interface DedicatedHsmOperations {
   >;
   /**
    * Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param name Name of the dedicated HSM
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmUpdateOptionalParams
+    options?: DedicatedHsmUpdateOptionalParams,
   ): Promise<DedicatedHsmUpdateResponse>;
   /**
    * Deletes the specified Azure Dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
-   * @param name The name of the dedicated HSM to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: DedicatedHsmDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DedicatedHsmDeleteResponse>,
+      DedicatedHsmDeleteResponse
+    >
+  >;
   /**
    * Deletes the specified Azure Dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
-   * @param name The name of the dedicated HSM to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<void>;
+    options?: DedicatedHsmDeleteOptionalParams,
+  ): Promise<DedicatedHsmDeleteResponse>;
   /**
    * Gets the specified Azure dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmGetOptionalParams
+    options?: DedicatedHsmGetOptionalParams,
   ): Promise<DedicatedHsmGetResponse>;
 }

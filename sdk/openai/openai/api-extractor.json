@@ -9,9 +9,7 @@
     "reportFolder": "./review"
   },
   "dtsRollup": {
-    "enabled": true,
-    "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "dist/openai.d.ts"
+    "enabled": false
   },
   "messages": {
     "tsdocMessageReporting": {

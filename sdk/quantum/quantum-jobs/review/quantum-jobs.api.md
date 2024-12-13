@@ -4,9 +4,9 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
 export interface BlobDetails {
@@ -183,7 +183,7 @@ export class QuantumJobClient extends coreClient.ServiceClient {
     // (undocumented)
     resourceGroupName: string;
     // (undocumented)
-    storage: Storage_2;
+    storage: Storage;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -243,10 +243,9 @@ export interface SasUriResponse {
 }
 
 // @public
-interface Storage_2 {
+export interface Storage {
     sasUri(blobDetails: BlobDetails, options?: StorageSasUriOptionalParams): Promise<StorageSasUriResponse>;
 }
-export { Storage_2 as Storage }
 
 // @public
 export interface StorageSasUriOptionalParams extends coreClient.OperationOptions {

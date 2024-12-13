@@ -1,14 +1,12 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   {
-    ignores: ["src/shims.d.ts"],
-  },
-  ...azsdkEslint.configs.recommended,
-  {
-    rules: {
-      // Removing `src` would be a breaking change so leaving it for the package owners to address
-      "@azure/azure-sdk/ts-package-json-files-required": "warn",
+    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.test.json"],
+      },
     },
   },
-];
+]);

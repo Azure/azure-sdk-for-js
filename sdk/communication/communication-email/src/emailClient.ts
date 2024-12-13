@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models";
+import type { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -10,10 +10,10 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { EmailRestApiClient } from "./generated/src/emailRestApiClient";
+import { EmailRestApiClient } from "./generated/src/emailRestApiClient.js";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { logger } from "./logger";
-import type { EmailSendResponse } from "./generated/src";
+import { logger } from "./logger.js";
+import type { EmailSendResponse } from "./generated/src/index.js";
 
 /**
  * Checks whether the type of a value is EmailClientOptions or not.

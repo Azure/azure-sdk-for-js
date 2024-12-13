@@ -60,6 +60,7 @@ declare global {
     homepage: string;
     sideEffects: boolean;
     private: boolean;
+    engines?: { node?: string };
 
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;

@@ -39,7 +39,7 @@ import type {
   TextAnalysisAuthoringListAssignedResourceDeploymentsParameters,
   TextAnalysisAuthoringGetSupportedLanguagesParameters,
   TextAnalysisAuthoringListTrainingConfigVersionsParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   TextAnalysisAuthoringListProjects200Response,
   TextAnalysisAuthoringListProjectsDefaultResponse,
@@ -116,7 +116,7 @@ import type {
   TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse,
   TextAnalysisAuthoringListTrainingConfigVersions200Response,
   TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListProjects {

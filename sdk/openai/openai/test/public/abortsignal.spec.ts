@@ -3,9 +3,9 @@
 
 import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import OpenAI, { AzureOpenAI } from "openai";
+import type { OpenAI, AzureOpenAI } from "openai";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, APIVersion } from "./utils/utils.js";
+import { APIMatrix, type APIVersion } from "./utils/utils.js";
 
 describe("AbortSignal", () => {
   let client: AzureOpenAI | OpenAI;
@@ -31,7 +31,6 @@ describe("AbortSignal", () => {
       ];
 
       const deploymentName = "gpt-35-turbo";
-      let currentMessage = "";
       try {
         const events = client.beta.chat.completions.stream({
           model: deploymentName,
@@ -46,7 +45,6 @@ describe("AbortSignal", () => {
           assert.isDefined(event);
           events.abort();
         }
-        assert.isDefined(currentMessage);
         assert.fail("Expected to abort streaming");
       } catch (error: any) {
         assert.isTrue(error.message.includes("aborted"));

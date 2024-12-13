@@ -7,12 +7,12 @@ import { createClient } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
 import {
   APIMatrix,
-  APIVersion,
-  DeploymentInfo,
+  type APIVersion,
+  type DeploymentInfo,
   getDeployments,
   withDeployments,
 } from "./utils/utils.js";
-import OpenAI, { AzureOpenAI } from "openai";
+import type { OpenAI, AzureOpenAI } from "openai";
 import { logger } from "@azure/identity";
 import { RestError } from "@azure/core-rest-pipeline";
 import { visionModelsToSkip } from "./utils/models.js";

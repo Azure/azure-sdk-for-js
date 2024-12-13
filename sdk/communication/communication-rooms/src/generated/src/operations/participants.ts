@@ -6,21 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Participants } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Participants } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RoomsRestClient } from "../roomsRestClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RoomsRestClient } from "../roomsRestClient.js";
 import {
+  RoomParticipant,
+  ParticipantsListNextOptionalParams,
   ParticipantsListOptionalParams,
   ParticipantsListResponse,
   ParticipantsUpdateOptionalParams,
   ParticipantsUpdateResponse,
-  ParticipantsListNextOptionalParams,
-  ParticipantsListNextResponse
-} from "../models";
+  ParticipantsListNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Participants operations. */
 export class ParticipantsImpl implements Participants {
   private readonly client: RoomsRestClient;
@@ -38,19 +42,77 @@ export class ParticipantsImpl implements Participants {
    * @param roomId The id of the room to get participants from.
    * @param options The options parameters.
    */
-  async list(
+  public list(
     roomId: string,
-    options?: ParticipantsListOptionalParams
+    options?: ParticipantsListOptionalParams,
+  ): PagedAsyncIterableIterator<RoomParticipant> {
+    const iter = this.listPagingAll(roomId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(roomId, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    roomId: string,
+    options?: ParticipantsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<RoomParticipant[]> {
+    let result: ParticipantsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(roomId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(roomId, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    roomId: string,
+    options?: ParticipantsListOptionalParams,
+  ): AsyncIterableIterator<RoomParticipant> {
+    for await (const page of this.listPagingPage(roomId, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get participants in a room.
+   * @param roomId The id of the room to get participants from.
+   * @param options The options parameters.
+   */
+  private async _list(
+    roomId: string,
+    options?: ParticipantsListOptionalParams,
   ): Promise<ParticipantsListResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient.list",
+      "RoomsRestClient._list",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, options },
-          listOperationSpec
+          listOperationSpec,
         ) as Promise<ParticipantsListResponse>;
-      }
+      },
     );
   }
 
@@ -61,7 +123,7 @@ export class ParticipantsImpl implements Participants {
    */
   async update(
     roomId: string,
-    options?: ParticipantsUpdateOptionalParams
+    options?: ParticipantsUpdateOptionalParams,
   ): Promise<ParticipantsUpdateResponse> {
     return tracingClient.withSpan(
       "RoomsRestClient.update",
@@ -69,9 +131,9 @@ export class ParticipantsImpl implements Participants {
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, options },
-          updateOperationSpec
+          updateOperationSpec,
         ) as Promise<ParticipantsUpdateResponse>;
-      }
+      },
     );
   }
 
@@ -81,20 +143,20 @@ export class ParticipantsImpl implements Participants {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  async listNext(
+  private async _listNext(
     roomId: string,
     nextLink: string,
-    options?: ParticipantsListNextOptionalParams
+    options?: ParticipantsListNextOptionalParams,
   ): Promise<ParticipantsListNextResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient.listNext",
+      "RoomsRestClient._listNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { roomId, nextLink, options },
-          listNextOperationSpec
+          listNextOperationSpec,
         ) as Promise<ParticipantsListNextResponse>;
-      }
+      },
     );
   }
 }
@@ -106,17 +168,17 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ParticipantsCollection
+      bodyMapper: Mappers.ParticipantsCollection,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.ParticipantsListExceptionHeaders
-    }
+      headersMapper: Mappers.ParticipantsListExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}/participants",
@@ -124,37 +186,37 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      },
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.ParticipantsUpdateExceptionHeaders
-    }
+      headersMapper: Mappers.ParticipantsUpdateExceptionHeaders,
+    },
   },
   requestBody: {
     parameterPath: { participants: ["options", "participants"] },
-    mapper: { ...Mappers.UpdateParticipantsRequest, required: true }
+    mapper: { ...Mappers.UpdateParticipantsRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ParticipantsCollection
+      bodyMapper: Mappers.ParticipantsCollection,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.ParticipantsListNextExceptionHeaders
-    }
+      headersMapper: Mappers.ParticipantsListNextExceptionHeaders,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.roomId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

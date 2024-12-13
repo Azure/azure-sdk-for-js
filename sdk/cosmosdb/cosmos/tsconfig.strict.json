@@ -152,6 +152,11 @@
     "src/queryExecutionContext/orderByComparator.ts",
     "src/utils/fixedSizePriorityQueue.ts",
     "src/utils/supportedQueryFeaturesBuilder.ts",
+    "src/documents/FullTextPolicy.ts",
+    "src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator.ts",
+    "src/queryExecutionContext/hybridQueryExecutionContext.ts",
+    "src/request/globalStatistics.ts",
+    "src/request/hybridSearchQueryResult.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
@@ -160,6 +165,7 @@
     "test/internal/unit/inMemoryCollectionRoutingMap.spec.ts",
     "test/internal/unit/platform.spec.ts",
     "test/internal/unit/sasToken.spec.ts",
+    "test/internal/unit/hybridExecutionContext.spec.ts",
     "test/internal/unit/sessionContainer.spec.ts",
     "test/internal/unit/changeFeed/*.spec.ts",
     "test/public/common/MockQueryIterator.ts",
@@ -175,6 +181,7 @@
     "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
     "test/internal/unit/nonStreamingOrderByMap.spec.ts",
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
+    "test/internal/unit/getHeader.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",
@@ -223,8 +230,10 @@
     "test/public/integration/nonStreamingOrderBy/nonStreamingOrderBy.spec.ts",
     "test/public/integration/nonStreamingOrderBy/nonStreamingDistinctOrderBy.spec.ts",
     "test/public/integration/client.retry.spec.ts",
-    "test/public/functional/vectorEmbeddingPolicy.spec.ts",
+    "test/public/integration/fullTextSearch.spec.ts",
+    "test/public/functional/NonStreamingQueryPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
-    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts"
+    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
+    "test/internal/unit/globalStatisticsAggregator.spec.ts"
   ]
 }

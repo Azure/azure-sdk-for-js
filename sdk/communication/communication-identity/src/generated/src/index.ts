@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { IdentityRestClient } from "./identityRestClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { IdentityRestClient } from "./identityRestClient.js";
+export * from "./operationsInterfaces/index.js";

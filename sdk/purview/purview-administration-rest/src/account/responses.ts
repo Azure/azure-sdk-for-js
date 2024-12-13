@@ -12,7 +12,7 @@ import type {
   ErrorResponseModel,
   ResourceSetRuleConfig,
   ResourceSetRuleConfigList,
-} from "./models";
+} from "./models.js";
 
 /** Get an account */
 export interface AccountsGetAccountProperties200Response extends HttpResponse {

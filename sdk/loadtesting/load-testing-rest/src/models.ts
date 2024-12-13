@@ -8,7 +8,7 @@ import type {
   TestRunCreateOrUpdate201Response,
   TestRunGet200Response,
   TestUploadFile201Response,
-} from "./responses";
+} from "./responses.js";
 
 /** Load test model */
 export interface Test {

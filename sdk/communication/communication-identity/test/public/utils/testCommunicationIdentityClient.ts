@@ -6,15 +6,15 @@ import type {
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
   TokenScope,
-} from "../../../src";
-import { CommunicationIdentityClient } from "../../../src";
+} from "../../../src/index.js";
+import { CommunicationIdentityClient } from "../../../src/index.js";
 import {
   createUserAndTokenHttpClient,
   createUserHttpClient,
   getTokenForTeamsUserHttpClient,
   getTokenHttpClient,
   revokeTokensHttpClient,
-} from "./mockHttpClients";
+} from "./mockHttpClients.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 

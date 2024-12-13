@@ -12,7 +12,7 @@ import type {
   DeleteDeploymentOptions,
   AssignDeploymentResourcesOptions,
   UnassignDeploymentResourcesOptions,
-} from "./models";
+} from "./models.js";
 
 export interface TextAnalysisAuthoringListProjectsQueryParamProperties {
   /** The maximum number of resources to return from the collection. */

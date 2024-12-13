@@ -14,8 +14,7 @@
 import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -26,7 +25,7 @@ const documents = [
   "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Recognize Linked Entities Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));

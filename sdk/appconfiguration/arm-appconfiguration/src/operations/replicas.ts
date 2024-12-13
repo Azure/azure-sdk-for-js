@@ -16,7 +16,7 @@ import { AppConfigurationManagementClient } from "../appConfigurationManagementC
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   ReplicasCreateOptionalParams,
   ReplicasCreateResponse,
   ReplicasDeleteOptionalParams,
-  ReplicasListByConfigurationStoreNextResponse
+  ReplicasListByConfigurationStoreNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class ReplicasImpl implements Replicas {
   public listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams
+    options?: ReplicasListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<Replica> {
     const iter = this.listByConfigurationStorePagingAll(
       resourceGroupName,
       configStoreName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class ReplicasImpl implements Replicas {
           resourceGroupName,
           configStoreName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     configStoreName: string,
     options?: ReplicasListByConfigurationStoreOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Replica[]> {
     let result: ReplicasListByConfigurationStoreResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ReplicasImpl implements Replicas {
       result = await this._listByConfigurationStore(
         resourceGroupName,
         configStoreName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class ReplicasImpl implements Replicas {
         resourceGroupName,
         configStoreName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class ReplicasImpl implements Replicas {
   private async *listByConfigurationStorePagingAll(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams
+    options?: ReplicasListByConfigurationStoreOptionalParams,
   ): AsyncIterableIterator<Replica> {
     for await (const page of this.listByConfigurationStorePagingPage(
       resourceGroupName,
       configStoreName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ReplicasImpl implements Replicas {
   private _listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams
+    options?: ReplicasListByConfigurationStoreOptionalParams,
   ): Promise<ReplicasListByConfigurationStoreResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, options },
-      listByConfigurationStoreOperationSpec
+      listByConfigurationStoreOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasGetOptionalParams
+    options?: ReplicasGetOptionalParams,
   ): Promise<ReplicasGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, replicaName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +178,7 @@ export class ReplicasImpl implements Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicasCreateResponse>,
@@ -187,21 +187,20 @@ export class ReplicasImpl implements Replicas {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -210,8 +209,8 @@ export class ReplicasImpl implements Replicas {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -219,8 +218,8 @@ export class ReplicasImpl implements Replicas {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -231,9 +230,9 @@ export class ReplicasImpl implements Replicas {
         configStoreName,
         replicaName,
         replicaCreationParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicasCreateResponse,
@@ -241,7 +240,7 @@ export class ReplicasImpl implements Replicas {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -260,14 +259,14 @@ export class ReplicasImpl implements Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<ReplicasCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       configStoreName,
       replicaName,
       replicaCreationParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -283,25 +282,24 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -310,8 +308,8 @@ export class ReplicasImpl implements Replicas {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -319,20 +317,20 @@ export class ReplicasImpl implements Replicas {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, configStoreName, replicaName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -349,13 +347,13 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       configStoreName,
       replicaName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -372,11 +370,11 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     configStoreName: string,
     nextLink: string,
-    options?: ReplicasListByConfigurationStoreNextOptionalParams
+    options?: ReplicasListByConfigurationStoreNextOptionalParams,
   ): Promise<ReplicasListByConfigurationStoreNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
-      listByConfigurationStoreNextOperationSpec
+      listByConfigurationStoreNextOperationSpec,
     );
   }
 }
@@ -384,38 +382,36 @@ export class ReplicasImpl implements Replicas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaListResult
+      bodyMapper: Mappers.ReplicaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.configStoreName
+    Parameters.configStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -423,31 +419,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     201: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     202: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     204: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.replicaCreationParameters,
   queryParameters: [Parameters.apiVersion],
@@ -456,15 +451,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName1
+    Parameters.replicaName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -472,8 +466,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -481,29 +475,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName1
+    Parameters.replicaName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaListResult
+      bodyMapper: Mappers.ReplicaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

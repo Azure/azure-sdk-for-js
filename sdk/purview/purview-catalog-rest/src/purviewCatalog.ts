@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { PurviewCatalogClient } from "./clientDefinitions";
+import type { PurviewCatalogClient } from "./clientDefinitions.js";
 
 export default function createClient(
   Endpoint: string,
