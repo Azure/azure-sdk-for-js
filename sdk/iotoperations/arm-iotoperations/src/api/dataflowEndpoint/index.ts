@@ -125,33 +125,22 @@ export function dataflowEndpointCreateOrUpdate(
   options: DataflowEndpointCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<DataflowEndpointResource>,
-  DataflowEndpointResource
-> {
-  return getLongRunningPoller(
-    context,
-    _dataflowEndpointCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _dataflowEndpointCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          dataflowEndpointName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<
-    OperationState<DataflowEndpointResource>,
-    DataflowEndpointResource
-  >;
+): PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource> {
+  return getLongRunningPoller(context, _dataflowEndpointCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataflowEndpointCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        dataflowEndpointName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
 }
 
 export function _dataflowEndpointDeleteSend(
@@ -193,25 +182,20 @@ export function dataflowEndpointDelete(
   dataflowEndpointName: string,
   options: DataflowEndpointDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _dataflowEndpointDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _dataflowEndpointDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          dataflowEndpointName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _dataflowEndpointDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataflowEndpointDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        dataflowEndpointName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _dataflowEndpointListByResourceGroupSend(

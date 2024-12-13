@@ -119,25 +119,20 @@ export function instanceCreateOrUpdate(
   resource: InstanceResource,
   options: InstanceCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<InstanceResource>, InstanceResource> {
-  return getLongRunningPoller(
-    context,
-    _instanceCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _instanceCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<InstanceResource>, InstanceResource>;
+  return getLongRunningPoller(context, _instanceCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _instanceCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<InstanceResource>, InstanceResource>;
 }
 
 export function _instanceUpdateSend(
@@ -209,9 +204,7 @@ export function _instanceDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _instanceDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _instanceDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -228,24 +221,13 @@ export function instanceDelete(
   instanceName: string,
   options: InstanceDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _instanceDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _instanceDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _instanceDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _instanceDeleteSend(context, subscriptionId, resourceGroupName, instanceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _instanceListByResourceGroupSend(
@@ -283,13 +265,7 @@ export function instanceListByResourceGroup(
 ): PagedAsyncIterableIterator<InstanceResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _instanceListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+    () => _instanceListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _instanceListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

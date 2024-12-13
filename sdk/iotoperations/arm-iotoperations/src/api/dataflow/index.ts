@@ -129,27 +129,22 @@ export function dataflowCreateOrUpdate(
   resource: DataflowResource,
   options: DataflowCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DataflowResource>, DataflowResource> {
-  return getLongRunningPoller(
-    context,
-    _dataflowCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _dataflowCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          dataflowProfileName,
-          dataflowName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
+  return getLongRunningPoller(context, _dataflowCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataflowCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        dataflowProfileName,
+        dataflowName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
 }
 
 export function _dataflowDeleteSend(
@@ -173,9 +168,7 @@ export function _dataflowDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _dataflowDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _dataflowDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -194,26 +187,21 @@ export function dataflowDelete(
   dataflowName: string,
   options: DataflowDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _dataflowDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _dataflowDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          dataflowProfileName,
-          dataflowName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _dataflowDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataflowDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        dataflowProfileName,
+        dataflowName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _dataflowListByResourceGroupSend(

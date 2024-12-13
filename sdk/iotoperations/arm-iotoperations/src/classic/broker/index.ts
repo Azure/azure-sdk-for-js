@@ -50,25 +50,14 @@ export interface BrokerOperations {
   ) => PagedAsyncIterableIterator<BrokerResource>;
 }
 
-export function getBroker(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-) {
+export function getBroker(context: IoTOperationsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       options?: BrokerGetOptionalParams,
-    ) =>
-      brokerGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
+    ) => brokerGet(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
     createOrUpdate: (
       resourceGroupName: string,
       instanceName: string,
@@ -91,26 +80,13 @@ export function getBroker(
       brokerName: string,
       options?: BrokerDeleteOptionalParams,
     ) =>
-      brokerDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
+      brokerDelete(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       instanceName: string,
       options?: BrokerListByResourceGroupOptionalParams,
     ) =>
-      brokerListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        options,
-      ),
+      brokerListByResourceGroup(context, subscriptionId, resourceGroupName, instanceName, options),
   };
 }
 
