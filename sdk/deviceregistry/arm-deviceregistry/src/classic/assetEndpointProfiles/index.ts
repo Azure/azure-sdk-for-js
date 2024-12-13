@@ -10,10 +10,7 @@ import {
   assetEndpointProfilesListByResourceGroup,
   assetEndpointProfilesListBySubscription,
 } from "../../api/assetEndpointProfiles/index.js";
-import {
-  AssetEndpointProfile,
-  AssetEndpointProfileUpdate,
-} from "../../models/models.js";
+import { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -125,15 +122,8 @@ export function getAssetEndpointProfiles(
       resourceGroupName: string,
       options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
     ) =>
-      assetEndpointProfilesListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: AssetEndpointProfilesListBySubscriptionOptionalParams,
-    ) =>
+      assetEndpointProfilesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) =>
       assetEndpointProfilesListBySubscription(context, subscriptionId, options),
   };
 }

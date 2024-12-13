@@ -14,10 +14,7 @@ async function getDiscoveredAsset() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.discoveredAssets.get(
-    "myResourceGroup",
-    "my-discoveredasset",
-  );
+  const result = await client.discoveredAssets.get("myResourceGroup", "my-discoveredasset");
   console.log(result);
 }
 

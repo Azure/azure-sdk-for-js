@@ -49,10 +49,7 @@ export interface SchemasOperations {
   ) => PagedAsyncIterableIterator<Schema>;
 }
 
-export function getSchemas(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-) {
+export function getSchemas(context: DeviceRegistryManagementContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

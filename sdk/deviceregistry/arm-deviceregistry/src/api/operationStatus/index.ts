@@ -5,10 +5,7 @@ import {
   DeviceRegistryManagementContext as Client,
   OperationStatusGetOptionalParams,
 } from "../index.js";
-import {
-  OperationStatusResult,
-  operationStatusResultDeserializer,
-} from "../../models/models.js";
+import { OperationStatusResult, operationStatusResultDeserializer } from "../../models/models.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

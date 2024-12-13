@@ -14,11 +14,7 @@ async function deleteSchema() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  await client.schemas.delete(
-    "myResourceGroup",
-    "my-schema-registry",
-    "my-schema",
-  );
+  await client.schemas.delete("myResourceGroup", "my-schema-registry", "my-schema");
 }
 
 async function main() {

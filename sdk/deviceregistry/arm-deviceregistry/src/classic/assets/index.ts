@@ -61,16 +61,9 @@ export interface AssetsOperations {
   ) => PagedAsyncIterableIterator<Asset>;
 }
 
-export function getAssets(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-) {
+export function getAssets(context: DeviceRegistryManagementContext, subscriptionId: string) {
   return {
-    get: (
-      resourceGroupName: string,
-      assetName: string,
-      options?: AssetsGetOptionalParams,
-    ) =>
+    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>
       assetsGet(context, subscriptionId, resourceGroupName, assetName, options),
     createOrReplace: (
       resourceGroupName: string,
@@ -91,37 +84,13 @@ export function getAssets(
       assetName: string,
       properties: AssetUpdate,
       options?: AssetsUpdateOptionalParams,
-    ) =>
-      assetsUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        assetName,
-        properties,
-        options,
-      ),
-    delete: (
-      resourceGroupName: string,
-      assetName: string,
-      options?: AssetsDeleteOptionalParams,
-    ) =>
-      assetsDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        assetName,
-        options,
-      ),
+    ) => assetsUpdate(context, subscriptionId, resourceGroupName, assetName, properties, options),
+    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) =>
+      assetsDelete(context, subscriptionId, resourceGroupName, assetName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AssetsListByResourceGroupOptionalParams,
-    ) =>
-      assetsListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+    ) => assetsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
     listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) =>
       assetsListBySubscription(context, subscriptionId, options),
   };

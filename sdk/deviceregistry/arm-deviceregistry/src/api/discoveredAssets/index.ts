@@ -185,25 +185,20 @@ export function discoveredAssetsUpdate(
   properties: DiscoveredAssetUpdate,
   options: DiscoveredAssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset> {
-  return getLongRunningPoller(
-    context,
-    _discoveredAssetsUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _discoveredAssetsUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          discoveredAssetName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
+  return getLongRunningPoller(context, _discoveredAssetsUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _discoveredAssetsUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        discoveredAssetName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
 }
 
 export function _discoveredAssetsDeleteSend(
@@ -242,24 +237,19 @@ export function discoveredAssetsDelete(
   discoveredAssetName: string,
   options: DiscoveredAssetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _discoveredAssetsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _discoveredAssetsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          discoveredAssetName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _discoveredAssetsDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _discoveredAssetsDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        discoveredAssetName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _discoveredAssetsListByResourceGroupSend(
@@ -302,12 +292,7 @@ export function discoveredAssetsListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _discoveredAssetsListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+      _discoveredAssetsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _discoveredAssetsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -350,8 +335,7 @@ export function discoveredAssetsListBySubscription(
 ): PagedAsyncIterableIterator<DiscoveredAsset> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _discoveredAssetsListBySubscriptionSend(context, subscriptionId, options),
+    () => _discoveredAssetsListBySubscriptionSend(context, subscriptionId, options),
     _discoveredAssetsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

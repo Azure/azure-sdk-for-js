@@ -21,18 +21,8 @@ export function getOperationStatus(
   subscriptionId: string,
 ) {
   return {
-    get: (
-      location: string,
-      operationId: string,
-      options?: OperationStatusGetOptionalParams,
-    ) =>
-      operationStatusGet(
-        context,
-        subscriptionId,
-        location,
-        operationId,
-        options,
-      ),
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
+      operationStatusGet(context, subscriptionId, location, operationId, options),
   };
 }
 

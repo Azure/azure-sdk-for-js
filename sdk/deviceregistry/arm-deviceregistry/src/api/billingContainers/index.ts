@@ -101,12 +101,7 @@ export function billingContainersListBySubscription(
 ): PagedAsyncIterableIterator<BillingContainer> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _billingContainersListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _billingContainersListBySubscriptionSend(context, subscriptionId, options),
     _billingContainersListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

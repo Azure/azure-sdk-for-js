@@ -185,25 +185,20 @@ export function schemaRegistriesUpdate(
   properties: SchemaRegistryUpdate,
   options: SchemaRegistriesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SchemaRegistry>, SchemaRegistry> {
-  return getLongRunningPoller(
-    context,
-    _schemaRegistriesUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _schemaRegistriesUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          schemaRegistryName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+  return getLongRunningPoller(context, _schemaRegistriesUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _schemaRegistriesUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        schemaRegistryName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 
 export function _schemaRegistriesDeleteSend(
@@ -242,24 +237,19 @@ export function schemaRegistriesDelete(
   schemaRegistryName: string,
   options: SchemaRegistriesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _schemaRegistriesDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _schemaRegistriesDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          schemaRegistryName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _schemaRegistriesDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _schemaRegistriesDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        schemaRegistryName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _schemaRegistriesListByResourceGroupSend(
@@ -302,12 +292,7 @@ export function schemaRegistriesListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _schemaRegistriesListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+      _schemaRegistriesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _schemaRegistriesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -350,8 +335,7 @@ export function schemaRegistriesListBySubscription(
 ): PagedAsyncIterableIterator<SchemaRegistry> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _schemaRegistriesListBySubscriptionSend(context, subscriptionId, options),
+    () => _schemaRegistriesListBySubscriptionSend(context, subscriptionId, options),
     _schemaRegistriesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -71,13 +71,7 @@ export function getDiscoveredAssets(
       discoveredAssetName: string,
       options?: DiscoveredAssetsGetOptionalParams,
     ) =>
-      discoveredAssetsGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        discoveredAssetName,
-        options,
-      ),
+      discoveredAssetsGet(context, subscriptionId, resourceGroupName, discoveredAssetName, options),
     createOrReplace: (
       resourceGroupName: string,
       discoveredAssetName: string,
@@ -121,16 +115,9 @@ export function getDiscoveredAssets(
     listByResourceGroup: (
       resourceGroupName: string,
       options?: DiscoveredAssetsListByResourceGroupOptionalParams,
-    ) =>
-      discoveredAssetsListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: DiscoveredAssetsListBySubscriptionOptionalParams,
-    ) => discoveredAssetsListBySubscription(context, subscriptionId, options),
+    ) => discoveredAssetsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: DiscoveredAssetsListBySubscriptionOptionalParams) =>
+      discoveredAssetsListBySubscription(context, subscriptionId, options),
   };
 }
 

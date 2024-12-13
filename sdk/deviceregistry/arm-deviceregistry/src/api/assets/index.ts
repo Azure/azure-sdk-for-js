@@ -49,9 +49,7 @@ export function _assetsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _assetsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Asset> {
+export async function _assetsGetDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -119,25 +117,20 @@ export function assetsCreateOrReplace(
   resource: Asset,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(
-    context,
-    _assetsCreateOrReplaceDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsCreateOrReplaceSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          assetName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Asset>, Asset>;
+  return getLongRunningPoller(context, _assetsCreateOrReplaceDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetsCreateOrReplaceSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        assetName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
 export function _assetsUpdateSend(
@@ -161,9 +154,7 @@ export function _assetsUpdateSend(
     });
 }
 
-export async function _assetsUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Asset> {
+export async function _assetsUpdateDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -181,25 +172,13 @@ export function assetsUpdate(
   properties: AssetUpdate,
   options: AssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(
-    context,
-    _assetsUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          assetName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<Asset>, Asset>;
+  return getLongRunningPoller(context, _assetsUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetsUpdateSend(context, subscriptionId, resourceGroupName, assetName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
 export function _assetsDeleteSend(
@@ -219,9 +198,7 @@ export function _assetsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _assetsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _assetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -238,24 +215,13 @@ export function assetsDelete(
   assetName: string,
   options: AssetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _assetsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          assetName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _assetsDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetsDeleteSend(context, subscriptionId, resourceGroupName, assetName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _assetsListByResourceGroupSend(
@@ -293,13 +259,7 @@ export function assetsListByResourceGroup(
 ): PagedAsyncIterableIterator<Asset> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _assetsListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+    () => _assetsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _assetsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

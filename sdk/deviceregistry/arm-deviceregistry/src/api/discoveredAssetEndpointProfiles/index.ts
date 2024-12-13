@@ -126,10 +126,7 @@ export function discoveredAssetEndpointProfilesCreateOrReplace(
   options: DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<DiscoveredAssetEndpointProfile>,
-  DiscoveredAssetEndpointProfile
-> {
+): PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile> {
   return getLongRunningPoller(
     context,
     _discoveredAssetEndpointProfilesCreateOrReplaceDeserialize,
@@ -148,10 +145,7 @@ export function discoveredAssetEndpointProfilesCreateOrReplace(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<DiscoveredAssetEndpointProfile>,
-    DiscoveredAssetEndpointProfile
-  >;
+  ) as PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
 }
 
 export function _discoveredAssetEndpointProfilesUpdateSend(
@@ -198,10 +192,7 @@ export function discoveredAssetEndpointProfilesUpdate(
   options: DiscoveredAssetEndpointProfilesUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<DiscoveredAssetEndpointProfile>,
-  DiscoveredAssetEndpointProfile
-> {
+): PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile> {
   return getLongRunningPoller(
     context,
     _discoveredAssetEndpointProfilesUpdateDeserialize,
@@ -220,10 +211,7 @@ export function discoveredAssetEndpointProfilesUpdate(
         ),
       resourceLocationConfig: "location",
     },
-  ) as PollerLike<
-    OperationState<DiscoveredAssetEndpointProfile>,
-    DiscoveredAssetEndpointProfile
-  >;
+  ) as PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
 }
 
 export function _discoveredAssetEndpointProfilesDeleteSend(
@@ -374,12 +362,7 @@ export function discoveredAssetEndpointProfilesListBySubscription(
 ): PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _discoveredAssetEndpointProfilesListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _discoveredAssetEndpointProfilesListBySubscriptionSend(context, subscriptionId, options),
     _discoveredAssetEndpointProfilesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

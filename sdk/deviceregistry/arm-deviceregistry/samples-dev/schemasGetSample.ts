@@ -14,11 +14,7 @@ async function schemasGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.schemas.get(
-    "myResourceGroup",
-    "my-schema-registry",
-    "my-schema",
-  );
+  const result = await client.schemas.get("myResourceGroup", "my-schema-registry", "my-schema");
   console.log(result);
 }
 

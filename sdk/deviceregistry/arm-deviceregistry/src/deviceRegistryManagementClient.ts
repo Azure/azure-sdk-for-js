@@ -1,18 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getOperationStatusOperations,
   OperationStatusOperations,
 } from "./classic/operationStatus/index.js";
-import {
-  getAssetsOperations,
-  AssetsOperations,
-} from "./classic/assets/index.js";
+import { getAssetsOperations, AssetsOperations } from "./classic/assets/index.js";
 import {
   getAssetEndpointProfilesOperations,
   AssetEndpointProfilesOperations,
@@ -33,10 +27,7 @@ import {
   getSchemaRegistriesOperations,
   SchemaRegistriesOperations,
 } from "./classic/schemaRegistries/index.js";
-import {
-  getSchemasOperations,
-  SchemasOperations,
-} from "./classic/schemas/index.js";
+import { getSchemasOperations, SchemasOperations } from "./classic/schemas/index.js";
 import {
   getSchemaVersionsOperations,
   SchemaVersionsOperations,
@@ -72,37 +63,18 @@ export class DeviceRegistryManagementClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.operationStatus = getOperationStatusOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.operationStatus = getOperationStatusOperations(this._client, subscriptionId);
     this.assets = getAssetsOperations(this._client, subscriptionId);
-    this.assetEndpointProfiles = getAssetEndpointProfilesOperations(
+    this.assetEndpointProfiles = getAssetEndpointProfilesOperations(this._client, subscriptionId);
+    this.billingContainers = getBillingContainersOperations(this._client, subscriptionId);
+    this.discoveredAssets = getDiscoveredAssetsOperations(this._client, subscriptionId);
+    this.discoveredAssetEndpointProfiles = getDiscoveredAssetEndpointProfilesOperations(
       this._client,
       subscriptionId,
     );
-    this.billingContainers = getBillingContainersOperations(
-      this._client,
-      subscriptionId,
-    );
-    this.discoveredAssets = getDiscoveredAssetsOperations(
-      this._client,
-      subscriptionId,
-    );
-    this.discoveredAssetEndpointProfiles =
-      getDiscoveredAssetEndpointProfilesOperations(
-        this._client,
-        subscriptionId,
-      );
-    this.schemaRegistries = getSchemaRegistriesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.schemaRegistries = getSchemaRegistriesOperations(this._client, subscriptionId);
     this.schemas = getSchemasOperations(this._client, subscriptionId);
-    this.schemaVersions = getSchemaVersionsOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.schemaVersions = getSchemaVersionsOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

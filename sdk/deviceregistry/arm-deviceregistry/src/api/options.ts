@@ -31,59 +31,49 @@ export interface AssetsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AssetsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface AssetsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssetsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface AssetsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesGetOptionalParams
-  extends OperationOptions {}
+export interface AssetEndpointProfilesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesCreateOrReplaceOptionalParams
-  extends OperationOptions {
+export interface AssetEndpointProfilesCreateOrReplaceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesUpdateOptionalParams
-  extends OperationOptions {
+export interface AssetEndpointProfilesUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesDeleteOptionalParams
-  extends OperationOptions {
+export interface AssetEndpointProfilesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface AssetEndpointProfilesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssetEndpointProfilesListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BillingContainersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BillingContainersListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface BillingContainersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DiscoveredAssetsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DiscoveredAssetsCreateOrReplaceOptionalParams
-  extends OperationOptions {
+export interface DiscoveredAssetsCreateOrReplaceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -101,16 +91,13 @@ export interface DiscoveredAssetsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DiscoveredAssetsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface DiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DiscoveredAssetsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface DiscoveredAssetsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DiscoveredAssetEndpointProfilesGetOptionalParams
-  extends OperationOptions {}
+export interface DiscoveredAssetEndpointProfilesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams
@@ -120,15 +107,13 @@ export interface DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams
 }
 
 /** Optional parameters. */
-export interface DiscoveredAssetEndpointProfilesUpdateOptionalParams
-  extends OperationOptions {
+export interface DiscoveredAssetEndpointProfilesUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface DiscoveredAssetEndpointProfilesDeleteOptionalParams
-  extends OperationOptions {
+export interface DiscoveredAssetEndpointProfilesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -145,8 +130,7 @@ export interface DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams
 export interface SchemaRegistriesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemaRegistriesCreateOrReplaceOptionalParams
-  extends OperationOptions {
+export interface SchemaRegistriesCreateOrReplaceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -164,37 +148,31 @@ export interface SchemaRegistriesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SchemaRegistriesListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface SchemaRegistriesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemaRegistriesListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface SchemaRegistriesListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SchemasGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemasCreateOrReplaceOptionalParams
-  extends OperationOptions {}
+export interface SchemasCreateOrReplaceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SchemasDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemasListBySchemaRegistryOptionalParams
-  extends OperationOptions {}
+export interface SchemasListBySchemaRegistryOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SchemaVersionsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemaVersionsCreateOrReplaceOptionalParams
-  extends OperationOptions {}
+export interface SchemaVersionsCreateOrReplaceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SchemaVersionsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemaVersionsListBySchemaOptionalParams
-  extends OperationOptions {}
+export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptions {}

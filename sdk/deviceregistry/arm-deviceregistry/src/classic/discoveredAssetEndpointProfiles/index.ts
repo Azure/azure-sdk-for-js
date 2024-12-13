@@ -39,20 +39,14 @@ export interface DiscoveredAssetEndpointProfilesOperations {
     discoveredAssetEndpointProfileName: string,
     resource: DiscoveredAssetEndpointProfile,
     options?: DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams,
-  ) => PollerLike<
-    OperationState<DiscoveredAssetEndpointProfile>,
-    DiscoveredAssetEndpointProfile
-  >;
+  ) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
   /** Update a DiscoveredAssetEndpointProfile */
   update: (
     resourceGroupName: string,
     discoveredAssetEndpointProfileName: string,
     properties: DiscoveredAssetEndpointProfileUpdate,
     options?: DiscoveredAssetEndpointProfilesUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<DiscoveredAssetEndpointProfile>,
-    DiscoveredAssetEndpointProfile
-  >;
+  ) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
   /** Delete a DiscoveredAssetEndpointProfile */
   delete: (
     resourceGroupName: string,
@@ -139,12 +133,7 @@ export function getDiscoveredAssetEndpointProfiles(
       ),
     listBySubscription: (
       options?: DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams,
-    ) =>
-      discoveredAssetEndpointProfilesListBySubscription(
-        context,
-        subscriptionId,
-        options,
-      ),
+    ) => discoveredAssetEndpointProfilesListBySubscription(context, subscriptionId, options),
   };
 }
 

@@ -22,8 +22,7 @@ async function createSchemaRegistry() {
         namespace: "sr-namespace-001",
         displayName: "Schema Registry namespace 001",
         description: "This is a sample Schema Registry",
-        storageAccountContainerUrl:
-          "my-blob-storage.blob.core.windows.net/my-container",
+        storageAccountContainerUrl: "my-blob-storage.blob.core.windows.net/my-container",
       },
       tags: {},
       location: "West Europe",

@@ -31,19 +31,10 @@ export function getBillingContainers(
   subscriptionId: string,
 ) {
   return {
-    get: (
-      billingContainerName: string,
-      options?: BillingContainersGetOptionalParams,
-    ) =>
-      billingContainersGet(
-        context,
-        subscriptionId,
-        billingContainerName,
-        options,
-      ),
-    listBySubscription: (
-      options?: BillingContainersListBySubscriptionOptionalParams,
-    ) => billingContainersListBySubscription(context, subscriptionId, options),
+    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) =>
+      billingContainersGet(context, subscriptionId, billingContainerName, options),
+    listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) =>
+      billingContainersListBySubscription(context, subscriptionId, options),
   };
 }
 

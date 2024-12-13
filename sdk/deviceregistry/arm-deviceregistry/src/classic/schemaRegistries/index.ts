@@ -71,13 +71,7 @@ export function getSchemaRegistries(
       schemaRegistryName: string,
       options?: SchemaRegistriesGetOptionalParams,
     ) =>
-      schemaRegistriesGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schemaRegistryName,
-        options,
-      ),
+      schemaRegistriesGet(context, subscriptionId, resourceGroupName, schemaRegistryName, options),
     createOrReplace: (
       resourceGroupName: string,
       schemaRegistryName: string,
@@ -121,16 +115,9 @@ export function getSchemaRegistries(
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SchemaRegistriesListByResourceGroupOptionalParams,
-    ) =>
-      schemaRegistriesListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: SchemaRegistriesListBySubscriptionOptionalParams,
-    ) => schemaRegistriesListBySubscription(context, subscriptionId, options),
+    ) => schemaRegistriesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) =>
+      schemaRegistriesListBySubscription(context, subscriptionId, options),
   };
 }
 
