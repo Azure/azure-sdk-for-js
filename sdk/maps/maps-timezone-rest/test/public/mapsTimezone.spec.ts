@@ -4,10 +4,9 @@
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { Context } from "mocha";
 import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Authentication", function () {
   let recorder: Recorder;
