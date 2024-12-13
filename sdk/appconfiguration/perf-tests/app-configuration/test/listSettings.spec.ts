@@ -4,6 +4,7 @@
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary, executeParallel } from "@azure-tools/test-perf";
 import { AppConfigTest } from "./appConfigBase.spec.js";
+import { describe, it, assert } from "vitest";
 
 interface ListTestOptions {
   /**
