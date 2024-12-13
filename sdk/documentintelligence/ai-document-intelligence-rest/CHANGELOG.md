@@ -21,6 +21,76 @@
         throw new Error("The response was unexpected.");
       }
   ```
+- New `parseOperationIdFromResponse` method has been added to parse `operationId` from the initial response of batch analysis requests which can later be used to get the analysis results.
+  ```js
+      // Example
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
+        .post({
+          contentType: "application/json",
+          body: {
+            azureBlobSource: {
+              containerUrl: batchTrainingFilesContainerUrl(),
+            },
+            resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+            resultPrefix: "result",
+          },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+      const batchOperationId = parseOperationIdFromResponse(initialResponse);
+
+      const response = await client
+        .path(
+          "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
+          "prebuilt-layout",
+          batchOperationId,
+        )
+        .get();
+  ```
+
+- **New Interfaces:**
+Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
+  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `DocumentAnalysisFeature[]`.
+  - **AnalyzeBatchDocumentsOutputQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `AnalyzeOutputOption[]`.
+  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `string[]`.
+  - **AnalyzeDocumentFeaturesQueryParam**: Customizable `style` and `explode` options for single document analysis, with a value of type `DocumentAnalysisFeature[]`.
+  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Customizable `style` and `explode` options for document analysis from stream, with a value of type `DocumentAnalysisFeature[]`.
+
+
+### Breaking Changes
+
+- **Interface Properties:**
+  - `AnalyzeBatchDocumentsBodyParam`:
+    - Changed `body` from optional to required.
+  - `AnalyzeBatchOperationOutput`:
+    - Added `resultId`.
+  - `AnalyzeDocumentBodyParam`:
+    - Changed `body` from optional to required.
+  - `DocumentClassifierDetailsOutput`:
+    - Added `modifiedDateTime`.
+  - `DocumentModelDetailsOutput`:
+    - Added `modifiedDateTime`.
+
+### Other Changes
+
+The following types were renamed
+
+- `CopyAuthorization` to `ModelCopyAuthorization`
+- `ErrorResponseOutput` to `DocumentIntelligenceErrorResponseOutput`
+- `ErrorModelOutput` to `DocumentIntelligenceErrorOutput`
+- `InnerErrorOutput` to `DocumentIntelligenceInnerErrorOutput`
+- `WarningOutput` to `DocumentIntelligenceWarningOutput`
+- `ContentFormat` to `DocumentContentFormat`
+- `ContentFormatOutput` to `DocumentContentFormatOutput`
+- `OperationDetailsOutputParent` to `DocumentIntelligenceOperationDetailsOutputParent`
+- `OperationDetailsOutput` to `DocumentIntelligenceOperationDetailsOutput`
+- `OperationStatusOutput` to `DocumentIntelligenceOperationStatusOutput`
+- `ResourceDetailsOutput` to `DocumentIntelligenceResourceDetailsOutput`
+- `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
+- `GetResourceInfo` to `GetResourceDetails`
 
 ## 1.0.0-beta.3 (2024-08-20)
 
