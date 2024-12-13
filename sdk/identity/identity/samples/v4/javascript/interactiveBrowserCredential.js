@@ -15,12 +15,10 @@ const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Microsoft Entr
 
 async function main() {
   const credential = new InteractiveBrowserCredential({
-    browserCustomizationOptions: {
-      successMessage: "Authentication Completed. You can close the browser.",
-    },
-    disableAutomaticAuthentication: true,
+    loginHint: "kghiya8@gmail.com"
   });
 
+ 
   // const token = await credential.getToken("https://management.azure.com/.default");
   // console.log(
   //   "InteractiveBrowserCredential: Successfully got a token with expiry time:",
@@ -30,15 +28,21 @@ async function main() {
   console.log("InteractiveBrowserCredential: Authentication Record:", authenticationRecord);
   
 
-    const cred3 = new InteractiveBrowserCredential({
-    clientId: "7960e60e-aabb-47e7-9ac5-7145dd8157a4",
-    tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
-  });
-  const token3 = await cred3.getToken("https://graph.microsoft.com/profile");
-  console.log(
-    "InteractiveBrowserCredential: Successfully got a token with expiry time:",
-    token3.expiresOnTimestamp,
-  );
+  const cred2 = new InteractiveBrowserCredential({
+        loginHint: "kaghiya@microsoft.com"
+      });
+  const authenticationRecord2 = await cred2.authenticate("https://management.azure.com/.default");
+  console.log("InteractiveBrowserCredential: Authentication Record:", authenticationRecord2);
+
+  //   const cred3 = new InteractiveBrowserCredential({
+  //   clientId: "7960e60e-aabb-47e7-9ac5-7145dd8157a4",
+  //   tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+  // });
+  // const token3 = await cred3.getToken("https://graph.microsoft.com/profile");
+  // console.log(
+  //   "InteractiveBrowserCredential: Successfully got a token with expiry time:",
+  //   token3.expiresOnTimestamp,
+  // );
 
   // const cred2 = new InteractiveBrowserCredential({
   //   clientId,
