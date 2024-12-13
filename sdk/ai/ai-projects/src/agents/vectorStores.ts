@@ -2,12 +2,23 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { ListVectorStoresParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
+import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput } from "../generated/src/outputModels.js";
 import { AgentsPoller } from "./poller.js";
 import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 import { VectorStoreOptions } from "../generated/src/models.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
+
+import { CreateVectorStoreParameters } from "../customization/parameters.js";
+import { VectorStoreOutput } from "../customization/outputModels.js";
+
+import {
+  CreateVectorStoreParameters as _CreateVectorStoreParameters,
+} from "../generated/src/parameters.js";
+import {
+  VectorStoreOutput as _VectorStoreOutput,
+} from "../generated/src/outputModels.js";
+import { VectorStoreStaticChunkingStrategyRequest } from "../customization/models.js";
 
 const expectedStatuses = ["200"];
 
@@ -31,12 +42,53 @@ export async function createVectorStore(
   options?: CreateVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
   validateCreateVectorStoreParameters(options);
-  const result = await context.path("/vector_stores").post(options);
+  const result = await context.path("/vector_stores").post(convertCreateVectorStoreParameters(options));
   
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return convertVectorStoreOutput(result.body); 
+}
+
+function convertCreateVectorStoreParameters(options?: CreateVectorStoreParameters): _CreateVectorStoreParameters { 
+  const { body, ...requestParams } = options || {};
+  const { fileIds, configuration, expiresAfter, chunkingStrategy, ...noCaseChange } = body || {};
+
+  return {
+    ...requestParams,
+    body: {
+      ...noCaseChange,
+      file_ids: fileIds,
+      configuration: configuration?.dataSources ? {
+        data_sources: configuration.dataSources,
+      } : undefined,
+      expires_after: expiresAfter,
+      chunking_strategy: chunkingStrategy && chunkingStrategy.type === "static" && (chunkingStrategy as VectorStoreStaticChunkingStrategyRequest).static ? {
+        type: chunkingStrategy.type,
+        static: {
+          max_chunk_size_tokens: (chunkingStrategy as VectorStoreStaticChunkingStrategyRequest).static.maxChunkSizeTokens,
+          chunk_overlap_tokens: (chunkingStrategy as VectorStoreStaticChunkingStrategyRequest).static.chunkOverlapTokens
+      }
+      } : chunkingStrategy ?? undefined,
+    }
+  };
+}
+
+function convertVectorStoreOutput(results: _VectorStoreOutput): VectorStoreOutput {
+  const { created_at, usage_bytes, file_counts, expires_after, expires_at, last_active_at, ...no_case_change } = results;
+  const { in_progress, ...file_counts_no_case_change} = file_counts;
+  return {
+    ...no_case_change,
+    createdAt: new Date(created_at),
+    usageBytes: usage_bytes,
+    fileCounts: {
+      ...file_counts_no_case_change,
+      inProgress: in_progress,
+    },
+    expiresAfter: expires_after,
+    expiresAt: expires_at ? new Date(expires_at) : null,
+    lastActiveAt: last_active_at ? new Date(last_active_at) : null,
+  };
 }
 
 /** Returns the vector store object matching the specified ID. */
@@ -132,7 +184,7 @@ function validateListVectorStoresParameters(options?: ListVectorStoresParameters
 }
 
 function validateCreateVectorStoreParameters(options?: CreateVectorStoreParameters): void {
-  if (options?.body?.chunking_strategy && (!options.body.file_ids || options.body.file_ids.length === 0)) {
+  if (options?.body?.chunkingStrategy && (!options.body.fileIds || options.body.fileIds.length === 0)) {
     throw new Error("Chunking strategy is only applicable if fileIds is non-empty");
   }
   if (options?.body?.metadata) {
