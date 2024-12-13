@@ -1,8 +1,18 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
-    "noEmit": true
+    "module": "NodeNext",
+    "noEmit": true,
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
