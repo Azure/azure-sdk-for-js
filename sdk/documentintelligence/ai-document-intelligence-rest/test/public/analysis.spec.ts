@@ -981,11 +981,7 @@ describe("DocumentIntelligenceClient", () => {
       const batchModelId = "modelName10119";
       const operationId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
       const output = await client
-        .path(
-          "/documentModels/{modelId}/analyzeResults/{resultId}",
-          batchModelId,
-          operationId
-        )
+        .path("/documentModels/{modelId}/analyzeResults/{resultId}", batchModelId, operationId)
         .get();
       console.log(output);
     });
