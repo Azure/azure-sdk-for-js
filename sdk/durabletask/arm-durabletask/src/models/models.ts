@@ -146,7 +146,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -259,7 +261,9 @@ export function schedulerPropertiesSerializer(item: SchedulerProperties): any {
   };
 }
 
-export function schedulerPropertiesDeserializer(item: any): SchedulerProperties {
+export function schedulerPropertiesDeserializer(
+  item: any,
+): SchedulerProperties {
   return {
     provisioningState: item["provisioningState"],
     endpoint: item["endpoint"],
@@ -343,7 +347,9 @@ export interface _SchedulerListResult {
   nextLink?: string;
 }
 
-export function _schedulerListResultDeserializer(item: any): _SchedulerListResult {
+export function _schedulerListResultDeserializer(
+  item: any,
+): _SchedulerListResult {
   return {
     value: schedulerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -370,7 +376,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -401,7 +409,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

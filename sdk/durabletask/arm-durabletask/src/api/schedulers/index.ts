@@ -17,11 +17,11 @@ import {
   _SchedulerListResult,
   _schedulerListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -47,7 +47,9 @@ export function _schedulersGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _schedulersGetDeserialize(result: PathUncheckedResponse): Promise<Scheduler> {
+export async function _schedulersGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Scheduler> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -115,20 +117,25 @@ export function schedulersCreateOrUpdate(
   resource: Scheduler,
   options: SchedulersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Scheduler>, Scheduler> {
-  return getLongRunningPoller(context, _schedulersCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _schedulersCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Scheduler>, Scheduler>;
+  return getLongRunningPoller(
+    context,
+    _schedulersCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _schedulersCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          schedulerName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Scheduler>, Scheduler>;
 }
 
 export function _schedulersUpdateSend(
@@ -172,20 +179,25 @@ export function schedulersUpdate(
   properties: Scheduler,
   options: SchedulersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Scheduler>, Scheduler> {
-  return getLongRunningPoller(context, _schedulersUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _schedulersUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        schedulerName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Scheduler>, Scheduler>;
+  return getLongRunningPoller(
+    context,
+    _schedulersUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _schedulersUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          schedulerName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Scheduler>, Scheduler>;
 }
 
 export function _schedulersDeleteSend(
@@ -205,7 +217,9 @@ export function _schedulersDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _schedulersDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _schedulersDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -222,13 +236,24 @@ export function schedulersDelete(
   schedulerName: string,
   options: SchedulersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _schedulersDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _schedulersDeleteSend(context, subscriptionId, resourceGroupName, schedulerName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _schedulersDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _schedulersDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          schedulerName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _schedulersListByResourceGroupSend(
@@ -266,7 +291,13 @@ export function schedulersListByResourceGroup(
 ): PagedAsyncIterableIterator<Scheduler> {
   return buildPagedAsyncIterator(
     context,
-    () => _schedulersListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _schedulersListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _schedulersListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

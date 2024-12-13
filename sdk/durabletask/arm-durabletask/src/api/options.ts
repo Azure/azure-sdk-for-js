@@ -10,7 +10,8 @@ export interface OperationsListOptionalParams extends OperationOptions {}
 export interface SchedulersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchedulersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface SchedulersCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -28,10 +29,12 @@ export interface SchedulersDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SchedulersListByResourceGroupOptionalParams extends OperationOptions {}
+export interface SchedulersListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchedulersListBySubscriptionOptionalParams extends OperationOptions {}
+export interface SchedulersListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface TaskHubsGetOptionalParams extends OperationOptions {}
@@ -49,4 +52,5 @@ export interface TaskHubsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface TaskHubsListBySchedulerOptionalParams extends OperationOptions {}
+export interface TaskHubsListBySchedulerOptionalParams
+  extends OperationOptions {}
