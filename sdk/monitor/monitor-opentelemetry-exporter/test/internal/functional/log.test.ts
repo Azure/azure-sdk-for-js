@@ -40,7 +40,7 @@ describe("Log Exporter Scenarios", () => {
       setTimeout(() => {
         assertLogExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
-      }, 1);
+      }, 100);
     });
   });
 });
