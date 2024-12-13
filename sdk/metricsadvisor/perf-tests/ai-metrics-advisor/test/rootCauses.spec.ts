@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
-import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
+import { MetricsAdvisorTest } from "./metricsAdvisor.spec.js";
 type MetricsAdvisorTestOptions = Record<string, unknown>;
 
 export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
