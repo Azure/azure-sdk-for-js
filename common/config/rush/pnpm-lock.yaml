@@ -2516,7 +2516,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-uPM0Lu/r/28Rr2zleL5cUX1WpRz9DYs6c83L2DszZfRgwLfZTqRXtAGX13CWg1fNPhq4SacSC4GCna22zKc+wg==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-4BkkAJcixTSpwVv4Xx0fpFUWuS4/Yvc/G2axoSXRmVmX4oBy5hILDfqMfJwIiMmEFQG/5juuDztUyNEDnivBFQ==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -10320,9 +10320,8 @@ snapshots:
       '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.3)(vite@5.4.8(@types/node@22.7.4))(vitest@2.1.1)
       '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1(@types/node@18.19.54)(msw@2.6.4(@types/node@22.7.4)(typescript@5.7.2)))
       dotenv: 16.4.5
-      eslint: 8.57.1
+      eslint: 9.14.0
       playwright: 1.47.2
-      tshy: 2.0.1
       tslib: 2.7.0
       typescript: 5.6.3
       vitest: 2.1.1(@types/node@18.19.54)(@vitest/browser@2.1.1)(msw@2.6.4(@types/node@22.7.4)(typescript@5.7.2))
@@ -10331,6 +10330,7 @@ snapshots:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
