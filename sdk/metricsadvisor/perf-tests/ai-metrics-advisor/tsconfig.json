@@ -2,10 +2,7 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": [
-      "ES6",
-      "ESNext.AsyncIterable"
-    ],
+    "lib": ["ES6", "ESNext.AsyncIterable"],
     "noEmit": true,
     "moduleResolution": "NodeNext",
     "rootDir": "."
