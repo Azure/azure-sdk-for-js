@@ -54,7 +54,7 @@ steps:
           echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build "$(ChangedServices)"" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
