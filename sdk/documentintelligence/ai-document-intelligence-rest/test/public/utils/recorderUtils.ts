@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 
 const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -37,18 +37,25 @@ export const recorderOptions: RecorderStartOptions = {
     generalSanitizers: [
       // endpoints
       {
-        target: env["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"]?.split("/")[2] || "",
+        target:
+          assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL")?.split(
+            "/",
+          )[2] || "",
         value:
           envSetupForPlayback["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"].split("/")[2],
       },
       {
-        target: env["DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"]?.split("/")[2] || "",
+        target:
+          assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL")?.split(
+            "/",
+          )[2] || "",
         value: envSetupForPlayback["DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"].split("/")[2],
       },
       {
         target:
-          env["DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("/")[2] ||
-          "",
+          assertEnvironmentVariable(
+            "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
+          )?.split("/")[2] || "",
         value:
           envSetupForPlayback[
             "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
@@ -56,18 +63,25 @@ export const recorderOptions: RecorderStartOptions = {
       },
       // sas tokens
       {
-        target: env["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"]?.split("?")[1] || "",
+        target:
+          assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL")?.split(
+            "?",
+          )[1] || "",
         value:
           envSetupForPlayback["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"].split("?")[1],
       },
       {
-        target: env["DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"]?.split("?")[1] || "",
+        target:
+          assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL")?.split(
+            "?",
+          )[1] || "",
         value: envSetupForPlayback["DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"].split("?")[1],
       },
       {
         target:
-          env["DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("?")[1] ||
-          "",
+          assertEnvironmentVariable(
+            "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
+          )?.split("?")[1] || "",
         value:
           envSetupForPlayback[
             "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
@@ -75,7 +89,9 @@ export const recorderOptions: RecorderStartOptions = {
       },
       {
         target:
-          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"]?.split("?")[1] || "",
+          assertEnvironmentVariable(
+            "DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL",
+          )?.split("?")[1] || "",
         value:
           envSetupForPlayback["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"].split(
             "?",
@@ -83,9 +99,9 @@ export const recorderOptions: RecorderStartOptions = {
       },
       {
         target:
-          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"]?.split(
-            "?",
-          )[1] || "",
+          assertEnvironmentVariable(
+            "DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL",
+          )?.split("?")[1] || "",
         value:
           envSetupForPlayback[
             "DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"

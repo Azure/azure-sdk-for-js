@@ -119,9 +119,8 @@ describe.skip("classifiers", () => {
     }
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-    const analyzeResult = (
-      (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
-    ).analyzeResult;
+    const analyzeResult = ((await (await poller).pollUntilDone()).body as AnalyzeOperationOutput)
+      .analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
     assert.oneOf(analyzeResult?.documents![0].docType, ["foo", "bar"]);
@@ -153,9 +152,8 @@ describe.skip("classifiers", () => {
     }
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-    const analyzeResult = (
-      (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
-    ).analyzeResult;
+    const analyzeResult = ((await (await poller).pollUntilDone()).body as AnalyzeOperationOutput)
+      .analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
     assert.oneOf(analyzeResult?.documents![0].docType, ["foo", "bar"]);

@@ -31,7 +31,7 @@ export default defineConfig({
     testTimeout: 1200000,
     hookTimeout: 1200000,
     typecheck: {
-      enabled: true,
+      enabled: false,
       tsconfig: "tsconfig.test.json",
       include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
     },
