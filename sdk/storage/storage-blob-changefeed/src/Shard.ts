@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import type { ChunkFactory } from "./ChunkFactory";
-import type { Chunk } from "./Chunk";
-import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import type { ShardCursor } from "./models/ChangeFeedCursor";
+import type { ChunkFactory } from "./ChunkFactory.js";
+import type { Chunk } from "./Chunk.js";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import type { ShardCursor } from "./models/ChangeFeedCursor.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure {@link Shard.getChange} operation.
@@ -30,7 +30,9 @@ export class Shard {
   private currentChunk: Chunk | undefined;
 
   constructor(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     chunkFactory: ChunkFactory,
     chunks: string[],
     currentChunk: Chunk | undefined,

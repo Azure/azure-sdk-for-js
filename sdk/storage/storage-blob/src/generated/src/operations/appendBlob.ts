@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AppendBlob } from "../operationsInterfaces";
+import { AppendBlob } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageClient } from "../storageClient.js";
 import {
   AppendBlobCreateOptionalParams,
   AppendBlobCreateResponse,
@@ -21,7 +21,7 @@ import {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobSealOptionalParams,
   AppendBlobSealResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AppendBlob operations. */
 export class AppendBlobImpl implements AppendBlob {

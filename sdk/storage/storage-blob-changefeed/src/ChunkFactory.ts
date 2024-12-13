@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvroReaderFactory } from "./AvroReaderFactory";
+import type { AvroReaderFactory } from "./AvroReaderFactory.js";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Chunk } from "./Chunk";
-import type { AvroReader } from "../../storage-internal-avro/src";
-import { streamToAvroReadable } from "./utils/utils.node";
+import { Chunk } from "./Chunk.js";
+import type { AvroReader } from "@azure/storage-internal-avro";
+import { streamToAvroReadable } from "./utils/utils.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
-import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
+import type { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
+import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants.js";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.
@@ -27,7 +27,9 @@ export class ChunkFactory {
   private readonly maxTransferSize?: number;
 
   constructor(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     avroReaderFactory: AvroReaderFactory,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory,
     maxTransferSize?: number,
   ) {
@@ -37,6 +39,7 @@ export class ChunkFactory {
   }
 
   public async create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
     chunkPath: string,
     blockOffset?: number,

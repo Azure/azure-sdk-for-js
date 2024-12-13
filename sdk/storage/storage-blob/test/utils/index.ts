@@ -1,32 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { config } from "dotenv";
 
-import { SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { StoragePipelineOptions } from "../../src";
-import { StorageSharedKeyCredential } from "../../src";
-import { BlobServiceClient } from "../../src";
-import { getUniqueName, configureBlobStorageClient } from "./testutils.common";
-import { newPipeline } from "../../src";
+import type { StoragePipelineOptions } from "../../src/index.js";
+import { StorageSharedKeyCredential } from "../../src/index.js";
+import { BlobServiceClient } from "../../src/index.js";
+import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
+import { newPipeline } from "../../src/index.js";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 config();
+
+// Functions with no-op implementations
+export async function blobToString(_blob: Blob): Promise<string> {
+  throw new Error("Not implemented");
+}
+
+export async function blobToArrayBuffer(_blob: Blob): Promise<ArrayBuffer> {
+  throw new Error("Not implemented");
+}
+
+export function arrayBufferEqual(_buf1: ArrayBuffer, _buf2: ArrayBuffer): boolean {
+  throw new Error("Not implemented");
+}
+
+export function getBrowserFile(_name: string, _size: number): File {
+  throw new Error("Not implemented");
+}
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -235,12 +252,13 @@ export async function createRandomLocalFile(
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(blockIndex: number) {
+    // @ts-expect-error - TS doesn't like the Buffer type here
+    function randomValueHex(blockIndex: number): string | Buffer<ArrayBufferLike> {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
-      let len = blockSizeOrContent;
+      let len = blockSizeOrContent as number;
       if (blockIndex === blockNumber && lastBlockSize !== 0) {
         len = lastBlockSize;
       }

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChunkFactory } from "./ChunkFactory";
-import type { ShardCursor } from "./models/ChangeFeedCursor";
-import { Shard } from "./Shard";
+import type { ChunkFactory } from "./ChunkFactory.js";
+import type { ShardCursor } from "./models/ChangeFeedCursor.js";
+import { Shard } from "./Shard.js";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import type { Chunk } from "./Chunk";
+import type { Chunk } from "./Chunk.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure {@link ShardFactory.create} operation.
@@ -23,11 +23,13 @@ export interface CreateShardOptions extends CommonOptions {
 export class ShardFactory {
   private readonly chunkFactory: ChunkFactory;
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(chunkFactory: ChunkFactory) {
     this.chunkFactory = chunkFactory;
   }
 
   public async create(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     containerClient: ContainerClient,
     shardPath: string,
     shardCursor?: ShardCursor,

@@ -8,8 +8,8 @@ import type {
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { HeaderConstants, URLConstants } from "../utils/constants";
-import { setURLParameter } from "../utils/utils.common";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * The programmatic identifier of the StorageBrowserPolicy.
