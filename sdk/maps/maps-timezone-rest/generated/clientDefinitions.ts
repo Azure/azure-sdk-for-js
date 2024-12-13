@@ -8,7 +8,7 @@ import {
   TimeZoneGetIanaTimezoneIdsParameters,
   TimeZoneGetIanaVersionParameters,
   TimeZoneConvertWindowsTimezoneToIanaParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   TimeZoneGetTimeZoneByID200Response,
   TimeZoneGetTimeZoneByIDDefaultResponse,
@@ -22,7 +22,7 @@ import {
   TimeZoneGetIanaVersionDefaultResponse,
   TimeZoneConvertWindowsTimezoneToIana200Response,
   TimeZoneConvertWindowsTimezoneToIanaDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetTimeZoneByID {

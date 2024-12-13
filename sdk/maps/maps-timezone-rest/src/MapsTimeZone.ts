@@ -11,8 +11,8 @@ import {
 } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsTimeZoneClient } from "../generated";
-import createClient from "../generated/mapsTimeZoneClient";
+import { MapsTimeZoneClient } from "../generated/index.js";
+import createClient from "../generated/mapsTimeZoneClient.js";
 
 /**
  * Creates an instance of MapsTimeZoneClient from a subscription key.

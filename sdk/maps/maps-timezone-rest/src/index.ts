@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsTimeZone from "./MapsTimeZone";
+import MapsTimeZone from "./MapsTimeZone.js";
 
-export * from "../generated";
+export * from "../generated/index.js";
 export default MapsTimeZone;

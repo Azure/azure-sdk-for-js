@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import MapsTimeZone, { MapsTimeZoneClient } from "../../../src";
+import MapsTimeZone, { MapsTimeZoneClient } from "../../../src/index.js";
 import { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

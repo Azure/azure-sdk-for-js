@@ -8,7 +8,7 @@ import {
   WindowsTimeZoneOutput,
   IanaIdOutput,
   TimeZoneIanaVersionResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /**
  *

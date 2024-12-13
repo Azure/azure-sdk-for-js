@@ -5,14 +5,14 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { Context } from "mocha";
-import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src";
+import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src/index.js";
 
 describe("Authentication", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -25,7 +25,7 @@ describe("Authentication", function () {
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
      * */
-    if (!isNodeLike) this.skip();
+    if (!isNodeLike) ctx.skip();
     const credential = createTestCredential();
     const client = MapsTimeZone(
       credential,
@@ -43,7 +43,7 @@ describe("Authentication", function () {
 describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -76,7 +76,7 @@ describe("MapsTimeZone", () => {
   let recorder: Recorder;
   let client: ReturnType<typeof MapsTimeZone>;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
