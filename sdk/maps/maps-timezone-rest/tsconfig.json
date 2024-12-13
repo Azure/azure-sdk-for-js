@@ -2,13 +2,9 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/maps-timezone": [
-        "./src/index"
-      ]
+      "@azure-rest/maps-timezone": ["./src/index"]
     },
-    "lib": [
-      "DOM"
-    ],
+    "lib": ["DOM"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
