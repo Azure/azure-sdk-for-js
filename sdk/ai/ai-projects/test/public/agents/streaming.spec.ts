@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient, ThreadRunOutput } from "../../../src/index.js";
+import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
@@ -45,7 +46,7 @@ describe("Agents - streaming", () => {
       hasEventMessages = true;
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistant_id}`)
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistantId}`)
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
@@ -66,7 +67,7 @@ describe("Agents - streaming", () => {
   });
 
   // eslint-disable-next-line no-only-tests/no-only-tests
-  it("should create thread and run streaming", async function () {
+  it.only("should create thread and run streaming", async function () {
     // Create agent
     const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
