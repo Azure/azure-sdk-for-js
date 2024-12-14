@@ -28,13 +28,6 @@ export async function listFiles(
   context: Client,
   options?: GeneratedParameters.ListFilesParameters,
 ): Promise<FileListResponseOutput> {
-  // const listFilesOptions: GeneratedParameters.ListFilesParameters = {
-  //   ...operationOptionsToRequestParameters(options ?? {}),
-  //   body: {
-  //     ...convertCreateRunOptions({...options, assistantId}),
-  //     stream: false
-  //   }
-  // };
   validateListFilesParameters(options);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
