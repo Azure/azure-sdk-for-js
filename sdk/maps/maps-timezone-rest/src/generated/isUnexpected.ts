@@ -14,7 +14,7 @@ import {
   TimeZoneGetIanaVersionDefaultResponse,
   TimeZoneConvertWindowsTimezoneToIana200Response,
   TimeZoneConvertWindowsTimezoneToIanaDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /timezone/byId/{format}": ["200"],

@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  AzureSASCredential,
-  isSASCredential,
-  isTokenCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsTimeZoneClient } from "../generated";
-import createClient from "../generated/mapsTimeZoneClient";
+import type { MapsTimeZoneClient } from "./generated/index.js";
+import createClient from "./generated/mapsTimeZoneClient.js";
 
 /**
  * Creates an instance of MapsTimeZoneClient from a subscription key.
@@ -30,7 +25,7 @@ import createClient from "../generated/mapsTimeZoneClient";
  */
 export default function MapsTimeZone(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsTimeZoneClient;
 /**
  * Creates an instance of MapsTimeZone from an Azure Identity `TokenCredential`.
@@ -51,7 +46,7 @@ export default function MapsTimeZone(
 export default function MapsTimeZone(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsTimeZoneClient;
 /**
  * Creates an instance of MapsTimeZone from an Azure Identity `AzureSASCredential`.
@@ -70,12 +65,12 @@ export default function MapsTimeZone(
  */
 export default function MapsTimeZone(
   credential: AzureSASCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsTimeZoneClient;
 export default function MapsTimeZone(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsTimeZoneClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -94,7 +89,7 @@ export default function MapsTimeZone(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: "https://atlas.microsoft.com/.default",
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
