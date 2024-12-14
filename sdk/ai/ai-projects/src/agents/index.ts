@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, StreamableMethod } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { type Client, type StreamableMethod } from "@azure-rest/core-client";
+import type { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -16,7 +16,8 @@ import { getRunStep, listRunSteps } from "./runSteps.js";
 import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse } from "./customModels.js";
+import { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, UploadFileOptionalParams } from "./customModels.js";
+import { OpenAIFileOutput } from "../customization/outputModels.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
@@ -144,10 +145,11 @@ export interface AgentsOperations {
     purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters
+  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
+
   /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters
+  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options: UploadFileOptionalParams
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -341,12 +343,11 @@ function getAgents(context: Client): AgentsOperations {
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
       uploadFileAndPoll(context, {
         body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
-        ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
-      }, pollingOptions, requestParams),
+      }, options),
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
       deleteFile(context, fileId, requestParams),
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) =>

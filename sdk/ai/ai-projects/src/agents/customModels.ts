@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client"
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions, RequestParameters} from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { ThreadRunOutput } from "../generated/src/outputModels.js";
 import { AgentEventMessageStream } from "./streamingModels.js";
+import { UploadFileMediaTypesParam, UploadFileBodyParam } from "../customization/parameters.js";
 
 /** Optional request paramters support passing headers, abort signal, etc */
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">
@@ -37,3 +38,5 @@ export interface PollingOptions {
 export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
   stream: () => Promise<AgentEventMessageStream>;
 };
+
+export type UploadFileOptionalParams = UploadFileMediaTypesParam & UploadFileBodyParam  & PollingOptions & OperationOptions;
