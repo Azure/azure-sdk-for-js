@@ -21,10 +21,9 @@ export interface AgentDeletionStatusOutput {
 
 // @public
 export interface AgentEventMessage {
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadOutput_2" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "RunStepOutput_2" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput_2" needs to be exported by the entry point index.d.ts
-    data: AgentThreadOutput_2 | ThreadRunOutput | RunStepOutput_2 | ThreadMessageOutput_2 | MessageDeltaChunk | RunStepDeltaChunk | string;
+    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput_2 | ThreadMessageOutput_2 | MessageDeltaChunk | RunStepDeltaChunk | string;
     event: AgentStreamEventType | string;
 }
 
@@ -70,11 +69,10 @@ export type AgentsApiResponseFormatModeOutput = string;
 // @public
 export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
 
-// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatModeOutput_2" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOutput_2" needs to be exported by the entry point index.d.ts
 //
 // @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput_2 | AgentsApiResponseFormatOutput_2;
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput_2;
 
 // @public
 export interface AgentsApiResponseFormatOutput {
@@ -101,10 +99,8 @@ export interface AgentsNamedToolChoice {
 
 // @public
 export interface AgentsNamedToolChoiceOutput {
-    // Warning: (ae-forgotten-export) The symbol "FunctionNameOutput_2" needs to be exported by the entry point index.d.ts
-    function?: FunctionNameOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "AgentsNamedToolChoiceTypeOutput_2" needs to be exported by the entry point index.d.ts
-    type: AgentsNamedToolChoiceTypeOutput_2;
+    function?: FunctionNameOutput;
+    type: AgentsNamedToolChoiceTypeOutput;
 }
 
 // @public
@@ -120,7 +116,7 @@ export interface AgentsOperations {
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
-    createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
+    createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
@@ -130,7 +126,7 @@ export interface AgentsOperations {
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
-    deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
+    deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
@@ -138,7 +134,7 @@ export interface AgentsOperations {
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
-    getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
+    getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
@@ -155,7 +151,7 @@ export interface AgentsOperations {
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
-    updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
+    updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
 }
@@ -165,18 +161,21 @@ export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepS
 
 // @public
 export interface AgentThreadCreationOptions {
-    messages?: Array<ThreadMessageOptions>;
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOptions_2" needs to be exported by the entry point index.d.ts
+    messages?: Array<ThreadMessageOptions_2>;
     metadata?: Record<string, string> | null;
-    tool_resources?: ToolResources | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolResources_2" needs to be exported by the entry point index.d.ts
+    toolResources?: ToolResources_2 | null;
 }
 
 // @public
 export interface AgentThreadOutput {
-    created_at: number;
+    createdAt: Date;
     id: string;
     metadata: Record<string, string> | null;
     object: "thread";
-    tool_resources: ToolResourcesOutput | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolResourcesOutput_2" needs to be exported by the entry point index.d.ts
+    toolResources: ToolResourcesOutput_2 | null;
 }
 
 // @public (undocumented)
@@ -321,6 +320,10 @@ export interface CreateAgentOptions {
 }
 
 // @public
+export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOptions, OperationOptions {
+}
+
+// @public
 export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
 
 // @public
@@ -335,8 +338,7 @@ export interface CreateAndRunThreadOptions {
     responseFormat?: AgentsApiResponseFormatOption_2 | null;
     stream?: boolean;
     temperature?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadCreationOptions_2" needs to be exported by the entry point index.d.ts
-    thread?: AgentThreadCreationOptions_2;
+    thread?: AgentThreadCreationOptions;
     // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption_2" needs to be exported by the entry point index.d.ts
     toolChoice?: AgentsApiToolChoiceOption_2 | null;
     // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions_2" needs to be exported by the entry point index.d.ts
@@ -417,6 +419,10 @@ export interface DatasetOutput extends InputDataOutputParent {
     id: string;
     // (undocumented)
     readonly type: "dataset";
+}
+
+// @public
+export interface DeleteAgentThreadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -610,6 +616,10 @@ export interface FunctionToolDefinition extends ToolDefinitionParent {
 export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
     function: FunctionDefinitionOutput;
     type: "function";
+}
+
+// @public
+export interface GetAgentThreadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1139,11 +1149,8 @@ export interface RecurrenceTriggerOutput extends TriggerOutputParent {
     readonly type: "Recurrence";
 }
 
-// Warning: (ae-forgotten-export) The symbol "RequiredActionOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsActionOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type RequiredActionOutput = RequiredActionOutputParent_2 | SubmitToolOutputsActionOutput_2;
+export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
 
 // @public
 export interface RequiredActionOutputParent {
@@ -1481,13 +1488,14 @@ export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputPare
 
 // @public
 export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
-    submit_tool_outputs: SubmitToolOutputsDetailsOutput;
+    submitToolOutputs: SubmitToolOutputsDetailsOutput;
     type: "submit_tool_outputs";
 }
 
 // @public
 export interface SubmitToolOutputsDetailsOutput {
-    tool_calls: Array<RequiredToolCallOutput>;
+    // Warning: (ae-forgotten-export) The symbol "RequiredToolCallOutput_2" needs to be exported by the entry point index.d.ts
+    toolCalls: Array<RequiredToolCallOutput_2>;
 }
 
 // @public
@@ -1765,9 +1773,13 @@ export interface UpdateAgentOptions {
 }
 
 // @public
+export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOptions, OperationOptions {
+}
+
+// @public
 export interface UpdateAgentThreadOptions {
     metadata?: Record<string, string> | null;
-    tool_resources?: ToolResources | null;
+    toolResources?: ToolResources_2 | null;
 }
 
 // @public

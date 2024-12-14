@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
-import type { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../customization/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { AgentThreadCreationOptions, CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
+import type { CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import type { UpdateMessageOptions } from "./messagesModels.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams } from "./customModels.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -50,24 +50,22 @@ export interface AgentsOperations {
 
   /** Creates a new thread. Threads contain messages and can be run by agents. */
   createThread: (
-    options?: AgentThreadCreationOptions,
-    requestParams?: OptionalRequestParameters
+    options?: CreateAgentThreadOptionalParams,
   ) => Promise<AgentThreadOutput>;
   /** Gets information about an existing thread. */
   getThread: (
     threadId: string,
-    requestParams?: OptionalRequestParameters
+    options?: GetAgentThreadOptionalParams
   ) => Promise<AgentThreadOutput>;
   /** Modifies an existing thread. */
   updateThread: (
     threadId: string,
-    options?: UpdateAgentThreadOptions,
-    requestParams?: OptionalRequestParameters
+    options?: UpdateAgentThreadOptionalParams,
   ) => Promise<AgentThreadOutput>;
   /** Deletes an existing thread. */
   deleteThread: (
     threadId: string,
-    requestParams?: OptionalRequestParameters
+    options?: DeleteAgentThreadOptionalParams
   ) => Promise<ThreadDeletionStatusOutput>;
 
   /** Creates and starts a new run of the specified thread using the specified agent. */
@@ -295,14 +293,14 @@ function getAgents(context: Client): AgentsOperations {
       requestParams?: OptionalRequestParameters
     ) => deleteAgent(context, assistantId, requestParams),
 
-    createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) =>
-      createThread(context, { ...requestParams, body: { ...options } }),
-    getThread: (threadId: string, requestParams?: OptionalRequestParameters) =>
-      getThread(context, threadId, requestParams),
-    updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) =>
-      updateThread(context, threadId, { ...requestParams, body: { ...options } }),
-    deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) =>
-      deleteThread(context, threadId, requestParams),
+    createThread: (options?: CreateAgentThreadOptionalParams) =>
+      createThread(context, options),
+    getThread: (threadId: string, options?: GetAgentThreadOptionalParams) =>
+      getThread(context, threadId, options),
+    updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) =>
+      updateThread(context, threadId, options),
+    deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) =>
+      deleteThread(context, threadId, options),
 
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) =>
       createRun(context, threadId, assistantId, options ?? {}),

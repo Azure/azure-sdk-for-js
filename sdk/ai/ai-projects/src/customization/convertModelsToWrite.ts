@@ -56,7 +56,8 @@ import type {
   MessageTextFilePathDetails as SourceMessageTextFilePathDetails,
   MessageImageFileDetails as SourceMessageImageFileDetails,
   MessageAttachmentToolDefinition as SourceMessageAttachmentToolDefinition,
-  VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest
+  VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest,
+  UpdateAgentThreadOptions as SourceUpdateAgentThreadOptions,
 } from "./models.js";
 
 import type {
@@ -115,7 +116,8 @@ import type {
   MessageImageFileDetails as DestinationMessageImageFileDetails,
   MessageAttachmentToolDefinition as DestinationMessageAttachmentToolDefinition,
   VectorStoreAutoChunkingStrategyRequest as DestinationVectorStoreAutoChunkingStrategyRequest,
-  VectorStoreStaticChunkingStrategyRequest as DestinationVectorStoreStaticChunkingStrategyRequest
+  VectorStoreStaticChunkingStrategyRequest as DestinationVectorStoreStaticChunkingStrategyRequest,
+  UpdateAgentThreadOptions as DestinationUpdateAgentThreadOptions,
 } from "../generated/src/models.js";
 
 // Conversion functions
@@ -352,6 +354,15 @@ export function convertAgentThreadCreationOptions(
 ): DestinationAgentThreadCreationOptions {
   return {
     ...(source.messages && { messages: source.messages.map(convertThreadMessageOptions) }),
+    ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
+    ...(source.metadata && { metadata: source.metadata }),
+  };
+}
+
+export function convertAgentThreadUpdateOptions(
+  source: SourceUpdateAgentThreadOptions
+): DestinationUpdateAgentThreadOptions {
+  return {
     ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
     ...(source.metadata && { metadata: source.metadata }),
   };

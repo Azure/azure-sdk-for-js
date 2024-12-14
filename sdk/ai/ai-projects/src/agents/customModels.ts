@@ -5,7 +5,7 @@ import type { OperationOptions, RequestParameters } from "@azure-rest/core-clien
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { CreateAndRunThreadOptions, CreateRunOptions } from "../customization/models.js";
+import type { AgentThreadCreationOptions, CreateAndRunThreadOptions, CreateRunOptions, UpdateAgentThreadOptions } from "../customization/models.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -107,6 +107,26 @@ export interface UpdateRunOptionalParams extends OperationOptions {
    */
   metadata?: Record<string, string> | null;
 }
+
+/**
+ * Optional parameters for creating an agent thread.
+ */
+export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOptions, OperationOptions { }
+
+/**
+ * Optional parameters for getting an agent thread.
+ */
+export interface GetAgentThreadOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for updating an agent thread.
+ */
+export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOptions, OperationOptions { }
+
+/**
+ * Optional parameters for deleting an agent thread.
+ */
+export interface DeleteAgentThreadOptionalParams extends OperationOptions { }
 
 /**
  * Converts ListQueryParameters to a record of query parameters.
