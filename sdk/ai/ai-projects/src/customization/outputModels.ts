@@ -331,9 +331,9 @@ export interface ThreadMessageOutput {
   /** On an incomplete message, details about why the message is incomplete. */
   incompleteDetails: MessageIncompleteDetailsOutput | null;
   /** The Unix timestamp (in seconds) for when the message was completed. */
-  completedAt: number | null;
+  completedAt: Date | null;
   /** The Unix timestamp (in seconds) for when the message was marked as incomplete. */
-  incompleteAt: number | null;
+  incompleteAt: Date | null;
   /**
    * The role associated with the agent thread message.
    *
@@ -524,17 +524,17 @@ export interface ThreadRunOutput {
   /** The overridden enabled tools used for this agent thread run. */
   tools: Array<ToolDefinitionOutput>;
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: number;
+  createdAt: Date;
   /** The Unix timestamp, in seconds, representing when this item expires. */
-  expiresAt: number | null;
+  expiresAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this item was started. */
-  startedAt: number | null;
+  startedAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this completed. */
-  completedAt: number | null;
+  completedAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelledAt: number | null;
+  cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
-  failedAt: number | null;
+  failedAt: Date | null;
   /** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
   incompleteDetails: IncompleteRunDetailsOutput | null;
   /** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
@@ -695,15 +695,15 @@ export interface RunStepOutput {
   /** If applicable, information about the last error encountered by this run step. */
   lastError: RunStepErrorOutput | null;
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: number;
+  createdAt: Date;
   /** The Unix timestamp, in seconds, representing when this item expired. */
-  expiredAt: number | null;
+  expiredAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this completed. */
-  completedAt: number | null;
+  completedAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelledAt: number | null;
+  cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
-  failedAt: number | null;
+  failedAt: Date | null;
   /** Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`. */
   usage?: RunStepCompletionUsageOutput | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */

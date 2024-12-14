@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
-import { ThreadRunOutput } from "../generated/src/outputModels.js";
-import { TracingAttributeOptions, TracingUtility, TracingOperationName, Span } from "../tracing.js";
+import type { CreateRunParameters, CreateThreadAndRunParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
+import type { ThreadRunOutput } from "../generated/src/outputModels.js";
+import type { TracingAttributeOptions, Span } from "../tracing.js";
+import { TracingUtility, TracingOperationName } from "../tracing.js";
 import { addInstructionsEvent, addMessageEvent, addToolMessagesEvent, formatAgentApiResponse, UpdateWithAgentAttributes } from "./traceUtility.js";
+import type { ThreadRunOutput as CustomThreadRunOutput } from "../customization/outputModels.js";
 
 export function traceStartCreateRun(span: Span, options: CreateRunParameters | CreateThreadAndRunParameters, threadId?: string, operationName: string = TracingOperationName.CREATE_RUN): void {
 
@@ -30,9 +32,9 @@ export function traceStartCreateThreadAndRun(span: Span, options: CreateThreadAn
     traceStartCreateRun(span, options, undefined, TracingOperationName.CREATE_THREAD_RUN);
 }
 
-export async function traceEndCreateOrUpdateRun(span: Span, _options: CreateRunParameters | UpdateRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
+export async function traceEndCreateOrUpdateRun(span: Span, _options: CreateRunParameters | UpdateRunParameters, result: Promise<ThreadRunOutput | CustomThreadRunOutput>): Promise<void> {
     const resolvedResult = await result;
-    TracingUtility.updateSpanAttributes(span, { runId: resolvedResult.id, runStatus: resolvedResult.status, responseModel: resolvedResult.model, usageCompletionTokens: resolvedResult.usage?.completion_tokens, usagePromptTokens: resolvedResult.usage?.prompt_tokens });
+    updateSpanAttributesForRun(span, resolvedResult);
 }
 
 export function traceStartSubmitToolOutputsToRun(span: Span, options: SubmitToolOutputsToRunParameters, threadId: string,
@@ -42,9 +44,21 @@ export function traceStartSubmitToolOutputsToRun(span: Span, options: SubmitTool
     addToolMessagesEvent(span, options.body.tool_outputs);
 }
 
-export async function traceEndSubmitToolOutputsToRun(span: Span, _options: SubmitToolOutputsToRunParameters, result: Promise<ThreadRunOutput>): Promise<void> {
+export async function traceEndSubmitToolOutputsToRun(span: Span, _options: SubmitToolOutputsToRunParameters, result: Promise<ThreadRunOutput | CustomThreadRunOutput>): Promise<void> {
     const resolvedResult = await result;
-    TracingUtility.updateSpanAttributes(span, { runId: resolvedResult.id, runStatus: resolvedResult.status, responseModel: resolvedResult.model, usageCompletionTokens: resolvedResult.usage?.completion_tokens, usagePromptTokens: resolvedResult.usage?.prompt_tokens });
+    updateSpanAttributesForRun(span, resolvedResult);
+}
+
+function updateSpanAttributesForRun(span: Span, output: ThreadRunOutput | CustomThreadRunOutput): void {
+
+    TracingUtility.updateSpanAttributes(span, { runId: output.id, runStatus: output.status, responseModel: output.model });
+    const usage = output.usage;
+    if (usage && 'completion_tokens' in usage && usage.completion_tokens) {
+        TracingUtility.updateSpanAttributes(span, { usageCompletionTokens: usage.completion_tokens, usagePromptTokens: usage.prompt_tokens });
+    }
+    if (usage && 'completionTokens' in usage && usage.completionTokens) {
+        TracingUtility.updateSpanAttributes(span, { usageCompletionTokens: usage.completionTokens, usagePromptTokens: usage.promptTokens });
+    }
 }
 
 function setSpanEvents(span: Span, options: CreateRunParameters): void {

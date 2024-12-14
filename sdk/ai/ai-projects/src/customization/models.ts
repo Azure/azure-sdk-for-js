@@ -481,7 +481,7 @@ export interface CreateRunOptions {
   /** Adds additional messages to the thread before creating the run. */
   additionalMessages?: Array<ThreadMessage> | null;
   /** The overridden list of enabled tools that the agent should use to run the thread. */
-  tools?: Array<ToolDefinition> | null;
+  tools?: Array<ToolDefinition>;
   /**
    * If `true`, returns a stream of events that happen during the Run as server-sent events,
    * terminating when the Run enters a terminal state with a `data: [DONE]` message.

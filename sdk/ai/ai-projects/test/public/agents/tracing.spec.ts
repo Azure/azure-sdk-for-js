@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentOutput, AgentsOperations, AgentThreadOutput, AIProjectsClient, ThreadMessageOutput, ThreadRunOutput } from "../../../src/index.js";
+import type { AgentOutput, AgentsOperations, AgentThreadOutput, AIProjectsClient, ThreadMessageOutput} from "../../../src/index.js";
 import { createMockProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe, vi } from "vitest";
-import { MockInstrumenter, MockTracingSpan } from "@azure-tools/test-utils-vitest";
-import { AddEventOptions, Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan, useInstrumenter } from "@azure/core-tracing";
+import type { MockTracingSpan } from "@azure-tools/test-utils-vitest";
+import { MockInstrumenter } from "@azure-tools/test-utils-vitest";
+import type { AddEventOptions, Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan} from "@azure/core-tracing";
+import { useInstrumenter } from "@azure/core-tracing";
+import { ThreadRunOutput } from "../../../src/generated/src/index.js";
 
 interface ExtendedMockTrackingSpan extends MockTracingSpan {
     events?: { name: string, attributes: Record<string, unknown> }[]

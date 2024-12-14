@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
- 
+
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
- 
+
 describe("Agents - files", () => {
   let recorder: Recorder;
-  let projectsClient : AIProjectsClient;
+  let projectsClient: AIProjectsClient;
   let agents: AgentsOperations
 
   beforeEach(async function (context: VitestTestContext) {
@@ -18,7 +18,7 @@ describe("Agents - files", () => {
   });
 
   afterEach(async function () {
-     await recorder.stop();
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {
@@ -49,8 +49,8 @@ describe("Agents - files", () => {
         controller.close();
       }
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", 1000, "fileName");
-    assert.notInclude(["uploaded","pending","running"], file.status);
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", "fileName", { sleepIntervalInMs: 1000 });
+    assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
 
@@ -65,7 +65,7 @@ describe("Agents - files", () => {
     const deleted = await agents.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
-  
+
   it("should retrieve file", async function () {
     const fileContent = new ReadableStream({
       start(controller) {
