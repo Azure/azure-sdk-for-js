@@ -116,7 +116,6 @@
     "exporter",
     "cloud"
   ],
-  "type": "module",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
