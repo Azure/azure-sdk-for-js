@@ -2466,7 +2466,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-rK979Zu3i9HdmjhkPAgXOzd0NeXbFrY3YZVRjpjV2wogivrRPGkZZzbNRYCJ7jJbjdFmyOW0xaVddvmfvbqYuw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-4BkkAJcixTSpwVv4Xx0fpFUWuS4/Yvc/G2axoSXRmVmX4oBy5hILDfqMfJwIiMmEFQG/5juuDztUyNEDnivBFQ==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -9969,13 +9969,13 @@ snapshots:
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
-      prettier: 3.4.2
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
