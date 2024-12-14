@@ -55,7 +55,8 @@ import type {
   RequiredToolCallOutput as WireRequiredToolCallOutput,
   RequiredFunctionToolCallOutput as WireRequiredFunctionToolCallOutput,
   RequiredFunctionToolCallDetailsOutput as WireRequiredFunctionToolCallDetailsOutput,
-  TruncationObjectOutput as WireTruncationObjectOutput
+  TruncationObjectOutput as WireTruncationObjectOutput,
+  OpenAIPageableListOfThreadRunOutput as WireOpenAIPageableListOfThreadRunOutput
 } from "../generated/src/outputModels.js";
 
 import type {
@@ -112,7 +113,8 @@ import type {
   RequiredToolCallOutput,
   RequiredFunctionToolCallOutput,
   RequiredFunctionToolCallDetailsOutput,
-  TruncationObjectOutput
+  TruncationObjectOutput,
+  OpenAIPageableListOfThreadRunOutput
 } from "./outputModels.js";
 
 // Conversion functions
@@ -305,7 +307,7 @@ export function convertAgentOutput(input: WireAgentOutput): AgentOutput {
   return {
     id: input.id,
     object: input.object,
-    createdAt: new Date(input.created_at * 1000),
+    createdAt: new Date(input.created_at),
     name: input.name,
     description: input.description,
     model: input.model,
@@ -395,7 +397,7 @@ export function convertAgentThreadOutput(
   return {
     id: input.id,
     object: input.object,
-    createdAt: new Date(input.created_at * 1000),
+    createdAt: new Date(input.created_at),
     toolResources: input.tool_resources
       ? convertToolResourcesOutput(input.tool_resources)
       : null,
@@ -415,14 +417,14 @@ export function convertThreadMessageOutput(
   return {
     id: input.id,
     object: input.object,
-    createdAt: new Date(input.created_at * 1000),
+    createdAt: new Date(input.created_at),
     threadId: input.thread_id,
     status: input.status,
     incompleteDetails: input.incomplete_details
       ? convertMessageIncompleteDetailsOutput(input.incomplete_details)
       : null,
-    completedAt: input.completed_at ? new Date(input.completed_at * 1000) : null,
-    incompleteAt: input.incomplete_at ? new Date(input.incomplete_at * 1000) : null,
+    completedAt: input.completed_at ? new Date(input.completed_at) : null,
+    incompleteAt: input.incomplete_at ? new Date(input.incomplete_at) : null,
     role: input.role,
     content: input.content.map(convertMessageContentOutput),
     assistantId: input.assistant_id,
@@ -553,8 +555,8 @@ export function convertThreadRunOutput(
     lastError: input.last_error,
     model: input.model,
     instructions: input.instructions,
-    tools: input.tools.map(convertToolDefinitionOutput),
-    createdAt: new Date(input.created_at * 1000),
+    tools: (input.tools && input.tools.map(convertToolDefinitionOutput)) ?? [],
+    createdAt: new Date(input.created_at),
     expiresAt: input.expires_at ? new Date(input.expires_at) : null,
     startedAt: input.started_at ? new Date(input.started_at) : null,
     completedAt: input.completed_at ? new Date(input.completed_at) : null,
@@ -669,3 +671,14 @@ function convertTruncationObjectOutput(input: WireTruncationObjectOutput): Trunc
 
 }
 
+export function convertOpenAIPageableListOfThreadRunOutput(
+  input: WireOpenAIPageableListOfThreadRunOutput
+): OpenAIPageableListOfThreadRunOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data.map(convertThreadRunOutput),
+  };
+}

@@ -90,11 +90,8 @@ export type AgentsApiToolChoiceOptionMode = string;
 // @public
 export type AgentsApiToolChoiceOptionModeOutput = string;
 
-// Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOptionModeOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "AgentsNamedToolChoiceOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput_2 | AgentsNamedToolChoiceOutput_2;
+export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput | AgentsNamedToolChoiceOutput;
 
 // @public
 export interface AgentsNamedToolChoice {
@@ -104,8 +101,10 @@ export interface AgentsNamedToolChoice {
 
 // @public
 export interface AgentsNamedToolChoiceOutput {
-    function?: FunctionNameOutput;
-    type: AgentsNamedToolChoiceTypeOutput;
+    // Warning: (ae-forgotten-export) The symbol "FunctionNameOutput_2" needs to be exported by the entry point index.d.ts
+    function?: FunctionNameOutput_2;
+    // Warning: (ae-forgotten-export) The symbol "AgentsNamedToolChoiceTypeOutput_2" needs to be exported by the entry point index.d.ts
+    type: AgentsNamedToolChoiceTypeOutput_2;
 }
 
 // @public
@@ -116,13 +115,13 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 
 // @public (undocumented)
 export interface AgentsOperations {
-    cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
+    cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AgentRunResponse;
+    createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
@@ -137,8 +136,7 @@ export interface AgentsOperations {
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
-    // Warning: (ae-forgotten-export) The symbol "ThreadRunOutput_2" needs to be exported by the entry point index.d.ts
-    getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
+    getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
@@ -147,16 +145,16 @@ export interface AgentsOperations {
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
-    listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
+    listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => AgentRunResponse;
+    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
-    updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
+    updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
@@ -259,6 +257,10 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
 }
 
 // @public
+export interface CancelRunOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
     type: "code_interpreter";
 }
@@ -302,6 +304,9 @@ export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AISer
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
 // @public
+export function convertToListQueryParameters(options: ListQueryParameters): Record<string, string>;
+
+// @public
 export interface CreateAgentOptions {
     description?: string | null;
     instructions?: string | null;
@@ -316,46 +321,54 @@ export interface CreateAgentOptions {
 }
 
 // @public
+export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
+
+// @public
 export interface CreateAndRunThreadOptions {
-    assistant_id: string;
+    assistantId: string;
     instructions?: string | null;
-    max_completion_tokens?: number | null;
-    max_prompt_tokens?: number | null;
+    maxCompletionTokens?: number | null;
+    maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOption_2" needs to be exported by the entry point index.d.ts
+    responseFormat?: AgentsApiResponseFormatOption_2 | null;
     stream?: boolean;
     temperature?: number | null;
-    thread?: AgentThreadCreationOptions;
-    tool_choice?: AgentsApiToolChoiceOption | null;
-    tool_resources?: UpdateToolResourcesOptions | null;
-    tools?: Array<ToolDefinition> | null;
-    top_p?: number | null;
-    truncation_strategy?: TruncationObject | null;
+    // Warning: (ae-forgotten-export) The symbol "AgentThreadCreationOptions_2" needs to be exported by the entry point index.d.ts
+    thread?: AgentThreadCreationOptions_2;
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption_2" needs to be exported by the entry point index.d.ts
+    toolChoice?: AgentsApiToolChoiceOption_2 | null;
+    // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions_2" needs to be exported by the entry point index.d.ts
+    toolResources?: UpdateToolResourcesOptions_2 | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolDefinition_2" needs to be exported by the entry point index.d.ts
+    tools?: Array<ToolDefinition_2> | null;
+    topP?: number | null;
+    // Warning: (ae-forgotten-export) The symbol "TruncationObject_2" needs to be exported by the entry point index.d.ts
+    truncationStrategy?: TruncationObject_2 | null;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateRunOptions_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type CreateRunOptionalParams = Omit<CreateRunOptions_2, "assistant_id"> & OperationOptions;
+// @public
+export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> & OperationOptions;
 
 // @public
 export interface CreateRunOptions {
-    additional_instructions?: string | null;
-    additional_messages?: Array<ThreadMessage> | null;
-    assistant_id: string;
+    additionalInstructions?: string | null;
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessage_2" needs to be exported by the entry point index.d.ts
+    additionalMessages?: Array<ThreadMessage_2> | null;
+    assistantId: string;
     instructions?: string | null;
-    max_completion_tokens?: number | null;
-    max_prompt_tokens?: number | null;
+    maxCompletionTokens?: number | null;
+    maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    responseFormat?: AgentsApiResponseFormatOption_2 | null;
     stream?: boolean;
     temperature?: number | null;
-    tool_choice?: AgentsApiToolChoiceOption | null;
-    tools?: Array<ToolDefinition> | null;
-    top_p?: number | null;
-    truncation_strategy?: TruncationObject | null;
+    toolChoice?: AgentsApiToolChoiceOption_2 | null;
+    tools?: Array<ToolDefinition_2>;
+    topP?: number | null;
+    truncationStrategy?: TruncationObject_2 | null;
 }
 
 // @public
@@ -614,6 +627,10 @@ export interface GetConnectionResponseOutput {
 }
 
 // @public
+export interface GetRunOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetWorkspaceResponseOutput {
     id: string;
     name: string;
@@ -704,6 +721,10 @@ export interface ListQueryParameters {
     before?: string;
     limit?: number;
     order?: "asc" | "desc";
+}
+
+// @public
+export interface ListRunQueryOptionalParams extends ListQueryParameters, OperationOptions {
 }
 
 // @public
@@ -1041,10 +1062,10 @@ export interface OpenAIPageableListOfThreadMessageOutput {
 
 // @public
 export interface OpenAIPageableListOfThreadRunOutput {
-    data: Array<ThreadRunOutput_2>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    data: Array<ThreadRunOutput>;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
@@ -1470,6 +1491,11 @@ export interface SubmitToolOutputsDetailsOutput {
 }
 
 // @public
+export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
+    stream?: boolean;
+}
+
+// @public
 export interface SystemData {
 }
 
@@ -1767,6 +1793,11 @@ export interface UpdateFileSearchToolResourceOptionsOutput {
 // @public
 export interface UpdateMessageOptions {
     // (undocumented)
+    metadata?: Record<string, string> | null;
+}
+
+// @public
+export interface UpdateRunOptionalParams extends OperationOptions {
     metadata?: Record<string, string> | null;
 }
 

@@ -4,16 +4,18 @@
 import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import type * as CustomOutputModels from "../customization/outputModels.js";
+import type * as CustomModels from "../customization/models.js";
 import { validateLimit, validateMessages, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools, validateTruncationStrategy } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateOrUpdateRun, traceEndSubmitToolOutputsToRun, traceStartCreateRun, traceStartCreateThreadAndRun, traceStartSubmitToolOutputsToRun } from "./runTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { AgentRunResponse, CreateRunOptionalParams } from "./customModels.js";
-import { convertCreateRunOptions } from "../customization/convertModelsToWrite.js";
-import { convertThreadRunOutput } from "../customization/convertOutputModelsFromWire.js";
+import type { CancelRunOptionalParams, CreateAndRunThreadOptionalParams, GetRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams } from "./customModels.js";
+import { convertToListQueryParameters, type AgentRunResponse, type CreateRunOptionalParams, type ListRunQueryOptionalParams } from "./customModels.js";
+import { convertCreateAndRunThreadOptions, convertCreateRunOptions } from "../customization/convertModelsToWrite.js";
+import { convertOpenAIPageableListOfThreadRunOutput, convertThreadRunOutput } from "../customization/convertOutputModelsFromWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -28,30 +30,26 @@ export function createRun(
   const createRunOptions: GeneratedParameters.CreateRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ...convertCreateRunOptions({...options, assistantId}),
+      ...convertCreateRunOptions({ ...options, assistantId }),
       stream: false
     }
   };
-
   validateThreadId(threadId);
   validateCreateRunParameters(createRunOptions);
   return {
-    then: function (onFulfilled, onrejected) {
-     return TracingUtility.withSpan("CreateRun", createRunOptions, async (updateOptions) => {
+    then: function (onFulfilled, onRejected) {
+      return TracingUtility.withSpan("CreateRun", createRunOptions, async (updateOptions) => {
         const result = await context
           .path("/threads/{threadId}/runs", threadId)
           .post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          if (onrejected) {
-            onrejected(createRestError(result));
-          }
-          throw createRestError(result);
+          const error = createRestError(result);
+          throw error;
         }
-        if (onFulfilled) {
-          return onFulfilled(convertThreadRunOutput(result.body));
-        }
-        return result.body;
-      }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun);
+        return convertThreadRunOutput(result.body);
+      }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun)
+        .then(onFulfilled, onRejected)
+        .catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
       return createRunStreaming(context, threadId, createRunOptions);
@@ -63,17 +61,23 @@ export function createRun(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options?: GeneratedParameters.ListRunsParameters,
-): Promise<OpenAIPageableListOfThreadRunOutput> {
+  options: ListRunQueryOptionalParams = {},
+): Promise<CustomOutputModels.OpenAIPageableListOfThreadRunOutput> {
+
+  const listRunOptions: GeneratedParameters.ListRunsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: convertToListQueryParameters(options)
+  };
+
   validateListRunsParameters(threadId, options);
-  return TracingUtility.withSpan("ListRuns", options || {}, async (updateOptions) => {
+  return TracingUtility.withSpan("ListRuns", listRunOptions || {}, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/runs", threadId)
       .get(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return convertOpenAIPageableListOfThreadRunOutput(result.body);
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId } }));
 }
 
@@ -82,18 +86,22 @@ export async function getRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: GeneratedParameters.GetRunParameters,
-): Promise<ThreadRunOutput> {
+  options: GetRunOptionalParams = {},
+): Promise<CustomOutputModels.ThreadRunOutput> {
   validateThreadId(threadId);
   validateRunId(runId);
-  return TracingUtility.withSpan("GetRun", options || {}, async (updateOptions) => {
+  const getRunOptions: GeneratedParameters.GetRunParameters = {
+    ...operationOptionsToRequestParameters(options)
+
+  }
+  return TracingUtility.withSpan("GetRun", getRunOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/runs/{runId}", threadId, runId)
       .get(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return convertThreadRunOutput(result.body);
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, runId: runId } }));
 }
 
@@ -102,17 +110,25 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: GeneratedParameters.UpdateRunParameters,
-): Promise<ThreadRunOutput> {
-  validateUpdateRunParameters(threadId, runId, options);
-  return TracingUtility.withSpan("UpdateRun", options || { body: {} }, async (updateOptions) => {
+  options: UpdateRunOptionalParams = {},
+): Promise<CustomOutputModels.ThreadRunOutput> {
+
+  const updateRunOptions: GeneratedParameters.UpdateRunParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      metadata: options?.metadata
+    }
+  }
+
+  validateUpdateRunParameters(threadId, runId, updateRunOptions);
+  return TracingUtility.withSpan("UpdateRun", updateRunOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/runs/{runId}", threadId, runId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return convertThreadRunOutput(result.body);
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, runId: runId } }), traceEndCreateOrUpdateRun);
 }
 
@@ -121,31 +137,34 @@ export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: GeneratedParameters.SubmitToolOutputsToRunParameters,
+  tool_outputs: Array<CustomModels.ToolOutput>,
+  options: SubmitToolOutputsToRunOptionalParams = {},
 ): AgentRunResponse {
   validateThreadId(threadId);
   validateRunId(runId);
-  options.body.stream = false;
+  const submitToolOutputsOptions: GeneratedParameters.SubmitToolOutputsToRunParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      tool_outputs,
+      stream: false
+    }
+  };
   return {
     then: function (onFulfilled, onrejected) {
-      return TracingUtility.withSpan("SubmitToolOutputsToRun", options, async (updateOptions) => {
+      return TracingUtility.withSpan("SubmitToolOutputsToRun", submitToolOutputsOptions, async (updateOptions) => {
         const result = await context
           .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
           .post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          if (onrejected) {
-            onrejected(createRestError(result));
-          }
           throw createRestError(result);
         }
-        if (onFulfilled) {
-          return onFulfilled(result.body);
-        }
-        return result.body;
-      }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun);
+        return convertThreadRunOutput(result.body);
+      }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun)
+        .then(onFulfilled, onrejected)
+        .catch(onrejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
+      return submitToolOutputsToRunStreaming(context, threadId, runId, submitToolOutputsOptions);
     }
   }
 }
@@ -155,46 +174,56 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: GeneratedParameters.CancelRunParameters,
-): Promise<ThreadRunOutput> {
+  options: CancelRunOptionalParams = {},
+): Promise<CustomOutputModels.ThreadRunOutput> {
   validateThreadId(threadId);
   validateRunId(runId);
-  return TracingUtility.withSpan("CancelRun", options || {}, async (updateOptions) => {
+  const cancelRunOptions: GeneratedParameters.CancelRunParameters = {
+    ...operationOptionsToRequestParameters(options)
+  }
+  return TracingUtility.withSpan("CancelRun", cancelRunOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return convertThreadRunOutput(result.body);
   });
 }
 
 /** Creates a new thread and immediately starts a run of that thread. */
 export function createThreadAndRun(
   context: Client,
-  options: GeneratedParameters.CreateThreadAndRunParameters,
+  assistantId: string,
+  options: CreateAndRunThreadOptionalParams,
 ): AgentRunResponse {
-  validateCreateThreadAndRunParameters(options);
-  options.body.stream = false;
+
+  const createThreadAndRunOptions: GeneratedParameters.CreateThreadAndRunParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...convertCreateAndRunThreadOptions({ ...options, assistantId }),
+      stream: false
+    }
+  };
+
+  validateCreateThreadAndRunParameters(createThreadAndRunOptions);
+
   return {
     then: function (onFulfilled, onrejected) {
-      return TracingUtility.withSpan("CreateThreadAndRun", options, async (updateOptions) => {
+      return TracingUtility.withSpan("CreateThreadAndRun", createThreadAndRunOptions, async (updateOptions) => {
         const result = await context.path("/threads/runs").post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          if (onrejected) {
-            onrejected(createRestError(result));
-          }
           throw createRestError(result);
         }
-        if (onFulfilled) {
-          return onFulfilled(result.body);
-        }
-        return result.body;
-      }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun);
+
+        return convertThreadRunOutput(result.body);
+      }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun)
+        .then(onFulfilled, onrejected)
+        .catch(onrejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return createThreadAndRunStreaming(context, options);
+      return createThreadAndRunStreaming(context, createThreadAndRunOptions);
     }
   }
 }
