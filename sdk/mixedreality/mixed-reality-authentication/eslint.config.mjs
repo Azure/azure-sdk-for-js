@@ -6,12 +6,4 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-config-include": "off",
     }
   },
-  {
-    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.test.json"],
-      },
-    },
-  },
 ]);
