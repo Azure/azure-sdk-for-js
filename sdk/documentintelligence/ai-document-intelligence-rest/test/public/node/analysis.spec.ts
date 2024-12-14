@@ -3,8 +3,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
-import DocumentIntelligence from "../../src/documentIntelligence.js";
+import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
+import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   ASSET_PATH,
@@ -14,23 +14,23 @@ import {
   makeTestUrl,
   isValidPNG,
   isValidPDF,
-} from "./utils/utils.js";
+} from "../utils/utils.js";
 import path from "path";
 import fs from "fs";
-import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
 import type {
   AnalyzeOperationOutput,
   DocumentBarcodeOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTableOutput,
-} from "../../src/index.js";
+  DocumentIntelligenceClient,
+} from "../../../src/index.js";
 import {
   getLongRunningPoller,
   isUnexpected,
   parseResultIdFromResponse,
   streamToUint8Array,
-} from "../../src/index.js";
+} from "../../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;

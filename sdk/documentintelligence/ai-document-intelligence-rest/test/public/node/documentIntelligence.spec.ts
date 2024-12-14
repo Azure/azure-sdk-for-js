@@ -4,13 +4,15 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createRecorder } from "./utils/recorderUtils.js";
-import DocumentIntelligence from "../../src/documentIntelligence.js";
+import { createRecorder } from "../utils/recorderUtils.js";
+import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
-import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import type { DocumentClassifierBuildOperationDetailsOutput } from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { getRandomNumber, containerSasUrl } from "../utils/utils.js";
+import type {
+  DocumentIntelligenceClient,
+  DocumentClassifierBuildOperationDetailsOutput,
+} from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
