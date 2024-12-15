@@ -1,8 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { useIdentityPlugin, ClientSecretCredential } from "@azure/identity";
-
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
-import { describe, it, assert } from "vitest";
 
 useIdentityPlugin(cachePersistencePlugin);
 

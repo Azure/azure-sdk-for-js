@@ -1,9 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ClientSecretCredentialPersistenceTest } from "./ClientSecretCredential/persistence.spec.js";
 import { createPerfProgram } from "@azure-tools/test-perf";
-import * as dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 const perfProgram = createPerfProgram(ClientSecretCredentialPersistenceTest);
 
