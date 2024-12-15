@@ -3,11 +3,7 @@
 
 import { createPerfProgram } from "@azure-tools/test-perf";
 import { SendCloudEventsTest } from "./sendCloudEvents.spec.js";
-
-import dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 const perfProgram = createPerfProgram(SendCloudEventsTest);
 
