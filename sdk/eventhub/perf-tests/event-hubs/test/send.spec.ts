@@ -6,6 +6,8 @@ import { EventHubProducerClient, EventData } from "@azure/event-hubs";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 interface SendTestOptions {

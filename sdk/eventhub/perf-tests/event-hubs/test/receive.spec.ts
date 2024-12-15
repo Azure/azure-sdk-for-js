@@ -27,6 +27,8 @@ import { delay } from "@azure/core-amqp";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 const _start = moment();
