@@ -7,6 +7,7 @@ import {
   AzureKeyCredential,
   SendCloudEventInput,
 } from "@azure/eventgrid";
+import { describe, it, assert } from "vitest";
 
 interface SendCloudEventsPerfTestOptions {
   "event-count": number;
