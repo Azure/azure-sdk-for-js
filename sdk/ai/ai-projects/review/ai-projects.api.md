@@ -21,9 +21,7 @@ export interface AgentDeletionStatusOutput {
 
 // @public
 export interface AgentEventMessage {
-    // Warning: (ae-forgotten-export) The symbol "RunStepOutput_2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput_2" needs to be exported by the entry point index.d.ts
-    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput_2 | ThreadMessageOutput_2 | MessageDeltaChunk | RunStepDeltaChunk | string;
+    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
     event: AgentStreamEventType | string;
 }
 
@@ -114,7 +112,8 @@ export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput_2" needs to be exported by the entry point index.d.ts
+    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput_2>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
@@ -133,7 +132,7 @@ export interface AgentsOperations {
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
-    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
+    getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
@@ -142,14 +141,14 @@ export interface AgentsOperations {
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
+    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput_2>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
@@ -641,6 +640,10 @@ export interface GetRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetRunStepOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetWorkspaceResponseOutput {
     id: string;
     name: string;
@@ -735,6 +738,10 @@ export interface ListQueryParameters {
 
 // @public
 export interface ListRunQueryOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
+export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions {
 }
 
 // @public
@@ -1055,15 +1062,15 @@ export interface OpenAIPageableListOfAgentOutput {
 // @public
 export interface OpenAIPageableListOfRunStepOutput {
     data: Array<RunStepOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
 // @public
 export interface OpenAIPageableListOfThreadMessageOutput {
-    data: Array<ThreadMessageOutput>;
+    data: Array<ThreadMessageOutput_2>;
     first_id: string;
     has_more: boolean;
     last_id: string;
@@ -1348,13 +1355,19 @@ export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
     type: "tool_calls";
 }
 
+// Warning: (ae-forgotten-export) The symbol "RunStepDetailsOutputParent_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "RunStepMessageCreationDetailsOutput_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "RunStepToolCallDetailsOutput_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type RunStepDetailsOutput = RunStepDetailsOutputParent | RunStepMessageCreationDetailsOutput | RunStepToolCallDetailsOutput;
+export type RunStepDetailsOutput = RunStepDetailsOutputParent_2 | RunStepMessageCreationDetailsOutput_2 | RunStepToolCallDetailsOutput_2;
 
 // @public
 export interface RunStepDetailsOutputParent {
+    // Warning: (ae-forgotten-export) The symbol "RunStepTypeOutput_2" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    type: RunStepTypeOutput;
+    type: RunStepTypeOutput_2;
 }
 
 // @public
@@ -1362,7 +1375,8 @@ export type RunStepErrorCodeOutput = string;
 
 // @public
 export interface RunStepErrorOutput {
-    code: RunStepErrorCodeOutput;
+    // Warning: (ae-forgotten-export) The symbol "RunStepErrorCodeOutput_2" needs to be exported by the entry point index.d.ts
+    code: RunStepErrorCodeOutput_2;
     message: string;
 }
 
@@ -1404,22 +1418,23 @@ export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOut
 
 // @public
 export interface RunStepOutput {
-    assistant_id: string;
-    cancelled_at: number | null;
-    completed_at: number | null;
-    created_at: number;
-    expired_at: number | null;
-    failed_at: number | null;
+    assistantId: string;
+    cancelledAt: Date | null;
+    completedAt: Date | null;
+    createdAt: Date;
+    expiredAt: Date | null;
+    failedAt: Date | null;
     id: string;
-    last_error: RunStepErrorOutput | null;
+    lastError: RunStepErrorOutput | null;
     metadata: Record<string, string> | null;
     object: "thread.run.step";
-    run_id: string;
+    runId: string;
     status: RunStepStatusOutput;
-    step_details: RunStepDetailsOutput;
-    thread_id: string;
+    stepDetails: RunStepDetailsOutput;
+    threadId: string;
     type: RunStepTypeOutput;
-    usage?: RunStepCompletionUsageOutput | null;
+    // Warning: (ae-forgotten-export) The symbol "RunStepCompletionUsageOutput_2" needs to be exported by the entry point index.d.ts
+    usage?: RunStepCompletionUsageOutput_2 | null;
 }
 
 // @public
@@ -1558,20 +1573,25 @@ export interface ThreadMessageOptions {
 
 // @public
 export interface ThreadMessageOutput {
-    assistant_id: string | null;
-    attachments: Array<MessageAttachmentOutput> | null;
-    completed_at: number | null;
-    content: Array<MessageContentOutput>;
-    created_at: number;
+    assistantId: string | null;
+    // Warning: (ae-forgotten-export) The symbol "MessageAttachmentOutput_2" needs to be exported by the entry point index.d.ts
+    attachments: Array<MessageAttachmentOutput_2> | null;
+    completedAt: Date | null;
+    // Warning: (ae-forgotten-export) The symbol "MessageContentOutput_2" needs to be exported by the entry point index.d.ts
+    content: Array<MessageContentOutput_2>;
+    createdAt: Date;
     id: string;
-    incomplete_at: number | null;
-    incomplete_details: MessageIncompleteDetailsOutput | null;
+    incompleteAt: Date | null;
+    // Warning: (ae-forgotten-export) The symbol "MessageIncompleteDetailsOutput_2" needs to be exported by the entry point index.d.ts
+    incompleteDetails: MessageIncompleteDetailsOutput_2 | null;
     metadata: Record<string, string> | null;
     object: "thread.message";
-    role: MessageRoleOutput;
-    run_id: string | null;
-    status: MessageStatusOutput;
-    thread_id: string;
+    // Warning: (ae-forgotten-export) The symbol "MessageRoleOutput_2" needs to be exported by the entry point index.d.ts
+    role: MessageRoleOutput_2;
+    runId: string | null;
+    // Warning: (ae-forgotten-export) The symbol "MessageStatusOutput_2" needs to be exported by the entry point index.d.ts
+    status: MessageStatusOutput_2;
+    threadId: string;
 }
 
 // @public

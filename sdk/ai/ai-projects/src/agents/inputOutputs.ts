@@ -11,5 +11,5 @@ export * from "./runModels.js"
 export * from "./vectorStoresModels.js";
 export * from "./utils.js";
 export { AgentsApiToolChoiceOptionModeOutput, AgentsNamedToolChoiceOutput, ThreadRunOutput, IncompleteRunDetailsOutput, RunErrorOutput, RequiredActionOutput, AgentsApiResponseFormatOptionOutput, AgentsApiToolChoiceOptionOutput, UpdateToolResourcesOptionsOutput, ToolDefinitionOutput, TruncationObjectOutput, RunCompletionUsageOutput, RunStatusOutput, OpenAIPageableListOfThreadRunOutput, SubmitToolOutputsActionOutput, RequiredActionOutputParent, FunctionNameOutput, AgentsNamedToolChoiceTypeOutput, AgentsApiResponseFormatModeOutput, SubmitToolOutputsDetailsOutput } from "../customization/outputModels.js";
-export { AgentThreadOutput } from "../customization/outputModels.js";
+export { AgentThreadOutput, ThreadMessageOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput, RunStepErrorOutput, RunStepStatusOutput, RunStepDetailsOutput, RunStepTypeOutput } from "../customization/outputModels.js";
 export { CreateAndRunThreadOptions, CreateRunOptions, AgentThreadCreationOptions, UpdateAgentThreadOptions } from "../customization/models.js";

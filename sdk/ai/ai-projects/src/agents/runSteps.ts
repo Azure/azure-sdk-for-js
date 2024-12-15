@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../generated/src/outputModels.js";
-import { GetRunStepParameters, ListRunStepsParameters } from "../generated/src/parameters.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../customization/outputModels.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import * as ConverterFromWire from "../customization/convertOutputModelsFromWire.js";
 import { validateLimit, validateOrder, validateRunId, validateThreadId } from "./inputValidations.js";
+import type { GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
+import { convertToListQueryParameters } from "./customModels.js";
 
 const expectedStatuses = ["200"];
 
@@ -14,18 +18,23 @@ export async function getRunStep(
   threadId: string,
   runId: string,
   stepId: string,
-  options?: GetRunStepParameters,
+  options: GetRunStepOptionalParams = {},
 ): Promise<RunStepOutput> {
   validateThreadId(threadId);
   validateRunId(runId);
   validateStepId(stepId);
-const result = await context
-  .path("/threads/{threadId}/runs/{runId}/steps/{stepId}", threadId, runId, stepId)
-  .get(options);
+
+  const getOptions: GeneratedParameters.GetRunParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+
+  const result = await context
+    .path("/threads/{threadId}/runs/{runId}/steps/{stepId}", threadId, runId, stepId)
+    .get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConverterFromWire.convertRunStepOutput(result.body);
 }
 
 /** Gets a list of run steps from a thread run. */
@@ -33,16 +42,23 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options?: ListRunStepsParameters,
+  options: ListRunStepsOptionalParams = {},
 ): Promise<OpenAIPageableListOfRunStepOutput> {
-  validateListRunsParameters(threadId, runId, options);
+
+  const listOptions: GeneratedParameters.ListRunStepsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: convertToListQueryParameters(options)
+  };
+
+
+  validateListRunsParameters(threadId, runId, listOptions);
   const result = await context
-  .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
-  .get(options);
+    .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
+    .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConverterFromWire.convertOpenAIPageableListOfRunStepOutput(result.body);
 }
 
 
@@ -53,11 +69,11 @@ function validateStepId(stepId: string): void {
   }
 }
 
-function validateListRunsParameters(thread_id: string, runId: string, options?: ListRunStepsParameters): void {
+function validateListRunsParameters(thread_id: string, runId: string, options?: GeneratedParameters.ListRunStepsParameters): void {
   validateThreadId(thread_id);
   validateRunId(runId);
   if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
-      throw new Error("Limit must be between 1 and 100");
+    throw new Error("Limit must be between 1 and 100");
   }
   if (options?.queryParameters?.limit) {
     validateLimit(options.queryParameters.limit);

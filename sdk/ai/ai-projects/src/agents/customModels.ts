@@ -129,6 +129,16 @@ export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOption
 export interface DeleteAgentThreadOptionalParams extends OperationOptions { }
 
 /**
+ * Optional parameters for getting an run step.
+ */
+export interface GetRunStepOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for listing run steps.
+ */
+export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions { }
+
+/**
  * Converts ListQueryParameters to a record of query parameters.
  * @param options - The list query parameters to convert.
  * @returns A record of query parameters.

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
-import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput } from "../customization/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -16,7 +16,7 @@ import { getRunStep, listRunSteps } from "./runSteps.js";
 import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -264,14 +264,13 @@ export interface AgentsOperations {
     threadId: string,
     runId: string,
     stepId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: GetRunStepOptionalParams
   ) => Promise<RunStepOutput>;
   /** Gets a list of run steps from a thread run. */
   listRunSteps: (
     threadId: string,
     runId: string,
-    options?: ListQueryParameters,
-    requestParams?: OptionalRequestParameters,
+    options?: ListRunQueryOptionalParams
   ) => Promise<OpenAIPageableListOfRunStepOutput>;
 }
 
@@ -382,10 +381,10 @@ function getAgents(context: Client): AgentsOperations {
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStoreFileBatchAndPoll(context, vectorStoreId, vectorStoreFileBatchOptions, pollingOptions, requestParams),
 
-    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
-      getRunStep(context, threadId, runId, stepId, { ...requestParams }),
-    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
-      listRunSteps(context, threadId, runId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
+    getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) =>
+      getRunStep(context, threadId, runId, stepId, options),
+    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsOptionalParams) =>
+      listRunSteps(context, threadId, runId, options),
   };
 }
 
