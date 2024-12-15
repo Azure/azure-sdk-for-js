@@ -1,13 +1,28 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "NodeNext",
     "target": "ES2015",
-    "declarationDir": "./typings/latest",
-    "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
-    "noEmit": true
+    "lib": [
+      "ES6",
+      "ESNext.AsyncIterable",
+      "DOM"
+    ],
+    "noEmit": true,
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
   "compileOnSave": true,
-  "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
