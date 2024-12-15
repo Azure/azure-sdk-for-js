@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { TablesTest } from "./tables.spec";
+import { TablesTest } from "./tables.spec.js";
 import { TableEntity } from "@azure/data-tables";
-import { createComplexEntity } from "./utils/createBaseEntity";
+import { createComplexEntity } from "./utils/createBaseEntity.js";
 
 export class CreateComplexEntityTest extends TablesTest {
   public options: PerfOptionDictionary = {};

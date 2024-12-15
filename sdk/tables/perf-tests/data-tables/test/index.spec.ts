@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { createPerfProgram } from "@azure-tools/test-perf";
-import { CreateSimpleEntityTest } from "./createSimpleEntity.spec";
-import { CreateSimpleEntityBatchTest } from "./createSimpleEntityBatchTest.spec";
-import { CreateComplexEntityTest } from "./createComplexEntity.spec";
-import { CreateComplexEntityBatchTest } from "./createComplexEntityBatchTest.spec";
-import { ListSimpleEntitiesTest } from "./listSimpleEntities.spec";
-import { ListComplexEntitiesTest } from "./listComplexEntities.spec";
+import { CreateSimpleEntityTest } from "./createSimpleEntity.spec.js";
+import { CreateSimpleEntityBatchTest } from "./createSimpleEntityBatchTest.spec.js";
+import { CreateComplexEntityTest } from "./createComplexEntity.spec.js";
+import { CreateComplexEntityBatchTest } from "./createComplexEntityBatchTest.spec.js";
+import { ListSimpleEntitiesTest } from "./listSimpleEntities.spec.js";
+import { ListComplexEntitiesTest } from "./listComplexEntities.spec.js";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { TablesTest } from "./tables.spec";
+import { TablesTest } from "./tables.spec.js";
 import { TableEntityResult, TransactionAction } from "@azure/data-tables";
-import { createBatch } from "./utils/createBaseEntity";
+import { createBatch } from "./utils/createBaseEntity.js";
 
 interface ListComplexEntitiesTestOptions {
   entityCount: number;
