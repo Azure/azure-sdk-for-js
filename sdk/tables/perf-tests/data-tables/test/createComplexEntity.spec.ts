@@ -5,6 +5,7 @@ import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec.js";
 import { TableEntity } from "@azure/data-tables";
 import { createComplexEntity } from "./utils/createBaseEntity.js";
+import { describe, it, assert } from "vitest";
 
 export class CreateComplexEntityTest extends TablesTest {
   public options: PerfOptionDictionary = {};

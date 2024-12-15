@@ -5,6 +5,7 @@ import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec.js";
 import { TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity.js";
+import { describe, it, assert } from "vitest";
 
 interface TablesCreateComplexEntityBatchTestOptions {
   batchSize: number;
