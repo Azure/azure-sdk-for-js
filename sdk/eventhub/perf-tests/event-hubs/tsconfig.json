@@ -2,11 +2,12 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-event-hubs": ["./src/index"]
+    }
   },
-  "compileOnSave": true,
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",

@@ -10,7 +10,6 @@ import {
   ReceivedEventData,
 } from "@azure/event-hubs";
 import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure-tools/test-perf";
-import { describe, it, assert } from "vitest";
 
 interface ReceiverOptions {
   "number-of-events": number;
