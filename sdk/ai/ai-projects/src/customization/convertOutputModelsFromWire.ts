@@ -838,3 +838,15 @@ export function convertOpenAIPageableListOfRunStepOutput(
     data: input.data && input.data.map(convertRunStepOutput),
   };
 }
+
+export function convertOpenAIPageableListOfThreadMessageOutput(
+  input: GeneratedModels.OpenAIPageableListOfThreadMessageOutput
+): PublicModels.OpenAIPageableListOfThreadMessageOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data && input.data.map(convertThreadMessageOutput),
+  };
+}

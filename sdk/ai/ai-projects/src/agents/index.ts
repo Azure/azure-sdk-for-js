@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
-import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput } from "../customization/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput, ThreadMessageOutput, OpenAIPageableListOfThreadMessageOutput } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
 import type { CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
-import type { UpdateMessageOptions } from "./messagesModels.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams, CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams } from "./customModels.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -115,22 +114,19 @@ export interface AgentsOperations {
   /** Creates a new message on a specified thread. */
   createMessage: (
     threadId: string,
-    options: ThreadMessageOptions,
-    requestParams?: OptionalRequestParameters,
+    messageOptions: ThreadMessageOptions,
+    options?: CreateMessageOptionalParams
   ) => Promise<ThreadMessageOutput>;
   /** Gets a list of messages that exist on a thread. */
   listMessages: (
     threadId: string,
-    runId?: string,
-    options?: ListQueryParameters,
-    requestParams?: OptionalRequestParameters,
+    options?: ListMessagesOptionalParams,
   ) => Promise<OpenAIPageableListOfThreadMessageOutput>;
   /** Modifies an existing message on an existing thread. */
   updateMessage: (
     threadId: string,
     messageId: string,
-    options?: UpdateMessageOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: UpdateMessageOptionalParams
   ) => Promise<ThreadMessageOutput>;
 
   /** Gets a list of previously uploaded files. */
@@ -318,12 +314,12 @@ function getAgents(context: Client): AgentsOperations {
       options?: CreateAndRunThreadOptionalParams) =>
       createThreadAndRun(context, assistantId, options ?? {}),
 
-    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
-      createMessage(context, threadId, { ...requestParams, body: options }),
-    listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
-      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options } }),
-    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
-      updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
+    createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) =>
+      createMessage(context, threadId, messageOptions, options),
+    listMessages: (threadId: string, options?: ListMessagesOptionalParams) =>
+      listMessages(context, threadId, options),
+    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) =>
+      updateMessage(context, threadId, messageId, options),
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
       listFiles(context, { ...requestParams, queryParameters: { purpose: purpose } }),

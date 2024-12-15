@@ -6,6 +6,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type { AgentThreadCreationOptions, CreateAndRunThreadOptions, CreateRunOptions, UpdateAgentThreadOptions } from "../customization/models.js";
+import type { ListMessagesQueryParamProperties } from "../customization/parameters.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -137,6 +138,23 @@ export interface GetRunStepOptionalParams extends OperationOptions { }
  * Optional parameters for listing run steps.
  */
 export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions { }
+
+/**
+ * Optional parameters for creating a message.
+ */
+export interface CreateMessageOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for updating a message.
+ */
+export interface UpdateMessageOptionalParams extends OperationOptions {
+  metadata?: Record<string, string> | null;
+}
+
+/**
+ * Optional parameters for listing messages.
+ */
+export interface ListMessagesOptionalParams extends ListMessagesQueryParamProperties, OperationOptions { }
 
 /**
  * Converts ListQueryParameters to a record of query parameters.

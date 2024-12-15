@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
-import { CreateMessageParameters, ListMessagesParameters, UpdateMessageParameters } from "../generated/src/parameters.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../customization/outputModels.js";
+import type { CreateMessageParameters, ListMessagesParameters } from "../generated/src/parameters.js";
 import { validateMetadata, validateVectorStoreDataType } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateMessage, traceEndListMessages, traceStartCreateMessage, traceStartListMessages } from "./messagesTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
+import type { ThreadMessageOptions } from "../customization/models.js";
+import type { CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams } from "./customModels.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -15,18 +20,27 @@ const expectedStatuses = ["200"];
 export async function createMessage(
   context: Client,
   threadId: string,
-  options: CreateMessageParameters,
+  messageOptions: ThreadMessageOptions,
+  options: CreateMessageOptionalParams = {},
 ): Promise<ThreadMessageOutput> {
+
+  const createOptions: GeneratedParameters.CreateMessageParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...messageOptions,
+    },
+  };
+
   validateThreadId(threadId);
-  validateCreateMessageParameters(options);
-  return TracingUtility.withSpan("CreateMessage", options, async (updateOptions) => {
+  validateCreateMessageParameters(createOptions);
+  return TracingUtility.withSpan("CreateMessage", createOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/messages", threadId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return ConvertFromWire.convertThreadMessageOutput(result.body);
   }, (span, updatedOptions) => traceStartCreateMessage(span, threadId, updatedOptions), traceEndCreateMessage);
 }
 
@@ -34,11 +48,23 @@ export async function createMessage(
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListMessagesParameters = {},
+  options: ListMessagesOptionalParams = {},
 ): Promise<OpenAIPageableListOfThreadMessageOutput> {
+
+  const listOptions: GeneratedParameters.ListMessagesParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      ...(options.runId && { run_id: options.runId }),
+      ...(options.limit && { run_id: options.limit }),
+      ...(options.order && { run_id: options.order }),
+      ...(options.after && { run_id: options.after }),
+      ...(options.before && { run_id: options.before }),
+    }
+  };
+
   validateThreadId(threadId);
-  validateListMessagesParameters(options);
-  return TracingUtility.withSpan("ListMessages", options, async (updateOptions) => {
+  validateListMessagesParameters(listOptions);
+  const output = await TracingUtility.withSpan("ListMessages", listOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/messages", threadId)
       .get(updateOptions);
@@ -47,6 +73,8 @@ export async function listMessages(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartListMessages(span, threadId, updatedOptions), traceEndListMessages);
+
+  return ConvertFromWire.convertOpenAIPageableListOfThreadMessageOutput(output)
 }
 
 /** Modifies an existing message on an existing thread. */
@@ -54,18 +82,25 @@ export async function updateMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageParameters = { body: {} },
+  options: UpdateMessageOptionalParams = {},
 ): Promise<ThreadMessageOutput> {
+
+  const updateMessageOptions: GeneratedParameters.UpdateMessageParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...(options.metadata ? { metadata: options.metadata } : {}),
+    }
+  };
   validateThreadId(threadId);
   validateMessageId(messageId);
-  return TracingUtility.withSpan("UpdateMessage", options, async (updateOptions) => {
+  return TracingUtility.withSpan("UpdateMessage", updateMessageOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return result.body;
+    return ConvertFromWire.convertThreadMessageOutput(result.body);
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, messageId: messageId } }));
 }
 
