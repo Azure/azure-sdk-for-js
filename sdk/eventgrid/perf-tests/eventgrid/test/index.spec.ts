@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createPerfProgram } from "@azure-tools/test-perf";
-import { SendCloudEventsTest } from "./sendCloudEvents.spec";
+import { SendCloudEventsTest } from "./sendCloudEvents.spec.js";
 
 import dotenv from "dotenv";
 dotenv.config();
