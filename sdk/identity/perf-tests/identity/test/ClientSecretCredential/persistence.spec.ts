@@ -2,6 +2,8 @@ import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { useIdentityPlugin, ClientSecretCredential } from "@azure/identity";
 
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+import { describe, it, assert } from "vitest";
+
 useIdentityPlugin(cachePersistencePlugin);
 
 const scope = `https://servicebus.azure.net/.default`;
