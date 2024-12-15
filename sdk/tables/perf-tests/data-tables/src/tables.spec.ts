@@ -3,7 +3,6 @@
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { TableClient } from "@azure/data-tables";
-import { describe, it, assert } from "vitest";
 
 export abstract class TablesTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {
   client: TableClient;

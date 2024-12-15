@@ -8,12 +8,7 @@ import { CreateComplexEntityTest } from "./createComplexEntity.spec.js";
 import { CreateComplexEntityBatchTest } from "./createComplexEntityBatchTest.spec.js";
 import { ListSimpleEntitiesTest } from "./listSimpleEntities.spec.js";
 import { ListComplexEntitiesTest } from "./listComplexEntities.spec.js";
-
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 const perfProgram = createPerfProgram(
   CreateSimpleEntityTest,
