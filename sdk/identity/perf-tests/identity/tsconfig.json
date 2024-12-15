@@ -3,18 +3,13 @@
   "compilerOptions": {
     "module": "NodeNext",
     "target": "ES2015",
-    "lib": [
-      "ES6",
-      "ESNext.AsyncIterable"
-    ],
+    "lib": ["ES6", "ESNext.AsyncIterable"],
     "noEmit": true,
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
