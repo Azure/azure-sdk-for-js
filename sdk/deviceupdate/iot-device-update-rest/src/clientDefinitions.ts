@@ -159,7 +159,7 @@ import type {
   DeviceManagementGetLogCollectionDetailedStatusDefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
   DeviceManagementListHealthOfDevicesDefaultResponse,
-} from "./responses.js"
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DeviceUpdateListUpdates {
