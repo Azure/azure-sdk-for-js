@@ -67,15 +67,15 @@
 - Changes the following interfaces as follows:
 
   - `AnalyzeBatchDocumentsBodyParam`:
-    - Changed `body` from optional to required.
+    - Updates `body` to be required.
   - `AnalyzeBatchOperationOutput`:
-    - Added `resultId`.
+    - Adds `resultId`.
   - `AnalyzeDocumentBodyParam`:
-    - Changed `body` from optional to required.
+    - Changes `body` from optional to required.
   - `DocumentClassifierDetailsOutput`:
-    - Added `modifiedDateTime`.
+    - Adds `modifiedDateTime`.
   - `DocumentModelDetailsOutput`:
-    - Added `modifiedDateTime`.
+    - Adds `modifiedDateTime`.
 
 - Introduces new interfaces to define query parameters for document analysis requests, allowing customizable `style` and `explode` options:
   - **AnalyzeBatchDocumentsFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
