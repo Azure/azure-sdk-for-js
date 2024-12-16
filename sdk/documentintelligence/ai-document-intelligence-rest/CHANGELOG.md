@@ -6,7 +6,14 @@
 
 - Adds `streamToUint8Array`, a convenience function that buffers a `NodeJS.ReadableStream` in a `Uint8Array`. It can be used to read the pdf and png responses from the results of an analysis.
 
-  ```js
+  ```ts
+  import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+  import { streamToUint8Array } from "@azure-rest/ai-document-intelligence";
+
+  const client = DocumentIntelligence("<DOCUMENT_INTELLIGENCE_ENDPOINT>", {
+    key: "<DOCUMENT_INTELLIGENCE_API_KEY>",
+  });
+
   // Example for the figures api that provides an image output
   const output = await client
     .path(
@@ -16,11 +23,14 @@
       figureId
     )
     .get()
-    .asNodeStream();
+    .asNodeStream(); // output.body would be NodeJS.ReadableStream
 
   if (output.status !== "200" || !output.body) {
-    throw new Error("The response was unexpected.");
+    throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
   }
+
+  const imageData = await streamToUint8Array(output.body);
+  fs.promises.writeFile(`./figures/${figureId}.png`, imageData); // Or you can consume the NodeJS.ReadableStream directly
   ```
 
 - New `parseResultIdFromResponse` method has been added to parse `operationId` from the initial response of batch analysis requests which can later be used to get the analysis results.
