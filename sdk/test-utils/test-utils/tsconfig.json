@@ -1,9 +1,7 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
