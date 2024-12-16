@@ -207,8 +207,8 @@ describe("Agent Tracing", () => {
     response = submitToolOutputs;
     status = 200;
     const toolOutputs = [
-      { tool_call_id: "toolcallId1", output: "output1" },
-      { tool_call_id: "toolcallId2", output: "output2" },
+      { toolCallId: "toolcallId1", output: "output1" },
+      { toolCallId: "toolcallId2", output: "output2" },
     ];
     await agents.submitToolOutputsToRun("threadId", "runId", toolOutputs);
     const mockedInstrumenter = instrumenter as MockInstrumenter;
@@ -221,12 +221,12 @@ describe("Agent Tracing", () => {
     assert.equal(span.events!.length, 2);
     assert.equal(
       span.events![0].attributes["gen_ai.event.content"],
-      JSON.stringify({ content: toolOutputs[0].output, id: toolOutputs[0].tool_call_id }),
+      JSON.stringify({ content: toolOutputs[0].output, id: toolOutputs[0].toolCallId }),
     );
     assert.equal(span.events![0].name, "gen_ai.tool.message");
     assert.equal(
       span.events![1].attributes["gen_ai.event.content"],
-      JSON.stringify({ content: toolOutputs[1].output, id: toolOutputs[1].tool_call_id }),
+      JSON.stringify({ content: toolOutputs[1].output, id: toolOutputs[1].toolCallId }),
     );
     assert.equal(span.events![1].name, "gen_ai.tool.message");
   });
