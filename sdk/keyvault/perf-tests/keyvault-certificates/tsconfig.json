@@ -2,21 +2,19 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "target": "ES2015",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true,
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-keyvault-certificates": ["./src/index"]
+    }
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
     "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts"
   ]
 }
