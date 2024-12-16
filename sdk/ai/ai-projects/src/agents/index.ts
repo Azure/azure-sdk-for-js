@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
-import type { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../customization/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { FileListResponseOutput, OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -16,9 +16,8 @@ import { getRunStep, listRunSteps } from "./runSteps.js";
 import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams } from "./customModels.js";
-
-import { OpenAIFileOutput } from "../customization/outputModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, UploadFileOptionalParams } from "./customModels.js";
+import type { OpenAIFileOutput } from "../customization/outputModels.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (

@@ -156,8 +156,8 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -715,6 +715,12 @@ export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ListFilesQueryParam" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface ListFilesOptionalParams extends ListFilesQueryParam, OperationOptions {
+}
+
 // @public
 export interface ListQueryParameters {
     after?: string;
@@ -1024,13 +1030,15 @@ export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutpu
 // @public
 export interface OpenAIFileOutput {
     bytes: number;
-    created_at: number;
+    createdAt: Date;
     filename: string;
     id: string;
     object: "file";
-    purpose: FilePurposeOutput;
-    status?: FileStateOutput;
-    status_details?: string;
+    // Warning: (ae-forgotten-export) The symbol "FilePurposeOutput_2" needs to be exported by the entry point index.d.ts
+    purpose: FilePurposeOutput_2;
+    // Warning: (ae-forgotten-export) The symbol "FileStateOutput_2" needs to be exported by the entry point index.d.ts
+    status?: FileStateOutput_2;
+    statusDetails?: string;
 }
 
 // @public
@@ -1140,10 +1148,9 @@ export interface RecurrenceTriggerOutput extends TriggerOutputParent {
 }
 
 // Warning: (ae-forgotten-export) The symbol "RequiredActionOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsActionOutput_2" needs to be exported by the entry point index.d.ts
 //
 // @public
-export type RequiredActionOutput = RequiredActionOutputParent_2 | SubmitToolOutputsActionOutput_2;
+export type RequiredActionOutput = RequiredActionOutputParent_2 | SubmitToolOutputsActionOutput;
 
 // @public
 export interface RequiredActionOutputParent {
@@ -1480,8 +1487,9 @@ export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputPare
 }
 
 // @public
-export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
-    submit_tool_outputs: SubmitToolOutputsDetailsOutput;
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent_2 {
+    // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsDetailsOutput_2" needs to be exported by the entry point index.d.ts
+    submitToolOutputs: SubmitToolOutputsDetailsOutput_2;
     type: "submit_tool_outputs";
 }
 
@@ -1823,6 +1831,12 @@ export interface UpdateToolResourcesOptionsOutput {
     // Warning: (ae-forgotten-export) The symbol "UpdateFileSearchToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
     fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
 }
+
+// Warning: (ae-forgotten-export) The symbol "UploadFileMediaTypesParam" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "UploadFileBodyParam" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type UploadFileOptionalParams = UploadFileMediaTypesParam & UploadFileBodyParam & PollingOptions & OperationOptions;
 
 // @public
 export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {

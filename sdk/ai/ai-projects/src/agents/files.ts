@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, StreamableMethod } from "@azure-rest/core-client";
-import type * as GeneratedParameters from "../generated/src/parameters.js";
-import { createRestError } from "@azure-rest/core-client";
-import { FileDeletionStatusOutput} from "../customization/outputModels.js";
-import { PollingOptions, UploadFileOptionalParams } from "./customModels.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type {
+  FileDeletionStatusOutput,
+  FileListResponseOutput,
+  OpenAIFileOutput,
+} from "../customization/outputModels.js";
+import type { UploadFileOptionalParams} from "./customModels.js";
+import { type ListFilesOptionalParams, type PollingOptions } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
-
-import { FileListResponseOutput, OpenAIFileOutput} from "../customization/outputModels.js";
-import { convertFileListResponseOutput, convertOpenAIFileOutput } from "../customization/convertOutputModelsFromWire.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -26,14 +29,17 @@ enum FilePurpose {
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
-  options?: GeneratedParameters.ListFilesParameters,
+  options: ListFilesOptionalParams = {},
 ): Promise<FileListResponseOutput> {
-  validateListFilesParameters(options);
+  const listOptions: GeneratedParameters.ListFilesParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+  validateListFilesParameters(listOptions);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return convertFileListResponseOutput(result.body); 
+  return ConvertFromWire.convertFileListResponseOutput(result.body); 
 }
 
 /** Uploads a file for use by other operations. */
@@ -45,7 +51,7 @@ export async function uploadFile(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return convertOpenAIFileOutput(result.body); 
+  return ConvertFromWire.convertOpenAIFileOutput(result.body); 
 }
 
 /** Uploads a file for use by other operations. */
@@ -98,7 +104,7 @@ export async function getFile(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return convertOpenAIFileOutput(result.body); 
+  return ConvertFromWire.convertOpenAIFileOutput(result.body); 
 }
 
 /** Returns file content. */

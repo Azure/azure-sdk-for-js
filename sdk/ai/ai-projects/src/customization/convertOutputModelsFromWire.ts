@@ -13,6 +13,7 @@ import type {
   ToolResourcesOutput as WireToolResourcesOutput,
   CodeInterpreterToolResourceOutput as WireCodeInterpreterToolResourceOutput,
   FileSearchToolResourceOutput as WireFileSearchToolResourceOutput,
+  FileListResponseOutput as WireFileListResponseOutput,
   VectorStoreDataSourceOutput as WireVectorStoreDataSourceOutput,
   VectorStoreConfigurationsOutput as WireVectorStoreConfigurationsOutput,
   VectorStoreConfigurationOutput as WireVectorStoreConfigurationOutput,
@@ -21,6 +22,7 @@ import type {
   AgentsApiResponseFormatOutput as WireAgentsApiResponseFormatOutput,
   AgentOutput as WireAgentOutput,
   OpenAIPageableListOfAgentOutput as WireOpenAIPageableListOfAgentOutput,
+  OpenAIFileOutput as WireOpenAIFileOutput,
   AgentDeletionStatusOutput as WireAgentDeletionStatusOutput,
   MessageAttachmentOutput as WireMessageAttachmentOutput,
   AgentThreadOutput as WireAgentThreadOutput,
@@ -71,6 +73,7 @@ import type {
   ToolResourcesOutput,
   CodeInterpreterToolResourceOutput,
   FileSearchToolResourceOutput,
+  FileListResponseOutput,
   VectorStoreDataSourceOutput,
   VectorStoreConfigurationsOutput,
   VectorStoreConfigurationOutput,
@@ -79,6 +82,7 @@ import type {
   AgentsApiResponseFormatOutput,
   AgentOutput,
   OpenAIPageableListOfAgentOutput,
+  OpenAIFileOutput,
   AgentDeletionStatusOutput,
   MessageAttachmentOutput,
   AgentThreadOutput,
@@ -680,5 +684,27 @@ export function convertOpenAIPageableListOfThreadRunOutput(
     lastId: input.last_id,
     hasMore: input.has_more,
     data: input.data.map(convertThreadRunOutput),
+  };
+}
+
+export function convertOpenAIFileOutput(input: WireOpenAIFileOutput): OpenAIFileOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    bytes: input.bytes,
+    filename: input.filename,
+    createdAt: new Date(input.created_at),
+    purpose: input.purpose,
+    status: input.status,
+    statusDetails: input.status_details,
+  };
+}
+
+export function convertFileListResponseOutput(
+  input: WireFileListResponseOutput
+): FileListResponseOutput {
+  return {
+    object: input.object,
+    data: input.data.map(convertOpenAIFileOutput),
   };
 }

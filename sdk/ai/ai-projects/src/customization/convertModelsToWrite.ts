@@ -56,7 +56,7 @@ import type {
   MessageTextFilePathDetails as SourceMessageTextFilePathDetails,
   MessageImageFileDetails as SourceMessageImageFileDetails,
   MessageAttachmentToolDefinition as SourceMessageAttachmentToolDefinition,
-  VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest
+  VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest,
 } from "./models.js";
 
 import type {
