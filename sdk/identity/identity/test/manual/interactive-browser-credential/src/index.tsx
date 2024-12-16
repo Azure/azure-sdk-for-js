@@ -65,7 +65,7 @@ let lastLoginStyle: BrowserLoginStyle | undefined;
 let cachedCredential: InteractiveBrowserCredential | undefined;
 function getCredential(
   clientDetails: ClientDetails,
-  cacheCredential: boolean
+  cacheCredential: boolean,
 ): InteractiveBrowserCredential | undefined {
   if (!cacheCredential) {
     cachedCredential = undefined;
@@ -191,7 +191,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
 
 async function sendMessage(
   serviceBusEndpoint: string,
-  clientDetails: ClientDetails
+  clientDetails: ClientDetails,
 ): Promise<string | undefined> {
   const credential = getCredential(clientDetails, clientDetails.cacheCredential);
   const queueName = clientDetails.queueName;
@@ -325,7 +325,7 @@ function TestPage() {
       parallel: false,
       serviceBusEndpoint: "",
       output: "",
-    }
+    },
   );
 
   return (

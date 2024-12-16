@@ -17,11 +17,15 @@ module.exports = {
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
-    aliasFields: ['browser']
+    aliasFields: ['browser'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+      os: require.resolve("os-browserify/browser")
+    }
   },
   mode: 'development',
   devServer: {
-    contentBase: '.',
+    static: '.',
   },
   optimization: {
     usedExports: true
