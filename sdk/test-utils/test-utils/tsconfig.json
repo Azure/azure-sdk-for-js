@@ -2,21 +2,12 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "esnext"
+      "dom"
     ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "exclude": [
-    "node_modules",
-    "./types/**/*.d.ts",
-    "./samples/**/*.ts"
-  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
