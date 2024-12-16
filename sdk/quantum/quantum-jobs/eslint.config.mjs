@@ -8,12 +8,4 @@ export default azsdkEslint.config([
       "tsdoc/syntax": "warn",
     }
   },
-  {
-    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.test.json"],
-      },
-    },
-  },
 ]);
