@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /**
  * Parameters supplied to the Check Name Availability for Namespace and
@@ -1452,37 +1452,31 @@ export interface NotificationHubsCheckNotificationHubAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNotificationHubAvailability operation. */
-export type NotificationHubsCheckNotificationHubAvailabilityResponse =
-  CheckAvailabilityResult;
+export type NotificationHubsCheckNotificationHubAvailabilityResponse = CheckAvailabilityResult;
 
 /** Optional parameters. */
-export interface NotificationHubsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NotificationHubsGetResponse = NotificationHubResource;
 
 /** Optional parameters. */
-export interface NotificationHubsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type NotificationHubsCreateOrUpdateResponse = NotificationHubResource;
 
 /** Optional parameters. */
-export interface NotificationHubsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type NotificationHubsUpdateResponse = NotificationHubResource;
 
 /** Optional parameters. */
-export interface NotificationHubsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NotificationHubsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotificationHubsListOptionalParams extends coreClient.OperationOptions {
   /** Continuation token. */
   skipToken?: string;
   /** Page size. */
@@ -1493,8 +1487,7 @@ export interface NotificationHubsListOptionalParams
 export type NotificationHubsListResponse = NotificationHubListResult;
 
 /** Optional parameters. */
-export interface NotificationHubsDebugSendOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsDebugSendOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the debugSend operation. */
 export type NotificationHubsDebugSendResponse = DebugSendResponse;
@@ -1516,8 +1509,7 @@ export interface NotificationHubsGetAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type NotificationHubsGetAuthorizationRuleResponse =
-  SharedAccessAuthorizationRuleResource;
+export type NotificationHubsGetAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
 
 /** Optional parameters. */
 export interface NotificationHubsListAuthorizationRulesOptionalParams
@@ -1528,15 +1520,13 @@ export type NotificationHubsListAuthorizationRulesResponse =
   SharedAccessAuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface NotificationHubsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type NotificationHubsListKeysResponse = ResourceListKeys;
 
 /** Optional parameters. */
-export interface NotificationHubsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type NotificationHubsRegenerateKeysResponse = ResourceListKeys;
@@ -1549,8 +1539,7 @@ export interface NotificationHubsGetPnsCredentialsOptionalParams
 export type NotificationHubsGetPnsCredentialsResponse = PnsCredentialsResource;
 
 /** Optional parameters. */
-export interface NotificationHubsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationHubsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NotificationHubsListNextResponse = NotificationHubListResult;
@@ -1564,22 +1553,19 @@ export type NotificationHubsListAuthorizationRulesNextResponse =
   SharedAccessAuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface NamespacesCheckAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesCheckAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAvailability operation. */
 export type NamespacesCheckAvailabilityResponse = CheckAvailabilityResult;
 
 /** Optional parameters. */
-export interface NamespacesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NamespacesGetResponse = NamespaceResource;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1590,19 +1576,16 @@ export interface NamespacesCreateOrUpdateOptionalParams
 export type NamespacesCreateOrUpdateResponse = NamespaceResource;
 
 /** Optional parameters. */
-export interface NamespacesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type NamespacesUpdateResponse = NamespaceResource;
 
 /** Optional parameters. */
-export interface NamespacesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NamespacesListAllOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesListAllOptionalParams extends coreClient.OperationOptions {
   /** Skip token for subsequent requests. */
   skipToken?: string;
   /** Maximum number of results to return. */
@@ -1613,8 +1596,7 @@ export interface NamespacesListAllOptionalParams
 export type NamespacesListAllResponse = NamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesListOptionalParams extends coreClient.OperationOptions {
   /** Skip token for subsequent requests. */
   skipToken?: string;
   /** Maximum number of results to return. */
@@ -1637,52 +1619,44 @@ export interface NamespacesDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NamespacesGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type NamespacesGetAuthorizationRuleResponse =
-  SharedAccessAuthorizationRuleResource;
+export type NamespacesGetAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse =
-  SharedAccessAuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesResponse = SharedAccessAuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface NamespacesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type NamespacesListKeysResponse = ResourceListKeys;
 
 /** Optional parameters. */
-export interface NamespacesRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type NamespacesRegenerateKeysResponse = ResourceListKeys;
 
 /** Optional parameters. */
-export interface NamespacesGetPnsCredentialsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetPnsCredentialsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPnsCredentials operation. */
 export type NamespacesGetPnsCredentialsResponse = PnsCredentialsResource;
 
 /** Optional parameters. */
-export interface NamespacesListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListAllNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type NamespacesListAllNextResponse = NamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NamespacesListNextResponse = NamespaceListResult;
@@ -1692,19 +1666,16 @@ export interface NamespacesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse =
-  SharedAccessAuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesNextResponse = SharedAccessAuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -1719,8 +1690,7 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse =
-  PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1732,24 +1702,19 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse =
-  PrivateEndpointConnectionsDeleteHeaders;
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse =
-  PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionResourceListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetGroupIdOptionalParams
@@ -1763,8 +1728,7 @@ export interface PrivateEndpointConnectionsListGroupIdsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGroupIds operation. */
-export type PrivateEndpointConnectionsListGroupIdsResponse =
-  PrivateLinkResourceListResult;
+export type PrivateEndpointConnectionsListGroupIdsResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface NotificationHubsManagementClientOptionalParams

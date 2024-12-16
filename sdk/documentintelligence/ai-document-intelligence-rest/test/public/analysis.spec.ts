@@ -12,6 +12,8 @@ import {
   batchTrainingFilesResultContainerUrl,
   getRandomNumber,
   makeTestUrl,
+  isValidPNG,
+  isValidPDF,
 } from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
@@ -23,7 +25,7 @@ import type {
   DocumentModelDetailsOutput,
   DocumentTableOutput,
 } from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, streamToUint8Array } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -1031,10 +1033,15 @@ describe("DocumentIntelligenceClient", () => {
           "prebuilt-read",
           poller.getOperationId(),
         )
-        .get();
+        .get()
+        .asNodeStream();
 
-      // A PDF's header is expected to be: %PDF-
-      assert.ok(output.body.toString().startsWith("%PDF-"));
+      if (output.status !== "200" || !output.body) {
+        throw new Error("The response was unexpected.");
+      }
+      // To get the PDF as a file, you can use the following code:
+      // fs.promises.writeFile("output.pdf", await streamToUint8Array(output.body));
+      assert.isTrue(isValidPDF(await streamToUint8Array(output.body)));
     });
 
     it("getAnalyzeResult figures", async function () {
@@ -1074,10 +1081,13 @@ describe("DocumentIntelligenceClient", () => {
           poller.getOperationId(),
           figureId,
         )
-        .get();
+        .get()
+        .asNodeStream();
 
-      // Header starts with a special character followed by "PNG"
-      assert.equal(output.body.toString().slice(1, 4), "PNG");
+      if (output.status !== "200" || !output.body) {
+        throw new Error("The response was unexpected.");
+      }
+      assert.isTrue(isValidPNG(await streamToUint8Array(output.body)));
     });
   });
 });

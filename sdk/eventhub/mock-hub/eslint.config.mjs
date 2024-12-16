@@ -6,12 +6,4 @@ export default azsdkEslint.config([
       "no-restricted-imports": "warn",
     },
   },
-  {
-    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.test.json"],
-      },
-    },
-  },
 ]);
