@@ -708,7 +708,7 @@ describe("Call Media Client Live Tests", function () {
     );
 
     // Pick the first random index
-    let firstIndex = Math.floor(Math.random() * phoneNumbers.length);
+    const firstIndex = Math.floor(Math.random() * phoneNumbers.length);
 
     // Pick the second random index, ensuring it's different from the first
     let secondIndex;
