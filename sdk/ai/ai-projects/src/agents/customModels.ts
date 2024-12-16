@@ -5,8 +5,9 @@ import type { OperationOptions, RequestParameters } from "@azure-rest/core-clien
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { AgentThreadCreationOptions, CreateAndRunThreadOptions, CreateRunOptions, UpdateAgentThreadOptions } from "../customization/models.js";
+import type { AgentThreadCreationOptions, CreateAndRunThreadOptions, CreateRunOptions, UpdateAgentThreadOptions, VectorStoreFileStatusFilter, VectorStoreOptions, VectorStoreUpdateOptions } from "../customization/models.js";
 import type { ListMessagesQueryParamProperties } from "../customization/parameters.js";
+import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -103,9 +104,7 @@ export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
  * Optional parameters for updating a run.
  */
 export interface UpdateRunOptionalParams extends OperationOptions {
-  /**
-   * Metadata to update in the run.
-   */
+  /**  Metadata to update in the run.  */
   metadata?: Record<string, string> | null;
 }
 
@@ -148,6 +147,7 @@ export interface CreateMessageOptionalParams extends OperationOptions { }
  * Optional parameters for updating a message.
  */
 export interface UpdateMessageOptionalParams extends OperationOptions {
+  /** Metadata to update in the message. */
   metadata?: Record<string, string> | null;
 }
 
@@ -157,23 +157,84 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
 export interface ListMessagesOptionalParams extends ListMessagesQueryParamProperties, OperationOptions { }
 
 /**
- * Converts ListQueryParameters to a record of query parameters.
- * @param options - The list query parameters to convert.
- * @returns A record of query parameters.
+ * Optional parameters creating vector store.
  */
-export function convertToListQueryParameters(options: ListQueryParameters): Record<string, string> {
-  const queryParameters: Record<string, string> = {};
-  if (options.limit) {
-    queryParameters.limit = options.limit.toString();
-  }
-  if (options.order) {
-    queryParameters.order = options.order;
-  }
-  if (options.after) {
-    queryParameters.after = options.after;
-  }
-  if (options.before) {
-    queryParameters.before = options.before;
-  }
-  return queryParameters;
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions { }
+
+/**
+ * Optional parameters for creating vector store with polling.
+ */
+export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams { pollingOptions?: PollingOptions }
+
+/**
+ * Optional parameters for listing vector stores.
+ */
+export interface ListVectorStoresOptionalParams extends ListQueryParameters, OperationOptions { }
+
+/**
+ * Optional parameters for updating a vector store.
+ */
+export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions { }
+
+/**
+ * Optional parameters for deleting a vector store.
+ */
+export interface DeleteVectorStoreOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for getting a vector store.
+ */
+export interface GetVectorStoreOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for listing vector store files.
+ */
+export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters, OperationOptions { }
+
+/**
+ * Optional parameters for creating a vector store file.
+ */
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions { }
+
+/**
+ * Optional parameters for getting a vector store file.
+ */
+export interface GetVectorStoreFileOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for deleting a vector store file.
+ */
+export interface DeleteVectorStoreFileOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for creating a vector store file with polling.
+ */
+export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, OperationOptions { pollingOptions?: PollingOptions }
+
+/**
+ * Optional parameters for listing vector store file batches.
+ */
+export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
+  /** Filter by file status. */
+  filter?: VectorStoreFileStatusFilter;
 }
+
+/**
+ * Optional parameters for getting a vector store file batch.
+ */
+export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for canceling a vector store file batch.
+ */
+export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions { }
+
+/**
+ * Optional parameters for creating a vector store file batch.
+ */
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions { }
+
+/**
+ * Optional parameters for creating a vector store file batch with polling.
+ */
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams { pollingOptions?: PollingOptions }

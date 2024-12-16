@@ -2,20 +2,19 @@
 // Licensed under the MIT License.
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
-import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput, ThreadMessageOutput, OpenAIPageableListOfThreadMessageOutput } from "../customization/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
+import type { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput, AgentThreadOutput, RunStepOutput, OpenAIPageableListOfRunStepOutput, ThreadMessageOutput, ThreadDeletionStatusOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfVectorStoreOutput, VectorStoreOutput, VectorStoreFileOutput, VectorStoreDeletionStatusOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileBatchOutput, OpenAIPageableListOfVectorStoreFileOutput } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
+import type { CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions } from "../generated/src/models.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
-import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams, CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams, CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams, GetVectorStoreOptionalParams, ListVectorStoresOptionalParams, UpdateVectorStoreOptionalParams, DeleteVectorStoreOptionalParams, CreateVectorStoreOptionalParams, CreateVectorStoreWithPollingOptionalParams, CreateVectorStoreFileOptionalParams, ListVectorStoreFilesOptionalParams, GetVectorStoreFileOptionalParams, DeleteVectorStoreFileOptionalParams, CreateVectorStoreFileWithPollingOptionalParams, CreateVectorStoreFileBatchOptionalParams, GetVectorStoreFileBatchOptionalParams, ListVectorStoreFileBatchFilesOptionalParams, CreateVectorStoreFileBatchWithPollingOptionalParams } from "./customModels.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -157,42 +156,37 @@ export interface AgentsOperations {
 
   /** Returns a list of vector stores. */
   listVectorStores: (
-    options?: ListQueryParameters,
-    requestParams?: OptionalRequestParameters,
+    options?: DeleteVectorStoreOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
   createVectorStore: (
-    options?: VectorStoreOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreOptionalParams
   ) => Promise<VectorStoreOutput>;
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: DeleteVectorStoreOptionalParams,
   ) => Promise<VectorStoreOutput>;
   /** The ID of the vector store to modify. */
   modifyVectorStore: (
     vectorStoreId: string,
-    options?: VectorStoreUpdateOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: UpdateVectorStoreOptionalParams,
   ) => Promise<VectorStoreOutput>;
   /** Deletes the vector store object matching the specified ID. */
   deleteVectorStore: (
     vectorStoreId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: DeleteVectorStoreOptionalParams,
   ) => Promise<VectorStoreDeletionStatusOutput>;
+
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
-    vectorStoreOptions?: VectorStoreOptions,
-    pollingOptions?: PollingOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreWithPollingOptionalParams,
   ) => Promise<VectorStoreOutput>;
 
   /** Create a vector store file by attching a file to a vector store. */
   createVectorStoreFile: (
     vectorStoreId: string,
-    options?: CreateVectorStoreFileOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFileOutput>;
   /** Retrieves a vector store file. */
   getVectorStoreFile: (
@@ -203,8 +197,7 @@ export interface AgentsOperations {
   /** Returns a list of vector store files. */
   listVectorStoreFiles: (
     vectorStoreId: string,
-    options?: ListQueryParameters & FileStatusFilter,
-    requestParams?: OptionalRequestParameters,
+    options?: ListVectorStoreFilesOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
   /**
    * Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted.
@@ -218,21 +211,19 @@ export interface AgentsOperations {
   /** Create a vector store file by attaching a file to a vector store and poll. */
   createVectorStoreFileAndPoll: (
     vectorStoreId: string,
-    vectorStoreFileOptions?: CreateVectorStoreFileOptions,
-    pollingOptions?: PollingOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreFileWithPollingOptionalParams,
   ) => Promise<VectorStoreFileOutput>;
 
   /** Create a vector store file batch. */
   createVectorStoreFileBatch: (
     vectorStoreId: string,
-    options?: CreateVectorStoreFileBatchOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatchOutput>;
   /** Retrieve a vector store file batch. */
   getVectorStoreFileBatch: (
     vectorStoreId: string,
     batchId: string,
+    options?: GetVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatchOutput>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
   cancelVectorStoreFileBatch: (
@@ -244,15 +235,12 @@ export interface AgentsOperations {
   listVectorStoreFileBatchFiles: (
     vectorStoreId: string,
     batchId: string,
-    options?: ListQueryParameters & FileStatusFilter,
-    requestParams?: OptionalRequestParameters,
+    options?: ListVectorStoreFileBatchFilesOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
   /** Create a vector store file batch and poll. */
   createVectorStoreFileBatchAndPoll: (
     vectorStoreId: string,
-    vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions,
-    pollingOptions?: PollingOptions,
-    requestParams?: OptionalRequestParameters,
+    options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
   ) => Promise<VectorStoreFileBatchOutput>;
 
   /** Gets a single run step from a thread run. */
@@ -342,40 +330,40 @@ function getAgents(context: Client): AgentsOperations {
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) =>
       getFileContent(context, fileId, requestParams),
 
-    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters,) =>
-      listVectorStores(context, { ...requestParams, queryParameters: options as Record<string, unknown> }),
-    createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStore(context, { ...requestParams, body: options as Record<string, unknown> }),
-    getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
-      getVectorStore(context, vectorStoreId, requestParams),
-    modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) =>
-      modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
-    deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
-      deleteVectorStore(context, vectorStoreId, requestParams),
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreAndPoll(context, vectorStoreOptions, pollingOptions, requestParams),
+    listVectorStores: (options?: ListVectorStoresOptionalParams) =>
+      listVectorStores(context, options),
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) =>
+      createVectorStore(context, options),
+    getVectorStore: (vectorStoreId: string, options?: GetVectorStoreOptionalParams) =>
+      getVectorStore(context, vectorStoreId, options),
+    modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) =>
+      modifyVectorStore(context, vectorStoreId, options),
+    deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) =>
+      deleteVectorStore(context, vectorStoreId, options),
+    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) =>
+      createVectorStoreAndPoll(context, options),
 
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: { file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
-    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
-      getVectorStoreFile(context, vectorStoreId, fileId, requestParams),
-    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
-      listVectorStoreFiles(context, vectorStoreId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
-      deleteVectorStoreFile(context, vectorStoreId, fileId, requestParams),
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileAndPoll(context, vectorStoreId, vectorStoreFileOptions, pollingOptions, requestParams),
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) =>
+      createVectorStoreFile(context, vectorStoreId, options),
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: GetVectorStoreFileOptionalParams) =>
+      getVectorStoreFile(context, vectorStoreId, fileId, options),
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) =>
+      listVectorStoreFiles(context, vectorStoreId, options),
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: DeleteVectorStoreFileOptionalParams) =>
+      deleteVectorStoreFile(context, vectorStoreId, fileId, options),
+    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) =>
+      createVectorStoreFileAndPoll(context, vectorStoreId, options),
 
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: { file_ids: options?.fileIds, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
-    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>
-      getVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) =>
+      createVectorStoreFileBatch(context, vectorStoreId, options),
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) =>
+      getVectorStoreFileBatch(context, vectorStoreId, batchId, options),
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>
       cancelVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
-    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
-      listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileBatchAndPoll(context, vectorStoreId, vectorStoreFileBatchOptions, pollingOptions, requestParams),
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) =>
+      listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) =>
+      createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),
 
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) =>
       getRunStep(context, threadId, runId, stepId, options),

@@ -8,7 +8,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConverterFromWire from "../customization/convertOutputModelsFromWire.js";
 import { validateLimit, validateOrder, validateRunId, validateThreadId } from "./inputValidations.js";
 import type { GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
-import { convertToListQueryParameters } from "./customModels.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 

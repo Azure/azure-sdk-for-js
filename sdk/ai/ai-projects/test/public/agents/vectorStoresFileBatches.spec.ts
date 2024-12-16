@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
- 
+
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
- 
+
 describe("Agents - vector stores file batches", () => {
   let recorder: Recorder;
-  let projectsClient : AIProjectsClient;
+  let projectsClient: AIProjectsClient;
   let agents: AgentsOperations
 
   beforeEach(async function (context: VitestTestContext) {
@@ -18,7 +18,7 @@ describe("Agents - vector stores file batches", () => {
   });
 
   afterEach(async function () {
-     await recorder.stop();
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {
@@ -51,10 +51,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {fileIds: [file1.id, file2.id]});
+    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, { fileIds: [file1.id, file2.id] });
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);
-    assert.equal(vectorStoreFileBatch.vector_store_id, vectorStore.id);
+    assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
     console.log(`Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 
     // Clean up
@@ -91,7 +91,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {fileIds: [file1.id, file2.id]});
+    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, { fileIds: [file1.id, file2.id] });
     console.log(`Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 
     // Retrieve vector store file batch
@@ -134,7 +134,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {fileIds: [file1.id, file2.id]});
+    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, { fileIds: [file1.id, file2.id] });
     console.log(`Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 
     // List vector store files in the batch
@@ -177,9 +177,9 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {fileIds: [file1.id, file2.id]});
+    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, { fileIds: [file1.id, file2.id] });
     console.log(`Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`);
-  
+
     // Cancel vector store file batch
     const cancelled = await agents.cancelVectorStoreFileBatch(vectorStore.id, vectorStoreFileBatch.id);
     assert.isNotNull(cancelled.status);
@@ -218,10 +218,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {fileIds: [file1.id, file2.id]});
+    const vectorStoreFileBatch = await agents.createVectorStoreFileBatchAndPoll(vectorStore.id, { fileIds: [file1.id, file2.id] });
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);
-    assert.equal(vectorStoreFileBatch.vector_store_id, vectorStore.id);
+    assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
     assert.notEqual(vectorStoreFileBatch.status, "in_progress");
     console.log(`Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 

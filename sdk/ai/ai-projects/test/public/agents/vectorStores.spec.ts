@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
- 
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
- 
+
 describe("Agents - vector stores", () => {
   let recorder: Recorder;
-  let projectsClient : AIProjectsClient;
+  let projectsClient: AIProjectsClient;
   let agents: AgentsOperations
 
   beforeEach(async function (context: VitestTestContext) {
@@ -18,7 +18,7 @@ describe("Agents - vector stores", () => {
   });
 
   afterEach(async function () {
-     await recorder.stop();
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {

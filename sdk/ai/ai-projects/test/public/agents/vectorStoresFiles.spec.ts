@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
- 
+
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
- 
+
 describe("Agents - vector stores files", () => {
   let recorder: Recorder;
-  let projectsClient : AIProjectsClient;
+  let projectsClient: AIProjectsClient;
   let agents: AgentsOperations
 
   beforeEach(async function (context: VitestTestContext) {
@@ -18,7 +18,7 @@ describe("Agents - vector stores files", () => {
   });
 
   afterEach(async function () {
-     await recorder.stop();
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {
@@ -42,7 +42,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
     assert.isNotNull(vectorStoreFile);
     assert.isNotEmpty(vectorStoreFile.id);
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
@@ -72,7 +72,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Retrieve vector store file
@@ -106,7 +106,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
@@ -134,7 +134,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, { fileId: file.id });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
@@ -163,7 +163,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, { fileId: file.id });
     assert.isNotNull(vectorStoreFile);
     assert.isNotEmpty(vectorStoreFile.id);
     assert.notEqual(vectorStoreFile.status, "in_progress");

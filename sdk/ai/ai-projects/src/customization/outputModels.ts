@@ -1059,7 +1059,7 @@ export interface OpenAIPageableListOfVectorStoreFileOutput {
   /** The first ID represented in this list. */
   firstId: string;
   /** The last ID represented in this list. */
-  lasId: string;
+  lastId: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }

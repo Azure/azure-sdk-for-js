@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type *  as GeneratedModels from "../generated/src/outputModels.js";
-import type *  as PublicModels from "./outputModels.js";
+import type * as GeneratedModels from "../generated/src/outputModels.js";
+import type * as PublicModels from "./outputModels.js";
 
 // Conversion functions
 export function convertToolDefinitionOutputParent(
@@ -11,7 +11,7 @@ export function convertToolDefinitionOutputParent(
   return { ...input };
 }
 
-export function convertCodeInterpreterToolDefinitionOutput(
+function convertCodeInterpreterToolDefinitionOutput(
   input: GeneratedModels.CodeInterpreterToolDefinitionOutput
 ): PublicModels.CodeInterpreterToolDefinitionOutput {
   return { ...input };
@@ -48,27 +48,27 @@ export function convertFileSearchRankingOptionsOutput(
   };
 }
 
-export function convertFunctionToolDefinitionOutput(
+function convertFunctionToolDefinitionOutput(
   input: GeneratedModels.FunctionToolDefinitionOutput
 ): PublicModels.FunctionToolDefinitionOutput {
   return {
     type: "function",
-    function: convertFunctionDefinitionOutput(input.function),
+    function: input.function && convertFunctionDefinitionOutput(input.function),
   };
 }
 
-export function convertFunctionDefinitionOutput(
+function convertFunctionDefinitionOutput(
   input: GeneratedModels.FunctionDefinitionOutput
 ): PublicModels.FunctionDefinitionOutput {
   return { ...input };
 }
 
-export function convertBingGroundingToolDefinitionOutput(
+function convertBingGroundingToolDefinitionOutput(
   input: GeneratedModels.BingGroundingToolDefinitionOutput
 ): PublicModels.BingGroundingToolDefinitionOutput {
   return {
     type: "bing_grounding",
-    bingGrounding: convertToolConnectionListOutput(input.bing_grounding),
+    bingGrounding: input.bing_grounding && convertToolConnectionListOutput(input.bing_grounding),
   };
 }
 
@@ -80,33 +80,31 @@ export function convertToolConnectionListOutput(
   };
 }
 
-export function convertToolConnectionOutput(
+function convertToolConnectionOutput(
   input: GeneratedModels.ToolConnectionOutput
 ): PublicModels.ToolConnectionOutput {
   return { connectionId: input.connection_id };
 }
 
-export function convertMicrosoftFabricToolDefinitionOutput(
+function convertMicrosoftFabricToolDefinitionOutput(
   input: GeneratedModels.MicrosoftFabricToolDefinitionOutput
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
     type: "microsoft_fabric",
-    microsoftFabric: convertToolConnectionListOutput(input.microsoft_fabric),
+    microsoftFabric: input.microsoft_fabric && convertToolConnectionListOutput(input.microsoft_fabric),
   };
 }
 
-export function convertSharepointToolDefinitionOutput(
+function convertSharepointToolDefinitionOutput(
   input: GeneratedModels.SharepointToolDefinitionOutput
 ): PublicModels.SharepointToolDefinitionOutput {
   return {
     type: "sharepoint_grounding",
-    sharepointGrounding: convertToolConnectionListOutput(
-      input.sharepoint_grounding
-    ),
+    sharepointGrounding: input.sharepoint_grounding && convertToolConnectionListOutput(input.sharepoint_grounding),
   };
 }
 
-export function convertAzureAISearchToolDefinitionOutput(
+function convertAzureAISearchToolDefinitionOutput(
   input: GeneratedModels.AzureAISearchToolDefinitionOutput
 ): PublicModels.AzureAISearchToolDefinitionOutput {
   return { ...input };
@@ -157,7 +155,7 @@ export function convertVectorStoreConfigurationsOutput(
 ): PublicModels.VectorStoreConfigurationsOutput {
   return {
     name: input.name,
-    configuration: convertVectorStoreConfigurationOutput(input.configuration),
+    configuration: input.configuration && convertVectorStoreConfigurationOutput(input.configuration),
   };
 }
 
@@ -166,7 +164,7 @@ export function convertVectorStoreConfigurationOutput(
 ): PublicModels.VectorStoreConfigurationOutput {
   return {
     ...input,
-    dataSources: input.data_sources.map(convertVectorStoreDataSourceOutput),
+    dataSources: input.data_sources?.map(convertVectorStoreDataSourceOutput),
   };
 }
 
@@ -199,7 +197,7 @@ export function convertAgentOutput(input: GeneratedModels.AgentOutput): PublicMo
     description: input.description,
     model: input.model,
     instructions: input.instructions,
-    tools: input.tools.map(convertToolDefinitionOutput),
+    tools: input.tools?.map(convertToolDefinitionOutput),
     toolResources: input.tool_resources
       ? convertToolResourcesOutput(input.tool_resources)
       : null,
@@ -313,7 +311,7 @@ export function convertThreadMessageOutput(
     completedAt: input.completed_at ? new Date(input.completed_at) : null,
     incompleteAt: input.incomplete_at ? new Date(input.incomplete_at) : null,
     role: input.role,
-    content: input.content.map(convertMessageContentOutput),
+    content: input.content?.map(convertMessageContentOutput),
     assistantId: input.assistant_id,
     runId: input.run_id,
     attachments: !input.attachments ? input.attachments : input.attachments?.map(convertMessageAttachmentOutput),
@@ -347,7 +345,7 @@ export function convertMessageTextContentOutput(
 ): PublicModels.MessageTextContentOutput {
   return {
     type: input.type,
-    text: convertMessageTextDetailsOutput(input.text),
+    text: input.text && convertMessageTextDetailsOutput(input.text),
   };
 }
 
@@ -383,7 +381,7 @@ export function convertMessageTextFileCitationAnnotationOutput(
   return {
     type: input.type,
     text: input.text,
-    fileCitation: convertMessageTextFileCitationDetailsOutput(input.file_citation)
+    fileCitation: input.file_citation && convertMessageTextFileCitationDetailsOutput(input.file_citation)
   };
 }
 
@@ -401,7 +399,7 @@ export function convertMessageTextFilePathAnnotationOutput(
 ): PublicModels.MessageTextFilePathAnnotationOutput {
   return {
     type: input.type,
-    filePath: convertMessageTextFilePathDetailsOutput(input.file_path),
+    filePath: input.file_path && convertMessageTextFilePathDetailsOutput(input.file_path),
     startIndex: input.start_index,
     endIndex: input.end_index,
     text: input.text,
@@ -419,7 +417,7 @@ export function convertMessageImageFileContentOutput(
 ): PublicModels.MessageImageFileContentOutput {
   return {
     type: input.type,
-    imageFile: convertMessageImageFileDetailsOutput(input.image_file)
+    imageFile: input.image_file && convertMessageImageFileDetailsOutput(input.image_file)
   };
 }
 
@@ -441,7 +439,7 @@ export function convertThreadRunOutput(
     lastError: input.last_error,
     model: input.model,
     instructions: input.instructions,
-    tools: (input.tools && input.tools.map(convertToolDefinitionOutput)) ?? [],
+    tools: input.tools?.map(convertToolDefinitionOutput) ?? [],
     createdAt: new Date(input.created_at),
     expiresAt: input.expires_at ? new Date(input.expires_at) : null,
     startedAt: input.started_at ? new Date(input.started_at) : null,
@@ -506,7 +504,7 @@ export function convertSubmitToolOutputsActionOutput(
 ): PublicModels.SubmitToolOutputsActionOutput {
   return {
     type: input.type,
-    submitToolOutputs: convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs),
+    submitToolOutputs: input.submit_tool_outputs && convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs)
   };
 }
 
@@ -514,7 +512,7 @@ export function convertSubmitToolOutputsDetailsOutput(
   input: GeneratedModels.SubmitToolOutputsDetailsOutput
 ): PublicModels.SubmitToolOutputsDetailsOutput {
   return {
-    toolCalls: input.tool_calls.map(
+    toolCalls: input.tool_calls?.map(
       convertRequiredToolCallOutput
     ),
   };
@@ -539,7 +537,7 @@ export function convertRequiredFunctionToolCallOutput(
   return {
     id: input.id,
     type: input.type,
-    function: convertRequiredFunctionToolCallDetailsOutput(input.function)
+    function: input.function && convertRequiredFunctionToolCallDetailsOutput(input.function)
   };
 }
 
@@ -568,7 +566,7 @@ export function convertOpenAIPageableListOfThreadRunOutput(
     firstId: input.first_id,
     lastId: input.last_id,
     hasMore: input.has_more,
-    data: input.data.map(convertThreadRunOutput),
+    data: input.data?.map(convertThreadRunOutput),
   };
 }
 export function convertRunStepOutput(input: GeneratedModels.RunStepOutput): PublicModels.RunStepOutput {
@@ -835,7 +833,7 @@ export function convertOpenAIPageableListOfRunStepOutput(
     firstId: input.first_id,
     lastId: input.last_id,
     hasMore: input.has_more,
-    data: input.data && input.data.map(convertRunStepOutput),
+    data: input.data?.map(convertRunStepOutput),
   };
 }
 
@@ -847,6 +845,148 @@ export function convertOpenAIPageableListOfThreadMessageOutput(
     firstId: input.first_id,
     lastId: input.last_id,
     hasMore: input.has_more,
-    data: input.data && input.data.map(convertThreadMessageOutput),
+    data: input.data?.map(convertThreadMessageOutput),
+  };
+}
+
+export function convertOpenAIPageableListOfVectorStoreOutput(input: GeneratedModels.OpenAIPageableListOfVectorStoreOutput): PublicModels.OpenAIPageableListOfVectorStoreOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data.map(convertVectorStoreOutput),
+  };
+}
+
+export function convertVectorStoreOutput(
+  input: GeneratedModels.VectorStoreOutput
+): PublicModels.VectorStoreOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    createdAt: new Date(input.created_at),
+    name: input.name,
+    usageBytes: input.usage_bytes,
+    fileCounts: convertVectorStoreFileCountOutput(input.file_counts),
+    status: input.status,
+    expiresAfter: input.expires_after
+      ? convertVectorStoreExpirationPolicyOutput(input.expires_after)
+      : undefined,
+    expiresAt: input.expires_at ? new Date(input.expires_at) : null,
+    lastActiveAt: input.last_active_at ? new Date(input.last_active_at) : null,
+    metadata: input.metadata,
+  };
+}
+
+function convertVectorStoreFileCountOutput(
+  input: GeneratedModels.VectorStoreFileCountOutput
+): PublicModels.VectorStoreFileCountOutput {
+  return {
+    inProgress: input.in_progress,
+    completed: input.completed,
+    failed: input.failed,
+    cancelled: input.cancelled,
+    total: input.total,
+  };
+}
+
+function convertVectorStoreExpirationPolicyOutput(
+  input: GeneratedModels.VectorStoreExpirationPolicyOutput
+): PublicModels.VectorStoreExpirationPolicyOutput {
+  return {
+    anchor: input.anchor,
+    days: input.days,
+  };
+}
+
+export function convertVectorStoreDeletionStatusOutput(
+  input: GeneratedModels.VectorStoreDeletionStatusOutput
+): PublicModels.VectorStoreDeletionStatusOutput {
+  return {
+    id: input.id,
+    deleted: input.deleted,
+    object: input.object,
+  };
+}
+
+export function convertVectorStoreFileBatchOutput(
+  input: GeneratedModels.VectorStoreFileBatchOutput
+): PublicModels.VectorStoreFileBatchOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    createdAt: new Date(input.created_at),
+    vectorStoreId: input.vector_store_id,
+    status: input.status,
+    fileCounts: convertVectorStoreFileCountOutput(input.file_counts),
+
+  };
+}
+
+export function convertOpenAIPageableListOfVectorStoreFileOutput(
+  input: GeneratedModels.OpenAIPageableListOfVectorStoreFileOutput
+): PublicModels.OpenAIPageableListOfVectorStoreFileOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data.map(convertVectorStoreFileOutput),
+  };
+}
+
+export function convertVectorStoreFileOutput(
+  input: GeneratedModels.VectorStoreFileOutput
+): PublicModels.VectorStoreFileOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    usageBytes: input.usage_bytes,
+    createdAt: new Date(input.created_at),
+    vectorStoreId: input.vector_store_id,
+    status: input.status,
+    lastError: input.last_error,
+    chunkingStrategy: input.chunking_strategy && convertVectorStoreChunkingStrategyResponseOutput(input.chunking_strategy),
+  };
+}
+
+function convertVectorStoreChunkingStrategyResponseOutput(
+  input: GeneratedModels.VectorStoreChunkingStrategyResponseOutput
+): PublicModels.VectorStoreChunkingStrategyResponseOutput {
+  switch (input.type) {
+    case "auto":
+      return input as PublicModels.VectorStoreAutoChunkingStrategyResponseOutput;
+    case "static":
+      return convertVectorStoreStaticChunkingStrategyResponseOutput(input as GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput);
+    default:
+      throw new Error(`Unknown chunking strategy type: ${input.type}`);
+  }
+}
+function convertVectorStoreStaticChunkingStrategyResponseOutput(
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput
+): PublicModels.VectorStoreStaticChunkingStrategyResponseOutput {
+  return {
+    type: input.type,
+    static: input.static && convertVectorStoreStaticChunkingStrategyOptionsOutput(input.static),
+  };
+}
+
+function convertVectorStoreStaticChunkingStrategyOptionsOutput(
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyOptionsOutput
+): PublicModels.VectorStoreStaticChunkingStrategyOptionsOutput {
+  return {
+    maxChunkSizeTokens: input.max_chunk_size_tokens,
+    chunkOverlapTokens: input.chunk_overlap_tokens,
+  };
+}
+
+export function convertVectorStoreFileDeletionStatusOutput(
+  input: GeneratedModels.VectorStoreFileDeletionStatusOutput
+): PublicModels.VectorStoreFileDeletionStatusOutput {
+  return {
+    id: input.id,
+    deleted: input.deleted,
+    object: input.object,
   };
 }

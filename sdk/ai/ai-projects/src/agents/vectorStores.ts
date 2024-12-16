@@ -1,94 +1,128 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters } from "../generated/src/parameters.js";
+import type { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
-import { VectorStoreOptions } from "../generated/src/models.js";
+import type { CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
+import { type CreateVectorStoreOptionalParams, type DeleteVectorStoreOptionalParams, type GetVectorStoreOptionalParams, type ListVectorStoresOptionalParams, type UpdateVectorStoreOptionalParams } from "./customModels.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
+import * as ConvertToWire from "../customization/convertModelsToWrite.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
 /** Returns a list of vector stores. */
 export async function listVectorStores(
   context: Client,
-  options?: ListVectorStoresParameters,
+  options: ListVectorStoresOptionalParams = {},
 ): Promise<OpenAIPageableListOfVectorStoreOutput> {
-  validateListVectorStoresParameters(options);
-  const result = await context.path("/vector_stores").get(options);
-  
+
+  const listOptions: GeneratedParameters.ListVectorStoresParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: convertToListQueryParameters(options),
+  };
+
+
+  validateListVectorStoresParameters(listOptions);
+  const result = await context.path("/vector_stores").get(listOptions);
+
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertOpenAIPageableListOfVectorStoreOutput(result.body);
 }
 
 /** Creates a vector store. */
 export async function createVectorStore(
   context: Client,
-  options?: CreateVectorStoreParameters,
+  options: CreateVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
-  validateCreateVectorStoreParameters(options);
-  const result = await context.path("/vector_stores").post(options);
-  
-  if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+
+  const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: ConvertToWire.convertVectorStoreOptions(options),
   }
-  return result.body; 
+
+  validateCreateVectorStoreParameters(createOptions);
+  const result = await context.path("/vector_stores").post(createOptions);
+
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+  return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
 
 /** Returns the vector store object matching the specified ID. */
 export async function getVectorStore(
   context: Client,
   vectorStoreId: string,
-  options?: GetVectorStoreParameters,
+  options: GetVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
+
+  const getOptions: GeneratedParameters.GetVectorStoreParameters = {
+    ...operationOptionsToRequestParameters(options),
+  }
+
   validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
-    .get(options);
+    .get(getOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
 
 /** The ID of the vector store to modify. */
 export async function modifyVectorStore(
   context: Client,
   vectorStoreId: string,
-  options?: ModifyVectorStoreParameters,
+  options: UpdateVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
+
+  const modifyOptions: GeneratedParameters.ModifyVectorStoreParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: ConvertToWire.convertVectorStoreUpdateOptions(options)
+  }
+
   validateVectorStoreId(vectorStoreId);
-  validateModifyVectorStoreParameters(options);
+  validateModifyVectorStoreParameters(modifyOptions);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
-    .post(options);
+    .post(modifyOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
 
 /** Deletes the vector store object matching the specified ID. */
 export async function deleteVectorStore(
   context: Client,
   vectorStoreId: string,
-  options?: DeleteVectorStoreParameters,
+  options: DeleteVectorStoreOptionalParams = {},
 ): Promise<VectorStoreDeletionStatusOutput> {
+
+  const deleteOptions: GeneratedParameters.DeleteVectorStoreParameters = {
+    ...operationOptionsToRequestParameters(options),
+  }
+
   validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
-    .delete(options);
+    .delete(deleteOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertVectorStoreDeletionStatusOutput(result.body);
 }
 
 /**
@@ -96,18 +130,19 @@ export async function deleteVectorStore(
  */
 export function createVectorStoreAndPoll(
   context: Client,
-  createVectorStoreOptions?: VectorStoreOptions,
-  pollingOptions?: PollingOptions,
-  requestParams?: OptionalRequestParameters,
+  options: CreateVectorStoreWithPollingOptionalParams = {}
 ): Promise<VectorStoreOutput> {
   async function updateCreateVectorStorePoll(
     currentResult?: VectorStoreOutput
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
     let vectorStore: VectorStoreOutput;
     if (!currentResult) {
-      vectorStore = await createVectorStore(context, { body: createVectorStoreOptions as Record<string, any>, ...requestParams });
+      vectorStore = await createVectorStore(context, options);
     } else {
-      vectorStore = await getVectorStore(context, currentResult.id, requestParams);
+      const getOptions: GetVectorStoreOptionalParams = {
+        ...operationOptionsToRequestParameters(options),
+      };
+      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
     }
     return {
       result: vectorStore,
@@ -117,7 +152,7 @@ export function createVectorStoreAndPoll(
 
   const poller = new AgentsPoller<VectorStoreOutput>({
     update: updateCreateVectorStorePoll,
-    pollingOptions: pollingOptions
+    pollingOptions: options.pollingOptions
   });
   return poller.pollUntilDone();
 }

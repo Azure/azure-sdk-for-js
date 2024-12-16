@@ -116,35 +116,37 @@ export interface AgentsOperations {
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => Promise<VectorStoreOutput>;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
-    deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
+    deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput_2>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
-    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
-    modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfVectorStoreOutput_2" needs to be exported by the entry point index.d.ts
+    listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput_2>;
+    modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
@@ -258,6 +260,10 @@ export interface CancelRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
     type: "code_interpreter";
 }
@@ -269,7 +275,8 @@ export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutpu
 
 // @public
 export interface CodeInterpreterToolResource {
-    data_sources?: Array<VectorStoreDataSource>;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreDataSource_2" needs to be exported by the entry point index.d.ts
+    data_sources?: Array<VectorStoreDataSource_2>;
     file_ids?: string[];
 }
 
@@ -299,9 +306,6 @@ export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AISer
 
 // @public
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
-
-// @public
-export function convertToListQueryParameters(options: ListQueryParameters): Record<string, string>;
 
 // @public
 export interface CreateAgentOptions {
@@ -376,6 +380,10 @@ export interface CreateRunOptions {
 }
 
 // @public
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions {
+}
+
+// @public
 export interface CreateVectorStoreFileBatchOptions {
     chunkingStrategy?: VectorStoreChunkingStrategyRequest;
     dataSources?: VectorStoreDataSource[];
@@ -383,10 +391,36 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
+}
+
+// @public
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+}
+
+// @public
 export interface CreateVectorStoreFileOptions {
     chunkingStrategy?: VectorStoreChunkingStrategyRequest;
     dataSources?: Array<VectorStoreDataSource>;
     fileId?: string;
+}
+
+// @public
+export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
+}
+
+// @public
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
+}
+
+// @public
+export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
 }
 
 // @public
@@ -425,6 +459,14 @@ export interface DatasetOutput extends InputDataOutputParent {
 
 // @public
 export interface DeleteAgentThreadOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteVectorStoreOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -647,6 +689,18 @@ export interface GetRunStepOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVectorStoreFileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVectorStoreOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetWorkspaceResponseOutput {
     id: string;
     name: string;
@@ -765,8 +819,21 @@ export interface ListRunStepsOptionalParams extends ListQueryParameters, Operati
 export type ListSortOrder = "asc" | "desc";
 
 // @public
+export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
+    filter?: VectorStoreFileStatusFilter;
+}
+
+// @public
+export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
+export interface ListVectorStoresOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
 export interface MessageAttachment {
-    data_sources?: Array<VectorStoreDataSource>;
+    data_sources?: Array<VectorStoreDataSource_2>;
     file_id?: string;
     tools: MessageAttachmentToolDefinition[];
 }
@@ -1106,15 +1173,16 @@ export interface OpenAIPageableListOfThreadRunOutput {
 // @public
 export interface OpenAIPageableListOfVectorStoreFileOutput {
     data: Array<VectorStoreFileOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
 // @public
 export interface OpenAIPageableListOfVectorStoreOutput {
-    data: Array<VectorStoreOutput>;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreOutput_2" needs to be exported by the entry point index.d.ts
+    data: Array<VectorStoreOutput_2>;
     first_id: string;
     has_more: boolean;
     last_id: string;
@@ -1841,7 +1909,6 @@ export interface UpdateFileSearchToolResourceOptionsOutput {
 
 // @public
 export interface UpdateMessageOptionalParams extends OperationOptions {
-    // (undocumented)
     metadata?: Record<string, string> | null;
 }
 
@@ -1879,6 +1946,12 @@ export interface UpdateToolResourcesOptionsOutput {
     fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
 }
 
+// Warning: (ae-forgotten-export) The symbol "VectorStoreUpdateOptions_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions_2, OperationOptions {
+}
+
 // @public
 export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
     type: "auto";
@@ -1889,8 +1962,12 @@ export interface VectorStoreAutoChunkingStrategyResponseOutput extends VectorSto
     type: "other";
 }
 
+// Warning: (ae-forgotten-export) The symbol "VectorStoreChunkingStrategyRequestParent_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "VectorStoreAutoChunkingStrategyRequest_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "VectorStoreStaticChunkingStrategyRequest_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent | VectorStoreAutoChunkingStrategyRequest | VectorStoreStaticChunkingStrategyRequest;
+export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent_2 | VectorStoreAutoChunkingStrategyRequest_2 | VectorStoreStaticChunkingStrategyRequest_2;
 
 // @public
 export interface VectorStoreChunkingStrategyRequestParent {
@@ -1915,7 +1992,7 @@ export type VectorStoreChunkingStrategyResponseTypeOutput = string;
 
 // @public
 export interface VectorStoreConfiguration {
-    data_sources: Array<VectorStoreDataSource>;
+    data_sources: Array<VectorStoreDataSource_2>;
 }
 
 // @public
@@ -1937,7 +2014,8 @@ export interface VectorStoreConfigurationsOutput {
 
 // @public
 export interface VectorStoreDataSource {
-    type: VectorStoreDataSourceAssetType;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreDataSourceAssetType_2" needs to be exported by the entry point index.d.ts
+    type: VectorStoreDataSourceAssetType_2;
     uri: string;
 }
 
@@ -1980,12 +2058,14 @@ export interface VectorStoreExpirationPolicyOutput {
 
 // @public
 export interface VectorStoreFileBatchOutput {
-    created_at: number;
-    file_counts: VectorStoreFileCountOutput;
+    createdAt: Date;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileCountOutput_2" needs to be exported by the entry point index.d.ts
+    fileCounts: VectorStoreFileCountOutput_2;
     id: string;
     object: "vector_store.files_batch";
-    status: VectorStoreFileBatchStatusOutput;
-    vector_store_id: string;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileBatchStatusOutput_2" needs to be exported by the entry point index.d.ts
+    status: VectorStoreFileBatchStatusOutput_2;
+    vectorStoreId: string;
 }
 
 // @public
@@ -2018,14 +2098,17 @@ export interface VectorStoreFileErrorOutput {
 
 // @public
 export interface VectorStoreFileOutput {
-    chunking_strategy: VectorStoreChunkingStrategyResponseOutput;
-    created_at: number;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreChunkingStrategyResponseOutput_2" needs to be exported by the entry point index.d.ts
+    chunkingStrategy: VectorStoreChunkingStrategyResponseOutput_2;
+    createdAt: Date;
     id: string;
-    last_error: VectorStoreFileErrorOutput | null;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileErrorOutput_2" needs to be exported by the entry point index.d.ts
+    lastError: VectorStoreFileErrorOutput_2 | null;
     object: "vector_store.file";
-    status: VectorStoreFileStatusOutput;
-    usage_bytes: number;
-    vector_store_id: string;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileStatusOutput_2" needs to be exported by the entry point index.d.ts
+    status: VectorStoreFileStatusOutput_2;
+    usageBytes: number;
+    vectorStoreId: string;
 }
 
 // @public
@@ -2036,27 +2119,31 @@ export type VectorStoreFileStatusOutput = string;
 
 // @public
 export interface VectorStoreOptions {
-    chunking_strategy?: VectorStoreChunkingStrategyRequest;
-    configuration?: VectorStoreConfiguration;
-    expires_after?: VectorStoreExpirationPolicy;
-    file_ids?: string[];
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreConfiguration_2" needs to be exported by the entry point index.d.ts
+    configuration?: VectorStoreConfiguration_2;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreExpirationPolicy_2" needs to be exported by the entry point index.d.ts
+    expiresAfter?: VectorStoreExpirationPolicy_2;
+    fileIds?: string[];
     metadata?: Record<string, string> | null;
     name?: string;
 }
 
 // @public
 export interface VectorStoreOutput {
-    created_at: number;
-    expires_after?: VectorStoreExpirationPolicyOutput;
-    expires_at?: number | null;
-    file_counts: VectorStoreFileCountOutput;
+    createdAt: Date;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreExpirationPolicyOutput_2" needs to be exported by the entry point index.d.ts
+    expiresAfter?: VectorStoreExpirationPolicyOutput_2;
+    expiresAt?: Date | null;
+    fileCounts: VectorStoreFileCountOutput_2;
     id: string;
-    last_active_at: number | null;
+    lastActiveAt: Date | null;
     metadata: Record<string, string> | null;
     name: string;
     object: "vector_store";
-    status: VectorStoreStatusOutput;
-    usage_bytes: number;
+    // Warning: (ae-forgotten-export) The symbol "VectorStoreStatusOutput_2" needs to be exported by the entry point index.d.ts
+    status: VectorStoreStatusOutput_2;
+    usageBytes: number;
 }
 
 // @public

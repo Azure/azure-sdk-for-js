@@ -13,9 +13,10 @@ import { traceStartAgentGeneric } from "./traceUtility.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type { CancelRunOptionalParams, CreateAndRunThreadOptionalParams, GetRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams } from "./customModels.js";
-import { convertToListQueryParameters, type AgentRunResponse, type CreateRunOptionalParams, type ListRunQueryOptionalParams } from "./customModels.js";
+import { type AgentRunResponse, type CreateRunOptionalParams, type ListRunQueryOptionalParams } from "./customModels.js";
 import { convertCreateAndRunThreadOptions, convertCreateRunOptions } from "../customization/convertModelsToWrite.js";
 import { convertOpenAIPageableListOfThreadRunOutput, convertThreadRunOutput } from "../customization/convertOutputModelsFromWire.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
