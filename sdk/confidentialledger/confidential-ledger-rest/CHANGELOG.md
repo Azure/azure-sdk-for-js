@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (2027-08-27)
+## 1.0.1 (2027-12-16)
 
 ### Features Added
 - refresh @azure-rest/confidential-ledger sdk
