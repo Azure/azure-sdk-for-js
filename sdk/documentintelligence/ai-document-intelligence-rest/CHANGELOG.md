@@ -64,7 +64,7 @@
     .get();
   ```
 
-- **Interface Properties:**
+- Changes the following interfaces as follows:
 
   - `AnalyzeBatchDocumentsBodyParam`:
     - Changed `body` from optional to required.
