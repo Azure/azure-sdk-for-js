@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2024-09-30)
+## 1.0.0-beta.2 (2024-12-16)
 
 ### Features Added
 - refresh @azure-rest/purview-administration sdk
