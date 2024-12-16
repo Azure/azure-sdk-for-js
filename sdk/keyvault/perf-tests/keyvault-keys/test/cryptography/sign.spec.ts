@@ -1,5 +1,5 @@
-import { createHash, randomBytes } from "crypto";
-import { CryptographyTest } from "./cryptography.spec";
+import { createHash, randomBytes } from "node:crypto";
+import { CryptographyTest } from "./cryptography.spec.js";
 
 export class SignTest extends CryptographyTest {
   private digest?: Uint8Array;

@@ -1,8 +1,8 @@
 import { createPerfProgram } from "@azure-tools/test-perf";
-import { GetKeyTest } from "./keys/get.spec";
-import { DecryptTest } from "./cryptography/decrypt.spec";
-import { SignTest } from "./cryptography/sign.spec";
-import { UnwrapKeyTest } from "./cryptography/unwrapKey.spec";
+import { GetKeyTest } from "./keys/get.spec.js";
+import { DecryptTest } from "./cryptography/decrypt.spec.js";
+import { SignTest } from "./cryptography/sign.spec.js";
+import { UnwrapKeyTest } from "./cryptography/unwrapKey.spec.js";
 
 const perfProgram = createPerfProgram(GetKeyTest, DecryptTest, SignTest, UnwrapKeyTest);
 

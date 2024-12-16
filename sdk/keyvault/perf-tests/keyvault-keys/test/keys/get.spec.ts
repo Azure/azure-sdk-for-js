@@ -1,6 +1,6 @@
 import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
 import { KeyClient } from "@azure/keyvault-keys";
-import { credential, keyVaultUri } from "../utils";
+import { credential, keyVaultUri } from "../utils.js";
 import { v4 as uuid } from "uuid";
 
 interface KeyPerfTestOptions {

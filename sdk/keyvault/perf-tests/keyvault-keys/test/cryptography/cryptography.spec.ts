@@ -1,7 +1,7 @@
 import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuid } from "uuid";
-import { credential, keyVaultUri } from "../utils";
+import { credential, keyVaultUri } from "../utils.js";
 
 interface CryptographyPerfTestOptions {
   keySize: number;

@@ -1,6 +1,6 @@
 import { RsaEncryptionAlgorithm } from "@azure/keyvault-keys";
-import { randomBytes } from "crypto";
-import { CryptographyTest } from "./cryptography.spec";
+import { randomBytes } from "node:crypto";
+import { CryptographyTest } from "./cryptography.spec.js";
 
 export class UnwrapKeyTest extends CryptographyTest {
   encryptedKey?: Uint8Array;
