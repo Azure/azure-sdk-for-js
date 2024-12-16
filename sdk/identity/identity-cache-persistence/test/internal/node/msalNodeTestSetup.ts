@@ -3,11 +3,9 @@
 
 import type { AuthenticationResult } from "@azure/msal-node";
 import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
-import type Sinon from "sinon";
-import { createSandbox } from "sinon";
-
-import { Recorder } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+import type { TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, isVitestTestContext } from "@azure-tools/test-recorder";
+import { vi } from "vitest";
 
 const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 
@@ -16,34 +14,29 @@ export type MsalTestCleanup = () => Promise<void>;
 export interface MsalTestSetupResponse {
   cleanup: MsalTestCleanup;
   recorder?: Recorder;
-  sandbox: Sinon.SinonSandbox;
 }
 
 export async function msalNodeTestSetup(
-  testContext?: Test,
+  testContext?: TestInfo,
   playbackClientId?: string,
 ): Promise<{
   cleanup: MsalTestCleanup;
   recorder: Recorder;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(stubbedToken: AuthenticationResult): Promise<{
   cleanup: MsalTestCleanup;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(
-  testContextOrStubbedToken?: Test | AuthenticationResult,
+  testContextOrStubbedToken?: TestInfo | AuthenticationResult,
   playbackClientId = "azure_client_id",
 ): Promise<MsalTestSetupResponse> {
   const playbackValues = {
     correlationId: "client-request-id",
   };
 
-  const sandbox = createSandbox();
-
-  if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
+  if (isVitestTestContext(testContextOrStubbedToken) || testContextOrStubbedToken === undefined) {
     const testContext = testContextOrStubbedToken;
 
     const recorder = new Recorder(testContext);
@@ -187,46 +180,46 @@ export async function msalNodeTestSetup(
     );
 
     return {
-      sandbox,
       recorder,
       async cleanup() {
         await recorder.stop();
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   } else {
     const stubbedToken = testContextOrStubbedToken;
 
-    const publicClientMethods: Array<keyof PublicClientApplication> = [
+    const publicClientMethods = [
       "acquireTokenByCode",
       "acquireTokenByDeviceCode",
       "acquireTokenByRefreshToken",
       "acquireTokenByUsernamePassword",
       "acquireTokenInteractive",
       "acquireTokenSilent",
-    ];
-    const confidentialClientMethods: Array<keyof ConfidentialClientApplication> = [
+    ] as const;
+    const confidentialClientMethods = [
       "acquireTokenByClientCredential",
       "acquireTokenByCode",
       "acquireTokenByRefreshToken",
       "acquireTokenByUsernamePassword",
       "acquireTokenOnBehalfOf",
       "acquireTokenSilent",
-    ];
+    ] as const;
 
     publicClientMethods.forEach((method) =>
-      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken),
+      vi
+        .mocked(PublicClientApplication.prototype[method])
+        .mockImplementation(async () => stubbedToken),
     );
     confidentialClientMethods.forEach((method) =>
-      sandbox
-        .stub(ConfidentialClientApplication.prototype, method)
-        .callsFake(async () => stubbedToken),
+      vi
+        .mocked(ConfidentialClientApplication.prototype[method])
+        .mockImplementation(async () => stubbedToken),
     );
 
     return {
-      sandbox,
       async cleanup() {
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   }

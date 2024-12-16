@@ -1,9 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": { "@azure-rest/defender-easm": ["./src/index"] }
-  },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

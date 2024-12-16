@@ -13,14 +13,14 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { tracingClient } from "./tracing";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { tracingClient } from "./tracing.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MixedRealityStsRestClientOptionalParams,
   GetTokenOptionalParams,
   GetTokenResponse
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class MixedRealityStsRestClient extends coreClient.ServiceClient {

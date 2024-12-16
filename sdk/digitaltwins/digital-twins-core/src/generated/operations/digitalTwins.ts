@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DigitalTwins } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DigitalTwins } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI.js";
 import {
   DigitalTwinsListRelationshipsNextOptionalParams,
   DigitalTwinsListRelationshipsOptionalParams,
@@ -43,7 +43,7 @@ import {
   DigitalTwinsUpdateComponentResponse,
   DigitalTwinsListRelationshipsNextResponse,
   DigitalTwinsListIncomingRelationshipsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DigitalTwins operations. */

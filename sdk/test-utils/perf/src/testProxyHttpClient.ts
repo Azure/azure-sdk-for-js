@@ -7,8 +7,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { RequestOptions } from "http";
-import { getCachedHttpsAgent, makeRequest } from "./utils/utils";
+import { RequestOptions } from "node:http";
+import { getCachedHttpsAgent, makeRequest } from "./utils/utils.js";
 
 const paths = {
   playback: "/playback",

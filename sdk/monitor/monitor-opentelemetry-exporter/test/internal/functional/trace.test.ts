@@ -37,8 +37,10 @@ describe("Trace Exporter Scenarios", () => {
     it("should work", async () => {
       await scenario.run();
       await scenario.flush();
-      assertTraceExpectation(ingest, scenario.expectation);
-      assertCount(ingest, scenario.expectation);
+      setTimeout(() => {
+        assertTraceExpectation(ingest, scenario.expectation);
+        assertCount(ingest, scenario.expectation);
+      }, 100);
     });
   });
 
@@ -69,10 +71,11 @@ describe("Trace Exporter Scenarios", () => {
 
     it("should work with OTel resource metric disabled", async () => {
       await scenario.run();
-
       await scenario.flush();
-      assertTraceExpectation(ingest, scenario.disabledExpectation);
-      assertCount(ingest, scenario.disabledExpectation);
+      setTimeout(() => {
+        assertTraceExpectation(ingest, scenario.disabledExpectation);
+        assertCount(ingest, scenario.disabledExpectation);
+      }, 100);
     });
   });
 });

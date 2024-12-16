@@ -6,22 +6,66 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Quotas } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Quotas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { QuantumJobClient } from "../quantumJobClient.js";
+import type {
   Quota,
   QuotasListNextOptionalParams,
   QuotasListOptionalParams,
   QuotasListResponse,
-  QuotasListNextResponse
-} from "../models";
+  QuotasListNextResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/quotas",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaList,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaList,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+
 /** Class containing Quotas operations. */
 export class QuotasImpl implements Quotas {
   private readonly client: QuantumJobClient;
@@ -38,9 +82,7 @@ export class QuotasImpl implements Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  public list(
-    options?: QuotasListOptionalParams
-  ): PagedAsyncIterableIterator<Quota> {
+  public list(options?: QuotasListOptionalParams): PagedAsyncIterableIterator<Quota> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -51,12 +93,12 @@ export class QuotasImpl implements Quotas {
       },
       byPage: () => {
         return this.listPagingPage(options);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): AsyncIterableIterator<Quota[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -68,9 +110,7 @@ export class QuotasImpl implements Quotas {
     }
   }
 
-  private async *listPagingAll(
-    options?: QuotasListOptionalParams
-  ): AsyncIterableIterator<Quota> {
+  private async *listPagingAll(options?: QuotasListOptionalParams): AsyncIterableIterator<Quota> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -80,18 +120,16 @@ export class QuotasImpl implements Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: QuotasListOptionalParams
-  ): Promise<QuotasListResponse> {
+  private async _list(options?: QuotasListOptionalParams): Promise<QuotasListResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._list",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec
+          { updatedOptions },
+          listOperationSpec,
         ) as Promise<QuotasListResponse>;
-      }
+      },
     );
   }
 
@@ -102,62 +140,17 @@ export class QuotasImpl implements Quotas {
    */
   private async _listNext(
     nextLink: string,
-    options?: QuotasListNextOptionalParams
+    options?: QuotasListNextOptionalParams,
   ): Promise<QuotasListNextResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._listNext",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { nextLink, options },
-          listNextOperationSpec
+          { nextLink, updatedOptions },
+          listNextOperationSpec,
         ) as Promise<QuotasListNextResponse>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/quotas",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QuotaList
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QuotaList
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};

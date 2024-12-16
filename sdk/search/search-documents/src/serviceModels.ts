@@ -125,7 +125,7 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-} from "./generated/service/models";
+} from "./generated/service/models/index.js";
 
 /**
  * Options for a list skillsets operation.
@@ -1443,12 +1443,10 @@ export enum KnownTokenizerNames {
   /**
    * Divides text using language-specific rules.
    */
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /**
    * Divides text using language-specific rules and reduces words to their base forms.
    */
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
   /**
    * Tokenizes the input into n-grams of the given size(s). See

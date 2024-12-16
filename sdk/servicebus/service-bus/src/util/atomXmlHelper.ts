@@ -12,7 +12,6 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants.js";
 import { administrationLogger as logger } from "../log.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl.js";

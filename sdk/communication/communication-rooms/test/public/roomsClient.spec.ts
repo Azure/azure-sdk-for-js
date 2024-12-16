@@ -7,7 +7,11 @@ import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClien
 import type { RoomsClient } from "../../src/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
-import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models.js";
+import type {
+  CommunicationRoom,
+  RoomParticipantPatch,
+  RoomParticipant,
+} from "../../src/models/models.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("RoomsClient", () => {
@@ -59,7 +63,7 @@ describe("RoomsClient", () => {
       const createRoomResult = await client.createRoom(options);
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -100,7 +104,7 @@ describe("RoomsClient", () => {
 
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -156,7 +160,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -179,7 +183,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -207,7 +211,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -229,7 +233,7 @@ describe("RoomsClient", () => {
       const createRoomResult = await client.createRoom(options);
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -469,7 +473,6 @@ describe("Participants Operations", () => {
   let client: RoomsClient;
   let testUser1: CommunicationUserIdentifier;
   let roomId = "";
-  const delayInMs = 1000;
 
   beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedRoomsClient(ctx));
@@ -501,12 +504,10 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Patch participants
     await client.addOrUpdateParticipants(curRoomId, participants);
-    await pause(delayInMs);
 
-    const addParticipantsResult = await client.listParticipants(curRoomId);
+    const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
 
     roomId = curRoomId;
@@ -526,12 +527,10 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants as any);
-    await pause(delayInMs);
 
-    const addParticipantsResult = await client.listParticipants(curRoomId);
+    const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0);
 
     roomId = curRoomId;
@@ -551,13 +550,10 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
-
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants);
-    await pause(delayInMs);
 
-    const allParticipants = await client.listParticipants(curRoomId);
+    const allParticipants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0);
 
     roomId = curRoomId;
@@ -571,14 +567,11 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Remove participants
     const participantIdentifiers = [testUser1];
     await client.removeParticipants(curRoomId, participantIdentifiers);
 
-    await pause(delayInMs);
-
-    const participants = await client.listParticipants(curRoomId);
+    const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
     roomId = curRoomId;
@@ -601,24 +594,24 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
-
     // Remove participants
     const removeParticipants = [testUser1];
     await client.removeParticipants(curRoomId, removeParticipants);
-    await pause(delayInMs);
 
-    const participants = await client.listParticipants(curRoomId);
+    const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
     roomId = curRoomId;
   });
 });
 
-async function pause(time: number): Promise<void> {
-  if (!isPlaybackMode()) {
-    await new Promise((resolve) => setTimeout(resolve, time));
+async function listParticipants(roomId: string, client: RoomsClient): Promise<RoomParticipant[]> {
+  const roomParticipants = [];
+  const participantsList = await client.listParticipants(roomId);
+  for await (const participant of participantsList) {
+    roomParticipants.push(participant);
   }
+  return roomParticipants;
 }
 
 function verifyRoomsAttributes(
@@ -652,7 +645,6 @@ async function verifyRoomsParticipantsAttributes(
 ): Promise<void> {
   // Assert
   assert.isDefined(actualRoomParticipant);
-  assert.isNotEmpty(actualRoomParticipant);
 
   let count = 0;
   let presenterCount = 0;
