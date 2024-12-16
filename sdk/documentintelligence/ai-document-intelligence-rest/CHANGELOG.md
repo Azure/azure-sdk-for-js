@@ -89,6 +89,7 @@
 ### Breaking Changes
 
 - Removes the `poller.getOperationId()` for a given polling operation. Use `parseResultIdFromResponse` to extract the `operationId` directly.
+- `getLongRunningPoller` function is not async anymore, do not `await` on it.
 
 ### Other Changes
 

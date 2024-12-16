@@ -141,7 +141,7 @@ import {
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
-const poller = await getLongRunningPoller(client, initialResponse);
+const poller = getLongRunningPoller(client, initialResponse);
 const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
 console.log(result);
 // {
@@ -184,7 +184,7 @@ const resultId = parseResultIdFromResponse(initialResponse);
 console.log("resultId: ", resultId);
 
 // (Optional) You can poll for the batch analysis result but be aware that a job may take unexpectedly long time, and polling could incur additional costs.
-// const poller = await getLongRunningPoller(client, initialResponse);
+// const poller = getLongRunningPoller(client, initialResponse);
 // await poller.pollUntilDone();
 
 // 2. At a later time, you can retrieve the operation result using the resultId
@@ -284,7 +284,7 @@ const initialResponse = await client.path("/documentClassifiers:build").post({
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
-const poller = await getLongRunningPoller(client, initialResponse);
+const poller = getLongRunningPoller(client, initialResponse);
 const response = (await poller.pollUntilDone())
   .body as DocumentClassifierBuildOperationDetailsOutput;
 console.log(response);
@@ -326,7 +326,7 @@ if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 
-const poller = await getLongRunningPoller(client, initialResponse);
+const poller = getLongRunningPoller(client, initialResponse);
 
 await poller.pollUntilDone();
 
@@ -369,7 +369,7 @@ if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 
-const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
 
 const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
 const figures = result.analyzeResult?.figures;
