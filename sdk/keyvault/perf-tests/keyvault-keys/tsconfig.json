@@ -5,9 +5,7 @@
     "moduleResolution": "NodeNext",
     "rootDir": ".",
     "paths": {
-      "@azure-tests/perf-keyvault-keys": [
-        "./src/index"
-      ]
+      "@azure-tests/perf-keyvault-keys": ["./src/index"]
     }
   },
   "include": [
