@@ -3,12 +3,9 @@
 
 import { type Client, type StreamableMethod } from "@azure-rest/core-client";
 import type {
-  AgentDeletionStatusOutput,
-  AgentOutput,
   FileDeletionStatusOutput,
   FileListResponseOutput,
   OpenAIFileOutput,
-  OpenAIPageableListOfAgentOutput,
 } from "../generated/src/outputModels.js";
 import type {
   OpenAIPageableListOfThreadRunOutput,
@@ -26,6 +23,9 @@ import type {
   VectorStoreFileDeletionStatusOutput,
   VectorStoreFileBatchOutput,
   OpenAIPageableListOfVectorStoreFileOutput,
+  AgentDeletionStatusOutput,
+  AgentOutput,
+  OpenAIPageableListOfAgentOutput,
 } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import {
@@ -47,12 +47,7 @@ import {
   updateRun,
 } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type {
-  CreateAgentOptions,
-  FilePurpose,
-  ToolOutput,
-  UpdateAgentOptions,
-} from "../generated/src/models.js";
+import type { FilePurpose, ToolOutput } from "../generated/src/models.js";
 import {
   createVectorStore,
   createVectorStoreAndPoll,
@@ -78,7 +73,6 @@ import {
 } from "./vectorStoresFileBatches.js";
 import type {
   PollingOptions,
-  ListQueryParameters,
   OptionalRequestParameters,
   AgentRunResponse,
   CreateRunOptionalParams,
@@ -112,33 +106,23 @@ import type {
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
   CreateVectorStoreFileBatchWithPollingOptionalParams,
+  CreateAgentOptionalParams,
+  ListAgentsOptionalParams,
+  GetAgentOptionalParams,
+  UpdateAgentOptionalParams,
 } from "./customModels.js";
 import type { ThreadMessageOptions } from "../customization/models.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
-  createAgent: (
-    model: string,
-    options?: Omit<CreateAgentOptions, "model">,
-    requestParams?: OptionalRequestParameters,
-  ) => Promise<AgentOutput>;
+  createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
 
   /** Gets a list of agents that were previously created. */
-  listAgents: (
-    options?: ListQueryParameters,
-    requestParams?: OptionalRequestParameters,
-  ) => Promise<OpenAIPageableListOfAgentOutput>;
+  listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
   /** Retrieves an existing agent. */
-  getAgent: (
-    assistantId: string,
-    requestParams?: OptionalRequestParameters,
-  ) => Promise<AgentOutput>;
+  getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
   /** Modifies an existing agent. */
-  updateAgent: (
-    assistantId: string,
-    options: UpdateAgentOptions,
-    requestParams?: OptionalRequestParameters,
-  ) => Promise<AgentOutput>;
+  updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
   /** Deletes an agent. */
   deleteAgent: (
     assistantId: string,
@@ -362,23 +346,13 @@ export interface AgentsOperations {
 
 function getAgents(context: Client): AgentsOperations {
   return {
-    createAgent: (
-      model: string,
-      options?: Omit<CreateAgentOptions, "model">,
-      requestParams?: OptionalRequestParameters,
-    ) => createAgent(context, { body: { ...options, model }, ...requestParams }),
-    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
-      listAgents(context, {
-        queryParameters: options as Record<string, unknown>,
-        ...requestParams,
-      }),
-    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) =>
-      getAgent(context, assistantId, requestParams),
-    updateAgent: (
-      assistantId: string,
-      options: UpdateAgentOptions,
-      requestParams?: OptionalRequestParameters,
-    ) => updateAgent(context, assistantId, { body: options, ...requestParams }),
+    createAgent: (model: string, options?: CreateAgentOptionalParams) =>
+      createAgent(context, model, options),
+    listAgents: (options?: ListAgentsOptionalParams) => listAgents(context, options),
+    getAgent: (assistantId: string, options?: GetAgentOptionalParams) =>
+      getAgent(context, assistantId, options),
+    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) =>
+      updateAgent(context, assistantId, options),
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) =>
       deleteAgent(context, assistantId, requestParams),
 

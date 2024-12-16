@@ -7,8 +7,10 @@ import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,
+  CreateAgentOptions,
   CreateAndRunThreadOptions,
   CreateRunOptions,
+  UpdateAgentOptions,
   UpdateAgentThreadOptions,
   VectorStoreFileStatusFilter,
   VectorStoreOptions,
@@ -278,3 +280,30 @@ export interface CreateVectorStoreFileBatchWithPollingOptionalParams
   extends CreateVectorStoreFileBatchOptionalParams {
   pollingOptions?: PollingOptions;
 }
+
+/**
+ * Optional parameters for creating agent.
+ */
+export interface CreateAgentOptionalParams
+  extends Omit<CreateAgentOptions, "model">,
+    OperationOptions {}
+
+/**
+ * Optional parameters for updating agent.
+ */
+export interface UpdateAgentOptionalParams extends UpdateAgentOptions, OperationOptions {}
+
+/**
+ * Optional parameters for deleting agent.
+ */
+export interface DeleteAgentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting agent.
+ */
+export interface GetAgentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for listing agents.
+ */
+export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {}

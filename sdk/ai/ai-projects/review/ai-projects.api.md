@@ -7,7 +7,7 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
-import { Paged } from '@azure/core-paging';
+import type { Paged } from '@azure/core-paging';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
@@ -31,7 +31,7 @@ export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<
 
 // @public
 export interface AgentOutput {
-    created_at: number;
+    createdAt: Date;
     description: string | null;
     id: string;
     instructions: string | null;
@@ -39,13 +39,11 @@ export interface AgentOutput {
     model: string;
     name: string | null;
     object: "assistant";
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOptionOutput_2" needs to be exported by the entry point index.d.ts
-    response_format?: AgentsApiResponseFormatOptionOutput_2 | null;
+    responseFormat?: AgentsApiResponseFormatOptionOutput | null;
     temperature: number | null;
-    tool_resources: ToolResourcesOutput | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-    tools: Array<ToolDefinitionOutput_2>;
-    top_p: number | null;
+    toolResources: ToolResourcesOutput | null;
+    tools: Array<ToolDefinitionOutput>;
+    topP: number | null;
 }
 
 // @public
@@ -67,10 +65,8 @@ export type AgentsApiResponseFormatModeOutput = string;
 // @public
 export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
 
-// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput_2;
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput;
 
 // @public
 export interface AgentsApiResponseFormatOutput {
@@ -111,7 +107,7 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
+    createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
     createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
@@ -123,12 +119,13 @@ export interface AgentsOperations {
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
+    // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
+    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput_2>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
-    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
+    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
@@ -136,8 +133,10 @@ export interface AgentsOperations {
     getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
-    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
+    listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
+    // Warning: (ae-forgotten-export) The symbol "FilePurpose_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "FileListResponseOutput_2" needs to be exported by the entry point index.d.ts
+    listFiles: (purpose?: FilePurpose_2, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput_2>;
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
@@ -145,13 +144,15 @@ export interface AgentsOperations {
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
-    updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ToolOutput_2" needs to be exported by the entry point index.d.ts
+    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput_2>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
+    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    // Warning: (ae-forgotten-export) The symbol "OpenAIFileOutput_2" needs to be exported by the entry point index.d.ts
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
 }
 
 // @public
@@ -161,8 +162,7 @@ export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepS
 export interface AgentThreadCreationOptions {
     messages?: Array<ThreadMessageOptions>;
     metadata?: Record<string, string> | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolResources_2" needs to be exported by the entry point index.d.ts
-    toolResources?: ToolResources_2 | null;
+    toolResources?: ToolResources | null;
 }
 
 // @public
@@ -171,8 +171,7 @@ export interface AgentThreadOutput {
     id: string;
     metadata: Record<string, string> | null;
     object: "thread";
-    // Warning: (ae-forgotten-export) The symbol "ToolResourcesOutput_2" needs to be exported by the entry point index.d.ts
-    toolResources: ToolResourcesOutput_2 | null;
+    toolResources: ToolResourcesOutput | null;
 }
 
 // @public (undocumented)
@@ -242,13 +241,13 @@ export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputP
 
 // @public
 export interface BingGroundingToolDefinition extends ToolDefinitionParent {
-    bing_grounding: ToolConnectionList;
+    bingGrounding: ToolConnectionList;
     type: "bing_grounding";
 }
 
 // @public
 export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputParent {
-    bing_grounding: ToolConnectionListOutput;
+    bingGrounding: ToolConnectionListOutput;
     type: "bing_grounding";
 }
 
@@ -272,15 +271,14 @@ export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutpu
 
 // @public
 export interface CodeInterpreterToolResource {
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreDataSource_2" needs to be exported by the entry point index.d.ts
-    data_sources?: Array<VectorStoreDataSource_2>;
-    file_ids?: string[];
+    dataSources?: Array<VectorStoreDataSource>;
+    fileIds?: string[];
 }
 
 // @public
 export interface CodeInterpreterToolResourceOutput {
-    data_sources?: Array<VectorStoreDataSourceOutput>;
-    file_ids?: string[];
+    dataSources?: Array<VectorStoreDataSourceOutput>;
+    fileIds?: string[];
 }
 
 // @public (undocumented)
@@ -288,7 +286,8 @@ export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
+    // Warning: (ae-forgotten-export) The symbol "ListConnectionsQueryParamProperties_2" needs to be exported by the entry point index.d.ts
+    listConnections: (options?: ListConnectionsQueryParamProperties_2, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public
@@ -305,17 +304,21 @@ export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AISer
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
 // @public
+export interface CreateAgentOptionalParams extends Omit<CreateAgentOptions, "model">, OperationOptions {
+}
+
+// @public
 export interface CreateAgentOptions {
     description?: string | null;
     instructions?: string | null;
     metadata?: Record<string, string> | null;
     model: string;
     name?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     temperature?: number | null;
-    tool_resources?: ToolResources | null;
+    toolResources?: ToolResources | null;
     tools?: Array<ToolDefinition>;
-    top_p?: number | null;
+    topP?: number | null;
 }
 
 // @public
@@ -333,20 +336,15 @@ export interface CreateAndRunThreadOptions {
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOption_2" needs to be exported by the entry point index.d.ts
-    responseFormat?: AgentsApiResponseFormatOption_2 | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
     thread?: AgentThreadCreationOptions;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption_2" needs to be exported by the entry point index.d.ts
-    toolChoice?: AgentsApiToolChoiceOption_2 | null;
-    // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions_2" needs to be exported by the entry point index.d.ts
-    toolResources?: UpdateToolResourcesOptions_2 | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinition_2" needs to be exported by the entry point index.d.ts
-    tools?: Array<ToolDefinition_2> | null;
+    toolChoice?: AgentsApiToolChoiceOption | null;
+    toolResources?: UpdateToolResourcesOptions | null;
+    tools?: Array<ToolDefinition> | null;
     topP?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "TruncationObject_2" needs to be exported by the entry point index.d.ts
-    truncationStrategy?: TruncationObject_2 | null;
+    truncationStrategy?: TruncationObject | null;
 }
 
 // @public
@@ -359,21 +357,20 @@ export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, 
 // @public
 export interface CreateRunOptions {
     additionalInstructions?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessage_2" needs to be exported by the entry point index.d.ts
-    additionalMessages?: Array<ThreadMessage_2> | null;
+    additionalMessages?: Array<ThreadMessage> | null;
     assistantId: string;
     instructions?: string | null;
     maxCompletionTokens?: number | null;
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    responseFormat?: AgentsApiResponseFormatOption_2 | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
-    toolChoice?: AgentsApiToolChoiceOption_2 | null;
-    tools?: Array<ToolDefinition_2>;
+    toolChoice?: AgentsApiToolChoiceOption | null;
+    tools?: Array<ToolDefinition>;
     topP?: number | null;
-    truncationStrategy?: TruncationObject_2 | null;
+    truncationStrategy?: TruncationObject | null;
 }
 
 // @public
@@ -452,6 +449,10 @@ export interface DatasetOutput extends InputDataOutputParent {
     id: string;
     // (undocumented)
     readonly type: "dataset";
+}
+
+// @public
+export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -559,51 +560,51 @@ export type FilePurposeOutput = string;
 // @public
 export interface FileSearchRankingOptions {
     ranker: string;
-    score_threshold: number;
+    scoreThreshold: number;
 }
 
 // @public
 export interface FileSearchRankingOptionsOutput {
     ranker: string;
-    score_threshold: number;
+    scoreThreshold: number;
 }
 
 // @public
 export interface FileSearchToolDefinition extends ToolDefinitionParent {
-    file_search?: FileSearchToolDefinitionDetails;
+    fileSearch?: FileSearchToolDefinitionDetails;
     type: "file_search";
 }
 
 // @public
 export interface FileSearchToolDefinitionDetails {
-    max_num_results?: number;
+    maxNumResults?: number;
     // (undocumented)
-    ranking_options?: FileSearchRankingOptions;
+    rankingOptions?: FileSearchRankingOptions;
 }
 
 // @public
 export interface FileSearchToolDefinitionDetailsOutput {
-    max_num_results?: number;
+    maxNumResults?: number;
     // (undocumented)
-    ranking_options?: FileSearchRankingOptionsOutput;
+    rankingOptions?: FileSearchRankingOptionsOutput;
 }
 
 // @public
 export interface FileSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    file_search?: FileSearchToolDefinitionDetailsOutput;
+    fileSearch?: FileSearchToolDefinitionDetailsOutput;
     type: "file_search";
 }
 
 // @public
 export interface FileSearchToolResource {
-    vector_store_ids?: string[];
-    vector_stores?: Array<VectorStoreConfigurations>;
+    vectorStoreIds?: string[];
+    vectorStores?: Array<VectorStoreConfigurations>;
 }
 
 // @public
 export interface FileSearchToolResourceOutput {
-    vector_store_ids?: string[];
-    vector_stores?: Array<VectorStoreConfigurationsOutput>;
+    vectorStoreIds?: string[];
+    vectorStores?: Array<VectorStoreConfigurationsOutput>;
 }
 
 // @public
@@ -619,9 +620,6 @@ export type Frequency = string;
 
 // @public
 export type FrequencyOutput = string;
-
-// @public
-export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;
 
 // @public
 export interface FunctionDefinition {
@@ -657,6 +655,10 @@ export interface FunctionToolDefinition extends ToolDefinitionParent {
 export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
     function: FunctionDefinitionOutput;
     type: "function";
+}
+
+// @public
+export interface GetAgentOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -709,14 +711,14 @@ export type IncompleteRunDetailsOutput = string;
 
 // @public
 export interface IndexResource {
-    index_connection_id: string;
-    index_name: string;
+    indexConnectionId: string;
+    indexName: string;
 }
 
 // @public
 export interface IndexResourceOutput {
-    index_connection_id: string;
-    index_name: string;
+    indexConnectionId: string;
+    indexName: string;
 }
 
 // @public
@@ -770,6 +772,10 @@ export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
 
+// @public
+export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
 // @public (undocumented)
 export interface ListConnectionsQueryParamProperties {
     category?: ConnectionType;
@@ -791,8 +797,7 @@ export interface ListMessagesQueryParamProperties {
     after?: string;
     before?: string;
     limit?: number;
-    // Warning: (ae-forgotten-export) The symbol "ListSortOrder_2" needs to be exported by the entry point index.d.ts
-    order?: ListSortOrder_2;
+    order?: ListSortOrder;
     runId?: string;
 }
 
@@ -830,15 +835,15 @@ export interface ListVectorStoresOptionalParams extends ListQueryParameters, Ope
 
 // @public
 export interface MessageAttachment {
-    data_sources?: Array<VectorStoreDataSource_2>;
-    file_id?: string;
+    dataSources?: Array<VectorStoreDataSource>;
+    fileId?: string;
     tools: MessageAttachmentToolDefinition[];
 }
 
 // @public
 export interface MessageAttachmentOutput {
-    data_sources?: Array<VectorStoreDataSourceOutput>;
-    file_id?: string;
+    dataSources?: Array<VectorStoreDataSourceOutput>;
+    fileId?: string;
     tools: MessageAttachmentToolDefinitionOutput[];
 }
 
@@ -869,8 +874,7 @@ export interface MessageContentParent {
 // @public
 export interface MessageDelta {
     content: MessageDeltaContent[];
-    // Warning: (ae-forgotten-export) The symbol "MessageRole_2" needs to be exported by the entry point index.d.ts
-    role: MessageRole_2;
+    role: MessageRole;
 }
 
 // @public
@@ -952,24 +956,24 @@ export interface MessageDeltaTextUrlCitationDetails {
 
 // @public
 export interface MessageImageFileContent extends MessageContentParent {
-    image_file: MessageImageFileDetails;
+    imageFile: MessageImageFileDetails;
     type: "image_file";
 }
 
 // @public
 export interface MessageImageFileContentOutput extends MessageContentOutputParent {
-    image_file: MessageImageFileDetailsOutput;
+    imageFile: MessageImageFileDetailsOutput;
     type: "image_file";
 }
 
 // @public
 export interface MessageImageFileDetails {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MessageImageFileDetailsOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
@@ -1055,88 +1059,88 @@ export interface MessageTextDetailsOutput {
 
 // @public
 export interface MessageTextFileCitationAnnotation extends MessageTextAnnotationParent {
-    end_index?: number;
-    file_citation: MessageTextFileCitationDetails;
-    start_index?: number;
+    endIndex?: number;
+    fileCitation: MessageTextFileCitationDetails;
+    startIndex?: number;
     type: "file_citation";
 }
 
 // @public
 export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
-    end_index?: number;
-    file_citation: MessageTextFileCitationDetailsOutput;
-    start_index?: number;
+    endIndex?: number;
+    fileCitation: MessageTextFileCitationDetailsOutput;
+    startIndex?: number;
     type: "file_citation";
 }
 
 // @public
 export interface MessageTextFileCitationDetails {
-    file_id: string;
+    fileId: string;
     quote: string;
 }
 
 // @public
 export interface MessageTextFileCitationDetailsOutput {
-    file_id: string;
+    fileId: string;
     quote: string;
 }
 
 // @public
 export interface MessageTextFilePathAnnotation extends MessageTextAnnotationParent {
-    end_index?: number;
-    file_path: MessageTextFilePathDetails;
-    start_index?: number;
+    endIndex?: number;
+    filePath: MessageTextFilePathDetails;
+    startIndex?: number;
     type: "file_path";
 }
 
 // @public
 export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
-    end_index?: number;
-    file_path: MessageTextFilePathDetailsOutput;
-    start_index?: number;
+    endIndex?: number;
+    filePath: MessageTextFilePathDetailsOutput;
+    startIndex?: number;
     type: "file_path";
 }
 
 // @public
 export interface MessageTextFilePathDetails {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MessageTextFilePathDetailsOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    microsoft_fabric: ToolConnectionList;
+    microsoftFabric: ToolConnectionList;
     type: "microsoft_fabric";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    microsoft_fabric: ToolConnectionListOutput;
+    microsoftFabric: ToolConnectionListOutput;
     type: "microsoft_fabric";
 }
 
 // @public
 export interface OpenAIFileOutput {
     bytes: number;
-    created_at: number;
+    createdAt: Date;
     filename: string;
     id: string;
     object: "file";
     purpose: FilePurposeOutput;
     status?: FileStateOutput;
-    status_details?: string;
+    statusDetails?: string;
 }
 
 // @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
@@ -1286,13 +1290,13 @@ export type RunStatusOutput = string;
 
 // @public
 export interface RunStepAzureAISearchToolCallOutput extends RunStepToolCallOutputParent {
-    azure_ai_search: Record<string, string>;
+    azureAISearch: Record<string, string>;
     type: "azure_ai_search";
 }
 
 // @public
 export interface RunStepBingGroundingToolCallOutput extends RunStepToolCallOutputParent {
-    bing_grounding: Record<string, string>;
+    bingGrounding: Record<string, string>;
     type: "bing_grounding";
 }
 
@@ -1304,7 +1308,7 @@ export interface RunStepCodeInterpreterImageOutputOutput extends RunStepCodeInte
 
 // @public
 export interface RunStepCodeInterpreterImageReferenceOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
@@ -1321,7 +1325,7 @@ export interface RunStepCodeInterpreterToolCallDetailsOutput {
 
 // @public
 export interface RunStepCodeInterpreterToolCallOutput extends RunStepToolCallOutputParent {
-    code_interpreter: RunStepCodeInterpreterToolCallDetailsOutput;
+    codeInterpreter: RunStepCodeInterpreterToolCallDetailsOutput;
     type: "code_interpreter";
 }
 
@@ -1336,9 +1340,9 @@ export interface RunStepCodeInterpreterToolCallOutputOutputParent {
 
 // @public
 export interface RunStepCompletionUsageOutput {
-    completion_tokens: number;
-    prompt_tokens: number;
-    total_tokens: number;
+    completionTokens: number;
+    promptTokens: number;
+    totalTokens: number;
 }
 
 // @public
@@ -1436,19 +1440,13 @@ export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
     type: "tool_calls";
 }
 
-// Warning: (ae-forgotten-export) The symbol "RunStepDetailsOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "RunStepMessageCreationDetailsOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "RunStepToolCallDetailsOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type RunStepDetailsOutput = RunStepDetailsOutputParent_2 | RunStepMessageCreationDetailsOutput_2 | RunStepToolCallDetailsOutput_2;
+export type RunStepDetailsOutput = RunStepDetailsOutputParent | RunStepMessageCreationDetailsOutput | RunStepToolCallDetailsOutput;
 
 // @public
 export interface RunStepDetailsOutputParent {
-    // Warning: (ae-forgotten-export) The symbol "RunStepTypeOutput_2" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    type: RunStepTypeOutput_2;
+    type: RunStepTypeOutput;
 }
 
 // @public
@@ -1456,14 +1454,13 @@ export type RunStepErrorCodeOutput = string;
 
 // @public
 export interface RunStepErrorOutput {
-    // Warning: (ae-forgotten-export) The symbol "RunStepErrorCodeOutput_2" needs to be exported by the entry point index.d.ts
-    code: RunStepErrorCodeOutput_2;
+    code: RunStepErrorCodeOutput;
     message: string;
 }
 
 // @public
 export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
-    file_search: Record<string, string>;
+    fileSearch: Record<string, string>;
     type: "file_search";
 }
 
@@ -1482,18 +1479,18 @@ export interface RunStepFunctionToolCallOutput extends RunStepToolCallOutputPare
 
 // @public
 export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
-    message_creation: RunStepMessageCreationReferenceOutput;
+    messageCreation: RunStepMessageCreationReferenceOutput;
     type: "message_creation";
 }
 
 // @public
 export interface RunStepMessageCreationReferenceOutput {
-    message_id: string;
+    messageId: string;
 }
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    microsoft_fabric: Record<string, string>;
+    microsoftFabric: Record<string, string>;
     type: "microsoft_fabric";
 }
 
@@ -1514,13 +1511,12 @@ export interface RunStepOutput {
     stepDetails: RunStepDetailsOutput;
     threadId: string;
     type: RunStepTypeOutput;
-    // Warning: (ae-forgotten-export) The symbol "RunStepCompletionUsageOutput_2" needs to be exported by the entry point index.d.ts
-    usage?: RunStepCompletionUsageOutput_2 | null;
+    usage?: RunStepCompletionUsageOutput | null;
 }
 
 // @public
 export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputParent {
-    sharepoint_grounding: Record<string, string>;
+    sharepointGrounding: Record<string, string>;
     type: "sharepoint_grounding";
 }
 
@@ -1540,7 +1536,7 @@ export enum RunStepStreamEvent {
 
 // @public
 export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
-    tool_calls: Array<RunStepToolCallOutput>;
+    toolCalls: Array<RunStepToolCallOutput>;
     type: "tool_calls";
 }
 
@@ -1572,13 +1568,13 @@ export enum RunStreamEvent {
 
 // @public
 export interface SharepointToolDefinition extends ToolDefinitionParent {
-    sharepoint_grounding: ToolConnectionList;
+    sharepointGrounding: ToolConnectionList;
     type: "sharepoint_grounding";
 }
 
 // @public
 export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputParent {
-    sharepoint_grounding: ToolConnectionListOutput;
+    sharepointGrounding: ToolConnectionListOutput;
     type: "sharepoint_grounding";
 }
 
@@ -1590,8 +1586,7 @@ export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParen
 
 // @public
 export interface SubmitToolOutputsDetailsOutput {
-    // Warning: (ae-forgotten-export) The symbol "RequiredToolCallOutput_2" needs to be exported by the entry point index.d.ts
-    toolCalls: Array<RequiredToolCallOutput_2>;
+    toolCalls: Array<RequiredToolCallOutput>;
 }
 
 // @public
@@ -1628,51 +1623,45 @@ export interface ThreadDeletionStatusOutput {
 
 // @public
 export interface ThreadMessage {
-    assistant_id: string | null;
+    assistantId: string | null;
     attachments: Array<MessageAttachment> | null;
-    completed_at: number | null;
+    completedAt: number | null;
     content: Array<MessageContent>;
-    created_at: number;
+    createdAt: number;
     id: string;
-    incomplete_at: number | null;
-    incomplete_details: MessageIncompleteDetails | null;
+    incompleteAt: number | null;
+    incompleteDetails: MessageIncompleteDetails | null;
     metadata: Record<string, string> | null;
     object: "thread.message";
     role: MessageRole;
-    run_id: string | null;
+    runId: string | null;
     status: MessageStatus;
-    thread_id: string;
+    threadId: string;
 }
 
 // @public
 export interface ThreadMessageOptions {
-    // Warning: (ae-forgotten-export) The symbol "MessageAttachment_2" needs to be exported by the entry point index.d.ts
-    attachments?: Array<MessageAttachment_2> | null;
+    attachments?: Array<MessageAttachment> | null;
     content: string;
     metadata?: Record<string, string> | null;
-    role: MessageRole_2;
+    role: MessageRole;
 }
 
 // @public
 export interface ThreadMessageOutput {
     assistantId: string | null;
-    // Warning: (ae-forgotten-export) The symbol "MessageAttachmentOutput_2" needs to be exported by the entry point index.d.ts
-    attachments: Array<MessageAttachmentOutput_2> | null;
+    attachments: Array<MessageAttachmentOutput> | null;
     completedAt: Date | null;
-    // Warning: (ae-forgotten-export) The symbol "MessageContentOutput_2" needs to be exported by the entry point index.d.ts
-    content: Array<MessageContentOutput_2>;
+    content: Array<MessageContentOutput>;
     createdAt: Date;
     id: string;
     incompleteAt: Date | null;
-    // Warning: (ae-forgotten-export) The symbol "MessageIncompleteDetailsOutput_2" needs to be exported by the entry point index.d.ts
-    incompleteDetails: MessageIncompleteDetailsOutput_2 | null;
+    incompleteDetails: MessageIncompleteDetailsOutput | null;
     metadata: Record<string, string> | null;
     object: "thread.message";
-    // Warning: (ae-forgotten-export) The symbol "MessageRoleOutput_2" needs to be exported by the entry point index.d.ts
-    role: MessageRoleOutput_2;
+    role: MessageRoleOutput;
     runId: string | null;
-    // Warning: (ae-forgotten-export) The symbol "MessageStatusOutput_2" needs to be exported by the entry point index.d.ts
-    status: MessageStatusOutput_2;
+    status: MessageStatusOutput;
     threadId: string;
 }
 
@@ -1715,7 +1704,7 @@ export enum ThreadStreamEvent {
 
 // @public
 export interface ToolConnection {
-    connection_id: string;
+    connectionId: string;
 }
 
 // @public
@@ -1730,23 +1719,14 @@ export interface ToolConnectionListOutput {
 
 // @public
 export interface ToolConnectionOutput {
-    connection_id: string;
+    connectionId: string;
 }
 
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
 
-// Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "CodeInterpreterToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "FileSearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "FunctionToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "BingGroundingToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MicrosoftFabricToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "SharepointToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "AzureAISearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent_2 | CodeInterpreterToolDefinitionOutput_2 | FileSearchToolDefinitionOutput_2 | FunctionToolDefinitionOutput_2 | BingGroundingToolDefinitionOutput_2 | MicrosoftFabricToolDefinitionOutput_2 | SharepointToolDefinitionOutput_2 | AzureAISearchToolDefinitionOutput_2;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1763,21 +1743,21 @@ export interface ToolDefinitionParent {
 // @public
 export interface ToolOutput {
     output?: string;
-    tool_call_id?: string;
+    toolCallId?: string;
 }
 
 // @public
 export interface ToolResources {
-    azure_ai_search?: AzureAISearchResource;
-    code_interpreter?: CodeInterpreterToolResource;
-    file_search?: FileSearchToolResource;
+    azureAISearch?: AzureAISearchResource;
+    codeInterpreter?: CodeInterpreterToolResource;
+    fileSearch?: FileSearchToolResource;
 }
 
 // @public
 export interface ToolResourcesOutput {
-    azure_ai_search?: AzureAISearchResourceOutput;
-    code_interpreter?: CodeInterpreterToolResourceOutput;
-    file_search?: FileSearchToolResourceOutput;
+    azureAISearch?: AzureAISearchResourceOutput;
+    codeInterpreter?: CodeInterpreterToolResourceOutput;
+    fileSearch?: FileSearchToolResourceOutput;
 }
 
 // @public
@@ -1843,15 +1823,14 @@ export interface TriggerParent {
 
 // @public
 export interface TruncationObject {
-    last_messages?: number | null;
+    lastMessages?: number | null;
     type: TruncationStrategy;
 }
 
 // @public
 export interface TruncationObjectOutput {
     lastMessages?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "TruncationStrategyOutput_2" needs to be exported by the entry point index.d.ts
-    type: TruncationStrategyOutput_2;
+    type: TruncationStrategyOutput;
 }
 
 // @public
@@ -1861,17 +1840,21 @@ export type TruncationStrategy = string;
 export type TruncationStrategyOutput = string;
 
 // @public
+export interface UpdateAgentOptionalParams extends UpdateAgentOptions, OperationOptions {
+}
+
+// @public
 export interface UpdateAgentOptions {
     description?: string | null;
     instructions?: string | null;
     metadata?: Record<string, string> | null;
     model?: string;
     name?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     temperature?: number | null;
-    tool_resources?: ToolResources;
+    toolResources?: ToolResources;
     tools?: Array<ToolDefinition>;
-    top_p?: number | null;
+    topP?: number | null;
 }
 
 // @public
@@ -1881,27 +1864,27 @@ export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOption
 // @public
 export interface UpdateAgentThreadOptions {
     metadata?: Record<string, string> | null;
-    toolResources?: ToolResources_2 | null;
+    toolResources?: ToolResources | null;
 }
 
 // @public
 export interface UpdateCodeInterpreterToolResourceOptions {
-    file_ids?: string[];
+    fileIds?: string[];
 }
 
 // @public
 export interface UpdateCodeInterpreterToolResourceOptionsOutput {
-    file_ids?: string[];
+    fileIds?: string[];
 }
 
 // @public
 export interface UpdateFileSearchToolResourceOptions {
-    vector_store_ids?: string[];
+    vectorStoreIds?: string[];
 }
 
 // @public
 export interface UpdateFileSearchToolResourceOptionsOutput {
-    vector_store_ids?: string[];
+    vectorStoreIds?: string[];
 }
 
 // @public
@@ -1928,25 +1911,20 @@ export interface UpdateRunOptions {
 
 // @public
 export interface UpdateToolResourcesOptions {
-    azure_ai_search?: AzureAISearchResource;
-    code_interpreter?: UpdateCodeInterpreterToolResourceOptions;
-    file_search?: UpdateFileSearchToolResourceOptions;
+    azureAISearch?: AzureAISearchResource;
+    codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
+    fileSearch?: UpdateFileSearchToolResourceOptions;
 }
 
 // @public
 export interface UpdateToolResourcesOptionsOutput {
-    // Warning: (ae-forgotten-export) The symbol "AzureAISearchResourceOutput_2" needs to be exported by the entry point index.d.ts
-    azureAISearch?: AzureAISearchResourceOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "UpdateCodeInterpreterToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "UpdateFileSearchToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
-    fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
+    azureAISearch?: AzureAISearchResourceOutput;
+    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
+    fileSearch?: UpdateFileSearchToolResourceOptionsOutput;
 }
 
-// Warning: (ae-forgotten-export) The symbol "VectorStoreUpdateOptions_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions_2, OperationOptions {
+export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
 }
 
 // @public
@@ -1959,12 +1937,8 @@ export interface VectorStoreAutoChunkingStrategyResponseOutput extends VectorSto
     type: "other";
 }
 
-// Warning: (ae-forgotten-export) The symbol "VectorStoreChunkingStrategyRequestParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "VectorStoreAutoChunkingStrategyRequest_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "VectorStoreStaticChunkingStrategyRequest_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent_2 | VectorStoreAutoChunkingStrategyRequest_2 | VectorStoreStaticChunkingStrategyRequest_2;
+export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent | VectorStoreAutoChunkingStrategyRequest | VectorStoreStaticChunkingStrategyRequest;
 
 // @public
 export interface VectorStoreChunkingStrategyRequestParent {
@@ -1989,12 +1963,12 @@ export type VectorStoreChunkingStrategyResponseTypeOutput = string;
 
 // @public
 export interface VectorStoreConfiguration {
-    data_sources: Array<VectorStoreDataSource_2>;
+    dataSources: Array<VectorStoreDataSource>;
 }
 
 // @public
 export interface VectorStoreConfigurationOutput {
-    data_sources: Array<VectorStoreDataSourceOutput>;
+    dataSources: Array<VectorStoreDataSourceOutput>;
 }
 
 // @public
@@ -2011,8 +1985,7 @@ export interface VectorStoreConfigurationsOutput {
 
 // @public
 export interface VectorStoreDataSource {
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreDataSourceAssetType_2" needs to be exported by the entry point index.d.ts
-    type: VectorStoreDataSourceAssetType_2;
+    type: VectorStoreDataSourceAssetType;
     uri: string;
 }
 
@@ -2056,12 +2029,10 @@ export interface VectorStoreExpirationPolicyOutput {
 // @public
 export interface VectorStoreFileBatchOutput {
     createdAt: Date;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileCountOutput_2" needs to be exported by the entry point index.d.ts
-    fileCounts: VectorStoreFileCountOutput_2;
+    fileCounts: VectorStoreFileCountOutput;
     id: string;
     object: "vector_store.files_batch";
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileBatchStatusOutput_2" needs to be exported by the entry point index.d.ts
-    status: VectorStoreFileBatchStatusOutput_2;
+    status: VectorStoreFileBatchStatusOutput;
     vectorStoreId: string;
 }
 
@@ -2073,7 +2044,7 @@ export interface VectorStoreFileCountOutput {
     cancelled: number;
     completed: number;
     failed: number;
-    in_progress: number;
+    inProgress: number;
     total: number;
 }
 
@@ -2095,15 +2066,12 @@ export interface VectorStoreFileErrorOutput {
 
 // @public
 export interface VectorStoreFileOutput {
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreChunkingStrategyResponseOutput_2" needs to be exported by the entry point index.d.ts
-    chunkingStrategy: VectorStoreChunkingStrategyResponseOutput_2;
+    chunkingStrategy: VectorStoreChunkingStrategyResponseOutput;
     createdAt: Date;
     id: string;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileErrorOutput_2" needs to be exported by the entry point index.d.ts
-    lastError: VectorStoreFileErrorOutput_2 | null;
+    lastError: VectorStoreFileErrorOutput | null;
     object: "vector_store.file";
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileStatusOutput_2" needs to be exported by the entry point index.d.ts
-    status: VectorStoreFileStatusOutput_2;
+    status: VectorStoreFileStatusOutput;
     usageBytes: number;
     vectorStoreId: string;
 }
@@ -2117,10 +2085,8 @@ export type VectorStoreFileStatusOutput = string;
 // @public
 export interface VectorStoreOptions {
     chunkingStrategy?: VectorStoreChunkingStrategyRequest;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreConfiguration_2" needs to be exported by the entry point index.d.ts
-    configuration?: VectorStoreConfiguration_2;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreExpirationPolicy_2" needs to be exported by the entry point index.d.ts
-    expiresAfter?: VectorStoreExpirationPolicy_2;
+    configuration?: VectorStoreConfiguration;
+    expiresAfter?: VectorStoreExpirationPolicy;
     fileIds?: string[];
     metadata?: Record<string, string> | null;
     name?: string;
@@ -2129,30 +2095,28 @@ export interface VectorStoreOptions {
 // @public
 export interface VectorStoreOutput {
     createdAt: Date;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreExpirationPolicyOutput_2" needs to be exported by the entry point index.d.ts
-    expiresAfter?: VectorStoreExpirationPolicyOutput_2;
+    expiresAfter?: VectorStoreExpirationPolicyOutput;
     expiresAt?: Date | null;
-    fileCounts: VectorStoreFileCountOutput_2;
+    fileCounts: VectorStoreFileCountOutput;
     id: string;
     lastActiveAt: Date | null;
     metadata: Record<string, string> | null;
     name: string;
     object: "vector_store";
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreStatusOutput_2" needs to be exported by the entry point index.d.ts
-    status: VectorStoreStatusOutput_2;
+    status: VectorStoreStatusOutput;
     usageBytes: number;
 }
 
 // @public
 export interface VectorStoreStaticChunkingStrategyOptions {
-    chunk_overlap_tokens: number;
-    max_chunk_size_tokens: number;
+    chunkOverlapTokens: number;
+    maxChunkSizeTokens: number;
 }
 
 // @public
 export interface VectorStoreStaticChunkingStrategyOptionsOutput {
-    chunk_overlap_tokens: number;
-    max_chunk_size_tokens: number;
+    chunkOverlapTokens: number;
+    maxChunkSizeTokens: number;
 }
 
 // @public
@@ -2172,7 +2136,7 @@ export type VectorStoreStatusOutput = string;
 
 // @public
 export interface VectorStoreUpdateOptions {
-    expires_after?: VectorStoreExpirationPolicy | null;
+    expiresAfter?: VectorStoreExpirationPolicy | null;
     metadata?: Record<string, string> | null;
     name?: string | null;
 }

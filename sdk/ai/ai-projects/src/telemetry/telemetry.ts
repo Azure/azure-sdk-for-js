@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ConnectionsOperations } from "../connections/index.js";
-import type { GetAppInsightsResponseOutput } from "../agents/inputOutputs.js";
+import type { GetAppInsightsResponseOutput } from "../customization/outputModels.js";
 import type { Client } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
 

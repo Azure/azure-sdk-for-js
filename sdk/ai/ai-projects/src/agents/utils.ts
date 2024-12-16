@@ -32,20 +32,20 @@ export function isOutputOfType<T extends { type: string }>(
   return output.type === type;
 }
 
-/**
- * Converts a function definition to a function tool definition.
- *
- * @param functionDefintion - The function definition to convert.
- * @returns The function tool definition.
- */
-export function fromFunctionDefinition(
-  functionDefintion: FunctionDefinition,
-): FunctionToolDefinition {
-  return {
-    type: "function",
-    function: functionDefintion,
-  };
-}
+// /**
+//  * Converts a function definition to a function tool definition.
+//  *
+//  * @param functionDefintion - The function definition to convert.
+//  * @returns The function tool definition.
+//  */
+// export function fromFunctionDefinition(
+//   functionDefintion: FunctionDefinition,
+// ): FunctionToolDefinition {
+//   return {
+//     type: "function",
+//     function: functionDefintion,
+//   };
+// }
 
 /** Types of connection tools used to configure an agent */
 export enum connectionToolType {
@@ -76,7 +76,7 @@ export class ToolUtility {
       definition: {
         type: toolType,
         [toolType]: {
-          connections: connectionIds.map((connectionId) => ({ connection_id: connectionId })),
+          connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
         },
       },
     };
@@ -97,8 +97,8 @@ export class ToolUtility {
     definitionDetails?: FileSearchToolDefinitionDetails,
   ): { definition: FileSearchToolDefinition; resources: ToolResources } {
     return {
-      definition: { type: "file_search", file_search: definitionDetails },
-      resources: { file_search: { vector_store_ids: vectorStoreIds, vector_stores: vectorStores } },
+      definition: { type: "file_search", fileSearch: definitionDetails },
+      resources: { fileSearch: { vectorStoreIds: vectorStoreIds, vectorStores: vectorStores } },
     };
   }
 
@@ -120,7 +120,7 @@ export class ToolUtility {
 
     return {
       definition: { type: "code_interpreter" },
-      resources: { code_interpreter: { file_ids: fileIds, data_sources: dataSources } },
+      resources: { codeInterpreter: { fileIds: fileIds, dataSources: dataSources } },
     };
   }
 
@@ -139,8 +139,8 @@ export class ToolUtility {
     return {
       definition: { type: "azure_ai_search" },
       resources: {
-        azure_ai_search: {
-          indexes: [{ index_connection_id: indexConnectionId, index_name: indexName }],
+        azureAISearch: {
+          indexes: [{ indexConnectionId: indexConnectionId, indexName: indexName }],
         },
       },
     };
