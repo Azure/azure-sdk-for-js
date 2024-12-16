@@ -86,7 +86,7 @@
 
 ### Breaking Changes
 
-- Removes the `poller.getOperationId()` for a given polling operation in favour of the global `parseResultIdFromResponse` method.
+- Removes the `poller.getOperationId()` for a given polling operation. Use `parseResultIdFromResponse` to extract the `operationId` directly.
 
 ### Other Changes
 
