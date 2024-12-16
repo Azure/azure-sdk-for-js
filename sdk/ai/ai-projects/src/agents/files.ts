@@ -8,8 +8,8 @@ import type {
   FileListResponseOutput,
   OpenAIFileOutput,
 } from "../customization/outputModels.js";
-import type { UploadFileOptionalParams} from "./customModels.js";
-import { type ListFilesOptionalParams, type PollingOptions } from "./customModels.js";
+import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, UploadFileOptionalParams, UploadFileWithPollingOptionalParams} from "./customModels.js";
+import { type ListFilesOptionalParams } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
@@ -45,7 +45,7 @@ export async function listFiles(
 /** Uploads a file for use by other operations. */
 export async function uploadFile(
   context: Client,
-  options: GeneratedParameters.UploadFileParameters,
+  options?: UploadFileOptionalParams,
 ): Promise<OpenAIFileOutput> {
   const result = await context.path("/files").post(options);
   if (!expectedStatuses.includes(result.status)) {
@@ -54,32 +54,40 @@ export async function uploadFile(
   return ConvertFromWire.convertOpenAIFileOutput(result.body); 
 }
 
-/** Uploads a file for use by other operations. */
-export async function uploadFileAndPoll(
-  context: Client, 
-  options: UploadFileOptionalParams, 
-  pollingOptions?: PollingOptions,
+export function uploadFileAndPoll(
+  context: Client,
+  options: UploadFileWithPollingOptionalParams = { body: [] },
 ): Promise<OpenAIFileOutput> {
-  async function updateUploadFileAndPoll(currentResult?: OpenAIFileOutput): Promise<{result: OpenAIFileOutput; completed: boolean}> {
+  async function updateUploadFileAndPoll(
+    currentResult?: OpenAIFileOutput,
+  ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
     if (!currentResult) {
-      file = await uploadFile(context, {...options});
+      file = await uploadFile(context, {
+        ...options,
+        body: [
+          { name: "file" as const, body: "file content", filename: "fileName" },
+          { name: "purpose" as const, body: "purpose" }
+        ]
+      });
+      file = await uploadFile(context, options);
     } else {
       file = await getFile(context, currentResult.id, options);
     }
     return { result: file, completed: file.status === "uploaded" || file.status === "processed" || file.status === "deleted" };
   }
+  const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: options.pollingOptions ?? {} });
 
-  const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: pollingOptions,});
-
-  return poller.pollUntilDone(); 
+  return poller.pollUntilDone();
+  
 }
+
 
 /** Delete a previously uploaded file. */
 export async function deleteFile(
   context: Client,
   fileId: string,
-  options?: GeneratedParameters.DeleteFileParameters,
+  options?: DeleteFileOptionalParams,
 ): Promise<FileDeletionStatusOutput> {
   validateFileId(fileId);
   const result = await context
@@ -95,7 +103,7 @@ export async function deleteFile(
 export async function getFile(
   context: Client,
   fileId: string,
-  options?: GeneratedParameters.GetFileParameters,
+  options?: GetFileOptionalParams,
 ): Promise<OpenAIFileOutput> {
   validateFileId(fileId);
   const result = await context
@@ -111,7 +119,7 @@ export async function getFile(
 export function getFileContent(
   context: Client,
   fileId: string,
-  options?: GeneratedParameters.GetFileContentParameters,
+  options?: GetFileContentOptionalParams,
 ): StreamableMethod<string | Uint8Array> {
   validateFileId(fileId);
   return context

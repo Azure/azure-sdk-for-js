@@ -129,13 +129,13 @@ export interface AgentsOperations {
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
+    getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
@@ -143,7 +143,7 @@ export interface AgentsOperations {
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
-    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
+    listFiles: (purpose?: FilePurpose, options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
@@ -156,8 +156,8 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -419,6 +419,10 @@ export interface DatasetOutput extends InputDataOutputParent {
     readonly type: "dataset";
 }
 
+// @public (undocumented)
+export interface DeleteFileOptionalParams extends OperationOptions {
+}
+
 // @public
 export enum DoneEvent {
     Done = "done"
@@ -624,6 +628,14 @@ export interface GetConnectionResponseOutput {
     id: string;
     name: string;
     properties: InternalConnectionPropertiesOutput;
+}
+
+// @public (undocumented)
+export interface GetFileContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetFileOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1832,11 +1844,16 @@ export interface UpdateToolResourcesOptionsOutput {
     fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
 }
 
-// Warning: (ae-forgotten-export) The symbol "UploadFileMediaTypesParam" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "UploadFileBodyParam" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type UploadFileOptionalParams = UploadFileMediaTypesParam & UploadFileBodyParam & PollingOptions & OperationOptions;
+export type UploadFileOptionalParams = UploadFileBodyParam & OperationOptions;
+
+// @public (undocumented)
+export interface UploadFileWithPollingOptionalParams extends UploadFileBodyParam, OperationOptions {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
+}
 
 // @public
 export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {

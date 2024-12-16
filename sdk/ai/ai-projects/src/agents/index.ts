@@ -16,7 +16,7 @@ import { getRunStep, listRunSteps } from "./runSteps.js";
 import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, UploadFileOptionalParams } from "./customModels.js";
+import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, UploadFileOptionalParams, ListFilesOptionalParams, DeleteFileOptionalParams, GetFileOptionalParams, GetFileContentOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
 import type { OpenAIFileOutput } from "../customization/outputModels.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -137,29 +137,29 @@ export interface AgentsOperations {
 
   /** Gets a list of previously uploaded files. */
   listFiles: (
-    purpose?: FilePurpose, requestParams?: OptionalRequestParameters
+    purpose?: FilePurpose, options?: ListFilesOptionalParams
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, requestParams?: OptionalRequestParameters
+  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileOptionalParams
   ) => Promise<OpenAIFileOutput>
 
   /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options: UploadFileOptionalParams
+  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
-    requestParams?: OptionalRequestParameters
+    options?: DeleteFileOptionalParams
   ) => Promise<FileDeletionStatusOutput>;
   /** Returns information about a specific file. Does not retrieve file content. */
   getFile: (
     fileId: string,
-    requestParams?: OptionalRequestParameters
+    options?: GetFileOptionalParams
   ) => Promise<OpenAIFileOutput>;
   /** Returns the content of a specific file. */
   getFileContent: (
     fileId: string,
-    requestParams?: OptionalRequestParameters
+    options?: GetFileContentOptionalParams
   ) => StreamableMethod<string | Uint8Array>;
 
   /** Returns a list of vector stores. */
@@ -331,23 +331,16 @@ function getAgents(context: Client): AgentsOperations {
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
       listFiles(context, { ...requestParams, queryParameters: { purpose: purpose } }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) =>
-      uploadFile(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
-        ...(requestParams as { [key: string]: any; }),
-        contentType: "multipart/form-data"
-      }),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
-      uploadFileAndPoll(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
-        contentType: "multipart/form-data"
-      }, options),
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
-      deleteFile(context, fileId, requestParams),
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
-      getFile(context, fileId, requestParams),
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) =>
-      getFileContent(context, fileId, requestParams),
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
+      uploadFile(context, options ?? { body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }] }),
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileWithPollingOptionalParams) =>
+      uploadFileAndPoll(context,  options ?? { body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }] }),
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams ) =>
+      deleteFile(context, fileId, options),
+    getFile: (fileId: string, options?: GetFileOptionalParams) =>
+      getFile(context, fileId, options),
+    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) =>
+      getFileContent(context, fileId, options),
 
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters,) =>
       listVectorStores(context, { ...requestParams, queryParameters: options as Record<string, unknown> }),

@@ -49,7 +49,7 @@ describe("Agents - files", () => {
         controller.close();
       }
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", "fileName",{contentType: "multipart/form-data", body: [{ name: "file", body: fileContent, filename: "fileName" }]});
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", "fileName");
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
