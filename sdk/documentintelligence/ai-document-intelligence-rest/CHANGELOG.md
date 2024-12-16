@@ -90,7 +90,7 @@
 
 ### Other Changes
 
-The following types were renamed
+The following types are renamed
 
 - `CopyAuthorization` to `ModelCopyAuthorization`
 - `ErrorResponseOutput` to `DocumentIntelligenceErrorResponseOutput`

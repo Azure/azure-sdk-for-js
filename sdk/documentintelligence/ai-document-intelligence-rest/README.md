@@ -189,13 +189,11 @@ const resultId = parseResultIdFromResponse(initialResponse);
 console.log("resultId: ", resultId);
 console.log("model id: ", model.modelId);
 
-// (Optional) You can keep polling for the result which might take longer for the batch analysis which would incur costs.
-//            You can avoid this and can directly skip to retriving the result.
+// (Optional) You can poll for the batch analysis result but be aware that a job may take unexpectedly long time, and polling could incur additional costs.
 // const poller = await getLongRunningPoller(client, initialResponse);
 // await poller.pollUntilDone();
 
 // 2. At a later time, you can retrieve the operation result using the resultId
-const resultId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
 const output = await client
   .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-layout", resultId)
   .get();
@@ -318,7 +316,7 @@ console.log(response);
 ```ts
 const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
 
-const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+const base64Source = await fs.readFile(filePath, { encoding: "base64" });
 
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-read")
@@ -334,7 +332,7 @@ if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 
-const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+const poller = await getLongRunningPoller(client, initialResponse);
 
 await poller.pollUntilDone();
 
@@ -346,8 +344,6 @@ const output = await client
   )
   .get();
 
-// A PDF's header is expected to be: %PDF-
-assert.ok(output.body.toString().startsWith("%PDF-"));
 ```
 
 ## Get analyze Figures
