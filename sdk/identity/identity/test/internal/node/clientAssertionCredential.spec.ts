@@ -10,7 +10,7 @@ import { ClientAssertionCredential } from "../../../src/index.js";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { createJWTTokenFromCertificate } from "../../public/node/utils/utils.js";
 import { env } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

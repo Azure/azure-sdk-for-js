@@ -16,13 +16,13 @@ import {
   ContainerRegistryImpl,
   ContainerRegistryBlobImpl,
   AuthenticationImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   ContainerRegistry,
   ContainerRegistryBlob,
   Authentication
-} from "./operationsInterfaces";
-import { ApiVersion20210701, GeneratedClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ApiVersion20210701, GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends coreClient.ServiceClient {

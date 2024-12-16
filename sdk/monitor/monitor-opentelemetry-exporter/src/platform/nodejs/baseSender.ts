@@ -14,6 +14,7 @@ import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
+import { RetriableRestErrorTypes } from "../../Declarations/Constants.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -186,7 +187,7 @@ export abstract class BaseSender {
         this.incrementStatsbeatFailure();
         return { code: ExportResultCode.SUCCESS };
       }
-      if (this.isNetworkError(restError)) {
+      if (this.isRetriableRestError(restError)) {
         if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
@@ -230,7 +231,7 @@ export abstract class BaseSender {
   /**
    * Disable collection of statsbeat metrics after max failures
    */
-  private incrementStatsbeatFailure() {
+  private incrementStatsbeatFailure(): void {
     this.statsbeatFailureCount++;
     if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
       this.shutdownStatsbeat();
@@ -240,7 +241,7 @@ export abstract class BaseSender {
   /**
    * Shutdown statsbeat metrics
    */
-  private shutdownStatsbeat() {
+  private shutdownStatsbeat(): void {
     this.networkStatsbeatMetrics?.shutdown();
     this.longIntervalStatsbeatMetrics?.shutdown();
     this.networkStatsbeatMetrics = undefined;
@@ -259,8 +260,9 @@ export abstract class BaseSender {
     }
   }
 
-  private isNetworkError(error: RestError): boolean {
-    if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
+  private isRetriableRestError(error: RestError): boolean {
+    const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
+    if (error && error.code && restErrorTypes.includes(error.code)) {
       return true;
     }
     return false;

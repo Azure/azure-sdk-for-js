@@ -12,6 +12,11 @@ export enum ServiceApiVersion {
 }
 
 /**
+ * Operation Name attribute name.
+ */
+export const AI_OPERATION_NAME = "ai.operation.name";
+
+/**
  * Default Breeze endpoint.
  * @internal
  */
@@ -57,6 +62,15 @@ export const LEGACY_ENV_DISABLE_STATSBEAT = "APPLICATION_INSIGHTS_NO_STATSBEAT";
  */
 export const ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED =
   "APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED";
+
+/**
+ * REST error types for failed requests that can be retried.
+ * @internal
+ */
+export enum RetriableRestErrorTypes {
+  REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
+  DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+}
 
 /**
  * QuickPulse metric counter names.

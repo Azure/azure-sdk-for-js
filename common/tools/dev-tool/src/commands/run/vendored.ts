@@ -13,14 +13,11 @@ import { makeCommandInfo, subCommand } from "../../framework/command";
 import { CommandOptions } from "../../framework/CommandInfo";
 import { CommandModule } from "../../framework/CommandModule";
 import { createPrinter } from "../../util/printer";
+import { isWindows } from "../../util/platform";
 
 const log = createPrinter("vendored");
 
 const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin");
-
-function isWindows() {
-  return process.platform === "win32";
-}
 
 /**
  * Wraps a command in an executor that satisfies the dev-tool command interface.

@@ -369,4 +369,8 @@ export {
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
   StorageBlobAccessTier,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
+  StorageLifecyclePolicyRunSummary,
+  StorageLifecycleCompletionStatus,
+  KnownStorageLifecycleCompletionStatus,
 } from "./generated/models/index.js";
