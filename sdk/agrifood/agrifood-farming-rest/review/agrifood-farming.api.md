@@ -1614,7 +1614,7 @@ export interface Device {
     deviceDataModelId?: string;
     hardwareId?: string;
     integrationId?: string;
-    location?: Location;
+    location?: Location_2;
     name?: string;
     parentDeviceId?: string;
     properties?: Record<string, any>;
@@ -4469,10 +4469,11 @@ export interface LabDetailsOutput {
 }
 
 // @public
-export interface Location {
+interface Location_2 {
     latitude: number;
     longitude: number;
 }
+export { Location_2 as Location }
 
 // @public
 export interface LocationOutput {
@@ -8575,7 +8576,7 @@ export interface Sensor {
     deviceId?: string;
     hardwareId?: string;
     integrationId?: string;
-    location?: Location;
+    location?: Location_2;
     name?: string;
     port?: Port;
     properties?: Record<string, any>;

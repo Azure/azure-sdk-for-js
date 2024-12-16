@@ -16,11 +16,9 @@
 
 import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCE_GROUP_NAME || "";
@@ -38,7 +36,7 @@ async function main() {
     resource_group,
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // The /discoTemplates path can be called to find a discovery template using a filter.

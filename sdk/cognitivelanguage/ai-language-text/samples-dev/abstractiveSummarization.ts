@@ -9,15 +9,9 @@
  * @azsdk-weight 50
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";

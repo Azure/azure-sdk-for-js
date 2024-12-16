@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Aliases } from "../operationsInterfaces";
+import { Aliases } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SearchServiceClient } from "../searchServiceClient.js";
 import {
   SearchAlias,
   AliasesCreateOptionalParams,
@@ -22,7 +22,7 @@ import {
   AliasesDeleteOptionalParams,
   AliasesGetOptionalParams,
   AliasesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Aliases operations. */
 export class AliasesImpl implements Aliases {

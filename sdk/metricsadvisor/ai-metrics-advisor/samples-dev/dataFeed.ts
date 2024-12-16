@@ -7,18 +7,18 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import "dotenv/config";
+import type {
   MetricsAdvisorDataFeed,
   DataFeedPatch,
   DataFeedDescriptor,
 } from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
+} from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -34,7 +34,7 @@ export async function main() {
   await deleteDataFeed(adminClient, created.id);
 }
 
-async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
+async function listDataFeeds(client: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
   const iter = client.listDataFeeds({
@@ -133,7 +133,10 @@ async function createDataFeed(
   return result;
 }
 
-async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function getDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   console.log("Retrieving datafeed by id...");
   const result = await client.getDataFeed(dataFeedId);
   console.log("datafeed result is as follows - ");
@@ -142,7 +145,10 @@ async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedI
   console.log(`  name: ${result.name}`);
 }
 
-async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function updateDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   const patch: DataFeedPatch = {
     source: {
       dataSourceType: "AzureBlob",
@@ -172,16 +178,15 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
   }
 }
 
-async function deleteDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function deleteDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   console.log(`Deleting datafeed ${dataFeedId}...`);
   await client.deleteDataFeed(dataFeedId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

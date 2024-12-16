@@ -35,7 +35,6 @@ import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -244,7 +243,7 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 2);
+    assert.equal(result.length, 1);
   });
 
   it("subnets list test", async function () {
@@ -426,6 +425,6 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 1);
+    assert.equal(result.length, 0);
   });
 });

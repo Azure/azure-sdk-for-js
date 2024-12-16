@@ -10,7 +10,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
