@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2024-11-04)
+## 1.0.0-beta.3 (2024-12-16)
 
 ### Features Added
 - refresh @azure-rest/purview-sharing
