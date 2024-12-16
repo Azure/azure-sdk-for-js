@@ -44,9 +44,9 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
 
   // Create vector store file batch
-  const vectorStoreFileBatchOptions = { fileIds: [file1.id, file2.id] };
-  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
-  const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatchAndPoll(vectorStore.id, vectorStoreFileBatchOptions, pollingOptions);
+  const vectorStoreFileBatchOptions = { fileIds: [file1.id, file2.id], sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+  const vectorStoreFileBatchPoller = client.agents.createVectorStoreFileBatch(vectorStore.id, vectorStoreFileBatchOptions).poller;
+  const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
   console.log(`Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 
   // Retrieve vector store file batch

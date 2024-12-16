@@ -14,8 +14,8 @@ import type {
   VectorStoreOutput,
 } from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import type { CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
 import {
+  CreateVectorStoreResponse,
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
   type GetVectorStoreOptionalParams,
@@ -31,7 +31,7 @@ import {
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
-import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { convertPollingOptions, convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -55,22 +55,52 @@ export async function listVectorStores(
 }
 
 /** Creates a vector store. */
-export async function createVectorStore(
+export function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): Promise<VectorStoreOutput> {
+): CreateVectorStoreResponse {
   const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
   };
-
+  const pollingOptions = convertPollingOptions(options);
   validateCreateVectorStoreParameters(createOptions);
-  const result = await context.path("/vector_stores").post(createOptions);
 
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+  async function executeCreateVectorStore(): Promise<VectorStoreOutput> {
+    const result = await context.path("/vector_stores").post(createOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return ConvertFromWire.convertVectorStoreOutput(result.body);
   }
-  return ConvertFromWire.convertVectorStoreOutput(result.body);
+
+  async function updateCreateVectorStorePoll(
+    currentResult?: VectorStoreOutput,
+  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
+    let vectorStore: VectorStoreOutput;
+    if (!currentResult) {
+      vectorStore = await executeCreateVectorStore();
+    } else {
+      const getOptions: GetVectorStoreOptionalParams = {
+        ...operationOptionsToRequestParameters(options),
+      };
+      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
+    }
+    return {
+      result: vectorStore,
+      completed: vectorStore.status !== "in_progress",
+    };
+  }
+
+  return {
+    then: function (onFulfilled, onRejected) {
+      return executeCreateVectorStore().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    poller: new AgentsPoller<VectorStoreOutput>({
+      update: updateCreateVectorStorePoll,
+      pollingOptions: pollingOptions,
+    }),
+  };
 }
 
 /** Returns the vector store object matching the specified ID. */
@@ -136,38 +166,6 @@ export async function deleteVectorStore(
     throw createRestError(result);
   }
   return ConvertFromWire.convertVectorStoreDeletionStatusOutput(result.body);
-}
-
-/**
- * Creates a vector store and poll.
- */
-export function createVectorStoreAndPoll(
-  context: Client,
-  options: CreateVectorStoreWithPollingOptionalParams = {},
-): Promise<VectorStoreOutput> {
-  async function updateCreateVectorStorePoll(
-    currentResult?: VectorStoreOutput,
-  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
-    let vectorStore: VectorStoreOutput;
-    if (!currentResult) {
-      vectorStore = await createVectorStore(context, options);
-    } else {
-      const getOptions: GetVectorStoreOptionalParams = {
-        ...operationOptionsToRequestParameters(options),
-      };
-      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
-    }
-    return {
-      result: vectorStore,
-      completed: vectorStore.status !== "in_progress",
-    };
-  }
-
-  const poller = new AgentsPoller<VectorStoreOutput>({
-    update: updateCreateVectorStorePoll,
-    pollingOptions: options.pollingOptions,
-  });
-  return poller.pollUntilDone();
 }
 
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {

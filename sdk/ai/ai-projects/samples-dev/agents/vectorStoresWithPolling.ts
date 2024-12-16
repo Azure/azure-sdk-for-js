@@ -24,9 +24,9 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
 
   // Create a vector store
-  const vectorStoreOptions = { name: "myVectorStore" };
-  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
-  const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions, pollingOptions);
+  const vectorStoreOptions = { name: "myVectorStore", sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+  const vectorStorePoller = client.agents.createVectorStore(vectorStoreOptions).poller;
+  const vectorStore = await vectorStorePoller.pollUntilDone();
   console.log(`Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`);
 
   // Get a specific vector store

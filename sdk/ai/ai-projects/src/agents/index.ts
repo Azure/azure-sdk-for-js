@@ -50,7 +50,6 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import type { FilePurpose } from "../generated/src/models.js";
 import {
   createVectorStore,
-  createVectorStoreAndPoll,
   deleteVectorStore,
   getVectorStore,
   listVectorStores,
@@ -59,7 +58,6 @@ import {
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import {
   createVectorStoreFile,
-  createVectorStoreFileAndPoll,
   deleteVectorStoreFile,
   getVectorStoreFile,
   listVectorStoreFiles,
@@ -67,7 +65,6 @@ import {
 import {
   cancelVectorStoreFileBatch,
   createVectorStoreFileBatch,
-  createVectorStoreFileBatchAndPoll,
   getVectorStoreFileBatch,
   listVectorStoreFileBatchFiles,
 } from "./vectorStoresFileBatches.js";
@@ -96,20 +93,20 @@ import type {
   UpdateVectorStoreOptionalParams,
   DeleteVectorStoreOptionalParams,
   CreateVectorStoreOptionalParams,
-  CreateVectorStoreWithPollingOptionalParams,
   CreateVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
   GetVectorStoreFileOptionalParams,
   DeleteVectorStoreFileOptionalParams,
-  CreateVectorStoreFileWithPollingOptionalParams,
   CreateVectorStoreFileBatchOptionalParams,
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
-  CreateVectorStoreFileBatchWithPollingOptionalParams,
   CreateAgentOptionalParams,
   ListAgentsOptionalParams,
   GetAgentOptionalParams,
   UpdateAgentOptionalParams,
+  CreateVectorStoreResponse,
+  CreateVectorStoreFileResponse,
+  CreateVectorStoreFileBatchResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 
@@ -247,7 +244,7 @@ export interface AgentsOperations {
     options?: DeleteVectorStoreOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
-  createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+  createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,
@@ -264,16 +261,11 @@ export interface AgentsOperations {
     options?: DeleteVectorStoreOptionalParams,
   ) => Promise<VectorStoreDeletionStatusOutput>;
 
-  /** Create vector store and poll. */
-  createVectorStoreAndPoll: (
-    options?: CreateVectorStoreWithPollingOptionalParams,
-  ) => Promise<VectorStoreOutput>;
-
   /** Create a vector store file by attching a file to a vector store. */
   createVectorStoreFile: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileOptionalParams,
-  ) => Promise<VectorStoreFileOutput>;
+  ) => CreateVectorStoreFileResponse;
   /** Retrieves a vector store file. */
   getVectorStoreFile: (
     vectorStoreId: string,
@@ -294,17 +286,12 @@ export interface AgentsOperations {
     fileId: string,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreFileDeletionStatusOutput>;
-  /** Create a vector store file by attaching a file to a vector store and poll. */
-  createVectorStoreFileAndPoll: (
-    vectorStoreId: string,
-    options?: CreateVectorStoreFileWithPollingOptionalParams,
-  ) => Promise<VectorStoreFileOutput>;
 
   /** Create a vector store file batch. */
   createVectorStoreFileBatch: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileBatchOptionalParams,
-  ) => Promise<VectorStoreFileBatchOutput>;
+  ) => CreateVectorStoreFileBatchResponse;
   /** Retrieve a vector store file batch. */
   getVectorStoreFileBatch: (
     vectorStoreId: string,
@@ -323,11 +310,6 @@ export interface AgentsOperations {
     batchId: string,
     options?: ListVectorStoreFileBatchFilesOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-  /** Create a vector store file batch and poll. */
-  createVectorStoreFileBatchAndPoll: (
-    vectorStoreId: string,
-    options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
-  ) => Promise<VectorStoreFileBatchOutput>;
 
   /** Gets a single run step from a thread run. */
   getRunStep: (
@@ -446,9 +428,6 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, options),
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) =>
       deleteVectorStore(context, vectorStoreId, options),
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) =>
-      createVectorStoreAndPoll(context, options),
-
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) =>
       createVectorStoreFile(context, vectorStoreId, options),
     getVectorStoreFile: (
@@ -463,10 +442,6 @@ function getAgents(context: Client): AgentsOperations {
       fileId: string,
       options?: DeleteVectorStoreFileOptionalParams,
     ) => deleteVectorStoreFile(context, vectorStoreId, fileId, options),
-    createVectorStoreFileAndPoll: (
-      vectorStoreId: string,
-      options?: CreateVectorStoreFileWithPollingOptionalParams,
-    ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
 
     createVectorStoreFileBatch: (
       vectorStoreId: string,
@@ -487,10 +462,6 @@ function getAgents(context: Client): AgentsOperations {
       batchId: string,
       options?: ListVectorStoreFileBatchFilesOptionalParams,
     ) => listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
-    createVectorStoreFileBatchAndPoll: (
-      vectorStoreId: string,
-      options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
-    ) => createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),
 
     getRunStep: (
       threadId: string,

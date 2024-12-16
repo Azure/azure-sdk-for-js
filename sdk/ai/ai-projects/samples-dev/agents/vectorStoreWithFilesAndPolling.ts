@@ -36,9 +36,9 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
 
   // Create vector store file
-  const vectorStoreFileOptions = { fileId: file.id };
-  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
-  const vectorStoreFile = await client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, pollingOptions);
+  const vectorStoreFileOptions = { fileId: file.id, sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, vectorStoreFileOptions).poller;
+  const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
   console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
 
   // Delete file

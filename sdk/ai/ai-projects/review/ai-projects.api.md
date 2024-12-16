@@ -8,6 +8,8 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Paged } from '@azure/core-paging';
+import { Poller } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
@@ -112,12 +114,9 @@ export interface AgentsOperations {
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => Promise<VectorStoreOutput>;
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => CreateVectorStoreFileResponse;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => CreateVectorStoreFileBatchResponse;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput_2>;
@@ -372,7 +371,7 @@ export interface CreateRunOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions {
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, PollingOptions, OperationOptions {
 }
 
 // @public
@@ -383,13 +382,12 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
-}
+export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatchOutput> & {
+    poller: Poller<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+};
 
 // @public
-export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, PollingOptions, OperationOptions {
 }
 
 // @public
@@ -400,20 +398,18 @@ export interface CreateVectorStoreFileOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
+export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> & {
+    poller: Poller<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+};
+
+// @public
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptions, OperationOptions {
 }
 
 // @public
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
-}
-
-// @public
-export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
-}
+export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
+    poller: Poller<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+};
 
 // @public
 export interface CredentialsApiKeyAuthOutput {

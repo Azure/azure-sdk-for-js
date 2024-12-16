@@ -3,7 +3,7 @@
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { ThreadRunOutput } from "../customization/outputModels.js";
+import type { ThreadRunOutput, VectorStoreFileBatchOutput, VectorStoreFileOutput, VectorStoreOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,
@@ -21,6 +21,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
+import { Poller, PollOperationState } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -183,15 +184,17 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptions, OperationOptions {}
 
 /**
- * Optional parameters for creating vector store with polling.
+ * Response for creating vector store.
  */
-export interface CreateVectorStoreWithPollingOptionalParams
-  extends CreateVectorStoreOptionalParams {
-  pollingOptions?: PollingOptions;
-}
+export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
+  /**
+   * Poller to poll the vector store creation operation.
+   */
+  poller: Poller<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+};
 
 /**
  * Optional parameters for listing vector stores.
@@ -225,7 +228,18 @@ export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters,
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
+    PollingOptions,
     OperationOptions {}
+
+/**
+ * Response for creating a vector store file.
+ */
+export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> & {
+  /**
+   * Poller to poll the vector store file creation operation.
+   */
+  poller: Poller<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+};
 
 /**
  * Optional parameters for getting a vector store file.
@@ -236,15 +250,6 @@ export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
  * Optional parameters for deleting a vector store file.
  */
 export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
-
-/**
- * Optional parameters for creating a vector store file with polling.
- */
-export interface CreateVectorStoreFileWithPollingOptionalParams
-  extends CreateVectorStoreFileOptions,
-    OperationOptions {
-  pollingOptions?: PollingOptions;
-}
 
 /**
  * Optional parameters for listing vector store file batches.
@@ -271,15 +276,18 @@ export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptio
  */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
+    PollingOptions,
     OperationOptions {}
 
 /**
- * Optional parameters for creating a vector store file batch with polling.
+ * Response for creating a vector store file batch.
  */
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams
-  extends CreateVectorStoreFileBatchOptionalParams {
-  pollingOptions?: PollingOptions;
-}
+export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatchOutput> & {
+  /**
+   * Poller to poll the vector store file batch creation operation.
+   */
+  poller: Poller<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+};
 
 /**
  * Optional parameters for creating agent.
