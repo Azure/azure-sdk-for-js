@@ -118,7 +118,8 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
+    // Warning: (ae-forgotten-export) The symbol "AgentOutput_2" needs to be exported by the entry point index.d.ts
+    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput_2>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
@@ -129,12 +130,13 @@ export interface AgentsOperations {
     createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
+    // Warning: (ae-forgotten-export) The symbol "AgentDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
+    deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput_2>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
-    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
+    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput_2>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     // Warning: (ae-forgotten-export) The symbol "ThreadRunOutput_2" needs to be exported by the entry point index.d.ts
@@ -144,7 +146,8 @@ export interface AgentsOperations {
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
-    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
+    // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfAgentOutput_2" needs to be exported by the entry point index.d.ts
+    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput_2>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
@@ -154,7 +157,7 @@ export interface AgentsOperations {
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => AgentRunResponse;
-    updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
+    updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput_2>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput_2>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
@@ -301,6 +304,11 @@ export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AISer
 // @public
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
+// Warning: (ae-forgotten-export) The symbol "CreateAgentOptions_2" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type CreateAgentOptionalParams = Omit<CreateAgentOptions_2, "model"> & OperationOptions;
+
 // @public
 export interface CreateAgentOptions {
     description?: string | null;
@@ -405,6 +413,9 @@ export interface DatasetOutput extends InputDataOutputParent {
     // (undocumented)
     readonly type: "dataset";
 }
+
+// @public (undocumented)
+export type DeleteAgentOptionalParams = OperationOptions;
 
 // @public
 export enum DoneEvent {
@@ -599,6 +610,9 @@ export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent
     type: "function";
 }
 
+// @public (undocumented)
+export type GetAgentOptionalParams = OperationOptions;
+
 // @public
 export interface GetAppInsightsResponseOutput {
     id: string;
@@ -685,6 +699,9 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
 export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
+
+// @public (undocumented)
+export type ListAgentsOptionalParams = ListQueryParameters & OperationOptions;
 
 // @public (undocumented)
 export interface ListConnectionsQueryParamProperties {
@@ -1723,6 +1740,11 @@ export type TruncationStrategy = string;
 
 // @public
 export type TruncationStrategyOutput = string;
+
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentOptions_2" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type UpdateAgentOptionalParams = UpdateAgentOptions_2 & OperationOptions;
 
 // @public
 export interface UpdateAgentOptions {

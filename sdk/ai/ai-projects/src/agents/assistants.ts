@@ -5,7 +5,7 @@ import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { convertCreateAgentOptions, convertUpdateAgentOptions } from "../customization/convertModelsToWrite.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
-import type { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
+import type { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../customization/outputModels.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import type { CreateAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
 import { TracingUtility } from "../tracing.js";
