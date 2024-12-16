@@ -11,6 +11,7 @@ import chaiExclude from "chai-exclude";
 // Plugins added here will be available to all client libraries to import from
 // @azure/test-utils
 chai.use(chaiAzure);
+chai.use(chaiExclude);
 chai.use(chaiAsPromised);
 const { assert, expect, should } = chai;
 
