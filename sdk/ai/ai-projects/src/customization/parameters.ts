@@ -195,22 +195,22 @@ export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
   body:
-  | FormData
-  | Array<
-    | {
-      name: "file";
-      body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-      filename?: string;
-      contentType?: string;
-    }
-    | {
-      name: "purpose";
-      body: FilePurpose;
-      filename?: string;
-      contentType?: string;
-    }
-    | { name: "filename"; body: string }
-  >;
+    | FormData
+    | Array<
+        | {
+            name: "file";
+            body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+            filename?: string;
+            contentType?: string;
+          }
+        | {
+            name: "purpose";
+            body: FilePurpose;
+            filename?: string;
+            contentType?: string;
+          }
+        | { name: "filename"; body: string }
+      >;
 }
 
 export interface UploadFileMediaTypesParam {

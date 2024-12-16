@@ -19,7 +19,7 @@ interface AgentsPollOperationState<T extends PollResult> extends PollOperationSt
 }
 
 interface AgentsPollOperation<T extends PollResult>
-  extends PollOperation<AgentsPollOperationState<T>, T> { }
+  extends PollOperation<AgentsPollOperationState<T>, T> {}
 
 export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperationState<T>, T> {
   sleepIntervalInMs: number = 1000;

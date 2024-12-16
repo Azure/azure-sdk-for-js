@@ -3,9 +3,7 @@
 
 import type { Client } from "@azure-rest/core-client";
 import type { ConnectionsOperations } from "../connections/index.js";
-import type {
-  TelemetryOptions
-} from "./telemetry.js";
+import type { TelemetryOptions } from "./telemetry.js";
 import {
   getConnectionString,
   getTelemetryOptions,

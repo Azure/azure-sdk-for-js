@@ -11,7 +11,7 @@ import type { TelemetryOperations } from "./telemetry/index.js";
 import { getTelemetryOperations } from "./telemetry/index.js";
 import type { Client } from "@azure-rest/core-client";
 
-export interface AIProjectsClientOptions extends ProjectsClientOptions { }
+export interface AIProjectsClientOptions extends ProjectsClientOptions {}
 
 export class AIProjectsClient {
   private _client: Client;
