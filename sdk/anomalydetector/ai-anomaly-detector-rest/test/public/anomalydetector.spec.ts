@@ -3,15 +3,14 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   AnomalyDetectorRestClient,
   TrainMultivariateModelParameters,
   DetectMultivariateBatchAnomalyParameters,
-} from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
@@ -68,8 +67,8 @@ describe("AnomalyDetectorClient", () => {
     { timestamp: "2018-04-15T00:00:00.000Z", value: 26149060 },
     { timestamp: "2018-04-16T00:00:00.000Z", value: 35250105 },
   ];
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 

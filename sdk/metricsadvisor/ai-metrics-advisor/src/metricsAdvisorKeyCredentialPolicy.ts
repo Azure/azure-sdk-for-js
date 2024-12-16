@@ -89,6 +89,7 @@ export class MetricsAdvisorKeyCredential {
  * using an `MetricsAdvisorKeyCredential`
  */
 export function createMetricsAdvisorKeyCredentialPolicy(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   credential: MetricsAdvisorKeyCredential,
 ): PipelinePolicy {
   return {

@@ -53,7 +53,7 @@ export interface MsalResult {
  */
 export interface AuthenticationRecord {
   /**
-   * The associated authority, if used.
+   * Entity which issued the token represented by the domain of the issuer (e.g. login.microsoftonline.com)
    */
   authority: string;
   /**

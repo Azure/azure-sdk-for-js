@@ -2,19 +2,22 @@
 // Licensed under the MIT License.
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
-import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
-import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
-import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
-import type { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
-import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
-import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
-import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
-import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
-import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
-import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
-import type { ErrorCode, TextAnalyticsError } from "./textAnalyticsResult";
-import { intoTextAnalyticsError } from "./textAnalyticsResult";
+import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import type {
+  AnalyzeJobState as GeneratedResponse,
+  TextDocumentInput,
+} from "./generated/models/index.js";
+import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import type { ErrorCode, TextAnalyticsError } from "./textAnalyticsResult.js";
+import { intoTextAnalyticsError } from "./textAnalyticsResult.js";
 
 /**
  * The results of an analyze Actions operation.

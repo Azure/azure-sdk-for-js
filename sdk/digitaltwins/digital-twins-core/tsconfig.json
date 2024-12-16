@@ -1,16 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "strict": true,
-    "sourceMap": true,
-    "lib": ["es6", "dom"],
-    "declaration": true,
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": {
-      "@azure/digital-twins-core": ["./src/index"]
-    },
-    "resolveJsonModule": true
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

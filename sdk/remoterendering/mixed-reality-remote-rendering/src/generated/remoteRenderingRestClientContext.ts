@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { RemoteRenderingRestClientOptionalParams } from "./models";
+import { RemoteRenderingRestClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class RemoteRenderingRestClientContext extends coreClient.ServiceClient {

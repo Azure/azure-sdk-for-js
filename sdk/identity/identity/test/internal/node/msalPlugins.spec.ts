@@ -10,7 +10,7 @@ import {
 } from "../../../src/msal/nodeFlows/msalPlugins.js";
 
 import type { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("#generatePluginConfiguration", function () {
   let options: MsalClientOptions;

@@ -8,8 +8,8 @@ import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/i
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors.js";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
-import { IdentityClient } from "../../../../src/client/identityClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
+import type { IdentityClient } from "../../../../src/client/identityClient.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<

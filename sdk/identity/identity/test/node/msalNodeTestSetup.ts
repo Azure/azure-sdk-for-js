@@ -4,7 +4,7 @@
 import type { AuthenticationResult } from "@azure/msal-node";
 import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
 import { PlaybackTenantId } from "../msalTestUtils.js";
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
 import { vi } from "vitest";
 
 export type MsalTestCleanup = () => Promise<void>;

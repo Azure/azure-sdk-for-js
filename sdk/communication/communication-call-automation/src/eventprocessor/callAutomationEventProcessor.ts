@@ -130,7 +130,7 @@ export class CallAutomationEventProcessor {
     eventTypeKind: CallAutomationEvent["kind"],
     eventProcessor: (event: CallAutomationEvent) => Promise<void>,
   ): Promise<void> {
-    const eventAwaiter = (event: CallAutomationEvent) => {
+    const eventAwaiter = (event: CallAutomationEvent): void => {
       if (event.callConnectionId === callConnectionId && event.kind === eventTypeKind) {
         eventProcessor(event);
       }
