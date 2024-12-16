@@ -34,7 +34,7 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
-  const vectorStore = await client.agents.createVectorStoreAndPoll({file_ids: [fileSearchFile.id]});
+  const vectorStore = await client.agents.createVectorStoreAndPoll({fileIds: [fileSearchFile.id]});
 
   // Create tool set
   const toolSet = new ToolSet();
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: toolSet.toolDefinitions,
-    tool_resources: toolSet.toolResources
+    toolResources: toolSet.toolResources
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 

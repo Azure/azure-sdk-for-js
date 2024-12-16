@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
-    tool_resources: codeInterpreterTool.resources,
+    toolResources: codeInterpreterTool.resources,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
   }
   if (run.status === "failed") {
     // Check if you got "Rate limit is exceeded.", then you want to get more quota
-    console.log(`Run failed: ${run.last_error}`);
+    console.log(`Run failed: ${run.lastError}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 
@@ -83,11 +83,11 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
+  const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
   console.log(`Image file ID : ${imageFile}`);
-  const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile.file_id)).filename + "ImageFile.png");
+  const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png");
 
-  const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
+  const fileContent = await (await client.agents.getFileContent(imageFile.fileId).asNodeStream()).body;
   if (fileContent) {
       const chunks: Buffer[] = [];
       for await (const chunk of fileContent) {
@@ -110,8 +110,8 @@ export async function main(): Promise<void> {
       console.log(`Text: ${textContent.text.value}`);
     } 
     console.log(`File ID: ${m.id}`);
-    console.log(`Start Index: ${messages.first_id}`);
-    console.log(`End Index: ${messages.last_id}`);
+    console.log(`Start Index: ${messages.firstId}`);
+    console.log(`End Index: ${messages.lastId}`);
   });
 
   // Delete the agent once done
