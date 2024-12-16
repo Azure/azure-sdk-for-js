@@ -7,14 +7,10 @@
  * @summary use the prebuilt "read" model to extract information about the text content of a document
  */
 
-import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -37,8 +33,7 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
-    .analyzeResult;
+  const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
 
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
   // document, such as page text elements and information about the language of the text.

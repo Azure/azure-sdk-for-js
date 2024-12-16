@@ -11,7 +11,6 @@
  * https://aka.ms/azsdk/documentitelligence/iddocumentfieldschema
  *
  * @summary extract data from an identity document
- * @azsdk-skip-javascript
  */
 
 import DocumentIntelligence, {

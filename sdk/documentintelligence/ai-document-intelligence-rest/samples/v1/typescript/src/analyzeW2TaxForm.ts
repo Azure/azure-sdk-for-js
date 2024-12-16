@@ -10,7 +10,6 @@
  * https://aka.ms/azsdk/documentitelligence/taxusw2fieldschema
  *
  * @summary extract data from a United States W2 tax document
- * @azsdk-skip-javascript
  */
 
 import DocumentIntelligence, {
