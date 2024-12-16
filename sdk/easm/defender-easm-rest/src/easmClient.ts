@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2023-03-01-preview", ...options }: EasmClientOptions = {},
 ): EasmClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-defender-easm-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-defender-easm-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
