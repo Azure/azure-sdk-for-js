@@ -15,7 +15,7 @@ Key links:
 - [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md)
 - [Migration Guide from Form Recognizer](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md)
 
-> This version of the client library defaults to the `"2024-07-31-preview"` version of the service.
+> This version of the client library defaults to the `"2024-11-30"` version of the service.
 
 This table shows the relationship between SDK versions and supported API versions of the service:
 
@@ -161,11 +161,7 @@ console.log(result);
 ## Batch analysis
 
 ```ts
-import {
-  parseResultIdFromResponse,
-  AnalyzeResultOperationOutput,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+import { parseResultIdFromResponse, isUnexpected } from "@azure-rest/ai-document-intelligence";
 
 // 1. Analyze a batch of documents
 const initialResponse = await client
@@ -180,14 +176,12 @@ const initialResponse = await client
       resultPrefix: "result",
     },
   });
-console.log("initialResponse: ", initialResponse);
 
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 const resultId = parseResultIdFromResponse(initialResponse);
 console.log("resultId: ", resultId);
-console.log("model id: ", model.modelId);
 
 // (Optional) You can poll for the batch analysis result but be aware that a job may take unexpectedly long time, and polling could incur additional costs.
 // const poller = await getLongRunningPoller(client, initialResponse);
@@ -311,7 +305,7 @@ console.log(response);
 //  }
 ```
 
-## Get analyze PDF
+## Get the generated PDF output from document analysis
 
 ```ts
 const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
@@ -342,11 +336,19 @@ const output = await client
     "prebuilt-read",
     parseResultIdFromResponse(initialResponse)
   )
-  .get();
+  .get()
+  .asNodeStream(); // output.body would be NodeJS.ReadableStream
 
+if (output.status !== "200" || !output.body) {
+  throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
+}
+
+const pdfData = await streamToUint8Array(output.body);
+fs.promises.writeFile(`./output.pdf`, pdfData);
+// Or you can consume the NodeJS.ReadableStream directly
 ```
 
-## Get analyze Figures
+## Get the generated cropped image of specified figure from document analysis
 
 ```ts
 const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
@@ -383,10 +385,16 @@ const output = await client
     parseResultIdFromResponse(initialResponse),
     figureId
   )
-  .get();
+  .get()
+  .asNodeStream(); // output.body would be NodeJS.ReadableStream
 
-// Header starts with a special character followed by "PNG"
-assert.equal(output.body.toString().slice(1, 4), "PNG");
+if (output.status !== "200" || !output.body) {
+  throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
+}
+
+const imageData = await streamToUint8Array(output.body);
+fs.promises.writeFile(`./figures/${figureId}.png`, imageData);
+// Or you can consume the NodeJS.ReadableStream directly
 ```
 
 ## Get Info

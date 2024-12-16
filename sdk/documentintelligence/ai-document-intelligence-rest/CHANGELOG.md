@@ -14,6 +14,8 @@
     key: "<DOCUMENT_INTELLIGENCE_API_KEY>",
   });
 
+  // Do analysis on you document and get the resultId, figureId
+
   // Example for the figures api that provides an image output
   const output = await client
     .path(
