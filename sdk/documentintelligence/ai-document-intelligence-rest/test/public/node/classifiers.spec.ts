@@ -79,7 +79,7 @@ describe.skip("classifiers", () => {
       }
       const poller = getLongRunningPoller(client, initialResponse);
       const response = (
-        (await (await poller).pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
+        (await poller.pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
       ).result;
       if (!response) {
         throw new Error("Expected a DocumentClassifierDetailsOutput response.");
@@ -119,7 +119,7 @@ describe.skip("classifiers", () => {
     }
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-    const analyzeResult = ((await (await poller).pollUntilDone()).body as AnalyzeOperationOutput)
+    const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
       .analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
@@ -152,7 +152,7 @@ describe.skip("classifiers", () => {
     }
 
     const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-    const analyzeResult = ((await (await poller).pollUntilDone()).body as AnalyzeOperationOutput)
+    const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
       .analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);

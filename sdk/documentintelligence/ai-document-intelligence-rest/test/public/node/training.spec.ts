@@ -77,7 +77,7 @@ describe("model management", () => {
           }
           const poller = getLongRunningPoller(client, initialResponse);
           const response = (
-            (await (await poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
+            (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
           ).result;
           if (!response) {
             throw new Error("Expected a DocumentModelDetailsOutput response.");
@@ -137,9 +137,8 @@ describe("model management", () => {
           const poller = getLongRunningPoller(client, initialResponse, {
             intervalInMs: testPollingOptions.updateIntervalInMs,
           });
-          const analyzeResult = (
-            (await (await poller).pollUntilDone()).body as AnalyzeOperationOutput
-          ).analyzeResult;
+          const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+            .analyzeResult;
 
           const documents = analyzeResult?.documents;
           const tables = analyzeResult?.tables;
@@ -246,7 +245,7 @@ describe("model management", () => {
       }
       const poller = getLongRunningPoller(client, initialResponse);
       const { modelId, docTypes } = (
-        (await (await poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
+        (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
       ).result!;
 
       assert.equal(modelId, testModelId);
@@ -276,7 +275,7 @@ describe("model management", () => {
     const poller = getLongRunningPoller(client, initialResponse);
 
     const composedModel = (
-      (await (await poller).pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
+      (await poller.pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
     ).result!;
     assert.ok(composedModel.modelId);
     assert.equal(composedModel.modelId, modelId);
@@ -315,8 +314,7 @@ describe("model management", () => {
     }
     const trainingPoller = getLongRunningPoller(client, initialResponse);
     const sourceModel = (
-      (await (await trainingPoller).pollUntilDone())
-        .body as DocumentModelBuildOperationDetailsOutput
+      (await trainingPoller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
     ).result!;
 
     assert.equal(sourceModel.modelId, modelId);
@@ -342,7 +340,7 @@ describe("model management", () => {
     }
     const copyPoller = getLongRunningPoller(client, copyInitResponse);
     const copyResult = (
-      (await (await copyPoller).pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
+      (await copyPoller.pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
     ).result!;
 
     assert.ok(copyResult, "Expecting valid copy result");

@@ -89,7 +89,7 @@ describe("DocumentIntelligenceClient", () => {
     }
     const poller = getLongRunningPoller(client, initialResponse);
     const response = <DocumentClassifierBuildOperationDetailsOutput>(
-      (await (await poller).pollUntilDone()).body
+      (await poller.pollUntilDone()).body
     );
     assert.strictEqual(
       response.result?.classifierId,
