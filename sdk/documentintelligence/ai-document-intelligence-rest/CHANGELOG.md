@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Exports method `streamToUint8Array` to support converting a `NodeJS.ReadableStream` to a `Uint8Array`. This is necessary to read the pdf and png responses from the results of an analysis.
+- Adds `streamToUint8Array`, a convenience function that buffers a `NodeJS.ReadableStream` in a `Uint8Array`. It can be used to read the pdf and png responses from the results of an analysis.
 
   ```js
   // Example for the figures api that provides an image output
