@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { RsaEncryptionAlgorithm } from "@azure/keyvault-keys";
 import { randomBytes } from "node:crypto";
 import { CryptographyTest } from "./cryptography.spec.js";
-import { describe, it, assert } from "vitest";
 
 export class UnwrapKeyTest extends CryptographyTest {
   encryptedKey?: Uint8Array;

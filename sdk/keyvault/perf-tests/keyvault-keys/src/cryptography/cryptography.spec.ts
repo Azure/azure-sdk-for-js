@@ -1,8 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "node:crypto";
 import { credential, keyVaultUri } from "../utils.js";
-import { describe, it, assert } from "vitest";
 
 interface CryptographyPerfTestOptions {
   keySize: number;
@@ -21,7 +23,7 @@ export abstract class CryptographyTest extends PerfTest<CryptographyPerfTestOpti
 
   keyClient: KeyClient;
   static cryptoClient?: CryptographyClient;
-  static keyName = `k-${uuid()}`;
+  static keyName = `k-${randomUUID()}`;
 
   constructor() {
     super();
