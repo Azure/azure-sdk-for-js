@@ -12,6 +12,7 @@ import { traceEndCreateThread, traceStartCreateThread } from "./threadsTrace.js"
 import { validateMessages, validateMetadata, validateThreadId, validateToolResources } from "./inputValidations.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
 import type { CreateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams } from "./customModels.js";
+import { convertThreadDeletionStatusOutput } from "../customization/convertOutputModelsFromWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -29,13 +30,15 @@ export async function createThread(
   };
 
   validateCreateThreadParameters(createThreadOptions);
-  return TracingUtility.withSpan("CreateThread", createThreadOptions, async (updatedOptions) => {
+  const response = await TracingUtility.withSpan("CreateThread", createThreadOptions, async (updatedOptions) => {
     const result = await context.path("/threads").post(updatedOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return ConverterFromWire.convertAgentThreadOutput(result.body);
+    return result.body;
   }, traceStartCreateThread, traceEndCreateThread);
+
+  return ConverterFromWire.convertAgentThreadOutput(response);
 }
 
 /** Gets information about an existing thread. */
@@ -50,7 +53,7 @@ export async function getThread(
   };
 
   validateThreadId(threadId);
-  return TracingUtility.withSpan("GetThread", getThreadOptions, async (updatedOptions) => {
+  const response = await TracingUtility.withSpan("GetThread", getThreadOptions, async (updatedOptions) => {
     const result = await context
       .path("/threads/{threadId}", threadId)
       .get(updatedOptions);
@@ -59,6 +62,8 @@ export async function getThread(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId } }));
+
+  return ConverterFromWire.convertAgentThreadOutput(response);
 }
 
 /** Modifies an existing thread. */
@@ -76,7 +81,7 @@ export async function updateThread(
   };
 
   validateUpdateThreadParameters(threadId, updateThreadOptions);
-  return TracingUtility.withSpan("UpdateThread", updateThreadOptions, async (updatedOptions) => {
+  const response = await TracingUtility.withSpan("UpdateThread", updateThreadOptions, async (updatedOptions) => {
     const result = await context
       .path("/threads/{threadId}", threadId)
       .post(updatedOptions);
@@ -85,6 +90,8 @@ export async function updateThread(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId } }));
+
+  return ConverterFromWire.convertAgentThreadOutput(response);
 }
 
 /** Deletes an existing thread. */
@@ -99,7 +106,7 @@ export async function deleteThread(
   };
 
   validateThreadId(threadId);
-  return TracingUtility.withSpan("DeleteThread", deleteThreadOptions, async (updatedOptions) => {
+  const response = await TracingUtility.withSpan("DeleteThread", deleteThreadOptions, async (updatedOptions) => {
     const result = await context
       .path("/threads/{threadId}", threadId)
       .delete(updatedOptions);
@@ -108,6 +115,8 @@ export async function deleteThread(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId } }));
+
+  return convertThreadDeletionStatusOutput(response);
 }
 
 

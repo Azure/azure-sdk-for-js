@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentThreadOutput } from "../customization/outputModels.js";
+import type { AgentThreadOutput } from "../generated/src/outputModels.js";
 import type { Span } from "../tracing.js";
 import { TracingUtility, TracingOperationName } from "../tracing.js";
 import type { CreateThreadParameters } from "../generated/src/parameters.js";

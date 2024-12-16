@@ -37,18 +37,24 @@ export function createRun(
   };
   validateThreadId(threadId);
   validateCreateRunParameters(createRunOptions);
+
+  async function executeCreateRun(): Promise<CustomOutputModels.ThreadRunOutput> {
+    const output = await TracingUtility.withSpan("CreateRun", createRunOptions, async (updateOptions) => {
+      const result = await context
+        .path("/threads/{threadId}/runs", threadId)
+        .post(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        const error = createRestError(result);
+        throw error;
+      }
+      return result.body;
+    }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun);
+    return convertThreadRunOutput(output);
+  }
+
   return {
     then: function (onFulfilled, onRejected) {
-      return TracingUtility.withSpan("CreateRun", createRunOptions, async (updateOptions) => {
-        const result = await context
-          .path("/threads/{threadId}/runs", threadId)
-          .post(updateOptions);
-        if (!expectedStatuses.includes(result.status)) {
-          const error = createRestError(result);
-          throw error;
-        }
-        return convertThreadRunOutput(result.body);
-      }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateOrUpdateRun)
+      return executeCreateRun()
         .then(onFulfilled, onRejected)
         .catch(onRejected);
     },
@@ -122,15 +128,17 @@ export async function updateRun(
   }
 
   validateUpdateRunParameters(threadId, runId, updateRunOptions);
-  return TracingUtility.withSpan("UpdateRun", updateRunOptions, async (updateOptions) => {
+  const response = await TracingUtility.withSpan("UpdateRun", updateRunOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/runs/{runId}", threadId, runId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return convertThreadRunOutput(result.body);
+    return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, runId: runId } }), traceEndCreateOrUpdateRun);
+
+  return convertThreadRunOutput(response);
 }
 
 /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
@@ -150,17 +158,23 @@ export function submitToolOutputsToRun(
       stream: false
     }
   };
+
+  async function executeSubmitToolOutputsToRun(): Promise<CustomOutputModels.ThreadRunOutput> {
+    const response = await TracingUtility.withSpan("SubmitToolOutputsToRun", submitToolOutputsOptions, async (updateOptions) => {
+      const result = await context
+        .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+        .post(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createRestError(result);
+      }
+      return result.body;
+    }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun)
+    return convertThreadRunOutput(response)
+  }
+
   return {
     then: function (onFulfilled, onrejected) {
-      return TracingUtility.withSpan("SubmitToolOutputsToRun", submitToolOutputsOptions, async (updateOptions) => {
-        const result = await context
-          .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-          .post(updateOptions);
-        if (!expectedStatuses.includes(result.status)) {
-          throw createRestError(result);
-        }
-        return convertThreadRunOutput(result.body);
-      }, (span, updatedOptions) => traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId), traceEndSubmitToolOutputsToRun)
+      return executeSubmitToolOutputsToRun()
         .then(onFulfilled, onrejected)
         .catch(onrejected);
     },
@@ -210,16 +224,22 @@ export function createThreadAndRun(
 
   validateCreateThreadAndRunParameters(createThreadAndRunOptions);
 
+  async function executeCreateThreadAndRun(): Promise<CustomOutputModels.ThreadRunOutput> {
+    const response = await TracingUtility.withSpan("CreateThreadAndRun", createThreadAndRunOptions, async (updateOptions) => {
+      const result = await context.path("/threads/runs").post(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createRestError(result);
+      }
+
+      return result.body;
+    }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun)
+
+    return convertThreadRunOutput(response);
+  }
+
   return {
     then: function (onFulfilled, onrejected) {
-      return TracingUtility.withSpan("CreateThreadAndRun", createThreadAndRunOptions, async (updateOptions) => {
-        const result = await context.path("/threads/runs").post(updateOptions);
-        if (!expectedStatuses.includes(result.status)) {
-          throw createRestError(result);
-        }
-
-        return convertThreadRunOutput(result.body);
-      }, traceStartCreateThreadAndRun, traceEndCreateOrUpdateRun)
+      return executeCreateThreadAndRun()
         .then(onFulfilled, onrejected)
         .catch(onrejected);
     },

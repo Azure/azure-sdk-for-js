@@ -33,15 +33,16 @@ export async function createMessage(
 
   validateThreadId(threadId);
   validateCreateMessageParameters(createOptions);
-  return TracingUtility.withSpan("CreateMessage", createOptions, async (updateOptions) => {
+  const response = await TracingUtility.withSpan("CreateMessage", createOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/messages", threadId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return ConvertFromWire.convertThreadMessageOutput(result.body);
+    return result.body;
   }, (span, updatedOptions) => traceStartCreateMessage(span, threadId, updatedOptions), traceEndCreateMessage);
+  return ConvertFromWire.convertThreadMessageOutput(response)
 }
 
 /** Gets a list of messages that exist on a thread. */
@@ -93,15 +94,17 @@ export async function updateMessage(
   };
   validateThreadId(threadId);
   validateMessageId(messageId);
-  return TracingUtility.withSpan("UpdateMessage", updateMessageOptions, async (updateOptions) => {
+  const response = await TracingUtility.withSpan("UpdateMessage", updateMessageOptions, async (updateOptions) => {
     const result = await context
       .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
     }
-    return ConvertFromWire.convertThreadMessageOutput(result.body);
+    return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, messageId: messageId } }));
+
+  return ConvertFromWire.convertThreadMessageOutput(response);
 }
 
 function validateThreadId(threadId: string): void {

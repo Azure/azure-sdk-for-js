@@ -9,12 +9,13 @@ import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileA
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions } from "../generated/src/models.js";
+import type { CreateAgentOptions, FilePurpose, ToolOutput, UpdateAgentOptions } from "../generated/src/models.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
 import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, CreateAgentThreadOptionalParams, GetAgentThreadOptionalParams, UpdateAgentThreadOptionalParams, DeleteAgentThreadOptionalParams, GetRunStepOptionalParams, ListRunStepsOptionalParams, CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams, GetVectorStoreOptionalParams, ListVectorStoresOptionalParams, UpdateVectorStoreOptionalParams, DeleteVectorStoreOptionalParams, CreateVectorStoreOptionalParams, CreateVectorStoreWithPollingOptionalParams, CreateVectorStoreFileOptionalParams, ListVectorStoreFilesOptionalParams, GetVectorStoreFileOptionalParams, DeleteVectorStoreFileOptionalParams, CreateVectorStoreFileWithPollingOptionalParams, CreateVectorStoreFileBatchOptionalParams, GetVectorStoreFileBatchOptionalParams, ListVectorStoreFileBatchFilesOptionalParams, CreateVectorStoreFileBatchWithPollingOptionalParams } from "./customModels.js";
+import type { ThreadMessageOptions } from "../customization/models.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */

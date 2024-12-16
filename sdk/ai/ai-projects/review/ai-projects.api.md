@@ -126,8 +126,7 @@ export interface AgentsOperations {
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreFileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput_2>;
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
@@ -144,8 +143,7 @@ export interface AgentsOperations {
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfVectorStoreOutput_2" needs to be exported by the entry point index.d.ts
-    listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput_2>;
+    listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
@@ -161,8 +159,7 @@ export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepS
 
 // @public
 export interface AgentThreadCreationOptions {
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOptions_2" needs to be exported by the entry point index.d.ts
-    messages?: Array<ThreadMessageOptions_2>;
+    messages?: Array<ThreadMessageOptions>;
     metadata?: Record<string, string> | null;
     // Warning: (ae-forgotten-export) The symbol "ToolResources_2" needs to be exported by the entry point index.d.ts
     toolResources?: ToolResources_2 | null;
@@ -1181,11 +1178,10 @@ export interface OpenAIPageableListOfVectorStoreFileOutput {
 
 // @public
 export interface OpenAIPageableListOfVectorStoreOutput {
-    // Warning: (ae-forgotten-export) The symbol "VectorStoreOutput_2" needs to be exported by the entry point index.d.ts
-    data: Array<VectorStoreOutput_2>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    data: Array<VectorStoreOutput>;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
@@ -1650,10 +1646,11 @@ export interface ThreadMessage {
 
 // @public
 export interface ThreadMessageOptions {
-    attachments?: Array<MessageAttachment> | null;
+    // Warning: (ae-forgotten-export) The symbol "MessageAttachment_2" needs to be exported by the entry point index.d.ts
+    attachments?: Array<MessageAttachment_2> | null;
     content: string;
     metadata?: Record<string, string> | null;
-    role: MessageRole;
+    role: MessageRole_2;
 }
 
 // @public
