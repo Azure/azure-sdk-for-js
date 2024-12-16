@@ -8,14 +8,6 @@ import type {
   UpdateAssetsDefaultResponse,
   GetAssetResource200Response,
   GetAssetResourceDefaultResponse,
-  GetAssetsExport200Response,
-  GetAssetsExportDefaultResponse,
-  GetObservations200Response,
-  GetObservationsDefaultResponse,
-  GetDeltaDetails200Response,
-  GetDeltaDetailsDefaultResponse,
-  GetDeltaSummary200Response,
-  GetDeltaSummaryDefaultResponse,
   ListDataConnection200Response,
   ListDataConnectionDefaultResponse,
   ValidateDataConnection200Response,
@@ -34,16 +26,10 @@ import type {
   GetDiscoGroupDefaultResponse,
   CreateOrReplaceDiscoGroup200Response,
   CreateOrReplaceDiscoGroupDefaultResponse,
-  DeleteDiscoGroup204Response,
-  DeleteDiscoGroupDefaultResponse,
   RunDiscoGroup204Response,
   RunDiscoGroupDefaultResponse,
   ListRuns200Response,
   ListRunsDefaultResponse,
-  GetAssetChainSummary200Response,
-  GetAssetChainSummaryDefaultResponse,
-  DismissAssetChain200Response,
-  DismissAssetChainDefaultResponse,
   ListDiscoTemplate200Response,
   ListDiscoTemplateDefaultResponse,
   GetDiscoTemplate200Response,
@@ -54,8 +40,6 @@ import type {
   GetSnapshotDefaultResponse,
   GetSummary200Response,
   GetSummaryDefaultResponse,
-  GetSnapshotExport200Response,
-  GetSnapshotExportDefaultResponse,
   ListSavedFilter200Response,
   ListSavedFilterDefaultResponse,
   GetSavedFilter200Response,
@@ -70,24 +54,12 @@ import type {
   GetTaskDefaultResponse,
   CancelTask200Response,
   CancelTaskDefaultResponse,
-  RunTask200Response,
-  RunTaskDefaultResponse,
-  DownloadTask200Response,
-  DownloadTaskDefaultResponse,
-  GetCisaCves200Response,
-  GetCisaCvesDefaultResponse,
-  GetCisaCve200Response,
-  GetCisaCveDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /assets": ["200"],
   "POST /assets": ["200"],
   "GET /assets/{assetId}": ["200"],
-  "POST /assets:export": ["200"],
-  "POST /assets/{assetId}:getObservations": ["200"],
-  "POST /assets:getDeltaDetails": ["200"],
-  "POST /assets:getDeltaSummary": ["200"],
   "GET /dataConnections": ["200"],
   "POST /dataConnections:validate": ["200"],
   "GET /dataConnections/{dataConnectionName}": ["200"],
@@ -97,17 +69,13 @@ const responseMap: Record<string, string[]> = {
   "POST /discoGroups:validate": ["200"],
   "GET /discoGroups/{groupName}": ["200"],
   "PUT /discoGroups/{groupName}": ["200"],
-  "DELETE /discoGroups/{groupName}": ["204"],
   "POST /discoGroups/{groupName}:run": ["204"],
   "GET /discoGroups/{groupName}/runs": ["200"],
-  "POST /discoGroups:getAssetChainSummary": ["200"],
-  "POST /discoGroups:dismissAssetChain": ["200"],
   "GET /discoTemplates": ["200"],
   "GET /discoTemplates/{templateId}": ["200"],
   "POST /reports/assets:getBillable": ["200"],
   "POST /reports/assets:getSnapshot": ["200"],
   "POST /reports/assets:getSummary": ["200"],
-  "POST /reports/assets:getSnapshotExport": ["200"],
   "GET /savedFilters": ["200"],
   "GET /savedFilters/{filterName}": ["200"],
   "PUT /savedFilters/{filterName}": ["200"],
@@ -115,10 +83,6 @@ const responseMap: Record<string, string[]> = {
   "GET /tasks": ["200"],
   "GET /tasks/{taskId}": ["200"],
   "POST /tasks/{taskId}:cancel": ["200"],
-  "POST /tasks/{taskId}:run": ["200"],
-  "POST /tasks/{taskId}:download": ["200"],
-  "GET /cisaCves": ["200"],
-  "GET /cisaCves/{cveId}": ["200"],
 };
 
 export function isUnexpected(
@@ -130,18 +94,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetAssetResource200Response | GetAssetResourceDefaultResponse,
 ): response is GetAssetResourceDefaultResponse;
-export function isUnexpected(
-  response: GetAssetsExport200Response | GetAssetsExportDefaultResponse,
-): response is GetAssetsExportDefaultResponse;
-export function isUnexpected(
-  response: GetObservations200Response | GetObservationsDefaultResponse,
-): response is GetObservationsDefaultResponse;
-export function isUnexpected(
-  response: GetDeltaDetails200Response | GetDeltaDetailsDefaultResponse,
-): response is GetDeltaDetailsDefaultResponse;
-export function isUnexpected(
-  response: GetDeltaSummary200Response | GetDeltaSummaryDefaultResponse,
-): response is GetDeltaSummaryDefaultResponse;
 export function isUnexpected(
   response: ListDataConnection200Response | ListDataConnectionDefaultResponse,
 ): response is ListDataConnectionDefaultResponse;
@@ -170,20 +122,11 @@ export function isUnexpected(
   response: CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse,
 ): response is CreateOrReplaceDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: DeleteDiscoGroup204Response | DeleteDiscoGroupDefaultResponse,
-): response is DeleteDiscoGroupDefaultResponse;
-export function isUnexpected(
   response: RunDiscoGroup204Response | RunDiscoGroupDefaultResponse,
 ): response is RunDiscoGroupDefaultResponse;
 export function isUnexpected(
   response: ListRuns200Response | ListRunsDefaultResponse,
 ): response is ListRunsDefaultResponse;
-export function isUnexpected(
-  response: GetAssetChainSummary200Response | GetAssetChainSummaryDefaultResponse,
-): response is GetAssetChainSummaryDefaultResponse;
-export function isUnexpected(
-  response: DismissAssetChain200Response | DismissAssetChainDefaultResponse,
-): response is DismissAssetChainDefaultResponse;
 export function isUnexpected(
   response: ListDiscoTemplate200Response | ListDiscoTemplateDefaultResponse,
 ): response is ListDiscoTemplateDefaultResponse;
@@ -199,9 +142,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetSummary200Response | GetSummaryDefaultResponse,
 ): response is GetSummaryDefaultResponse;
-export function isUnexpected(
-  response: GetSnapshotExport200Response | GetSnapshotExportDefaultResponse,
-): response is GetSnapshotExportDefaultResponse;
 export function isUnexpected(
   response: ListSavedFilter200Response | ListSavedFilterDefaultResponse,
 ): response is ListSavedFilterDefaultResponse;
@@ -224,18 +164,6 @@ export function isUnexpected(
   response: CancelTask200Response | CancelTaskDefaultResponse,
 ): response is CancelTaskDefaultResponse;
 export function isUnexpected(
-  response: RunTask200Response | RunTaskDefaultResponse,
-): response is RunTaskDefaultResponse;
-export function isUnexpected(
-  response: DownloadTask200Response | DownloadTaskDefaultResponse,
-): response is DownloadTaskDefaultResponse;
-export function isUnexpected(
-  response: GetCisaCves200Response | GetCisaCvesDefaultResponse,
-): response is GetCisaCvesDefaultResponse;
-export function isUnexpected(
-  response: GetCisaCve200Response | GetCisaCveDefaultResponse,
-): response is GetCisaCveDefaultResponse;
-export function isUnexpected(
   response:
     | ListAssetResource200Response
     | ListAssetResourceDefaultResponse
@@ -243,14 +171,6 @@ export function isUnexpected(
     | UpdateAssetsDefaultResponse
     | GetAssetResource200Response
     | GetAssetResourceDefaultResponse
-    | GetAssetsExport200Response
-    | GetAssetsExportDefaultResponse
-    | GetObservations200Response
-    | GetObservationsDefaultResponse
-    | GetDeltaDetails200Response
-    | GetDeltaDetailsDefaultResponse
-    | GetDeltaSummary200Response
-    | GetDeltaSummaryDefaultResponse
     | ListDataConnection200Response
     | ListDataConnectionDefaultResponse
     | ValidateDataConnection200Response
@@ -269,16 +189,10 @@ export function isUnexpected(
     | GetDiscoGroupDefaultResponse
     | CreateOrReplaceDiscoGroup200Response
     | CreateOrReplaceDiscoGroupDefaultResponse
-    | DeleteDiscoGroup204Response
-    | DeleteDiscoGroupDefaultResponse
     | RunDiscoGroup204Response
     | RunDiscoGroupDefaultResponse
     | ListRuns200Response
     | ListRunsDefaultResponse
-    | GetAssetChainSummary200Response
-    | GetAssetChainSummaryDefaultResponse
-    | DismissAssetChain200Response
-    | DismissAssetChainDefaultResponse
     | ListDiscoTemplate200Response
     | ListDiscoTemplateDefaultResponse
     | GetDiscoTemplate200Response
@@ -289,8 +203,6 @@ export function isUnexpected(
     | GetSnapshotDefaultResponse
     | GetSummary200Response
     | GetSummaryDefaultResponse
-    | GetSnapshotExport200Response
-    | GetSnapshotExportDefaultResponse
     | ListSavedFilter200Response
     | ListSavedFilterDefaultResponse
     | GetSavedFilter200Response
@@ -304,23 +216,11 @@ export function isUnexpected(
     | GetTask200Response
     | GetTaskDefaultResponse
     | CancelTask200Response
-    | CancelTaskDefaultResponse
-    | RunTask200Response
-    | RunTaskDefaultResponse
-    | DownloadTask200Response
-    | DownloadTaskDefaultResponse
-    | GetCisaCves200Response
-    | GetCisaCvesDefaultResponse
-    | GetCisaCve200Response
-    | GetCisaCveDefaultResponse,
+    | CancelTaskDefaultResponse,
 ): response is
   | ListAssetResourceDefaultResponse
   | UpdateAssetsDefaultResponse
   | GetAssetResourceDefaultResponse
-  | GetAssetsExportDefaultResponse
-  | GetObservationsDefaultResponse
-  | GetDeltaDetailsDefaultResponse
-  | GetDeltaSummaryDefaultResponse
   | ListDataConnectionDefaultResponse
   | ValidateDataConnectionDefaultResponse
   | GetDataConnectionDefaultResponse
@@ -330,28 +230,20 @@ export function isUnexpected(
   | ValidateDiscoGroupDefaultResponse
   | GetDiscoGroupDefaultResponse
   | CreateOrReplaceDiscoGroupDefaultResponse
-  | DeleteDiscoGroupDefaultResponse
   | RunDiscoGroupDefaultResponse
   | ListRunsDefaultResponse
-  | GetAssetChainSummaryDefaultResponse
-  | DismissAssetChainDefaultResponse
   | ListDiscoTemplateDefaultResponse
   | GetDiscoTemplateDefaultResponse
   | GetBillableDefaultResponse
   | GetSnapshotDefaultResponse
   | GetSummaryDefaultResponse
-  | GetSnapshotExportDefaultResponse
   | ListSavedFilterDefaultResponse
   | GetSavedFilterDefaultResponse
   | CreateOrReplaceSavedFilterDefaultResponse
   | DeleteSavedFilterDefaultResponse
   | ListTaskDefaultResponse
   | GetTaskDefaultResponse
-  | CancelTaskDefaultResponse
-  | RunTaskDefaultResponse
-  | DownloadTaskDefaultResponse
-  | GetCisaCvesDefaultResponse
-  | GetCisaCveDefaultResponse {
+  | CancelTaskDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

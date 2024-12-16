@@ -5,10 +5,6 @@ import type {
   ListAssetResourceParameters,
   UpdateAssetsParameters,
   GetAssetResourceParameters,
-  GetAssetsExportParameters,
-  GetObservationsParameters,
-  GetDeltaDetailsParameters,
-  GetDeltaSummaryParameters,
   ListDataConnectionParameters,
   ValidateDataConnectionParameters,
   GetDataConnectionParameters,
@@ -18,17 +14,13 @@ import type {
   ValidateDiscoGroupParameters,
   GetDiscoGroupParameters,
   CreateOrReplaceDiscoGroupParameters,
-  DeleteDiscoGroupParameters,
   RunDiscoGroupParameters,
   ListRunsParameters,
-  GetAssetChainSummaryParameters,
-  DismissAssetChainParameters,
   ListDiscoTemplateParameters,
   GetDiscoTemplateParameters,
   GetBillableParameters,
   GetSnapshotParameters,
   GetSummaryParameters,
-  GetSnapshotExportParameters,
   ListSavedFilterParameters,
   GetSavedFilterParameters,
   CreateOrReplaceSavedFilterParameters,
@@ -36,10 +28,6 @@ import type {
   ListTaskParameters,
   GetTaskParameters,
   CancelTaskParameters,
-  RunTaskParameters,
-  DownloadTaskParameters,
-  GetCisaCvesParameters,
-  GetCisaCveParameters,
 } from "./parameters.js";
 import type {
   ListAssetResource200Response,
@@ -48,14 +36,6 @@ import type {
   UpdateAssetsDefaultResponse,
   GetAssetResource200Response,
   GetAssetResourceDefaultResponse,
-  GetAssetsExport200Response,
-  GetAssetsExportDefaultResponse,
-  GetObservations200Response,
-  GetObservationsDefaultResponse,
-  GetDeltaDetails200Response,
-  GetDeltaDetailsDefaultResponse,
-  GetDeltaSummary200Response,
-  GetDeltaSummaryDefaultResponse,
   ListDataConnection200Response,
   ListDataConnectionDefaultResponse,
   ValidateDataConnection200Response,
@@ -74,16 +54,10 @@ import type {
   GetDiscoGroupDefaultResponse,
   CreateOrReplaceDiscoGroup200Response,
   CreateOrReplaceDiscoGroupDefaultResponse,
-  DeleteDiscoGroup204Response,
-  DeleteDiscoGroupDefaultResponse,
   RunDiscoGroup204Response,
   RunDiscoGroupDefaultResponse,
   ListRuns200Response,
   ListRunsDefaultResponse,
-  GetAssetChainSummary200Response,
-  GetAssetChainSummaryDefaultResponse,
-  DismissAssetChain200Response,
-  DismissAssetChainDefaultResponse,
   ListDiscoTemplate200Response,
   ListDiscoTemplateDefaultResponse,
   GetDiscoTemplate200Response,
@@ -94,8 +68,6 @@ import type {
   GetSnapshotDefaultResponse,
   GetSummary200Response,
   GetSummaryDefaultResponse,
-  GetSnapshotExport200Response,
-  GetSnapshotExportDefaultResponse,
   ListSavedFilter200Response,
   ListSavedFilterDefaultResponse,
   GetSavedFilter200Response,
@@ -110,14 +82,6 @@ import type {
   GetTaskDefaultResponse,
   CancelTask200Response,
   CancelTaskDefaultResponse,
-  RunTask200Response,
-  RunTaskDefaultResponse,
-  DownloadTask200Response,
-  DownloadTaskDefaultResponse,
-  GetCisaCves200Response,
-  GetCisaCvesDefaultResponse,
-  GetCisaCve200Response,
-  GetCisaCveDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -137,34 +101,6 @@ export interface GetAssetResource {
   get(
     options?: GetAssetResourceParameters,
   ): StreamableMethod<GetAssetResource200Response | GetAssetResourceDefaultResponse>;
-}
-
-export interface GetAssetsExport {
-  /** Export a list of assets for the provided search parameters. */
-  post(
-    options: GetAssetsExportParameters,
-  ): StreamableMethod<GetAssetsExport200Response | GetAssetsExportDefaultResponse>;
-}
-
-export interface GetObservations {
-  /** Retrieve observations on an asset */
-  post(
-    options?: GetObservationsParameters,
-  ): StreamableMethod<GetObservations200Response | GetObservationsDefaultResponse>;
-}
-
-export interface GetDeltaDetails {
-  /** Retrieve a list of deltas for the provided time range. */
-  post(
-    options: GetDeltaDetailsParameters,
-  ): StreamableMethod<GetDeltaDetails200Response | GetDeltaDetailsDefaultResponse>;
-}
-
-export interface GetDeltaSummary {
-  /** Retrieve a list of deltas with overall summary changes for the provided time range. */
-  post(
-    options: GetDeltaSummaryParameters,
-  ): StreamableMethod<GetDeltaSummary200Response | GetDeltaSummaryDefaultResponse>;
 }
 
 export interface ListDataConnection {
@@ -223,10 +159,6 @@ export interface GetDiscoGroup {
   ): StreamableMethod<
     CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse
   >;
-  /** Delete a discovery group with a given discovery group name. */
-  delete(
-    options?: DeleteDiscoGroupParameters,
-  ): StreamableMethod<DeleteDiscoGroup204Response | DeleteDiscoGroupDefaultResponse>;
 }
 
 export interface RunDiscoGroup {
@@ -241,20 +173,6 @@ export interface ListRuns {
   get(
     options?: ListRunsParameters,
   ): StreamableMethod<ListRuns200Response | ListRunsDefaultResponse>;
-}
-
-export interface GetAssetChainSummary {
-  /** Retrieve an asset chain summary. */
-  post(
-    options: GetAssetChainSummaryParameters,
-  ): StreamableMethod<GetAssetChainSummary200Response | GetAssetChainSummaryDefaultResponse>;
-}
-
-export interface DismissAssetChain {
-  /** Dismiss discovery chain for a given asset chain source */
-  post(
-    options: DismissAssetChainParameters,
-  ): StreamableMethod<DismissAssetChain200Response | DismissAssetChainDefaultResponse>;
 }
 
 export interface ListDiscoTemplate {
@@ -290,13 +208,6 @@ export interface GetSummary {
   post(
     options: GetSummaryParameters,
   ): StreamableMethod<GetSummary200Response | GetSummaryDefaultResponse>;
-}
-
-export interface GetSnapshotExport {
-  /** Get the most recent snapshot of asset summary values for the snapshot request exported to a file. */
-  post(
-    options: GetSnapshotExportParameters,
-  ): StreamableMethod<GetSnapshotExport200Response | GetSnapshotExportDefaultResponse>;
 }
 
 export interface ListSavedFilter {
@@ -342,45 +253,11 @@ export interface CancelTask {
   ): StreamableMethod<CancelTask200Response | CancelTaskDefaultResponse>;
 }
 
-export interface RunTask {
-  /** Run a task by taskId. */
-  post(options?: RunTaskParameters): StreamableMethod<RunTask200Response | RunTaskDefaultResponse>;
-}
-
-export interface DownloadTask {
-  /** Download a task. */
-  post(
-    options?: DownloadTaskParameters,
-  ): StreamableMethod<DownloadTask200Response | DownloadTaskDefaultResponse>;
-}
-
-export interface GetCisaCves {
-  /** Retrieve a list of CisaCves for the provided search parameters. */
-  get(
-    options?: GetCisaCvesParameters,
-  ): StreamableMethod<GetCisaCves200Response | GetCisaCvesDefaultResponse>;
-}
-
-export interface GetCisaCve {
-  /** Retrieve details of CisaCve by cveId */
-  get(
-    options?: GetCisaCveParameters,
-  ): StreamableMethod<GetCisaCve200Response | GetCisaCveDefaultResponse>;
-}
-
 export interface Routes {
   /** Resource for '/assets' has methods for the following verbs: get, post */
   (path: "/assets"): ListAssetResource;
   /** Resource for '/assets/\{assetId\}' has methods for the following verbs: get */
   (path: "/assets/{assetId}", assetId: string): GetAssetResource;
-  /** Resource for '/assets:export' has methods for the following verbs: post */
-  (path: "/assets:export"): GetAssetsExport;
-  /** Resource for '/assets/\{assetId\}:getObservations' has methods for the following verbs: post */
-  (path: "/assets/{assetId}:getObservations", assetId: string): GetObservations;
-  /** Resource for '/assets:getDeltaDetails' has methods for the following verbs: post */
-  (path: "/assets:getDeltaDetails"): GetDeltaDetails;
-  /** Resource for '/assets:getDeltaSummary' has methods for the following verbs: post */
-  (path: "/assets:getDeltaSummary"): GetDeltaSummary;
   /** Resource for '/dataConnections' has methods for the following verbs: get */
   (path: "/dataConnections"): ListDataConnection;
   /** Resource for '/dataConnections:validate' has methods for the following verbs: post */
@@ -391,16 +268,12 @@ export interface Routes {
   (path: "/discoGroups"): ListDiscoGroup;
   /** Resource for '/discoGroups:validate' has methods for the following verbs: post */
   (path: "/discoGroups:validate"): ValidateDiscoGroup;
-  /** Resource for '/discoGroups/\{groupName\}' has methods for the following verbs: get, put, delete */
+  /** Resource for '/discoGroups/\{groupName\}' has methods for the following verbs: get, put */
   (path: "/discoGroups/{groupName}", groupName: string): GetDiscoGroup;
   /** Resource for '/discoGroups/\{groupName\}:run' has methods for the following verbs: post */
   (path: "/discoGroups/{groupName}:run", groupName: string): RunDiscoGroup;
   /** Resource for '/discoGroups/\{groupName\}/runs' has methods for the following verbs: get */
   (path: "/discoGroups/{groupName}/runs", groupName: string): ListRuns;
-  /** Resource for '/discoGroups:getAssetChainSummary' has methods for the following verbs: post */
-  (path: "/discoGroups:getAssetChainSummary"): GetAssetChainSummary;
-  /** Resource for '/discoGroups:dismissAssetChain' has methods for the following verbs: post */
-  (path: "/discoGroups:dismissAssetChain"): DismissAssetChain;
   /** Resource for '/discoTemplates' has methods for the following verbs: get */
   (path: "/discoTemplates"): ListDiscoTemplate;
   /** Resource for '/discoTemplates/\{templateId\}' has methods for the following verbs: get */
@@ -411,8 +284,6 @@ export interface Routes {
   (path: "/reports/assets:getSnapshot"): GetSnapshot;
   /** Resource for '/reports/assets:getSummary' has methods for the following verbs: post */
   (path: "/reports/assets:getSummary"): GetSummary;
-  /** Resource for '/reports/assets:getSnapshotExport' has methods for the following verbs: post */
-  (path: "/reports/assets:getSnapshotExport"): GetSnapshotExport;
   /** Resource for '/savedFilters' has methods for the following verbs: get */
   (path: "/savedFilters"): ListSavedFilter;
   /** Resource for '/savedFilters/\{filterName\}' has methods for the following verbs: get, put, delete */
@@ -423,14 +294,6 @@ export interface Routes {
   (path: "/tasks/{taskId}", taskId: string): GetTask;
   /** Resource for '/tasks/\{taskId\}:cancel' has methods for the following verbs: post */
   (path: "/tasks/{taskId}:cancel", taskId: string): CancelTask;
-  /** Resource for '/tasks/\{taskId\}:run' has methods for the following verbs: post */
-  (path: "/tasks/{taskId}:run", taskId: string): RunTask;
-  /** Resource for '/tasks/\{taskId\}:download' has methods for the following verbs: post */
-  (path: "/tasks/{taskId}:download", taskId: string): DownloadTask;
-  /** Resource for '/cisaCves' has methods for the following verbs: get */
-  (path: "/cisaCves"): GetCisaCves;
-  /** Resource for '/cisaCves/\{cveId\}' has methods for the following verbs: get */
-  (path: "/cisaCves/{cveId}", cveId: string): GetCisaCve;
 }
 
 export type EasmClient = Client & {

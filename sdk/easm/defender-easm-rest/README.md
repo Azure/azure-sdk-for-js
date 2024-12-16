@@ -7,8 +7,8 @@ Defender EASM discovers and maps your digital attack surface to provide an "outs
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/defender-easm-rest)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/defender-easm-rest?view=azure-node-preview)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/defender-easm)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/defender-easm?view=azure-node-preview)
 
 ## Getting started
 
@@ -20,12 +20,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/defender-easm-rest` package
+### Install the `@azure-rest/defender-easm` package
 
 Install the Azure Easm REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/defender-easm-rest
+npm install @azure-rest/defender-easm
 ```
 
 ### Create and authenticate a `EasmClient`

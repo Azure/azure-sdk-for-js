@@ -21,42 +21,21 @@ export interface AssetUpdateData {
   transfers?: AssetUpdateTransfers;
 }
 
-/** A request body used to export an asset. */
-export interface AssetsExportRequest {
-  /** The name of the file to export. */
-  fileName: string;
-  /** The columns to export. */
-  columns: string[];
+export interface LogAnalyticsDataConnectionData extends DataConnectionDataParent {
+  /** The kind of DataConnectionData */
+  kind: "logAnalytics";
+  /** properties */
+  properties: LogAnalyticsDataConnectionProperties;
 }
 
-/** A request body used to retrieve a list of deltas. */
-export interface DeltaDetailsRequest {
-  /**
-   * The type of delta detail to retrieve.
-   *
-   * Possible values: "added", "removed"
-   */
-  deltaDetailType: DeltaDetailType;
-  /** The number of days prior to retrieve deltas for. */
-  priorDays?: number;
-  /**
-   * The type of asset
-   *
-   * Possible values: "page", "resource", "mailServer", "nameServer", "host", "domain", "ipAddress", "ipBlock", "as", "contact", "sslCert"
-   */
-  kind: GlobalAssetType;
-  /** expected format to be: yyyy-MM-dd */
-  date?: string;
+export interface AzureDataExplorerDataConnectionData extends DataConnectionDataParent {
+  /** The kind of DataConnectionData */
+  kind: "azureDataExplorer";
+  /** properties */
+  properties: AzureDataExplorerDataConnectionProperties;
 }
 
-/** A request body used to retrieve a delta summary. */
-export interface DeltaSummaryRequest {
-  /** The number of days prior to retrieve deltas for. */
-  priorDays?: number;
-  /** expected format to be: yyyy-MM-dd */
-  date?: string;
-}
-
+/** LogAnalyticsDataConnectionProperties */
 export interface LogAnalyticsDataConnectionProperties extends DataConnectionProperties {
   /** log analytics api key */
   apiKey?: string;
@@ -64,9 +43,10 @@ export interface LogAnalyticsDataConnectionProperties extends DataConnectionProp
   workspaceId?: string;
 }
 
-/** The properties required to establish connection to a particular service */
+/** DataConnectionProperties */
 export interface DataConnectionProperties {}
 
+/** AzureDataExplorerDataConnectionProperties */
 export interface AzureDataExplorerDataConnectionProperties extends DataConnectionProperties {
   /** The azure data explorer cluster name */
   clusterName?: string;
@@ -94,20 +74,6 @@ export interface DataConnectionDataParent {
   /** The day to update the data connection on. (1-7 for weekly, 1-31 for monthly) */
   frequencyOffset?: number;
   kind: string;
-}
-
-export interface LogAnalyticsDataConnectionData extends DataConnectionDataParent {
-  /** The kind of DataConnectionData */
-  kind: "logAnalytics";
-  /** properties */
-  properties: LogAnalyticsDataConnectionProperties;
-}
-
-export interface AzureDataExplorerDataConnectionData extends DataConnectionDataParent {
-  /** The kind of DataConnectionData */
-  kind: "azureDataExplorer";
-  /** properties */
-  properties: AzureDataExplorerDataConnectionProperties;
 }
 
 /** Source entity used to drive discovery. */
@@ -142,18 +108,6 @@ export interface DiscoGroupData {
   templateId?: string;
 }
 
-/** AssetChainRequest containing information needed for the retrieval of the asset chain summary. */
-export interface AssetChainRequest {
-  /**
-   * Asset chain source.
-   *
-   * Possible values: "DISCO_GROUP", "ASSET"
-   */
-  assetChainSource: AssetChainSource;
-  /** A collection of asset chain source ids. */
-  sourceIds: string[];
-}
-
 /** A request body used to retrieve an asset report snapshot. */
 export interface ReportAssetSnapshotRequest {
   /** The metric to retrieve a snapshot for. */
@@ -182,16 +136,6 @@ export interface ReportAssetSummaryRequest {
   labelName?: string;
 }
 
-/** A request body used for an asset report snapshot export. */
-export interface ReportAssetSnapshotExportRequest {
-  /** The metric to retrieve a snapshot for. */
-  metric?: string;
-  /** The filename of the exported file. */
-  fileName?: string;
-  /** The columns to include in the export */
-  columns?: string[];
-}
-
 /** A request body used to create a saved filter. */
 export interface SavedFilterData {
   /** An expression on the resource type that selects the resources to be returned. */
@@ -204,21 +148,13 @@ export type DataConnectionData =
   | DataConnectionDataParent
   | LogAnalyticsDataConnectionData
   | AzureDataExplorerDataConnectionData;
-/** Alias for AssetResponseType */
-export type AssetResponseType = string;
 /** Alias for AssetUpdateState */
 export type AssetUpdateState = string;
 /** Alias for AssetUpdateTransfers */
 export type AssetUpdateTransfers = string;
-/** Alias for DeltaDetailType */
-export type DeltaDetailType = string;
-/** Alias for GlobalAssetType */
-export type GlobalAssetType = string;
 /** Alias for DataConnectionContent */
 export type DataConnectionContent = string;
 /** Alias for DataConnectionFrequency */
 export type DataConnectionFrequency = string;
 /** Alias for DiscoSourceKind */
 export type DiscoSourceKind = string;
-/** Alias for AssetChainSource */
-export type AssetChainSource = string;

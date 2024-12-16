@@ -22,7 +22,7 @@ export interface EasmClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-03-01-preview", ...options }: EasmClientOptions = {},
+  { apiVersion = "2023-03-01-preview", ...options }: EasmClientOptions = {},
 ): EasmClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-defender-easm-rest/1.0.0-beta.1`;

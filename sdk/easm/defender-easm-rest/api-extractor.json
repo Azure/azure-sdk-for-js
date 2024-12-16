@@ -6,7 +6,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/defender-easm-rest.d.ts"
+    "publicTrimmedFilePath": "./types/defender-easm.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": { "default": { "logLevel": "none" } },
