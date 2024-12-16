@@ -1,4 +1,4 @@
-import { SecretTest } from "./secretTest";
+import { SecretTest } from "./secretTest.js";
 import { v4 as uuid } from "uuid";
 
 export class GetSecretTest extends SecretTest {

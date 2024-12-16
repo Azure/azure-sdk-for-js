@@ -1,5 +1,5 @@
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { SecretTest } from "./secretTest";
+import { SecretTest } from "./secretTest.js";
 import { v4 as uuid } from "uuid";
 
 interface ListSecretPerfTestOptions {
