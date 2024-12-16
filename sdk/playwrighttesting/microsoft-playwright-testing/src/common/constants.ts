@@ -38,6 +38,10 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
 };
 
+export const oneTimeEnviromentVariable = {
+  WARNING_MPT_PAT_CLOSE_TO_EXPIRY: "false",
+};
+
 export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 30000,
   DEFAULT_SLOW_MO: 0,
