@@ -1,5 +1,6 @@
 import { SecretTest } from "./secretTest.js";
 import { v4 as uuid } from "uuid";
+import { describe, it, assert } from "vitest";
 
 export class GetSecretTest extends SecretTest {
   static secretName = `s-${uuid()}`;
