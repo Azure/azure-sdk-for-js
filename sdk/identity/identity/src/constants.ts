@@ -54,6 +54,12 @@ export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 
 /**
  * @internal
+ * The default environment host for Azure Public Cloud
+ */
+export const DefaultAuthority = "login.microsoftonline.com";
+
+/**
+ * @internal
  * Allow acquiring tokens for any tenant for multi-tentant auth.
  */
 export const ALL_TENANTS: string[] = ["*"];

@@ -29,8 +29,6 @@ async function listRouterWorkers(): Promise<void> {
         console.log("Listing router worker with id: " + policy.worker.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

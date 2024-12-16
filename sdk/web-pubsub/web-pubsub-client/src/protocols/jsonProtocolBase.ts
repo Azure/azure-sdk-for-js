@@ -9,9 +9,8 @@ import type {
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
-} from "../models/messages";
-import type { JSONTypes } from "../webPubSubClient";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+} from "../models/messages.js";
+import type { JSONTypes } from "../webPubSubClient.js";
 import { Buffer } from "buffer";
 
 export function parseMessages(input: string): WebPubSubMessage | null {

@@ -12,12 +12,12 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { DocumentsImpl } from "./operations";
-import { Documents } from "./operationsInterfaces";
+import { DocumentsImpl } from "./operations/index.js";
+import { Documents } from "./operationsInterfaces/index.js";
 import {
   ApiVersion20241101Preview,
   SearchClientOptionalParams,
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
