@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Creates a key-value.
+ * This sample demonstrates how to Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  *
- * @summary Creates a key-value.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresCreateKeyValue.json
+ * @summary Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateKeyValue.json
  */
 async function keyValuesCreateOrUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function keyValuesCreateOrUpdate() {
     resourceGroupName,
     configStoreName,
     keyValueName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,10 +32,11 @@ import {
   RacksCreateOrUpdateOptionalParams,
   RacksCreateOrUpdateResponse,
   RacksDeleteOptionalParams,
+  RacksDeleteResponse,
   RacksUpdateOptionalParams,
   RacksUpdateResponse,
   RacksListBySubscriptionNextResponse,
-  RacksListByResourceGroupNextResponse
+  RacksListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +57,7 @@ export class RacksImpl implements Racks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RacksListBySubscriptionOptionalParams
+    options?: RacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Rack> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +72,13 @@ export class RacksImpl implements Racks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RacksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Rack[]> {
     let result: RacksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class RacksImpl implements Racks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RacksListBySubscriptionOptionalParams
+    options?: RacksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Rack> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -112,7 +113,7 @@ export class RacksImpl implements Racks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: RacksListByResourceGroupOptionalParams
+    options?: RacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Rack> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +130,16 @@ export class RacksImpl implements Racks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RacksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Rack[]> {
     let result: RacksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +154,7 @@ export class RacksImpl implements Racks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +165,11 @@ export class RacksImpl implements Racks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RacksListByResourceGroupOptionalParams
+    options?: RacksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Rack> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -179,11 +180,11 @@ export class RacksImpl implements Racks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RacksListBySubscriptionOptionalParams
+    options?: RacksListBySubscriptionOptionalParams,
   ): Promise<RacksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class RacksImpl implements Racks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: RacksListByResourceGroupOptionalParams
+    options?: RacksListByResourceGroupOptionalParams,
   ): Promise<RacksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -211,11 +212,11 @@ export class RacksImpl implements Racks {
   get(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksGetOptionalParams
+    options?: RacksGetOptionalParams,
   ): Promise<RacksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, rackName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -232,7 +233,7 @@ export class RacksImpl implements Racks {
     resourceGroupName: string,
     rackName: string,
     rackParameters: Rack,
-    options?: RacksCreateOrUpdateOptionalParams
+    options?: RacksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RacksCreateOrUpdateResponse>,
@@ -241,21 +242,20 @@ export class RacksImpl implements Racks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RacksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -264,8 +264,8 @@ export class RacksImpl implements Racks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -273,15 +273,15 @@ export class RacksImpl implements Racks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, rackName, rackParameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       RacksCreateOrUpdateResponse,
@@ -289,7 +289,7 @@ export class RacksImpl implements Racks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -308,13 +308,13 @@ export class RacksImpl implements Racks {
     resourceGroupName: string,
     rackName: string,
     rackParameters: Rack,
-    options?: RacksCreateOrUpdateOptionalParams
+    options?: RacksCreateOrUpdateOptionalParams,
   ): Promise<RacksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       rackName,
       rackParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -330,25 +330,26 @@ export class RacksImpl implements Racks {
   async beginDelete(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: RacksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<RacksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -357,8 +358,8 @@ export class RacksImpl implements Racks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -366,20 +367,23 @@ export class RacksImpl implements Racks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, rackName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      RacksDeleteResponse,
+      OperationState<RacksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -396,8 +400,8 @@ export class RacksImpl implements Racks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksDeleteOptionalParams
-  ): Promise<void> {
+    options?: RacksDeleteOptionalParams,
+  ): Promise<RacksDeleteResponse> {
     const poller = await this.beginDelete(resourceGroupName, rackName, options);
     return poller.pollUntilDone();
   }
@@ -412,27 +416,26 @@ export class RacksImpl implements Racks {
   async beginUpdate(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksUpdateOptionalParams
+    options?: RacksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RacksUpdateResponse>, RacksUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RacksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -441,8 +444,8 @@ export class RacksImpl implements Racks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -450,15 +453,15 @@ export class RacksImpl implements Racks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, rackName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       RacksUpdateResponse,
@@ -466,7 +469,7 @@ export class RacksImpl implements Racks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -482,7 +485,7 @@ export class RacksImpl implements Racks {
   async beginUpdateAndWait(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksUpdateOptionalParams
+    options?: RacksUpdateOptionalParams,
   ): Promise<RacksUpdateResponse> {
     const poller = await this.beginUpdate(resourceGroupName, rackName, options);
     return poller.pollUntilDone();
@@ -495,11 +498,11 @@ export class RacksImpl implements Racks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RacksListBySubscriptionNextOptionalParams
+    options?: RacksListBySubscriptionNextOptionalParams,
   ): Promise<RacksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -512,11 +515,11 @@ export class RacksImpl implements Racks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RacksListByResourceGroupNextOptionalParams
+    options?: RacksListByResourceGroupNextOptionalParams,
   ): Promise<RacksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -524,85 +527,81 @@ export class RacksImpl implements Racks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/racks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/racks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackList
+      bodyMapper: Mappers.RackList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackList
+      bodyMapper: Mappers.RackList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rackName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Rack,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.rackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     201: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     202: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     204: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.rackParameters,
   queryParameters: [Parameters.apiVersion],
@@ -610,55 +609,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rackName
+    Parameters.rackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rackName
+    Parameters.rackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/racks/{rackName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     201: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     202: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     204: {
-      bodyMapper: Mappers.Rack
+      bodyMapper: Mappers.Rack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.rackUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -666,48 +671,48 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rackName
+    Parameters.rackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackList
+      bodyMapper: Mappers.RackList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackList
+      bodyMapper: Mappers.RackList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

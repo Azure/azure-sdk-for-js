@@ -6,9 +6,9 @@ import {
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
-import type * as RestModel from "../generated/src/models";
-import type { AddParticipantsRequest } from "./requests";
-import type { CreateChatThreadOptions } from "./options";
+import type * as RestModel from "../generated/src/models/index.js";
+import type { AddParticipantsRequest } from "./requests.js";
+import type { CreateChatThreadOptions } from "./options.js";
 import type {
   ChatMessage,
   ChatMessageContent,
@@ -16,7 +16,7 @@ import type {
   ChatParticipant,
   ChatThreadProperties,
   CreateChatThreadResult,
-} from "./models";
+} from "./models.js";
 
 export const mapToCreateChatThreadOptionsRestModel = (
   options: CreateChatThreadOptions,

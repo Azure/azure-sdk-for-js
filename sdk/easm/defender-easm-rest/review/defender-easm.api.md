@@ -8,8 +8,6 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -93,6 +91,31 @@ export interface AsAssetResourceOutput extends AssetResourceOutputParent {
 }
 
 // @public
+export interface AssetChainKindSummaryResultOutput {
+    affectedCount: number;
+    kind: AssetKindOutput;
+}
+
+// @public
+export interface AssetChainRequest {
+    assetChainSource: AssetChainSource;
+    sourceIds: string[];
+}
+
+// @public
+export type AssetChainSource = string;
+
+// @public
+export interface AssetChainSummaryResultOutput {
+    affectedAssetsSummary: Array<AssetChainKindSummaryResultOutput>;
+    affectedGroupsSummary: Array<DiscoGroupSummaryResultOutput>;
+    errors?: Array<ErrorResponse>;
+}
+
+// @public
+export type AssetKindOutput = string;
+
+// @public
 export interface AssetPageResultOutput {
     mark?: string;
     nextLink?: string;
@@ -123,6 +146,9 @@ export interface AssetResourceOutputParent {
     wildcard?: boolean;
 }
 
+// @public
+export type AssetResponseType = string;
+
 // @public (undocumented)
 export interface AssetSecurityPolicyOutput {
     // (undocumented)
@@ -141,6 +167,12 @@ export interface AssetSecurityPolicyOutput {
     recent?: boolean;
     // (undocumented)
     sources?: Array<SourceOutput>;
+}
+
+// @public
+export interface AssetsExportRequest {
+    columns: string[];
+    fileName: string;
 }
 
 // @public
@@ -287,6 +319,21 @@ export interface CancelTaskDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type CancelTaskParameters = RequestParameters;
+
+// @public
+export interface CisaCveResultOutput {
+    count: number;
+    readonly cveId: string;
+    dateAdded: string;
+    dueDate: string;
+    notes: string;
+    product: string;
+    requiredAction: string;
+    shortDescription: string;
+    updatedAt: string;
+    vendorProject: string;
+    vulnerabilityName: string;
+}
 
 // @public (undocumented)
 export interface ContactAssetOutput extends InventoryAssetOutput {
@@ -478,6 +525,11 @@ export interface Cvss3SummaryOutput {
 }
 
 // @public
+export interface DailyDeltaTypeResponseOutput extends DeltaTypeResponseOutput {
+    count: number;
+}
+
+// @public
 export type DataConnectionContent = string;
 
 // @public
@@ -555,6 +607,30 @@ export interface DeleteDataConnectionDefaultResponse extends HttpResponse {
 export type DeleteDataConnectionParameters = RequestParameters;
 
 // @public
+export interface DeleteDiscoGroup204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface DeleteDiscoGroupDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DeleteDiscoGroupDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DeleteDiscoGroupDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteDiscoGroupParameters = RequestParameters;
+
+// @public
 export interface DeleteSavedFilter204Response extends HttpResponse {
     // (undocumented)
     status: "204";
@@ -577,6 +653,68 @@ export interface DeleteSavedFilterDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteSavedFilterParameters = RequestParameters;
+
+// @public
+export interface DeltaDateResultOutput {
+    date: string;
+    deltas: Array<DailyDeltaTypeResponseOutput>;
+}
+
+// @public
+export interface DeltaDetailsRequest {
+    date?: string;
+    deltaDetailType: DeltaDetailType;
+    kind: GlobalAssetType;
+    priorDays?: number;
+}
+
+// @public
+export type DeltaDetailType = string;
+
+// @public (undocumented)
+export interface DeltaPageResultOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value?: Array<DeltaResultOutput>;
+}
+
+// @public
+export interface DeltaRangeResultOutput {
+    added: number;
+    difference: number;
+    kindSummaries: Array<DeltaTypeResponseOutput>;
+    range: number;
+    removed: number;
+}
+
+// @public
+export interface DeltaResultOutput {
+    createdAt: string;
+    kind: GlobalAssetTypeOutput;
+    name: string;
+    state: GlobalInventoryStateOutput;
+    updatedAt: string;
+}
+
+// @public
+export interface DeltaSummaryRequest {
+    date?: string;
+    priorDays?: number;
+}
+
+// @public
+export interface DeltaSummaryResultOutput {
+    daily: Array<DeltaDateResultOutput>;
+    summary: DeltaRangeResultOutput;
+}
+
+// @public
+export interface DeltaTypeResponseOutput {
+    added: number;
+    difference: number;
+    kind: GlobalAssetTypeOutput;
+    removed: number;
+}
 
 // @public (undocumented)
 export interface DependentResourceOutput {
@@ -658,6 +796,13 @@ export interface DiscoGroupOutput {
     tier?: string;
 }
 
+// @public
+export interface DiscoGroupSummaryResultOutput {
+    displayName: string;
+    id: string;
+    name: string;
+}
+
 // @public (undocumented)
 export interface DiscoRunPageResultOutput {
     nextLink?: string;
@@ -712,6 +857,42 @@ export interface DiscoTemplateOutput {
     seeds?: Array<DiscoSourceOutput>;
     stateCode?: string;
 }
+
+// @public (undocumented)
+export interface DismissAssetChain {
+    post(options: DismissAssetChainParameters): StreamableMethod<DismissAssetChain200Response | DismissAssetChainDefaultResponse>;
+}
+
+// @public
+export interface DismissAssetChain200Response extends HttpResponse {
+    // (undocumented)
+    body: TaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DismissAssetChainBodyParam {
+    body: AssetChainRequest;
+}
+
+// @public (undocumented)
+export interface DismissAssetChainDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DismissAssetChainDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DismissAssetChainDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DismissAssetChainParameters = DismissAssetChainBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DomainAssetOutput {
@@ -786,6 +967,37 @@ export interface DomainAssetResourceOutput extends AssetResourceOutputParent {
 }
 
 // @public (undocumented)
+export interface DownloadTask {
+    post(options?: DownloadTaskParameters): StreamableMethod<DownloadTask200Response | DownloadTaskDefaultResponse>;
+}
+
+// @public
+export interface DownloadTask200Response extends HttpResponse {
+    // (undocumented)
+    body: TaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DownloadTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DownloadTaskDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DownloadTaskDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DownloadTaskParameters = RequestParameters;
+
+// @public (undocumented)
 export type EasmClient = Client & {
     path: Routes;
 };
@@ -806,6 +1018,42 @@ export interface ErrorDetailOutput {
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
+// @public (undocumented)
+export interface GetAssetChainSummary {
+    post(options: GetAssetChainSummaryParameters): StreamableMethod<GetAssetChainSummary200Response | GetAssetChainSummaryDefaultResponse>;
+}
+
+// @public
+export interface GetAssetChainSummary200Response extends HttpResponse {
+    // (undocumented)
+    body: AssetChainSummaryResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetAssetChainSummaryBodyParam {
+    body: AssetChainRequest;
+}
+
+// @public (undocumented)
+export interface GetAssetChainSummaryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetAssetChainSummaryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetAssetChainSummaryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetAssetChainSummaryParameters = GetAssetChainSummaryBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GetAssetResource {
@@ -839,6 +1087,54 @@ export interface GetAssetResourceDefaultResponse extends HttpResponse {
 export type GetAssetResourceParameters = RequestParameters;
 
 // @public (undocumented)
+export interface GetAssetsExport {
+    post(options: GetAssetsExportParameters): StreamableMethod<GetAssetsExport200Response | GetAssetsExportDefaultResponse>;
+}
+
+// @public
+export interface GetAssetsExport200Response extends HttpResponse {
+    // (undocumented)
+    body: TaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetAssetsExportBodyParam {
+    body: AssetsExportRequest;
+}
+
+// @public (undocumented)
+export interface GetAssetsExportDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetAssetsExportDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetAssetsExportDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetAssetsExportParameters = GetAssetsExportQueryParam & GetAssetsExportBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetAssetsExportQueryParam {
+    // (undocumented)
+    queryParameters?: GetAssetsExportQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetAssetsExportQueryParamProperties {
+    filter?: string;
+    orderby?: string;
+}
+
+// @public (undocumented)
 export interface GetBillable {
     post(options?: GetBillableParameters): StreamableMethod<GetBillable200Response | GetBillableDefaultResponse>;
 }
@@ -868,6 +1164,68 @@ export interface GetBillableDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetBillableParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetCisaCve {
+    get(options?: GetCisaCveParameters): StreamableMethod<GetCisaCve200Response | GetCisaCveDefaultResponse>;
+}
+
+// @public
+export interface GetCisaCve200Response extends HttpResponse {
+    // (undocumented)
+    body: CisaCveResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetCisaCveDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetCisaCveDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetCisaCveDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetCisaCveParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetCisaCves {
+    get(options?: GetCisaCvesParameters): StreamableMethod<GetCisaCves200Response | GetCisaCvesDefaultResponse>;
+}
+
+// @public
+export interface GetCisaCves200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedCisaCveResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetCisaCvesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetCisaCvesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetCisaCvesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetCisaCvesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetDataConnection {
@@ -903,7 +1261,92 @@ export interface GetDataConnectionDefaultResponse extends HttpResponse {
 export type GetDataConnectionParameters = RequestParameters;
 
 // @public (undocumented)
+export interface GetDeltaDetails {
+    post(options: GetDeltaDetailsParameters): StreamableMethod<GetDeltaDetails200Response | GetDeltaDetailsDefaultResponse>;
+}
+
+// @public
+export interface GetDeltaDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: DeltaPageResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetDeltaDetailsBodyParam {
+    body: DeltaDetailsRequest;
+}
+
+// @public (undocumented)
+export interface GetDeltaDetailsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetDeltaDetailsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetDeltaDetailsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetDeltaDetailsParameters = GetDeltaDetailsQueryParam & GetDeltaDetailsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetDeltaDetailsQueryParam {
+    // (undocumented)
+    queryParameters?: GetDeltaDetailsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetDeltaDetailsQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+}
+
+// @public (undocumented)
+export interface GetDeltaSummary {
+    post(options: GetDeltaSummaryParameters): StreamableMethod<GetDeltaSummary200Response | GetDeltaSummaryDefaultResponse>;
+}
+
+// @public
+export interface GetDeltaSummary200Response extends HttpResponse {
+    // (undocumented)
+    body: DeltaSummaryResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetDeltaSummaryBodyParam {
+    body: DeltaSummaryRequest;
+}
+
+// @public (undocumented)
+export interface GetDeltaSummaryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetDeltaSummaryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetDeltaSummaryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetDeltaSummaryParameters = GetDeltaSummaryBodyParam & RequestParameters;
+
+// @public (undocumented)
 export interface GetDiscoGroup {
+    delete(options?: DeleteDiscoGroupParameters): StreamableMethod<DeleteDiscoGroup204Response | DeleteDiscoGroupDefaultResponse>;
     get(options?: GetDiscoGroupParameters): StreamableMethod<GetDiscoGroup200Response | GetDiscoGroupDefaultResponse>;
     put(options: CreateOrReplaceDiscoGroupParameters): StreamableMethod<CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse>;
 }
@@ -965,8 +1408,53 @@ export interface GetDiscoTemplateDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetDiscoTemplateParameters = RequestParameters;
 
+// @public (undocumented)
+export interface GetObservations {
+    post(options?: GetObservationsParameters): StreamableMethod<GetObservations200Response | GetObservationsDefaultResponse>;
+}
+
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export interface GetObservations200Response extends HttpResponse {
+    // (undocumented)
+    body: ObservationPageResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetObservationsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetObservationsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetObservationsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetObservationsParameters = GetObservationsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetObservationsQueryParam {
+    // (undocumented)
+    queryParameters?: GetObservationsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetObservationsQueryParamProperties {
+    filter?: string;
+    maxpagesize?: number;
+    orderby?: string;
+    skip?: number;
+}
+
+// @public
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -1038,6 +1526,42 @@ export interface GetSnapshotDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface GetSnapshotExport {
+    post(options: GetSnapshotExportParameters): StreamableMethod<GetSnapshotExport200Response | GetSnapshotExportDefaultResponse>;
+}
+
+// @public
+export interface GetSnapshotExport200Response extends HttpResponse {
+    // (undocumented)
+    body: TaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSnapshotExportBodyParam {
+    body: ReportAssetSnapshotExportRequest;
+}
+
+// @public (undocumented)
+export interface GetSnapshotExportDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSnapshotExportDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSnapshotExportDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSnapshotExportParameters = GetSnapshotExportBodyParam & RequestParameters;
+
+// @public (undocumented)
 export type GetSnapshotParameters = GetSnapshotBodyParam & RequestParameters;
 
 // @public (undocumented)
@@ -1106,6 +1630,15 @@ export interface GetTaskDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetTaskParameters = RequestParameters;
+
+// @public
+export type GlobalAssetType = string;
+
+// @public
+export type GlobalAssetTypeOutput = string;
+
+// @public
+export type GlobalInventoryStateOutput = string;
 
 // @public (undocumented)
 export interface GuidPairOutput {
@@ -1443,6 +1976,18 @@ export function isUnexpected(response: UpdateAssets200Response | UpdateAssetsDef
 export function isUnexpected(response: GetAssetResource200Response | GetAssetResourceDefaultResponse): response is GetAssetResourceDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: GetAssetsExport200Response | GetAssetsExportDefaultResponse): response is GetAssetsExportDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetObservations200Response | GetObservationsDefaultResponse): response is GetObservationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDeltaDetails200Response | GetDeltaDetailsDefaultResponse): response is GetDeltaDetailsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDeltaSummary200Response | GetDeltaSummaryDefaultResponse): response is GetDeltaSummaryDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: ListDataConnection200Response | ListDataConnectionDefaultResponse): response is ListDataConnectionDefaultResponse;
 
 // @public (undocumented)
@@ -1470,10 +2015,19 @@ export function isUnexpected(response: GetDiscoGroup200Response | GetDiscoGroupD
 export function isUnexpected(response: CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse): response is CreateOrReplaceDiscoGroupDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: DeleteDiscoGroup204Response | DeleteDiscoGroupDefaultResponse): response is DeleteDiscoGroupDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: RunDiscoGroup204Response | RunDiscoGroupDefaultResponse): response is RunDiscoGroupDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListRuns200Response | ListRunsDefaultResponse): response is ListRunsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetAssetChainSummary200Response | GetAssetChainSummaryDefaultResponse): response is GetAssetChainSummaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DismissAssetChain200Response | DismissAssetChainDefaultResponse): response is DismissAssetChainDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListDiscoTemplate200Response | ListDiscoTemplateDefaultResponse): response is ListDiscoTemplateDefaultResponse;
@@ -1489,6 +2043,9 @@ export function isUnexpected(response: GetSnapshot200Response | GetSnapshotDefau
 
 // @public (undocumented)
 export function isUnexpected(response: GetSummary200Response | GetSummaryDefaultResponse): response is GetSummaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSnapshotExport200Response | GetSnapshotExportDefaultResponse): response is GetSnapshotExportDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListSavedFilter200Response | ListSavedFilterDefaultResponse): response is ListSavedFilterDefaultResponse;
@@ -1510,6 +2067,18 @@ export function isUnexpected(response: GetTask200Response | GetTaskDefaultRespon
 
 // @public (undocumented)
 export function isUnexpected(response: CancelTask200Response | CancelTaskDefaultResponse): response is CancelTaskDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RunTask200Response | RunTaskDefaultResponse): response is RunTaskDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DownloadTask200Response | DownloadTaskDefaultResponse): response is DownloadTaskDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetCisaCves200Response | GetCisaCvesDefaultResponse): response is GetCisaCvesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetCisaCve200Response | GetCisaCveDefaultResponse): response is GetCisaCveDefaultResponse;
 
 // @public (undocumented)
 export interface ListAssetResource {
@@ -1555,7 +2124,17 @@ export interface ListAssetResourceQueryParamProperties {
     mark?: string;
     maxpagesize?: number;
     orderby?: string;
+    recentOnly?: boolean;
+    responseIncludes?: string[] | ListAssetResourceResponseIncludesQueryParam;
+    responseType?: AssetResponseType;
     skip?: number;
+}
+
+// @public
+export interface ListAssetResourceResponseIncludesQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -1872,6 +2451,28 @@ export interface LogAnalyticsDataConnectionPropertiesOutput extends DataConnecti
     workspaceId?: string;
 }
 
+// @public
+export interface ObservationPageResultOutput {
+    prioritySummary: Record<string, number>;
+    totalElements: number;
+    value: Array<ObservationResultOutput>;
+}
+
+// @public
+export type ObservationPriorityOutput = string;
+
+// @public
+export interface ObservationResultOutput {
+    cvssScoreV2: number;
+    cvssScoreV3: number;
+    name: string;
+    priority: ObservationPriorityOutput;
+    types: ObservationTypeOutput[];
+}
+
+// @public
+export type ObservationTypeOutput = string;
+
 // @public (undocumented)
 export interface ObservedBooleanOutput extends ObservedValueOutput {
     // (undocumented)
@@ -2103,22 +2704,66 @@ export interface PageCauseOutput {
 }
 
 // @public
-export type PagedAssetResourceOutput = Paged<AssetResourceOutput>;
+export interface PagedAssetResourceOutput {
+    mark?: string;
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<AssetResourceOutput>;
+}
 
 // @public
-export type PagedDataConnectionOutput = Paged<DataConnectionOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDiscoGroupOutput = Paged<DiscoGroupOutput>;
+export interface PagedCisaCveResultOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<CisaCveResultOutput>;
+}
 
 // @public
-export type PagedDiscoTemplateOutput = Paged<DiscoTemplateOutput>;
+export interface PagedDataConnectionOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DataConnectionOutput>;
+}
 
 // @public
-export type PagedSavedFilterOutput = Paged<SavedFilterOutput>;
+export interface PagedDiscoGroupOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DiscoGroupOutput>;
+}
 
 // @public
-export type PagedTaskOutput = Paged<TaskOutput>;
+export interface PagedDiscoTemplateOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DiscoTemplateOutput>;
+}
+
+// @public
+export interface PagedSavedFilterOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<SavedFilterOutput>;
+}
+
+// @public
+export interface PagedTaskOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<TaskOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -2145,6 +2790,13 @@ export interface PortOutput {
     lastSeen?: string;
     // (undocumented)
     port?: number;
+}
+
+// @public
+export interface ReportAssetSnapshotExportRequest {
+    columns?: string[];
+    fileName?: string;
+    metric?: string;
 }
 
 // @public
@@ -2242,6 +2894,10 @@ export interface ResourceUrlOutput {
 export interface Routes {
     (path: "/assets"): ListAssetResource;
     (path: "/assets/{assetId}", assetId: string): GetAssetResource;
+    (path: "/assets:export"): GetAssetsExport;
+    (path: "/assets/{assetId}:getObservations", assetId: string): GetObservations;
+    (path: "/assets:getDeltaDetails"): GetDeltaDetails;
+    (path: "/assets:getDeltaSummary"): GetDeltaSummary;
     (path: "/dataConnections"): ListDataConnection;
     (path: "/dataConnections:validate"): ValidateDataConnection;
     (path: "/dataConnections/{dataConnectionName}", dataConnectionName: string): GetDataConnection;
@@ -2250,16 +2906,23 @@ export interface Routes {
     (path: "/discoGroups/{groupName}", groupName: string): GetDiscoGroup;
     (path: "/discoGroups/{groupName}:run", groupName: string): RunDiscoGroup;
     (path: "/discoGroups/{groupName}/runs", groupName: string): ListRuns;
+    (path: "/discoGroups:getAssetChainSummary"): GetAssetChainSummary;
+    (path: "/discoGroups:dismissAssetChain"): DismissAssetChain;
     (path: "/discoTemplates"): ListDiscoTemplate;
     (path: "/discoTemplates/{templateId}", templateId: string): GetDiscoTemplate;
     (path: "/reports/assets:getBillable"): GetBillable;
     (path: "/reports/assets:getSnapshot"): GetSnapshot;
     (path: "/reports/assets:getSummary"): GetSummary;
+    (path: "/reports/assets:getSnapshotExport"): GetSnapshotExport;
     (path: "/savedFilters"): ListSavedFilter;
     (path: "/savedFilters/{filterName}", filterName: string): GetSavedFilter;
     (path: "/tasks"): ListTask;
     (path: "/tasks/{taskId}", taskId: string): GetTask;
     (path: "/tasks/{taskId}:cancel", taskId: string): CancelTask;
+    (path: "/tasks/{taskId}:run", taskId: string): RunTask;
+    (path: "/tasks/{taskId}:download", taskId: string): DownloadTask;
+    (path: "/cisaCves"): GetCisaCves;
+    (path: "/cisaCves/{cveId}", cveId: string): GetCisaCve;
 }
 
 // @public (undocumented)
@@ -2290,6 +2953,37 @@ export interface RunDiscoGroupDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type RunDiscoGroupParameters = RequestParameters;
+
+// @public (undocumented)
+export interface RunTask {
+    post(options?: RunTaskParameters): StreamableMethod<RunTask200Response | RunTaskDefaultResponse>;
+}
+
+// @public
+export interface RunTask200Response extends HttpResponse {
+    // (undocumented)
+    body: TaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface RunTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface RunTaskDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & RunTaskDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type RunTaskParameters = RequestParameters;
 
 // @public
 export interface SavedFilterData {

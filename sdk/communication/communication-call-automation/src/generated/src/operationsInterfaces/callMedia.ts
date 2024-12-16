@@ -36,7 +36,7 @@ import {
   CallMediaStartMediaStreamingOptionalParams,
   StopMediaStreamingRequest,
   CallMediaStopMediaStreamingOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CallMedia. */
 export interface CallMedia {

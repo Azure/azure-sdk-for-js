@@ -16,7 +16,7 @@ import {
   SuggestRequest as SuggestRequestMapper,
   IndexBatch as IndexBatchMapper,
   AutocompleteRequest as AutocompleteRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -350,6 +350,16 @@ export const semanticQuery: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "semanticQuery"],
   mapper: {
     serializedName: "semanticQuery",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const queryRewrites: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "queryRewrites"],
+  mapper: {
+    serializedName: "queryRewrites",
     type: {
       name: "String",
     },

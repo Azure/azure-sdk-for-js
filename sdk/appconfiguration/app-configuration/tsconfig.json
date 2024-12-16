@@ -1,19 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "downlevelIteration": true,
-    "paths": {
-      "@azure/app-configuration": ["./src/index"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts",
-    "./test/**/*.ts"
-  ]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
+  "files": []
 }

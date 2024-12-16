@@ -19,7 +19,7 @@ import type {
   AtlasRelationship,
   AtlasTypesDef,
   MoveEntitiesRequest,
-} from "./models";
+} from "./models.js";
 
 export interface EntityCreateOrUpdateBodyParam {
   /** Atlas entity with extended information. */

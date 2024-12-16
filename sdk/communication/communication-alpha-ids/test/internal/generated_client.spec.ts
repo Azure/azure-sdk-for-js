@@ -7,14 +7,13 @@ import {
   createEmptyPipeline,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import { AlphaIDsClient as AlphaIDsGeneratedClient } from "../../src/generated/src";
+import { AlphaIDsClient as AlphaIDsGeneratedClient } from "../../src/generated/src/index.js";
 import type { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import { createMockToken } from "../public/utils/recordedClient";
+import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
-import sinon from "sinon";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi } from "vitest";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
@@ -108,8 +107,8 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
       "pipeline should have CustomApiVersionPolicy",
     );
 
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await client.alphaIds.upsertDynamicAlphaIdConfiguration(true);
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
   });
 });

@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { AzureAuthorityHosts } from "../constants";
-import { CredentialUnavailableError } from "../errors";
-import { IdentityClient } from "../client/identityClient";
-import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
-import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
-import { checkTenantId } from "../util/tenantIdUtils";
-import fs from "fs";
-import os from "os";
-import path from "path";
+} from "../util/tenantIdUtils.js";
+import { AzureAuthorityHosts } from "../constants.js";
+import { CredentialUnavailableError } from "../errors.js";
+import { IdentityClient } from "../client/identityClient.js";
+import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
+import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
+import { checkTenantId } from "../util/tenantIdUtils.js";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

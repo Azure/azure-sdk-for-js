@@ -14,4 +14,4 @@ export {
   AcsVerification,
   VerificationConstantsResponse,
   VerificationResponse,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";

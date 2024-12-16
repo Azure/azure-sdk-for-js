@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./models";
-export * from "./shortCodesClient";
-export * from "./mappers";
+export * from "./models.js";
+export * from "./shortCodesClient.js";
+export * from "./mappers.js";

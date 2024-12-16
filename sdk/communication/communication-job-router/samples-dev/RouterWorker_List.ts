@@ -7,7 +7,6 @@ import { JobRouterClient, RouterWorkerItem } from "@azure/communication-job-rout
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { assert } from "chai";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -30,8 +29,6 @@ async function listRouterWorkers(): Promise<void> {
         console.log("Listing router worker with id: " + policy.worker.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

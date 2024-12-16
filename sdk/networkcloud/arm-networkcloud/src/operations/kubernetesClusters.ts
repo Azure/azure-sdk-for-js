@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,13 +32,14 @@ import {
   KubernetesClustersCreateOrUpdateOptionalParams,
   KubernetesClustersCreateOrUpdateResponse,
   KubernetesClustersDeleteOptionalParams,
+  KubernetesClustersDeleteResponse,
   KubernetesClustersUpdateOptionalParams,
   KubernetesClustersUpdateResponse,
   KubernetesClusterRestartNodeParameters,
   KubernetesClustersRestartNodeOptionalParams,
   KubernetesClustersRestartNodeResponse,
   KubernetesClustersListBySubscriptionNextResponse,
-  KubernetesClustersListByResourceGroupNextResponse
+  KubernetesClustersListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +60,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: KubernetesClustersListBySubscriptionOptionalParams
+    options?: KubernetesClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<KubernetesCluster> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -74,13 +75,13 @@ export class KubernetesClustersImpl implements KubernetesClusters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: KubernetesClustersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KubernetesCluster[]> {
     let result: KubernetesClustersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +102,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: KubernetesClustersListBySubscriptionOptionalParams
+    options?: KubernetesClustersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<KubernetesCluster> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -115,7 +116,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: KubernetesClustersListByResourceGroupOptionalParams
+    options?: KubernetesClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<KubernetesCluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -132,16 +133,16 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: KubernetesClustersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KubernetesCluster[]> {
     let result: KubernetesClustersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -156,7 +157,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -167,11 +168,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: KubernetesClustersListByResourceGroupOptionalParams
+    options?: KubernetesClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<KubernetesCluster> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -182,11 +183,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: KubernetesClustersListBySubscriptionOptionalParams
+    options?: KubernetesClustersListBySubscriptionOptionalParams,
   ): Promise<KubernetesClustersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -197,11 +198,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: KubernetesClustersListByResourceGroupOptionalParams
+    options?: KubernetesClustersListByResourceGroupOptionalParams,
   ): Promise<KubernetesClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -214,11 +215,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   get(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: KubernetesClustersGetOptionalParams
+    options?: KubernetesClustersGetOptionalParams,
   ): Promise<KubernetesClustersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, kubernetesClusterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -233,7 +234,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     kubernetesClusterParameters: KubernetesCluster,
-    options?: KubernetesClustersCreateOrUpdateOptionalParams
+    options?: KubernetesClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<KubernetesClustersCreateOrUpdateResponse>,
@@ -242,21 +243,20 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KubernetesClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -265,8 +265,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -274,8 +274,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -285,9 +285,9 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         resourceGroupName,
         kubernetesClusterName,
         kubernetesClusterParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       KubernetesClustersCreateOrUpdateResponse,
@@ -295,7 +295,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -312,13 +312,13 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     kubernetesClusterParameters: KubernetesCluster,
-    options?: KubernetesClustersCreateOrUpdateOptionalParams
+    options?: KubernetesClustersCreateOrUpdateOptionalParams,
   ): Promise<KubernetesClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       kubernetesClusterName,
       kubernetesClusterParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -332,25 +332,29 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   async beginDelete(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: KubernetesClustersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<KubernetesClustersDeleteResponse>,
+      KubernetesClustersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<KubernetesClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -359,8 +363,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -368,20 +372,23 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, kubernetesClusterName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      KubernetesClustersDeleteResponse,
+      OperationState<KubernetesClustersDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -396,12 +403,12 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   async beginDeleteAndWait(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<void> {
+    options?: KubernetesClustersDeleteOptionalParams,
+  ): Promise<KubernetesClustersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       kubernetesClusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -416,7 +423,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   async beginUpdate(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: KubernetesClustersUpdateOptionalParams
+    options?: KubernetesClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<KubernetesClustersUpdateResponse>,
@@ -425,21 +432,20 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KubernetesClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -448,8 +454,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -457,15 +463,15 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, kubernetesClusterName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       KubernetesClustersUpdateResponse,
@@ -473,7 +479,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -489,12 +495,12 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   async beginUpdateAndWait(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: KubernetesClustersUpdateOptionalParams
+    options?: KubernetesClustersUpdateOptionalParams,
   ): Promise<KubernetesClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       kubernetesClusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -510,7 +516,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters,
-    options?: KubernetesClustersRestartNodeOptionalParams
+    options?: KubernetesClustersRestartNodeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<KubernetesClustersRestartNodeResponse>,
@@ -519,21 +525,20 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KubernetesClustersRestartNodeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -542,8 +547,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -551,8 +556,8 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -562,9 +567,9 @@ export class KubernetesClustersImpl implements KubernetesClusters {
         resourceGroupName,
         kubernetesClusterName,
         kubernetesClusterRestartNodeParameters,
-        options
+        options,
       },
-      spec: restartNodeOperationSpec
+      spec: restartNodeOperationSpec,
     });
     const poller = await createHttpPoller<
       KubernetesClustersRestartNodeResponse,
@@ -572,7 +577,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -589,13 +594,13 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters,
-    options?: KubernetesClustersRestartNodeOptionalParams
+    options?: KubernetesClustersRestartNodeOptionalParams,
   ): Promise<KubernetesClustersRestartNodeResponse> {
     const poller = await this.beginRestartNode(
       resourceGroupName,
       kubernetesClusterName,
       kubernetesClusterRestartNodeParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -607,11 +612,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: KubernetesClustersListBySubscriptionNextOptionalParams
+    options?: KubernetesClustersListBySubscriptionNextOptionalParams,
   ): Promise<KubernetesClustersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -624,11 +629,11 @@ export class KubernetesClustersImpl implements KubernetesClusters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: KubernetesClustersListByResourceGroupNextOptionalParams
+    options?: KubernetesClustersListByResourceGroupNextOptionalParams,
   ): Promise<KubernetesClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -636,85 +641,81 @@ export class KubernetesClustersImpl implements KubernetesClusters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/kubernetesClusters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/kubernetesClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesClusterList
+      bodyMapper: Mappers.KubernetesClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesClusterList
+      bodyMapper: Mappers.KubernetesClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KubernetesCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.kubernetesClusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     201: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     202: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     204: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.kubernetesClusterParameters,
   queryParameters: [Parameters.apiVersion],
@@ -722,55 +723,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     201: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     202: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     204: {
-      bodyMapper: Mappers.KubernetesCluster
+      bodyMapper: Mappers.KubernetesCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.kubernetesClusterUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -778,32 +785,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const restartNodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/restartNode",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/restartNode",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.kubernetesClusterRestartNodeParameters,
   queryParameters: [Parameters.apiVersion],
@@ -811,48 +817,48 @@ const restartNodeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesClusterList
+      bodyMapper: Mappers.KubernetesClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesClusterList
+      bodyMapper: Mappers.KubernetesClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

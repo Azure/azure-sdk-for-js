@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CloudEvent as CloudEventWireModel } from "./cadl-generated/models";
+import type { CloudEvent as CloudEventWireModel } from "./cadl-generated/models/index.js";
 import { randomUUID } from "@azure/core-util";
-import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
-import type { SendEventsOptions, CloudEvent, EventGridSenderClientOptions } from "./models";
-import { cloudEventReservedPropertyNames } from "./models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient.js";
+import type { SendEventsOptions, CloudEvent, EventGridSenderClientOptions } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
 import { tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /**

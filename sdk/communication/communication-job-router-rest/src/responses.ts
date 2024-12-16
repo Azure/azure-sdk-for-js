@@ -25,7 +25,7 @@ import type {
   RouterQueueStatisticsOutput,
   RouterWorkerOutput,
   PagedRouterWorkerOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 export interface UpsertClassificationPolicy200Headers {
   /** The entity tag for the response. */

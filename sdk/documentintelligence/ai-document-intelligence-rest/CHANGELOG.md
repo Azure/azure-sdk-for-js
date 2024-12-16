@@ -1,5 +1,27 @@
 # Release History
 
+## 1.0.0 (Unreleased)
+
+### Features Added
+
+- Exports method `streamToUint8Array` to support converting a `NodeJS.ReadableStream` to a `Uint8Array`. This is necessary to read the pdf and png responses from the results of an analysis.
+  ```js
+  // Example for the figures api that provides an image output
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+          "prebuilt-layout",
+          operationId,
+          figureId,
+        )
+        .get()
+        .asNodeStream();
+
+      if (output.status !== "200" || !output.body) {
+        throw new Error("The response was unexpected.");
+      }
+  ```
+
 ## 1.0.0-beta.3 (2024-08-20)
 
 ### Features Added

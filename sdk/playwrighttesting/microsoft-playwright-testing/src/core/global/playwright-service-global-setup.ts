@@ -9,10 +9,10 @@ import customerConfig from "../../common/customerConfig";
 
 const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<any> => {
   const rootDir = config.configFile ? dirname(config.configFile!) : process.cwd();
-  const customerGlobalSetupFunc = await loadCustomerGlobalFunction(
-    rootDir,
-    customerConfig.globalSetup,
-  );
+  let customerGlobalSetupFunc: any = null;
+  if (customerConfig.globalSetup && typeof customerConfig.globalSetup === "string") {
+    customerGlobalSetupFunc = await loadCustomerGlobalFunction(rootDir, customerConfig.globalSetup);
+  }
 
   await playwrightServiceEntra.globalSetup();
   if (customerGlobalSetupFunc) {

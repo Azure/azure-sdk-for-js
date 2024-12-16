@@ -6,6 +6,11 @@ import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
 export default defineConfig({
   test: {
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.test.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
+      },
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
@@ -29,5 +34,6 @@ export default defineConfig({
       reportsDirectory: "coverage",
     },
     testTimeout: 1200000,
+    hookTimeout: 1200000,
   },
 });

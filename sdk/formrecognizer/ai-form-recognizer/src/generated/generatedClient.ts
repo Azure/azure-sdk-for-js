@@ -17,13 +17,13 @@ import {
   DocumentModelsImpl,
   MiscellaneousImpl,
   DocumentClassifiersImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   DocumentModels,
   Miscellaneous,
   DocumentClassifiers
-} from "./operationsInterfaces";
-import { StringIndexType, GeneratedClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StringIndexType, GeneratedClientOptionalParams } from "./models/index.js";
 
 export class GeneratedClient extends coreClient.ServiceClient {
   endpoint: string;

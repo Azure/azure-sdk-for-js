@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { TollFreeVerificationImpl } from "./operations";
-import { TollFreeVerification } from "./operationsInterfaces";
-import { TollFreeVerificationClientOptionalParams } from "./models";
+import { TollFreeVerificationImpl } from "./operations/index.js";
+import { TollFreeVerification } from "./operationsInterfaces/index.js";
+import { TollFreeVerificationClientOptionalParams } from "./models/index.js";
 
 export class TollFreeVerificationClient extends coreClient.ServiceClient {
   endpoint: string;

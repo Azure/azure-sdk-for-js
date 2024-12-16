@@ -3,9 +3,9 @@
 
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { isNamedKeyCredential } from "@azure/core-auth";
-import type { TableSasSignatureValues } from "./tableSasSignatureValues";
-import { generateTableSasQueryParameters } from "./tableSasSignatureValues";
-import { tableSasPermissionsFromString } from "./tableSasPermisions";
+import type { TableSasSignatureValues } from "./tableSasSignatureValues.js";
+import { generateTableSasQueryParameters } from "./tableSasSignatureValues.js";
+import { tableSasPermissionsFromString } from "./tableSasPermisions.js";
 
 /**
  * Generates a Table Service Shared Access Signature (SAS) URI based on the client properties

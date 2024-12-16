@@ -5,20 +5,20 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import type {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
-} from "./interactiveBrowserCredentialOptions";
+} from "./interactiveBrowserCredentialOptions.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 
-import type { AuthenticationRecord } from "../msal/types";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
-import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient";
-import { createMsalClient } from "../msal/nodeFlows/msalClient";
-import { DeveloperSignOnClientId } from "../constants";
+import type { AuthenticationRecord } from "../msal/types.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
+import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import { DeveloperSignOnClientId } from "../constants.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

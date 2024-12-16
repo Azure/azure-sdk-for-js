@@ -1,7 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
+import type { ErrorResponse } from "@azure-rest/core-client";
+
+/** Paged collection of AssetResource items */
+export interface PagedAssetResourceOutput {
+  /** The AssetResource items on this page */
+  value: Array<AssetResourceOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+  /** The cursor mark to be used on the next request.  Not set if using paging. */
+  mark?: string;
+}
 
 /** The items in the current page of results. */
 export interface AssetResourceOutputParent {
@@ -749,6 +761,127 @@ export interface TaskOutput {
   metadata?: Record<string, any>;
 }
 
+/** The page result response for the observation */
+export interface ObservationPageResultOutput {
+  /** The total number of elements. */
+  totalElements: number;
+  /** The summary of observation counts by priority. */
+  prioritySummary: Record<string, number>;
+  /** The list of observation results. */
+  value: Array<ObservationResultOutput>;
+}
+
+/** The result response for the observation */
+export interface ObservationResultOutput {
+  /** The name of the observation. */
+  name: string;
+  /** The list of applicable types. */
+  types: ObservationTypeOutput[];
+  /**
+   * The priority of the observation.
+   *
+   * Possible values: "high", "medium", "low", "none"
+   */
+  priority: ObservationPriorityOutput;
+  /** The CVSS v2 score. */
+  cvssScoreV2: number;
+  /** The CVSS v3 score. */
+  cvssScoreV3: number;
+}
+
+export interface DeltaPageResultOutput {
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+  /** The link to access the next page of results.  Not set if at the end of the result set. */
+  nextLink?: string;
+  /** The items in the current page of results. */
+  value?: Array<DeltaResultOutput>;
+}
+
+/** Result for each of the delta detail response */
+export interface DeltaResultOutput {
+  /**
+   * Shows the asset kind
+   *
+   * Possible values: "page", "resource", "mailServer", "nameServer", "host", "domain", "ipAddress", "ipBlock", "as", "contact", "sslCert"
+   */
+  kind: GlobalAssetTypeOutput;
+  /** Shows the asset name */
+  name: string;
+  /** Shows the date when the asset was originally created */
+  createdAt: string;
+  /** Shows the date when the asset was last updated, usually the date the we trying to pull up the results for */
+  updatedAt: string;
+  /**
+   * Shows the inventory state
+   *
+   * Possible values: "candidate", "candidateInvestigate", "confirmed", "associated", "associatedPartner", "associatedThirdParty", "archived", "dismissed", "autoconfirmed"
+   */
+  state: GlobalInventoryStateOutput;
+}
+
+/** Define response body for getting delta summary */
+export interface DeltaSummaryResultOutput {
+  /** Contains added, removed, and difference values for the whole range either 7 or 30 days */
+  summary: DeltaRangeResultOutput;
+  /** Contains added, removed, count, and difference values for each day */
+  daily: Array<DeltaDateResultOutput>;
+}
+
+/** Contains added, removed, and difference values for the whole range either 7 or 30 days */
+export interface DeltaRangeResultOutput {
+  /** The range of dates requested */
+  range: number;
+  /** The total amount of assets removed over a date range */
+  removed: number;
+  /** The total amount of assets added over a date range */
+  added: number;
+  /** The total amount of assets changed removed over a date range */
+  difference: number;
+  /** A list of summary changes per asset kind */
+  kindSummaries: Array<DeltaTypeResponseOutput>;
+}
+
+/** The type of Delta response for each asset kind */
+export interface DeltaTypeResponseOutput {
+  /**
+   * The kind of asset
+   *
+   * Possible values: "page", "resource", "mailServer", "nameServer", "host", "domain", "ipAddress", "ipBlock", "as", "contact", "sslCert"
+   */
+  kind: GlobalAssetTypeOutput;
+  /** The amount of assets removed for one asset kind */
+  removed: number;
+  /** The amount of assets added for one asset kind */
+  added: number;
+  /** The amount of assets changed for one asset kind */
+  difference: number;
+}
+
+/** Delta response for each day */
+export interface DailyDeltaTypeResponseOutput extends DeltaTypeResponseOutput {
+  /** The current number of assets for one asset kind */
+  count: number;
+}
+
+/** Date information for the delta response */
+export interface DeltaDateResultOutput {
+  /** The date that is being requested */
+  date: string;
+  /** A list of summary counts per day */
+  deltas: Array<DailyDeltaTypeResponseOutput>;
+}
+
+/** Paged collection of DataConnection items */
+export interface PagedDataConnectionOutput {
+  /** The DataConnection items on this page */
+  value: Array<DataConnectionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
 export interface DataConnectionOutputParent {
   /** The system generated unique id for the resource. */
   id?: string;
@@ -845,6 +978,16 @@ export interface InnerErrorOutput {
   value?: any;
 }
 
+/** Paged collection of DiscoGroup items */
+export interface PagedDiscoGroupOutput {
+  /** The DiscoGroup items on this page */
+  value: Array<DiscoGroupOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
 export interface DiscoGroupOutput {
   /** The system generated unique id for the resource. */
   id?: string;
@@ -917,6 +1060,48 @@ export interface DiscoRunPageResultOutput {
   nextLink?: string;
   /** The items in the current page of results. */
   value?: Array<DiscoRunResultOutput>;
+}
+
+/** Response for the asset chain summary. */
+export interface AssetChainSummaryResultOutput {
+  /** A list of asset chain summaries per asset kind */
+  affectedAssetsSummary: Array<AssetChainKindSummaryResultOutput>;
+  /** A list of disco group summaries */
+  affectedGroupsSummary: Array<DiscoGroupSummaryResultOutput>;
+  /** The list of exceptions */
+  errors?: Array<ErrorResponse>;
+}
+
+/** A list of asset chain summaries per asset kind */
+export interface AssetChainKindSummaryResultOutput {
+  /**
+   * The kind of asset
+   *
+   * Possible values: "as", "contact", "domain", "host", "ipAddress", "ipBlock", "page", "sslCert"
+   */
+  kind: AssetKindOutput;
+  /** The amount of assets affected for a given asset kind */
+  affectedCount: number;
+}
+
+/** A list of disco group summaries */
+export interface DiscoGroupSummaryResultOutput {
+  /** The system generated unique id for the resource. */
+  id: string;
+  /** The caller provided unique name for the resource. */
+  name: string;
+  /** The name that can be used for display purposes. */
+  displayName: string;
+}
+
+/** Paged collection of DiscoTemplate items */
+export interface PagedDiscoTemplateOutput {
+  /** The DiscoTemplate items on this page */
+  value: Array<DiscoTemplateOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
 }
 
 /** The items in the current page of results. */
@@ -1025,6 +1210,16 @@ export interface AssetSummaryResultOutput {
   children?: Array<AssetSummaryResultOutput>;
 }
 
+/** Paged collection of SavedFilter items */
+export interface PagedSavedFilterOutput {
+  /** The SavedFilter items on this page */
+  value: Array<SavedFilterOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
 export interface SavedFilterOutput {
   /** The system generated unique id for the resource. */
   id?: string;
@@ -1034,6 +1229,52 @@ export interface SavedFilterOutput {
   displayName?: string;
   filter?: string;
   description?: string;
+}
+
+/** Paged collection of Task items */
+export interface PagedTaskOutput {
+  /** The Task items on this page */
+  value: Array<TaskOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
+/** Paged collection of CisaCveResult items */
+export interface PagedCisaCveResultOutput {
+  /** The CisaCveResult items on this page */
+  value: Array<CisaCveResultOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
+/** cisa cve in a given workspace. */
+export interface CisaCveResultOutput {
+  /** The CVE ID of the vulnerability in the format CVE-YYYY-NNNN, note that the number portion can have more than 4 digits. */
+  readonly cveId: string;
+  /** The vendor or project name for the vulnerability. */
+  vendorProject: string;
+  /** The vulnerability product */
+  product: string;
+  /** The name of the vulnerability */
+  vulnerabilityName: string;
+  /** A short description of the vulnerability */
+  shortDescription: string;
+  /** The required action to address the vulnerability */
+  requiredAction: string;
+  /** Any additional notes about the vulnerability */
+  notes: string;
+  /** The date the vulnerability was added to the catalog in the format YYYY-MM-DD */
+  dateAdded: string;
+  /** The date the required action is due in the format YYYY-MM-DD */
+  dueDate: string;
+  /** The date the vulnerability was updated */
+  updatedAt: string;
+  /** The number of assets affected by the vulnerability */
+  count: number;
 }
 
 /** The items in the current page of results. */
@@ -1051,8 +1292,6 @@ export type DataConnectionOutput =
   | DataConnectionOutputParent
   | LogAnalyticsDataConnectionOutput
   | AzureDataExplorerDataConnectionOutput;
-/** Paged collection of AssetResource items */
-export type PagedAssetResourceOutput = Paged<AssetResourceOutput>;
 /** Alias for AssetUpdateStateOutput */
 export type AssetUpdateStateOutput = string;
 /** Alias for AssetStateOutput */
@@ -1069,23 +1308,23 @@ export type PageAssetRedirectTypeOutput = string;
 export type TaskStateOutput = string;
 /** Alias for TaskPhaseOutput */
 export type TaskPhaseOutput = string;
-/** Paged collection of DataConnection items */
-export type PagedDataConnectionOutput = Paged<DataConnectionOutput>;
+/** Alias for ObservationTypeOutput */
+export type ObservationTypeOutput = string;
+/** Alias for ObservationPriorityOutput */
+export type ObservationPriorityOutput = string;
+/** Alias for GlobalAssetTypeOutput */
+export type GlobalAssetTypeOutput = string;
+/** Alias for GlobalInventoryStateOutput */
+export type GlobalInventoryStateOutput = string;
 /** Alias for DataConnectionContentOutput */
 export type DataConnectionContentOutput = string;
 /** Alias for DataConnectionFrequencyOutput */
 export type DataConnectionFrequencyOutput = string;
-/** Paged collection of DiscoGroup items */
-export type PagedDiscoGroupOutput = Paged<DiscoGroupOutput>;
 /** Alias for DiscoSourceKindOutput */
 export type DiscoSourceKindOutput = string;
 /** Alias for DiscoRunStateOutput */
 export type DiscoRunStateOutput = string;
-/** Paged collection of DiscoTemplate items */
-export type PagedDiscoTemplateOutput = Paged<DiscoTemplateOutput>;
+/** Alias for AssetKindOutput */
+export type AssetKindOutput = string;
 /** Alias for ReportBillableAssetBreakdownKindOutput */
 export type ReportBillableAssetBreakdownKindOutput = string;
-/** Paged collection of SavedFilter items */
-export type PagedSavedFilterOutput = Paged<SavedFilterOutput>;
-/** Paged collection of Task items */
-export type PagedTaskOutput = Paged<TaskOutput>;

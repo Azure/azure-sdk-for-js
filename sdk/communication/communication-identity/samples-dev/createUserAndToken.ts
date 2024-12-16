@@ -5,8 +5,11 @@
  * @summary Create a new user and a token simultaneously.
  */
 
-import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
-import { CreateUserAndTokenOptions } from "../src";
+import {
+  CommunicationIdentityClient,
+  TokenScope,
+  CreateUserAndTokenOptions,
+} from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

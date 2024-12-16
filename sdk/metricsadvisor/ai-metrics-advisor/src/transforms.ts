@@ -48,7 +48,7 @@ import type {
   SQLServerDataFeed as ServiceSQLServerDataFeed,
   SqlSourceParameter,
   WebhookHookInfo,
-} from "./generated/models";
+} from "./generated/models/index.js";
 import type {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
@@ -84,7 +84,7 @@ import type {
   NotificationHook,
   NotificationHookUnion,
   SqlServerAuthTypes,
-} from "./models";
+} from "./models.js";
 
 // transform the protocol layer (codegen) service models into convenience layer models
 

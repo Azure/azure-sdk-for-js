@@ -5,9 +5,10 @@
  * Defines the utility methods.
  */
 
-import { KnownAnalyzerNames, SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import { KnownAnalyzerNames } from "@azure/search-documents";
 import { env } from "process";
-import { Hotel } from "./interfaces";
+import type { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
 
@@ -254,6 +255,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
           vectorizerName: "vector-search-vectorizer",
           kind: "azureOpenAI",
           parameters: {
+            modelName: env.AZURE_OPENAI_DEPLOYMENT_NAME,
             resourceUrl: env.AZURE_OPENAI_ENDPOINT,
             deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           },

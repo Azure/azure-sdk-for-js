@@ -7,19 +7,17 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
+import "dotenv/config";
+import type {
   MetricAnomalyFeedback,
   MetricChangePointFeedback,
   MetricCommentFeedback,
+  MetricFeedbackUnion,
   MetricPeriodFeedback,
 } from "@azure/ai-metrics-advisor";
+import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -38,7 +36,10 @@ export async function main() {
   await getFeedback(client, commentFeedback.id!);
 }
 
-async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideAnomalyFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<MetricFeedbackUnion> {
   console.log("Creating an anomaly feedback...");
   const anomalyFeedback: MetricAnomalyFeedback = {
     metricId,
@@ -48,10 +49,13 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     value: "NotAnomaly",
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(anomalyFeedback);
+  return client.addFeedback(anomalyFeedback);
 }
 
-async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function providePeriodFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a period feedback...");
   const periodFeedback: MetricPeriodFeedback = {
     metricId,
@@ -60,10 +64,13 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
     periodValue: 4,
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(periodFeedback);
+  return client.addFeedback(periodFeedback);
 }
 
-async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideChangePointFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a change point feedback...");
   const changePointFeedback: MetricChangePointFeedback = {
     metricId,
@@ -72,10 +79,13 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
     value: "ChangePoint",
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(changePointFeedback);
+  return client.addFeedback(changePointFeedback);
 }
 
-async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideCommentFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a comment feedback...");
   const commendFeedback: MetricCommentFeedback = {
     metricId,
@@ -83,16 +93,16 @@ async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: st
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment",
   };
-  return await client.addFeedback(commendFeedback);
+  return client.addFeedback(commendFeedback);
 }
 
-async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
+async function getFeedback(client: MetricsAdvisorClient, feedbackId: string): Promise<void> {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
   const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 
-async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function listFeedback(client: MetricsAdvisorClient, metricId: string): Promise<void> {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
   const listIterator = client.listFeedback(metricId, {
@@ -177,11 +187,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
