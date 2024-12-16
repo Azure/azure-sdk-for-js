@@ -33,7 +33,7 @@
   fs.promises.writeFile(`./figures/${figureId}.png`, imageData); // Or you can consume the NodeJS.ReadableStream directly
   ```
 
-- New `parseResultIdFromResponse` method has been added to parse `operationId` from the initial response of batch analysis requests which can later be used to get the analysis results.
+- Adds `parseResultIdFromResponse`, a convenience function that extracts the `operationId` from the batch analysis response.
 
   ```js
   // Example
