@@ -6,19 +6,19 @@ import type * as PublicModels from "./outputModels.js";
 
 // Conversion functions
 export function convertToolDefinitionOutputParent(
-  input: GeneratedModels.ToolDefinitionOutputParent
+  input: GeneratedModels.ToolDefinitionOutputParent,
 ): PublicModels.ToolDefinitionOutputParent {
   return { ...input };
 }
 
 function convertCodeInterpreterToolDefinitionOutput(
-  input: GeneratedModels.CodeInterpreterToolDefinitionOutput
+  input: GeneratedModels.CodeInterpreterToolDefinitionOutput,
 ): PublicModels.CodeInterpreterToolDefinitionOutput {
   return { ...input };
 }
 
 export function convertFileSearchToolDefinitionOutput(
-  input: GeneratedModels.FileSearchToolDefinitionOutput
+  input: GeneratedModels.FileSearchToolDefinitionOutput,
 ): PublicModels.FileSearchToolDefinitionOutput {
   return {
     type: "file_search",
@@ -29,7 +29,7 @@ export function convertFileSearchToolDefinitionOutput(
 }
 
 export function convertFileSearchToolDefinitionDetailsOutput(
-  input: GeneratedModels.FileSearchToolDefinitionDetailsOutput
+  input: GeneratedModels.FileSearchToolDefinitionDetailsOutput,
 ): PublicModels.FileSearchToolDefinitionDetailsOutput {
   return {
     maxNumResults: input.max_num_results,
@@ -40,7 +40,7 @@ export function convertFileSearchToolDefinitionDetailsOutput(
 }
 
 export function convertFileSearchRankingOptionsOutput(
-  input: GeneratedModels.FileSearchRankingOptionsOutput
+  input: GeneratedModels.FileSearchRankingOptionsOutput,
 ): PublicModels.FileSearchRankingOptionsOutput {
   return {
     ranker: input.ranker,
@@ -49,7 +49,7 @@ export function convertFileSearchRankingOptionsOutput(
 }
 
 function convertFunctionToolDefinitionOutput(
-  input: GeneratedModels.FunctionToolDefinitionOutput
+  input: GeneratedModels.FunctionToolDefinitionOutput,
 ): PublicModels.FunctionToolDefinitionOutput {
   return {
     type: "function",
@@ -58,13 +58,13 @@ function convertFunctionToolDefinitionOutput(
 }
 
 function convertFunctionDefinitionOutput(
-  input: GeneratedModels.FunctionDefinitionOutput
+  input: GeneratedModels.FunctionDefinitionOutput,
 ): PublicModels.FunctionDefinitionOutput {
   return { ...input };
 }
 
 function convertBingGroundingToolDefinitionOutput(
-  input: GeneratedModels.BingGroundingToolDefinitionOutput
+  input: GeneratedModels.BingGroundingToolDefinitionOutput,
 ): PublicModels.BingGroundingToolDefinitionOutput {
   return {
     type: "bing_grounding",
@@ -73,7 +73,7 @@ function convertBingGroundingToolDefinitionOutput(
 }
 
 export function convertToolConnectionListOutput(
-  input: GeneratedModels.ToolConnectionListOutput
+  input: GeneratedModels.ToolConnectionListOutput,
 ): PublicModels.ToolConnectionListOutput {
   return {
     connections: input.connections?.map(convertToolConnectionOutput),
@@ -81,37 +81,39 @@ export function convertToolConnectionListOutput(
 }
 
 function convertToolConnectionOutput(
-  input: GeneratedModels.ToolConnectionOutput
+  input: GeneratedModels.ToolConnectionOutput,
 ): PublicModels.ToolConnectionOutput {
   return { connectionId: input.connection_id };
 }
 
 function convertMicrosoftFabricToolDefinitionOutput(
-  input: GeneratedModels.MicrosoftFabricToolDefinitionOutput
+  input: GeneratedModels.MicrosoftFabricToolDefinitionOutput,
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
     type: "microsoft_fabric",
-    microsoftFabric: input.microsoft_fabric && convertToolConnectionListOutput(input.microsoft_fabric),
+    microsoftFabric:
+      input.microsoft_fabric && convertToolConnectionListOutput(input.microsoft_fabric),
   };
 }
 
 function convertSharepointToolDefinitionOutput(
-  input: GeneratedModels.SharepointToolDefinitionOutput
+  input: GeneratedModels.SharepointToolDefinitionOutput,
 ): PublicModels.SharepointToolDefinitionOutput {
   return {
     type: "sharepoint_grounding",
-    sharepointGrounding: input.sharepoint_grounding && convertToolConnectionListOutput(input.sharepoint_grounding),
+    sharepointGrounding:
+      input.sharepoint_grounding && convertToolConnectionListOutput(input.sharepoint_grounding),
   };
 }
 
 function convertAzureAISearchToolDefinitionOutput(
-  input: GeneratedModels.AzureAISearchToolDefinitionOutput
+  input: GeneratedModels.AzureAISearchToolDefinitionOutput,
 ): PublicModels.AzureAISearchToolDefinitionOutput {
   return { ...input };
 }
 
 export function convertToolResourcesOutput(
-  input: GeneratedModels.ToolResourcesOutput
+  input: GeneratedModels.ToolResourcesOutput,
 ): PublicModels.ToolResourcesOutput {
   return {
     codeInterpreter: input.code_interpreter
@@ -127,7 +129,7 @@ export function convertToolResourcesOutput(
 }
 
 export function convertCodeInterpreterToolResourceOutput(
-  input: GeneratedModels.CodeInterpreterToolResourceOutput
+  input: GeneratedModels.CodeInterpreterToolResourceOutput,
 ): PublicModels.CodeInterpreterToolResourceOutput {
   return {
     fileIds: input.file_ids,
@@ -136,13 +138,13 @@ export function convertCodeInterpreterToolResourceOutput(
 }
 
 export function convertVectorStoreDataSourceOutput(
-  input: GeneratedModels.VectorStoreDataSourceOutput
+  input: GeneratedModels.VectorStoreDataSourceOutput,
 ): PublicModels.VectorStoreDataSourceOutput {
   return { ...input };
 }
 
 export function convertFileSearchToolResourceOutput(
-  input: GeneratedModels.FileSearchToolResourceOutput
+  input: GeneratedModels.FileSearchToolResourceOutput,
 ): PublicModels.FileSearchToolResourceOutput {
   return {
     vectorStoreIds: input.vector_store_ids,
@@ -151,16 +153,17 @@ export function convertFileSearchToolResourceOutput(
 }
 
 export function convertVectorStoreConfigurationsOutput(
-  input: GeneratedModels.VectorStoreConfigurationsOutput
+  input: GeneratedModels.VectorStoreConfigurationsOutput,
 ): PublicModels.VectorStoreConfigurationsOutput {
   return {
     name: input.name,
-    configuration: input.configuration && convertVectorStoreConfigurationOutput(input.configuration),
+    configuration:
+      input.configuration && convertVectorStoreConfigurationOutput(input.configuration),
   };
 }
 
 export function convertVectorStoreConfigurationOutput(
-  input: GeneratedModels.VectorStoreConfigurationOutput
+  input: GeneratedModels.VectorStoreConfigurationOutput,
 ): PublicModels.VectorStoreConfigurationOutput {
   return {
     ...input,
@@ -169,7 +172,7 @@ export function convertVectorStoreConfigurationOutput(
 }
 
 export function convertAzureAISearchResourceOutput(
-  input: GeneratedModels.AzureAISearchResourceOutput
+  input: GeneratedModels.AzureAISearchResourceOutput,
 ): PublicModels.AzureAISearchResourceOutput {
   return {
     indexes: input.indexes?.map(convertIndexResourceOutput),
@@ -177,13 +180,13 @@ export function convertAzureAISearchResourceOutput(
 }
 
 export function convertIndexResourceOutput(
-  input: GeneratedModels.IndexResourceOutput
+  input: GeneratedModels.IndexResourceOutput,
 ): PublicModels.IndexResourceOutput {
   return { indexConnectionId: input.index_connection_id, indexName: input.index_name };
 }
 
 export function convertAgentsApiResponseFormatOutput(
-  input: GeneratedModels.AgentsApiResponseFormatOutput
+  input: GeneratedModels.AgentsApiResponseFormatOutput,
 ): PublicModels.AgentsApiResponseFormatOutput {
   return { ...input };
 }
@@ -198,9 +201,7 @@ export function convertAgentOutput(input: GeneratedModels.AgentOutput): PublicMo
     model: input.model,
     instructions: input.instructions,
     tools: input.tools?.map(convertToolDefinitionOutput),
-    toolResources: input.tool_resources
-      ? convertToolResourcesOutput(input.tool_resources)
-      : null,
+    toolResources: input.tool_resources ? convertToolResourcesOutput(input.tool_resources) : null,
     temperature: input.temperature,
     topP: input.top_p,
     responseFormat: input.response_format
@@ -209,35 +210,51 @@ export function convertAgentOutput(input: GeneratedModels.AgentOutput): PublicMo
     metadata: input.metadata,
   };
 }
-function convertToolDefinitionOutput(tool: GeneratedModels.ToolDefinitionOutput): PublicModels.ToolDefinitionOutput {
+function convertToolDefinitionOutput(
+  tool: GeneratedModels.ToolDefinitionOutput,
+): PublicModels.ToolDefinitionOutput {
   switch (tool.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinitionOutput(tool as GeneratedModels.CodeInterpreterToolDefinitionOutput);
+      return convertCodeInterpreterToolDefinitionOutput(
+        tool as GeneratedModels.CodeInterpreterToolDefinitionOutput,
+      );
     case "file_search":
-      return convertFileSearchToolDefinitionOutput(tool as GeneratedModels.FileSearchToolDefinitionOutput);
+      return convertFileSearchToolDefinitionOutput(
+        tool as GeneratedModels.FileSearchToolDefinitionOutput,
+      );
     case "function":
-      return convertFunctionToolDefinitionOutput(tool as GeneratedModels.FunctionToolDefinitionOutput);
+      return convertFunctionToolDefinitionOutput(
+        tool as GeneratedModels.FunctionToolDefinitionOutput,
+      );
     case "bing_grounding":
-      return convertBingGroundingToolDefinitionOutput(tool as GeneratedModels.BingGroundingToolDefinitionOutput);
+      return convertBingGroundingToolDefinitionOutput(
+        tool as GeneratedModels.BingGroundingToolDefinitionOutput,
+      );
     case "microsoft_fabric":
-      return convertMicrosoftFabricToolDefinitionOutput(tool as GeneratedModels.MicrosoftFabricToolDefinitionOutput);
+      return convertMicrosoftFabricToolDefinitionOutput(
+        tool as GeneratedModels.MicrosoftFabricToolDefinitionOutput,
+      );
     case "sharepoint_grounding":
-      return convertSharepointToolDefinitionOutput(tool as GeneratedModels.SharepointToolDefinitionOutput);
+      return convertSharepointToolDefinitionOutput(
+        tool as GeneratedModels.SharepointToolDefinitionOutput,
+      );
     case "azure_ai_search":
-      return convertAzureAISearchToolDefinitionOutput(tool as GeneratedModels.AzureAISearchToolDefinitionOutput);
+      return convertAzureAISearchToolDefinitionOutput(
+        tool as GeneratedModels.AzureAISearchToolDefinitionOutput,
+      );
     default:
       return tool;
   }
 }
 
 export function convertAgentsApiResponseFormatOptionOutput(
-  input: GeneratedModels.AgentsApiResponseFormatOptionOutput
+  input: GeneratedModels.AgentsApiResponseFormatOptionOutput,
 ): PublicModels.AgentsApiResponseFormatOptionOutput {
   return input;
 }
 
 export function convertOpenAIPageableListOfAgentOutput(
-  input: GeneratedModels.OpenAIPageableListOfAgentOutput
+  input: GeneratedModels.OpenAIPageableListOfAgentOutput,
 ): PublicModels.OpenAIPageableListOfAgentOutput {
   return {
     object: input.object,
@@ -249,13 +266,13 @@ export function convertOpenAIPageableListOfAgentOutput(
 }
 
 export function convertAgentDeletionStatusOutput(
-  input: GeneratedModels.AgentDeletionStatusOutput
+  input: GeneratedModels.AgentDeletionStatusOutput,
 ): PublicModels.AgentDeletionStatusOutput {
   return { ...input };
 }
 
 export function convertMessageAttachmentOutput(
-  input: GeneratedModels.MessageAttachmentOutput
+  input: GeneratedModels.MessageAttachmentOutput,
 ): PublicModels.MessageAttachmentOutput {
   return {
     fileId: input.file_id,
@@ -264,40 +281,43 @@ export function convertMessageAttachmentOutput(
   };
 }
 
-function convertMessageAttachmentToolDefinitionOutput(input: GeneratedModels.MessageAttachmentToolDefinitionOutput): PublicModels.MessageAttachmentToolDefinitionOutput {
+function convertMessageAttachmentToolDefinitionOutput(
+  input: GeneratedModels.MessageAttachmentToolDefinitionOutput,
+): PublicModels.MessageAttachmentToolDefinitionOutput {
   switch (input.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinitionOutput(input as GeneratedModels.CodeInterpreterToolDefinitionOutput);
+      return convertCodeInterpreterToolDefinitionOutput(
+        input as GeneratedModels.CodeInterpreterToolDefinitionOutput,
+      );
     case "file_search":
-      return convertFileSearchToolDefinitionOutput(input as GeneratedModels.FileSearchToolDefinitionOutput);
+      return convertFileSearchToolDefinitionOutput(
+        input as GeneratedModels.FileSearchToolDefinitionOutput,
+      );
     default:
       throw new Error(`Unknown tool type: ${input}`);
-  };
-
+  }
 }
 
 export function convertAgentThreadOutput(
-  input: GeneratedModels.AgentThreadOutput
+  input: GeneratedModels.AgentThreadOutput,
 ): PublicModels.AgentThreadOutput {
   return {
     id: input.id,
     object: input.object,
     createdAt: new Date(input.created_at),
-    toolResources: input.tool_resources
-      ? convertToolResourcesOutput(input.tool_resources)
-      : null,
+    toolResources: input.tool_resources ? convertToolResourcesOutput(input.tool_resources) : null,
     metadata: input.metadata,
   };
 }
 
 export function convertThreadDeletionStatusOutput(
-  input: GeneratedModels.ThreadDeletionStatusOutput
+  input: GeneratedModels.ThreadDeletionStatusOutput,
 ): PublicModels.ThreadDeletionStatusOutput {
   return { ...input };
 }
 
 export function convertThreadMessageOutput(
-  input: GeneratedModels.ThreadMessageOutput
+  input: GeneratedModels.ThreadMessageOutput,
 ): PublicModels.ThreadMessageOutput {
   return {
     id: input.id,
@@ -314,26 +334,28 @@ export function convertThreadMessageOutput(
     content: input.content?.map(convertMessageContentOutput),
     assistantId: input.assistant_id,
     runId: input.run_id,
-    attachments: !input.attachments ? input.attachments : input.attachments?.map(convertMessageAttachmentOutput),
+    attachments: !input.attachments
+      ? input.attachments
+      : input.attachments?.map(convertMessageAttachmentOutput),
     metadata: input.metadata,
   };
 }
 
 export function convertMessageIncompleteDetailsOutput(
-  input: GeneratedModels.MessageIncompleteDetailsOutput
+  input: GeneratedModels.MessageIncompleteDetailsOutput,
 ): PublicModels.MessageIncompleteDetailsOutput {
   return { ...input };
 }
 
 export function convertMessageContentOutput(
-  input: GeneratedModels.MessageContentOutput
+  input: GeneratedModels.MessageContentOutput,
 ): PublicModels.MessageContentOutput {
   switch (input.type) {
     case "text":
       return convertMessageTextContentOutput(input as GeneratedModels.MessageTextContentOutput);
     case "image_file":
       return convertMessageImageFileContentOutput(
-        input as GeneratedModels.MessageImageFileContentOutput
+        input as GeneratedModels.MessageImageFileContentOutput,
       );
     default:
       return { ...input };
@@ -341,7 +363,7 @@ export function convertMessageContentOutput(
 }
 
 export function convertMessageTextContentOutput(
-  input: GeneratedModels.MessageTextContentOutput
+  input: GeneratedModels.MessageTextContentOutput,
 ): PublicModels.MessageTextContentOutput {
   return {
     type: input.type,
@@ -350,7 +372,7 @@ export function convertMessageTextContentOutput(
 }
 
 export function convertMessageTextDetailsOutput(
-  input: GeneratedModels.MessageTextDetailsOutput
+  input: GeneratedModels.MessageTextDetailsOutput,
 ): PublicModels.MessageTextDetailsOutput {
   return {
     value: input.value,
@@ -359,16 +381,16 @@ export function convertMessageTextDetailsOutput(
 }
 
 export function convertMessageTextAnnotationOutput(
-  input: GeneratedModels.MessageTextAnnotationOutputParent
+  input: GeneratedModels.MessageTextAnnotationOutputParent,
 ): PublicModels.MessageTextAnnotationOutput {
   switch (input.type) {
     case "file_citation":
       return convertMessageTextFileCitationAnnotationOutput(
-        input as GeneratedModels.MessageTextFileCitationAnnotationOutput
+        input as GeneratedModels.MessageTextFileCitationAnnotationOutput,
       );
     case "file_path":
       return convertMessageTextFilePathAnnotationOutput(
-        input as GeneratedModels.MessageTextFilePathAnnotationOutput
+        input as GeneratedModels.MessageTextFilePathAnnotationOutput,
       );
     default:
       return { ...input };
@@ -376,26 +398,27 @@ export function convertMessageTextAnnotationOutput(
 }
 
 export function convertMessageTextFileCitationAnnotationOutput(
-  input: GeneratedModels.MessageTextFileCitationAnnotationOutput
+  input: GeneratedModels.MessageTextFileCitationAnnotationOutput,
 ): PublicModels.MessageTextFileCitationAnnotationOutput {
   return {
     type: input.type,
     text: input.text,
-    fileCitation: input.file_citation && convertMessageTextFileCitationDetailsOutput(input.file_citation)
+    fileCitation:
+      input.file_citation && convertMessageTextFileCitationDetailsOutput(input.file_citation),
   };
 }
 
 export function convertMessageTextFileCitationDetailsOutput(
-  input: GeneratedModels.MessageTextFileCitationDetailsOutput
+  input: GeneratedModels.MessageTextFileCitationDetailsOutput,
 ): PublicModels.MessageTextFileCitationDetailsOutput {
   return {
     fileId: input.file_id,
-    quote: input.quote
+    quote: input.quote,
   };
 }
 
 export function convertMessageTextFilePathAnnotationOutput(
-  input: GeneratedModels.MessageTextFilePathAnnotationOutput
+  input: GeneratedModels.MessageTextFilePathAnnotationOutput,
 ): PublicModels.MessageTextFilePathAnnotationOutput {
   return {
     type: input.type,
@@ -407,28 +430,28 @@ export function convertMessageTextFilePathAnnotationOutput(
 }
 
 export function convertMessageTextFilePathDetailsOutput(
-  input: GeneratedModels.MessageTextFilePathDetailsOutput
+  input: GeneratedModels.MessageTextFilePathDetailsOutput,
 ): PublicModels.MessageTextFilePathDetailsOutput {
   return { fileId: input.file_id };
 }
 
 export function convertMessageImageFileContentOutput(
-  input: GeneratedModels.MessageImageFileContentOutput
+  input: GeneratedModels.MessageImageFileContentOutput,
 ): PublicModels.MessageImageFileContentOutput {
   return {
     type: input.type,
-    imageFile: input.image_file && convertMessageImageFileDetailsOutput(input.image_file)
+    imageFile: input.image_file && convertMessageImageFileDetailsOutput(input.image_file),
   };
 }
 
 export function convertMessageImageFileDetailsOutput(
-  input: GeneratedModels.MessageImageFileDetailsOutput
+  input: GeneratedModels.MessageImageFileDetailsOutput,
 ): PublicModels.MessageImageFileDetailsOutput {
   return { fileId: input.file_id };
 }
 
 export function convertThreadRunOutput(
-  input: GeneratedModels.ThreadRunOutput
+  input: GeneratedModels.ThreadRunOutput,
 ): PublicModels.ThreadRunOutput {
   return {
     id: input.id,
@@ -452,7 +475,9 @@ export function convertThreadRunOutput(
     topP: input.top_p,
     maxPromptTokens: input.max_prompt_tokens,
     maxCompletionTokens: input.max_completion_tokens,
-    truncationStrategy: input.truncation_strategy ? convertTruncationObjectOutput(input.truncation_strategy) : null,
+    truncationStrategy: input.truncation_strategy
+      ? convertTruncationObjectOutput(input.truncation_strategy)
+      : null,
     toolChoice: input.tool_choice,
     responseFormat: input.response_format,
     metadata: input.metadata,
@@ -462,13 +487,13 @@ export function convertThreadRunOutput(
 }
 
 export function convertIncompleteRunDetailsOutput(
-  input: GeneratedModels.IncompleteRunDetailsOutput
+  input: GeneratedModels.IncompleteRunDetailsOutput,
 ): PublicModels.IncompleteRunDetailsOutput {
   return input;
 }
 
 export function convertRunErrorOutput(
-  input: GeneratedModels.RunErrorOutput
+  input: GeneratedModels.RunErrorOutput,
 ): PublicModels.RunErrorOutput {
   return {
     message: input.message,
@@ -477,7 +502,7 @@ export function convertRunErrorOutput(
 }
 
 export function convertRunCompletionUsageOutput(
-  input: GeneratedModels.RunCompletionUsageOutput
+  input: GeneratedModels.RunCompletionUsageOutput,
 ): PublicModels.RunCompletionUsageOutput {
   return {
     completionTokens: input.completion_tokens,
@@ -487,12 +512,12 @@ export function convertRunCompletionUsageOutput(
 }
 
 export function convertRequiredActionOutput(
-  input: GeneratedModels.RequiredActionOutput
+  input: GeneratedModels.RequiredActionOutput,
 ): PublicModels.RequiredActionOutput {
   switch (input.type) {
     case "submit_tool_outputs":
       return convertSubmitToolOutputsActionOutput(
-        input as GeneratedModels.SubmitToolOutputsActionOutput
+        input as GeneratedModels.SubmitToolOutputsActionOutput,
       );
     default:
       return { ...input };
@@ -500,31 +525,30 @@ export function convertRequiredActionOutput(
 }
 
 export function convertSubmitToolOutputsActionOutput(
-  input: GeneratedModels.SubmitToolOutputsActionOutput
+  input: GeneratedModels.SubmitToolOutputsActionOutput,
 ): PublicModels.SubmitToolOutputsActionOutput {
   return {
     type: input.type,
-    submitToolOutputs: input.submit_tool_outputs && convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs)
+    submitToolOutputs:
+      input.submit_tool_outputs && convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs),
   };
 }
 
 export function convertSubmitToolOutputsDetailsOutput(
-  input: GeneratedModels.SubmitToolOutputsDetailsOutput
+  input: GeneratedModels.SubmitToolOutputsDetailsOutput,
 ): PublicModels.SubmitToolOutputsDetailsOutput {
   return {
-    toolCalls: input.tool_calls?.map(
-      convertRequiredToolCallOutput
-    ),
+    toolCalls: input.tool_calls?.map(convertRequiredToolCallOutput),
   };
 }
 
 export function convertRequiredToolCallOutput(
-  input: GeneratedModels.RequiredToolCallOutput
+  input: GeneratedModels.RequiredToolCallOutput,
 ): PublicModels.RequiredToolCallOutput {
   switch (input.type) {
     case "function":
       return convertRequiredFunctionToolCallOutput(
-        input as GeneratedModels.RequiredFunctionToolCallOutput
+        input as GeneratedModels.RequiredFunctionToolCallOutput,
       );
     default:
       return { ...input };
@@ -532,17 +556,17 @@ export function convertRequiredToolCallOutput(
 }
 
 export function convertRequiredFunctionToolCallOutput(
-  input: GeneratedModels.RequiredFunctionToolCallOutput
+  input: GeneratedModels.RequiredFunctionToolCallOutput,
 ): PublicModels.RequiredFunctionToolCallOutput {
   return {
     id: input.id,
     type: input.type,
-    function: input.function && convertRequiredFunctionToolCallDetailsOutput(input.function)
+    function: input.function && convertRequiredFunctionToolCallDetailsOutput(input.function),
   };
 }
 
 export function convertRequiredFunctionToolCallDetailsOutput(
-  input: GeneratedModels.RequiredFunctionToolCallDetailsOutput
+  input: GeneratedModels.RequiredFunctionToolCallDetailsOutput,
 ): PublicModels.RequiredFunctionToolCallDetailsOutput {
   return {
     name: input.name,
@@ -550,16 +574,17 @@ export function convertRequiredFunctionToolCallDetailsOutput(
   };
 }
 
-function convertTruncationObjectOutput(input: GeneratedModels.TruncationObjectOutput): PublicModels.TruncationObjectOutput {
+function convertTruncationObjectOutput(
+  input: GeneratedModels.TruncationObjectOutput,
+): PublicModels.TruncationObjectOutput {
   return {
     type: input.type,
-    lastMessages: input.last_messages
+    lastMessages: input.last_messages,
   };
-
 }
 
 export function convertOpenAIPageableListOfThreadRunOutput(
-  input: GeneratedModels.OpenAIPageableListOfThreadRunOutput
+  input: GeneratedModels.OpenAIPageableListOfThreadRunOutput,
 ): PublicModels.OpenAIPageableListOfThreadRunOutput {
   return {
     object: input.object,
@@ -569,7 +594,9 @@ export function convertOpenAIPageableListOfThreadRunOutput(
     data: input.data?.map(convertThreadRunOutput),
   };
 }
-export function convertRunStepOutput(input: GeneratedModels.RunStepOutput): PublicModels.RunStepOutput {
+export function convertRunStepOutput(
+  input: GeneratedModels.RunStepOutput,
+): PublicModels.RunStepOutput {
   return {
     id: input.id,
     object: input.object,
@@ -591,26 +618,25 @@ export function convertRunStepOutput(input: GeneratedModels.RunStepOutput): Publ
 }
 
 export function convertRunStepDetailsOutput(
-  input: GeneratedModels.RunStepDetailsOutput
+  input: GeneratedModels.RunStepDetailsOutput,
 ): PublicModels.RunStepDetailsOutput {
   switch (input.type) {
     case "message_creation":
       return convertRunStepMessageCreationDetailsOutput(
-        input as GeneratedModels.RunStepMessageCreationDetailsOutput
+        input as GeneratedModels.RunStepMessageCreationDetailsOutput,
       );
     case "tool_call":
       return convertRunStepToolCallDetailsOutput(
-        input as GeneratedModels.RunStepToolCallDetailsOutput
+        input as GeneratedModels.RunStepToolCallDetailsOutput,
       );
-    default:
-      {
-        throw new Error(`Unknown run step type: ${input.type}`);
-      }
+    default: {
+      throw new Error(`Unknown run step type: ${input.type}`);
+    }
   }
 }
 
 export function convertRunStepMessageCreationDetailsOutput(
-  input: GeneratedModels.RunStepMessageCreationDetailsOutput
+  input: GeneratedModels.RunStepMessageCreationDetailsOutput,
 ): PublicModels.RunStepMessageCreationDetailsOutput {
   return {
     type: input.type,
@@ -619,7 +645,7 @@ export function convertRunStepMessageCreationDetailsOutput(
 }
 
 export function convertRunStepMessageCreationReferenceOutput(
-  input: GeneratedModels.RunStepMessageCreationReferenceOutput
+  input: GeneratedModels.RunStepMessageCreationReferenceOutput,
 ): PublicModels.RunStepMessageCreationReferenceOutput {
   return {
     messageId: input.message_id,
@@ -627,7 +653,7 @@ export function convertRunStepMessageCreationReferenceOutput(
 }
 
 export function convertRunStepToolCallDetailsOutput(
-  input: GeneratedModels.RunStepToolCallDetailsOutput
+  input: GeneratedModels.RunStepToolCallDetailsOutput,
 ): PublicModels.RunStepToolCallDetailsOutput {
   return {
     type: input.type,
@@ -636,56 +662,57 @@ export function convertRunStepToolCallDetailsOutput(
 }
 
 export function convertRunStepToolCallOutput(
-  input: GeneratedModels.RunStepToolCallOutput
+  input: GeneratedModels.RunStepToolCallOutput,
 ): PublicModels.RunStepToolCallOutput {
   switch (input.type) {
     case "code_interpreter":
       return convertRunStepCodeInterpreterToolCallOutput(
-        input as GeneratedModels.RunStepCodeInterpreterToolCallOutput
+        input as GeneratedModels.RunStepCodeInterpreterToolCallOutput,
       );
     case "file_search":
       return convertRunStepFileSearchToolCallOutput(
-        input as GeneratedModels.RunStepFileSearchToolCallOutput
+        input as GeneratedModels.RunStepFileSearchToolCallOutput,
       );
     case "bing_grounding":
       return convertRunStepBingGroundingToolCallOutput(
-        input as GeneratedModels.RunStepBingGroundingToolCallOutput
+        input as GeneratedModels.RunStepBingGroundingToolCallOutput,
       );
     case "azure_ai_search":
       return convertRunStepAzureAISearchToolCallOutput(
-        input as GeneratedModels.RunStepAzureAISearchToolCallOutput
+        input as GeneratedModels.RunStepAzureAISearchToolCallOutput,
       );
     case "sharepoint_grounding":
       return convertRunStepSharepointToolCallOutput(
-        input as GeneratedModels.RunStepSharepointToolCallOutput
+        input as GeneratedModels.RunStepSharepointToolCallOutput,
       );
     case "microsoft_fabric":
       return convertRunStepMicrosoftFabricToolCallOutput(
-        input as GeneratedModels.RunStepMicrosoftFabricToolCallOutput
+        input as GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
       );
     case "function":
       return convertRunStepFunctionToolCallOutput(
-        input as GeneratedModels.RunStepFunctionToolCallOutput
+        input as GeneratedModels.RunStepFunctionToolCallOutput,
       );
-    default:
-      {
-        throw new Error(`Unknown run step tool call type: ${input.type}`);
-      }
+    default: {
+      throw new Error(`Unknown run step tool call type: ${input.type}`);
+    }
   }
 }
 
 export function convertRunStepCodeInterpreterToolCallOutput(
-  input: GeneratedModels.RunStepCodeInterpreterToolCallOutput
+  input: GeneratedModels.RunStepCodeInterpreterToolCallOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallOutput {
   return {
     type: input.type,
     id: input.id,
-    codeInterpreter: input.code_interpreter && convertRunStepCodeInterpreterToolCallDetailsOutput(input.code_interpreter),
+    codeInterpreter:
+      input.code_interpreter &&
+      convertRunStepCodeInterpreterToolCallDetailsOutput(input.code_interpreter),
   };
 }
 
 export function convertRunStepFileSearchToolCallOutput(
-  input: GeneratedModels.RunStepFileSearchToolCallOutput
+  input: GeneratedModels.RunStepFileSearchToolCallOutput,
 ): PublicModels.RunStepFileSearchToolCallOutput {
   return {
     type: input.type,
@@ -695,7 +722,7 @@ export function convertRunStepFileSearchToolCallOutput(
 }
 
 export function convertRunStepBingGroundingToolCallOutput(
-  input: GeneratedModels.RunStepBingGroundingToolCallOutput
+  input: GeneratedModels.RunStepBingGroundingToolCallOutput,
 ): PublicModels.RunStepBingGroundingToolCallOutput {
   return {
     type: input.type,
@@ -705,7 +732,7 @@ export function convertRunStepBingGroundingToolCallOutput(
 }
 
 export function convertRunStepAzureAISearchToolCallOutput(
-  input: GeneratedModels.RunStepAzureAISearchToolCallOutput
+  input: GeneratedModels.RunStepAzureAISearchToolCallOutput,
 ): PublicModels.RunStepAzureAISearchToolCallOutput {
   return {
     type: input.type,
@@ -715,7 +742,7 @@ export function convertRunStepAzureAISearchToolCallOutput(
 }
 
 export function convertRunStepSharepointToolCallOutput(
-  input: GeneratedModels.RunStepSharepointToolCallOutput
+  input: GeneratedModels.RunStepSharepointToolCallOutput,
 ): PublicModels.RunStepSharepointToolCallOutput {
   return {
     type: input.type,
@@ -725,7 +752,7 @@ export function convertRunStepSharepointToolCallOutput(
 }
 
 export function convertRunStepMicrosoftFabricToolCallOutput(
-  input: GeneratedModels.RunStepMicrosoftFabricToolCallOutput
+  input: GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
 ): PublicModels.RunStepMicrosoftFabricToolCallOutput {
   return {
     type: input.type,
@@ -735,7 +762,7 @@ export function convertRunStepMicrosoftFabricToolCallOutput(
 }
 
 export function convertRunStepFunctionToolCallOutput(
-  input: GeneratedModels.RunStepFunctionToolCallOutput
+  input: GeneratedModels.RunStepFunctionToolCallOutput,
 ): PublicModels.RunStepFunctionToolCallOutput {
   return {
     type: input.type,
@@ -745,7 +772,7 @@ export function convertRunStepFunctionToolCallOutput(
 }
 
 export function convertRunStepFunctionToolCallDetailsOutput(
-  input: GeneratedModels.RunStepFunctionToolCallDetailsOutput
+  input: GeneratedModels.RunStepFunctionToolCallDetailsOutput,
 ): PublicModels.RunStepFunctionToolCallDetailsOutput {
   return {
     name: input.name,
@@ -755,7 +782,7 @@ export function convertRunStepFunctionToolCallDetailsOutput(
 }
 
 export function convertRunStepCodeInterpreterToolCallDetailsOutput(
-  input: GeneratedModels.RunStepCodeInterpreterToolCallDetailsOutput
+  input: GeneratedModels.RunStepCodeInterpreterToolCallDetailsOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallDetailsOutput {
   return {
     input: input.input,
@@ -764,16 +791,16 @@ export function convertRunStepCodeInterpreterToolCallDetailsOutput(
 }
 
 export function convertRunStepCodeInterpreterToolCallOutputOutput(
-  input: GeneratedModels.RunStepCodeInterpreterToolCallOutputOutput
+  input: GeneratedModels.RunStepCodeInterpreterToolCallOutputOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallOutputOutput {
   switch (input.type) {
     case "logs":
       return convertRunStepCodeInterpreterLogOutputOutput(
-        input as GeneratedModels.RunStepCodeInterpreterLogOutputOutput
+        input as GeneratedModels.RunStepCodeInterpreterLogOutputOutput,
       );
     case "image":
       return convertRunStepCodeInterpreterImageOutputOutput(
-        input as GeneratedModels.RunStepCodeInterpreterImageOutputOutput
+        input as GeneratedModels.RunStepCodeInterpreterImageOutputOutput,
       );
     default:
       return input;
@@ -781,7 +808,7 @@ export function convertRunStepCodeInterpreterToolCallOutputOutput(
 }
 
 export function convertRunStepCodeInterpreterLogOutputOutput(
-  input: GeneratedModels.RunStepCodeInterpreterLogOutputOutput
+  input: GeneratedModels.RunStepCodeInterpreterLogOutputOutput,
 ): PublicModels.RunStepCodeInterpreterLogOutputOutput {
   return {
     type: input.type,
@@ -790,7 +817,7 @@ export function convertRunStepCodeInterpreterLogOutputOutput(
 }
 
 export function convertRunStepCodeInterpreterImageOutputOutput(
-  input: GeneratedModels.RunStepCodeInterpreterImageOutputOutput
+  input: GeneratedModels.RunStepCodeInterpreterImageOutputOutput,
 ): PublicModels.RunStepCodeInterpreterImageOutputOutput {
   return {
     type: input.type,
@@ -799,7 +826,7 @@ export function convertRunStepCodeInterpreterImageOutputOutput(
 }
 
 export function convertRunStepCodeInterpreterImageReferenceOutput(
-  input: GeneratedModels.RunStepCodeInterpreterImageReferenceOutput
+  input: GeneratedModels.RunStepCodeInterpreterImageReferenceOutput,
 ): PublicModels.RunStepCodeInterpreterImageReferenceOutput {
   return {
     fileId: input.file_id,
@@ -807,7 +834,7 @@ export function convertRunStepCodeInterpreterImageReferenceOutput(
 }
 
 export function convertRunStepErrorOutput(
-  input: GeneratedModels.RunStepErrorOutput
+  input: GeneratedModels.RunStepErrorOutput,
 ): PublicModels.RunStepErrorOutput {
   return {
     code: input.code,
@@ -816,7 +843,7 @@ export function convertRunStepErrorOutput(
 }
 
 export function convertRunStepCompletionUsageOutput(
-  input: GeneratedModels.RunStepCompletionUsageOutput
+  input: GeneratedModels.RunStepCompletionUsageOutput,
 ): PublicModels.RunStepCompletionUsageOutput {
   return {
     completionTokens: input.completion_tokens,
@@ -826,7 +853,7 @@ export function convertRunStepCompletionUsageOutput(
 }
 
 export function convertOpenAIPageableListOfRunStepOutput(
-  input: GeneratedModels.OpenAIPageableListOfRunStepOutput
+  input: GeneratedModels.OpenAIPageableListOfRunStepOutput,
 ): PublicModels.OpenAIPageableListOfRunStepOutput {
   return {
     object: input.object,
@@ -838,7 +865,7 @@ export function convertOpenAIPageableListOfRunStepOutput(
 }
 
 export function convertOpenAIPageableListOfThreadMessageOutput(
-  input: GeneratedModels.OpenAIPageableListOfThreadMessageOutput
+  input: GeneratedModels.OpenAIPageableListOfThreadMessageOutput,
 ): PublicModels.OpenAIPageableListOfThreadMessageOutput {
   return {
     object: input.object,
@@ -849,7 +876,9 @@ export function convertOpenAIPageableListOfThreadMessageOutput(
   };
 }
 
-export function convertOpenAIPageableListOfVectorStoreOutput(input: GeneratedModels.OpenAIPageableListOfVectorStoreOutput): PublicModels.OpenAIPageableListOfVectorStoreOutput {
+export function convertOpenAIPageableListOfVectorStoreOutput(
+  input: GeneratedModels.OpenAIPageableListOfVectorStoreOutput,
+): PublicModels.OpenAIPageableListOfVectorStoreOutput {
   return {
     object: input.object,
     firstId: input.first_id,
@@ -860,7 +889,7 @@ export function convertOpenAIPageableListOfVectorStoreOutput(input: GeneratedMod
 }
 
 export function convertVectorStoreOutput(
-  input: GeneratedModels.VectorStoreOutput
+  input: GeneratedModels.VectorStoreOutput,
 ): PublicModels.VectorStoreOutput {
   return {
     id: input.id,
@@ -880,7 +909,7 @@ export function convertVectorStoreOutput(
 }
 
 function convertVectorStoreFileCountOutput(
-  input: GeneratedModels.VectorStoreFileCountOutput
+  input: GeneratedModels.VectorStoreFileCountOutput,
 ): PublicModels.VectorStoreFileCountOutput {
   return {
     inProgress: input.in_progress,
@@ -892,7 +921,7 @@ function convertVectorStoreFileCountOutput(
 }
 
 function convertVectorStoreExpirationPolicyOutput(
-  input: GeneratedModels.VectorStoreExpirationPolicyOutput
+  input: GeneratedModels.VectorStoreExpirationPolicyOutput,
 ): PublicModels.VectorStoreExpirationPolicyOutput {
   return {
     anchor: input.anchor,
@@ -901,7 +930,7 @@ function convertVectorStoreExpirationPolicyOutput(
 }
 
 export function convertVectorStoreDeletionStatusOutput(
-  input: GeneratedModels.VectorStoreDeletionStatusOutput
+  input: GeneratedModels.VectorStoreDeletionStatusOutput,
 ): PublicModels.VectorStoreDeletionStatusOutput {
   return {
     id: input.id,
@@ -911,7 +940,7 @@ export function convertVectorStoreDeletionStatusOutput(
 }
 
 export function convertVectorStoreFileBatchOutput(
-  input: GeneratedModels.VectorStoreFileBatchOutput
+  input: GeneratedModels.VectorStoreFileBatchOutput,
 ): PublicModels.VectorStoreFileBatchOutput {
   return {
     id: input.id,
@@ -920,12 +949,11 @@ export function convertVectorStoreFileBatchOutput(
     vectorStoreId: input.vector_store_id,
     status: input.status,
     fileCounts: convertVectorStoreFileCountOutput(input.file_counts),
-
   };
 }
 
 export function convertOpenAIPageableListOfVectorStoreFileOutput(
-  input: GeneratedModels.OpenAIPageableListOfVectorStoreFileOutput
+  input: GeneratedModels.OpenAIPageableListOfVectorStoreFileOutput,
 ): PublicModels.OpenAIPageableListOfVectorStoreFileOutput {
   return {
     object: input.object,
@@ -937,7 +965,7 @@ export function convertOpenAIPageableListOfVectorStoreFileOutput(
 }
 
 export function convertVectorStoreFileOutput(
-  input: GeneratedModels.VectorStoreFileOutput
+  input: GeneratedModels.VectorStoreFileOutput,
 ): PublicModels.VectorStoreFileOutput {
   return {
     id: input.id,
@@ -947,24 +975,28 @@ export function convertVectorStoreFileOutput(
     vectorStoreId: input.vector_store_id,
     status: input.status,
     lastError: input.last_error,
-    chunkingStrategy: input.chunking_strategy && convertVectorStoreChunkingStrategyResponseOutput(input.chunking_strategy),
+    chunkingStrategy:
+      input.chunking_strategy &&
+      convertVectorStoreChunkingStrategyResponseOutput(input.chunking_strategy),
   };
 }
 
 function convertVectorStoreChunkingStrategyResponseOutput(
-  input: GeneratedModels.VectorStoreChunkingStrategyResponseOutput
+  input: GeneratedModels.VectorStoreChunkingStrategyResponseOutput,
 ): PublicModels.VectorStoreChunkingStrategyResponseOutput {
   switch (input.type) {
     case "auto":
       return input as PublicModels.VectorStoreAutoChunkingStrategyResponseOutput;
     case "static":
-      return convertVectorStoreStaticChunkingStrategyResponseOutput(input as GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput);
+      return convertVectorStoreStaticChunkingStrategyResponseOutput(
+        input as GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput,
+      );
     default:
       throw new Error(`Unknown chunking strategy type: ${input.type}`);
   }
 }
 function convertVectorStoreStaticChunkingStrategyResponseOutput(
-  input: GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput,
 ): PublicModels.VectorStoreStaticChunkingStrategyResponseOutput {
   return {
     type: input.type,
@@ -973,7 +1005,7 @@ function convertVectorStoreStaticChunkingStrategyResponseOutput(
 }
 
 function convertVectorStoreStaticChunkingStrategyOptionsOutput(
-  input: GeneratedModels.VectorStoreStaticChunkingStrategyOptionsOutput
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyOptionsOutput,
 ): PublicModels.VectorStoreStaticChunkingStrategyOptionsOutput {
   return {
     maxChunkSizeTokens: input.max_chunk_size_tokens,
@@ -982,7 +1014,7 @@ function convertVectorStoreStaticChunkingStrategyOptionsOutput(
 }
 
 export function convertVectorStoreFileDeletionStatusOutput(
-  input: GeneratedModels.VectorStoreFileDeletionStatusOutput
+  input: GeneratedModels.VectorStoreFileDeletionStatusOutput,
 ): PublicModels.VectorStoreFileDeletionStatusOutput {
   return {
     id: input.id,

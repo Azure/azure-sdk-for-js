@@ -3,7 +3,10 @@
 
 import type * as PublicParameters from "./parameters.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
-import { convertVectorStoreChunkingStrategyRequest, convertVectorStoreDataSource } from "./convertModelsToWrite.js";
+import {
+  convertVectorStoreChunkingStrategyRequest,
+  convertVectorStoreDataSource,
+} from "./convertModelsToWrite.js";
 
 /**
  * Request options for list requests.
@@ -16,31 +19,40 @@ interface ListQueryParameters {
 }
 
 export function convertCreateVectorStoreFileBatchParam(
-  input: PublicParameters.CreateVectorStoreFileBatchBodyParam
+  input: PublicParameters.CreateVectorStoreFileBatchBodyParam,
 ): GeneratedParameters.CreateVectorStoreFileBatchBodyParam {
   return {
     body: input.body && {
       ...(input.body.fileIds && { file_ids: input.body.fileIds }),
-      ...(input.body.dataSources && { data_sources: input.body.dataSources.map(convertVectorStoreDataSource) }),
-      ...(input.body.chunkingStrategy && { chunking_strategy: convertVectorStoreChunkingStrategyRequest(input.body.chunkingStrategy) }),
+      ...(input.body.dataSources && {
+        data_sources: input.body.dataSources.map(convertVectorStoreDataSource),
+      }),
+      ...(input.body.chunkingStrategy && {
+        chunking_strategy: convertVectorStoreChunkingStrategyRequest(input.body.chunkingStrategy),
+      }),
     },
-  }
+  };
 }
 
 export function convertCreateVectorStoreFileParam(
-  input: PublicParameters.CreateVectorStoreFileBodyParam
+  input: PublicParameters.CreateVectorStoreFileBodyParam,
 ): GeneratedParameters.CreateVectorStoreFileBodyParam {
   return {
     body: input.body && {
       ...(input.body.fileId && { file_id: input.body.fileId }),
-      ...(input.body.dataSources && { data_sources: input.body.dataSources.map(convertVectorStoreDataSource) }),
-      ...(input.body.chunkingStrategy && { chunking_strategy: convertVectorStoreChunkingStrategyRequest(input.body.chunkingStrategy) }),
+      ...(input.body.dataSources && {
+        data_sources: input.body.dataSources.map(convertVectorStoreDataSource),
+      }),
+      ...(input.body.chunkingStrategy && {
+        chunking_strategy: convertVectorStoreChunkingStrategyRequest(input.body.chunkingStrategy),
+      }),
     },
-  }
+  };
 }
 
-
-export function convertToListQueryParameters<T extends ListQueryParameters>(options: T): Record<string, unknown> {
+export function convertToListQueryParameters<T extends ListQueryParameters>(
+  options: T,
+): Record<string, unknown> {
   return {
     ...(options.limit && { limit: options.limit }),
     ...(options.order && { order: options.order }),
@@ -50,7 +62,7 @@ export function convertToListQueryParameters<T extends ListQueryParameters>(opti
 }
 
 export function convertListVectorStoreFileBatchFilesQueryParamProperties(
-  options: PublicParameters.ListVectorStoreFileBatchFilesQueryParamProperties
+  options: PublicParameters.ListVectorStoreFileBatchFilesQueryParamProperties,
 ): GeneratedParameters.ListVectorStoreFileBatchFilesQueryParamProperties {
   return {
     ...convertToListQueryParameters(options),

@@ -4,10 +4,9 @@
 import type * as PublicModels from "./models.js";
 import type * as GeneratedModels from "../generated/src/models.js";
 
-
 // Conversion functions
 export function convertCreateAgentOptions(
-  source: PublicModels.CreateAgentOptions
+  source: PublicModels.CreateAgentOptions,
 ): GeneratedModels.CreateAgentOptions {
   return {
     model: source.model,
@@ -24,21 +23,27 @@ export function convertCreateAgentOptions(
 }
 
 export function convertToolResources(
-  source: PublicModels.ToolResources
+  source: PublicModels.ToolResources,
 ): GeneratedModels.ToolResources {
   return {
-    ...(source.codeInterpreter && { code_interpreter: convertCodeInterpreterToolResource(source.codeInterpreter) }),
+    ...(source.codeInterpreter && {
+      code_interpreter: convertCodeInterpreterToolResource(source.codeInterpreter),
+    }),
     ...(source.fileSearch && { file_search: convertFileSearchToolResource(source.fileSearch) }),
-    ...(source.azureAISearch && { azure_ai_search: convertAzureAISearchResource(source.azureAISearch) }),
+    ...(source.azureAISearch && {
+      azure_ai_search: convertAzureAISearchResource(source.azureAISearch),
+    }),
   };
 }
 
 export function convertMessageAttachmentToolDefinition(
-  source: PublicModels.MessageAttachmentToolDefinition
+  source: PublicModels.MessageAttachmentToolDefinition,
 ): GeneratedModels.MessageAttachmentToolDefinition {
   switch (source.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinition(source as PublicModels.CodeInterpreterToolDefinition);
+      return convertCodeInterpreterToolDefinition(
+        source as PublicModels.CodeInterpreterToolDefinition,
+      );
     case "file_search":
       return convertFileSearchToolDefinition(source as PublicModels.FileSearchToolDefinition);
     default:
@@ -47,11 +52,13 @@ export function convertMessageAttachmentToolDefinition(
 }
 
 export function convertToolDefinition(
-  source: PublicModels.ToolDefinition
+  source: PublicModels.ToolDefinition,
 ): GeneratedModels.ToolDefinition {
   switch (source.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinition(source as PublicModels.CodeInterpreterToolDefinition);
+      return convertCodeInterpreterToolDefinition(
+        source as PublicModels.CodeInterpreterToolDefinition,
+      );
     case "file_search":
       return convertFileSearchToolDefinition(source as PublicModels.FileSearchToolDefinition);
     case "function":
@@ -59,7 +66,9 @@ export function convertToolDefinition(
     case "bing_grounding":
       return convertBingGroundingToolDefinition(source as PublicModels.BingGroundingToolDefinition);
     case "microsoft_fabric":
-      return convertMicrosoftFabricToolDefinition(source as PublicModels.MicrosoftFabricToolDefinition);
+      return convertMicrosoftFabricToolDefinition(
+        source as PublicModels.MicrosoftFabricToolDefinition,
+      );
     case "sharepoint_grounding":
       return convertSharepointToolDefinition(source as PublicModels.SharepointToolDefinition);
     case "azure_ai_search":
@@ -70,7 +79,7 @@ export function convertToolDefinition(
 }
 
 export function convertCodeInterpreterToolDefinition(
-  source: PublicModels.CodeInterpreterToolDefinition
+  source: PublicModels.CodeInterpreterToolDefinition,
 ): GeneratedModels.CodeInterpreterToolDefinition {
   return {
     type: source.type,
@@ -78,16 +87,18 @@ export function convertCodeInterpreterToolDefinition(
 }
 
 export function convertFileSearchToolDefinition(
-  source: PublicModels.FileSearchToolDefinition
+  source: PublicModels.FileSearchToolDefinition,
 ): GeneratedModels.FileSearchToolDefinition {
   return {
     type: source.type,
-    ...(source.fileSearch && { file_search: convertFileSearchToolDefinitionDetails(source.fileSearch) }),
+    ...(source.fileSearch && {
+      file_search: convertFileSearchToolDefinitionDetails(source.fileSearch),
+    }),
   };
 }
 
 export function convertFunctionToolDefinition(
-  source: PublicModels.FunctionToolDefinition
+  source: PublicModels.FunctionToolDefinition,
 ): GeneratedModels.FunctionToolDefinition {
   return {
     type: source.type,
@@ -96,7 +107,7 @@ export function convertFunctionToolDefinition(
 }
 
 export function convertBingGroundingToolDefinition(
-  source: PublicModels.BingGroundingToolDefinition
+  source: PublicModels.BingGroundingToolDefinition,
 ): GeneratedModels.BingGroundingToolDefinition {
   return {
     type: source.type,
@@ -105,7 +116,7 @@ export function convertBingGroundingToolDefinition(
 }
 
 export function convertMicrosoftFabricToolDefinition(
-  source: PublicModels.MicrosoftFabricToolDefinition
+  source: PublicModels.MicrosoftFabricToolDefinition,
 ): GeneratedModels.MicrosoftFabricToolDefinition {
   return {
     type: source.type,
@@ -114,7 +125,7 @@ export function convertMicrosoftFabricToolDefinition(
 }
 
 export function convertSharepointToolDefinition(
-  source: PublicModels.SharepointToolDefinition
+  source: PublicModels.SharepointToolDefinition,
 ): GeneratedModels.SharepointToolDefinition {
   return {
     type: source.type,
@@ -123,7 +134,7 @@ export function convertSharepointToolDefinition(
 }
 
 export function convertAzureAISearchToolDefinition(
-  source: PublicModels.AzureAISearchToolDefinition
+  source: PublicModels.AzureAISearchToolDefinition,
 ): GeneratedModels.AzureAISearchToolDefinition {
   return {
     type: source.type,
@@ -131,16 +142,18 @@ export function convertAzureAISearchToolDefinition(
 }
 
 export function convertFileSearchToolDefinitionDetails(
-  source: PublicModels.FileSearchToolDefinitionDetails
+  source: PublicModels.FileSearchToolDefinitionDetails,
 ): GeneratedModels.FileSearchToolDefinitionDetails {
   return {
     ...(source.maxNumResults && { max_num_results: source.maxNumResults }),
-    ...(source.rankingOptions && { ranking_options: convertFileSearchRankingOptions(source.rankingOptions) }),
+    ...(source.rankingOptions && {
+      ranking_options: convertFileSearchRankingOptions(source.rankingOptions),
+    }),
   };
 }
 
 export function convertFileSearchRankingOptions(
-  source: PublicModels.FileSearchRankingOptions
+  source: PublicModels.FileSearchRankingOptions,
 ): GeneratedModels.FileSearchRankingOptions {
   return {
     ranker: source.ranker,
@@ -149,16 +162,18 @@ export function convertFileSearchRankingOptions(
 }
 
 export function convertCodeInterpreterToolResource(
-  source: PublicModels.CodeInterpreterToolResource
+  source: PublicModels.CodeInterpreterToolResource,
 ): GeneratedModels.CodeInterpreterToolResource {
   return {
     file_ids: source.fileIds,
-    ...(source.dataSources && { data_sources: source.dataSources.map(convertVectorStoreDataSource) }),
+    ...(source.dataSources && {
+      data_sources: source.dataSources.map(convertVectorStoreDataSource),
+    }),
   };
 }
 
 export function convertVectorStoreDataSource(
-  source: PublicModels.VectorStoreDataSource
+  source: PublicModels.VectorStoreDataSource,
 ): GeneratedModels.VectorStoreDataSource {
   return {
     uri: source.uri,
@@ -167,16 +182,18 @@ export function convertVectorStoreDataSource(
 }
 
 export function convertFileSearchToolResource(
-  source: PublicModels.FileSearchToolResource
+  source: PublicModels.FileSearchToolResource,
 ): GeneratedModels.FileSearchToolResource {
   return {
     ...(source.vectorStoreIds && { vector_store_ids: source.vectorStoreIds }),
-    ...(source.vectorStores && { vector_stores: source.vectorStores.map(convertVectorStoreConfigurations) }),
+    ...(source.vectorStores && {
+      vector_stores: source.vectorStores.map(convertVectorStoreConfigurations),
+    }),
   };
 }
 
 export function convertVectorStoreConfigurations(
-  source: PublicModels.VectorStoreConfigurations
+  source: PublicModels.VectorStoreConfigurations,
 ): GeneratedModels.VectorStoreConfigurations {
   return {
     name: source.name,
@@ -185,7 +202,7 @@ export function convertVectorStoreConfigurations(
 }
 
 export function convertVectorStoreConfiguration(
-  source: PublicModels.VectorStoreConfiguration
+  source: PublicModels.VectorStoreConfiguration,
 ): GeneratedModels.VectorStoreConfiguration {
   return {
     data_sources: source.dataSources.map(convertVectorStoreDataSource),
@@ -193,7 +210,7 @@ export function convertVectorStoreConfiguration(
 }
 
 export function convertAzureAISearchResource(
-  source: PublicModels.AzureAISearchResource
+  source: PublicModels.AzureAISearchResource,
 ): GeneratedModels.AzureAISearchResource {
   return {
     ...(source.indexes && { indexes: source.indexes.map(convertIndexResource) }),
@@ -201,7 +218,7 @@ export function convertAzureAISearchResource(
 }
 
 export function convertIndexResource(
-  source: PublicModels.IndexResource
+  source: PublicModels.IndexResource,
 ): GeneratedModels.IndexResource {
   return {
     index_connection_id: source.indexConnectionId,
@@ -210,7 +227,7 @@ export function convertIndexResource(
 }
 
 export function convertAgentsApiResponseFormat(
-  source: PublicModels.AgentsApiResponseFormat
+  source: PublicModels.AgentsApiResponseFormat,
 ): GeneratedModels.AgentsApiResponseFormat {
   return {
     type: source.type,
@@ -218,7 +235,7 @@ export function convertAgentsApiResponseFormat(
 }
 
 export function convertUpdateAgentOptions(
-  source: PublicModels.UpdateAgentOptions
+  source: PublicModels.UpdateAgentOptions,
 ): GeneratedModels.UpdateAgentOptions {
   return {
     ...(source.model && { model: source.model }),
@@ -235,7 +252,7 @@ export function convertUpdateAgentOptions(
 }
 
 export function convertAgentThreadCreationOptions(
-  source: PublicModels.AgentThreadCreationOptions
+  source: PublicModels.AgentThreadCreationOptions,
 ): GeneratedModels.AgentThreadCreationOptions {
   return {
     ...(source.messages && { messages: source.messages.map(convertThreadMessageOptions) }),
@@ -245,7 +262,7 @@ export function convertAgentThreadCreationOptions(
 }
 
 export function convertAgentThreadUpdateOptions(
-  source: PublicModels.UpdateAgentThreadOptions
+  source: PublicModels.UpdateAgentThreadOptions,
 ): GeneratedModels.UpdateAgentThreadOptions {
   return {
     ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
@@ -254,7 +271,7 @@ export function convertAgentThreadUpdateOptions(
 }
 
 export function convertThreadMessageOptions(
-  source: PublicModels.ThreadMessageOptions
+  source: PublicModels.ThreadMessageOptions,
 ): GeneratedModels.ThreadMessageOptions {
   return {
     role: source.role,
@@ -265,31 +282,41 @@ export function convertThreadMessageOptions(
 }
 
 export function convertMessageAttachment(
-  source: PublicModels.MessageAttachment
+  source: PublicModels.MessageAttachment,
 ): GeneratedModels.MessageAttachment {
   return {
     file_id: source.fileId,
-    ...(source.dataSources && { data_sources: source.dataSources.map(convertVectorStoreDataSource) }),
+    ...(source.dataSources && {
+      data_sources: source.dataSources.map(convertVectorStoreDataSource),
+    }),
     ...(source.tools && { tools: source.tools.map(convertMessageAttachmentToolDefinition) }),
   };
 }
 
 export function convertCreateRunOptions(
-  source: PublicModels.CreateRunOptions
+  source: PublicModels.CreateRunOptions,
 ): GeneratedModels.CreateRunOptions {
   return {
     assistant_id: source.assistantId,
     ...(source.model && { model: source.model }),
     ...(source.instructions && { instructions: source.instructions }),
-    ...(source.additionalInstructions && { additional_instructions: source.additionalInstructions }),
-    ...(source.additionalMessages && { additional_messages: source.additionalMessages.map(convertThreadMessage) }),
+    ...(source.additionalInstructions && {
+      additional_instructions: source.additionalInstructions,
+    }),
+    ...(source.additionalMessages && {
+      additional_messages: source.additionalMessages.map(convertThreadMessage),
+    }),
     ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
     ...(source.stream !== undefined && { stream: source.stream }),
     ...(source.temperature !== undefined && { temperature: source.temperature }),
     ...(source.topP !== undefined && { top_p: source.topP }),
     ...(source.maxPromptTokens !== undefined && { max_prompt_tokens: source.maxPromptTokens }),
-    ...(source.maxCompletionTokens !== undefined && { max_completion_tokens: source.maxCompletionTokens }),
-    ...(source.truncationStrategy && { truncation_strategy: convertTruncationObject(source.truncationStrategy) }),
+    ...(source.maxCompletionTokens !== undefined && {
+      max_completion_tokens: source.maxCompletionTokens,
+    }),
+    ...(source.truncationStrategy && {
+      truncation_strategy: convertTruncationObject(source.truncationStrategy),
+    }),
     ...(source.toolChoice && { tool_choice: source.toolChoice }),
     ...(source.responseFormat && { response_format: source.responseFormat }),
     ...(source.metadata && { metadata: source.metadata }),
@@ -297,7 +324,7 @@ export function convertCreateRunOptions(
 }
 
 export function convertTruncationObject(
-  source: PublicModels.TruncationObject
+  source: PublicModels.TruncationObject,
 ): GeneratedModels.TruncationObject {
   return {
     type: source.type,
@@ -306,7 +333,7 @@ export function convertTruncationObject(
 }
 
 export function convertAgentsNamedToolChoice(
-  source: PublicModels.AgentsNamedToolChoice
+  source: PublicModels.AgentsNamedToolChoice,
 ): GeneratedModels.AgentsNamedToolChoice {
   return {
     type: source.type,
@@ -315,7 +342,7 @@ export function convertAgentsNamedToolChoice(
 }
 
 export function convertFunctionName(
-  source: PublicModels.FunctionName
+  source: PublicModels.FunctionName,
 ): GeneratedModels.FunctionName {
   return {
     name: source.name,
@@ -323,17 +350,23 @@ export function convertFunctionName(
 }
 
 export function convertUpdateToolResourcesOptions(
-  source: PublicModels.UpdateToolResourcesOptions
+  source: PublicModels.UpdateToolResourcesOptions,
 ): GeneratedModels.UpdateToolResourcesOptions {
   return {
-    ...(source.codeInterpreter && { code_interpreter: convertUpdateCodeInterpreterToolResourceOptions(source.codeInterpreter) }),
-    ...(source.fileSearch && { file_search: convertUpdateFileSearchToolResourceOptions(source.fileSearch) }),
-    ...(source.azureAISearch && { azure_ai_search: convertAzureAISearchResource(source.azureAISearch) }),
+    ...(source.codeInterpreter && {
+      code_interpreter: convertUpdateCodeInterpreterToolResourceOptions(source.codeInterpreter),
+    }),
+    ...(source.fileSearch && {
+      file_search: convertUpdateFileSearchToolResourceOptions(source.fileSearch),
+    }),
+    ...(source.azureAISearch && {
+      azure_ai_search: convertAzureAISearchResource(source.azureAISearch),
+    }),
   };
 }
 
 export function convertUpdateCodeInterpreterToolResourceOptions(
-  source: PublicModels.UpdateCodeInterpreterToolResourceOptions
+  source: PublicModels.UpdateCodeInterpreterToolResourceOptions,
 ): GeneratedModels.UpdateCodeInterpreterToolResourceOptions {
   return {
     ...(source.fileIds && { file_ids: source.fileIds }),
@@ -341,16 +374,14 @@ export function convertUpdateCodeInterpreterToolResourceOptions(
 }
 
 export function convertUpdateFileSearchToolResourceOptions(
-  source: PublicModels.UpdateFileSearchToolResourceOptions
+  source: PublicModels.UpdateFileSearchToolResourceOptions,
 ): GeneratedModels.UpdateFileSearchToolResourceOptions {
   return {
     ...(source.vectorStoreIds && { vector_store_ids: source.vectorStoreIds }),
   };
 }
 
-export function convertToolOutput(
-  source: PublicModels.ToolOutput
-): GeneratedModels.ToolOutput {
+export function convertToolOutput(source: PublicModels.ToolOutput): GeneratedModels.ToolOutput {
   return {
     ...(source.toolCallId !== undefined && { tool_call_id: source.toolCallId }),
     ...(source.output !== undefined && { output: source.output }),
@@ -358,7 +389,7 @@ export function convertToolOutput(
 }
 
 export function convertCreateAndRunThreadOptions(
-  source: PublicModels.CreateAndRunThreadOptions
+  source: PublicModels.CreateAndRunThreadOptions,
 ): GeneratedModels.CreateAndRunThreadOptions {
   return {
     assistant_id: source.assistantId,
@@ -366,13 +397,19 @@ export function convertCreateAndRunThreadOptions(
     ...(source.model && { model: source.model }),
     ...(source.instructions && { instructions: source.instructions }),
     ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
-    ...(source.toolResources && { tool_resources: convertUpdateToolResourcesOptions(source.toolResources) }),
+    ...(source.toolResources && {
+      tool_resources: convertUpdateToolResourcesOptions(source.toolResources),
+    }),
     ...(source.stream !== undefined && { stream: source.stream }),
     ...(source.temperature !== undefined && { temperature: source.temperature }),
     ...(source.topP !== undefined && { top_p: source.topP }),
     ...(source.maxPromptTokens !== undefined && { max_prompt_tokens: source.maxPromptTokens }),
-    ...(source.maxCompletionTokens !== undefined && { max_completion_tokens: source.maxCompletionTokens }),
-    ...(source.truncationStrategy && { truncation_strategy: convertTruncationObject(source.truncationStrategy) }),
+    ...(source.maxCompletionTokens !== undefined && {
+      max_completion_tokens: source.maxCompletionTokens,
+    }),
+    ...(source.truncationStrategy && {
+      truncation_strategy: convertTruncationObject(source.truncationStrategy),
+    }),
     ...(source.toolChoice && { tool_choice: source.toolChoice }),
     ...(source.responseFormat && { response_format: source.responseFormat }),
     ...(source.metadata && { metadata: source.metadata }),
@@ -380,7 +417,7 @@ export function convertCreateAndRunThreadOptions(
 }
 
 export function convertVectorStoreExpirationPolicy(
-  source: PublicModels.VectorStoreExpirationPolicy
+  source: PublicModels.VectorStoreExpirationPolicy,
 ): GeneratedModels.VectorStoreExpirationPolicy {
   return {
     anchor: source.anchor,
@@ -389,32 +426,42 @@ export function convertVectorStoreExpirationPolicy(
 }
 
 export function convertVectorStoreOptions(
-  source: PublicModels.VectorStoreOptions
+  source: PublicModels.VectorStoreOptions,
 ): GeneratedModels.VectorStoreOptions {
   return {
     ...(source.fileIds && { file_ids: source.fileIds }),
     ...(source.name && { name: source.name }),
-    ...(source.configuration && { configuration: convertVectorStoreConfiguration(source.configuration) }),
-    ...(source.expiresAfter && { expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter) }),
-    ...(source.chunkingStrategy && { chunking_strategy: convertVectorStoreChunkingStrategyRequest(source.chunkingStrategy) }),
+    ...(source.configuration && {
+      configuration: convertVectorStoreConfiguration(source.configuration),
+    }),
+    ...(source.expiresAfter && {
+      expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter),
+    }),
+    ...(source.chunkingStrategy && {
+      chunking_strategy: convertVectorStoreChunkingStrategyRequest(source.chunkingStrategy),
+    }),
     ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
 export function convertVectorStoreChunkingStrategyRequest(
-  source: PublicModels.VectorStoreChunkingStrategyRequest
+  source: PublicModels.VectorStoreChunkingStrategyRequest,
 ): GeneratedModels.VectorStoreChunkingStrategyRequest {
   switch (source.type) {
     case "auto":
       return source as GeneratedModels.VectorStoreAutoChunkingStrategyRequest;
     case "static":
-      return convertVectorStoreStaticChunkingStrategyRequest(source as PublicModels.VectorStoreStaticChunkingStrategyRequest);
+      return convertVectorStoreStaticChunkingStrategyRequest(
+        source as PublicModels.VectorStoreStaticChunkingStrategyRequest,
+      );
     default:
       throw new Error(`Unknown chunking strategy type: ${source.type}`);
   }
 }
 
-function convertVectorStoreStaticChunkingStrategyRequest(source: PublicModels.VectorStoreStaticChunkingStrategyRequest): GeneratedModels.VectorStoreStaticChunkingStrategyRequest {
+function convertVectorStoreStaticChunkingStrategyRequest(
+  source: PublicModels.VectorStoreStaticChunkingStrategyRequest,
+): GeneratedModels.VectorStoreStaticChunkingStrategyRequest {
   return {
     ...source,
     static: convertVectorStoreStaticChunkingStrategyOptions(source.static),
@@ -422,7 +469,7 @@ function convertVectorStoreStaticChunkingStrategyRequest(source: PublicModels.Ve
 }
 
 export function convertVectorStoreStaticChunkingStrategyOptions(
-  source: PublicModels.VectorStoreStaticChunkingStrategyOptions
+  source: PublicModels.VectorStoreStaticChunkingStrategyOptions,
 ): GeneratedModels.VectorStoreStaticChunkingStrategyOptions {
   return {
     max_chunk_size_tokens: source.maxChunkSizeTokens,
@@ -431,17 +478,19 @@ export function convertVectorStoreStaticChunkingStrategyOptions(
 }
 
 export function convertVectorStoreUpdateOptions(
-  source: PublicModels.VectorStoreUpdateOptions
+  source: PublicModels.VectorStoreUpdateOptions,
 ): GeneratedModels.VectorStoreUpdateOptions {
   return {
     ...(source.name && { name: source.name }),
-    ...(source.expiresAfter && { expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter) }),
+    ...(source.expiresAfter && {
+      expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter),
+    }),
     ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
 export function convertFunctionDefinition(
-  source: PublicModels.FunctionDefinition
+  source: PublicModels.FunctionDefinition,
 ): GeneratedModels.FunctionDefinition {
   return {
     name: source.name,
@@ -451,7 +500,7 @@ export function convertFunctionDefinition(
 }
 
 export function convertToolConnectionList(
-  source: PublicModels.ToolConnectionList
+  source: PublicModels.ToolConnectionList,
 ): GeneratedModels.ToolConnectionList {
   return {
     ...(source.connections && { connections: source.connections.map(convertToolConnection) }),
@@ -459,7 +508,7 @@ export function convertToolConnectionList(
 }
 
 export function convertToolConnection(
-  source: PublicModels.ToolConnection
+  source: PublicModels.ToolConnection,
 ): GeneratedModels.ToolConnection {
   return {
     connection_id: source.connectionId,
@@ -467,7 +516,7 @@ export function convertToolConnection(
 }
 
 export function convertThreadMessage(
-  source: PublicModels.ThreadMessage
+  source: PublicModels.ThreadMessage,
 ): GeneratedModels.ThreadMessage {
   return {
     id: source.id,
@@ -475,20 +524,24 @@ export function convertThreadMessage(
     created_at: source.createdAt,
     thread_id: source.threadId,
     status: source.status,
-    incomplete_details: !source.incompleteDetails ? source.incompleteDetails : convertMessageIncompleteDetails(source.incompleteDetails),
+    incomplete_details: !source.incompleteDetails
+      ? source.incompleteDetails
+      : convertMessageIncompleteDetails(source.incompleteDetails),
     completed_at: source.completedAt,
     incomplete_at: source.incompleteAt,
     role: source.role,
     content: source.content.map(convertMessageContent),
     assistant_id: source.assistantId,
     run_id: source.runId,
-    attachments: !source.attachments ? source.attachments : source.attachments?.map(convertMessageAttachment),
+    attachments: !source.attachments
+      ? source.attachments
+      : source.attachments?.map(convertMessageAttachment),
     metadata: source.metadata,
   };
 }
 
 export function convertMessageIncompleteDetails(
-  source: PublicModels.MessageIncompleteDetails
+  source: PublicModels.MessageIncompleteDetails,
 ): GeneratedModels.MessageIncompleteDetails {
   return {
     reason: source.reason,
@@ -496,7 +549,7 @@ export function convertMessageIncompleteDetails(
 }
 
 export function convertMessageContent(
-  source: PublicModels.MessageContent
+  source: PublicModels.MessageContent,
 ): GeneratedModels.MessageContent {
   switch (source.type) {
     case "text":
@@ -509,7 +562,7 @@ export function convertMessageContent(
 }
 
 export function convertMessageTextContent(
-  source: PublicModels.MessageTextContent
+  source: PublicModels.MessageTextContent,
 ): GeneratedModels.MessageTextContent {
   return {
     type: "text",
@@ -518,7 +571,7 @@ export function convertMessageTextContent(
 }
 
 export function convertMessageTextDetails(
-  source: PublicModels.MessageTextDetails
+  source: PublicModels.MessageTextDetails,
 ): GeneratedModels.MessageTextDetails {
   return {
     value: source.value,
@@ -527,20 +580,24 @@ export function convertMessageTextDetails(
 }
 
 export function convertMessageTextAnnotation(
-  source: PublicModels.MessageTextAnnotation
+  source: PublicModels.MessageTextAnnotation,
 ): GeneratedModels.MessageTextAnnotation {
   switch (source.type) {
     case "file_citation":
-      return convertMessageTextFileCitationAnnotation(source as PublicModels.MessageTextFileCitationAnnotation);
+      return convertMessageTextFileCitationAnnotation(
+        source as PublicModels.MessageTextFileCitationAnnotation,
+      );
     case "file_path":
-      return convertMessageTextFilePathAnnotation(source as PublicModels.MessageTextFilePathAnnotation);
+      return convertMessageTextFilePathAnnotation(
+        source as PublicModels.MessageTextFilePathAnnotation,
+      );
     default:
       throw new Error(`Unknown message text annotation type: ${source.type}`);
   }
 }
 
 export function convertMessageTextFileCitationAnnotation(
-  source: PublicModels.MessageTextFileCitationAnnotation
+  source: PublicModels.MessageTextFileCitationAnnotation,
 ): GeneratedModels.MessageTextFileCitationAnnotation {
   return {
     text: source.text,
@@ -552,7 +609,7 @@ export function convertMessageTextFileCitationAnnotation(
 }
 
 export function convertMessageTextFileCitationDetails(
-  source: PublicModels.MessageTextFileCitationDetails
+  source: PublicModels.MessageTextFileCitationDetails,
 ): GeneratedModels.MessageTextFileCitationDetails {
   return {
     file_id: source.fileId,
@@ -561,7 +618,7 @@ export function convertMessageTextFileCitationDetails(
 }
 
 export function convertMessageTextFilePathAnnotation(
-  source: PublicModels.MessageTextFilePathAnnotation
+  source: PublicModels.MessageTextFilePathAnnotation,
 ): GeneratedModels.MessageTextFilePathAnnotation {
   return {
     text: source.text,
@@ -573,7 +630,7 @@ export function convertMessageTextFilePathAnnotation(
 }
 
 export function convertMessageTextFilePathDetails(
-  source: PublicModels.MessageTextFilePathDetails
+  source: PublicModels.MessageTextFilePathDetails,
 ): GeneratedModels.MessageTextFilePathDetails {
   return {
     file_id: source.fileId,
@@ -581,7 +638,7 @@ export function convertMessageTextFilePathDetails(
 }
 
 export function convertMessageImageFileContent(
-  source: PublicModels.MessageImageFileContent
+  source: PublicModels.MessageImageFileContent,
 ): GeneratedModels.MessageImageFileContent {
   return {
     type: "image_file",
@@ -590,7 +647,7 @@ export function convertMessageImageFileContent(
 }
 
 export function convertMessageImageFileDetails(
-  source: PublicModels.MessageImageFileDetails
+  source: PublicModels.MessageImageFileDetails,
 ): GeneratedModels.MessageImageFileDetails {
   return {
     file_id: source.fileId,

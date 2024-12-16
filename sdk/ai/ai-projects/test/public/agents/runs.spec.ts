@@ -10,12 +10,12 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 describe("Agents - Run", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations
+  let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents
+    agents = projectsClient.agents;
   });
 
   afterEach(async function () {
@@ -24,7 +24,10 @@ describe("Agents - Run", () => {
 
   it("should create agent and run agent", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
     console.log(`Created agent, agent ID:  ${agent.id}`);
@@ -46,11 +49,14 @@ describe("Agents - Run", () => {
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
     await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
-  })
+  });
 
   it("should create and get run", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
     console.log(`Created agent, agent ID:  ${agent.id}`);
@@ -79,11 +85,14 @@ describe("Agents - Run", () => {
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
     await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
-  })
+  });
 
   it("should create and get run status", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
     console.log(`Created agent, agent ID:  ${agent.id}`);
@@ -95,7 +104,10 @@ describe("Agents - Run", () => {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" })
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "Hello, tell me a joke",
+    });
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
@@ -144,7 +156,10 @@ describe("Agents - Run", () => {
 
   it("should create and list runs", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
     console.log(`Created agent, agent ID:  ${agent.id}`);
@@ -156,7 +171,10 @@ describe("Agents - Run", () => {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" })
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "Hello, tell me a joke",
+    });
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
@@ -188,7 +206,10 @@ describe("Agents - Run", () => {
 
   it("should create and run in single call", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
     console.log(`Created agent, agent ID:  ${agent.id}`);
@@ -199,9 +220,9 @@ describe("Agents - Run", () => {
         messages: [
           {
             role: "user",
-            content: "Hello, tell me a joke"
-          }
-        ]
+            content: "Hello, tell me a joke",
+          },
+        ],
       },
     });
     assert.isNotNull(run);
@@ -223,5 +244,4 @@ describe("Agents - Run", () => {
     await agents.deleteThread(run.threadId);
     console.log(`Deleted Thread, thread ID:  ${run.threadId}`);
   });
-
 });

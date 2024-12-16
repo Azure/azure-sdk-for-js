@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VectorStoreChunkingStrategyRequest, VectorStoreDataSource, VectorStoreFileStatusFilter } from "../customization/models.js";
+import type {
+  VectorStoreChunkingStrategyRequest,
+  VectorStoreDataSource,
+  VectorStoreFileStatusFilter,
+} from "../customization/models.js";
 
 /** Request object for creating a vector store file. */
 export interface CreateVectorStoreFileOptions {

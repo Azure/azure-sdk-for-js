@@ -3,14 +3,29 @@
 
 import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../customization/outputModels.js";
-import type { CreateMessageParameters, ListMessagesParameters } from "../generated/src/parameters.js";
+import type {
+  OpenAIPageableListOfThreadMessageOutput,
+  ThreadMessageOutput,
+} from "../customization/outputModels.js";
+import type {
+  CreateMessageParameters,
+  ListMessagesParameters,
+} from "../generated/src/parameters.js";
 import { validateMetadata, validateVectorStoreDataType } from "./inputValidations.js";
 import { TracingUtility } from "../tracing.js";
-import { traceEndCreateMessage, traceEndListMessages, traceStartCreateMessage, traceStartListMessages } from "./messagesTrace.js";
+import {
+  traceEndCreateMessage,
+  traceEndListMessages,
+  traceStartCreateMessage,
+  traceStartListMessages,
+} from "./messagesTrace.js";
 import { traceStartAgentGeneric } from "./traceUtility.js";
 import type { ThreadMessageOptions } from "../customization/models.js";
-import type { CreateMessageOptionalParams, ListMessagesOptionalParams, UpdateMessageOptionalParams } from "./customModels.js";
+import type {
+  CreateMessageOptionalParams,
+  ListMessagesOptionalParams,
+  UpdateMessageOptionalParams,
+} from "./customModels.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 
@@ -23,7 +38,6 @@ export async function createMessage(
   messageOptions: ThreadMessageOptions,
   options: CreateMessageOptionalParams = {},
 ): Promise<ThreadMessageOutput> {
-
   const createOptions: GeneratedParameters.CreateMessageParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
@@ -33,16 +47,22 @@ export async function createMessage(
 
   validateThreadId(threadId);
   validateCreateMessageParameters(createOptions);
-  const response = await TracingUtility.withSpan("CreateMessage", createOptions, async (updateOptions) => {
-    const result = await context
-      .path("/threads/{threadId}/messages", threadId)
-      .post(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
-    }
-    return result.body;
-  }, (span, updatedOptions) => traceStartCreateMessage(span, threadId, updatedOptions), traceEndCreateMessage);
-  return ConvertFromWire.convertThreadMessageOutput(response)
+  const response = await TracingUtility.withSpan(
+    "CreateMessage",
+    createOptions,
+    async (updateOptions) => {
+      const result = await context
+        .path("/threads/{threadId}/messages", threadId)
+        .post(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createRestError(result);
+      }
+      return result.body;
+    },
+    (span, updatedOptions) => traceStartCreateMessage(span, threadId, updatedOptions),
+    traceEndCreateMessage,
+  );
+  return ConvertFromWire.convertThreadMessageOutput(response);
 }
 
 /** Gets a list of messages that exist on a thread. */
@@ -51,7 +71,6 @@ export async function listMessages(
   threadId: string,
   options: ListMessagesOptionalParams = {},
 ): Promise<OpenAIPageableListOfThreadMessageOutput> {
-
   const listOptions: GeneratedParameters.ListMessagesParameters = {
     ...operationOptionsToRequestParameters(options),
     queryParameters: {
@@ -60,22 +79,28 @@ export async function listMessages(
       ...(options.order && { run_id: options.order }),
       ...(options.after && { run_id: options.after }),
       ...(options.before && { run_id: options.before }),
-    }
+    },
   };
 
   validateThreadId(threadId);
   validateListMessagesParameters(listOptions);
-  const output = await TracingUtility.withSpan("ListMessages", listOptions, async (updateOptions) => {
-    const result = await context
-      .path("/threads/{threadId}/messages", threadId)
-      .get(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
-    }
-    return result.body;
-  }, (span, updatedOptions) => traceStartListMessages(span, threadId, updatedOptions), traceEndListMessages);
+  const output = await TracingUtility.withSpan(
+    "ListMessages",
+    listOptions,
+    async (updateOptions) => {
+      const result = await context
+        .path("/threads/{threadId}/messages", threadId)
+        .get(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createRestError(result);
+      }
+      return result.body;
+    },
+    (span, updatedOptions) => traceStartListMessages(span, threadId, updatedOptions),
+    traceEndListMessages,
+  );
 
-  return ConvertFromWire.convertOpenAIPageableListOfThreadMessageOutput(output)
+  return ConvertFromWire.convertOpenAIPageableListOfThreadMessageOutput(output);
 }
 
 /** Modifies an existing message on an existing thread. */
@@ -85,24 +110,32 @@ export async function updateMessage(
   messageId: string,
   options: UpdateMessageOptionalParams = {},
 ): Promise<ThreadMessageOutput> {
-
   const updateMessageOptions: GeneratedParameters.UpdateMessageParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
       ...(options.metadata ? { metadata: options.metadata } : {}),
-    }
+    },
   };
   validateThreadId(threadId);
   validateMessageId(messageId);
-  const response = await TracingUtility.withSpan("UpdateMessage", updateMessageOptions, async (updateOptions) => {
-    const result = await context
-      .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
-      .post(updateOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
-    }
-    return result.body;
-  }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { threadId: threadId, messageId: messageId } }));
+  const response = await TracingUtility.withSpan(
+    "UpdateMessage",
+    updateMessageOptions,
+    async (updateOptions) => {
+      const result = await context
+        .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
+        .post(updateOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createRestError(result);
+      }
+      return result.body;
+    },
+    (span, updatedOptions) =>
+      traceStartAgentGeneric(span, {
+        ...updatedOptions,
+        tracingAttributeOptions: { threadId: threadId, messageId: messageId },
+      }),
+  );
 
   return ConvertFromWire.convertThreadMessageOutput(response);
 }
@@ -127,23 +160,28 @@ function validateCreateMessageParameters(options: CreateMessageParameters): void
     validateMetadata(options.body.metadata);
   }
   if (options.body.attachments) {
-    if (options.body.attachments.some(value => {
-      value.tools.some(tool => !["code_interpreter", "file_search"].includes(tool.type));
-    })) {
+    if (
+      options.body.attachments.some((value) => {
+        value.tools.some((tool) => !["code_interpreter", "file_search"].includes(tool.type));
+      })
+    ) {
       throw new Error("Tool type must be either 'code_interpreter' or 'file_search'");
     }
     if (options.body.attachments) {
-      options.body.attachments.forEach(value => {
+      options.body.attachments.forEach((value) => {
         if (value.data_sources) {
           validateVectorStoreDataType(value.data_sources);
         }
-      })
+      });
     }
   }
 }
 
 function validateListMessagesParameters(options?: ListMessagesParameters): void {
-  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
+  if (
+    options?.queryParameters?.limit &&
+    (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)
+  ) {
     throw new Error("Limit must be between 1 and 100");
   }
   if (options?.queryParameters?.order && !["asc", "desc"].includes(options.queryParameters.order)) {

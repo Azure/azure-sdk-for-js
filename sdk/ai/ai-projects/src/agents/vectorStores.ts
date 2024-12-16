@@ -3,12 +3,31 @@
 
 import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters } from "../generated/src/parameters.js";
-import type { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../customization/outputModels.js";
+import type {
+  ListVectorStoresParameters,
+  CreateVectorStoreParameters,
+  ModifyVectorStoreParameters,
+} from "../generated/src/parameters.js";
+import type {
+  OpenAIPageableListOfVectorStoreOutput,
+  VectorStoreDeletionStatusOutput,
+  VectorStoreOutput,
+} from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
 import type { CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
-import { type CreateVectorStoreOptionalParams, type DeleteVectorStoreOptionalParams, type GetVectorStoreOptionalParams, type ListVectorStoresOptionalParams, type UpdateVectorStoreOptionalParams } from "./customModels.js";
-import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
+import {
+  type CreateVectorStoreOptionalParams,
+  type DeleteVectorStoreOptionalParams,
+  type GetVectorStoreOptionalParams,
+  type ListVectorStoresOptionalParams,
+  type UpdateVectorStoreOptionalParams,
+} from "./customModels.js";
+import {
+  validateLimit,
+  validateMetadata,
+  validateOrder,
+  validateVectorStoreId,
+} from "./inputValidations.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
@@ -21,12 +40,10 @@ export async function listVectorStores(
   context: Client,
   options: ListVectorStoresOptionalParams = {},
 ): Promise<OpenAIPageableListOfVectorStoreOutput> {
-
   const listOptions: GeneratedParameters.ListVectorStoresParameters = {
     ...operationOptionsToRequestParameters(options),
     queryParameters: convertToListQueryParameters(options),
   };
-
 
   validateListVectorStoresParameters(listOptions);
   const result = await context.path("/vector_stores").get(listOptions);
@@ -42,11 +59,10 @@ export async function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
-
   const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
-  }
+  };
 
   validateCreateVectorStoreParameters(createOptions);
   const result = await context.path("/vector_stores").post(createOptions);
@@ -63,10 +79,9 @@ export async function getVectorStore(
   vectorStoreId: string,
   options: GetVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
-
   const getOptions: GeneratedParameters.GetVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
-  }
+  };
 
   validateVectorStoreId(vectorStoreId);
   const result = await context
@@ -85,11 +100,10 @@ export async function modifyVectorStore(
   vectorStoreId: string,
   options: UpdateVectorStoreOptionalParams = {},
 ): Promise<VectorStoreOutput> {
-
   const modifyOptions: GeneratedParameters.ModifyVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
-    body: ConvertToWire.convertVectorStoreUpdateOptions(options)
-  }
+    body: ConvertToWire.convertVectorStoreUpdateOptions(options),
+  };
 
   validateVectorStoreId(vectorStoreId);
   validateModifyVectorStoreParameters(modifyOptions);
@@ -109,10 +123,9 @@ export async function deleteVectorStore(
   vectorStoreId: string,
   options: DeleteVectorStoreOptionalParams = {},
 ): Promise<VectorStoreDeletionStatusOutput> {
-
   const deleteOptions: GeneratedParameters.DeleteVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
-  }
+  };
 
   validateVectorStoreId(vectorStoreId);
   const result = await context
@@ -130,10 +143,10 @@ export async function deleteVectorStore(
  */
 export function createVectorStoreAndPoll(
   context: Client,
-  options: CreateVectorStoreWithPollingOptionalParams = {}
+  options: CreateVectorStoreWithPollingOptionalParams = {},
 ): Promise<VectorStoreOutput> {
   async function updateCreateVectorStorePoll(
-    currentResult?: VectorStoreOutput
+    currentResult?: VectorStoreOutput,
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
     let vectorStore: VectorStoreOutput;
     if (!currentResult) {
@@ -152,7 +165,7 @@ export function createVectorStoreAndPoll(
 
   const poller = new AgentsPoller<VectorStoreOutput>({
     update: updateCreateVectorStorePoll,
-    pollingOptions: options.pollingOptions
+    pollingOptions: options.pollingOptions,
   });
   return poller.pollUntilDone();
 }
@@ -167,7 +180,10 @@ function validateListVectorStoresParameters(options?: ListVectorStoresParameters
 }
 
 function validateCreateVectorStoreParameters(options?: CreateVectorStoreParameters): void {
-  if (options?.body?.chunking_strategy && (!options.body.file_ids || options.body.file_ids.length === 0)) {
+  if (
+    options?.body?.chunking_strategy &&
+    (!options.body.file_ids || options.body.file_ids.length === 0)
+  ) {
     throw new Error("Chunking strategy is only applicable if fileIds is non-empty");
   }
   if (options?.body?.metadata) {

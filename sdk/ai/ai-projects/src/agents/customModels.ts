@@ -5,14 +5,28 @@ import type { OperationOptions, RequestParameters } from "@azure-rest/core-clien
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { AgentThreadCreationOptions, CreateAndRunThreadOptions, CreateRunOptions, UpdateAgentThreadOptions, VectorStoreFileStatusFilter, VectorStoreOptions, VectorStoreUpdateOptions } from "../customization/models.js";
+import type {
+  AgentThreadCreationOptions,
+  CreateAndRunThreadOptions,
+  CreateRunOptions,
+  UpdateAgentThreadOptions,
+  VectorStoreFileStatusFilter,
+  VectorStoreOptions,
+  VectorStoreUpdateOptions,
+} from "../customization/models.js";
 import type { ListMessagesQueryParamProperties } from "../customization/parameters.js";
-import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
+import type {
+  CreateVectorStoreFileBatchOptions,
+  CreateVectorStoreFileOptions,
+} from "./vectorStoresModels.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
  */
-export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">
+export type OptionalRequestParameters = Pick<
+  RequestParameters,
+  "headers" | "timeout" | "abortSignal" | "tracingOptions"
+>;
 
 /**
  * Request options for list requests.
@@ -68,12 +82,14 @@ export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
 /**
  * Optional parameters for creating and running a thread, excluding the assistantId.
  */
-export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> & OperationOptions;
+export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> &
+  OperationOptions;
 
 /**
  * Optional parameters for creating and running a thread, excluding the assistantId.
  */
-export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
+export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> &
+  OperationOptions;
 
 /**
  * Optional parameters for listing run queries.
@@ -111,7 +127,9 @@ export interface UpdateRunOptionalParams extends OperationOptions {
 /**
  * Optional parameters for creating an agent thread.
  */
-export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOptions, OperationOptions { }
+export interface CreateAgentThreadOptionalParams
+  extends AgentThreadCreationOptions,
+  OperationOptions { }
 
 /**
  * Optional parameters for getting an agent thread.
@@ -121,7 +139,9 @@ export interface GetAgentThreadOptionalParams extends OperationOptions { }
 /**
  * Optional parameters for updating an agent thread.
  */
-export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOptions, OperationOptions { }
+export interface UpdateAgentThreadOptionalParams
+  extends UpdateAgentThreadOptions,
+  OperationOptions { }
 
 /**
  * Optional parameters for deleting an agent thread.
@@ -154,7 +174,9 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
 /**
  * Optional parameters for listing messages.
  */
-export interface ListMessagesOptionalParams extends ListMessagesQueryParamProperties, OperationOptions { }
+export interface ListMessagesOptionalParams
+  extends ListMessagesQueryParamProperties,
+  OperationOptions { }
 
 /**
  * Optional parameters creating vector store.
@@ -164,7 +186,10 @@ export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, Ope
 /**
  * Optional parameters for creating vector store with polling.
  */
-export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams { pollingOptions?: PollingOptions }
+export interface CreateVectorStoreWithPollingOptionalParams
+  extends CreateVectorStoreOptionalParams {
+  pollingOptions?: PollingOptions;
+}
 
 /**
  * Optional parameters for listing vector stores.
@@ -174,7 +199,9 @@ export interface ListVectorStoresOptionalParams extends ListQueryParameters, Ope
 /**
  * Optional parameters for updating a vector store.
  */
-export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions { }
+export interface UpdateVectorStoreOptionalParams
+  extends VectorStoreUpdateOptions,
+  OperationOptions { }
 
 /**
  * Optional parameters for deleting a vector store.
@@ -194,7 +221,9 @@ export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters,
 /**
  * Optional parameters for creating a vector store file.
  */
-export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions { }
+export interface CreateVectorStoreFileOptionalParams
+  extends CreateVectorStoreFileOptions,
+  OperationOptions { }
 
 /**
  * Optional parameters for getting a vector store file.
@@ -209,12 +238,18 @@ export interface DeleteVectorStoreFileOptionalParams extends OperationOptions { 
 /**
  * Optional parameters for creating a vector store file with polling.
  */
-export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, OperationOptions { pollingOptions?: PollingOptions }
+export interface CreateVectorStoreFileWithPollingOptionalParams
+  extends CreateVectorStoreFileOptions,
+  OperationOptions {
+  pollingOptions?: PollingOptions;
+}
 
 /**
  * Optional parameters for listing vector store file batches.
  */
-export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
+export interface ListVectorStoreFileBatchFilesOptionalParams
+  extends ListQueryParameters,
+  OperationOptions {
   /** Filter by file status. */
   filter?: VectorStoreFileStatusFilter;
 }
@@ -232,9 +267,14 @@ export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptio
 /**
  * Optional parameters for creating a vector store file batch.
  */
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions { }
+export interface CreateVectorStoreFileBatchOptionalParams
+  extends CreateVectorStoreFileBatchOptions,
+  OperationOptions { }
 
 /**
  * Optional parameters for creating a vector store file batch with polling.
  */
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams { pollingOptions?: PollingOptions }
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams
+  extends CreateVectorStoreFileBatchOptionalParams {
+  pollingOptions?: PollingOptions;
+}

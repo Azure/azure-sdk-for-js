@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Paged } from "@azure/core-paging";
+import type { Paged } from "@azure/core-paging";
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinitionOutputParent {
@@ -9,15 +9,13 @@ export interface ToolDefinitionOutputParent {
 }
 
 /** The input definition information for a code interpreter tool as used to configure an agent. */
-export interface CodeInterpreterToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a file search tool as used to configure an agent. */
-export interface FileSearchToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface FileSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'file_search'. */
   type: "file_search";
   /** Options overrides for the file search tool. */
@@ -44,8 +42,7 @@ export interface FileSearchRankingOptionsOutput {
 }
 
 /** The input definition information for a function tool as used to configure an agent. */
-export interface FunctionToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -63,8 +60,7 @@ export interface FunctionDefinitionOutput {
 }
 
 /** The input definition information for a bing grounding search tool as used to configure an agent. */
-export interface BingGroundingToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
   /** The list of connections used by the bing grounding tool. */
@@ -87,8 +83,7 @@ export interface ToolConnectionOutput {
 }
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
-export interface MicrosoftFabricToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'microsoft_fabric'. */
   type: "microsoft_fabric";
   /** The list of connections used by the Microsoft Fabric tool. */
@@ -96,8 +91,7 @@ export interface MicrosoftFabricToolDefinitionOutput
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
-export interface SharepointToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'sharepoint_grounding'. */
   type: "sharepoint_grounding";
   /** The list of connections used by the SharePoint tool. */
@@ -105,8 +99,7 @@ export interface SharepointToolDefinitionOutput
 }
 
 /** The input definition information for an Azure AI search tool as used to configure an agent. */
-export interface AzureAISearchToolDefinitionOutput
-  extends ToolDefinitionOutputParent {
+export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'azure_ai_search'. */
   type: "azure_ai_search";
 }
@@ -391,8 +384,7 @@ export interface MessageTextAnnotationOutputParent {
 }
 
 /** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
-export interface MessageTextFileCitationAnnotationOutput
-  extends MessageTextAnnotationOutputParent {
+export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
   /**
@@ -415,8 +407,7 @@ export interface MessageTextFileCitationDetailsOutput {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface MessageTextFilePathAnnotationOutput
-  extends MessageTextAnnotationOutputParent {
+export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
   /** A URL for the file that's generated when the agent used the code_interpreter tool to generate a file. */
@@ -434,8 +425,7 @@ export interface MessageTextFilePathDetailsOutput {
 }
 
 /** A representation of image file content in a thread message. */
-export interface MessageImageFileContentOutput
-  extends MessageContentOutputParent {
+export interface MessageImageFileContentOutput extends MessageContentOutputParent {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -567,8 +557,7 @@ export interface RequiredActionOutputParent {
 }
 
 /** The details for required tool calls that must be submitted for an agent thread run to continue. */
-export interface SubmitToolOutputsActionOutput
-  extends RequiredActionOutputParent {
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
   /** The object type, which is always 'submit_tool_outputs'. */
   type: "submit_tool_outputs";
   /** The details describing tools that should be called to submit tool outputs. */
@@ -589,8 +578,7 @@ export interface RequiredToolCallOutputParent {
 }
 
 /** A representation of a requested call to a function tool, needed by the model to continue evaluation of a run. */
-export interface RequiredFunctionToolCallOutput
-  extends RequiredToolCallOutputParent {
+export interface RequiredFunctionToolCallOutput extends RequiredToolCallOutputParent {
   /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
@@ -716,8 +704,7 @@ export interface RunStepDetailsOutputParent {
 }
 
 /** The detailed information associated with a message creation run step. */
-export interface RunStepMessageCreationDetailsOutput
-  extends RunStepDetailsOutputParent {
+export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
   /** The object type, which is always 'message_creation'. */
   type: "message_creation";
   /** Information about the message creation associated with this run step. */
@@ -731,8 +718,7 @@ export interface RunStepMessageCreationReferenceOutput {
 }
 
 /** The detailed information associated with a run step calling tools. */
-export interface RunStepToolCallDetailsOutput
-  extends RunStepDetailsOutputParent {
+export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
   /** The object type, which is always 'tool_calls'. */
   type: "tool_calls";
   /** A list of tool call details for this run step. */
@@ -750,8 +736,7 @@ export interface RunStepToolCallOutputParent {
  * A record of a call to a code interpreter tool, issued by the model in evaluation of a defined tool, that
  * represents inputs and outputs consumed and emitted by the code interpreter.
  */
-export interface RunStepCodeInterpreterToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepCodeInterpreterToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
@@ -799,8 +784,7 @@ export interface RunStepCodeInterpreterImageReferenceOutput {
  * A record of a call to a file search tool, issued by the model in evaluation of a defined tool, that represents
  * executed file search.
  */
-export interface RunStepFileSearchToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'file_search'. */
   type: "file_search";
   /** Reserved for future use. */
@@ -811,8 +795,7 @@ export interface RunStepFileSearchToolCallOutput
  * A record of a call to a bing grounding tool, issued by the model in evaluation of a defined tool, that represents
  * executed search with bing grounding.
  */
-export interface RunStepBingGroundingToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepBingGroundingToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
   /** Reserved for future use. */
@@ -823,8 +806,7 @@ export interface RunStepBingGroundingToolCallOutput
  * A record of a call to an Azure AI Search tool, issued by the model in evaluation of a defined tool, that represents
  * executed Azure AI search.
  */
-export interface RunStepAzureAISearchToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepAzureAISearchToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'azure_ai_search'. */
   type: "azure_ai_search";
   /** Reserved for future use. */
@@ -835,8 +817,7 @@ export interface RunStepAzureAISearchToolCallOutput
  * A record of a call to a SharePoint tool, issued by the model in evaluation of a defined tool, that represents
  * executed SharePoint actions.
  */
-export interface RunStepSharepointToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'sharepoint_grounding'. */
   type: "sharepoint_grounding";
   /** Reserved for future use. */
@@ -847,8 +828,7 @@ export interface RunStepSharepointToolCallOutput
  * A record of a call to a Microsoft Fabric tool, issued by the model in evaluation of a defined tool, that represents
  * executed Microsoft Fabric operations.
  */
-export interface RunStepMicrosoftFabricToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'microsoft_fabric'. */
   type: "microsoft_fabric";
   /** Reserved for future use. */
@@ -859,8 +839,7 @@ export interface RunStepMicrosoftFabricToolCallOutput
  * A record of a call to a function tool, issued by the model in evaluation of a defined tool, that represents the inputs
  * and output consumed and emitted by the specified function.
  */
-export interface RunStepFunctionToolCallOutput
-  extends RunStepToolCallOutputParent {
+export interface RunStepFunctionToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The detailed information about the function called by the model. */
@@ -1276,8 +1255,7 @@ export interface InputDataOutputParent {
 }
 
 /** Data Source for Application Insights. */
-export interface ApplicationInsightsConfigurationOutput
-  extends InputDataOutputParent {
+export interface ApplicationInsightsConfigurationOutput extends InputDataOutputParent {
   readonly type: "app_insights";
   /** LogAnalytic Workspace resourceID associated with ApplicationInsights */
   resourceId: string;
@@ -1402,13 +1380,9 @@ export type MessageTextAnnotationOutput =
   | MessageTextFileCitationAnnotationOutput
   | MessageTextFilePathAnnotationOutput;
 /** An abstract representation of a required action for an agent thread run to continue. */
-export type RequiredActionOutput =
-  | RequiredActionOutputParent
-  | SubmitToolOutputsActionOutput;
+export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
 /** An abstract representation a a tool invocation needed by the model to continue a run. */
-export type RequiredToolCallOutput =
-  | RequiredToolCallOutputParent
-  | RequiredFunctionToolCallOutput;
+export type RequiredToolCallOutput = RequiredToolCallOutputParent | RequiredFunctionToolCallOutput;
 /** An abstract representation of the details for a run step. */
 export type RunStepDetailsOutput =
   | RunStepDetailsOutputParent
@@ -1446,10 +1420,7 @@ export type InputDataOutput =
   | ApplicationInsightsConfigurationOutput
   | DatasetOutput;
 /** Abstract data class for input data configuration. */
-export type TriggerOutput =
-  | TriggerOutputParent
-  | RecurrenceTriggerOutput
-  | CronTriggerOutput;
+export type TriggerOutput = TriggerOutputParent | RecurrenceTriggerOutput | CronTriggerOutput;
 /** Alias for VectorStoreDataSourceAssetTypeOutput */
 export type VectorStoreDataSourceAssetTypeOutput = "uri_asset" | "id_asset";
 /** Alias for AgentsApiResponseFormatModeOutput */

@@ -8,11 +8,19 @@ import type { CreateThreadParameters } from "../generated/src/parameters.js";
 import { addMessageEvent, UpdateWithAgentAttributes } from "./traceUtility.js";
 
 export function traceStartCreateThread(span: Span, options: CreateThreadParameters): void {
-  TracingUtility.setSpanAttributes(span, TracingOperationName.CREATE_THREAD, UpdateWithAgentAttributes({}));
+  TracingUtility.setSpanAttributes(
+    span,
+    TracingOperationName.CREATE_THREAD,
+    UpdateWithAgentAttributes({}),
+  );
   setSpanEvents(span, options);
 }
 
-export async function traceEndCreateThread(span: Span, _options: CreateThreadParameters, result: Promise<AgentThreadOutput>): Promise<void> {
+export async function traceEndCreateThread(
+  span: Span,
+  _options: CreateThreadParameters,
+  result: Promise<AgentThreadOutput>,
+): Promise<void> {
   const resolvedResult = await result;
   TracingUtility.updateSpanAttributes(span, { threadId: resolvedResult.id });
 }

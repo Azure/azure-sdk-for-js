@@ -3,10 +3,18 @@
 
 import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../customization/outputModels.js";
+import type {
+  OpenAIPageableListOfRunStepOutput,
+  RunStepOutput,
+} from "../customization/outputModels.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConverterFromWire from "../customization/convertOutputModelsFromWire.js";
-import { validateLimit, validateOrder, validateRunId, validateThreadId } from "./inputValidations.js";
+import {
+  validateLimit,
+  validateOrder,
+  validateRunId,
+  validateThreadId,
+} from "./inputValidations.js";
 import type { GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
@@ -44,12 +52,10 @@ export async function listRunSteps(
   runId: string,
   options: ListRunStepsOptionalParams = {},
 ): Promise<OpenAIPageableListOfRunStepOutput> {
-
   const listOptions: GeneratedParameters.ListRunStepsParameters = {
     ...operationOptionsToRequestParameters(options),
-    queryParameters: convertToListQueryParameters(options)
+    queryParameters: convertToListQueryParameters(options),
   };
-
 
   validateListRunsParameters(threadId, runId, listOptions);
   const result = await context
@@ -61,18 +67,23 @@ export async function listRunSteps(
   return ConverterFromWire.convertOpenAIPageableListOfRunStepOutput(result.body);
 }
 
-
-
 function validateStepId(stepId: string): void {
   if (!stepId) {
     throw new Error("Step ID is required");
   }
 }
 
-function validateListRunsParameters(thread_id: string, runId: string, options?: GeneratedParameters.ListRunStepsParameters): void {
+function validateListRunsParameters(
+  thread_id: string,
+  runId: string,
+  options?: GeneratedParameters.ListRunStepsParameters,
+): void {
   validateThreadId(thread_id);
   validateRunId(runId);
-  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
+  if (
+    options?.queryParameters?.limit &&
+    (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)
+  ) {
     throw new Error("Limit must be between 1 and 100");
   }
   if (options?.queryParameters?.limit) {

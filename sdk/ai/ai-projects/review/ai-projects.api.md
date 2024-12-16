@@ -10,7 +10,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgentDeletionStatusOutput {

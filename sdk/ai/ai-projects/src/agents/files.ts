@@ -1,10 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
-import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
-import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
-import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
+import type {
+  FileDeletionStatusOutput,
+  FileListResponseOutput,
+  OpenAIFileOutput,
+} from "../generated/src/outputModels.js";
+import type {
+  DeleteFileParameters,
+  GetFileContentParameters,
+  GetFileParameters,
+  ListFilesParameters,
+  UploadFileParameters,
+} from "../generated/src/parameters.js";
+import type { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 
 const expectedStatuses = ["200"];
@@ -27,9 +38,9 @@ export async function listFiles(
   validateListFilesParameters(options);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Uploads a file for use by other operations. */
@@ -39,31 +50,40 @@ export async function uploadFile(
 ): Promise<OpenAIFileOutput> {
   const result = await context.path("/files").post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Uploads a file for use by other operations. */
 export async function uploadFileAndPoll(
-  context: Client, 
-  options: UploadFileParameters, 
+  context: Client,
+  options: UploadFileParameters,
   pollingOptions?: PollingOptions,
   requestParams?: OptionalRequestParameters,
 ): Promise<OpenAIFileOutput> {
-  async function updateUploadFileAndPoll(currentResult?: OpenAIFileOutput): Promise<{result: OpenAIFileOutput; completed: boolean}> {
+  async function updateUploadFileAndPoll(
+    currentResult?: OpenAIFileOutput,
+  ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
     if (!currentResult) {
-      file = await uploadFile(context, {...options, ...requestParams});
+      file = await uploadFile(context, { ...options, ...requestParams });
     } else {
       file = await getFile(context, currentResult.id, options);
     }
-    return { result: file, completed: file.status === "uploaded" || file.status === "processed" || file.status === "deleted" };
+    return {
+      result: file,
+      completed:
+        file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
+    };
   }
 
-  const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: pollingOptions,});
+  const poller = new AgentsPoller<OpenAIFileOutput>({
+    update: updateUploadFileAndPoll,
+    pollingOptions: pollingOptions,
+  });
 
-  return poller.pollUntilDone(); 
+  return poller.pollUntilDone();
 }
 
 /** Delete a previously uploaded file. */
@@ -73,11 +93,9 @@ export async function deleteFile(
   options?: DeleteFileParameters,
 ): Promise<FileDeletionStatusOutput> {
   validateFileId(fileId);
-  const result = await context
-    .path("/files/{fileId}", fileId)
-    .delete(options);
+  const result = await context.path("/files/{fileId}", fileId).delete(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
   return result.body;
 }
@@ -89,13 +107,11 @@ export async function getFile(
   options?: GetFileParameters,
 ): Promise<OpenAIFileOutput> {
   validateFileId(fileId);
-  const result = await context
-    .path("/files/{fileId}", fileId)
-    .get(options);
+  const result = await context.path("/files/{fileId}", fileId).get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Returns file content. */
@@ -105,15 +121,15 @@ export function getFileContent(
   options?: GetFileContentParameters,
 ): StreamableMethod<string | Uint8Array> {
   validateFileId(fileId);
-  return context
-    .path("/files/{fileId}/content", fileId)
-    .get(options);
+  return context.path("/files/{fileId}/content", fileId).get(options);
 }
 
 function validateListFilesParameters(options?: ListFilesParameters): void {
   if (options?.queryParameters?.purpose) {
     if (!Object.values(FilePurpose).includes(options?.queryParameters?.purpose as FilePurpose)) {
-      throw new Error("Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'");
+      throw new Error(
+        "Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'",
+      );
     }
   }
 }

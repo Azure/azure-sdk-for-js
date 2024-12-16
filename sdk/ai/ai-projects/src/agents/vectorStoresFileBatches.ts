@@ -3,13 +3,30 @@
 
 import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileBatchOutput } from "../customization/outputModels.js";
+import type {
+  OpenAIPageableListOfVectorStoreFileOutput,
+  VectorStoreFileBatchOutput,
+} from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import type { CancelVectorStoreFileBatchOptionalParams, CreateVectorStoreFileBatchOptionalParams, CreateVectorStoreFileBatchWithPollingOptionalParams, GetVectorStoreFileBatchOptionalParams, ListVectorStoreFileBatchFilesOptionalParams } from "./customModels.js";
-import { validateFileStatusFilter, validateLimit, validateOrder, validateVectorStoreId } from "./inputValidations.js";
-import type { CreateVectorStoreFileBatchParameters, ListVectorStoreFileBatchFilesParameters } from "../generated/src/parameters.js";
+import type {
+  CancelVectorStoreFileBatchOptionalParams,
+  CreateVectorStoreFileBatchOptionalParams,
+  CreateVectorStoreFileBatchWithPollingOptionalParams,
+  GetVectorStoreFileBatchOptionalParams,
+  ListVectorStoreFileBatchFilesOptionalParams,
+} from "./customModels.js";
+import {
+  validateFileStatusFilter,
+  validateLimit,
+  validateOrder,
+  validateVectorStoreId,
+} from "./inputValidations.js";
+import type {
+  CreateVectorStoreFileBatchParameters,
+  ListVectorStoreFileBatchFilesParameters,
+} from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
-import * as ConvertParamsToWire from "../customization/convertParametersToWire.js"
+import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -19,15 +36,16 @@ export async function createVectorStoreFileBatch(
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = {},
 ): Promise<VectorStoreFileBatchOutput> {
-
   const createOptions: CreateVectorStoreFileBatchParameters = {
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileBatchParam({ body: options }),
-  }
+  };
 
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileBatchParameters(createOptions);
-  const result = await context.path("/vector_stores/{vectorStoreId}/file_batches", vectorStoreId).post(createOptions);
+  const result = await context
+    .path("/vector_stores/{vectorStoreId}/file_batches", vectorStoreId)
+    .post(createOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -65,7 +83,7 @@ export async function cancelVectorStoreFileBatch(
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
-  return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);;
+  return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
 }
 
 /** Returns a list of vector store files in a batch. */
@@ -75,16 +93,19 @@ export async function listVectorStoreFileBatchFiles(
   batchId: string,
   options: ListVectorStoreFileBatchFilesOptionalParams = {},
 ): Promise<OpenAIPageableListOfVectorStoreFileOutput> {
-
   const listOptions: ListVectorStoreFileBatchFilesParameters = {
     ...operationOptionsToRequestParameters(options),
-    queryParameters: ConvertParamsToWire.convertListVectorStoreFileBatchFilesQueryParamProperties(options) as Record<string, string>,
+    queryParameters: ConvertParamsToWire.convertListVectorStoreFileBatchFilesQueryParamProperties(
+      options,
+    ) as Record<string, string>,
   };
 
   validateVectorStoreId(vectorStoreId);
   validateBatchId(batchId);
   validateListVectorStoreFileBatchFilesParameters(listOptions);
-  const result = await context.path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId).get(listOptions);
+  const result = await context
+    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
+    .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -95,16 +116,21 @@ export async function listVectorStoreFileBatchFiles(
 export function createVectorStoreFileBatchAndPoll(
   context: Client,
   vectorStoreId: string,
-  options: CreateVectorStoreFileBatchWithPollingOptionalParams = {}
+  options: CreateVectorStoreFileBatchWithPollingOptionalParams = {},
 ): Promise<VectorStoreFileBatchOutput> {
   async function updateCreateVectorStoreFileBatchPoll(
-    currentResult?: VectorStoreFileBatchOutput
+    currentResult?: VectorStoreFileBatchOutput,
   ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
     let vectorStore: VectorStoreFileBatchOutput;
     if (!currentResult) {
       vectorStore = await createVectorStoreFileBatch(context, vectorStoreId, options);
     } else {
-      vectorStore = await getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
+      vectorStore = await getVectorStoreFileBatch(
+        context,
+        vectorStoreId,
+        currentResult.id,
+        options,
+      );
     }
     return {
       result: vectorStore,
@@ -113,7 +139,7 @@ export function createVectorStoreFileBatchAndPoll(
   }
 
   async function cancelCreateVectorStoreFileBatchPoll(
-    currentResult: VectorStoreFileBatchOutput
+    currentResult: VectorStoreFileBatchOutput,
   ): Promise<boolean> {
     const result = await cancelVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
     return result.status === "cancelled";
@@ -122,7 +148,7 @@ export function createVectorStoreFileBatchAndPoll(
   const poller = new AgentsPoller<VectorStoreFileBatchOutput>({
     update: updateCreateVectorStoreFileBatchPoll,
     cancel: cancelCreateVectorStoreFileBatchPoll,
-    pollingOptions: options.pollingOptions
+    pollingOptions: options.pollingOptions,
   });
   return poller.pollUntilDone();
 }
@@ -133,13 +159,20 @@ function validateBatchId(batchId: string): void {
   }
 }
 
-function validateCreateVectorStoreFileBatchParameters(options?: CreateVectorStoreFileBatchParameters): void {
-  if (options?.body?.chunking_strategy && (!options.body.file_ids || options.body.file_ids.length === 0)) {
+function validateCreateVectorStoreFileBatchParameters(
+  options?: CreateVectorStoreFileBatchParameters,
+): void {
+  if (
+    options?.body?.chunking_strategy &&
+    (!options.body.file_ids || options.body.file_ids.length === 0)
+  ) {
     throw new Error("Chunking strategy is only applicable if fileIds are included");
   }
 }
 
-function validateListVectorStoreFileBatchFilesParameters(options?: ListVectorStoreFileBatchFilesParameters): void {
+function validateListVectorStoreFileBatchFilesParameters(
+  options?: ListVectorStoreFileBatchFilesParameters,
+): void {
   if (options?.queryParameters?.filter) {
     validateFileStatusFilter(options.queryParameters.filter);
   }
