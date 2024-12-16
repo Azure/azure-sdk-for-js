@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (2027-10-08)
+## 1.0.0-beta.6 (2024-12-16)
 
 ### Features Added
 - refresh @azure-rest/purview-catalog sdk
