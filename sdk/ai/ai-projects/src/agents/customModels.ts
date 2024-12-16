@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, RequestParameters} from "@azure-rest/core-client";
+import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import type { CreateAgentOptions, CreateRunOptions, UpdateAgentOptions } from "../customization/models.js";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { CreateRunOptions } from "../customization/models.js";
 
 /** Optional request paramters support passing headers, abort signal, etc */
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">
@@ -40,3 +40,13 @@ export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
 };
 
 export type CreateRunOptionalParams = Omit<CreateRunOptions, "assistant_id"> & OperationOptions;
+
+export type CreateAgentOptionalParams = Omit<CreateAgentOptions, "model"> & OperationOptions;
+
+export type ListAgentsOptionalParams = ListQueryParameters & OperationOptions;
+
+export type GetAgentOptionalParams = OperationOptions;
+
+export type UpdateAgentOptionalParams = UpdateAgentOptions & OperationOptions;
+
+export type DeleteAgentOptionalParams = OperationOptions;

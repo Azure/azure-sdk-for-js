@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
-import { CreateAgentParameters, DeleteAgentParameters, GetAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
-import { validateLimit, validateMetadata, validateOrder, validateVectorStoreDataType } from "./inputValidations.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { convertCreateAgentOptions, convertUpdateAgentOptions } from "../customization/convertModelsToWrite.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
+import type { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import type { CreateAgentParameters, ListAgentsParameters, UpdateAgentParameters } from "../generated/src/parameters.js";
 import { TracingUtility } from "../tracing.js";
 import { traceEndCreateOrUpdateAgent, traceStartCreateOrUpdateAgent } from "./assistantsTrace.js";
+import type { CreateAgentOptionalParams, DeleteAgentOptionalParams, GetAgentOptionalParams, ListAgentsOptionalParams, UpdateAgentOptionalParams } from "./customModels.js";
+import { validateLimit, validateMetadata, validateOrder, validateVectorStoreDataType } from "./inputValidations.js";
 import { traceEndAgentGeneric, traceStartAgentGeneric } from "./traceUtility.js";
 
 const expectedStatuses = ["200"];
@@ -24,10 +29,18 @@ enum Tools {
 /** Creates a new agent. */
 export async function createAgent(
   context: Client,
-  options: CreateAgentParameters,
+  model: string,
+  options: CreateAgentOptionalParams = {},
 ): Promise<AgentOutput> {
-  validateCreateAgentParameters(options);
-  return TracingUtility.withSpan("CreateAgent", options,
+  const createAgentOptions: GeneratedParameters.CreateAgentParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...convertCreateAgentOptions({...options, model}),
+    }
+  };
+  
+  validateCreateAgentParameters(createAgentOptions);
+  const output = await TracingUtility.withSpan("CreateAgent", createAgentOptions,
     async (updatedOptions) => {
       const result = await context.path("/assistants").post(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
@@ -37,15 +50,27 @@ export async function createAgent(
     },
     traceStartCreateOrUpdateAgent, traceEndCreateOrUpdateAgent,
   );
+
+  return ConvertFromWire.convertAgentOutput(output);
 }
 
 /** Gets a list of agents that were previously created. */
 export async function listAgents(
   context: Client,
-  options: ListAgentsParameters = {},
+  options: ListAgentsOptionalParams = {},
 ): Promise<OpenAIPageableListOfAgentOutput> {
-  validateListAgentsParameters(options);
-  return TracingUtility.withSpan("ListAgents", options || {}, async (updateOptions) => {
+  const listAgentsOptions: GeneratedParameters.ListAgentsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      ...(options.limit && { limit: options.limit }),
+      ...(options.order && { order: options.order }),
+      ...(options.after && { after: options.after }),
+      ...(options.before && { before: options.before }),
+    }
+  };
+
+  validateListAgentsParameters(listAgentsOptions);
+  const output = await TracingUtility.withSpan("ListAgents", listAgentsOptions || {}, async (updateOptions) => {
     const result = await context
       .path("/assistants")
       .get(updateOptions);
@@ -54,16 +79,22 @@ export async function listAgents(
     }
     return result.body;
   });
+
+  return ConvertFromWire.convertOpenAIPageableListOfAgentOutput(output);
 }
 
 /** Retrieves an existing agent. */
 export async function getAgent(
   context: Client,
   assistantId: string,
-  options: GetAgentParameters = {},
+  options: GetAgentOptionalParams = {},
 ): Promise<AgentOutput> {
+  const getAgentOptions: GeneratedParameters.GetAgentParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+
   validateAssistantId(assistantId);
-  return TracingUtility.withSpan("GetAgent", options || {}, async (updateOptions) => {
+  const output = await TracingUtility.withSpan("GetAgent", getAgentOptions || {}, async (updateOptions) => {
     const result = await context
       .path("/assistants/{assistantId}", assistantId)
       .get(updateOptions);
@@ -72,16 +103,25 @@ export async function getAgent(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartAgentGeneric(span, { ...updatedOptions, tracingAttributeOptions: { agentId: assistantId } }));
+
+  return ConvertFromWire.convertAgentOutput(output);
 }
 
 /** Modifies an existing agent. */
 export async function updateAgent(
   context: Client,
   assistantId: string,
-  options: UpdateAgentParameters = { body: {} },
+  options: UpdateAgentOptionalParams = {},
 ): Promise<AgentOutput> {
-  validateUpdateAgentParameters(assistantId, options);
-  return TracingUtility.withSpan("UpdateAgent", options, async (updateOptions) => {
+  const updateAgentOptions: GeneratedParameters.UpdateAgentParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ...convertUpdateAgentOptions({...options}),
+    }
+  };
+
+  validateUpdateAgentParameters(assistantId, updateAgentOptions);
+  const output = await TracingUtility.withSpan("UpdateAgent", updateAgentOptions, async (updateOptions) => {
     const result = await context
       .path("/assistants/{assistantId}", assistantId)
       .post(updateOptions);
@@ -90,6 +130,8 @@ export async function updateAgent(
     }
     return result.body;
   }, (span, updatedOptions) => traceStartCreateOrUpdateAgent(span, updatedOptions, assistantId), traceEndCreateOrUpdateAgent,);
+
+  return ConvertFromWire.convertAgentOutput(output);
 }
 
 
@@ -97,10 +139,14 @@ export async function updateAgent(
 export async function deleteAgent(
   context: Client,
   assistantId: string,
-  options: DeleteAgentParameters = {},
+  options: DeleteAgentOptionalParams = {},
 ): Promise<AgentDeletionStatusOutput> {
+  const deleteAgentOptions: GeneratedParameters.DeleteAgentParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+
   validateAssistantId(assistantId);
-  return TracingUtility.withSpan("DeleteAgent", options, async (updateOptions) => {
+  const output = await TracingUtility.withSpan("DeleteAgent", deleteAgentOptions, async (updateOptions) => {
     const result = await context
       .path("/assistants/{assistantId}", assistantId)
       .delete(updateOptions);
@@ -109,6 +155,8 @@ export async function deleteAgent(
     }
     return result.body;
   }, traceStartAgentGeneric, traceEndAgentGeneric);
+
+  return ConvertFromWire.convertAgentDeletionStatusOutput(output);
 }
 
 function validateCreateAgentParameters(options: CreateAgentParameters | UpdateAgentParameters): void {
