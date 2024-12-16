@@ -77,13 +77,12 @@
   - `DocumentModelDetailsOutput`:
     - Added `modifiedDateTime`.
 
-- **New Interfaces:**
-  Define query parameters for various document analysis requests, offering flexibility with options like `style` and `explode`:
-  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `DocumentAnalysisFeature[]`.
-  - **AnalyzeBatchDocumentsOutputQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `AnalyzeOutputOption[]`.
-  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Customizable `style` and `explode` options for batch document analysis, with a value of type `string[]`.
-  - **AnalyzeDocumentFeaturesQueryParam**: Customizable `style` and `explode` options for single document analysis, with a value of type `DocumentAnalysisFeature[]`.
-  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Customizable `style` and `explode` options for document analysis from stream, with a value of type `DocumentAnalysisFeature[]`.
+- Introduces new interfaces to define query parameters for document analysis requests, allowing customizable `style` and `explode` options:
+  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
+  - **AnalyzeBatchDocumentsOutputQueryParam**: Accepts AnalyzeOutputOption[] values.
+  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Accepts string[] values.
+  - **AnalyzeDocumentFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
+  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
 
 ### Breaking Changes
 
