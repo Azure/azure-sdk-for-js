@@ -1,6 +1,7 @@
 import { RsaEncryptionAlgorithm } from "@azure/keyvault-keys";
 import { randomBytes } from "node:crypto";
 import { CryptographyTest } from "./cryptography.spec.js";
+import { describe, it, assert } from "vitest";
 
 export class DecryptTest extends CryptographyTest {
   private cipherText?: Uint8Array;

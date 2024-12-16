@@ -3,6 +3,7 @@ import { GetKeyTest } from "./keys/get.spec.js";
 import { DecryptTest } from "./cryptography/decrypt.spec.js";
 import { SignTest } from "./cryptography/sign.spec.js";
 import { UnwrapKeyTest } from "./cryptography/unwrapKey.spec.js";
+import { describe, it, assert } from "vitest";
 
 const perfProgram = createPerfProgram(GetKeyTest, DecryptTest, SignTest, UnwrapKeyTest);
 
