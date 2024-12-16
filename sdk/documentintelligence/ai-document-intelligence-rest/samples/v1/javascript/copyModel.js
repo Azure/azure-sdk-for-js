@@ -8,14 +8,10 @@
  * @summary copy a model from one resource to another
  */
 
-import DocumentIntelligence, {
-  DocumentModelCopyToOperationDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const random = Date.now().toString();
@@ -55,9 +51,7 @@ async function main() {
     throw copyInitResponse.body.error;
   }
   const copyPoller = getLongRunningPoller(sourceClient, copyInitResponse);
-  const model = (
-    (await copyPoller.pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
-  ).result!;
+  const model = (await copyPoller.pollUntilDone()).body.result;
 
   console.log("Model ID:", model.modelId);
   console.log("Description:", model.description);

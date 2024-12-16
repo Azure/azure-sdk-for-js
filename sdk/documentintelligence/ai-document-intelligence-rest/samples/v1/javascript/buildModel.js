@@ -13,14 +13,10 @@
  * @summary build a model with a single document type from a training data set
  */
 
-import DocumentIntelligence, {
-  DocumentModelBuildOperationDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -47,8 +43,7 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const model = ((await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput)
-    .result;
+  const model = (await poller.pollUntilDone()).body.result;
   if (!model) {
     throw new Error("Expected a DocumentModelDetailsOutput response.");
   }

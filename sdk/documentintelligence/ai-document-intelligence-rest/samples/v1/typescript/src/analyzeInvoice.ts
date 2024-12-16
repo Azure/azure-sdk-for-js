@@ -10,7 +10,6 @@
  * https://aka.ms/azsdk/documentitelligence/invoicefieldschema
  *
  * @summary extract data from an invoice document
- * @azsdk-skip-javascript
  */
 
 import DocumentIntelligence, {
