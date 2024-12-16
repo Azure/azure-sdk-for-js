@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { SecretTest } from "./secretTest.js";
-import { v4 as uuid } from "uuid";
-import { describe, it, assert } from "vitest";
+import { randomUUID } from "node:crypto";
 
 interface ListSecretPerfTestOptions {
   count: number;
@@ -33,7 +35,7 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
     }
 
     const secretToCreate = Array.from({ length: this.parsedOptions.count.value! }, (_x, i) => {
-      const name = `s${i}-${uuid()}`;
+      const name = `s${i}-${randomUUID()}`;
       ListSecretsTest.secretsToDelete.push(name);
       return this.secretClient.setSecret(name, "value");
     });
