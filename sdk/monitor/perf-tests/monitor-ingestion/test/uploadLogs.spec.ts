@@ -1,5 +1,5 @@
 import { getEnvVar, PerfOptionDictionary } from "@azure-tools/test-perf";
-import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec";
+import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec.js";
 
 interface UploadLogsOptions {
   logsCount: number;
