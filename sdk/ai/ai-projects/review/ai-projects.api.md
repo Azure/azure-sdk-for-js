@@ -144,8 +144,7 @@ export interface AgentsOperations {
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ToolOutput_2" needs to be exported by the entry point index.d.ts
-    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput_2>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
+    submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
@@ -286,8 +285,7 @@ export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListConnectionsQueryParamProperties_2" needs to be exported by the entry point index.d.ts
-    listConnections: (options?: ListConnectionsQueryParamProperties_2, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public

@@ -47,7 +47,7 @@ import {
   updateRun,
 } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { FilePurpose, ToolOutput } from "../generated/src/models.js";
+import type { FilePurpose } from "../generated/src/models.js";
 import {
   createVectorStore,
   createVectorStoreAndPoll,
@@ -111,7 +111,7 @@ import type {
   GetAgentOptionalParams,
   UpdateAgentOptionalParams,
 } from "./customModels.js";
-import type { ThreadMessageOptions } from "../customization/models.js";
+import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -175,7 +175,7 @@ export interface AgentsOperations {
   submitToolOutputsToRun: (
     threadId: string,
     runId: string,
-    tool_outputs: Array<ToolOutput>,
+    toolOutputs: Array<ToolOutput>,
     options?: SubmitToolOutputsToRunOptionalParams,
   ) => AgentRunResponse;
 
@@ -375,9 +375,9 @@ function getAgents(context: Client): AgentsOperations {
     submitToolOutputsToRun: (
       threadId: string,
       runId: string,
-      tool_outputs: Array<ToolOutput>,
+      toolOutputs: Array<ToolOutput>,
       options?: SubmitToolOutputsToRunOptionalParams,
-    ) => submitToolOutputsToRun(context, threadId, runId, tool_outputs, options),
+    ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) =>
       cancelRun(context, threadId, runId, options),
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) =>

@@ -3,7 +3,7 @@
 
 import type { Client } from "@azure-rest/core-client";
 import type { OptionalRequestParameters } from "../agents/customModels.js";
-import type { ListConnectionsQueryParamProperties } from "../generated/src/parameters.js";
+import type { ListConnectionsQueryParamProperties } from "../customization/parameters.js";
 import type { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
 import {
   getConnection,

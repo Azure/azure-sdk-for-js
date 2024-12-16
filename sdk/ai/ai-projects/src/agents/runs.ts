@@ -205,7 +205,7 @@ export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  tool_outputs: Array<CustomModels.ToolOutput>,
+  toolOutputs: Array<CustomModels.ToolOutput>,
   options: SubmitToolOutputsToRunOptionalParams = {},
 ): AgentRunResponse {
   validateThreadId(threadId);
@@ -213,7 +213,12 @@ export function submitToolOutputsToRun(
   const submitToolOutputsOptions: GeneratedParameters.SubmitToolOutputsToRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      tool_outputs,
+      tool_outputs: toolOutputs?.map((toolOutput) => {
+        return {
+          tool_call_id: toolOutput.toolCallId,
+          output: toolOutput.output,
+        };
+      }),
       stream: false,
     },
   };
