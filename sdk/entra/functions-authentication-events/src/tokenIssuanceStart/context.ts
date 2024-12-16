@@ -9,7 +9,7 @@ import type {
   AuthenticationEventAction,
   AuthenticationEventData,
   CloudEventRequest,
-} from "../events";
+} from "../events.js";
 
 /**
  * The main request interface, this will relate it's response and payload.

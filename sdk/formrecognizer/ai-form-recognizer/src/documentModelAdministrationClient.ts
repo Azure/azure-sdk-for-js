@@ -5,7 +5,7 @@ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TracingClient } from "@azure/core-tracing";
 import { createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "./constants.js";
 import type {
   CopyAuthorization,
   GeneratedClient,
@@ -15,8 +15,8 @@ import type {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-} from "./generated";
-import { accept1 } from "./generated/models/parameters";
+} from "./generated/index.js";
+import { accept1 } from "./generated/models/parameters.js";
 import type {
   TrainingOperationDefinition,
   DocumentModelOperationState,
@@ -25,10 +25,10 @@ import type {
   AdministrationOperationState,
   DocumentClassifierPoller,
   DocumentClassifierOperationState,
-} from "./lro/administration";
-import { toTrainingPollOperationState } from "./lro/administration";
-import type { OperationContext } from "./lro/util/poller";
-import { lro } from "./lro/util/poller";
+} from "./lro/administration.js";
+import { toTrainingPollOperationState } from "./lro/administration.js";
+import type { OperationContext } from "./lro/util/poller.js";
+import { lro } from "./lro/util/poller.js";
 import type {
   BeginCopyModelOptions,
   DeleteDocumentModelOptions,
@@ -40,20 +40,20 @@ import type {
   ListModelsOptions,
   ListOperationsOptions,
   PollerOptions,
-} from "./options";
-import type { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
+} from "./options/index.js";
+import type { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions.js";
 import type {
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
   DocumentModelBuildMode,
-} from "./options/BuildModelOptions";
-import { Mappers, SERIALIZER, makeServiceClient } from "./util";
+} from "./options/BuildModelOptions.js";
+import { Mappers, SERIALIZER, makeServiceClient } from "./util.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import type {
   DocumentModelSource,
   DocumentClassifierDocumentTypeSources,
   AzureBlobSource,
-} from "./models";
+} from "./models/index.js";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,

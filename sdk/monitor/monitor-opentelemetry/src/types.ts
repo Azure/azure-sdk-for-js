@@ -202,7 +202,7 @@ export enum StatsbeatInstrumentation {
   BUNYAN = 32,
   WINSTON = 64,
   /** OpenTelemetry Supported Instrumentations */
-  AMQPLIB = 128,
+  // Console instrumentation is not supported here - occupies 128
   CUCUMBER = 256,
   DATALOADER = 512,
   FS = 1024,
@@ -230,6 +230,7 @@ export enum StatsbeatInstrumentation {
   PINO = 4294967296,
   RESTIFY = 8589934592,
   ROUTER = 17179869184,
+  AMQPLIB = 34359738368,
 }
 
 /**

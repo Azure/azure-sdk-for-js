@@ -11,7 +11,7 @@ import type {
   CreatePoolParameters,
   CreateTaskParameters,
 } from "../src/index.js";
-import { isUnexpected, paginate } from "../src/index.js";
+import { isUnexpected, paginate, type GetTask200Response } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
@@ -458,7 +458,7 @@ describe("Task Operations Test", () => {
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(taskAddResult.status, "201");
 
-    const getExecutedTask = async () => {
+    const getExecutedTask = async (): Promise<GetTask200Response | null> => {
       const getTaskResult = await batchClient
         .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!)
         .get();

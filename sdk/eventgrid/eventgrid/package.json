@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "5.8.1",
+  "version": "5.9.1",
   "keywords": [
     "node",
     "azure",
@@ -70,7 +70,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md && node ./scripts/setPathToEmpty.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "integration-test:node": "dev-tool run test:vitest",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -123,7 +123,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

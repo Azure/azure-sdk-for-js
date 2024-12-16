@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the finding of the Radiology Insights request.
+ * @summary Displays the finding of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-import type { CreateJobParameters, RadiologyInsightsJobOutput } from "../src/index.js";
+import type { CreateJobParameters, RadiologyInsightsJobOutput } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
   getLongRunningPoller,
   isUnexpected,
-} from "../src/index.js";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 // You will need to set this environment variables or edit the following values
 

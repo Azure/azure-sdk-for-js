@@ -7,21 +7,17 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { v4 as uuid } from "uuid";
-
-import {
-  RemoteRenderingClient,
+import { randomUUID } from "node:crypto";
+import type {
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
   AssetConversionSettings,
   AssetConversionPollerLike,
   AssetConversion,
 } from "@azure/mixed-reality-remote-rendering";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const accountDomain = process.env["REMOTERENDERING_ARR_ACCOUNT_DOMAIN"] || "<account domain>";
@@ -33,16 +29,16 @@ const storageAccountName =
 const blobContainerName =
   process.env["REMOTERENDERING_ARR_BLOB_CONTAINER_NAME"] || "<blobStorageName>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Convert an asset example ==");
 
   console.log("== Creating a client ==");
 
-  let credential = new AzureKeyCredential(accountKey);
+  const credential = new AzureKeyCredential(accountKey);
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 
-  let storageContainerUrl =
+  const storageContainerUrl =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
   console.log("== Starting the conversion ==");
@@ -57,7 +53,7 @@ export async function main() {
   const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
   // A randomly generated UUID is a good choice for a conversionId.
-  const conversionId = uuid();
+  const conversionId = randomUUID();
 
   const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,

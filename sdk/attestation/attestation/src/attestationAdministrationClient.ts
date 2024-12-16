@@ -29,7 +29,6 @@ import type { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import * as Mappers from "./generated/models/mappers.js";
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { hexToBase64 } from "./utils/helpers.js";
