@@ -21,7 +21,7 @@ const replaceableVariables: Record<string, string> = {
   TENANT_ID: "00000000-0000-0000-0000-000000000000",
   USER_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
-  AZURE_AI_PROJECTS_CONNECTION_STRING: `Sanitized.api.azureml.ms;00000000-0000-0000-0000-000000000000;00000;00000`
+  AZURE_AI_PROJECTS_CONNECTION_STRING: `Sanitized.azure.com;00000000-0000-0000-0000-000000000000;00000;00000`
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -29,15 +29,15 @@ const recorderEnvSetup: RecorderStartOptions = {
   sanitizerOptions: {
     generalSanitizers: [
       { regex: true, target: "(%2F|/)?subscriptions(%2F|/)([-\\w\\._\\(\\)]+)", value: replaceableVariables.SUBSCRIPTION_ID, groupForReplace: "3" },
-      { regex: true, target: "(%2F|/)?resource[gG]roups(%2F|/)([-\\w\\._\\(\\)]+)", value: replaceableVariables.RESOURCE_GROUP_NAME, groupForReplace: "3"  },
-      { regex: true, target: "/workspaces/([-\\w\\._\\(\\)]+)", value: replaceableVariables.WORKSPACE_NAME, groupForReplace: "1"  },
-      { regex: true, target: "/userAssignedIdentities/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1"  },
-      { regex: true, target: "/components/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1"  }, 
-      { regex: true, target: "/vaults/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1"  },
-      { regex: true, target: "(azureml|http|https):\\/\\/([^\\/]+)", value: replaceableVariables.ENDPOINT, groupForReplace: "2"  },
+      { regex: true, target: "(%2F|/)?resource[gG]roups(%2F|/)([-\\w\\._\\(\\)]+)", value: replaceableVariables.RESOURCE_GROUP_NAME, groupForReplace: "3" },
+      { regex: true, target: "/workspaces/([-\\w\\._\\(\\)]+)", value: replaceableVariables.WORKSPACE_NAME, groupForReplace: "1" },
+      { regex: true, target: "/userAssignedIdentities/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1" },
+      { regex: true, target: "/components/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1" },
+      { regex: true, target: "/vaults/([-\\w\\._\\(\\)]+)", value: replaceableVariables.GENERIC_STRING, groupForReplace: "1" },
+      { regex: true, target: "(azureml|http|https):\\/\\/([^\\/]+)", value: replaceableVariables.ENDPOINT, groupForReplace: "2" },
     ],
     bodyKeySanitizers: [
-      { jsonPath: "properties.ConnectionString", value: "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://region.applicationinsights.azure.com/;LiveEndpoint=https://region.livediagnostics.monitor.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000"},
+      { jsonPath: "properties.ConnectionString", value: "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://region.applicationinsights.azure.com/;LiveEndpoint=https://region.livediagnostics.monitor.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000" },
       { jsonPath: "properties.credentials.key", value: replaceableVariables.API_KEY },
     ]
   },
@@ -70,18 +70,18 @@ export function createProjectsClient(
   );
 }
 
-export function createMockProjectsClient(responseFn: (request:PipelineRequest) => Partial<PipelineResponse>): AIProjectsClient {
+export function createMockProjectsClient(responseFn: (request: PipelineRequest) => Partial<PipelineResponse>): AIProjectsClient {
   const options: ClientOptions = { additionalPolicies: [] };
-        options.additionalPolicies?.push({
-            policy: {
-                name: "RequestMockPolicy",
-                sendRequest:(async (req) => {
-                  const response = responseFn(req);
-                  return { headers: createHttpHeaders(), status: 200, request: req, ...response } as PipelineResponse;
-                })
-            },
-            position: "perCall"
-        });
+  options.additionalPolicies?.push({
+    policy: {
+      name: "RequestMockPolicy",
+      sendRequest: (async (req) => {
+        const response = responseFn(req);
+        return { headers: createHttpHeaders(), status: 200, request: req, ...response } as PipelineResponse;
+      })
+    },
+    position: "perCall"
+  });
   const credential = createTestCredential();
   const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
   return AIProjectsClient.fromConnectionString(connectionString, credential, options);

@@ -56,7 +56,7 @@ import type {
   MessageTextFilePathDetails as SourceMessageTextFilePathDetails,
   MessageImageFileDetails as SourceMessageImageFileDetails,
   MessageAttachmentToolDefinition as SourceMessageAttachmentToolDefinition,
-    VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest
+  VectorStoreStaticChunkingStrategyRequest as SourceVectorStoreStaticChunkingStrategyRequest
 } from "./models.js";
 
 import type {
@@ -124,15 +124,15 @@ export function convertCreateAgentOptions(
 ): DestinationCreateAgentOptions {
   return {
     model: source.model,
-    name: source.name,
-    description: source.description,
-    instructions: source.instructions,
-    tools: source.tools?.map(convertToolDefinition),
-    tool_resources: source.toolResources ? convertToolResources(source.toolResources) : null,
-    temperature: source.temperature,
-    top_p: source.topP,
-    response_format: source.responseFormat,
-    metadata: source.metadata,
+    ...(source.name && { name: source.name }),
+    ...(source.description && { description: source.description }),
+    ...(source.instructions && { instructions: source.instructions }),
+    ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
+    ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
+    ...(source.temperature !== undefined && { temperature: source.temperature }),
+    ...(source.topP !== undefined && { top_p: source.topP }),
+    ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -140,24 +140,24 @@ export function convertToolResources(
   source: SourceToolResources
 ): DestinationToolResources {
   return {
-    code_interpreter: source.codeInterpreter ? convertCodeInterpreterToolResource(source.codeInterpreter) : undefined,
-    file_search: source.fileSearch ? convertFileSearchToolResource(source.fileSearch) : undefined,
-    azure_ai_search: source.azureAISearch ? convertAzureAISearchResource(source.azureAISearch) : undefined,
+    ...(source.codeInterpreter && { code_interpreter: convertCodeInterpreterToolResource(source.codeInterpreter) }),
+    ...(source.fileSearch && { file_search: convertFileSearchToolResource(source.fileSearch) }),
+    ...(source.azureAISearch && { azure_ai_search: convertAzureAISearchResource(source.azureAISearch) }),
   };
 }
 
 export function convertMessageAttachmentToolDefinition(
-    source: SourceMessageAttachmentToolDefinition
-  ): DestinationMessageAttachmentToolDefinition {
-    switch (source.type) {
-      case "code_interpreter":
-        return convertCodeInterpreterToolDefinition(source as SourceCodeInterpreterToolDefinition);
-      case "file_search":
-        return convertFileSearchToolDefinition(source as SourceFileSearchToolDefinition);
-      default:
-        throw new Error(`Unknown tool type: ${source}`);
-    }
+  source: SourceMessageAttachmentToolDefinition
+): DestinationMessageAttachmentToolDefinition {
+  switch (source.type) {
+    case "code_interpreter":
+      return convertCodeInterpreterToolDefinition(source as SourceCodeInterpreterToolDefinition);
+    case "file_search":
+      return convertFileSearchToolDefinition(source as SourceFileSearchToolDefinition);
+    default:
+      throw new Error(`Unknown tool type: ${source}`);
   }
+}
 
 export function convertToolDefinition(
   source: SourceToolDefinition
@@ -194,8 +194,8 @@ export function convertFileSearchToolDefinition(
   source: SourceFileSearchToolDefinition
 ): DestinationFileSearchToolDefinition {
   return {
-    type: "file_search",
-    file_search: source.fileSearch ? convertFileSearchToolDefinitionDetails(source.fileSearch) : undefined,
+    type: source.type,
+    ...(source.fileSearch && { file_search: convertFileSearchToolDefinitionDetails(source.fileSearch) }),
   };
 }
 
@@ -203,7 +203,7 @@ export function convertFunctionToolDefinition(
   source: SourceFunctionToolDefinition
 ): DestinationFunctionToolDefinition {
   return {
-    type: "function",
+    type: source.type,
     function: convertFunctionDefinition(source.function),
   };
 }
@@ -212,7 +212,7 @@ export function convertBingGroundingToolDefinition(
   source: SourceBingGroundingToolDefinition
 ): DestinationBingGroundingToolDefinition {
   return {
-    type: "bing_grounding",
+    type: source.type,
     bing_grounding: convertToolConnectionList(source.bingGrounding),
   };
 }
@@ -221,7 +221,7 @@ export function convertMicrosoftFabricToolDefinition(
   source: SourceMicrosoftFabricToolDefinition
 ): DestinationMicrosoftFabricToolDefinition {
   return {
-    type: "microsoft_fabric",
+    type: source.type,
     microsoft_fabric: convertToolConnectionList(source.microsoftFabric),
   };
 }
@@ -247,8 +247,8 @@ export function convertFileSearchToolDefinitionDetails(
   source: SourceFileSearchToolDefinitionDetails
 ): DestinationFileSearchToolDefinitionDetails {
   return {
-    max_num_results: source.maxNumResults,
-    ranking_options: source.rankingOptions ? convertFileSearchRankingOptions(source.rankingOptions) : undefined,
+    ...(source.maxNumResults && { max_num_results: source.maxNumResults }),
+    ...(source.rankingOptions && { ranking_options: convertFileSearchRankingOptions(source.rankingOptions) }),
   };
 }
 
@@ -266,7 +266,7 @@ export function convertCodeInterpreterToolResource(
 ): DestinationCodeInterpreterToolResource {
   return {
     file_ids: source.fileIds,
-    data_sources: source.dataSources?.map(convertVectorStoreDataSource),
+    ...(source.dataSources && { data_sources: source.dataSources.map(convertVectorStoreDataSource) }),
   };
 }
 
@@ -283,8 +283,8 @@ export function convertFileSearchToolResource(
   source: SourceFileSearchToolResource
 ): DestinationFileSearchToolResource {
   return {
-    vector_store_ids: source.vectorStoreIds,
-    vector_stores: source.vectorStores?.map(convertVectorStoreConfigurations),
+    ...(source.vectorStoreIds && { vector_store_ids: source.vectorStoreIds }),
+    ...(source.vectorStores && { vector_stores: source.vectorStores.map(convertVectorStoreConfigurations) }),
   };
 }
 
@@ -309,7 +309,7 @@ export function convertAzureAISearchResource(
   source: SourceAzureAISearchResource
 ): DestinationAzureAISearchResource {
   return {
-    indexes: source.indexes?.map(convertIndexResource),
+    ...(source.indexes && { indexes: source.indexes.map(convertIndexResource) }),
   };
 }
 
@@ -334,16 +334,16 @@ export function convertUpdateAgentOptions(
   source: SourceUpdateAgentOptions
 ): DestinationUpdateAgentOptions {
   return {
-    model: source.model,
-    name: source.name,
-    description: source.description,
-    instructions: source.instructions,
-    tools: source.tools?.map(convertToolDefinition),
-    tool_resources: source.toolResources ? convertToolResources(source.toolResources) : undefined,
-    temperature: source.temperature,
-    top_p: source.topP,
-    response_format: source.responseFormat,
-    metadata: source.metadata,
+    ...(source.model && { model: source.model }),
+    ...(source.name && { name: source.name }),
+    ...(source.description && { description: source.description }),
+    ...(source.instructions && { instructions: source.instructions }),
+    ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
+    ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
+    ...(source.temperature !== undefined && { temperature: source.temperature }),
+    ...(source.topP !== undefined && { top_p: source.topP }),
+    ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -351,9 +351,9 @@ export function convertAgentThreadCreationOptions(
   source: SourceAgentThreadCreationOptions
 ): DestinationAgentThreadCreationOptions {
   return {
-    messages: source.messages?.map(convertThreadMessageOptions),
-    tool_resources: source.toolResources ? convertToolResources(source.toolResources) : null,
-    metadata: source.metadata,
+    ...(source.messages && { messages: source.messages.map(convertThreadMessageOptions) }),
+    ...(source.toolResources && { tool_resources: convertToolResources(source.toolResources) }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -363,8 +363,8 @@ export function convertThreadMessageOptions(
   return {
     role: source.role,
     content: source.content,
-    attachments: source.attachments?.map(convertMessageAttachment),
-    metadata: source.metadata,
+    ...(source.attachments && { attachments: source.attachments.map(convertMessageAttachment) }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -373,8 +373,8 @@ export function convertMessageAttachment(
 ): DestinationMessageAttachment {
   return {
     file_id: source.fileId,
-    data_sources: source.dataSources?.map(convertVectorStoreDataSource),
-    tools: source.tools.map(convertMessageAttachmentToolDefinition),
+    ...(source.dataSources && { data_sources: source.dataSources.map(convertVectorStoreDataSource) }),
+    ...(source.tools && { tools: source.tools.map(convertMessageAttachmentToolDefinition) }),
   };
 }
 
@@ -383,20 +383,20 @@ export function convertCreateRunOptions(
 ): DestinationCreateRunOptions {
   return {
     assistant_id: source.assistantId,
-    model: source.model,
-    instructions: source.instructions,
-    additional_instructions: source.additionalInstructions,
-    additional_messages: source.additionalMessages?.map(convertThreadMessage),
-    tools: source.tools?.map(convertToolDefinition),
-    stream: source.stream,
-    temperature: source.temperature,
-    top_p: source.topP,
-    max_prompt_tokens: source.maxPromptTokens,
-    max_completion_tokens: source.maxCompletionTokens,
-    truncation_strategy: source.truncationStrategy ? convertTruncationObject(source.truncationStrategy) : null,
-    tool_choice: source.toolChoice,
-    response_format: source.responseFormat,
-    metadata: source.metadata,
+    ...(source.model && { model: source.model }),
+    ...(source.instructions && { instructions: source.instructions }),
+    ...(source.additionalInstructions && { additional_instructions: source.additionalInstructions }),
+    ...(source.additionalMessages && { additional_messages: source.additionalMessages.map(convertThreadMessage) }),
+    ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
+    ...(source.stream !== undefined && { stream: source.stream }),
+    ...(source.temperature !== undefined && { temperature: source.temperature }),
+    ...(source.topP !== undefined && { top_p: source.topP }),
+    ...(source.maxPromptTokens !== undefined && { max_prompt_tokens: source.maxPromptTokens }),
+    ...(source.maxCompletionTokens !== undefined && { max_completion_tokens: source.maxCompletionTokens }),
+    ...(source.truncationStrategy && { truncation_strategy: convertTruncationObject(source.truncationStrategy) }),
+    ...(source.toolChoice && { tool_choice: source.toolChoice }),
+    ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -405,7 +405,7 @@ export function convertTruncationObject(
 ): DestinationTruncationObject {
   return {
     type: source.type,
-    last_messages: source.lastMessages,
+    ...(source.lastMessages !== undefined && { last_messages: source.lastMessages }),
   };
 }
 
@@ -414,7 +414,7 @@ export function convertAgentsNamedToolChoice(
 ): DestinationAgentsNamedToolChoice {
   return {
     type: source.type,
-    function: source.function ? convertFunctionName(source.function) : undefined,
+    ...(source.function && { function: convertFunctionName(source.function) }),
   };
 }
 
@@ -430,9 +430,9 @@ export function convertUpdateToolResourcesOptions(
   source: SourceUpdateToolResourcesOptions
 ): DestinationUpdateToolResourcesOptions {
   return {
-    code_interpreter: source.codeInterpreter ? convertUpdateCodeInterpreterToolResourceOptions(source.codeInterpreter) : undefined,
-    file_search: source.fileSearch ? convertUpdateFileSearchToolResourceOptions(source.fileSearch) : undefined,
-    azure_ai_search: source.azureAISearch ? convertAzureAISearchResource(source.azureAISearch) : undefined,
+    ...(source.codeInterpreter && { code_interpreter: convertUpdateCodeInterpreterToolResourceOptions(source.codeInterpreter) }),
+    ...(source.fileSearch && { file_search: convertUpdateFileSearchToolResourceOptions(source.fileSearch) }),
+    ...(source.azureAISearch && { azure_ai_search: convertAzureAISearchResource(source.azureAISearch) }),
   };
 }
 
@@ -440,7 +440,7 @@ export function convertUpdateCodeInterpreterToolResourceOptions(
   source: SourceUpdateCodeInterpreterToolResourceOptions
 ): DestinationUpdateCodeInterpreterToolResourceOptions {
   return {
-    file_ids: source.fileIds,
+    ...(source.fileIds && { file_ids: source.fileIds }),
   };
 }
 
@@ -448,7 +448,7 @@ export function convertUpdateFileSearchToolResourceOptions(
   source: SourceUpdateFileSearchToolResourceOptions
 ): DestinationUpdateFileSearchToolResourceOptions {
   return {
-    vector_store_ids: source.vectorStoreIds,
+    ...(source.vectorStoreIds && { vector_store_ids: source.vectorStoreIds }),
   };
 }
 
@@ -456,8 +456,8 @@ export function convertToolOutput(
   source: SourceToolOutput
 ): DestinationToolOutput {
   return {
-    tool_call_id: source.toolCallId,
-    output: source.output,
+    ...(source.toolCallId !== undefined && { tool_call_id: source.toolCallId }),
+    ...(source.output !== undefined && { output: source.output }),
   };
 }
 
@@ -466,20 +466,20 @@ export function convertCreateAndRunThreadOptions(
 ): DestinationCreateAndRunThreadOptions {
   return {
     assistant_id: source.assistantId,
-    thread: source.thread ? convertAgentThreadCreationOptions(source.thread) : undefined,
-    model: source.model,
-    instructions: source.instructions,
-    tools: source.tools?.map(convertToolDefinition),
-    tool_resources: source.toolResources ? convertUpdateToolResourcesOptions(source.toolResources) : null,
-    stream: source.stream,
-    temperature: source.temperature,
-    top_p: source.topP,
-    max_prompt_tokens: source.maxPromptTokens,
-    max_completion_tokens: source.maxCompletionTokens,
-    truncation_strategy: source.truncationStrategy ? convertTruncationObject(source.truncationStrategy) : null,
-    tool_choice: source.toolChoice,
-    response_format: source.responseFormat,
-    metadata: source.metadata,
+    ...(source.thread && { thread: convertAgentThreadCreationOptions(source.thread) }),
+    ...(source.model && { model: source.model }),
+    ...(source.instructions && { instructions: source.instructions }),
+    ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
+    ...(source.toolResources && { tool_resources: convertUpdateToolResourcesOptions(source.toolResources) }),
+    ...(source.stream !== undefined && { stream: source.stream }),
+    ...(source.temperature !== undefined && { temperature: source.temperature }),
+    ...(source.topP !== undefined && { top_p: source.topP }),
+    ...(source.maxPromptTokens !== undefined && { max_prompt_tokens: source.maxPromptTokens }),
+    ...(source.maxCompletionTokens !== undefined && { max_completion_tokens: source.maxCompletionTokens }),
+    ...(source.truncationStrategy && { truncation_strategy: convertTruncationObject(source.truncationStrategy) }),
+    ...(source.toolChoice && { tool_choice: source.toolChoice }),
+    ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -496,12 +496,12 @@ export function convertVectorStoreOptions(
   source: SourceVectorStoreOptions
 ): DestinationVectorStoreOptions {
   return {
-    file_ids: source.fileIds,
-    name: source.name,
-    configuration: source.configuration ? convertVectorStoreConfiguration(source.configuration) : undefined,
-    expires_after: source.expiresAfter ? convertVectorStoreExpirationPolicy(source.expiresAfter) : undefined,
-    chunking_strategy: source.chunkingStrategy ? convertVectorStoreChunkingStrategyRequest(source.chunkingStrategy) : undefined,
-    metadata: source.metadata,
+    ...(source.fileIds && { file_ids: source.fileIds }),
+    ...(source.name && { name: source.name }),
+    ...(source.configuration && { configuration: convertVectorStoreConfiguration(source.configuration) }),
+    ...(source.expiresAfter && { expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter) }),
+    ...(source.chunkingStrategy && { chunking_strategy: convertVectorStoreChunkingStrategyRequest(source.chunkingStrategy) }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -538,9 +538,9 @@ export function convertVectorStoreUpdateOptions(
   source: SourceVectorStoreUpdateOptions
 ): DestinationVectorStoreUpdateOptions {
   return {
-    name: source.name,
-    expires_after: source.expiresAfter ? convertVectorStoreExpirationPolicy(source.expiresAfter) : undefined,
-    metadata: source.metadata,
+    ...(source.name && { name: source.name }),
+    ...(source.expiresAfter && { expires_after: convertVectorStoreExpirationPolicy(source.expiresAfter) }),
+    ...(source.metadata && { metadata: source.metadata }),
   };
 }
 
@@ -549,7 +549,7 @@ export function convertFunctionDefinition(
 ): DestinationFunctionDefinition {
   return {
     name: source.name,
-    description: source.description,
+    ...(source.description && { description: source.description }),
     parameters: source.parameters,
   };
 }
@@ -558,7 +558,7 @@ export function convertToolConnectionList(
   source: SourceToolConnectionList
 ): DestinationToolConnectionList {
   return {
-    connections: source.connections?.map(convertToolConnection),
+    ...(source.connections && { connections: source.connections.map(convertToolConnection) }),
   };
 }
 
@@ -579,7 +579,7 @@ export function convertThreadMessage(
     created_at: source.createdAt,
     thread_id: source.threadId,
     status: source.status,
-    incomplete_details: source.incompleteDetails ? convertMessageIncompleteDetails(source.incompleteDetails) : null,
+    incomplete_details: !source.incompleteDetails ? source.incompleteDetails : convertMessageIncompleteDetails(source.incompleteDetails),
     completed_at: source.completedAt,
     incomplete_at: source.incompleteAt,
     role: source.role,
@@ -647,11 +647,11 @@ export function convertMessageTextFileCitationAnnotation(
   source: SourceMessageTextFileCitationAnnotation
 ): DestinationMessageTextFileCitationAnnotation {
   return {
-    text : source.text,
+    text: source.text,
     type: "file_citation",
     file_citation: convertMessageTextFileCitationDetails(source.fileCitation),
-    start_index: source.startIndex,
-    end_index: source.endIndex,
+    ...(source.startIndex && { start_index: source.startIndex }),
+    ...(source.endIndex && { end_index: source.endIndex }),
   };
 }
 
@@ -671,8 +671,8 @@ export function convertMessageTextFilePathAnnotation(
     text: source.text,
     type: "file_path",
     file_path: convertMessageTextFilePathDetails(source.filePath),
-    start_index: source.startIndex,
-    end_index: source.endIndex,
+    ...(source.startIndex && { start_index: source.startIndex }),
+    ...(source.endIndex && { end_index: source.endIndex }),
   };
 }
 

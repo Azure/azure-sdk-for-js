@@ -695,15 +695,15 @@ export interface RunStepOutput {
   /** If applicable, information about the last error encountered by this run step. */
   lastError: RunStepErrorOutput | null;
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: number;
+  createdAt: Date;
   /** The Unix timestamp, in seconds, representing when this item expired. */
-  expiredAt: number | null;
+  expiredAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this completed. */
-  completedAt: number | null;
+  completedAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelledAt: number | null;
+  cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
-  failedAt: number | null;
+  failedAt: Date | null;
   /** Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`. */
   usage?: RunStepCompletionUsageOutput | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
