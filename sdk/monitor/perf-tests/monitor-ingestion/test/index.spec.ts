@@ -3,6 +3,7 @@
 
 import { UploadLogsTest } from "./uploadLogs.spec.js";
 import { createPerfProgram } from "@azure-tools/test-perf";
+import { describe, it, assert } from "vitest";
 
 const perfProgram = createPerfProgram(UploadLogsTest);
 perfProgram.run();
