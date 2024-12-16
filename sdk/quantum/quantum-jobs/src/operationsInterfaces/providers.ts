@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ProviderStatus, ProvidersGetStatusOptionalParams } from "../models";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ProviderStatus, ProvidersGetStatusOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Providers. */
@@ -17,6 +17,6 @@ export interface Providers {
    * @param options The options parameters.
    */
   listStatus(
-    options?: ProvidersGetStatusOptionalParams
+    options?: ProvidersGetStatusOptionalParams,
   ): PagedAsyncIterableIterator<ProviderStatus>;
 }

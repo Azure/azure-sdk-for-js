@@ -137,7 +137,10 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
 /**
  * Extracts the itemName and nextLinkName from the initial response to use them for pagination
  */
-function getPaginationProperties(initialResponse: PathUncheckedResponse) {
+function getPaginationProperties(initialResponse: PathUncheckedResponse): {
+  itemName: string;
+  nextLinkName: string | undefined;
+} {
   // Build a set with the passed custom nextLinkNames
   const nextLinkNames = new Set(["nextLink", "odata.nextLink"]);
 

@@ -87,26 +87,6 @@ export interface DeidUpdate {
     tags?: Record<string, string>;
 }
 
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
 // @public (undocumented)
 export class HealthDataAIServicesClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: HealthDataAIServicesClientOptionalParams);
@@ -137,17 +117,17 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -166,10 +146,19 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
-    Succeeded = "Succeeded"
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    V2024_09_20 = "2024-09-20"
 }
 
 // @public
@@ -314,7 +303,7 @@ export interface PrivateLinksOperations {
 }
 
 // @public
-export type ProvisioningState = ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted" | string;
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -330,9 +319,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HealthDataAIServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -365,9 +351,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = "2024-02-28-preview";
 
 // (No @packageDocumentation comment for this package)
 

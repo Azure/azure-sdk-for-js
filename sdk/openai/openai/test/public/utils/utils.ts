@@ -23,7 +23,7 @@ import {
 } from "./envVars.js";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { createClientLogger } from "@azure/logger";
-import type { AzureChatExtensionConfiguration } from "@azure/openai/types";
+import type { AzureChatExtensionConfiguration } from "../../../src/types/index.js";
 
 const logger = createClientLogger("openai");
 
@@ -41,7 +41,7 @@ interface ModelInfo {
   version: string;
 }
 export enum APIVersion {
-  Preview = "2024-08-01-preview",
+  Preview = "2024-11-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
 }

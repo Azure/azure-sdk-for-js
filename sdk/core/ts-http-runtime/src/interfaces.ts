@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-import type { OperationTracingOptions } from "./tracing/interfaces.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -202,11 +201,6 @@ export interface PipelineRequest {
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;
-
-  /**
-   * Tracing options to use for any created Spans.
-   */
-  tracingOptions?: OperationTracingOptions;
 
   /**
    * Callback which fires upon upload progress.

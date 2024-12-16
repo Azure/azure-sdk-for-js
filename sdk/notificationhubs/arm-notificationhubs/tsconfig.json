@@ -1,33 +1,29 @@
 {
   "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
-    "target": "es6",
+    "target": "ES2020",
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["dom"],
     "declaration": true,
-    "outDir": "./dist-esm",
     "importHelpers": true,
     "paths": {
-      "@azure/arm-notificationhubs": [
-        "./src/index"
-      ]
-    }
+      "@azure/arm-notificationhubs": ["./src/index"]
+    },
+    "rootDir": "."
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
   ]
 }
