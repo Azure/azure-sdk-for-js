@@ -3599,7 +3599,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
-    resolution: {integrity: sha512-AHxtCyVOmgFDmFKYr3jgh/D9GLdlJJaGeuvAhCxciN8PpRLPF/CUjp+eNzZeAd+h352yM1xYh/luQzCHcsLKtw==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-TiZ/Z7Ox5LgTvY4HsWVTLaLv+P137p9P473qmw1lqDcrffv+rrg8tQhLFYdK/xc5I+rypBVT75msDDqwPrRBGA==, tarball: file:projects/container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
@@ -3663,7 +3663,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-0Yyj7rKh/j1845BHPktg5XGocXT2LgaBfIH5GaC5PNz1T67xzTkBb9PIzTL7nq+7O41QhInyUkjzLNS67vbqCQ==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-y3jfWPpwofhjs5tyGDlKZJSCgZ/LbRJxLBA9/Kfwyl3JSo150aOB9CQjsoORkk0p1ZyqwT49wId5/KJZPFnOLw==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -3819,7 +3819,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-5qP0zZ0UdyW9xi3gsXl0Ar3Lk75CnP51irHf/jsG21TLZYA39yv6xYQDCFGw+O8DN7MtjzQ4xyDHhsnIde+VQg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-xsjW4M06eNJllSD3XxEBc9of8nqfjVGDaQKZX8mXhUi2sAbl3/yaz81QZr5z2E/LDopf+jEyybFZXmb86CGj5A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
@@ -16820,7 +16820,7 @@ snapshots:
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz(msw@2.6.8(@types/node@20.17.10)(typescript@5.7.2))(vite@5.4.11(@types/node@20.17.10))':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@20.17.10))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
