@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { TablesTest } from "./tables.spec";
+import { TablesTest } from "./tables.spec.js";
 import { TableEntity } from "@azure/data-tables";
-import { createComplexEntity } from "./utils/createBaseEntity";
+import { createSimpleEntity } from "./utils/createBaseEntity.js";
 
-export class CreateComplexEntityTest extends TablesTest {
+export class CreateSimpleEntityTest extends TablesTest {
   public options: PerfOptionDictionary = {};
 
   constructor() {
-    super("ComplexEntityPerf");
+    super("SimpleEntityPerf");
   }
 
   public async globalSetup() {
@@ -22,7 +22,7 @@ export class CreateComplexEntityTest extends TablesTest {
   }
 
   async run(): Promise<void> {
-    const complexEntity: TableEntity = createComplexEntity();
-    await this.client.createEntity(complexEntity);
+    const simpleEntity: TableEntity = createSimpleEntity();
+    await this.client.createEntity(simpleEntity);
   }
 }

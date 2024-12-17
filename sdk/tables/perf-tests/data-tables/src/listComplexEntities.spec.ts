@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { TablesTest } from "./tables.spec";
+import { TablesTest } from "./tables.spec.js";
 import { TableEntityResult, TransactionAction } from "@azure/data-tables";
-import { createBatch } from "./utils/createBaseEntity";
+import { createBatch } from "./utils/createBaseEntity.js";
 
-interface ListSimpleEntitiesTestOptions {
+interface ListComplexEntitiesTestOptions {
   entityCount: number;
 }
 
-export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOptions> {
-  public options: PerfOptionDictionary<ListSimpleEntitiesTestOptions> = {
+export class ListComplexEntitiesTest extends TablesTest<ListComplexEntitiesTestOptions> {
+  public options: PerfOptionDictionary<ListComplexEntitiesTestOptions> = {
     entityCount: {
       defaultValue: 100,
       longName: "entityCount",
@@ -21,13 +21,13 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
   };
 
   constructor() {
-    super("ListSimpleEntityPerf");
+    super("ListComplexEntityPerf");
   }
 
   public async globalSetup() {
     await super.globalSetup(); // Calling base class' setup
     const batches: TransactionAction[][] = createBatch(
-      "simple",
+      "complex",
       this.parsedOptions.entityCount.value!,
     );
 
