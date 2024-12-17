@@ -6,7 +6,6 @@ import {
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
-  oneTimeEnviromentVariable,
 } from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
 import {
@@ -17,6 +16,7 @@ import {
   validateServiceUrl,
   validateMptPAT,
   exitWithFailureMessage,
+  checkTokenExpiryWarning,
   fetchOrValidateAccessToken,
   emitReportingUrl,
   populateValuesFromServiceUrl,
@@ -203,24 +203,24 @@ describe("Service Utils", () => {
       .stub(utils, "populateValuesFromServiceUrl")
       .returns({ region: "eastus", accountId: "123456789" });
     const consoleWarningSpy = sandbox.stub(console, "warn");
-    validateMptPAT(() => {});
+    checkTokenExpiryWarning();
     const expirationTime = fiveDaysFromNow * 1000;
-    const daysToExpiration = Math.floor((expirationTime - Date.now()) / (24 * 60 * 60 * 1000));
+    const daysToExpiration = Math.ceil((expirationTime - Date.now()) / (24 * 60 * 60 * 1000));
     const expirationDate = new Date(expirationTime).toLocaleDateString();
     const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. To avoid failures, generate a new token from the portal and update it. We recommend switching to Microsoft Entra ID for authentication, as it eliminates the need to manage access tokens or worry about expiration, simplifying your process and enhancing security.`;
 
     expect(consoleWarningSpy.calledOnce).to.be.true;
     expect(consoleWarningSpy.calledWithExactly(expirationWarning)).to.be.true;
 
-    expect(process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY]).to.equal("true");
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.equal("true");
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
-    delete process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY];
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
   });
 
   it("should not log a warning if the token is not close to expiry", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    const thirtyDaysFromNow = Math.floor((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
+    const thirtyDaysFromNow = Math.ceil((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
     sandbox.stub(utils, "parseJwt").returns({ exp: thirtyDaysFromNow });
     sandbox
       .stub(utils, "populateValuesFromServiceUrl")
@@ -228,10 +228,10 @@ describe("Service Utils", () => {
 
     const consoleWarningSpy = sandbox.stub(console, "warn");
 
-    validateMptPAT(() => {});
+    checkTokenExpiryWarning();
     expect(consoleWarningSpy.called).to.be.false;
 
-    expect(process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY]).to.be.undefined;
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.be.undefined;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
@@ -239,24 +239,24 @@ describe("Service Utils", () => {
   it("should not log a warning if WARNING_MPT_PAT_CLOSE_TO_EXPIRY is already set", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
 
-    const fiveDaysFromNow = Math.floor((Date.now() + 5 * 24 * 60 * 60 * 1000) / 1000);
+    const fiveDaysFromNow = Math.ceil((Date.now() + 5 * 24 * 60 * 60 * 1000) / 1000);
     sandbox.stub(utils, "parseJwt").returns({ exp: fiveDaysFromNow });
     sandbox
       .stub(utils, "populateValuesFromServiceUrl")
       .returns({ region: "eastus", accountId: "123456789" });
 
-    process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY] = "true";
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
 
     const consoleWarningSpy = sandbox.stub(console, "warn");
 
-    validateMptPAT(() => {});
+    checkTokenExpiryWarning();
 
     expect(consoleWarningSpy.called).to.be.false;
 
-    expect(process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY]).to.equal("true");
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.equal("true");
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
-    delete process.env[oneTimeEnviromentVariable.WARNING_MPT_PAT_CLOSE_TO_EXPIRY];
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
   });
 
   it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {

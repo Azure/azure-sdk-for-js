@@ -210,6 +210,7 @@ describe("getServiceConfig", () => {
   it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     sandbox.stub(utils, "validateMptPAT").returns();
+    sandbox.stub(utils, "checkTokenExpiryWarning").returns();
     const config = getServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
