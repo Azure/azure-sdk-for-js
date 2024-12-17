@@ -4,7 +4,7 @@
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
-import { StorageDFSTest } from "./storageTest.spec";
+import { StorageDFSTest } from "./storageTest.spec.js";
 
 interface StorageFileShareUploadTestOptions {
   size: number;

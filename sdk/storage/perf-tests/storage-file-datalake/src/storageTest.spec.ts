@@ -9,12 +9,9 @@ import {
   DataLakeFileSystemClient,
   DataLakeDirectoryClient,
 } from "@azure/storage-file-datalake";
-
-// Expects the .env file at the same level as the "test" folder
-import dotenv from "dotenv";
 import { randomUUID } from "@azure/core-util";
-
-dotenv.config();
+// Expects the .env file at the same level as the "test" folder
+import "dotenv/config";
 
 export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
   datalakeServiceClient: DataLakeServiceClient;
