@@ -3,7 +3,7 @@
 
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary, executeParallel } from "@azure-tools/test-perf";
-import { AppConfigTest } from "./appConfigBase.spec";
+import { AppConfigTest } from "./appConfigBase.spec.js";
 
 interface ListTestOptions {
   /**
@@ -43,7 +43,6 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
       .byPage()) {
-      // eslint-disable-next-line  @typescript-eslint/no-unused-vars
       for (const _ of response.items) {
         /* empty */
       }
