@@ -8,12 +8,16 @@ import type {
   FileListResponseOutput,
   OpenAIFileOutput,
 } from "../customization/outputModels.js";
-import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, UploadFileOptionalParams, UploadFileWithPollingOptionalParams} from "./customModels.js";
+import type {
+  FilePurpose as CustomizedFilePurpose,
+} from "../customization/models.js";
+import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
 import { type ListFilesOptionalParams } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
+import { randomUUID } from "@azure/core-util";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -38,57 +42,48 @@ export async function listFiles(
   validateListFilesParameters(listOptions);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return ConvertFromWire.convertFileListResponseOutput(result.body); 
+  return ConvertFromWire.convertFileListResponseOutput(result.body);
 }
 
 /** Uploads a file for use by other operations. */
 export async function uploadFile(
   context: Client,
-  content: ReadableStream | NodeJS.ReadableStream, 
-  purpose: FilePurpose, 
-  fileName: string,
-  options: UploadFileWithPollingOptionalParams = {}, 
+  content: ReadableStream | NodeJS.ReadableStream,
+  purpose: CustomizedFilePurpose,
+  options: UploadFileWithPollingOptionalParams = {},
 ): Promise<OpenAIFileOutput> {
   const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),
     body: [
-          { name: "file" as const, body: content, filename: fileName },
-          { name: "purpose" as const, body: purpose }
+      { name: "file" as const, body: content, filename: options.fileName ?? randomUUID() },
+      { name: "purpose" as const, body: purpose }
     ],
     contentType: "multipart/form-data"
   };
   const result = await context.path("/files").post(uploadFileOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return ConvertFromWire.convertOpenAIFileOutput(result.body); 
+  return ConvertFromWire.convertOpenAIFileOutput(result.body);
 }
 
 export function uploadFileAndPoll(
   context: Client,
-  content: ReadableStream | NodeJS.ReadableStream, 
-  purpose: FilePurpose, 
-  fileName: string,
-  options: UploadFileWithPollingOptionalParams = {}, 
+  content: ReadableStream | NodeJS.ReadableStream,
+  purpose: CustomizedFilePurpose,
+  options: UploadFileWithPollingOptionalParams = {},
 ): Promise<OpenAIFileOutput> {
-    const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
-    ...operationOptionsToRequestParameters(options),
-    body: [
-          { name: "file" as const, body: content, filename: fileName },
-          { name: "purpose" as const, body: purpose }
-    ],
-    contentType: "multipart/form-data"
-  };
+
   async function updateUploadFileAndPoll(
     currentResult?: OpenAIFileOutput,
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
     if (!currentResult) {
-      file = await uploadFile(context, content, purpose, fileName, uploadFileOptions);
+      file = await uploadFile(context, content, purpose, options);
     } else {
-      file = await getFile(context, currentResult.id);
+      file = await getFile(context, currentResult.id, options);
     }
     return { result: file, completed: file.status === "uploaded" || file.status === "processed" || file.status === "deleted" };
   }
@@ -104,7 +99,7 @@ export async function deleteFile(
   fileId: string,
   options: DeleteFileOptionalParams = {},
 ): Promise<FileDeletionStatusOutput> {
-    const deleteOptions: GeneratedParameters.ListFilesParameters = {
+  const deleteOptions: GeneratedParameters.ListFilesParameters = {
     ...operationOptionsToRequestParameters(options),
   };
   validateFileId(fileId);
@@ -112,7 +107,7 @@ export async function deleteFile(
     .path("/files/{fileId}", fileId)
     .delete(deleteOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
   return result.body;
 }
@@ -131,9 +126,9 @@ export async function getFile(
     .path("/files/{fileId}", fileId)
     .get(getFileOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return ConvertFromWire.convertOpenAIFileOutput(result.body); 
+  return ConvertFromWire.convertOpenAIFileOutput(result.body);
 }
 
 /** Returns file content. */
@@ -143,7 +138,7 @@ export function getFileContent(
   options: GetFileContentOptionalParams = {},
 ): StreamableMethod<string | Uint8Array> {
   validateFileId(fileId);
-    const getFileContentOptions: GeneratedParameters.ListFilesParameters = {
+  const getFileContentOptions: GeneratedParameters.ListFilesParameters = {
     ...operationOptionsToRequestParameters(options),
   };
   return context

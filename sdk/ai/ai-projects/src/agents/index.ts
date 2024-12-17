@@ -9,7 +9,7 @@ import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileA
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { AgentThreadCreationOptions, CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
+import type { AgentThreadCreationOptions, CreateAgentOptions, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import type { UpdateMessageOptions } from "./messagesModels.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
@@ -18,6 +18,7 @@ import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreF
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
 import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams, UploadFileOptionalParams, ListFilesOptionalParams, DeleteFileOptionalParams, GetFileOptionalParams, GetFileContentOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
 import type { OpenAIFileOutput } from "../customization/outputModels.js";
+import type { FilePurpose } from "../customization/models.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
@@ -137,14 +138,14 @@ export interface AgentsOperations {
 
   /** Gets a list of previously uploaded files. */
   listFiles: (
-    purpose?: FilePurpose, options?: ListFilesOptionalParams
+    options?: ListFilesOptionalParams
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileOptionalParams
+  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams
   ) => Promise<OpenAIFileOutput>
 
   /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams
+  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -329,13 +330,13 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
-    listFiles: (purpose?: FilePurpose, options?: ListFilesOptionalParams) =>
-      listFiles(context, { purpose, ...options }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
-      uploadFile(context, content, purpose, fileName, options),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams) =>
-      uploadFileAndPoll(context, content, purpose, fileName, options),
-    deleteFile: (fileId: string, options?: DeleteFileOptionalParams ) =>
+    listFiles: (options?: ListFilesOptionalParams) =>
+      listFiles(context, options),
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) =>
+      uploadFile(context, content, purpose, options),
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) =>
+      uploadFileAndPoll(context, content, purpose, options),
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
     getFile: (fileId: string, options?: GetFileOptionalParams) =>
       getFile(context, fileId, options),

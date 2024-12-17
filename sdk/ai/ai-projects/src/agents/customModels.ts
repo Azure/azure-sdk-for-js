@@ -6,7 +6,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type { CreateAndRunThreadOptions, CreateRunOptions } from "../customization/models.js";
-import type { ListFilesQueryParamProperties, UploadFileBodyParam } from "../customization/parameters.js";
+import type { ListFilesQueryParamProperties } from "../customization/parameters.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -131,15 +131,17 @@ export function convertToListQueryParameters(options: ListQueryParameters): Reco
   return queryParameters;
 }
 
-export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {};
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions { };
 
-export interface DeleteFileOptionalParams extends OperationOptions{};
+export interface DeleteFileOptionalParams extends OperationOptions { };
 
-export interface GetFileOptionalParams extends OperationOptions{};
+export interface GetFileOptionalParams extends OperationOptions { };
 
-export interface GetFileContentOptionalParams extends OperationOptions{};
+export interface GetFileContentOptionalParams extends OperationOptions { };
 
-export interface UploadFileOptionalParams extends OperationOptions{};
-export interface UploadFileWithPollingOptionalParams extends OperationOptions{
+export interface UploadFileOptionalParams extends OperationOptions {
+  fileName?: string
+};
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams {
   pollingOptions?: PollingOptions;
 };

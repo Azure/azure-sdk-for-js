@@ -143,7 +143,7 @@ export interface AgentsOperations {
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
-    listFiles: (purpose?: FilePurpose, options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
+    listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
@@ -156,8 +156,9 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
+    // Warning: (ae-forgotten-export) The symbol "FilePurpose_2" needs to be exported by the entry point index.d.ts
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -1844,13 +1845,14 @@ export interface UpdateToolResourcesOptionsOutput {
     fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
 }
 
-// Warning: (ae-forgotten-export) The symbol "UploadFileBodyParam" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export type UploadFileOptionalParams = UploadFileBodyParam & OperationOptions;
+export interface UploadFileOptionalParams extends OperationOptions {
+    // (undocumented)
+    fileName?: string;
+}
 
 // @public (undocumented)
-export interface UploadFileWithPollingOptionalParams extends UploadFileBodyParam, OperationOptions {
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams {
     // (undocumented)
     pollingOptions?: PollingOptions;
 }
