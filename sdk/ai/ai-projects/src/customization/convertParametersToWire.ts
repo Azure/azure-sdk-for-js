@@ -52,7 +52,7 @@ export function convertCreateVectorStoreFileParam(
 
 export function convertToListQueryParameters<T extends ListQueryParameters>(
   options: T,
-): Record<string, unknown> {
+): ListQueryParameters & Record<string, unknown> {
   return {
     ...(options.limit && { limit: options.limit }),
     ...(options.order && { order: options.order }),
@@ -71,27 +71,10 @@ export function convertListVectorStoreFileBatchFilesQueryParamProperties(
 }
 
 
-interface ListFilesQueryParameters {
-  /**
-   * The purpose of the file.
-   *
-   * Possible values: "fine-tune", "fine-tune-results", "assistants", "assistants_output", "batch", "batch_output", "vision"
-   */
-  purpose?: string;
-}
-export function convertListFilesParameters<T extends ListFilesQueryParameters>(
-  options: T
-): Record<string, unknown> {
-  return {
-    ...(options && { purpose: options.purpose }),
-  }
-};
-
 export function convertListFilesQueryParamProperties(
   options: PublicParameters.ListFilesQueryParamProperties
-): GeneratedParameters.ListFilesQueryParamProperties {
+): GeneratedParameters.ListFilesQueryParamProperties & Record<string, unknown> {
   return {
-    ...convertListFilesParameters(options),
     ...(options.purpose && { purpose: options.purpose }),
   }
 }

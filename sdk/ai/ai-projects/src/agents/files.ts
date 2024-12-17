@@ -34,7 +34,7 @@ export async function listFiles(
 ): Promise<FileListResponseOutput> {
   const listOptions: GeneratedParameters.ListFilesParameters = {
     ...operationOptionsToRequestParameters(options),
-    body: ConvertParameters.convertListFilesQueryParamProperties(options),
+    queryParameters: ConvertParameters.convertListFilesQueryParamProperties(options),
   };
   validateListFilesParameters(listOptions);
   const result = await context.path("/files").get(options);
