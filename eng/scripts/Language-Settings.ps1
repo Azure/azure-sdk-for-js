@@ -125,10 +125,11 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   foreach ($projectPath in $projectPaths) {
     if (Test-Path $projectPath) {
       $projectJson = Get-Content $projectPath | ConvertFrom-Json
+      $projectDirectory = Split-Path $projectPath
 
       $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
 
-      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $projectDirectory, $serviceDirectory)
       if ($projectJson.psobject.properties.name -contains 'sdk-type') {
         $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
       }
