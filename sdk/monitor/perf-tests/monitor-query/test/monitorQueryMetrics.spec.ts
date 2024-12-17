@@ -7,6 +7,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 export abstract class MonitorQueryMetrics<TOptions> extends PerfTest<TOptions> {

@@ -3,6 +3,7 @@
 import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import { AggregationType } from "@azure/monitor-query";
 import { MonitorQueryMetrics } from "./monitorQueryMetrics.spec.js";
+import { describe, it, assert } from "vitest";
 
 type MonitorQueryTestOptions = Record<string, unknown>;
 
