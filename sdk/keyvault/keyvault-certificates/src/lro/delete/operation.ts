@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -34,7 +34,6 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 > {
   constructor(
     public state: DeleteCertificatePollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -53,11 +52,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.deleteCertificate",
       options,
       async (updatedOptions) => {
-        const response = await this.client.deleteCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions,
-        );
+        const response = await this.client.deleteCertificate(certificateName, updatedOptions);
         return getDeletedCertificateFromDeletedCertificateBundle(response);
       },
     );
@@ -75,14 +70,8 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.getDeletedCertificate",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
+        const response = await this.client.getDeletedCertificate(certificateName, updatedOptions);
+        return getDeletedCertificateFromDeletedCertificateBundle(response);
       },
     );
   }
