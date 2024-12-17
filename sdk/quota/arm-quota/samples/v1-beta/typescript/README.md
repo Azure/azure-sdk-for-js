@@ -131,7 +131,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [quotaupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/quota/arm-quota/samples/v1-beta/typescript/src/quotaUpdateSample.ts
 [usagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/quota/arm-quota/samples/v1-beta/typescript/src/usagesGetSample.ts
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/quota/arm-quota/samples/v1-beta/typescript/src/usagesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
