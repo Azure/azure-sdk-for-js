@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import { AggregationType } from "@azure/monitor-query";
-import { MonitorQueryMetrics } from "./monitorQueryMetrics.spec";
+import { MonitorQueryMetrics } from "./monitorQueryMetrics.spec.js";
 
 type MonitorQueryTestOptions = Record<string, unknown>;
 
