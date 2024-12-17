@@ -88,7 +88,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
+[createinstance_azurecosmosdbaccount]: https://learn.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md

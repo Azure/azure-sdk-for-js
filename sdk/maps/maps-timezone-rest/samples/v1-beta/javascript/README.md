@@ -3,7 +3,7 @@
 These sample programs show how to use the JavaScript client libraries for Azure Maps Timezone in some common scenarios.
 
 | **File Name**                                           | **Description**                                            |
-|---------------------------------------------------------|------------------------------------------------------------|
+| ------------------------------------------------------- | ---------------------------------------------------------- |
 | [getTimezoneById.js][gettimezonebyid]                   | How to get timezone information by IANA ID.                |
 | [getTimezoneByCoordinates.js][gettimezonebycoordinates] | How to get timezone information by coordinates.            |
 | [getWindowsTimezoneIds.js][getwindowstimezoneids]       | How to get the list of Windows Timezone IDs.               |
@@ -54,6 +54,5 @@ npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getIanaVe
 [getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaVersion.js
 [convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/convertWindowsToIana.js
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
+[createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/README.md
-

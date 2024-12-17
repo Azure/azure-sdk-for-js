@@ -97,7 +97,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dashboard/arm-dashboard/samples/v1/typescript/src/privateEndpointConnectionsListSample.ts
 [privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dashboard/arm-dashboard/samples/v1/typescript/src/privateLinkResourcesGetSample.ts
 [privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dashboard/arm-dashboard/samples/v1/typescript/src/privateLinkResourcesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-dashboard?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dashboard?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dashboard/arm-dashboard/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
