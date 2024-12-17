@@ -162,10 +162,7 @@ export async function deleteVectorStore(
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .delete(deleteOptions);
-    .delete(deleteOptions);
-
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
     throw createRestError(result);
   }
   return ConvertFromWire.convertVectorStoreDeletionStatusOutput(result.body);

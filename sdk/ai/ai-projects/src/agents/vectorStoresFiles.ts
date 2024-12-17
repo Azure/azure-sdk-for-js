@@ -15,6 +15,7 @@ import type {
 import { AgentsPoller } from "./poller.js";
 import type {
   CreateVectorStoreFileOptionalParams,
+  CreateVectorStoreFileResponse,
   DeleteVectorStoreFileOptionalParams,
   GetVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,

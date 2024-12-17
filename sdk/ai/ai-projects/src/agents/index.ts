@@ -36,17 +36,83 @@ import {
   uploadFile,
 } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
-import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
+import {
+  cancelRun,
+  createRun,
+  createThreadAndRun,
+  getRun,
+  listRuns,
+  submitToolOutputsToRun,
+  updateRun,
+} from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import type { AgentThreadCreationOptions, CreateAgentOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
-import type { UpdateMessageOptions } from "./messagesModels.js";
-import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
+import type { FilePurpose } from "../customization/models.js";
+import {
+  createVectorStore,
+  deleteVectorStore,
+  getVectorStore,
+  listVectorStores,
+  modifyVectorStore,
+} from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
-import type { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
-import { createVectorStoreFile, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
-import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-import type { PollingOptions, ListQueryParameters, OptionalRequestParameters, AgentRunResponse, CreateRunOptionalParams, GetRunOptionalParams, CancelRunOptionalParams, SubmitToolOutputsToRunOptionalParams, UpdateRunOptionalParams, ListRunQueryOptionalParams, CreateAndRunThreadOptionalParams } from "./customModels.js";
-
+import {
+  createVectorStoreFile,
+  deleteVectorStoreFile,
+  getVectorStoreFile,
+  listVectorStoreFiles,
+} from "./vectorStoresFiles.js";
+import {
+  cancelVectorStoreFileBatch,
+  createVectorStoreFileBatch,
+  getVectorStoreFileBatch,
+  listVectorStoreFileBatchFiles,
+} from "./vectorStoresFileBatches.js";
+import type {
+  OptionalRequestParameters,
+  AgentRunResponse,
+  CreateRunOptionalParams,
+  GetRunOptionalParams,
+  CancelRunOptionalParams,
+  SubmitToolOutputsToRunOptionalParams,
+  UpdateRunOptionalParams,
+  ListRunQueryOptionalParams,
+  CreateAndRunThreadOptionalParams,
+  CreateAgentThreadOptionalParams,
+  GetAgentThreadOptionalParams,
+  UpdateAgentThreadOptionalParams,
+  DeleteAgentThreadOptionalParams,
+  GetRunStepOptionalParams,
+  ListRunStepsOptionalParams,
+  CreateMessageOptionalParams,
+  ListMessagesOptionalParams,
+  UpdateMessageOptionalParams,
+  GetVectorStoreOptionalParams,
+  ListVectorStoresOptionalParams,
+  UpdateVectorStoreOptionalParams,
+  DeleteVectorStoreOptionalParams,
+  CreateVectorStoreOptionalParams,
+  CreateVectorStoreFileOptionalParams,
+  ListVectorStoreFilesOptionalParams,
+  GetVectorStoreFileOptionalParams,
+  DeleteVectorStoreFileOptionalParams,
+  CreateVectorStoreFileBatchOptionalParams,
+  GetVectorStoreFileBatchOptionalParams,
+  ListVectorStoreFileBatchFilesOptionalParams,
+  CreateAgentOptionalParams,
+  ListAgentsOptionalParams,
+  GetAgentOptionalParams,
+  UpdateAgentOptionalParams,
+  DeleteFileOptionalParams,
+  GetFileOptionalParams,
+  GetFileContentOptionalParams,
+  ListFilesOptionalParams,
+  UploadFileOptionalParams,
+  CreateVectorStoreResponse,
+  CreateVectorStoreFileResponse,
+  CreateVectorStoreFileBatchResponse,
+  UploadFileResponse,
+} from "./customModels.js";
+import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
