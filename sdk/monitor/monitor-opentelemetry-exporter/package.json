@@ -116,6 +116,7 @@
     "exporter",
     "cloud"
   ],
+  "type": "module",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -141,6 +142,5 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  },
-  "type": "module"
+  }
 }
