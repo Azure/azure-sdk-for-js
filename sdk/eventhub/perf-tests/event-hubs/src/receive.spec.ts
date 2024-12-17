@@ -24,10 +24,7 @@ import {
 import { getEnvVar } from "@azure-tools/test-perf";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const _start = moment();
 
