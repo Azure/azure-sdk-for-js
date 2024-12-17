@@ -10,7 +10,6 @@ import { describe, it, assert, expect, vi } from "vitest";
 
 describe("browserRelayCredential", () => {
   it("createBrowserRelayCredential creates credential", async () => {
-    // Mock the fetch function.
     const mockCreateCredentialResponse = {
       id: "1",
     };
@@ -81,5 +80,66 @@ describe("browserRelayCredential", () => {
       RelayAuthenticationError,
     );
     expect(localFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("getToken throws error when relay server fails with a 400", async () => {
+    const mockCreateCredentialResponse = {
+      id: "1",
+    };
+
+    const localFetch = vi
+      .fn()
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockCreateCredentialResponse),
+        }),
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          ok: false,
+          status: 400,
+          json: () => Promise.resolve({ error: "Bad request" }),
+        }),
+      );
+
+    vi.stubGlobal("fetch", localFetch);
+
+    const credential = createBrowserRelayCredential();
+
+    await expect(() => credential.getToken("scope1")).rejects.toThrowError(
+      RelayAuthenticationError,
+    );
+    expect(localFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it("getToken throws error when relay server fails with a 500", async () => {
+    const mockCreateCredentialResponse = {
+      id: "1",
+    };
+
+    const localFetch = vi
+      .fn()
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockCreateCredentialResponse),
+        }),
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          ok: false,
+          status: 500,
+        }),
+      );
+
+    vi.stubGlobal("fetch", localFetch);
+
+    const credential = createBrowserRelayCredential();
+
+    await expect(() => credential.getToken("scope1")).rejects.toThrowError(
+      RelayAuthenticationError,
+    );
+    expect(localFetch).toHaveBeenCalledTimes(2);
   });
 });
