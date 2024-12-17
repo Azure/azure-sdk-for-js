@@ -4,7 +4,6 @@
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
 import { metrics } from "@opentelemetry/api";
-import { describe, it, assert } from "vitest";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 

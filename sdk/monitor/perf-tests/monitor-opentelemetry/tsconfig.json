@@ -4,7 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@azure/monitor-opentelemetry-exporter": ["./src/index"]
+      "@azure-tests/perf-monitor-opentelemetry": ["./src/index"]
     },
     "rootDir": "."
   },
@@ -13,8 +13,8 @@
     "src/**/*.mts",
     "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts"
   ]
 }
