@@ -70,11 +70,10 @@ export function convertListVectorStoreFileBatchFilesQueryParamProperties(
   };
 }
 
-
 export function convertListFilesQueryParamProperties(
-  options: PublicParameters.ListFilesQueryParamProperties
+  options: PublicParameters.ListFilesQueryParamProperties,
 ): GeneratedParameters.ListFilesQueryParamProperties & Record<string, unknown> {
   return {
     ...(options.purpose && { purpose: options.purpose }),
-  }
+  };
 }

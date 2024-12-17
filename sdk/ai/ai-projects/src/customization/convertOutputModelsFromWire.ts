@@ -1024,7 +1024,7 @@ export function convertVectorStoreFileDeletionStatusOutput(
 }
 
 export function convertOpenAIFileOutput(
-  input: GeneratedModels.OpenAIFileOutput
+  input: GeneratedModels.OpenAIFileOutput,
 ): PublicModels.OpenAIFileOutput {
   return {
     id: input.id,
@@ -1039,7 +1039,7 @@ export function convertOpenAIFileOutput(
 }
 
 export function convertFileListResponseOutput(
-  input: GeneratedModels.FileListResponseOutput
+  input: GeneratedModels.FileListResponseOutput,
 ): PublicModels.FileListResponseOutput {
   return {
     object: input.object,

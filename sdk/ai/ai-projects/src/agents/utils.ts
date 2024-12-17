@@ -32,7 +32,6 @@ export function isOutputOfType<T extends { type: string }>(
   return output.type === type;
 }
 
-
 /** Types of connection tools used to configure an agent */
 export enum connectionToolType {
   /** Bing grounding search tool */

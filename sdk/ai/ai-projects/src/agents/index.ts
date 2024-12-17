@@ -218,30 +218,31 @@ export interface AgentsOperations {
   ) => Promise<ThreadMessageOutput>;
 
   /** Gets a list of previously uploaded files. */
-  listFiles: (
-    options?: ListFilesOptionalParams
-  ) => Promise<FileListResponseOutput>;
+  listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams
-  ) => Promise<OpenAIFileOutput>
+  uploadFile: (
+    data: ReadableStream | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options?: UploadFileOptionalParams,
+  ) => Promise<OpenAIFileOutput>;
 
   /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams
-  ) => Promise<OpenAIFileOutput>
+  uploadFileAndPoll: (
+    data: ReadableStream | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options?: UploadFileWithPollingOptionalParams,
+  ) => Promise<OpenAIFileOutput>;
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
-    options?: DeleteFileOptionalParams
+    options?: DeleteFileOptionalParams,
   ) => Promise<FileDeletionStatusOutput>;
   /** Returns information about a specific file. Does not retrieve file content. */
-  getFile: (
-    fileId: string,
-    options?: GetFileOptionalParams
-  ) => Promise<OpenAIFileOutput>;
+  getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
   /** Returns the content of a specific file. */
   getFileContent: (
     fileId: string,
-    options?: GetFileContentOptionalParams
+    options?: GetFileContentOptionalParams,
   ) => StreamableMethod<string | Uint8Array>;
 
   /** Returns a list of vector stores. */
@@ -395,16 +396,20 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) =>
       updateMessage(context, threadId, messageId, options),
 
-    listFiles: (options?: ListFilesOptionalParams) =>
-      listFiles(context, options),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) =>
-      uploadFile(context, content, purpose, options),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) =>
-      uploadFileAndPoll(context, content, purpose, options),
+    listFiles: (options?: ListFilesOptionalParams) => listFiles(context, options),
+    uploadFile: (
+      content: ReadableStream | NodeJS.ReadableStream,
+      purpose: FilePurpose,
+      options?: UploadFileOptionalParams,
+    ) => uploadFile(context, content, purpose, options),
+    uploadFileAndPoll: (
+      content: ReadableStream | NodeJS.ReadableStream,
+      purpose: FilePurpose,
+      options?: UploadFileWithPollingOptionalParams,
+    ) => uploadFileAndPoll(context, content, purpose, options),
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
-    getFile: (fileId: string, options?: GetFileOptionalParams) =>
-      getFile(context, fileId, options),
+    getFile: (fileId: string, options?: GetFileOptionalParams) => getFile(context, fileId, options),
     getFileContent: (fileId: string, options?: GetFileContentOptionalParams) =>
       getFileContent(context, fileId, options),
 

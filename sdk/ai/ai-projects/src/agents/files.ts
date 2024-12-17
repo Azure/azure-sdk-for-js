@@ -9,7 +9,13 @@ import type {
   OpenAIFileOutput,
 } from "../customization/outputModels.js";
 import type { FilePurpose as CustomizedFilePurpose } from "../customization/models.js";
-import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, ListFilesOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
+import type {
+  DeleteFileOptionalParams,
+  GetFileContentOptionalParams,
+  GetFileOptionalParams,
+  ListFilesOptionalParams,
+  UploadFileWithPollingOptionalParams,
+} from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
@@ -55,9 +61,9 @@ export async function uploadFile(
     ...operationOptionsToRequestParameters(options),
     body: [
       { name: "file" as const, body: content, filename: options.fileName ?? randomUUID() },
-      { name: "purpose" as const, body: purpose }
+      { name: "purpose" as const, body: purpose },
     ],
-    contentType: "multipart/form-data"
+    contentType: "multipart/form-data",
   };
   const result = await context.path("/files").post(uploadFileOptions);
   if (!expectedStatuses.includes(result.status)) {
@@ -72,7 +78,6 @@ export function uploadFileAndPoll(
   purpose: CustomizedFilePurpose,
   options: UploadFileWithPollingOptionalParams = {},
 ): Promise<OpenAIFileOutput> {
-
   async function updateUploadFileAndPoll(
     currentResult?: OpenAIFileOutput,
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
@@ -88,11 +93,13 @@ export function uploadFileAndPoll(
         file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
     };
   }
-  const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: options.pollingOptions ?? {} });
+  const poller = new AgentsPoller<OpenAIFileOutput>({
+    update: updateUploadFileAndPoll,
+    pollingOptions: options.pollingOptions ?? {},
+  });
 
   return poller.pollUntilDone();
 }
-
 
 /** Delete a previously uploaded file. */
 export async function deleteFile(
@@ -104,9 +111,7 @@ export async function deleteFile(
     ...operationOptionsToRequestParameters(options),
   };
   validateFileId(fileId);
-  const result = await context
-    .path("/files/{fileId}", fileId)
-    .delete(deleteOptions);
+  const result = await context.path("/files/{fileId}", fileId).delete(deleteOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -123,9 +128,7 @@ export async function getFile(
   const getFileOptions: GeneratedParameters.ListFilesParameters = {
     ...operationOptionsToRequestParameters(options),
   };
-  const result = await context
-    .path("/files/{fileId}", fileId)
-    .get(getFileOptions);
+  const result = await context.path("/files/{fileId}", fileId).get(getFileOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -142,9 +145,7 @@ export function getFileContent(
   const getFileContentOptions: GeneratedParameters.ListFilesParameters = {
     ...operationOptionsToRequestParameters(options),
   };
-  return context
-    .path("/files/{fileId}/content", fileId)
-    .get(getFileContentOptions);
+  return context.path("/files/{fileId}/content", fileId).get(getFileContentOptions);
 }
 
 function validateListFilesParameters(options?: GeneratedParameters.ListFilesParameters): void {

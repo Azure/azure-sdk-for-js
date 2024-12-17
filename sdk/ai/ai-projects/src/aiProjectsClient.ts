@@ -14,7 +14,7 @@ import type { Client } from "@azure-rest/core-client";
 /**
  * The options for the AIProjectsClient
  */
-export interface AIProjectsClientOptions extends ProjectsClientOptions { }
+export interface AIProjectsClientOptions extends ProjectsClientOptions {}
 
 /**
  * The Azure AI Projects client
