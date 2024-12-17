@@ -1,8 +1,11 @@
-import { SecretTest } from "./secretTest";
-import { v4 as uuid } from "uuid";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { SecretTest } from "./secretTest.js";
+import { randomUUID } from "node:crypto";
 
 export class GetSecretTest extends SecretTest {
-  static secretName = `s-${uuid()}`;
+  static secretName = `s-${randomUUID()}`;
 
   public options = {};
 
