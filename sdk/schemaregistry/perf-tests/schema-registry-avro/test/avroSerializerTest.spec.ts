@@ -8,6 +8,8 @@ import { SchemaRegistryClient } from "@azure/schema-registry";
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 export abstract class AvroSerializerTest<TOptions> extends PerfTest<TOptions> {

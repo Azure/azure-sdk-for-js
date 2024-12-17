@@ -3,6 +3,7 @@
 
 import { AvroSerializerTest } from "./avroSerializerTest.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { describe, it, assert } from "vitest";
 
 interface SerializePerfTestOptions {
   "items-count": number;

@@ -6,6 +6,8 @@ import { SerializeTest } from "./serialize.spec.js";
 import { DeserializeTest } from "./deserialize.spec.js";
 
 import dotenv from "dotenv";
+import { describe, it, assert } from "vitest";
+
 dotenv.config();
 
 const perfProgram = createPerfProgram(SerializeTest, DeserializeTest);
