@@ -3,10 +3,10 @@
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
-import { StorageFileShareTest } from "./storageTest.spec";
+import { StorageFileShareTest } from "./storageTest.spec.js";
 import { randomUUID } from "@azure/core-util";
-import fs from "fs";
-import util from "util";
+import fs from "node:fs";
+import util from "node:util";
 
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
