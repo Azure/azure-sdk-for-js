@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "type": "commonjs",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist-esm/src/index.d.ts",
@@ -34,11 +34,12 @@
     "./prettier.json": "./prettier.json"
   },
   "files": [
-    "prettier.json",
-    "dist-esm/"
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
@@ -53,8 +54,8 @@
     "prebuild": "npm run clean",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "vitest",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "engines": {
@@ -66,11 +67,11 @@
     "@typescript-eslint/eslint-plugin": "~8.16.0",
     "@typescript-eslint/parser": "~8.16.0",
     "eslint": "^9.9.0",
+    "eslint-plugin-markdown": "^5.0.0",
     "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-tsdoc": "^0.2.10",
-    "eslint-plugin-markdown": "^5.0.0"
+    "eslint-plugin-tsdoc": "^0.2.10"
   },
   "dependencies": {
     "@eslint/compat": "^1.0.1",
@@ -85,20 +86,39 @@
     "typescript-eslint": "~8.16.0"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@types/eslint": "^9.6.0",
     "@types/eslint__js": "8.42.3",
     "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~8.16.0",
-    "@typescript-eslint/utils": "~8.16.0",
     "@typescript-eslint/parser": "~8.16.0",
     "@typescript-eslint/rule-tester": "~8.16.0",
-    "@vitest/coverage-istanbul": "^1.4.0",
+    "@typescript-eslint/utils": "~8.16.0",
+    "@vitest/browser": "^2.1.8",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
+    "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
-    "source-map-support": "^0.5.9",
-    "vitest": "^1.4.0"
-  }
+    "vitest": "^2.1.8"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./prettier.json": "./src/prettier.json/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "browser": "./dist/browser/index.js"
 }
