@@ -139,8 +139,7 @@ export interface GetFileOptionalParams extends OperationOptions{};
 
 export interface GetFileContentOptionalParams extends OperationOptions{};
 
-export type UploadFileOptionalParams = UploadFileBodyParam & OperationOptions;
-
-export interface UploadFileWithPollingOptionalParams extends UploadFileBodyParam, OperationOptions{
+export interface UploadFileOptionalParams extends OperationOptions{};
+export interface UploadFileWithPollingOptionalParams extends OperationOptions{
   pollingOptions?: PollingOptions;
 };
