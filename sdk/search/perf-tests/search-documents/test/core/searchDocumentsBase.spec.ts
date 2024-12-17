@@ -8,6 +8,7 @@ import {
 } from "@azure/search-documents";
 import { Hotel } from "./hotel.js";
 import { generateHotels } from "./documentsGenerator.js";
+import { describe, it, assert } from "vitest";
 
 export interface SearchDocumentsTestOptions {
   documentsCount: number;
