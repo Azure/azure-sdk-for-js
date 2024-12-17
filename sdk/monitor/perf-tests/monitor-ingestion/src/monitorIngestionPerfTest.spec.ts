@@ -4,10 +4,7 @@
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export abstract class MonitorIngestionPerfTest<TOptions> extends PerfTest<TOptions> {
   client: LogsIngestionClient;
