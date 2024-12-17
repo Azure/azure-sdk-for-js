@@ -49,10 +49,13 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", {
-      fileName: "fileName",
-      pollingOptions: { sleepIntervalInMs: 1000 },
-    });
+    const filePoller = await agents.uploadFile(fileContent, "assistants", {
+      fileName: "fileName"
+    }).poller;
+    assert.isNotNull(filePoller);
+    const file = await filePoller.pollUntilDone();
+    assert.isNotNull(file);
+    assert.isNotNull(file.id);
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });

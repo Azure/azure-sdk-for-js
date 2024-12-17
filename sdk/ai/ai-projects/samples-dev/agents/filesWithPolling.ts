@@ -30,8 +30,7 @@ export async function main(): Promise<void> {
   readable.push(null); // end the stream
 
   // Upload file and poll
-  const pollingOptions = { sleepIntervalInMs: 1000, abortSignal: abortController.signal };
-  const file = await client.agents.uploadFileAndPoll(readable, "assistants", "myPollingFile");
+  const file = await client.agents.uploadFile(readable, "assistants", {fileName: "myPollingFile", abortSignal: abortController.signal});
   console.log(`Uploaded file with status ${file.status}, file ID : ${file.id}`);
 
   // Delete file

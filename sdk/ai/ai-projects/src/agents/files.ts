@@ -14,13 +14,15 @@ import type {
   GetFileContentOptionalParams,
   GetFileOptionalParams,
   ListFilesOptionalParams,
-  UploadFileWithPollingOptionalParams,
+  UploadFileOptionalParams,
+  UploadFileResponse,
 } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
 import { randomUUID } from "@azure/core-util";
+import { convertPollingOptions } from "../customization/convertParametersToWire.js";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -51,12 +53,12 @@ export async function listFiles(
 }
 
 /** Uploads a file for use by other operations. */
-export async function uploadFile(
+export function uploadFile(
   context: Client,
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
-): Promise<OpenAIFileOutput> {
+  options: UploadFileOptionalParams = {},
+): UploadFileResponse {
   const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),
     body: [
@@ -65,19 +67,16 @@ export async function uploadFile(
     ],
     contentType: "multipart/form-data",
   };
-  const result = await context.path("/files").post(uploadFileOptions);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return ConvertFromWire.convertOpenAIFileOutput(result.body);
-}
+  const pollingOptions = convertPollingOptions(options)
 
-export function uploadFileAndPoll(
-  context: Client,
-  content: ReadableStream | NodeJS.ReadableStream,
-  purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
-): Promise<OpenAIFileOutput> {
+  async function executeUploadFile(): Promise<OpenAIFileOutput> {
+    const result = await context.path("/files").post(uploadFileOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return ConvertFromWire.convertOpenAIFileOutput(result.body);
+  }
+
   async function updateUploadFileAndPoll(
     currentResult?: OpenAIFileOutput,
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
@@ -93,12 +92,16 @@ export function uploadFileAndPoll(
         file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
     };
   }
-  const poller = new AgentsPoller<OpenAIFileOutput>({
-    update: updateUploadFileAndPoll,
-    pollingOptions: options.pollingOptions ?? {},
-  });
 
-  return poller.pollUntilDone();
+  return {
+    then: function (onFulfilled, onRejected) {
+      return executeUploadFile().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    poller: new AgentsPoller<OpenAIFileOutput>({
+      update: updateUploadFileAndPoll,
+      pollingOptions: pollingOptions,
+    }),
+  }
 }
 
 /** Delete a previously uploaded file. */

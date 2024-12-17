@@ -34,7 +34,6 @@ import {
   getFileContent,
   listFiles,
   uploadFile,
-  uploadFileAndPoll,
 } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import {
@@ -108,10 +107,10 @@ import type {
   GetFileContentOptionalParams,
   ListFilesOptionalParams,
   UploadFileOptionalParams,
-  UploadFileWithPollingOptionalParams,
   CreateVectorStoreResponse,
   CreateVectorStoreFileResponse,
   CreateVectorStoreFileBatchResponse,
+  UploadFileResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 
@@ -221,14 +220,7 @@ export interface AgentsOperations {
     data: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options?: UploadFileOptionalParams,
-  ) => Promise<OpenAIFileOutput>;
-
-  /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (
-    data: ReadableStream | NodeJS.ReadableStream,
-    purpose: FilePurpose,
-    options?: UploadFileWithPollingOptionalParams,
-  ) => Promise<OpenAIFileOutput>;
+  ) => UploadFileResponse;
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
@@ -384,11 +376,6 @@ function getAgents(context: Client): AgentsOperations {
       purpose: FilePurpose,
       options?: UploadFileOptionalParams,
     ) => uploadFile(context, content, purpose, options),
-    uploadFileAndPoll: (
-      content: ReadableStream | NodeJS.ReadableStream,
-      purpose: FilePurpose,
-      options?: UploadFileWithPollingOptionalParams,
-    ) => uploadFileAndPoll(context, content, purpose, options),
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
     getFile: (fileId: string, options?: GetFileOptionalParams) => getFile(context, fileId, options),

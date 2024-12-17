@@ -145,8 +145,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => UploadFileResponse;
 }
 
 // @public
@@ -1932,13 +1931,14 @@ export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOption
 }
 
 // @public
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends PollingOptions, OperationOptions {
     fileName?: string;
 }
 
 // @public
-export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
-}
+export type UploadFileResponse = PromiseLike<OpenAIFileOutput> & {
+    poller: PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
+};
 
 // @public
 export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
