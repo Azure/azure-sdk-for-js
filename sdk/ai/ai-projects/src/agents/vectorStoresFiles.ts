@@ -1,13 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
-import { ListVectorStoreFilesParameters, CreateVectorStoreFileParameters, GetVectorStoreFileParameters, DeleteVectorStoreFileParameters } from "../generated/src/parameters.js";
-import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput } from "../generated/src/outputModels.js";
+import type { Client } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type {
+  ListVectorStoreFilesParameters,
+  CreateVectorStoreFileParameters,
+} from "../generated/src/parameters.js";
+import type {
+  OpenAIPageableListOfVectorStoreFileOutput,
+  VectorStoreFileDeletionStatusOutput,
+  VectorStoreFileOutput,
+} from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
-import { CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
-import { validateFileId, validateFileStatusFilter, validateLimit, validateOrder, validateVectorStoreId } from "./inputValidations.js";
+import type {
+  CreateVectorStoreFileOptionalParams,
+  CreateVectorStoreFileWithPollingOptionalParams,
+  DeleteVectorStoreFileOptionalParams,
+  GetVectorStoreFileOptionalParams,
+  ListVectorStoreFilesOptionalParams,
+} from "./customModels.js";
+import {
+  validateFileId,
+  validateFileStatusFilter,
+  validateLimit,
+  validateOrder,
+  validateVectorStoreId,
+} from "./inputValidations.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import type * as GeneratedParameters from "../generated/src/parameters.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
+import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -15,30 +38,45 @@ const expectedStatuses = ["200"];
 export async function listVectorStoreFiles(
   context: Client,
   vectorStoreId: string,
-  options?: ListVectorStoreFilesParameters,
+  options: ListVectorStoreFilesOptionalParams = {},
 ): Promise<OpenAIPageableListOfVectorStoreFileOutput> {
   validateVectorStoreId(vectorStoreId);
-  validateListVectorStoreFilesParameters(options);
-  const result = await context.path("/vector_stores/{vectorStoreId}/files", vectorStoreId).get(options);
+
+  const listOptions: GeneratedParameters.ListVectorStoreFilesParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: convertToListQueryParameters(options),
+  };
+
+  validateListVectorStoreFilesParameters(listOptions);
+  const result = await context
+    .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
+    .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertOpenAIPageableListOfVectorStoreFileOutput(result.body);
 }
 
 /** Create a vector store file by attaching a file to a vector store. */
 export async function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
-  options?: CreateVectorStoreFileParameters,
+  options: CreateVectorStoreFileOptionalParams = {},
 ): Promise<VectorStoreFileOutput> {
+  const createOptions: CreateVectorStoreFileParameters = {
+    ...operationOptionsToRequestParameters(options),
+    ...ConvertParamsToWire.convertCreateVectorStoreFileParam({ body: options }),
+  };
+
   validateVectorStoreId(vectorStoreId);
-  validateCreateVectorStoreFileParameters(options);
-  const result = await context.path("/vector_stores/{vectorStoreId}/files", vectorStoreId).post(options);
+  validateCreateVectorStoreFileParameters(createOptions);
+  const result = await context
+    .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
+    .post(createOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
 }
 
 /** Retrieves a vector store file. */
@@ -46,17 +84,21 @@ export async function getVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   fileId: string,
-  options?: GetVectorStoreFileParameters,
+  options: GetVectorStoreFileOptionalParams = {},
 ): Promise<VectorStoreFileOutput> {
+  const getOptions: GeneratedParameters.GetVectorStoreFileParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+
   validateVectorStoreId(vectorStoreId);
   validateFileId(fileId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
-    .get(options);
+    .get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
 }
 
 /**
@@ -67,39 +109,36 @@ export async function deleteVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   fileId: string,
-  options?: DeleteVectorStoreFileParameters,
+  options: DeleteVectorStoreFileOptionalParams = {},
 ): Promise<VectorStoreFileDeletionStatusOutput> {
   validateVectorStoreId(vectorStoreId);
   validateFileId(fileId);
+  const deleteOptions: GeneratedParameters.GetVectorStoreFileParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
   const result = await context
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
-    .delete(options);
+    .delete(deleteOptions);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body;
+  return ConvertFromWire.convertVectorStoreFileDeletionStatusOutput(result.body);
 }
 
 /** Create a vector store file by attaching a file to a vector store and poll. */
 export function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
-  createVectorStoreFileOptions?: CreateVectorStoreFileOptions,
-  pollingOptions?: PollingOptions,
-  requestParams?: OptionalRequestParameters
+  options: CreateVectorStoreFileWithPollingOptionalParams = {},
 ): Promise<VectorStoreFileOutput> {
   async function updateCreateVectorStoreFilePoll(
-    currentResult?: VectorStoreFileOutput
+    currentResult?: VectorStoreFileOutput,
   ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
     let vectorStoreFile: VectorStoreFileOutput;
     if (!currentResult) {
-      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, { body: {
-        file_id: createVectorStoreFileOptions?.fileId,
-        data_sources: createVectorStoreFileOptions?.dataSources,
-        chunking_strategy: createVectorStoreFileOptions?.chunkingStrategy,
-       }, ...requestParams });
+      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
     } else {
-      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, requestParams);
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
     }
     return {
       result: vectorStoreFile,
@@ -109,7 +148,7 @@ export function createVectorStoreFileAndPoll(
 
   const poller = new AgentsPoller<VectorStoreFileOutput>({
     update: updateCreateVectorStoreFilePoll,
-    pollingOptions: pollingOptions
+    pollingOptions: options.pollingOptions,
   });
   return poller.pollUntilDone();
 }

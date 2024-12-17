@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient, ThreadRunOutput } from "../../../src/index.js";
+import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
@@ -34,7 +35,10 @@ describe("Agents - streaming", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "Hello, tell me a joke",
+    });
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming
@@ -45,14 +49,14 @@ describe("Agents - streaming", () => {
       hasEventMessages = true;
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistant_id}`)
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistantId}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
           break;
         case RunStreamEvent.ThreadRunCompleted:
           console.log(`Thread Run Completed, thread ID: ${thread.id}`);
-          break
+          break;
       }
     }
     assert.isTrue(hasEventMessages);
@@ -75,11 +79,13 @@ describe("Agents - streaming", () => {
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread and run streaming
-    const streamEventMessages = await agents.createThreadAndRun(agent.id, {
-      thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
-    }).stream();
+    const streamEventMessages = await agents
+      .createThreadAndRun(agent.id, {
+        thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
+      })
+      .stream();
 
-    let hasEventMessages = false
+    let hasEventMessages = false;
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
@@ -91,7 +97,7 @@ describe("Agents - streaming", () => {
           break;
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
-          break
+          break;
       }
     }
     assert.isTrue(hasEventMessages);

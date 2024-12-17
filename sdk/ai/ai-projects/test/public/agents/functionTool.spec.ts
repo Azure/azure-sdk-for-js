@@ -1,36 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay, Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient, FunctionToolDefinition, FunctionToolDefinitionOutput, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, SubmitToolOutputsActionOutput } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type {
+  AgentsOperations,
+  AIProjectsClient,
+  FunctionToolDefinition,
+  FunctionToolDefinitionOutput,
+  MessageContentOutput,
+  MessageImageFileContentOutput,
+  MessageTextContentOutput,
+  SubmitToolOutputsActionOutput,
+} from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { isOutputOfType } from "../../../src/agents/utils.js";
 
 describe("Agents - function tool", () => {
-    let recorder: Recorder;
-    let projectsClient: AIProjectsClient;
-    let agents: AgentsOperations
-    let getCurrentDateTimeTool: FunctionToolDefinition
+  let recorder: Recorder;
+  let projectsClient: AIProjectsClient;
+  let agents: AgentsOperations;
+  let getCurrentDateTimeTool: FunctionToolDefinition;
 
-    beforeEach(async function (context: VitestTestContext) {
-        recorder = await createRecorder(context);
-        projectsClient = createProjectsClient(recorder);
-        agents = projectsClient.agents;
-        getCurrentDateTimeTool = { type: "function", function: { name: "getCurrentDateTime", description: "Get current date time", parameters: {} } };
-    });
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    agents = projectsClient.agents;
+    getCurrentDateTimeTool = {
+      type: "function",
+      function: {
+        name: "getCurrentDateTime",
+        description: "Get current date time",
+        parameters: {},
+      },
+    };
+  });
 
-    afterEach(async function () {
-        await recorder.stop();
-    });
+  afterEach(async function () {
+    await recorder.stop();
+  });
 
-function getCurrentDateTime(): {} {
-    return { "currentDateTime": "2024-10-10 12:30:19" };
-}
+  function getCurrentDateTime(): {} {
+    return { currentDateTime: "2024-10-10 12:30:19" };
+  }
 
-it("should create agent with function tool", async function () {
+  it("should create agent with function tool", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent", tools: [getCurrentDateTimeTool] })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: [getCurrentDateTimeTool],
+    });
     console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
@@ -40,11 +61,15 @@ it("should create agent with function tool", async function () {
     // Delete agent
     await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
-})
+  });
 
-it("should create agent with run function tool", async function () {
+  it("should create agent with run function tool", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent", tools: [getCurrentDateTimeTool] })
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: [getCurrentDateTimeTool],
+    });
     console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
@@ -58,7 +83,10 @@ it("should create agent with run function tool", async function () {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "Hello, what's the time?" })
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "Hello, what's the time?",
+    });
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
@@ -69,45 +97,50 @@ it("should create agent with run function tool", async function () {
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-        await delay(1000);
-        run = await agents.getRun(thread.id, run.id);
-        console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-        if (run.status === "requires_action" && run.required_action) {
-
-            console.log(`Run requires action - ${run.required_action}`);
-            if (isOutputOfType<SubmitToolOutputsActionOutput>(run.required_action, "submit_tool_outputs")) {
-                const submitToolOutputsActionOutput = run.required_action as SubmitToolOutputsActionOutput;
-                const toolCalls = submitToolOutputsActionOutput.submit_tool_outputs.tool_calls;
-                for (const toolCall of toolCalls) {
-                    if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
-                        const functionOutput = toolCall as FunctionToolDefinitionOutput;
-                        console.log(`Function tool call - ${functionOutput.function.name}`);
-                        const toolResponse =  getCurrentDateTime();
-                        run = await agents.submitToolOutputsToRun(thread.id, run.id, [{tool_call_id: toolCall.id, output: JSON.stringify(toolResponse)}]);
-                        console.log(`Submitted tool response - ${run.status}`);
-                    }
-                }
+      await delay(1000);
+      run = await agents.getRun(thread.id, run.id);
+      console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
+      if (run.status === "requires_action" && run.requiredAction) {
+        console.log(`Run requires action - ${run.requiredAction}`);
+        if (
+          isOutputOfType<SubmitToolOutputsActionOutput>(run.requiredAction, "submit_tool_outputs")
+        ) {
+          const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsActionOutput;
+          const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
+          for (const toolCall of toolCalls) {
+            if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
+              const functionOutput = toolCall as FunctionToolDefinitionOutput;
+              console.log(`Function tool call - ${functionOutput.function.name}`);
+              const toolResponse = getCurrentDateTime();
+              run = await agents.submitToolOutputsToRun(thread.id, run.id, [
+                { toolCallId: toolCall.id, output: JSON.stringify(toolResponse) },
+              ]);
+              console.log(`Submitted tool response - ${run.status}`);
             }
+          }
         }
+      }
     }
     assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
     console.log(`Run status - ${run.status}, run ID: ${run.id}`);
     const messages = await agents.listMessages(thread.id);
-    messages.data.forEach(threadMessage => {
-        console.log(`Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`);
-        threadMessage.content.forEach((content: MessageContentOutput) => {
-            if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-                const textContent = content as MessageTextContentOutput;
-                console.log(`Text Message Content - ${textContent.text.value}`);
-            } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-                const imageContent = content as MessageImageFileContentOutput;
-                console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
-            }
-        });
+    messages.data.forEach((threadMessage) => {
+      console.log(
+        `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
+      );
+      threadMessage.content.forEach((content: MessageContentOutput) => {
+        if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
+          const textContent = content as MessageTextContentOutput;
+          console.log(`Text Message Content - ${textContent.text.value}`);
+        } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
+          const imageContent = content as MessageImageFileContentOutput;
+          console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        }
+      });
     });
 
     // Delete agent
     await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
-})
+  });
 });

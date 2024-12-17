@@ -409,8 +409,7 @@ export interface MessageTextAnnotationParent {
 }
 
 /** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
-export interface MessageTextFileCitationAnnotation
-  extends MessageTextAnnotationParent {
+export interface MessageTextFileCitationAnnotation extends MessageTextAnnotationParent {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
   /**
@@ -433,8 +432,7 @@ export interface MessageTextFileCitationDetails {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface MessageTextFilePathAnnotation
-  extends MessageTextAnnotationParent {
+export interface MessageTextFilePathAnnotation extends MessageTextAnnotationParent {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
   /** A URL for the file that's generated when the agent used the code_interpreter tool to generate a file. */
@@ -481,7 +479,7 @@ export interface CreateRunOptions {
   /** Adds additional messages to the thread before creating the run. */
   additionalMessages?: Array<ThreadMessage> | null;
   /** The overridden list of enabled tools that the agent should use to run the thread. */
-  tools?: Array<ToolDefinition> | null;
+  tools?: Array<ToolDefinition>;
   /**
    * If `true`, returns a stream of events that happen during the Run as server-sent events,
    * terminating when the Run enters a terminal state with a `data: [DONE]` message.
@@ -834,10 +832,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition;
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent =
-  | MessageContentParent
-  | MessageTextContent
-  | MessageImageFileContent;
+export type MessageContent = MessageContentParent | MessageTextContent | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotation =
   | MessageTextAnnotationParent
@@ -849,10 +844,7 @@ export type VectorStoreChunkingStrategyRequest =
   | VectorStoreAutoChunkingStrategyRequest
   | VectorStoreStaticChunkingStrategyRequest;
 /** Abstract data class for input data configuration. */
-export type InputData =
-  | InputDataParent
-  | ApplicationInsightsConfiguration
-  | Dataset;
+export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
 /** Alias for VectorStoreDataSourceAssetType */

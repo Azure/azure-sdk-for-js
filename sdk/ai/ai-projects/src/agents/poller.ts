@@ -2,47 +2,47 @@
 // Licensed under the MIT License.
 
 import { delay } from "@azure/core-util";
-import { PollOperationState, PollOperation, Poller } from "@azure/core-lro";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollingOptions } from "./customModels.js";
+import type { PollOperationState, PollOperation } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollingOptions } from "./customModels.js";
 
 interface PollResult {
   status?: string;
 }
 
 interface AgentsPollOperationState<T extends PollResult> extends PollOperationState<T> {
-  updateInternal: (state?: T) => Promise<{result: T, completed: boolean}>;
+  updateInternal: (state?: T) => Promise<{ result: T; completed: boolean }>;
   cancelInternal?: (state: T) => Promise<boolean>;
   abortSignal?: AbortSignalLike;
   cancelled?: boolean;
 }
 
-interface AgentsPollOperation<T extends PollResult> extends PollOperation<AgentsPollOperationState<T>, T> {}
+interface AgentsPollOperation<T extends PollResult>
+  extends PollOperation<AgentsPollOperationState<T>, T> {}
 
 export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperationState<T>, T> {
   sleepIntervalInMs: number = 1000;
-  
-  constructor(
-    {
-      update,
-      pollingOptions,
-      cancel,
-      baseOperation,
-      onProgress
-    } : {
-      update: (state?: T) => Promise<{result: T, completed: boolean}>,
-      pollingOptions?: PollingOptions,
-      cancel?: (state: T) => Promise<boolean>,
-      baseOperation?: AgentsPollOperation<T>,
-      onProgress?: (state: AgentsPollOperationState<T>) => void
-    }) {
 
-    let state: AgentsPollOperationState<T> = { 
+  constructor({
+    update,
+    pollingOptions,
+    cancel,
+    baseOperation,
+    onProgress,
+  }: {
+    update: (state?: T) => Promise<{ result: T; completed: boolean }>;
+    pollingOptions?: PollingOptions;
+    cancel?: (state: T) => Promise<boolean>;
+    baseOperation?: AgentsPollOperation<T>;
+    onProgress?: (state: AgentsPollOperationState<T>) => void;
+  }) {
+    let state: AgentsPollOperationState<T> = {
       updateInternal: update,
       cancelInternal: cancel,
-      abortSignal: pollingOptions?.abortSignal
+      abortSignal: pollingOptions?.abortSignal,
     };
-  
+
     if (baseOperation) {
       state = baseOperation.state;
     }
@@ -92,12 +92,12 @@ async function updateWrapper<T extends PollResult>(
 }
 
 async function cancelWrapper<T extends PollResult>(
-  this: AgentsPollOperation<T>
+  this: AgentsPollOperation<T>,
 ): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
   if (!this.state.result || !this.state.cancelInternal) {
     return makeOperation({
       ...this.state,
-      cancelled: false
+      cancelled: false,
     });
   }
   const cancelled = await this.state.cancelInternal(this.state.result);
@@ -107,8 +107,6 @@ async function cancelWrapper<T extends PollResult>(
   });
 }
 
-function toString<T extends PollResult>(
-  this: AgentsPollOperation<T>,
-): string {
+function toString<T extends PollResult>(this: AgentsPollOperation<T>): string {
   return JSON.stringify(this.state);
 }

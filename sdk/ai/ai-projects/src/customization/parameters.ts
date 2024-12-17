@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   CreateAgentOptions,
   ListSortOrder,
   UpdateAgentOptions,
@@ -77,8 +77,7 @@ export interface CreateMessageBodyParam {
   body: ThreadMessageOptions;
 }
 
-export type CreateMessageParameters = CreateMessageBodyParam &
-  RequestParameters;
+export type CreateMessageParameters = CreateMessageBodyParam & RequestParameters;
 
 export interface ListMessagesQueryParamProperties {
   /** Filter messages by the run ID that generated them. */
@@ -108,8 +107,7 @@ export interface UpdateMessageBodyParam {
   body: { metadata?: Record<string, string> | null };
 }
 
-export type UpdateMessageParameters = UpdateMessageBodyParam &
-  RequestParameters;
+export type UpdateMessageParameters = UpdateMessageBodyParam & RequestParameters;
 
 export interface CreateRunBodyParam {
   body: CreateRunOptions;
@@ -149,16 +147,14 @@ export interface SubmitToolOutputsToRunBodyParam {
   body: { toolOutputs: Array<ToolOutput>; stream?: boolean | null };
 }
 
-export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam &
-  RequestParameters;
+export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam & RequestParameters;
 export type CancelRunParameters = RequestParameters;
 
 export interface CreateThreadAndRunBodyParam {
   body: CreateAndRunThreadOptions;
 }
 
-export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &
-  RequestParameters;
+export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam & RequestParameters;
 export type GetRunStepParameters = RequestParameters;
 
 export interface ListRunStepsQueryParamProperties {
@@ -203,12 +199,7 @@ export interface UploadFileBodyParam {
     | Array<
         | {
             name: "file";
-            body:
-              | string
-              | Uint8Array
-              | ReadableStream<Uint8Array>
-              | NodeJS.ReadableStream
-              | File;
+            body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
             filename?: string;
             contentType?: string;
           }
@@ -253,23 +244,20 @@ export interface ListVectorStoresQueryParam {
   queryParameters?: ListVectorStoresQueryParamProperties;
 }
 
-export type ListVectorStoresParameters = ListVectorStoresQueryParam &
-  RequestParameters;
+export type ListVectorStoresParameters = ListVectorStoresQueryParam & RequestParameters;
 
 export interface CreateVectorStoreBodyParam {
   body: VectorStoreOptions;
 }
 
-export type CreateVectorStoreParameters = CreateVectorStoreBodyParam &
-  RequestParameters;
+export type CreateVectorStoreParameters = CreateVectorStoreBodyParam & RequestParameters;
 export type GetVectorStoreParameters = RequestParameters;
 
 export interface ModifyVectorStoreBodyParam {
   body: VectorStoreUpdateOptions;
 }
 
-export type ModifyVectorStoreParameters = ModifyVectorStoreBodyParam &
-  RequestParameters;
+export type ModifyVectorStoreParameters = ModifyVectorStoreBodyParam & RequestParameters;
 export type DeleteVectorStoreParameters = RequestParameters;
 
 export interface ListVectorStoreFilesQueryParamProperties {
@@ -297,8 +285,7 @@ export interface ListVectorStoreFilesQueryParam {
   queryParameters?: ListVectorStoreFilesQueryParamProperties;
 }
 
-export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam &
-  RequestParameters;
+export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam & RequestParameters;
 
 export interface CreateVectorStoreFileBodyParam {
   body: {
@@ -308,8 +295,7 @@ export interface CreateVectorStoreFileBodyParam {
   };
 }
 
-export type CreateVectorStoreFileParameters = CreateVectorStoreFileBodyParam &
-  RequestParameters;
+export type CreateVectorStoreFileParameters = CreateVectorStoreFileBodyParam & RequestParameters;
 export type GetVectorStoreFileParameters = RequestParameters;
 export type DeleteVectorStoreFileParameters = RequestParameters;
 
@@ -321,8 +307,8 @@ export interface CreateVectorStoreFileBatchBodyParam {
   };
 }
 
-export type CreateVectorStoreFileBatchParameters =
-  CreateVectorStoreFileBatchBodyParam & RequestParameters;
+export type CreateVectorStoreFileBatchParameters = CreateVectorStoreFileBatchBodyParam &
+  RequestParameters;
 export type GetVectorStoreFileBatchParameters = RequestParameters;
 export type CancelVectorStoreFileBatchParameters = RequestParameters;
 
@@ -351,8 +337,8 @@ export interface ListVectorStoreFileBatchFilesQueryParam {
   queryParameters?: ListVectorStoreFileBatchFilesQueryParamProperties;
 }
 
-export type ListVectorStoreFileBatchFilesParameters =
-  ListVectorStoreFileBatchFilesQueryParam & RequestParameters;
+export type ListVectorStoreFileBatchFilesParameters = ListVectorStoreFileBatchFilesQueryParam &
+  RequestParameters;
 export type GetWorkspaceParameters = RequestParameters;
 
 export interface ListConnectionsQueryParamProperties {
@@ -368,16 +354,15 @@ export interface ListConnectionsQueryParam {
   queryParameters?: ListConnectionsQueryParamProperties;
 }
 
-export type ListConnectionsParameters = ListConnectionsQueryParam &
-  RequestParameters;
+export type ListConnectionsParameters = ListConnectionsQueryParam & RequestParameters;
 export type GetConnectionParameters = RequestParameters;
 
 export interface GetConnectionWithSecretsBodyParam {
   body: { ignored: string };
 }
 
-export type GetConnectionWithSecretsParameters =
-  GetConnectionWithSecretsBodyParam & RequestParameters;
+export type GetConnectionWithSecretsParameters = GetConnectionWithSecretsBodyParam &
+  RequestParameters;
 export type GetAppInsightsParameters = RequestParameters;
 
 export interface GetHeaders {
@@ -420,9 +405,7 @@ export interface ListHeaderParam {
   headers?: RawHttpHeadersInput & ListHeaders;
 }
 
-export type ListParameters = ListQueryParam &
-  ListHeaderParam &
-  RequestParameters;
+export type ListParameters = ListQueryParam & ListHeaderParam & RequestParameters;
 
 export interface UpdateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -476,10 +459,9 @@ export interface CreateOrReplaceScheduleHeaderParam {
   headers?: RawHttpHeadersInput & CreateOrReplaceScheduleHeaders;
 }
 
-export type CreateOrReplaceScheduleParameters =
-  CreateOrReplaceScheduleHeaderParam &
-    CreateOrReplaceScheduleBodyParam &
-    RequestParameters;
+export type CreateOrReplaceScheduleParameters = CreateOrReplaceScheduleHeaderParam &
+  CreateOrReplaceScheduleBodyParam &
+  RequestParameters;
 
 export interface ListScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
