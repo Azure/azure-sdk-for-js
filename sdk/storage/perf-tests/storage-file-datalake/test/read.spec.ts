@@ -5,6 +5,7 @@ import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageDFSTest } from "./storageTest.spec.js";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, assert } from "vitest";
 
 interface StorageDFSReadTestOptions {
   size: number;

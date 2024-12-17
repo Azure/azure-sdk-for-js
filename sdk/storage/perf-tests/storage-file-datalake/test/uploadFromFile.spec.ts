@@ -4,6 +4,7 @@
 import { StorageDFSUploadTest } from "./upload.spec.js";
 import fs from "node:fs";
 import util from "node:util";
+import { describe, it, assert } from "vitest";
 
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
