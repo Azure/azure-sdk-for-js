@@ -105,7 +105,7 @@ export type AgentsNamedToolChoiceType = string;
 // @public
 export type AgentsNamedToolChoiceTypeOutput = string;
 
-// @public (undocumented)
+// @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
@@ -365,8 +365,8 @@ export interface CreateRunOptions {
     truncationStrategy?: TruncationObject | null;
 }
 
-// @public (undocumented)
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, PollingOptions, OperationOptions {
+// @public
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -386,7 +386,7 @@ export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFi
 }
 
 // @public
-export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, PollingOptions, OperationOptions {
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -402,7 +402,7 @@ export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> &
 };
 
 // @public
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -1935,7 +1935,7 @@ export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOption
 }
 
 // @public
-export interface UploadFileOptionalParams extends PollingOptions, OperationOptions {
+export interface UploadFileOptionalParams extends PollingOptionsParams, OperationOptions {
     fileName?: string;
 }
 

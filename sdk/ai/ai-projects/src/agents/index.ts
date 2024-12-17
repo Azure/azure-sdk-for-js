@@ -113,6 +113,9 @@ import type {
   UploadFileResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
+/**
+ * Agents Interface Contains operations for creating, listing, updating, and deleting agents, threads, runs, messages, and files.
+ */
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;

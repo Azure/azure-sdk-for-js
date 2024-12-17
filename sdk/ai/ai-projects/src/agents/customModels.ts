@@ -195,7 +195,7 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptionsParams, OperationOptions {}
 
 /**
  * Response for creating vector store.
@@ -256,7 +256,7 @@ export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
-    PollingOptions,
+    PollingOptionsParams,
     OperationOptions {}
 
 /**
@@ -289,9 +289,12 @@ export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions 
  */
 export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
+/**
+ * Optional parameters for creating a vector store file batch.
+ */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
-    PollingOptions,
+    PollingOptionsParams,
     OperationOptions {}
 
 /**
@@ -354,7 +357,7 @@ export interface GetFileContentOptionalParams extends OperationOptions {}
 /**
  * Optional parameters for uploading a file.
  */
-export interface UploadFileOptionalParams extends PollingOptions, OperationOptions {
+export interface UploadFileOptionalParams extends PollingOptionsParams, OperationOptions {
   /** The name of the file. */
   fileName?: string;
 }
