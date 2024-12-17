@@ -3,10 +3,7 @@
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ContainerRegistryClient } from "@azure/container-registry";
-
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export abstract class ContainerRegistryTest<TOptions> extends PerfTest<TOptions> {
   client: ContainerRegistryClient;
