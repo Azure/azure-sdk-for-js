@@ -1,34 +1,38 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-import { Client } from "@azure-rest/core-client";
-import { ConnectionsOperations } from "../connections/index.js";
-import { getConnectionString, getTelemetryOptions, resetTelemetryOptions, TelemetryOptions, updateTelemetryOptions } from "./telemetry.js";
+import type { Client } from "@azure-rest/core-client";
+import type { ConnectionsOperations } from "../connections/index.js";
+import type { TelemetryOptions } from "./telemetry.js";
+import {
+  getConnectionString,
+  getTelemetryOptions,
+  resetTelemetryOptions,
+  updateTelemetryOptions,
+} from "./telemetry.js";
 
 /**
  * Telemetry operations
  **/
 export interface TelemetryOperations {
-    /**
-     * Get the appinsights connection string confired in the workspace
-     * @returns The telemetry connection string
-     **/
-    getConnectionString(): Promise<string>
+  /**
+   * Get the appinsights connection string confired in the workspace
+   * @returns The telemetry connection string
+   **/
+  getConnectionString(): Promise<string>;
 
-    /**
-     * Update the telemetry settings
-     * @param options - The telemetry options
-     * @returns void
-     * */
-    updateSettings(options: TelemetryOptions): void
+  /**
+   * Update the telemetry settings
+   * @param options - The telemetry options
+   * @returns void
+   * */
+  updateSettings(options: TelemetryOptions): void;
 
-    /**
-     * get the telemetry settings
-     * @returns The telemetry options
-     * */
-    getSettings(): TelemetryOptions
+  /**
+   * get the telemetry settings
+   * @returns The telemetry options
+   * */
+  getSettings(): TelemetryOptions;
 }
 
 /**
@@ -36,11 +40,14 @@ export interface TelemetryOperations {
  * @param connection - The connections operations
  * @returns The telemetry operations
  **/
-export function getTelemetryOperations(context: Client, connection: ConnectionsOperations): TelemetryOperations {
-    resetTelemetryOptions();
-    return {
-        getConnectionString: () => getConnectionString(context, connection),
-        updateSettings: (options: TelemetryOptions) => updateTelemetryOptions(options),
-        getSettings: () => getTelemetryOptions()
-    }
+export function getTelemetryOperations(
+  context: Client,
+  connection: ConnectionsOperations,
+): TelemetryOperations {
+  resetTelemetryOptions();
+  return {
+    getConnectionString: () => getConnectionString(context, connection),
+    updateSettings: (options: TelemetryOptions) => updateTelemetryOptions(options),
+    getSettings: () => getTelemetryOptions(),
+  };
 }

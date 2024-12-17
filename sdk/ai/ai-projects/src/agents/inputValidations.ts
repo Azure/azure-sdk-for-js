@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ToolDefinition, UpdateToolResourcesOptions, VectorStoreDataSource } from "../generated/src/models.js";
+import type {
+  ToolDefinition,
+  UpdateToolResourcesOptions,
+  VectorStoreDataSource,
+} from "../generated/src/models.js";
 
 export function validateVectorStoreDataType(data_sources: VectorStoreDataSource[]): void {
-  if (!data_sources.some(value => !["uri_asset", "id_asset"].includes(value.type))) {
+  if (!data_sources.some((value) => !["uri_asset", "id_asset"].includes(value.type))) {
     throw new Error("Vector store data type must be one of 'uri_asset', 'id_asset'");
   }
 }
@@ -44,31 +48,39 @@ enum Tools {
 }
 
 export function validateTools(value: Array<ToolDefinition>): void {
-    if (value.some(tool => !Object.values(Tools).includes(tool as unknown as Tools))) {
-      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
-    }
+  if (value.some((tool) => !Object.values(Tools).includes(tool as unknown as Tools))) {
+    throw new Error(
+      "Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'",
+    );
+  }
 }
 
 export function validateMetadata(metadata: Record<string, string>): void {
   if (Object.keys(metadata).length > 16) {
-      throw new Error("Only 16 key/value pairs are allowed");
+    throw new Error("Only 16 key/value pairs are allowed");
   }
-  if (Object.keys(metadata).some(value => value.length > 64)) {
+  if (Object.keys(metadata).some((value) => value.length > 64)) {
     throw new Error("Keys must be less than 64 characters");
   }
-  if (Object.values(metadata).some(value => value.length > 512)) {
+  if (Object.values(metadata).some((value) => value.length > 512)) {
     throw new Error("Values must be less than 512 characters");
   }
 }
 
 export function validateToolResources(toolResource: UpdateToolResourcesOptions): void {
   if (toolResource.code_interpreter) {
-    if (toolResource.code_interpreter.file_ids && toolResource.code_interpreter.file_ids.length > 20) {
+    if (
+      toolResource.code_interpreter.file_ids &&
+      toolResource.code_interpreter.file_ids.length > 20
+    ) {
       throw new Error("A maximum of 20 file IDs are allowed");
     }
   }
   if (toolResource.file_search) {
-    if (toolResource.file_search.vector_store_ids && toolResource.file_search.vector_store_ids.length > 1) {
+    if (
+      toolResource.file_search.vector_store_ids &&
+      toolResource.file_search.vector_store_ids.length > 1
+    ) {
       throw new Error("Only one vector store ID is allowed");
     }
   }
@@ -100,7 +112,9 @@ enum FileBatchStatus {
 
 export function validateFileStatusFilter(filter: string): void {
   if (!Object.values(FileBatchStatus).includes(filter as FileBatchStatus)) {
-    throw new Error("File status filter must be one of 'in_progress', 'completed', 'failed', 'cancelled'");
+    throw new Error(
+      "File status filter must be one of 'in_progress', 'completed', 'failed', 'cancelled'",
+    );
   }
 }
 
@@ -114,7 +128,6 @@ export function validateMessages(value: string): void {
     throw new Error("Role must be either 'user' or 'assistant'");
   }
 }
-
 
 enum TruncationStrategy {
   Auto = "auto",

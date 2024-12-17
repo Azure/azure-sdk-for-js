@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
-import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
-import { getTelemetryOperations, TelemetryOperations } from "./telemetry/index.js";
-import { Client } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ProjectsClientOptions } from "./generated/src/projectsClient.js";
+import createClient from "./generated/src/projectsClient.js";
+import type { AgentsOperations } from "./agents/index.js";
+import { getAgentsOperations } from "./agents/index.js";
+import type { ConnectionsOperations } from "./connections/index.js";
+import { getConnectionsOperations } from "./connections/index.js";
+import type { TelemetryOperations } from "./telemetry/index.js";
+import { getTelemetryOperations } from "./telemetry/index.js";
+import type { Client } from "@azure-rest/core-client";
 
-export interface AIProjectsClientOptions extends ProjectsClientOptions {
-}
+export interface AIProjectsClientOptions extends ProjectsClientOptions {}
 
 export class AIProjectsClient {
   private _client: Client;
@@ -30,7 +33,7 @@ export class AIProjectsClient {
     credential: TokenCredential,
     options: AIProjectsClientOptions = {},
   ) {
-    const connectionEndPoint = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`
+    const connectionEndPoint = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`;
     this._client = createClient(
       endpointParam,
       subscriptionId,
@@ -40,22 +43,27 @@ export class AIProjectsClient {
       options,
     );
 
-    this._connectionClient = createClient(endpointParam, subscriptionId,
+    this._connectionClient = createClient(
+      endpointParam,
+      subscriptionId,
       resourceGroupName,
       projectName,
       credential,
-      { ...options, endpoint: connectionEndPoint })
+      { ...options, endpoint: connectionEndPoint },
+    );
 
-    this._telemetryClient = createClient(endpointParam, subscriptionId,
+    this._telemetryClient = createClient(
+      endpointParam,
+      subscriptionId,
       resourceGroupName,
       projectName,
       credential,
-      { ...options, apiVersion: "2020-02-02", endpoint: 'https://management.azure.com' })
+      { ...options, apiVersion: "2020-02-02", endpoint: "https://management.azure.com" },
+    );
 
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
     this.telemetry = getTelemetryOperations(this._telemetryClient, this.connections);
-
   }
 
   /**

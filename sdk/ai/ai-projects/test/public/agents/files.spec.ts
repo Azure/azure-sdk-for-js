@@ -9,7 +9,7 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 describe("Agents - files", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations
+  let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
@@ -36,7 +36,7 @@ describe("Agents - files", () => {
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
-      }
+      },
     });
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     assert.isNotEmpty(file);
@@ -47,9 +47,9 @@ describe("Agents - files", () => {
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
-      }
+      },
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", { fileName: "fileName" });
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", { fileName: "fileName", pollingOptions: { sleepIntervalInMs: 1000 } });
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
@@ -59,7 +59,7 @@ describe("Agents - files", () => {
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
-      }
+      },
     });
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     const deleted = await agents.deleteFile(file.id);
@@ -71,7 +71,7 @@ describe("Agents - files", () => {
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
-      }
+      },
     });
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     const _file = await agents.getFile(file.id);

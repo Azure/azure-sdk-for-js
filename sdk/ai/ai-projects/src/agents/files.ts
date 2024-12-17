@@ -8,11 +8,8 @@ import type {
   FileListResponseOutput,
   OpenAIFileOutput,
 } from "../customization/outputModels.js";
-import type {
-  FilePurpose as CustomizedFilePurpose,
-} from "../customization/models.js";
-import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
-import { type ListFilesOptionalParams } from "./customModels.js";
+import type { FilePurpose as CustomizedFilePurpose } from "../customization/models.js";
+import type { DeleteFileOptionalParams, GetFileContentOptionalParams, GetFileOptionalParams, ListFilesOptionalParams, UploadFileWithPollingOptionalParams } from "./customModels.js";
 import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
@@ -85,7 +82,11 @@ export function uploadFileAndPoll(
     } else {
       file = await getFile(context, currentResult.id, options);
     }
-    return { result: file, completed: file.status === "uploaded" || file.status === "processed" || file.status === "deleted" };
+    return {
+      result: file,
+      completed:
+        file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
+    };
   }
   const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: options.pollingOptions ?? {} });
 
@@ -149,7 +150,9 @@ export function getFileContent(
 function validateListFilesParameters(options?: GeneratedParameters.ListFilesParameters): void {
   if (options?.queryParameters?.purpose) {
     if (!Object.values(FilePurpose).includes(options?.queryParameters?.purpose as FilePurpose)) {
-      throw new Error("Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'");
+      throw new Error(
+        "Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'",
+      );
     }
   }
 }

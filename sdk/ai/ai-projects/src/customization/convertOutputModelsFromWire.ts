@@ -1,142 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ToolDefinitionOutputParent as WireToolDefinitionOutputParent,
-  CodeInterpreterToolDefinitionOutput as WireCodeInterpreterToolDefinitionOutput,
-  FileSearchToolDefinitionOutput as WireFileSearchToolDefinitionOutput,
-  FunctionToolDefinitionOutput as WireFunctionToolDefinitionOutput,
-  BingGroundingToolDefinitionOutput as WireBingGroundingToolDefinitionOutput,
-  MicrosoftFabricToolDefinitionOutput as WireMicrosoftFabricToolDefinitionOutput,
-  SharepointToolDefinitionOutput as WireSharepointToolDefinitionOutput,
-  AzureAISearchToolDefinitionOutput as WireAzureAISearchToolDefinitionOutput,
-  ToolResourcesOutput as WireToolResourcesOutput,
-  CodeInterpreterToolResourceOutput as WireCodeInterpreterToolResourceOutput,
-  FileSearchToolResourceOutput as WireFileSearchToolResourceOutput,
-  FileListResponseOutput as WireFileListResponseOutput,
-  VectorStoreDataSourceOutput as WireVectorStoreDataSourceOutput,
-  VectorStoreConfigurationsOutput as WireVectorStoreConfigurationsOutput,
-  VectorStoreConfigurationOutput as WireVectorStoreConfigurationOutput,
-  AzureAISearchResourceOutput as WireAzureAISearchResourceOutput,
-  IndexResourceOutput as WireIndexResourceOutput,
-  AgentsApiResponseFormatOutput as WireAgentsApiResponseFormatOutput,
-  AgentOutput as WireAgentOutput,
-  OpenAIPageableListOfAgentOutput as WireOpenAIPageableListOfAgentOutput,
-  OpenAIFileOutput as WireOpenAIFileOutput,
-  AgentDeletionStatusOutput as WireAgentDeletionStatusOutput,
-  MessageAttachmentOutput as WireMessageAttachmentOutput,
-  AgentThreadOutput as WireAgentThreadOutput,
-  ThreadDeletionStatusOutput as WireThreadDeletionStatusOutput,
-  ThreadMessageOutput as WireThreadMessageOutput,
-  MessageIncompleteDetailsOutput as WireMessageIncompleteDetailsOutput,
-  MessageContentOutput as WireMessageContentOutput,
-  MessageTextContentOutput as WireMessageTextContentOutput,
-  MessageTextDetailsOutput as WireMessageTextDetailsOutput,
-  MessageTextAnnotationOutputParent as WireMessageTextAnnotationOutputParent,
-  MessageTextFileCitationAnnotationOutput as WireMessageTextFileCitationAnnotationOutput,
-  MessageTextFileCitationDetailsOutput as WireMessageTextFileCitationDetailsOutput,
-  MessageTextFilePathAnnotationOutput as WireMessageTextFilePathAnnotationOutput,
-  MessageTextFilePathDetailsOutput as WireMessageTextFilePathDetailsOutput,
-  MessageImageFileContentOutput as WireMessageImageFileContentOutput,
-  MessageImageFileDetailsOutput as WireMessageImageFileDetailsOutput,
-  FileSearchToolDefinitionDetailsOutput as WireFileSearchToolDefinitionDetailsOutput,
-  FileSearchRankingOptionsOutput as WireFileSearchRankingOptionsOutput,
-  FunctionDefinitionOutput as WireFunctionDefinitionOutput,
-  ToolConnectionOutput as WireToolConnectionOutput,
-  ToolConnectionListOutput as WireToolConnectionListOutput,
-  AgentsApiResponseFormatOptionOutput as WireAgentsApiResponseFormatOptionOutput,
-  ToolDefinitionOutput as WireToolDefinitionOutput,
-  MessageAttachmentToolDefinitionOutput as WireMessageAttachmentToolDefinitionOutput,
-  ThreadRunOutput as WireThreadRunOutput,
-  IncompleteRunDetailsOutput as WireIncompleteRunDetailsOutput,
-  RunErrorOutput as WireRunErrorOutput,
-  RunCompletionUsageOutput as WireRunCompletionUsageOutput,
-  RequiredActionOutput as WireRequiredActionOutput,
-  SubmitToolOutputsActionOutput as WireSubmitToolOutputsActionOutput,
-  SubmitToolOutputsDetailsOutput as WireSubmitToolOutputsDetailsOutput,
-  RequiredToolCallOutput as WireRequiredToolCallOutput,
-  RequiredFunctionToolCallOutput as WireRequiredFunctionToolCallOutput,
-  RequiredFunctionToolCallDetailsOutput as WireRequiredFunctionToolCallDetailsOutput,
-  TruncationObjectOutput as WireTruncationObjectOutput,
-  OpenAIPageableListOfThreadRunOutput as WireOpenAIPageableListOfThreadRunOutput
-} from "../generated/src/outputModels.js";
-
-import type {
-  ToolDefinitionOutputParent,
-  CodeInterpreterToolDefinitionOutput,
-  FileSearchToolDefinitionOutput,
-  FunctionToolDefinitionOutput,
-  BingGroundingToolDefinitionOutput,
-  MicrosoftFabricToolDefinitionOutput,
-  SharepointToolDefinitionOutput,
-  AzureAISearchToolDefinitionOutput,
-  ToolResourcesOutput,
-  CodeInterpreterToolResourceOutput,
-  FileSearchToolResourceOutput,
-  FileListResponseOutput,
-  VectorStoreDataSourceOutput,
-  VectorStoreConfigurationsOutput,
-  VectorStoreConfigurationOutput,
-  AzureAISearchResourceOutput,
-  IndexResourceOutput,
-  AgentsApiResponseFormatOutput,
-  AgentOutput,
-  OpenAIPageableListOfAgentOutput,
-  OpenAIFileOutput,
-  AgentDeletionStatusOutput,
-  MessageAttachmentOutput,
-  AgentThreadOutput,
-  ThreadDeletionStatusOutput,
-  ThreadMessageOutput,
-  MessageIncompleteDetailsOutput,
-  MessageTextContentOutput,
-  MessageTextDetailsOutput,
-  MessageTextFileCitationAnnotationOutput,
-  MessageTextFileCitationDetailsOutput,
-  MessageTextFilePathAnnotationOutput,
-  MessageTextFilePathDetailsOutput,
-  MessageImageFileContentOutput,
-  MessageImageFileDetailsOutput,
-  MessageContentOutput,
-  AgentsApiResponseFormatOptionOutput,
-  FunctionDefinitionOutput,
-  FileSearchToolDefinitionDetailsOutput,
-  FileSearchRankingOptionsOutput,
-  ToolConnectionListOutput,
-  ToolConnectionOutput,
-  MessageTextAnnotationOutput,
-  ToolDefinitionOutput,
-  MessageAttachmentToolDefinitionOutput,
-  ThreadRunOutput,
-  IncompleteRunDetailsOutput,
-  RunErrorOutput,
-  RunCompletionUsageOutput,
-  RequiredActionOutput,
-  SubmitToolOutputsActionOutput,
-  SubmitToolOutputsDetailsOutput,
-  RequiredToolCallOutput,
-  RequiredFunctionToolCallOutput,
-  RequiredFunctionToolCallDetailsOutput,
-  TruncationObjectOutput,
-  OpenAIPageableListOfThreadRunOutput
-} from "./outputModels.js";
+import type * as GeneratedModels from "../generated/src/outputModels.js";
+import type * as PublicModels from "./outputModels.js";
 
 // Conversion functions
 export function convertToolDefinitionOutputParent(
-  input: WireToolDefinitionOutputParent
-): ToolDefinitionOutputParent {
+  input: GeneratedModels.ToolDefinitionOutputParent,
+): PublicModels.ToolDefinitionOutputParent {
   return { ...input };
 }
 
-export function convertCodeInterpreterToolDefinitionOutput(
-  input: WireCodeInterpreterToolDefinitionOutput
-): CodeInterpreterToolDefinitionOutput {
+function convertCodeInterpreterToolDefinitionOutput(
+  input: GeneratedModels.CodeInterpreterToolDefinitionOutput,
+): PublicModels.CodeInterpreterToolDefinitionOutput {
   return { ...input };
 }
 
 export function convertFileSearchToolDefinitionOutput(
-  input: WireFileSearchToolDefinitionOutput
-): FileSearchToolDefinitionOutput {
+  input: GeneratedModels.FileSearchToolDefinitionOutput,
+): PublicModels.FileSearchToolDefinitionOutput {
   return {
     type: "file_search",
     fileSearch: input.file_search
@@ -146,8 +29,8 @@ export function convertFileSearchToolDefinitionOutput(
 }
 
 export function convertFileSearchToolDefinitionDetailsOutput(
-  input: WireFileSearchToolDefinitionDetailsOutput
-): FileSearchToolDefinitionDetailsOutput {
+  input: GeneratedModels.FileSearchToolDefinitionDetailsOutput,
+): PublicModels.FileSearchToolDefinitionDetailsOutput {
   return {
     maxNumResults: input.max_num_results,
     rankingOptions: input.ranking_options
@@ -157,81 +40,81 @@ export function convertFileSearchToolDefinitionDetailsOutput(
 }
 
 export function convertFileSearchRankingOptionsOutput(
-  input: WireFileSearchRankingOptionsOutput
-): FileSearchRankingOptionsOutput {
+  input: GeneratedModels.FileSearchRankingOptionsOutput,
+): PublicModels.FileSearchRankingOptionsOutput {
   return {
     ranker: input.ranker,
     scoreThreshold: input.score_threshold,
   };
 }
 
-export function convertFunctionToolDefinitionOutput(
-  input: WireFunctionToolDefinitionOutput
-): FunctionToolDefinitionOutput {
+function convertFunctionToolDefinitionOutput(
+  input: GeneratedModels.FunctionToolDefinitionOutput,
+): PublicModels.FunctionToolDefinitionOutput {
   return {
     type: "function",
-    function: convertFunctionDefinitionOutput(input.function),
+    function: input.function && convertFunctionDefinitionOutput(input.function),
   };
 }
 
-export function convertFunctionDefinitionOutput(
-  input: WireFunctionDefinitionOutput
-): FunctionDefinitionOutput {
+function convertFunctionDefinitionOutput(
+  input: GeneratedModels.FunctionDefinitionOutput,
+): PublicModels.FunctionDefinitionOutput {
   return { ...input };
 }
 
-export function convertBingGroundingToolDefinitionOutput(
-  input: WireBingGroundingToolDefinitionOutput
-): BingGroundingToolDefinitionOutput {
+function convertBingGroundingToolDefinitionOutput(
+  input: GeneratedModels.BingGroundingToolDefinitionOutput,
+): PublicModels.BingGroundingToolDefinitionOutput {
   return {
     type: "bing_grounding",
-    bingGrounding: convertToolConnectionListOutput(input.bing_grounding),
+    bingGrounding: input.bing_grounding && convertToolConnectionListOutput(input.bing_grounding),
   };
 }
 
 export function convertToolConnectionListOutput(
-  input: WireToolConnectionListOutput
-): ToolConnectionListOutput {
+  input: GeneratedModels.ToolConnectionListOutput,
+): PublicModels.ToolConnectionListOutput {
   return {
     connections: input.connections?.map(convertToolConnectionOutput),
   };
 }
 
-export function convertToolConnectionOutput(
-  input: WireToolConnectionOutput
-): ToolConnectionOutput {
+function convertToolConnectionOutput(
+  input: GeneratedModels.ToolConnectionOutput,
+): PublicModels.ToolConnectionOutput {
   return { connectionId: input.connection_id };
 }
 
-export function convertMicrosoftFabricToolDefinitionOutput(
-  input: WireMicrosoftFabricToolDefinitionOutput
-): MicrosoftFabricToolDefinitionOutput {
+function convertMicrosoftFabricToolDefinitionOutput(
+  input: GeneratedModels.MicrosoftFabricToolDefinitionOutput,
+): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
     type: "microsoft_fabric",
-    microsoftFabric: convertToolConnectionListOutput(input.microsoft_fabric),
+    microsoftFabric:
+      input.microsoft_fabric && convertToolConnectionListOutput(input.microsoft_fabric),
   };
 }
 
-export function convertSharepointToolDefinitionOutput(
-  input: WireSharepointToolDefinitionOutput
-): SharepointToolDefinitionOutput {
+function convertSharepointToolDefinitionOutput(
+  input: GeneratedModels.SharepointToolDefinitionOutput,
+): PublicModels.SharepointToolDefinitionOutput {
   return {
     type: "sharepoint_grounding",
-    sharepointGrounding: convertToolConnectionListOutput(
-      input.sharepoint_grounding
-    ),
+    sharepointGrounding:
+      input.sharepoint_grounding && convertToolConnectionListOutput(input.sharepoint_grounding),
   };
 }
 
-export function convertAzureAISearchToolDefinitionOutput(
-  input: WireAzureAISearchToolDefinitionOutput
-): AzureAISearchToolDefinitionOutput {
+function convertAzureAISearchToolDefinitionOutput(
+  input: GeneratedModels.AzureAISearchToolDefinitionOutput,
+): PublicModels.AzureAISearchToolDefinitionOutput {
   return { ...input };
 }
 
 export function convertToolResourcesOutput(
-  input: WireToolResourcesOutput
-): ToolResourcesOutput {
+  input: GeneratedModels.ToolResourcesOutput,
+): PublicModels.ToolResourcesOutput {
   return {
     codeInterpreter: input.code_interpreter
       ? convertCodeInterpreterToolResourceOutput(input.code_interpreter)
@@ -246,8 +129,8 @@ export function convertToolResourcesOutput(
 }
 
 export function convertCodeInterpreterToolResourceOutput(
-  input: WireCodeInterpreterToolResourceOutput
-): CodeInterpreterToolResourceOutput {
+  input: GeneratedModels.CodeInterpreterToolResourceOutput,
+): PublicModels.CodeInterpreterToolResourceOutput {
   return {
     fileIds: input.file_ids,
     dataSources: input.data_sources?.map(convertVectorStoreDataSourceOutput),
@@ -255,14 +138,14 @@ export function convertCodeInterpreterToolResourceOutput(
 }
 
 export function convertVectorStoreDataSourceOutput(
-  input: WireVectorStoreDataSourceOutput
-): VectorStoreDataSourceOutput {
+  input: GeneratedModels.VectorStoreDataSourceOutput,
+): PublicModels.VectorStoreDataSourceOutput {
   return { ...input };
 }
 
 export function convertFileSearchToolResourceOutput(
-  input: WireFileSearchToolResourceOutput
-): FileSearchToolResourceOutput {
+  input: GeneratedModels.FileSearchToolResourceOutput,
+): PublicModels.FileSearchToolResourceOutput {
   return {
     vectorStoreIds: input.vector_store_ids,
     vectorStores: input.vector_stores?.map(convertVectorStoreConfigurationsOutput),
@@ -270,44 +153,45 @@ export function convertFileSearchToolResourceOutput(
 }
 
 export function convertVectorStoreConfigurationsOutput(
-  input: WireVectorStoreConfigurationsOutput
-): VectorStoreConfigurationsOutput {
+  input: GeneratedModels.VectorStoreConfigurationsOutput,
+): PublicModels.VectorStoreConfigurationsOutput {
   return {
     name: input.name,
-    configuration: convertVectorStoreConfigurationOutput(input.configuration),
+    configuration:
+      input.configuration && convertVectorStoreConfigurationOutput(input.configuration),
   };
 }
 
 export function convertVectorStoreConfigurationOutput(
-  input: WireVectorStoreConfigurationOutput
-): VectorStoreConfigurationOutput {
+  input: GeneratedModels.VectorStoreConfigurationOutput,
+): PublicModels.VectorStoreConfigurationOutput {
   return {
     ...input,
-    dataSources: input.data_sources.map(convertVectorStoreDataSourceOutput),
+    dataSources: input.data_sources?.map(convertVectorStoreDataSourceOutput),
   };
 }
 
 export function convertAzureAISearchResourceOutput(
-  input: WireAzureAISearchResourceOutput
-): AzureAISearchResourceOutput {
+  input: GeneratedModels.AzureAISearchResourceOutput,
+): PublicModels.AzureAISearchResourceOutput {
   return {
     indexes: input.indexes?.map(convertIndexResourceOutput),
   };
 }
 
 export function convertIndexResourceOutput(
-  input: WireIndexResourceOutput
-): IndexResourceOutput {
+  input: GeneratedModels.IndexResourceOutput,
+): PublicModels.IndexResourceOutput {
   return { indexConnectionId: input.index_connection_id, indexName: input.index_name };
 }
 
 export function convertAgentsApiResponseFormatOutput(
-  input: WireAgentsApiResponseFormatOutput
-): AgentsApiResponseFormatOutput {
+  input: GeneratedModels.AgentsApiResponseFormatOutput,
+): PublicModels.AgentsApiResponseFormatOutput {
   return { ...input };
 }
 
-export function convertAgentOutput(input: WireAgentOutput): AgentOutput {
+export function convertAgentOutput(input: GeneratedModels.AgentOutput): PublicModels.AgentOutput {
   return {
     id: input.id,
     object: input.object,
@@ -316,10 +200,8 @@ export function convertAgentOutput(input: WireAgentOutput): AgentOutput {
     description: input.description,
     model: input.model,
     instructions: input.instructions,
-    tools: input.tools.map(convertToolDefinitionOutput),
-    toolResources: input.tool_resources
-      ? convertToolResourcesOutput(input.tool_resources)
-      : null,
+    tools: input.tools?.map(convertToolDefinitionOutput),
+    toolResources: input.tool_resources ? convertToolResourcesOutput(input.tool_resources) : null,
     temperature: input.temperature,
     topP: input.top_p,
     responseFormat: input.response_format
@@ -328,36 +210,52 @@ export function convertAgentOutput(input: WireAgentOutput): AgentOutput {
     metadata: input.metadata,
   };
 }
-function convertToolDefinitionOutput(tool: WireToolDefinitionOutput): ToolDefinitionOutput {
+function convertToolDefinitionOutput(
+  tool: GeneratedModels.ToolDefinitionOutput,
+): PublicModels.ToolDefinitionOutput {
   switch (tool.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinitionOutput(tool as WireCodeInterpreterToolDefinitionOutput);
+      return convertCodeInterpreterToolDefinitionOutput(
+        tool as GeneratedModels.CodeInterpreterToolDefinitionOutput,
+      );
     case "file_search":
-      return convertFileSearchToolDefinitionOutput(tool as WireFileSearchToolDefinitionOutput);
+      return convertFileSearchToolDefinitionOutput(
+        tool as GeneratedModels.FileSearchToolDefinitionOutput,
+      );
     case "function":
-      return convertFunctionToolDefinitionOutput(tool as WireFunctionToolDefinitionOutput);
+      return convertFunctionToolDefinitionOutput(
+        tool as GeneratedModels.FunctionToolDefinitionOutput,
+      );
     case "bing_grounding":
-      return convertBingGroundingToolDefinitionOutput(tool as WireBingGroundingToolDefinitionOutput);
+      return convertBingGroundingToolDefinitionOutput(
+        tool as GeneratedModels.BingGroundingToolDefinitionOutput,
+      );
     case "microsoft_fabric":
-      return convertMicrosoftFabricToolDefinitionOutput(tool as WireMicrosoftFabricToolDefinitionOutput);
+      return convertMicrosoftFabricToolDefinitionOutput(
+        tool as GeneratedModels.MicrosoftFabricToolDefinitionOutput,
+      );
     case "sharepoint_grounding":
-      return convertSharepointToolDefinitionOutput(tool as WireSharepointToolDefinitionOutput);
+      return convertSharepointToolDefinitionOutput(
+        tool as GeneratedModels.SharepointToolDefinitionOutput,
+      );
     case "azure_ai_search":
-      return convertAzureAISearchToolDefinitionOutput(tool as WireAzureAISearchToolDefinitionOutput);
+      return convertAzureAISearchToolDefinitionOutput(
+        tool as GeneratedModels.AzureAISearchToolDefinitionOutput,
+      );
     default:
       return tool;
   }
 }
 
 export function convertAgentsApiResponseFormatOptionOutput(
-  input: WireAgentsApiResponseFormatOptionOutput
-): AgentsApiResponseFormatOptionOutput {
+  input: GeneratedModels.AgentsApiResponseFormatOptionOutput,
+): PublicModels.AgentsApiResponseFormatOptionOutput {
   return input;
 }
 
 export function convertOpenAIPageableListOfAgentOutput(
-  input: WireOpenAIPageableListOfAgentOutput
-): OpenAIPageableListOfAgentOutput {
+  input: GeneratedModels.OpenAIPageableListOfAgentOutput,
+): PublicModels.OpenAIPageableListOfAgentOutput {
   return {
     object: input.object,
     firstId: input.first_id,
@@ -368,14 +266,14 @@ export function convertOpenAIPageableListOfAgentOutput(
 }
 
 export function convertAgentDeletionStatusOutput(
-  input: WireAgentDeletionStatusOutput
-): AgentDeletionStatusOutput {
+  input: GeneratedModels.AgentDeletionStatusOutput,
+): PublicModels.AgentDeletionStatusOutput {
   return { ...input };
 }
 
 export function convertMessageAttachmentOutput(
-  input: WireMessageAttachmentOutput
-): MessageAttachmentOutput {
+  input: GeneratedModels.MessageAttachmentOutput,
+): PublicModels.MessageAttachmentOutput {
   return {
     fileId: input.file_id,
     dataSources: input.data_sources?.map(convertVectorStoreDataSourceOutput),
@@ -383,41 +281,44 @@ export function convertMessageAttachmentOutput(
   };
 }
 
-function convertMessageAttachmentToolDefinitionOutput(input: WireMessageAttachmentToolDefinitionOutput): MessageAttachmentToolDefinitionOutput {
+function convertMessageAttachmentToolDefinitionOutput(
+  input: GeneratedModels.MessageAttachmentToolDefinitionOutput,
+): PublicModels.MessageAttachmentToolDefinitionOutput {
   switch (input.type) {
     case "code_interpreter":
-      return convertCodeInterpreterToolDefinitionOutput(input as WireCodeInterpreterToolDefinitionOutput);
+      return convertCodeInterpreterToolDefinitionOutput(
+        input as GeneratedModels.CodeInterpreterToolDefinitionOutput,
+      );
     case "file_search":
-      return convertFileSearchToolDefinitionOutput(input as WireFileSearchToolDefinitionOutput);
+      return convertFileSearchToolDefinitionOutput(
+        input as GeneratedModels.FileSearchToolDefinitionOutput,
+      );
     default:
       throw new Error(`Unknown tool type: ${input}`);
-  };
-
+  }
 }
 
 export function convertAgentThreadOutput(
-  input: WireAgentThreadOutput
-): AgentThreadOutput {
+  input: GeneratedModels.AgentThreadOutput,
+): PublicModels.AgentThreadOutput {
   return {
     id: input.id,
     object: input.object,
     createdAt: new Date(input.created_at),
-    toolResources: input.tool_resources
-      ? convertToolResourcesOutput(input.tool_resources)
-      : null,
+    toolResources: input.tool_resources ? convertToolResourcesOutput(input.tool_resources) : null,
     metadata: input.metadata,
   };
 }
 
 export function convertThreadDeletionStatusOutput(
-  input: WireThreadDeletionStatusOutput
-): ThreadDeletionStatusOutput {
+  input: GeneratedModels.ThreadDeletionStatusOutput,
+): PublicModels.ThreadDeletionStatusOutput {
   return { ...input };
 }
 
 export function convertThreadMessageOutput(
-  input: WireThreadMessageOutput
-): ThreadMessageOutput {
+  input: GeneratedModels.ThreadMessageOutput,
+): PublicModels.ThreadMessageOutput {
   return {
     id: input.id,
     object: input.object,
@@ -430,29 +331,31 @@ export function convertThreadMessageOutput(
     completedAt: input.completed_at ? new Date(input.completed_at) : null,
     incompleteAt: input.incomplete_at ? new Date(input.incomplete_at) : null,
     role: input.role,
-    content: input.content.map(convertMessageContentOutput),
+    content: input.content?.map(convertMessageContentOutput),
     assistantId: input.assistant_id,
     runId: input.run_id,
-    attachments: !input.attachments ? input.attachments : input.attachments?.map(convertMessageAttachmentOutput),
+    attachments: !input.attachments
+      ? input.attachments
+      : input.attachments?.map(convertMessageAttachmentOutput),
     metadata: input.metadata,
   };
 }
 
 export function convertMessageIncompleteDetailsOutput(
-  input: WireMessageIncompleteDetailsOutput
-): MessageIncompleteDetailsOutput {
+  input: GeneratedModels.MessageIncompleteDetailsOutput,
+): PublicModels.MessageIncompleteDetailsOutput {
   return { ...input };
 }
 
 export function convertMessageContentOutput(
-  input: WireMessageContentOutput
-): MessageContentOutput {
+  input: GeneratedModels.MessageContentOutput,
+): PublicModels.MessageContentOutput {
   switch (input.type) {
     case "text":
-      return convertMessageTextContentOutput(input as WireMessageTextContentOutput);
+      return convertMessageTextContentOutput(input as GeneratedModels.MessageTextContentOutput);
     case "image_file":
       return convertMessageImageFileContentOutput(
-        input as WireMessageImageFileContentOutput
+        input as GeneratedModels.MessageImageFileContentOutput,
       );
     default:
       return { ...input };
@@ -460,17 +363,17 @@ export function convertMessageContentOutput(
 }
 
 export function convertMessageTextContentOutput(
-  input: WireMessageTextContentOutput
-): MessageTextContentOutput {
+  input: GeneratedModels.MessageTextContentOutput,
+): PublicModels.MessageTextContentOutput {
   return {
     type: input.type,
-    text: convertMessageTextDetailsOutput(input.text),
+    text: input.text && convertMessageTextDetailsOutput(input.text),
   };
 }
 
 export function convertMessageTextDetailsOutput(
-  input: WireMessageTextDetailsOutput
-): MessageTextDetailsOutput {
+  input: GeneratedModels.MessageTextDetailsOutput,
+): PublicModels.MessageTextDetailsOutput {
   return {
     value: input.value,
     annotations: input.annotations?.map(convertMessageTextAnnotationOutput),
@@ -478,16 +381,16 @@ export function convertMessageTextDetailsOutput(
 }
 
 export function convertMessageTextAnnotationOutput(
-  input: WireMessageTextAnnotationOutputParent
-): MessageTextAnnotationOutput {
+  input: GeneratedModels.MessageTextAnnotationOutputParent,
+): PublicModels.MessageTextAnnotationOutput {
   switch (input.type) {
     case "file_citation":
       return convertMessageTextFileCitationAnnotationOutput(
-        input as WireMessageTextFileCitationAnnotationOutput
+        input as GeneratedModels.MessageTextFileCitationAnnotationOutput,
       );
     case "file_path":
       return convertMessageTextFilePathAnnotationOutput(
-        input as WireMessageTextFilePathAnnotationOutput
+        input as GeneratedModels.MessageTextFilePathAnnotationOutput,
       );
     default:
       return { ...input };
@@ -495,30 +398,31 @@ export function convertMessageTextAnnotationOutput(
 }
 
 export function convertMessageTextFileCitationAnnotationOutput(
-  input: WireMessageTextFileCitationAnnotationOutput
-): MessageTextFileCitationAnnotationOutput {
+  input: GeneratedModels.MessageTextFileCitationAnnotationOutput,
+): PublicModels.MessageTextFileCitationAnnotationOutput {
   return {
     type: input.type,
     text: input.text,
-    fileCitation: convertMessageTextFileCitationDetailsOutput(input.file_citation)
+    fileCitation:
+      input.file_citation && convertMessageTextFileCitationDetailsOutput(input.file_citation),
   };
 }
 
 export function convertMessageTextFileCitationDetailsOutput(
-  input: WireMessageTextFileCitationDetailsOutput
-): MessageTextFileCitationDetailsOutput {
+  input: GeneratedModels.MessageTextFileCitationDetailsOutput,
+): PublicModels.MessageTextFileCitationDetailsOutput {
   return {
     fileId: input.file_id,
-    quote: input.quote
+    quote: input.quote,
   };
 }
 
 export function convertMessageTextFilePathAnnotationOutput(
-  input: WireMessageTextFilePathAnnotationOutput
-): MessageTextFilePathAnnotationOutput {
+  input: GeneratedModels.MessageTextFilePathAnnotationOutput,
+): PublicModels.MessageTextFilePathAnnotationOutput {
   return {
     type: input.type,
-    filePath: convertMessageTextFilePathDetailsOutput(input.file_path),
+    filePath: input.file_path && convertMessageTextFilePathDetailsOutput(input.file_path),
     startIndex: input.start_index,
     endIndex: input.end_index,
     text: input.text,
@@ -526,40 +430,39 @@ export function convertMessageTextFilePathAnnotationOutput(
 }
 
 export function convertMessageTextFilePathDetailsOutput(
-  input: WireMessageTextFilePathDetailsOutput
-): MessageTextFilePathDetailsOutput {
+  input: GeneratedModels.MessageTextFilePathDetailsOutput,
+): PublicModels.MessageTextFilePathDetailsOutput {
   return { fileId: input.file_id };
 }
 
 export function convertMessageImageFileContentOutput(
-  input: WireMessageImageFileContentOutput
-): MessageImageFileContentOutput {
+  input: GeneratedModels.MessageImageFileContentOutput,
+): PublicModels.MessageImageFileContentOutput {
   return {
     type: input.type,
-    imageFile: convertMessageImageFileDetailsOutput(input.image_file)
+    imageFile: input.image_file && convertMessageImageFileDetailsOutput(input.image_file),
   };
 }
 
 export function convertMessageImageFileDetailsOutput(
-  input: WireMessageImageFileDetailsOutput
-): MessageImageFileDetailsOutput {
+  input: GeneratedModels.MessageImageFileDetailsOutput,
+): PublicModels.MessageImageFileDetailsOutput {
   return { fileId: input.file_id };
 }
 
 export function convertThreadRunOutput(
-  input: WireThreadRunOutput
-): ThreadRunOutput {
+  input: GeneratedModels.ThreadRunOutput,
+): PublicModels.ThreadRunOutput {
   return {
     id: input.id,
     object: input.object,
     threadId: input.thread_id,
     assistantId: input.assistant_id,
     status: input.status,
-    requiredAction: input.required_action ? convertRequiredActionOutput(input.required_action) : undefined,
     lastError: input.last_error,
     model: input.model,
     instructions: input.instructions,
-    tools: (input.tools && input.tools.map(convertToolDefinitionOutput)) ?? [],
+    tools: input.tools?.map(convertToolDefinitionOutput) ?? [],
     createdAt: new Date(input.created_at),
     expiresAt: input.expires_at ? new Date(input.expires_at) : null,
     startedAt: input.started_at ? new Date(input.started_at) : null,
@@ -567,12 +470,14 @@ export function convertThreadRunOutput(
     cancelledAt: input.cancelled_at ? new Date(input.cancelled_at) : null,
     failedAt: input.failed_at ? new Date(input.failed_at) : null,
     incompleteDetails: input.incomplete_details,
-    usage: input.usage ? convertRunCompletionUsageOutput(input.usage) : null,
+    usage: input.usage ? convertRunStepCompletionUsageOutput(input.usage) : null,
     temperature: input.temperature,
     topP: input.top_p,
     maxPromptTokens: input.max_prompt_tokens,
     maxCompletionTokens: input.max_completion_tokens,
-    truncationStrategy: input.truncation_strategy ? convertTruncationObjectOutput(input.truncation_strategy) : null,
+    truncationStrategy: input.truncation_strategy
+      ? convertTruncationObjectOutput(input.truncation_strategy)
+      : null,
     toolChoice: input.tool_choice,
     responseFormat: input.response_format,
     metadata: input.metadata,
@@ -582,20 +487,23 @@ export function convertThreadRunOutput(
 }
 
 export function convertIncompleteRunDetailsOutput(
-  input: WireIncompleteRunDetailsOutput
-): IncompleteRunDetailsOutput {
+  input: GeneratedModels.IncompleteRunDetailsOutput,
+): PublicModels.IncompleteRunDetailsOutput {
   return input;
 }
 
 export function convertRunErrorOutput(
-  input: WireRunErrorOutput
-): RunErrorOutput {
-  return { ...input };
+  input: GeneratedModels.RunErrorOutput,
+): PublicModels.RunErrorOutput {
+  return {
+    message: input.message,
+    code: input.code,
+  };
 }
 
 export function convertRunCompletionUsageOutput(
-  input: WireRunCompletionUsageOutput
-): RunCompletionUsageOutput {
+  input: GeneratedModels.RunCompletionUsageOutput,
+): PublicModels.RunCompletionUsageOutput {
   return {
     completionTokens: input.completion_tokens,
     promptTokens: input.prompt_tokens,
@@ -604,12 +512,12 @@ export function convertRunCompletionUsageOutput(
 }
 
 export function convertRequiredActionOutput(
-  input: WireRequiredActionOutput
-): RequiredActionOutput {
+  input: GeneratedModels.RequiredActionOutput,
+): PublicModels.RequiredActionOutput {
   switch (input.type) {
     case "submit_tool_outputs":
       return convertSubmitToolOutputsActionOutput(
-        input as WireSubmitToolOutputsActionOutput
+        input as GeneratedModels.SubmitToolOutputsActionOutput,
       );
     default:
       return { ...input };
@@ -617,31 +525,30 @@ export function convertRequiredActionOutput(
 }
 
 export function convertSubmitToolOutputsActionOutput(
-  input: WireSubmitToolOutputsActionOutput
-): SubmitToolOutputsActionOutput {
+  input: GeneratedModels.SubmitToolOutputsActionOutput,
+): PublicModels.SubmitToolOutputsActionOutput {
   return {
     type: input.type,
-    submitToolOutputs: convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs),
+    submitToolOutputs:
+      input.submit_tool_outputs && convertSubmitToolOutputsDetailsOutput(input.submit_tool_outputs),
   };
 }
 
 export function convertSubmitToolOutputsDetailsOutput(
-  input: WireSubmitToolOutputsDetailsOutput
-): SubmitToolOutputsDetailsOutput {
+  input: GeneratedModels.SubmitToolOutputsDetailsOutput,
+): PublicModels.SubmitToolOutputsDetailsOutput {
   return {
-    toolCalls: input.tool_calls.map(
-      convertRequiredToolCallOutput
-    ),
+    toolCalls: input.tool_calls?.map(convertRequiredToolCallOutput),
   };
 }
 
 export function convertRequiredToolCallOutput(
-  input: WireRequiredToolCallOutput
-): RequiredToolCallOutput {
+  input: GeneratedModels.RequiredToolCallOutput,
+): PublicModels.RequiredToolCallOutput {
   switch (input.type) {
     case "function":
       return convertRequiredFunctionToolCallOutput(
-        input as WireRequiredFunctionToolCallOutput
+        input as GeneratedModels.RequiredFunctionToolCallOutput,
       );
     default:
       return { ...input };
@@ -649,45 +556,476 @@ export function convertRequiredToolCallOutput(
 }
 
 export function convertRequiredFunctionToolCallOutput(
-  input: WireRequiredFunctionToolCallOutput
-): RequiredFunctionToolCallOutput {
+  input: GeneratedModels.RequiredFunctionToolCallOutput,
+): PublicModels.RequiredFunctionToolCallOutput {
   return {
     id: input.id,
     type: input.type,
-    function: convertRequiredFunctionToolCallDetailsOutput(input.function)
+    function: input.function && convertRequiredFunctionToolCallDetailsOutput(input.function),
   };
 }
 
 export function convertRequiredFunctionToolCallDetailsOutput(
-  input: WireRequiredFunctionToolCallDetailsOutput
-): RequiredFunctionToolCallDetailsOutput {
+  input: GeneratedModels.RequiredFunctionToolCallDetailsOutput,
+): PublicModels.RequiredFunctionToolCallDetailsOutput {
   return {
     name: input.name,
     arguments: input.arguments,
   };
 }
 
-function convertTruncationObjectOutput(input: WireTruncationObjectOutput): TruncationObjectOutput {
+function convertTruncationObjectOutput(
+  input: GeneratedModels.TruncationObjectOutput,
+): PublicModels.TruncationObjectOutput {
   return {
     type: input.type,
-    lastMessages: input.last_messages
+    lastMessages: input.last_messages,
   };
-
 }
 
 export function convertOpenAIPageableListOfThreadRunOutput(
-  input: WireOpenAIPageableListOfThreadRunOutput
-): OpenAIPageableListOfThreadRunOutput {
+  input: GeneratedModels.OpenAIPageableListOfThreadRunOutput,
+): PublicModels.OpenAIPageableListOfThreadRunOutput {
   return {
     object: input.object,
     firstId: input.first_id,
     lastId: input.last_id,
     hasMore: input.has_more,
-    data: input.data.map(convertThreadRunOutput),
+    data: input.data?.map(convertThreadRunOutput),
+  };
+}
+export function convertRunStepOutput(
+  input: GeneratedModels.RunStepOutput,
+): PublicModels.RunStepOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    type: input.type,
+    assistantId: input.assistant_id,
+    threadId: input.thread_id,
+    runId: input.run_id,
+    status: input.status,
+    stepDetails: input.step_details && convertRunStepDetailsOutput(input.step_details),
+    lastError: input.last_error ? convertRunStepErrorOutput(input.last_error) : null,
+    createdAt: new Date(input.created_at),
+    expiredAt: input.expired_at ? new Date(input.expired_at) : null,
+    completedAt: input.completed_at ? new Date(input.completed_at) : null,
+    failedAt: input.failed_at ? new Date(input.failed_at) : null,
+    cancelledAt: input.cancelled_at ? new Date(input.cancelled_at) : null,
+    ...(input.usage && { usage: convertRunCompletionUsageOutput(input.usage) }),
+    metadata: input.metadata,
   };
 }
 
-export function convertOpenAIFileOutput(input: WireOpenAIFileOutput): OpenAIFileOutput {
+export function convertRunStepDetailsOutput(
+  input: GeneratedModels.RunStepDetailsOutput,
+): PublicModels.RunStepDetailsOutput {
+  switch (input.type) {
+    case "message_creation":
+      return convertRunStepMessageCreationDetailsOutput(
+        input as GeneratedModels.RunStepMessageCreationDetailsOutput,
+      );
+    case "tool_call":
+      return convertRunStepToolCallDetailsOutput(
+        input as GeneratedModels.RunStepToolCallDetailsOutput,
+      );
+    default: {
+      throw new Error(`Unknown run step type: ${input.type}`);
+    }
+  }
+}
+
+export function convertRunStepMessageCreationDetailsOutput(
+  input: GeneratedModels.RunStepMessageCreationDetailsOutput,
+): PublicModels.RunStepMessageCreationDetailsOutput {
+  return {
+    type: input.type,
+    messageCreation: convertRunStepMessageCreationReferenceOutput(input.message_creation),
+  };
+}
+
+export function convertRunStepMessageCreationReferenceOutput(
+  input: GeneratedModels.RunStepMessageCreationReferenceOutput,
+): PublicModels.RunStepMessageCreationReferenceOutput {
+  return {
+    messageId: input.message_id,
+  };
+}
+
+export function convertRunStepToolCallDetailsOutput(
+  input: GeneratedModels.RunStepToolCallDetailsOutput,
+): PublicModels.RunStepToolCallDetailsOutput {
+  return {
+    type: input.type,
+    toolCalls: input.tool_calls && input.tool_calls.map(convertRunStepToolCallOutput),
+  };
+}
+
+export function convertRunStepToolCallOutput(
+  input: GeneratedModels.RunStepToolCallOutput,
+): PublicModels.RunStepToolCallOutput {
+  switch (input.type) {
+    case "code_interpreter":
+      return convertRunStepCodeInterpreterToolCallOutput(
+        input as GeneratedModels.RunStepCodeInterpreterToolCallOutput,
+      );
+    case "file_search":
+      return convertRunStepFileSearchToolCallOutput(
+        input as GeneratedModels.RunStepFileSearchToolCallOutput,
+      );
+    case "bing_grounding":
+      return convertRunStepBingGroundingToolCallOutput(
+        input as GeneratedModels.RunStepBingGroundingToolCallOutput,
+      );
+    case "azure_ai_search":
+      return convertRunStepAzureAISearchToolCallOutput(
+        input as GeneratedModels.RunStepAzureAISearchToolCallOutput,
+      );
+    case "sharepoint_grounding":
+      return convertRunStepSharepointToolCallOutput(
+        input as GeneratedModels.RunStepSharepointToolCallOutput,
+      );
+    case "microsoft_fabric":
+      return convertRunStepMicrosoftFabricToolCallOutput(
+        input as GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
+      );
+    case "function":
+      return convertRunStepFunctionToolCallOutput(
+        input as GeneratedModels.RunStepFunctionToolCallOutput,
+      );
+    default: {
+      throw new Error(`Unknown run step tool call type: ${input.type}`);
+    }
+  }
+}
+
+export function convertRunStepCodeInterpreterToolCallOutput(
+  input: GeneratedModels.RunStepCodeInterpreterToolCallOutput,
+): PublicModels.RunStepCodeInterpreterToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    codeInterpreter:
+      input.code_interpreter &&
+      convertRunStepCodeInterpreterToolCallDetailsOutput(input.code_interpreter),
+  };
+}
+
+export function convertRunStepFileSearchToolCallOutput(
+  input: GeneratedModels.RunStepFileSearchToolCallOutput,
+): PublicModels.RunStepFileSearchToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    fileSearch: input.file_search,
+  };
+}
+
+export function convertRunStepBingGroundingToolCallOutput(
+  input: GeneratedModels.RunStepBingGroundingToolCallOutput,
+): PublicModels.RunStepBingGroundingToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    bingGrounding: input.bing_grounding,
+  };
+}
+
+export function convertRunStepAzureAISearchToolCallOutput(
+  input: GeneratedModels.RunStepAzureAISearchToolCallOutput,
+): PublicModels.RunStepAzureAISearchToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    azureAISearch: input.azure_ai_search,
+  };
+}
+
+export function convertRunStepSharepointToolCallOutput(
+  input: GeneratedModels.RunStepSharepointToolCallOutput,
+): PublicModels.RunStepSharepointToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    sharepointGrounding: input.sharepoint_grounding,
+  };
+}
+
+export function convertRunStepMicrosoftFabricToolCallOutput(
+  input: GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
+): PublicModels.RunStepMicrosoftFabricToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    microsoftFabric: input.microsoft_fabric,
+  };
+}
+
+export function convertRunStepFunctionToolCallOutput(
+  input: GeneratedModels.RunStepFunctionToolCallOutput,
+): PublicModels.RunStepFunctionToolCallOutput {
+  return {
+    type: input.type,
+    id: input.id,
+    function: convertRunStepFunctionToolCallDetailsOutput(input.function),
+  };
+}
+
+export function convertRunStepFunctionToolCallDetailsOutput(
+  input: GeneratedModels.RunStepFunctionToolCallDetailsOutput,
+): PublicModels.RunStepFunctionToolCallDetailsOutput {
+  return {
+    name: input.name,
+    arguments: input.arguments,
+    output: input.output,
+  };
+}
+
+export function convertRunStepCodeInterpreterToolCallDetailsOutput(
+  input: GeneratedModels.RunStepCodeInterpreterToolCallDetailsOutput,
+): PublicModels.RunStepCodeInterpreterToolCallDetailsOutput {
+  return {
+    input: input.input,
+    outputs: input.outputs && input.outputs.map(convertRunStepCodeInterpreterToolCallOutputOutput),
+  };
+}
+
+export function convertRunStepCodeInterpreterToolCallOutputOutput(
+  input: GeneratedModels.RunStepCodeInterpreterToolCallOutputOutput,
+): PublicModels.RunStepCodeInterpreterToolCallOutputOutput {
+  switch (input.type) {
+    case "logs":
+      return convertRunStepCodeInterpreterLogOutputOutput(
+        input as GeneratedModels.RunStepCodeInterpreterLogOutputOutput,
+      );
+    case "image":
+      return convertRunStepCodeInterpreterImageOutputOutput(
+        input as GeneratedModels.RunStepCodeInterpreterImageOutputOutput,
+      );
+    default:
+      return input;
+  }
+}
+
+export function convertRunStepCodeInterpreterLogOutputOutput(
+  input: GeneratedModels.RunStepCodeInterpreterLogOutputOutput,
+): PublicModels.RunStepCodeInterpreterLogOutputOutput {
+  return {
+    type: input.type,
+    logs: input.logs,
+  };
+}
+
+export function convertRunStepCodeInterpreterImageOutputOutput(
+  input: GeneratedModels.RunStepCodeInterpreterImageOutputOutput,
+): PublicModels.RunStepCodeInterpreterImageOutputOutput {
+  return {
+    type: input.type,
+    image: convertRunStepCodeInterpreterImageReferenceOutput(input.image),
+  };
+}
+
+export function convertRunStepCodeInterpreterImageReferenceOutput(
+  input: GeneratedModels.RunStepCodeInterpreterImageReferenceOutput,
+): PublicModels.RunStepCodeInterpreterImageReferenceOutput {
+  return {
+    fileId: input.file_id,
+  };
+}
+
+export function convertRunStepErrorOutput(
+  input: GeneratedModels.RunStepErrorOutput,
+): PublicModels.RunStepErrorOutput {
+  return {
+    code: input.code,
+    message: input.message,
+  };
+}
+
+export function convertRunStepCompletionUsageOutput(
+  input: GeneratedModels.RunStepCompletionUsageOutput,
+): PublicModels.RunStepCompletionUsageOutput {
+  return {
+    completionTokens: input.completion_tokens,
+    promptTokens: input.prompt_tokens,
+    totalTokens: input.total_tokens,
+  };
+}
+
+export function convertOpenAIPageableListOfRunStepOutput(
+  input: GeneratedModels.OpenAIPageableListOfRunStepOutput,
+): PublicModels.OpenAIPageableListOfRunStepOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data?.map(convertRunStepOutput),
+  };
+}
+
+export function convertOpenAIPageableListOfThreadMessageOutput(
+  input: GeneratedModels.OpenAIPageableListOfThreadMessageOutput,
+): PublicModels.OpenAIPageableListOfThreadMessageOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data?.map(convertThreadMessageOutput),
+  };
+}
+
+export function convertOpenAIPageableListOfVectorStoreOutput(
+  input: GeneratedModels.OpenAIPageableListOfVectorStoreOutput,
+): PublicModels.OpenAIPageableListOfVectorStoreOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data.map(convertVectorStoreOutput),
+  };
+}
+
+export function convertVectorStoreOutput(
+  input: GeneratedModels.VectorStoreOutput,
+): PublicModels.VectorStoreOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    createdAt: new Date(input.created_at),
+    name: input.name,
+    usageBytes: input.usage_bytes,
+    fileCounts: convertVectorStoreFileCountOutput(input.file_counts),
+    status: input.status,
+    expiresAfter: input.expires_after
+      ? convertVectorStoreExpirationPolicyOutput(input.expires_after)
+      : undefined,
+    expiresAt: input.expires_at ? new Date(input.expires_at) : null,
+    lastActiveAt: input.last_active_at ? new Date(input.last_active_at) : null,
+    metadata: input.metadata,
+  };
+}
+
+function convertVectorStoreFileCountOutput(
+  input: GeneratedModels.VectorStoreFileCountOutput,
+): PublicModels.VectorStoreFileCountOutput {
+  return {
+    inProgress: input.in_progress,
+    completed: input.completed,
+    failed: input.failed,
+    cancelled: input.cancelled,
+    total: input.total,
+  };
+}
+
+function convertVectorStoreExpirationPolicyOutput(
+  input: GeneratedModels.VectorStoreExpirationPolicyOutput,
+): PublicModels.VectorStoreExpirationPolicyOutput {
+  return {
+    anchor: input.anchor,
+    days: input.days,
+  };
+}
+
+export function convertVectorStoreDeletionStatusOutput(
+  input: GeneratedModels.VectorStoreDeletionStatusOutput,
+): PublicModels.VectorStoreDeletionStatusOutput {
+  return {
+    id: input.id,
+    deleted: input.deleted,
+    object: input.object,
+  };
+}
+
+export function convertVectorStoreFileBatchOutput(
+  input: GeneratedModels.VectorStoreFileBatchOutput,
+): PublicModels.VectorStoreFileBatchOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    createdAt: new Date(input.created_at),
+    vectorStoreId: input.vector_store_id,
+    status: input.status,
+    fileCounts: convertVectorStoreFileCountOutput(input.file_counts),
+  };
+}
+
+export function convertOpenAIPageableListOfVectorStoreFileOutput(
+  input: GeneratedModels.OpenAIPageableListOfVectorStoreFileOutput,
+): PublicModels.OpenAIPageableListOfVectorStoreFileOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data.map(convertVectorStoreFileOutput),
+  };
+}
+
+export function convertVectorStoreFileOutput(
+  input: GeneratedModels.VectorStoreFileOutput,
+): PublicModels.VectorStoreFileOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    usageBytes: input.usage_bytes,
+    createdAt: new Date(input.created_at),
+    vectorStoreId: input.vector_store_id,
+    status: input.status,
+    lastError: input.last_error,
+    chunkingStrategy:
+      input.chunking_strategy &&
+      convertVectorStoreChunkingStrategyResponseOutput(input.chunking_strategy),
+  };
+}
+
+function convertVectorStoreChunkingStrategyResponseOutput(
+  input: GeneratedModels.VectorStoreChunkingStrategyResponseOutput,
+): PublicModels.VectorStoreChunkingStrategyResponseOutput {
+  switch (input.type) {
+    case "auto":
+      return input as PublicModels.VectorStoreAutoChunkingStrategyResponseOutput;
+    case "static":
+      return convertVectorStoreStaticChunkingStrategyResponseOutput(
+        input as GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput,
+      );
+    default:
+      throw new Error(`Unknown chunking strategy type: ${input.type}`);
+  }
+}
+function convertVectorStoreStaticChunkingStrategyResponseOutput(
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyResponseOutput,
+): PublicModels.VectorStoreStaticChunkingStrategyResponseOutput {
+  return {
+    type: input.type,
+    static: input.static && convertVectorStoreStaticChunkingStrategyOptionsOutput(input.static),
+  };
+}
+
+function convertVectorStoreStaticChunkingStrategyOptionsOutput(
+  input: GeneratedModels.VectorStoreStaticChunkingStrategyOptionsOutput,
+): PublicModels.VectorStoreStaticChunkingStrategyOptionsOutput {
+  return {
+    maxChunkSizeTokens: input.max_chunk_size_tokens,
+    chunkOverlapTokens: input.chunk_overlap_tokens,
+  };
+}
+
+export function convertVectorStoreFileDeletionStatusOutput(
+  input: GeneratedModels.VectorStoreFileDeletionStatusOutput,
+): PublicModels.VectorStoreFileDeletionStatusOutput {
+  return {
+    id: input.id,
+    deleted: input.deleted,
+    object: input.object,
+  };
+}
+
+export function convertOpenAIFileOutput(
+  input: GeneratedModels.OpenAIFileOutput
+): PublicModels.OpenAIFileOutput {
   return {
     id: input.id,
     object: input.object,
@@ -701,8 +1039,8 @@ export function convertOpenAIFileOutput(input: WireOpenAIFileOutput): OpenAIFile
 }
 
 export function convertFileListResponseOutput(
-  input: WireFileListResponseOutput
-): FileListResponseOutput {
+  input: GeneratedModels.FileListResponseOutput
+): PublicModels.FileListResponseOutput {
   return {
     object: input.object,
     data: input.data.map(convertOpenAIFileOutput),
