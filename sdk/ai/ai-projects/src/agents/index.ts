@@ -329,12 +329,12 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
-    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
-      listFiles(context, { ...requestParams, queryParameters: { purpose: purpose } }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
-      uploadFile(context, options ?? { body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }] }),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileWithPollingOptionalParams) =>
-      uploadFileAndPoll(context,  options ?? { body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }] }),
+    listFiles: (_purpose?: FilePurpose, options?: ListFilesOptionalParams) =>
+      listFiles(context, options),
+    uploadFile: (_content: ReadableStream | NodeJS.ReadableStream, _purpose: FilePurpose, _fileName?: string, options?: UploadFileOptionalParams) =>
+      uploadFile(context, options),
+    uploadFileAndPoll: (_content: ReadableStream | NodeJS.ReadableStream, _purpose: FilePurpose, _fileName?: string, options?: UploadFileWithPollingOptionalParams) =>
+      uploadFileAndPoll(context,  options),
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams ) =>
       deleteFile(context, fileId, options),
     getFile: (fileId: string, options?: GetFileOptionalParams) =>

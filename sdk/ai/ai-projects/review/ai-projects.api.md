@@ -727,10 +727,10 @@ export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListFilesQueryParam" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ListFilesQueryParamProperties" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export interface ListFilesOptionalParams extends ListFilesQueryParam, OperationOptions {
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
 }
 
 // @public
