@@ -13,14 +13,10 @@
  * @summary build a classifier from a training data set
  */
 
-import DocumentIntelligence, {
-  DocumentClassifierBuildOperationDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -61,9 +57,7 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const classifier = (
-    (await poller.pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
-  ).result;
+  const classifier = (await poller.pollUntilDone()).body.result;
   if (!classifier) {
     throw new Error("Expected a DocumentClassifierDetailsOutput response.");
   }

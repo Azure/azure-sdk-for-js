@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
+/** Paged collection of DocumentIntelligenceOperationDetails items */
+export interface PagedDocumentIntelligenceOperationDetailsOutput {
+  /** The DocumentIntelligenceOperationDetails items on this page */
+  value: Array<DocumentIntelligenceOperationDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
 
 /** Operation info. */
-export interface OperationDetailsOutputParent {
+export interface DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation ID */
   operationId: string;
   /**
    * Operation status.  notStarted, running, completed, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
-  status: OperationStatusOutput;
+  status: DocumentIntelligenceOperationStatusOutput;
   /** Operation progress (0-100). */
   percentCompleted?: number;
   /** Date and time (UTC) when the operation was created. */
@@ -26,12 +32,12 @@ export interface OperationDetailsOutputParent {
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
   /** Encountered error. */
-  error?: ErrorModelOutput;
+  error?: DocumentIntelligenceErrorOutput;
   kind: OperationKindOutput;
 }
 
 /** The error object. */
-export interface ErrorModelOutput {
+export interface DocumentIntelligenceErrorOutput {
   /** One of a server-defined set of error codes. */
   code: string;
   /** A human-readable representation of the error. */
@@ -39,23 +45,24 @@ export interface ErrorModelOutput {
   /** The target of the error. */
   target?: string;
   /** An array of details about specific errors that led to this reported error. */
-  details?: Array<ErrorModelOutput>;
+  details?: Array<DocumentIntelligenceErrorOutput>;
   /** An object containing more specific information than the current object about the error. */
-  innererror?: InnerErrorOutput;
+  innererror?: DocumentIntelligenceInnerErrorOutput;
 }
 
 /** An object containing more specific information about the error. */
-export interface InnerErrorOutput {
+export interface DocumentIntelligenceInnerErrorOutput {
   /** One of a server-defined set of error codes. */
   code?: string;
   /** A human-readable representation of the error. */
   message?: string;
   /** Inner error. */
-  innererror?: InnerErrorOutput;
+  innererror?: DocumentIntelligenceInnerErrorOutput;
 }
 
 /** Get Operation response object. */
-export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelBuildOperationDetailsOutput
+  extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -72,6 +79,8 @@ export interface DocumentModelDetailsOutput {
   readonly createdDateTime: string;
   /** Date and time (UTC) when the document model will expire. */
   readonly expirationDateTime?: string;
+  /** Date and time (UTC) when the document model was last modified. */
+  readonly modifiedDateTime?: string;
   /** API version used to create this document model. */
   readonly apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
@@ -79,7 +88,7 @@ export interface DocumentModelDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   readonly buildMode?: DocumentBuildModeOutput;
   /**
@@ -103,7 +112,7 @@ export interface DocumentModelDetailsOutput {
   /** Supported document types. */
   readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
   /** List of warnings encountered while building the model. */
-  readonly warnings?: Array<WarningOutput>;
+  readonly warnings?: Array<DocumentIntelligenceWarningOutput>;
   /** Number of V100-equivalent GPU hours consumed for model training. */
   readonly trainingHours?: number;
 }
@@ -131,7 +140,7 @@ export interface DocumentTypeDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode?: DocumentBuildModeOutput;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
@@ -169,7 +178,7 @@ export interface DocumentFieldSchemaOutput {
 }
 
 /** The error object. */
-export interface WarningOutput {
+export interface DocumentIntelligenceWarningOutput {
   /** One of a server-defined set of warning codes. */
   code: string;
   /** A human-readable representation of the warning. */
@@ -179,7 +188,8 @@ export interface WarningOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelComposeOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelComposeOperationDetailsOutput
+  extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -187,7 +197,8 @@ export interface DocumentModelComposeOperationDetailsOutput extends OperationDet
 }
 
 /** Get Operation response object. */
-export interface DocumentModelCopyToOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelCopyToOperationDetailsOutput
+  extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -196,7 +207,7 @@ export interface DocumentModelCopyToOperationDetailsOutput extends OperationDeta
 
 /** Get Operation response object. */
 export interface DocumentClassifierCopyToOperationDetailsOutput
-  extends OperationDetailsOutputParent {
+  extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentClassifierDetailsOutput;
   /** Type of operation. */
@@ -213,6 +224,8 @@ export interface DocumentClassifierDetailsOutput {
   createdDateTime: string;
   /** Date and time (UTC) when the document classifier will expire. */
   expirationDateTime?: string;
+  /** Date and time (UTC) when the document model was last modified. */
+  readonly modifiedDateTime?: string;
   /** API version used to create this document classifier. */
   apiVersion: string;
   /** Base classifierId on top of which the classifier was trained. */
@@ -220,7 +233,7 @@ export interface DocumentClassifierDetailsOutput {
   /** List of document types to classify against. */
   docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
   /** List of warnings encountered while building the classifier. */
-  warnings?: Array<WarningOutput>;
+  warnings?: Array<DocumentIntelligenceWarningOutput>;
 }
 
 /** Classifier document type info. */
@@ -247,7 +260,7 @@ export interface ClassifierDocumentTypeDetailsOutput {
 
 /** Get Operation response object. */
 export interface DocumentClassifierBuildOperationDetailsOutput
-  extends OperationDetailsOutputParent {
+  extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentClassifierDetailsOutput;
   /** Type of operation. */
@@ -255,13 +268,13 @@ export interface DocumentClassifierBuildOperationDetailsOutput
 }
 
 /** Error response object. */
-export interface ErrorResponseOutput {
+export interface DocumentIntelligenceErrorResponseOutput {
   /** Error info. */
-  error: ErrorModelOutput;
+  error: DocumentIntelligenceErrorOutput;
 }
 
 /** General information regarding the current resource. */
-export interface ResourceDetailsOutput {
+export interface DocumentIntelligenceResourceDetailsOutput {
   /** Details regarding custom document models. */
   customDocumentModels: CustomDocumentModelsDetailsOutput;
 }
@@ -275,19 +288,19 @@ export interface CustomDocumentModelsDetailsOutput {
 }
 
 /** Status and result of the analyze operation. */
-export interface AnalyzeResultOperationOutput {
+export interface AnalyzeOperationOutput {
   /**
    * Operation status.  notStarted, running, succeeded, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
-  status: OperationStatusOutput;
+  status: DocumentIntelligenceOperationStatusOutput;
   /** Date and time (UTC) when the analyze operation was submitted. */
   createdDateTime: string;
   /** Date and time (UTC) when the status was last updated. */
   lastUpdatedDateTime: string;
   /** Encountered error during document analysis. */
-  error?: ErrorModelOutput;
+  error?: DocumentIntelligenceErrorOutput;
   /** Document analysis result. */
   analyzeResult?: AnalyzeResultOutput;
 }
@@ -309,7 +322,7 @@ export interface AnalyzeResultOutput {
    *
    * Possible values: "text", "markdown"
    */
-  contentFormat?: ContentFormatOutput;
+  contentFormat?: DocumentContentFormatOutput;
   /**
    * Concatenate string representation of all textual and visual elements in reading
    * order.
@@ -332,9 +345,9 @@ export interface AnalyzeResultOutput {
   /** Detected languages. */
   languages?: Array<DocumentLanguageOutput>;
   /** Extracted documents. */
-  documents?: Array<DocumentOutput>;
+  documents?: Array<AnalyzedDocumentOutput>;
   /** List of warnings encountered. */
-  warnings?: Array<WarningOutput>;
+  warnings?: Array<DocumentIntelligenceWarningOutput>;
 }
 
 /** Content and layout elements extracted from a page from the input. */
@@ -655,13 +668,13 @@ export interface DocumentStyleOutput {
    *
    * Possible values: "normal", "italic"
    */
-  fontStyle?: FontStyleOutput;
+  fontStyle?: DocumentFontStyleOutput;
   /**
    * Font weight.
    *
    * Possible values: "normal", "bold"
    */
-  fontWeight?: FontWeightOutput;
+  fontWeight?: DocumentFontWeightOutput;
   /** Foreground color in #rrggbb hexadecimal format. */
   color?: string;
   /** Background color in #rrggbb hexadecimal format.. */
@@ -689,7 +702,7 @@ export interface DocumentLanguageOutput {
 }
 
 /** An object describing the location and semantic content of a document. */
-export interface DocumentOutput {
+export interface AnalyzedDocumentOutput {
   /** Document type. */
   docType: string;
   /** Bounding regions covering the document. */
@@ -804,13 +817,15 @@ export interface AddressValueOutput {
 }
 
 /** Status and result of the analyze batch operation. */
-export interface AnalyzeBatchResultOperationOutput {
+export interface AnalyzeBatchOperationOutput {
+  /** Analyze batch operation result ID. */
+  resultId?: string;
   /**
-   * Operation status.  notStarted, running, completed, or failed
+   * Operation status.  notStarted, running, succeeded, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
-  status: OperationStatusOutput;
+  status: DocumentIntelligenceOperationStatusOutput;
   /** Date and time (UTC) when the operation was submitted. */
   createdDateTime: string;
   /** Date and time (UTC) when the status was last updated. */
@@ -818,7 +833,7 @@ export interface AnalyzeBatchResultOperationOutput {
   /** Operation progress (0-100). */
   percentCompleted?: number;
   /** Encountered error during batch document analysis. */
-  error?: ErrorModelOutput;
+  error?: DocumentIntelligenceErrorOutput;
   /** Batch document analysis result. */
   result?: AnalyzeBatchResultOutput;
 }
@@ -832,7 +847,7 @@ export interface AnalyzeBatchResultOutput {
   /** Number of documents that completed with status skipped. */
   skippedCount: number;
   /** Operation detail for each document in the batch. */
-  details: Array<AnalyzeBatchOperationDetailOutput>;
+  details?: Array<AnalyzeBatchOperationDetailOutput>;
 }
 
 /** Operation detail for a document in a batch analysis. */
@@ -840,22 +855,30 @@ export interface AnalyzeBatchOperationDetailOutput {
   /**
    * Analyze status.  succeeded, failed, or skipped
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
-  status: OperationStatusOutput;
+  status: DocumentIntelligenceOperationStatusOutput;
   /** URL of the source document. */
   sourceUrl: string;
   /** URL of the analyze result JSON. */
   resultUrl?: string;
   /** Encountered error. */
-  error?: ErrorModelOutput;
+  error?: DocumentIntelligenceErrorOutput;
+}
+
+/** Paged collection of AnalyzeBatchOperation items */
+export interface PagedAnalyzeBatchOperationOutput {
+  /** The AnalyzeBatchOperation items on this page */
+  value: Array<AnalyzeBatchOperationOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /**
  * Authorization to copy a document model to the specified target resource and
  * modelId.
  */
-export interface CopyAuthorizationOutput {
+export interface ModelCopyAuthorizationOutput {
   /** ID of the target Azure resource where the document model should be copied to. */
   targetResourceId: string;
   /**
@@ -871,6 +894,22 @@ export interface CopyAuthorizationOutput {
   accessToken: string;
   /** Date/time when the access token expires. */
   expirationDateTime: string;
+}
+
+/** Paged collection of DocumentModelDetails items */
+export interface PagedDocumentModelDetailsOutput {
+  /** The DocumentModelDetails items on this page */
+  value: Array<DocumentModelDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Paged collection of DocumentClassifierDetails items */
+export interface PagedDocumentClassifierDetailsOutput {
+  /** The DocumentClassifierDetails items on this page */
+  value: Array<DocumentClassifierDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /**
@@ -896,17 +935,15 @@ export interface ClassifierCopyAuthorizationOutput {
 }
 
 /** Operation info. */
-export type OperationDetailsOutput =
-  | OperationDetailsOutputParent
+export type DocumentIntelligenceOperationDetailsOutput =
+  | DocumentIntelligenceOperationDetailsOutputParent
   | DocumentModelBuildOperationDetailsOutput
   | DocumentModelComposeOperationDetailsOutput
   | DocumentModelCopyToOperationDetailsOutput
   | DocumentClassifierCopyToOperationDetailsOutput
   | DocumentClassifierBuildOperationDetailsOutput;
-/** Paged collection of OperationDetails items */
-export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
-/** Alias for OperationStatusOutput */
-export type OperationStatusOutput = string;
+/** Alias for DocumentIntelligenceOperationStatusOutput */
+export type DocumentIntelligenceOperationStatusOutput = string;
 /** Alias for OperationKindOutput */
 export type OperationKindOutput = string;
 /** Alias for DocumentBuildModeOutput */
@@ -921,8 +958,8 @@ export type DocumentAnalysisFeatureOutput = string;
 export type ContentSourceKindOutput = string;
 /** Alias for StringIndexTypeOutput */
 export type StringIndexTypeOutput = string;
-/** Alias for ContentFormatOutput */
-export type ContentFormatOutput = string;
+/** Alias for DocumentContentFormatOutput */
+export type DocumentContentFormatOutput = string;
 /** Alias for LengthUnitOutput */
 export type LengthUnitOutput = string;
 /** Alias for DocumentSelectionMarkStateOutput */
@@ -935,13 +972,9 @@ export type DocumentFormulaKindOutput = string;
 export type ParagraphRoleOutput = string;
 /** Alias for DocumentTableCellKindOutput */
 export type DocumentTableCellKindOutput = string;
-/** Alias for FontStyleOutput */
-export type FontStyleOutput = string;
-/** Alias for FontWeightOutput */
-export type FontWeightOutput = string;
+/** Alias for DocumentFontStyleOutput */
+export type DocumentFontStyleOutput = string;
+/** Alias for DocumentFontWeightOutput */
+export type DocumentFontWeightOutput = string;
 /** Alias for DocumentSignatureTypeOutput */
 export type DocumentSignatureTypeOutput = string;
-/** Paged collection of DocumentModelDetails items */
-export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
-/** Paged collection of DocumentClassifierDetails items */
-export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;

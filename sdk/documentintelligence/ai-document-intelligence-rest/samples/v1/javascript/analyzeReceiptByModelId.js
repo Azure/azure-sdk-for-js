@@ -2,25 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * This sample shows how to extract elements of a receipt from a URL to a file using the prebuilt receipt model.
+ * This sample shows how to extract elements of a receipt from a URL to a file using the prebuilt receipt model. Rather
+ * than using the `PrebuiltModels.Receipt` document model, this sample shows the use of the prebuilt model by ID,
+ * resulting in a weaker type that exactly mirrors the model's field schema at runtime.
  *
- * The prebuilt receipt model can return several fields. For a detailed list of the fields supported by the receipt
- * model, see the `Receipt` type in the documentation, or refer to the following link:
+ * The prebuilt receipt model can return several fields. For a detailed list of the fields supported by the
+ * receipt model, see the `Receipt` type in the documentation, or refer to the following link:
  *
  * https://aka.ms/azsdk/documentitelligence/receiptfieldschema
  *
- * @summary extract data from a receipt document
- * @azsdk-skip-javascript
+ * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
-import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -42,16 +39,15 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
-    .analyzeResult;
+
+  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
 
   const documents = analyzeResult?.documents;
 
-  const document = documents && documents[0];
-
-  // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
-  if (document) {
-    console.log(document.fields);
+  const result = documents && documents[0];
+  if (result) {
+    console.log(result.fields);
   } else {
     throw new Error("Expected at least one receipt in the result.");
   }

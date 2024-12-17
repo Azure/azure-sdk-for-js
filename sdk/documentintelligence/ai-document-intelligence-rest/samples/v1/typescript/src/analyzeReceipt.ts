@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * This sample shows how to extract elements of a United States W2 tax form from a file using the prebuilt US W2 model.
+ * This sample shows how to extract elements of a receipt from a URL to a file using the prebuilt receipt model.
  *
- * The prebuilt W2 model can return several fields. For a detailed list of the fields supported by the model, see the
- * `TaxUsW2` type in the documentation, or refer to the following link:
+ * The prebuilt receipt model can return several fields. For a detailed list of the fields supported by the receipt
+ * model, see the `Receipt` type in the documentation, or refer to the following link:
  *
- * https://aka.ms/azsdk/documentitelligence/taxusw2fieldschema
+ * https://aka.ms/azsdk/documentitelligence/receiptfieldschema
  *
- * @summary extract data from a United States W2 tax document
- * @azsdk-skip-javascript
+ * @summary extract data from a receipt document
  */
 
 import DocumentIntelligence, {
@@ -18,8 +17,6 @@ import DocumentIntelligence, {
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
-import fs from "fs";
-import path from "path";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -30,39 +27,36 @@ async function main() {
     { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
 
-  const filePath = fs.readFileSync(path.join(".", "assets", "w2", "w2-single.png"));
-
-  const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
-
   const initialResponse = await client
-    .path("/documentModels/{modelId}:analyze", "prebuilt-tax.us.w2")
+    .path("/documentModels/{modelId}:analyze", "prebuilt-receipt")
     .post({
       contentType: "application/json",
       body: {
-        base64Source,
+        // The Document Intelligence service will access the following URL to a receipt image and extract data from it
+        urlSource:
+          "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
       },
     });
-
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-
   const poller = getLongRunningPoller(client, initialResponse);
   const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
     .analyzeResult;
 
   const documents = analyzeResult?.documents;
-  const document = documents?.[0];
 
+  const document = documents && documents[0];
+
+  // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
   if (document) {
-    console.log("Extracted W2 tax form:");
     console.log(document.fields);
   } else {
-    throw new Error("Expected at least one document in the result.");
+    throw new Error("Expected at least one receipt in the result.");
   }
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error("An error occurred:", error);
   process.exit(1);
 });

@@ -9,18 +9,12 @@
  * it will first classify the input as belonging to one of the document types.zzs
  *
  * @summary create a composed model from several individual labeled models
- * @azsdk-weight 60
  */
 
-import DocumentIntelligence, {
-  DocumentModelBuildOperationDetailsOutput,
-  DocumentModelComposeOperationDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -64,9 +58,7 @@ async function main() {
         throw initialResponse.body.error;
       }
       const poller = getLongRunningPoller(client, initialResponse);
-      const { docTypes } = (
-        (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-      ).result!;
+      const { docTypes } = (await poller.pollUntilDone()).body.result;
 
       return docTypes;
     }),
@@ -82,7 +74,7 @@ async function main() {
       description:
         "A composed model that classifies purchase order documents and extracts data from them.",
       classifierId: "classifierId", // Add the appropriate classifier ID here
-      docTypes: { model1: modelIds[0]!.modelId, model2: modelIds[1]!.modelId },
+      docTypes: { model1: modelIds[0].modelId, model2: modelIds[1].modelId },
     },
   });
 
@@ -91,9 +83,7 @@ async function main() {
   }
   const poller = getLongRunningPoller(client, initialResponse);
 
-  const composedModel = (
-    (await poller.pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
-  ).result!;
+  const composedModel = (await poller.pollUntilDone()).body.result;
 
   console.log("Model ID:", composedModel.modelId);
   console.log("Description:", composedModel.description);

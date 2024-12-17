@@ -7,14 +7,10 @@
  * @summary use a custom classifier to classify a document
  */
 
-import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
+const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const client = DocumentIntelligence(
@@ -39,8 +35,7 @@ async function main() {
   }
 
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
-    .analyzeResult;
+  const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
 
   if (analyzeResult?.documents === undefined || analyzeResult.documents.length === 0) {
     throw new Error("Failed to extract any documents.");
