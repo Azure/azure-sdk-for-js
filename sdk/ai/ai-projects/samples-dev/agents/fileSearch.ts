@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   // Upload file
   const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
   const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
+  const file = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "sampleFileForUpload.txt"});
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store

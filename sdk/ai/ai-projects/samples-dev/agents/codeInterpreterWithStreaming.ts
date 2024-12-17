@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "myLocalFile"});
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 

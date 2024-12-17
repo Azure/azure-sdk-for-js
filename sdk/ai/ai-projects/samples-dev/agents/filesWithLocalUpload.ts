@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
     // Upload local file
     const filePath = path.resolve(__dirname, "../data/localFile.txt");
     const localFileStream = fs.createReadStream(filePath);
-    const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile.txt");
+    const localFile = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "myLocalFile.txt"});
 
     console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
