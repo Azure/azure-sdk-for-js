@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { CreateTestCredentialOptions, DefaultAzureCredentialCombinedOptions } from ".";
+import type { CreateTestCredentialOptions, DefaultAzureCredentialCombinedOptions } from "./index.js";
 
 /**
  * Authentication error thrown when the relay server could not authenticate.
