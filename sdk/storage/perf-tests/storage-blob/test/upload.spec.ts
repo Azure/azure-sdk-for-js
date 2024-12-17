@@ -4,6 +4,7 @@
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec.js";
+import { describe, it, assert } from "vitest";
 
 interface StorageBlobUploadTestOptions {
   size: number;

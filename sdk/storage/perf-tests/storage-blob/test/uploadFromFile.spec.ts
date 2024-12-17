@@ -9,6 +9,7 @@ const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
 import { StorageBlobUploadTest } from "./upload.spec.js";
+import { describe, it, assert } from "vitest";
 
 const dirName = "temp";
 const fileName = `${dirName}/upload-from-test-temp-file.txt`;
