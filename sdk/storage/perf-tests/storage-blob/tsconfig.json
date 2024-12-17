@@ -2,20 +2,12 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "esnext"
-    ],
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
