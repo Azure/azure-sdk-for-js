@@ -1086,7 +1086,7 @@ importers:
         version: file:projects/perf-data-tables.tgz
       '@rush-temp/perf-event-hubs':
         specifier: file:./projects/perf-event-hubs.tgz
-        version: file:projects/perf-event-hubs.tgz
+        version: file:projects/perf-event-hubs.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
       '@rush-temp/perf-eventgrid':
         specifier: file:./projects/perf-eventgrid.tgz
         version: file:projects/perf-eventgrid.tgz
@@ -1286,10 +1286,6 @@ packages:
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/app-configuration@1.5.0-beta.2':
-    resolution: {integrity: sha512-FhKvFKmMhu0P57lYO4i3JN8oGyvHs+YTsdz18cmKaqYHwlHD9ITHGKX59f3hT3rWZoK02sd0OajhCGrsKOmkmQ==}
-    engines: {node: '>=16.0.0'}
-
   '@azure/app-configuration@1.8.0':
     resolution: {integrity: sha512-RO4IGZMa3hI1yVhvb5rPr+r+UDxe4VDxbntFZIc5fsUPGqZbKzmGR2wABEtlrC2SU5YX6tL+NS3xWb4vf1M9lQ==}
     engines: {node: '>=18.0.0'}
@@ -1420,9 +1416,9 @@ packages:
     resolution: {integrity: sha512-vi8Kfm2deIlNbu5gxInH2Uy0OuIGIEqeNo3FjXRRGimlBHwz2JFbJ1/u7GKpZnKXDVEXMNYf930fLIPXD9NdzA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/search-documents@12.0.0-beta.4':
-    resolution: {integrity: sha512-t4fExKXnbBBCQCStJLt+QoIyb0NGvyqfPO5p9ZlwU89HTyky+2A9vxc/DMPtl4DAM6YrZPUT2ky0uqXFHpADIQ==}
-    engines: {node: '>=16.0.0'}
+  '@azure/search-documents@12.1.0':
+    resolution: {integrity: sha512-IzD+hfqGqFtXymHXm4RzrZW2MsSH2M7RLmZsKaKVi7SUxbeYTUeX+ALk8gVzkM8ykb7EzlDLWCNErKfAa57rYQ==}
+    engines: {node: '>=18.0.0'}
 
   '@azure/template@1.0.13-beta.1':
     resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
@@ -2466,7 +2462,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-rK979Zu3i9HdmjhkPAgXOzd0NeXbFrY3YZVRjpjV2wogivrRPGkZZzbNRYCJ7jJbjdFmyOW0xaVddvmfvbqYuw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-J8yhU3GdfISHJHRoDuseuqONoiPgMX3KIJUz4QS+hQqywxhyvstIC+3AHgD0ANGRlAylt6BbDT1P7MS+QRE3YQ==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -3178,7 +3174,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz':
-    resolution: {integrity: sha512-zSj1cfOeiLCydmYHB7TgUyfxPRhDNNTx5iLXAz3U15ooxKhHNW8tURdR3I+bQa3zMf08qGqeMSmi5znTyQ4hoA==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-ua5msfiybLKnFswAGZkePiOttOsy4qTfYezZ7kqTKQqotezxmdZ39hMqo0U+bgHddMAadV1yFvwO140ax+os2Q==, tarball: file:projects/arm-notificationhubs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-oep@file:projects/arm-oep.tgz':
@@ -3838,7 +3834,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
-    resolution: {integrity: sha512-g1pwLcMuOaTjljwQ9fIY6KM/uZTSTiZReOl36Q5kftxvBjt7gBY0/x0Hjse6TNq/SsgJQNkAgjR5K+grm5Oo0Q==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-rrni+K92R2SzD4E1MD1LukYiFrBKY/tWMxROFXdFAwYL8OXWNU1sa8/e0NIxz7Lx0DiCrqGD98kdfxMtcxrvUA==, tarball: file:projects/notification-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
@@ -3858,15 +3854,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-ai-metrics-advisor@file:projects/perf-ai-metrics-advisor.tgz':
-    resolution: {integrity: sha512-6JSVuIfIFvRVwSXA5O5uLyr0gPb5j2Spu6AFzoHNcoMtfCl/94mWPmgofhG9qGsIOybTyAVS0jkD1nlxcsQWkQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-+EI1/2y01yAyGAf7ICP7CLKMCEaPxr2UH1wE/oZrmx3JyF+DzBfGAXEzifrNNFcSlM9B/4SThFzzk9w202G1Kw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-text-analytics@file:projects/perf-ai-text-analytics.tgz':
-    resolution: {integrity: sha512-HEeXcquBy4/HxCQDiHYIh56U/wSyFktEifaFi6u5aWjQHA0YVCZ2mL4n2UNp8/B+G7Z4Di2gAsinuyXdk04VFQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-Pan1PGinVC3NSJWrVyHJT04npqIDFlna70gSOyN/gwPRa1CGoWSa2UCeH1bXbXwzE02/hWfyCfNCenj4ZK+xkg==, tarball: file:projects/perf-ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-app-configuration@file:projects/perf-app-configuration.tgz':
-    resolution: {integrity: sha512-t0U7XU8cZUm77KBnp/BVMSVcyhgtm5UpiGF5jTLZLLo1TG9hAvbz30aaykK4OIZE4erQ5o3KoRrsr0tznaiBPQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-9LvlDdhQWIchxx5NH3ZDDJwS5zQKpL8v/Q3PaSkohXqqfrdCHyaAymZBzaXP6ypTnq9kDbigzjUeoZFM248WMw==, tarball: file:projects/perf-app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-container-registry@file:projects/perf-container-registry.tgz':
@@ -3874,7 +3870,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-core-rest-pipeline@file:projects/perf-core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-CA4ACPBdLdTWNEL9EeXGvHFkFEbjL4L6z92yZHgr5kZH2mG3WyweFp5jAVeI1iXFtfaTKvPkma7l+uUhDj9hXw==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-KWEPnchNnpCiHjuk8vd2aza0LmqMfhUOVJ402HWrXZXo0ilrsq1YYvoPhbNj1Bk5sNjLDvA4Y9xI9ofAe1NwGQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-data-tables@file:projects/perf-data-tables.tgz':
@@ -3882,7 +3878,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
-    resolution: {integrity: sha512-YYgBzab8fIXup4kV38KXDPi1tKF4AJuwnHiQQrrNmX+MNQDnpiWlDvf4I3qiXirF0UQMrc8icbrNtsmAt7r6cg==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-wI2AMlyoiWZwHmAp26FMACjMS3EPmJltNwnNkQB0/cDlSkOI8X+jvu/EvdxusXD5xYzGErWtXCPjss9EuH4IwA==, tarball: file:projects/perf-event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
@@ -3922,7 +3918,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-search-documents@file:projects/perf-search-documents.tgz':
-    resolution: {integrity: sha512-PgsOy3Mk2G3ZV5qUzYhHPwIqGUZsn4zG2TXigxDet5P4x0DF1pSSHGYmnL/hab2HWAvQ3psoecV7gZrZn+fYIg==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-YMcZFXH0CAnzzHs+pelaFN2yoTQBUHEAbV3x507cMqkq4NdiQiCwjO6k0nqEK+xxl6kZJ/zCeRJal79KlhmkFg==, tarball: file:projects/perf-search-documents.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-service-bus@file:projects/perf-service-bus.tgz':
@@ -4066,7 +4062,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/test-utils@file:projects/test-utils.tgz':
-    resolution: {integrity: sha512-iRlEjLiTq1RHxO2Zh+a4vVjFoMdxyXXfu5Sfn1d8YdtdFpUpjhAWsLM6CismKnp873F4+khYwdvZMezwUBZdbg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-A1LivzUuFF+kXN4mR9u430aQKuLaD5pVk94AzzOcAAASvkTPJQuU2yE34MR8FtXFi9yKmwnLFw56stqEontcdw==, tarball: file:projects/test-utils.tgz}
     version: 0.0.0
 
   '@rush-temp/ts-http-runtime@file:projects/ts-http-runtime.tgz':
@@ -4127,6 +4123,9 @@ packages:
 
   '@sinonjs/fake-timers@11.3.1':
     resolution: {integrity: sha512-EVJO7nW5M/F5Tur0Rf2z/QoMo+1Ia963RiMtapiQrEWvY0iBUvADo8Beegwjpnle5BHkyHuoxSTW3jF43H1XRA==}
+
+  '@sinonjs/fake-timers@13.0.5':
+    resolution: {integrity: sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==}
 
   '@sinonjs/samsam@8.0.2':
     resolution: {integrity: sha512-v46t/fwnhejRSFTGqbpn9u+LQ9xJDse10gNnPgAcxgdoCDMXj/G2asWAC/8Qs+BAZDicX+MNZouXT1A7c83kVw==}
@@ -5274,6 +5273,10 @@ packages:
 
   diff@5.2.0:
     resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
+    engines: {node: '>=0.3.1'}
+
+  diff@7.0.0:
+    resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
     engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
@@ -6764,6 +6767,9 @@ packages:
   nise@5.1.9:
     resolution: {integrity: sha512-qOnoujW4SV6e40dYxJOb3uvuoPHtmLzIk4TFo+j0jPJoC+5Z9xja5qH5JZobEPsa8+YYphMrOSwnrshEhG2qww==}
 
+  nise@6.1.1:
+    resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
+
   nock@13.5.6:
     resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
     engines: {node: '>= 10.13'}
@@ -7011,6 +7017,10 @@ packages:
 
   path-to-regexp@6.3.0:
     resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
+
+  path-to-regexp@8.2.0:
+    resolution: {integrity: sha512-TdrF7fW9Rphjq4RjrW0Kp2AW0Ahwu9sRGTkS6bvDi0SCwZlEZYmcfDbEsTz8RVk0EHIS/Vd1bv3JhG+1xZuAyQ==}
+    engines: {node: '>=16'}
 
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
@@ -7504,6 +7514,9 @@ packages:
 
   sinon@17.0.1:
     resolution: {integrity: sha512-wmwE19Lie0MLT+ZYNpDymasPHUKTaZHUH/pKEubRXIzySv9Atnlw+BUMGCzWgV7b7wO+Hw6f1TEOr0IUnmU8/g==}
+
+  sinon@19.0.2:
+    resolution: {integrity: sha512-euuToqM+PjO4UgXeLETsfQiuoyPXlqFezr6YZDFwHR3t4qaX0fZUe1MfPMznTL5f8BWrVS89KduLdMUsxFCO6g==}
 
   sirv@3.0.0:
     resolution: {integrity: sha512-BPwJGUeDaDCHihkORDchNyyTvWFhcusy1XMmhEVTQTwGeybFbp8YEmB+njbPnth1FibULBSBVwCQni25XlCUDg==}
@@ -8454,22 +8467,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@azure/app-configuration@1.5.0-beta.2':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.2
-      '@azure/core-http-compat': 2.1.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.18.1
-      '@azure/core-tracing': 1.2.0
-      '@azure/core-util': 1.11.0
-      '@azure/logger': 1.1.4
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/app-configuration@1.8.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -8779,7 +8776,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/search-documents@12.0.0-beta.4':
+  '@azure/search-documents@12.1.0':
     dependencies:
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.2
@@ -8787,6 +8784,7 @@ snapshots:
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.18.1
       '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       events: 3.3.0
       tslib: 2.8.1
@@ -9969,15 +9967,15 @@ snapshots:
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
-      prettier: 3.4.2
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -13921,7 +13919,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -18361,14 +18359,14 @@ snapshots:
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -18493,12 +18491,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18507,27 +18502,21 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
   '@rush-temp/perf-app-configuration@file:projects/perf-app-configuration.tgz':
     dependencies:
-      '@azure/app-configuration': 1.5.0-beta.2
+      '@azure/app-configuration': 1.8.0
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18553,13 +18542,10 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.17.0
       express: 4.21.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       undici: 7.1.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18577,22 +18563,31 @@ snapshots:
       - jiti
       - supports-color
 
-  '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
+  '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))':
     dependencies:
       '@types/node': 18.19.68
-      '@types/uuid': 8.3.4
       dotenv: 16.4.7
       eslint: 9.17.0
       moment: 2.30.1
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
     dependencies:
@@ -18730,16 +18725,13 @@ snapshots:
 
   '@rush-temp/perf-search-documents@file:projects/perf-search-documents.tgz':
     dependencies:
-      '@azure/search-documents': 12.0.0-beta.4
+      '@azure/search-documents': 12.1.0
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -19836,30 +19828,22 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       '@types/sinon': 17.0.3
       chai: 4.5.0
       chai-as-promised: 7.1.2(chai@4.5.0)
       chai-exclude: 2.1.1(chai@4.5.0)
       eslint: 9.17.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
       mocha: 11.0.2
-      sinon: 17.0.1
+      sinon: 19.0.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - debug
       - jiti
       - supports-color
-      - utf-8-validate
 
   '@rush-temp/ts-http-runtime@file:projects/ts-http-runtime.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
@@ -20094,6 +20078,10 @@ snapshots:
       type-detect: 4.0.8
 
   '@sinonjs/fake-timers@11.3.1':
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+
+  '@sinonjs/fake-timers@13.0.5':
     dependencies:
       '@sinonjs/commons': 3.0.1
 
@@ -20524,6 +20512,27 @@ snapshots:
       '@vitest/utils': 2.1.8
       magic-string: 0.30.15
       msw: 2.6.8(@types/node@18.19.68)(typescript@5.6.3)
+      sirv: 3.0.0
+      tinyrainbow: 1.2.0
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.49.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
+  '@vitest/browser@2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.8(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
+      '@vitest/utils': 2.1.8
+      magic-string: 0.30.15
+      msw: 2.6.8(@types/node@18.19.68)(typescript@5.7.2)
       sirv: 3.0.0
       tinyrainbow: 1.2.0
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
@@ -21427,6 +21436,8 @@ snapshots:
   diff@4.0.2: {}
 
   diff@5.2.0: {}
+
+  diff@7.0.0: {}
 
   dir-glob@3.0.1:
     dependencies:
@@ -23107,6 +23118,31 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  msw@2.6.8(@types/node@18.19.68)(typescript@5.7.2):
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.1
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 5.1.0(@types/node@18.19.68)
+      '@mswjs/interceptors': 0.37.3
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      chalk: 4.1.2
+      graphql: 16.9.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      strict-event-emitter: 0.5.1
+      type-fest: 4.30.1
+      yargs: 17.7.2
+    optionalDependencies:
+      typescript: 5.7.2
+    transitivePeerDependencies:
+      - '@types/node'
+
   msw@2.6.8(@types/node@22.7.9)(typescript@5.6.3):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
@@ -23189,6 +23225,14 @@ snapshots:
       '@sinonjs/text-encoding': 0.7.3
       just-extend: 6.2.0
       path-to-regexp: 6.3.0
+
+  nise@6.1.1:
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+      '@sinonjs/fake-timers': 13.0.5
+      '@sinonjs/text-encoding': 0.7.3
+      just-extend: 6.2.0
+      path-to-regexp: 8.2.0
 
   nock@13.5.6:
     dependencies:
@@ -23485,6 +23529,8 @@ snapshots:
   path-to-regexp@0.1.12: {}
 
   path-to-regexp@6.3.0: {}
+
+  path-to-regexp@8.2.0: {}
 
   path-type@4.0.0: {}
 
@@ -24051,6 +24097,15 @@ snapshots:
       nise: 5.1.9
       supports-color: 7.2.0
 
+  sinon@19.0.2:
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+      '@sinonjs/fake-timers': 13.0.5
+      '@sinonjs/samsam': 8.0.2
+      diff: 7.0.0
+      nise: 6.1.1
+      supports-color: 7.2.0
+
   sirv@3.0.0:
     dependencies:
       '@polka/url': 1.0.0-next.28
@@ -24466,7 +24521,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
 
   tshy@2.0.1:
@@ -24480,7 +24535,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
 
   tslib@2.8.1: {}

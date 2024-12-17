@@ -9,7 +9,7 @@ import {
   DocumentModelAdministrationClient,
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { randomUUID } from "@azure/core-util";
+import { randomUUID } from "node:crypto";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
