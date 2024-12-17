@@ -6,7 +6,6 @@ import { StorageDFSAppendTest } from "./append.spec.js";
 import { StorageDFSReadTest } from "./read.spec.js";
 import { StorageDFSUploadTest } from "./upload.spec.js";
 import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec.js";
-import { describe, it, assert } from "vitest";
 
 const perfProgram = createPerfProgram(
   StorageDFSAppendTest,

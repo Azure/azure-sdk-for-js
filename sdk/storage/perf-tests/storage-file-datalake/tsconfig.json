@@ -2,12 +2,12 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-storage-file-datalake": ["./src/index.js"]
+    }
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
