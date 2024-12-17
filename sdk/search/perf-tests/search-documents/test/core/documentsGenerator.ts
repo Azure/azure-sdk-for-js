@@ -1,4 +1,4 @@
-import { Hotel } from "./hotel";
+import { Hotel } from "./hotel.js";
 
 export function generateHotels(documentsCount: number): Hotel[] {
   const hotels: Hotel[] = [];

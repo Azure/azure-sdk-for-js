@@ -6,8 +6,8 @@ import {
   SearchIndex,
   KnownAnalyzerNames,
 } from "@azure/search-documents";
-import { Hotel } from "./hotel";
-import { generateHotels } from "./documentsGenerator";
+import { Hotel } from "./hotel.js";
+import { generateHotels } from "./documentsGenerator.js";
 
 export interface SearchDocumentsTestOptions {
   documentsCount: number;

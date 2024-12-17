@@ -1,4 +1,4 @@
-import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
+import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 
 export class AutoCompleteTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
