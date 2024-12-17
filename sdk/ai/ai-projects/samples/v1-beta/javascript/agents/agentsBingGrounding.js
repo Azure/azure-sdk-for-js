@@ -41,17 +41,11 @@ async function main() {
   ]);
 
   // Create agent with the bing tool and process assistant run
-  const agent = await client.agents.createAgent(
-    "gpt-4o",
-    {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [bingTool.definition],
-    },
-    {
-      headers: { "x-ms-enable-preview": "true" },
-    },
-  );
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are a helpful agent",
+    tools: [bingTool.definition],
+  });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -72,7 +66,7 @@ async function main() {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-    console.log(`Run failed: ${run.last_error}`);
+    console.log(`Run failed: ${run.lastError}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 

@@ -27,12 +27,12 @@ async function main() {
   const abortController = new AbortController();
 
   // Create a vector store
-  const vectorStoreOptions = { name: "myVectorStore" };
-  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
-  const vectorStore = await client.agents.createVectorStoreAndPoll(
-    vectorStoreOptions,
-    pollingOptions,
-  );
+  const vectorStoreOptions = {
+    name: "myVectorStore",
+    sleepIntervalInMs: 2000,
+    abortSignal: abortController.signal,
+  };
+  const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions);
   console.log(
     `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
   );

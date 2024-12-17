@@ -32,7 +32,9 @@ async function main() {
   const readable = new Readable();
   readable.push(fileContent);
   readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", "vectorFile.txt");
+  const file = await client.agents.uploadFile(readable, "assistants", {
+    fileName: "vectorFile.txt",
+  });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store file

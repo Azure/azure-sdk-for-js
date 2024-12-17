@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", "myLocalFile");
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "myLocalFile"});
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
-    tool_resources: codeInterpreterTool.resources,
+    toolResources: codeInterpreterTool.resources,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -105,7 +105,7 @@ export async function main(): Promise<void> {
   // Save the newly created file
   console.log(`Saving new files...`);
   const imageFileOutput = (messages.data[0].content[0] as MessageImageFileContentOutput);
-  const imageFile = imageFileOutput.image_file.file_id; 
+  const imageFile = imageFileOutput.imageFile.fileId; 
   const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png");
   console.log(`Image file name : ${imageFileName}`);
 
@@ -133,8 +133,8 @@ export async function main(): Promise<void> {
       console.log(`Text: ${textContent.text.value}`);
     } 
     console.log(`File ID: ${m.id}`);
-    console.log(`Start Index: ${messages.first_id}`);
-    console.log(`End Index: ${messages.last_id}`);
+    console.log(`Start Index: ${messages.firstId}`);
+    console.log(`End Index: ${messages.lastId}`);
   });
 
   // Delete the agent once done

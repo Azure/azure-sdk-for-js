@@ -54,8 +54,7 @@ export async function main(): Promise<void> {
 
         client.telemetry.updateSettings({enableContentRecording: true})
         
-        const agent = await client.agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" }, { tracingOptions: { tracingContext: context.active() } });
-
+        const agent = await client.agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent", tracingOptions: { tracingContext: context.active() } });
 
         console.log(`Created agent, agent ID : ${agent.id}`);
 
