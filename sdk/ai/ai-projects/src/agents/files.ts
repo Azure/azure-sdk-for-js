@@ -77,7 +77,7 @@ export function uploadFile(
     return ConvertFromWire.convertOpenAIFileOutput(result.body);
   }
 
-  async function updateUploadFileAndPoll(
+  async function updateUploadFile(
     currentResult?: OpenAIFileOutput,
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
@@ -98,7 +98,7 @@ export function uploadFile(
       return executeUploadFile().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: new AgentsPoller<OpenAIFileOutput>({
-      update: updateUploadFileAndPoll,
+      update: updateUploadFile,
       pollingOptions: pollingOptions,
     }),
   }

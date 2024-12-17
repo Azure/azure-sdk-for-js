@@ -81,7 +81,7 @@ export function createVectorStoreFile(
     return ConvertFromWire.convertVectorStoreFileOutput(result.body);
   }
 
-  async function updateCreateVectorStoreFilePoll(
+  async function updateCreateVectorStoreFile(
     currentResult?: VectorStoreFileOutput,
   ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
     let vectorStoreFile: VectorStoreFileOutput;
@@ -101,7 +101,7 @@ export function createVectorStoreFile(
       return executeCreateVectorStoreFile().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: new AgentsPoller<VectorStoreFileOutput>({
-      update: updateCreateVectorStoreFilePoll,
+      update: updateCreateVectorStoreFile,
       pollingOptions: pollingOptions,
     }),
   }

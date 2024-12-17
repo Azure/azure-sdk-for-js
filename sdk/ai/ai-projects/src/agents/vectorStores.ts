@@ -75,7 +75,7 @@ export function createVectorStore(
     return ConvertFromWire.convertVectorStoreOutput(result.body);
   }
 
-  async function updateCreateVectorStorePoll(
+  async function updateCreateVectorStore(
     currentResult?: VectorStoreOutput,
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
     let vectorStore: VectorStoreOutput;
@@ -98,7 +98,7 @@ export function createVectorStore(
       return executeCreateVectorStore().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: new AgentsPoller<VectorStoreOutput>({
-      update: updateCreateVectorStorePoll,
+      update: updateCreateVectorStore,
       pollingOptions: pollingOptions,
     }),
   };

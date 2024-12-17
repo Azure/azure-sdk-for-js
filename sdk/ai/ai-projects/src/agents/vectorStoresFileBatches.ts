@@ -54,7 +54,7 @@ export function createVectorStoreFileBatch(
     return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
   }
 
-  async function updateCreateVectorStoreFileBatchPoll(
+  async function updateCreateVectorStoreFileBatch(
     currentResult?: VectorStoreFileBatchOutput,
   ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
     let vectorStore: VectorStoreFileBatchOutput;
@@ -74,7 +74,7 @@ export function createVectorStoreFileBatch(
     };
   }
 
-  async function cancelCreateVectorStoreFileBatchPoll(
+  async function cancelCreateVectorStoreFileBatch(
     currentResult: VectorStoreFileBatchOutput,
   ): Promise<boolean> {
     const result = await cancelVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
@@ -86,8 +86,8 @@ export function createVectorStoreFileBatch(
       return executeCreateVectorStoreFileBatch().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: new AgentsPoller<VectorStoreFileBatchOutput>({
-      update: updateCreateVectorStoreFileBatchPoll,
-      cancel: cancelCreateVectorStoreFileBatchPoll,
+      update: updateCreateVectorStoreFileBatch,
+      cancel: cancelCreateVectorStoreFileBatch,
       pollingOptions: pollingOptions,
     }),
   }
