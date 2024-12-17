@@ -119,14 +119,13 @@ export interface AgentsOperations {
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput_2>;
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
+    getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
@@ -134,9 +133,7 @@ export interface AgentsOperations {
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "FilePurpose_2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "FileListResponseOutput_2" needs to be exported by the entry point index.d.ts
-    listFiles: (purpose?: FilePurpose_2, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput_2>;
+    listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
@@ -149,9 +146,8 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "OpenAIFileOutput_2" needs to be exported by the entry point index.d.ts
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -457,6 +453,10 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 export interface DeleteAgentThreadOptionalParams extends OperationOptions {
 }
 
+// @public (undocumented)
+export interface DeleteFileOptionalParams extends OperationOptions {
+}
+
 // @public
 export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {
 }
@@ -677,6 +677,14 @@ export interface GetConnectionResponseOutput {
     properties: InternalConnectionPropertiesOutput;
 }
 
+// @public (undocumented)
+export interface GetFileContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetFileOptionalParams extends OperationOptions {
+}
+
 // @public
 export interface GetRunOptionalParams extends OperationOptions {
 }
@@ -784,6 +792,12 @@ export interface ListConnectionsQueryParamProperties {
 // @public
 export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
+}
+
+// Warning: (ae-forgotten-export) The symbol "ListFilesQueryParamProperties" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
 }
 
 // @public
@@ -1923,6 +1937,18 @@ export interface UpdateToolResourcesOptionsOutput {
 
 // @public
 export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
+}
+
+// @public (undocumented)
+export interface UploadFileOptionalParams extends OperationOptions {
+    // (undocumented)
+    fileName?: string;
+}
+
+// @public (undocumented)
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
 }
 
 // @public

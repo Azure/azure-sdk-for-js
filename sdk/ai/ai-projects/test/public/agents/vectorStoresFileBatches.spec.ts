@@ -38,7 +38,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file1 = await agents.uploadFile(file1Content, "assistants", "file1.txt");
+    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
     console.log(`Uploaded file1, file1 ID: ${file1.id}`);
 
     const file2Content = new ReadableStream({
@@ -47,7 +47,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file2 = await agents.uploadFile(file2Content, "assistants", "file2.txt");
+    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
@@ -82,7 +82,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file1 = await agents.uploadFile(file1Content, "assistants", "file1.txt");
+    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
     console.log(`Uploaded file1, file1 ID: ${file1.id}`);
 
     const file2Content = new ReadableStream({
@@ -91,7 +91,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file2 = await agents.uploadFile(file2Content, "assistants", "file2.txt");
+    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
@@ -134,7 +134,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file1 = await agents.uploadFile(file1Content, "assistants", "file1.txt");
+    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
     console.log(`Uploaded file1, file1 ID: ${file1.id}`);
 
     const file2Content = new ReadableStream({
@@ -143,7 +143,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file2 = await agents.uploadFile(file2Content, "assistants", "file2.txt");
+    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
@@ -186,7 +186,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file1 = await agents.uploadFile(file1Content, "assistants", "file1.txt");
+    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
     console.log(`Uploaded file1, file1 ID: ${file1.id}`);
 
     const file2Content = new ReadableStream({
@@ -195,7 +195,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file2 = await agents.uploadFile(file2Content, "assistants", "file2.txt");
+    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
@@ -234,7 +234,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file1 = await agents.uploadFile(file1Content, "assistants", "file1.txt");
+    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
     console.log(`Uploaded file1, file1 ID: ${file1.id}`);
 
     const file2Content = new ReadableStream({
@@ -243,7 +243,7 @@ describe("Agents - vector stores file batches", () => {
         controller.close();
       },
     });
-    const file2 = await agents.uploadFile(file2Content, "assistants", "file2.txt");
+    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
