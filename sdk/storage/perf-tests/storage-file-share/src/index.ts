@@ -6,7 +6,6 @@ import { StorageFileShareDownloadTest } from "./download.spec.js";
 import { StorageFileShareDownloadToFileTest } from "./downloadToFile.spec.js";
 import { StorageFileShareUploadTest } from "./upload.spec.js";
 import { StorageFileShareUploadFromFileTest } from "./uploadFromFile.spec.js";
-import { describe, it, assert } from "vitest";
 
 const perfProgram = createPerfProgram(
   StorageFileShareDownloadTest,
