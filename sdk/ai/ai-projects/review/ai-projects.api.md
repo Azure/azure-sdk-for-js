@@ -103,7 +103,7 @@ export type AgentsNamedToolChoiceType = string;
 // @public
 export type AgentsNamedToolChoiceTypeOutput = string;
 
-// @public (undocumented)
+// @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
@@ -169,7 +169,7 @@ export interface AgentThreadOutput {
     toolResources: ToolResourcesOutput | null;
 }
 
-// @public (undocumented)
+// @public
 export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
@@ -178,7 +178,7 @@ export class AIProjectsClient {
     readonly telemetry: TelemetryOperations;
 }
 
-// @public (undocumented)
+// @public
 export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }
 
@@ -276,7 +276,7 @@ export interface CodeInterpreterToolResourceOutput {
     fileIds?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
@@ -379,9 +379,7 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams, PollingOptionsParams {
 }
 
 // @public
@@ -396,9 +394,7 @@ export interface CreateVectorStoreFileOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
+export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -406,9 +402,7 @@ export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, Ope
 }
 
 // @public
-export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
+export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams, PollingOptionsParams {
 }
 
 // @public
@@ -453,7 +447,7 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 export interface DeleteAgentThreadOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteFileOptionalParams extends OperationOptions {
 }
 
@@ -677,11 +671,11 @@ export interface GetConnectionResponseOutput {
     properties: InternalConnectionPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface GetFileContentOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetFileOptionalParams extends OperationOptions {
 }
 
@@ -794,10 +788,13 @@ export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListFilesQueryParamProperties" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListFilesQueryParamProperties {
+    purpose?: FilePurpose;
 }
 
 // @public
@@ -1214,6 +1211,11 @@ export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
+}
+
+// @public
+export interface PollingOptionsParams {
+    pollingOptions?: PollingOptions;
 }
 
 // @public
@@ -1905,19 +1907,7 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UpdateMessageOptions {
-    // (undocumented)
-    metadata?: Record<string, string> | null;
-}
-
-// @public
 export interface UpdateRunOptionalParams extends OperationOptions {
-    metadata?: Record<string, string> | null;
-}
-
-// @public
-export interface UpdateRunOptions {
-    // (undocumented)
     metadata?: Record<string, string> | null;
 }
 
@@ -1939,16 +1929,13 @@ export interface UpdateToolResourcesOptionsOutput {
 export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface UploadFileOptionalParams extends OperationOptions {
-    // (undocumented)
     fileName?: string;
 }
 
-// @public (undocumented)
-export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams {
-    // (undocumented)
-    pollingOptions?: PollingOptions;
+// @public
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
 }
 
 // @public

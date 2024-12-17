@@ -12,6 +12,9 @@ import {
   listConnections,
 } from "./connections.js";
 
+/**
+ * Connections Interface for managing connections.
+ */
 export interface ConnectionsOperations {
   /** Gets the properties of the specified machine learning workspace. */
   getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
