@@ -1,9 +1,6 @@
 # Before you Start
 
 [TypeScript Azure SDK Design Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) is the overall design guideline of the client SDK.
-Make sure you are familiar with concepts such as "Service Client" and "Packaging".
-
-See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@azure-tools/typespec-ts`. 
 
 ## Prerequisites
 
