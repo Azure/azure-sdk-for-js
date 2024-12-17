@@ -4,7 +4,7 @@
 
 Follow [quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level client from OpenAPI specs.
 
-It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed. More details please refer [Customization v2 quickstart](https://loop.cloud.microsoft/p/eyJ1IjoiaHR0cHM6Ly9taWNyb3NvZnQuc2hhcmVwb2ludC5jb20vc2l0ZXMvZDJlMGNjODEtMjhjOC00YTgyLTk5ZDktY2EwZGQyOTVlMmRiP25hdj1jejBsTWtaemFYUmxjeVV5Um1ReVpUQmpZemd4SlRKRU1qaGpPQ1V5UkRSaE9ESWxNa1E1T1dRNUpUSkVZMkV3WkdReU9UVmxNbVJpSm1ROVlpVXlNWGxRY1RsM2EweEVUbXRQZGtaaGMzVnJRbE5aTUU5aVJISnFNMFp1U1VKT2FtMTBZbEZtYkZaTFZWRnNVSGNsTWtReFkzZE1kVk52UkZsaFVuWk9UR2RKU0NabVBUQXhNMU0zVUZkUk0xZFFWMEUzVVRjM1UwUk9SMHBNTlZkUlR6WlVNa0paU1V3bVl6MGxNa1k9In0%3D?web=1)
+It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed. More details please refer [Customization v2 quickstart (Microsoft Internal Link)](https://loop.cloud.microsoft/p/eyJ1IjoiaHR0cHM6Ly9taWNyb3NvZnQuc2hhcmVwb2ludC5jb20vc2l0ZXMvZDJlMGNjODEtMjhjOC00YTgyLTk5ZDktY2EwZGQyOTVlMmRiP25hdj1jejBsTWtaemFYUmxjeVV5Um1ReVpUQmpZemd4SlRKRU1qaGpPQ1V5UkRSaE9ESWxNa1E1T1dRNUpUSkVZMkV3WkdReU9UVmxNbVJpSm1ROVlpVXlNWGxRY1RsM2EweEVUbXRQZGtaaGMzVnJRbE5aTUU5aVJISnFNMFp1U1VKT2FtMTBZbEZtYkZaTFZWRnNVSGNsTWtReFkzZE1kVk52UkZsaFVuWk9UR2RKU0NabVBUQXhNMU0zVUZkUk0xZFFWMEUzVVRjM1UwUk9SMHBNTlZkUlR6WlVNa0paU1V3bVl6MGxNa1k9In0%3D?web=1)
 
 ```yaml
 source-code-folder-path: ./generated
