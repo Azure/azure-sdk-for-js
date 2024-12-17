@@ -5,8 +5,7 @@ import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
 
 // Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export abstract class MetricsAdvisorTest<TOptions> extends PerfTest<TOptions> {
   client: MetricsAdvisorClient;
