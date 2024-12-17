@@ -8,7 +8,7 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Paged } from '@azure/core-paging';
-import { Poller } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -383,7 +383,7 @@ export interface CreateVectorStoreFileBatchOptions {
 
 // @public
 export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatchOutput> & {
-    poller: Poller<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+    poller: PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
 };
 
 // @public
@@ -399,7 +399,7 @@ export interface CreateVectorStoreFileOptions {
 
 // @public
 export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> & {
-    poller: Poller<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+    poller: PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
 };
 
 // @public
@@ -408,7 +408,7 @@ export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, Pol
 
 // @public
 export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
-    poller: Poller<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+    poller: PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
 };
 
 // @public

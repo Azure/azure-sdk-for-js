@@ -21,7 +21,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
-import { Poller, PollOperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -193,7 +193,7 @@ export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
   /**
    * Poller to poll the vector store creation operation.
    */
-  poller: Poller<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+  poller: PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
 };
 
 /**
@@ -238,7 +238,7 @@ export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> &
   /**
    * Poller to poll the vector store file creation operation.
    */
-  poller: Poller<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+  poller: PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
 };
 
 /**
@@ -286,7 +286,7 @@ export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatc
   /**
    * Poller to poll the vector store file batch creation operation.
    */
-  poller: Poller<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+  poller: PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
 };
 
 /**
