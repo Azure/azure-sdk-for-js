@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as http from "node:http";
-import * as https from "node:https";
+import http from "node:http";
+import https from "node:https";
 import { BaseHttpTest } from "./baseHttpTest.js";
 
 export class HttpRequestTest extends BaseHttpTest {
