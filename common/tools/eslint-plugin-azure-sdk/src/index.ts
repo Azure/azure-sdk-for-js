@@ -3,7 +3,7 @@
 
 import processors from "./processors/index.js";
 import rules from "./rules/index.js";
-import { name, version } from "../package.json.js";
+import { name, version } from "../package.json";
 
 import azsdkConfigs from "./configs/index.js";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
@@ -58,7 +58,7 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
   ];
 }
 
-export = {
+export default {
   ...plugin,
   configs,
   config,

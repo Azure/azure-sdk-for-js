@@ -42,7 +42,7 @@ import tsVersioningSemver from "./ts-versioning-semver.js";
 /**
  * An object containing all rules defined by the plugin
  */
-export = {
+export default {
   "github-source-headers": githubSourceHeaders,
   "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,
