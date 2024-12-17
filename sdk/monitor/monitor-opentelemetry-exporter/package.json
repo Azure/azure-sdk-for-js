@@ -141,5 +141,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "type": "module"
 }
