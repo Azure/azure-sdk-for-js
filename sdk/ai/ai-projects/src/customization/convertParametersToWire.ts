@@ -7,7 +7,7 @@ import {
   convertVectorStoreChunkingStrategyRequest,
   convertVectorStoreDataSource,
 } from "./convertModelsToWrite.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Request options for list requests.

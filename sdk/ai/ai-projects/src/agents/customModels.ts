@@ -24,7 +24,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.

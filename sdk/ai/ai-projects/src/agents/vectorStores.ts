@@ -14,8 +14,9 @@ import type {
   VectorStoreOutput,
 } from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
+import type {
+  CreateVectorStoreResponse} from "./customModels.js";
 import {
-  CreateVectorStoreResponse,
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
   type GetVectorStoreOptionalParams,
