@@ -22,9 +22,6 @@ This table shows the relationship between SDK versions and supported API version
 | SDK version  | Supported API version of service |
 | ------------ | -------------------------------- |
 | 1.0.0        | 2024-11-30                       |
-| 1.0.0-beta.3 | 2024-07-31-preview               |
-| 1.0.0-beta.2 | 2024-02-29-preview               |
-| 1.0.0-beta.1 | 2023-10-31-preview               |
 
 > Please rely on the older `@azure/ai-form-recognizer` library through the older service API versions for retired models, such as `"prebuilt-businessCard"` and `"prebuilt-document"`. For more information, see [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md).
 
@@ -33,9 +30,6 @@ The below table describes the relationship of each client and its supported API 
 | Service API version | Supported clients                                            | Package                                                       |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
 | 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0`        |
-| 2024-07-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.3` |
-| 2024-02-29-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.2` |
-| 2023-10-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.1` |
 | 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`                  |
 | 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`                  |
 
