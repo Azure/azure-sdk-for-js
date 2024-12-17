@@ -3,12 +3,9 @@
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
-
-// Expects the .env file at the same level as the "test" folder
-import dotenv from "dotenv";
 import { randomUUID } from "@azure/core-util";
-
-dotenv.config();
+// Expects the .env file at the same level as the "test" folder
+import "dotenv/config";
 
 export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> {
   shareServiceClient: ShareServiceClient;

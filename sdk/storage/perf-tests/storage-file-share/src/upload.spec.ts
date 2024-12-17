@@ -4,7 +4,7 @@
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
-import { StorageFileShareTest } from "./storageTest.spec";
+import { StorageFileShareTest } from "./storageTest.spec.js";
 
 interface StorageFileShareUploadTestOptions {
   size: number;

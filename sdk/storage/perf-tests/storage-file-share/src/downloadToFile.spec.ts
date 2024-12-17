@@ -3,14 +3,10 @@
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
-import { StorageFileShareTest } from "./storageTest.spec";
+import { StorageFileShareTest } from "./storageTest.spec.js";
 import { randomUUID } from "@azure/core-util";
-import fs from "fs";
-import util from "util";
-
-const fileExists = util.promisify(fs.exists);
-const mkdir = util.promisify(fs.mkdir);
-const deleteFile = util.promisify(fs.unlink);
+import { existsSync } from "node:fs";
+import { mkdir, unlink } from "node:fs/promises";
 
 interface StorageFileShareDownloadTestOptions {
   size: number;
@@ -42,12 +38,12 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<Sto
 
   public async globalSetup() {
     await super.globalSetup();
-    if (!(await fileExists(localDirName))) await mkdir(localDirName);
+    if (!existsSync(localDirName)) await mkdir(localDirName);
     await this.fileClient.uploadData(Buffer.alloc(this.parsedOptions.size.value!));
   }
 
   public async cleanup() {
-    await deleteFile(`${localDirName}/${this.localFileName}`);
+    await unlink(`${localDirName}/${this.localFileName}`);
   }
 
   async run(): Promise<void> {
