@@ -4,7 +4,6 @@
 import { AvroSerializerTest } from "./avroSerializerTest.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MessageContent } from "@azure/schema-registry-avro";
-import { describe, it, assert } from "vitest";
 
 interface SerializePerfTestOptions {
   "items-count": number;

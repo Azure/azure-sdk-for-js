@@ -2,10 +2,11 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true,
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-schema-registry-avro": ["./src/index"]
+    }
   },
   "compileOnSave": true,
   "include": [
@@ -13,8 +14,8 @@
     "src/**/*.mts",
     "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
+    "aex/**/*.ts",
+    "aex/**/*.mts",
+    "aex/**/*.cts"
   ]
 }
