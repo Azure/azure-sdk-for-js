@@ -11,7 +11,7 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { UsernamePasswordCredential } from "../../../src/index.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
 describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -58,7 +58,7 @@ describe("UsernamePasswordCredential (internal)", function () {
     );
   });
 
-  it("Authenticates silently after the initial request", async function (ctx) {
+  it("Authenticates silently after the initial request", async function () {
     const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     const credential = new UsernamePasswordCredential(
       tenantId,
@@ -82,7 +82,7 @@ describe("UsernamePasswordCredential (internal)", function () {
     ).toHaveBeenCalledOnce();
   });
 
-  it("Authenticates with tenantId on getToken", async function (ctx) {
+  it("Authenticates with tenantId on getToken", async function () {
     const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     const credential = new UsernamePasswordCredential(
       tenantId,

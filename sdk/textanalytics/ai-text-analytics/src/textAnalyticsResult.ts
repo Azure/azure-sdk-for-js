@@ -11,8 +11,8 @@ import type {
   TextDocumentBatchStatistics,
   TextDocumentInput,
   TextDocumentStatistics,
-} from "./generated/models";
-import { sortResponseIdObjects } from "./util";
+} from "./generated/models/index.js";
+import { sortResponseIdObjects } from "./util.js";
 
 /**
  * An Error Code returned from the Text Analytics service. Possible

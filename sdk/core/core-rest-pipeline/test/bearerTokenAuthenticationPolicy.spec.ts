@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type {
   AuthorizeRequestOnChallengeOptions,
   ChallengeCallbacks,
@@ -19,6 +19,114 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest"
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
+
+interface Challenge {
+  testName: string;
+  challenge: string;
+  expectedResponseCode: number;
+  expectedClaims: string | null;
+}
+
+const caeTestCases: Challenge[] = [
+  {
+    testName: "unexpected error value",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
+    expectedResponseCode: 401,
+    expectedClaims: null,
+  },
+  {
+    testName: "cannot parse claims",
+    challenge: `Bearer claims="not base64", error="insufficient_claims"`,
+    expectedResponseCode: 401,
+    expectedClaims: null,
+  },
+  {
+    testName: "more parameters, different order",
+    challenge: `Bearer realm="", authorization_uri="http://localhost", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="ey=="`,
+    expectedResponseCode: 200,
+    expectedClaims: "{",
+  },
+  {
+    testName: "standard CAE challenge",
+    challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
+  },
+  {
+    testName: "parse multiple challenges with different scheme",
+    challenge: `PoP realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", nonce="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
+  },
+  {
+    testName: "parse multiple challenges with claims",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
+  },
+];
+
+const nonCaeChallengeTests: Challenge[] = [
+  {
+    testName: "Challenge with no claims",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
+    expectedResponseCode: 200,
+    expectedClaims: null,
+  },
+  {
+    testName: "no quotes with the params",
+    challenge: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
+    expectedResponseCode: 200,
+    expectedClaims: null,
+  },
+  {
+    testName: "no comma seperating the params",
+    challenge: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
+    expectedResponseCode: 200,
+    expectedClaims: null,
+  },
+  {
+    testName: "Challenge with unexpected error",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
+    expectedResponseCode: 200,
+    expectedClaims: null,
+  },
+];
+
+type ChallengeType = "CAE" | "NonCAE" | "Success";
+interface Challenges {
+  testName: string;
+  challengeOrder: ChallengeType[];
+  shouldResolved: boolean;
+  numberOfGetTokenCalls: number;
+}
+// Number of getToken calls should be 1 + number of challenge handled to account for initial request
+const challengesOrderTestCases: Challenges[] = [
+  {
+    testName: "should handle CAE challenge after non-CAE challenge with custom handler",
+    challengeOrder: ["NonCAE", "CAE", "Success"],
+    shouldResolved: true,
+    numberOfGetTokenCalls: 3,
+  },
+  {
+    testName: "should handle at max 2 challenges with custom handler",
+    challengeOrder: ["NonCAE", "CAE", "NonCAE"],
+    shouldResolved: false,
+    numberOfGetTokenCalls: 3,
+  },
+  {
+    testName: "should not handle 2 CAE challenges",
+    challengeOrder: ["CAE", "CAE"],
+    shouldResolved: false,
+    numberOfGetTokenCalls: 2,
+  },
+  {
+    testName: "should not handle 2 non-CAE challenges with custom handler",
+    challengeOrder: ["NonCAE", "NonCAE"],
+    shouldResolved: false,
+    numberOfGetTokenCalls: 2,
+  },
+];
 
 describe("BearerTokenAuthenticationPolicy", function () {
   beforeEach(() => {
@@ -690,24 +798,27 @@ describe("BearerTokenAuthenticationPolicy", function () {
             status: 401,
           };
           switch (challengeType) {
-            case "CAE":
+            case "CAE": {
               response.headers.set("WWW-Authenticate", standardCAEChallenge.challenge);
               next.mockResolvedValueOnce(response);
               lastChallenge = standardCAEChallenge.challenge;
               break;
-            case "NonCAE":
+            }
+            case "NonCAE": {
               containNonCAEChallenge = true;
               response.headers.set("WWW-Authenticate", standardNonCAEChallenge.challenge);
               next.mockResolvedValueOnce(response);
               lastChallenge = standardNonCAEChallenge.challenge;
               break;
-            default:
+            }
+            default: {
               const successResponse: PipelineResponse = {
                 headers: createHttpHeaders(),
                 request,
                 status: 200,
               };
               next.mockResolvedValueOnce(successResponse);
+            }
           }
         }
         let response: PipelineResponse;
@@ -958,113 +1069,6 @@ class MockRefreshAzureCredential implements TokenCredential {
     };
   }
 }
-interface Challenge {
-  testName: string;
-  challenge: string;
-  expectedResponseCode: number;
-  expectedClaims: string | null;
-}
-
-const caeTestCases: Challenge[] = [
-  {
-    testName: "unexpected error value",
-    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
-    expectedResponseCode: 401,
-    expectedClaims: null,
-  },
-  {
-    testName: "cannot parse claims",
-    challenge: `Bearer claims="not base64", error="insufficient_claims"`,
-    expectedResponseCode: 401,
-    expectedClaims: null,
-  },
-  {
-    testName: "more parameters, different order",
-    challenge: `Bearer realm="", authorization_uri="http://localhost", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="ey=="`,
-    expectedResponseCode: 200,
-    expectedClaims: "{",
-  },
-  {
-    testName: "standard CAE challenge",
-    challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
-    expectedResponseCode: 200,
-    expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
-  },
-  {
-    testName: "parse multiple challenges with different scheme",
-    challenge: `PoP realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", nonce="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
-    expectedResponseCode: 200,
-    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
-  },
-  {
-    testName: "parse multiple challenges with claims",
-    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
-    expectedResponseCode: 200,
-    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
-  },
-];
-
-const nonCaeChallengeTests: Challenge[] = [
-  {
-    testName: "Challenge with no claims",
-    challenge: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
-    expectedResponseCode: 200,
-    expectedClaims: null,
-  },
-  {
-    testName: "no quotes with the params",
-    challenge: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
-    expectedResponseCode: 200,
-    expectedClaims: null,
-  },
-  {
-    testName: "no comma seperating the params",
-    challenge: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
-    expectedResponseCode: 200,
-    expectedClaims: null,
-  },
-  {
-    testName: "Challenge with unexpected error",
-    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
-    expectedResponseCode: 200,
-    expectedClaims: null,
-  },
-];
-
-type ChallengeType = "CAE" | "NonCAE" | "Success";
-interface Challenges {
-  testName: string;
-  challengeOrder: ChallengeType[];
-  shouldResolved: boolean;
-  numberOfGetTokenCalls: number;
-}
-// Number of getToken calls should be 1 + number of challenge handled to account for initial request
-const challengesOrderTestCases: Challenges[] = [
-  {
-    testName: "should handle CAE challenge after non-CAE challenge with custom handler",
-    challengeOrder: ["NonCAE", "CAE", "Success"],
-    shouldResolved: true,
-    numberOfGetTokenCalls: 3,
-  },
-  {
-    testName: "should handle at max 2 challenges with custom handler",
-    challengeOrder: ["NonCAE", "CAE", "NonCAE"],
-    shouldResolved: false,
-    numberOfGetTokenCalls: 3,
-  },
-  {
-    testName: "should not handle 2 CAE challenges",
-    challengeOrder: ["CAE", "CAE"],
-    shouldResolved: false,
-    numberOfGetTokenCalls: 2,
-  },
-  {
-    testName: "should not handle 2 non-CAE challenges with custom handler",
-    challengeOrder: ["NonCAE", "NonCAE"],
-    shouldResolved: false,
-    numberOfGetTokenCalls: 2,
-  },
-];
 
 // Brought over from azure-tools/test-utils-vitest/src/matrix.ts because we cannot depend on the library
 /**
@@ -1106,7 +1110,6 @@ function matrix<T extends ReadonlyArray<readonly unknown[]>>(
     (handler as () => Promise<void>)();
   } else {
     for (const v of values[0]) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       matrix(values.slice(1), (...args) => (handler as any)(v, ...args));
     }
   }

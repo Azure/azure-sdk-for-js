@@ -52,7 +52,6 @@ import {
   throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors.js";
 import { max32BitNumber } from "../util/constants.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 import type { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs.js";
 import type { AbortSignalLike } from "@azure/abort-controller";

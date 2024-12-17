@@ -7,6 +7,8 @@ import createFaceClient, {
 } from '@azure-rest/ai-vision-face';
 import { readFileSync } from 'fs';
 
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to create a liveness detection with face verification session with a verification image.
  *
@@ -29,7 +31,7 @@ const waitForLivenessRequest = async () => {
     // Wait for request from client device.
 };
 
-const sendTokenToClientDevices = async (token: string) => {
+const sendTokenToClientDevices = async (_token: string) => {
     // Send the token to client devices.
 };
 

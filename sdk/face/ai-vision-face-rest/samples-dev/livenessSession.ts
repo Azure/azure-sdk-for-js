@@ -6,6 +6,8 @@ import createFaceClient, {
     isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to create a liveness detection session.
  *
@@ -28,7 +30,7 @@ const waitForLivenessRequest = async () => {
     // Wait for request from client device.
 };
 
-const sendTokenToClientDevices = async (token: string) => {
+const sendTokenToClientDevices = async (_token: string) => {
     // Send the token to client devices.
 };
 

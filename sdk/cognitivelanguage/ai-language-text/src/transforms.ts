@@ -43,7 +43,7 @@ import type {
   CustomEntitiesResultDocumentsItem,
   CustomLabelClassificationResultDocumentsItem,
   HealthcareEntitiesDocumentResult,
-} from "./generated";
+} from "./generated/index.js";
 import type {
   AnalyzeActionName,
   AnalyzeBatchActionName,
@@ -65,14 +65,14 @@ import type {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
-} from "./models";
-import type { AssessmentIndex } from "./util";
+} from "./models.js";
+import type { AssessmentIndex } from "./util.js";
 import {
   extractErrorPointerIndex,
   parseAssessmentIndex,
   parseHealthcareEntityIndex,
   sortResponseIdObjects,
-} from "./util";
+} from "./util.js";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
