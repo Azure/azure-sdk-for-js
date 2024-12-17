@@ -1,4 +1,7 @@
-import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec.js";
+import {
+  SearchDocumentsBase,
+  SearchDocumentsTestOptions,
+} from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { describe, it, assert } from "vitest";
 
