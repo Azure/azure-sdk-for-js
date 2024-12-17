@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import processors from "./processors";
-import rules from "./rules";
-import { name, version } from "../package.json";
+import processors from "./processors/index.js";
+import rules from "./rules/index.js";
+import { name, version } from "../package.json.js";
 
-import azsdkConfigs from "./configs/index";
+import azsdkConfigs from "./configs/index.js";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 
 const plugin: Omit<FlatConfig.Plugin, "configs"> = {
