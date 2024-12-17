@@ -32,21 +32,6 @@ export function isOutputOfType<T extends { type: string }>(
   return output.type === type;
 }
 
-// /**
-//  * Converts a function definition to a function tool definition.
-//  *
-//  * @param functionDefintion - The function definition to convert.
-//  * @returns The function tool definition.
-//  */
-// export function fromFunctionDefinition(
-//   functionDefintion: FunctionDefinition,
-// ): FunctionToolDefinition {
-//   return {
-//     type: "function",
-//     function: functionDefintion,
-//   };
-// }
-
 /** Types of connection tools used to configure an agent */
 export enum connectionToolType {
   /** Bing grounding search tool */

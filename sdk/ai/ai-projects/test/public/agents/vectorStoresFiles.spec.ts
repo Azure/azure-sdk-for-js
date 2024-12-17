@@ -38,7 +38,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -68,7 +68,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -102,7 +102,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -130,7 +130,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName.txt");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -159,7 +159,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll

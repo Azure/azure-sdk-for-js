@@ -105,7 +105,7 @@ export type AgentsNamedToolChoiceType = string;
 // @public
 export type AgentsNamedToolChoiceTypeOutput = string;
 
-// @public (undocumented)
+// @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
@@ -118,14 +118,13 @@ export interface AgentsOperations {
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => CreateVectorStoreFileResponse;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => CreateVectorStoreFileBatchResponse;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput_2" needs to be exported by the entry point index.d.ts
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput_2>;
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
+    getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
@@ -133,9 +132,7 @@ export interface AgentsOperations {
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "FilePurpose_2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "FileListResponseOutput_2" needs to be exported by the entry point index.d.ts
-    listFiles: (purpose?: FilePurpose_2, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput_2>;
+    listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
@@ -148,9 +145,8 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "OpenAIFileOutput_2" needs to be exported by the entry point index.d.ts
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose_2, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput_2>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -172,7 +168,7 @@ export interface AgentThreadOutput {
     toolResources: ToolResourcesOutput | null;
 }
 
-// @public (undocumented)
+// @public
 export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
@@ -181,7 +177,7 @@ export class AIProjectsClient {
     readonly telemetry: TelemetryOperations;
 }
 
-// @public (undocumented)
+// @public
 export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }
 
@@ -279,7 +275,7 @@ export interface CodeInterpreterToolResourceOutput {
     fileIds?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
@@ -451,6 +447,10 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteAgentThreadOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteFileOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -674,6 +674,14 @@ export interface GetConnectionResponseOutput {
 }
 
 // @public
+export interface GetFileContentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetFileOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetRunOptionalParams extends OperationOptions {
 }
 
@@ -780,6 +788,15 @@ export interface ListConnectionsQueryParamProperties {
 // @public
 export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
+}
+
+// @public
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListFilesQueryParamProperties {
+    purpose?: FilePurpose;
 }
 
 // @public
@@ -1196,6 +1213,11 @@ export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
+}
+
+// @public
+export interface PollingOptionsParams {
+    pollingOptions?: PollingOptions;
 }
 
 // @public
@@ -1887,19 +1909,7 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UpdateMessageOptions {
-    // (undocumented)
-    metadata?: Record<string, string> | null;
-}
-
-// @public
 export interface UpdateRunOptionalParams extends OperationOptions {
-    metadata?: Record<string, string> | null;
-}
-
-// @public
-export interface UpdateRunOptions {
-    // (undocumented)
     metadata?: Record<string, string> | null;
 }
 
@@ -1919,6 +1929,15 @@ export interface UpdateToolResourcesOptionsOutput {
 
 // @public
 export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
+}
+
+// @public
+export interface UploadFileOptionalParams extends OperationOptions {
+    fileName?: string;
+}
+
+// @public
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
 }
 
 // @public

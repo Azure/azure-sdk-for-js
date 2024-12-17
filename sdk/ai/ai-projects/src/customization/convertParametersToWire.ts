@@ -61,7 +61,7 @@ export function convertCreateVectorStoreFileParam(
 
 export function convertToListQueryParameters<T extends ListQueryParameters>(
   options: T,
-): Record<string, unknown> {
+): ListQueryParameters & Record<string, unknown> {
   return {
     ...(options.limit && { limit: options.limit }),
     ...(options.order && { order: options.order }),
@@ -76,6 +76,14 @@ export function convertListVectorStoreFileBatchFilesQueryParamProperties(
   return {
     ...convertToListQueryParameters(options),
     ...(options.filter && { filter: options.filter }),
+  };
+}
+
+export function convertListFilesQueryParamProperties(
+  options: PublicParameters.ListFilesQueryParamProperties,
+): GeneratedParameters.ListFilesQueryParamProperties & Record<string, unknown> {
+  return {
+    ...(options.purpose && { purpose: options.purpose }),
   };
 }
 

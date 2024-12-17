@@ -38,7 +38,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     assert.isNotEmpty(file);
   });
 
@@ -49,8 +49,9 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", "fileName", {
-      sleepIntervalInMs: 1000,
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", {
+      fileName: "fileName",
+      pollingOptions: { sleepIntervalInMs: 1000 },
     });
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
@@ -63,7 +64,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     const deleted = await agents.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
@@ -75,7 +76,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName");
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
     const _file = await agents.getFile(file.id);
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);

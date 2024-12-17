@@ -16,7 +16,10 @@ import type {
   VectorStoreOptions,
   VectorStoreUpdateOptions,
 } from "../customization/models.js";
-import type { ListMessagesQueryParamProperties } from "../customization/parameters.js";
+import type {
+  ListMessagesQueryParamProperties,
+  ListFilesQueryParamProperties,
+} from "../customization/parameters.js";
 import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
@@ -69,6 +72,14 @@ export interface PollingOptions {
    * An AbortSignalLike object (as defined by @azure/abort-controller) that can be used to cancel the polling operation.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Optional parameters configuring polling behavior.
+ */
+export interface PollingOptionsParams {
+  /** Options for configuring polling behavior. */
+  pollingOptions?: PollingOptions;
 }
 
 /**
@@ -315,3 +326,38 @@ export interface GetAgentOptionalParams extends OperationOptions {}
  * Optional parameters for listing agents.
  */
 export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {}
+
+/**
+ * Optional parameters for listing files.
+ */
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {}
+
+/**
+ * Optional parameters for deleting a file.
+ */
+export interface DeleteFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting a file.
+ */
+export interface GetFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting file content.
+ */
+export interface GetFileContentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for uploading a file.
+ */
+export interface UploadFileOptionalParams extends OperationOptions {
+  /** The name of the file. */
+  fileName?: string;
+}
+
+/**
+ * Optional parameters for uploading a file with polling.
+ */
+export interface UploadFileWithPollingOptionalParams
+  extends UploadFileOptionalParams,
+    PollingOptionsParams {}

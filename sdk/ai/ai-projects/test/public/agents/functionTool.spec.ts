@@ -113,7 +113,7 @@ describe("Agents - function tool", () => {
               console.log(`Function tool call - ${functionOutput.function.name}`);
               const toolResponse = getCurrentDateTime();
               run = await agents.submitToolOutputsToRun(thread.id, run.id, [
-                { tool_call_id: toolCall.id, output: JSON.stringify(toolResponse) },
+                { toolCallId: toolCall.id, output: JSON.stringify(toolResponse) },
               ]);
               console.log(`Submitted tool response - ${run.status}`);
             }
@@ -134,7 +134,7 @@ describe("Agents - function tool", () => {
           console.log(`Text Message Content - ${textContent.text.value}`);
         } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
           const imageContent = content as MessageImageFileContentOutput;
-          console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
+          console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
         }
       });
     });

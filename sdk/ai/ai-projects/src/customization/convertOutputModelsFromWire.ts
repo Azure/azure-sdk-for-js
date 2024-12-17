@@ -1022,3 +1022,27 @@ export function convertVectorStoreFileDeletionStatusOutput(
     object: input.object,
   };
 }
+
+export function convertOpenAIFileOutput(
+  input: GeneratedModels.OpenAIFileOutput,
+): PublicModels.OpenAIFileOutput {
+  return {
+    id: input.id,
+    object: input.object,
+    bytes: input.bytes,
+    filename: input.filename,
+    createdAt: new Date(input.created_at),
+    purpose: input.purpose,
+    status: input.status,
+    statusDetails: input.status_details,
+  };
+}
+
+export function convertFileListResponseOutput(
+  input: GeneratedModels.FileListResponseOutput,
+): PublicModels.FileListResponseOutput {
+  return {
+    object: input.object,
+    data: input.data.map(convertOpenAIFileOutput),
+  };
+}
