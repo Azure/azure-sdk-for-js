@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
-import { StorageBlobTest } from "./storageTest.spec";
+import { StorageBlobTest } from "./storageTest.spec.js";
 import { BlockBlobClient } from "@azure/storage-blob";
 import { randomUUID } from "@azure/core-util";
 

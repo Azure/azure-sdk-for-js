@@ -8,7 +8,7 @@ import {
   ContainerClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import { getValueInConnString } from "./utils/utils";
+import { getValueInConnString } from "./utils/utils.js";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";

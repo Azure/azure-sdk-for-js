@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import fs from "fs";
-import util from "util";
+import fs from "node:fs";
+import util from "node:util";
 import { BlockBlobClient } from "@azure/storage-blob";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
-import { StorageBlobUploadTest } from "./upload.spec";
+import { StorageBlobUploadTest } from "./upload.spec.js";
 
 const dirName = "temp";
 const fileName = `${dirName}/upload-from-test-temp-file.txt`;
