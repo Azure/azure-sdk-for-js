@@ -11,9 +11,11 @@ export function isCosmosEndpoint(url: string): boolean {
     return true;
   }
 
-
   // Azurite emulator IP-style URL for table?
-  if ((parsedURL.hostname === "localhost" || parsedURL.hostname === "127.0.0.1") && parsedURL.pathname.startsWith("/devstoreaccount1")) {
+  if (
+    (parsedURL.hostname === "localhost" || parsedURL.hostname === "127.0.0.1") &&
+    parsedURL.pathname.startsWith("/devstoreaccount1")
+  ) {
     return false;
   }
 
