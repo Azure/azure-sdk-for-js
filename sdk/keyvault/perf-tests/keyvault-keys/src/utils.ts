@@ -1,8 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ClientSecretCredential } from "@azure/identity";
 import { getEnvVar } from "@azure-tools/test-perf";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 export const credential = new ClientSecretCredential(
   getEnvVar("AZURE_TENANT_ID"),

@@ -1,5 +1,8 @@
-import { createHash, randomBytes } from "crypto";
-import { CryptographyTest } from "./cryptography.spec";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { createHash, randomBytes } from "node:crypto";
+import { CryptographyTest } from "./cryptography.spec.js";
 
 export class SignTest extends CryptographyTest {
   private digest?: Uint8Array;
