@@ -14,12 +14,13 @@ describe("getUserAgent", function () {
   });
 
   it("should contain the current node version", () => {
+    console.log(getUserAgent());
+    console.log(process.version.replace("v", ""));
     assert(getUserAgent().includes(process.version.replace("v", "")));
   });
 
   it("should allow a custom suffix", () => {
     const suffix = "myApp";
-    console.log(getUserAgent(suffix));
     assert(getUserAgent(suffix).includes(suffix));
   });
 });
