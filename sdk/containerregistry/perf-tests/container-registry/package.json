@@ -4,6 +4,7 @@
   "description": "",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
+  "sdk-type": "perf-test",
   "keywords": [],
   "author": "Microsoft Corporation",
   "license": "MIT",
