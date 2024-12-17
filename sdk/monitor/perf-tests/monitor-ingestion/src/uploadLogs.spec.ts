@@ -1,6 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { getEnvVar, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec.js";
-import { describe, it, assert } from "vitest";
 
 interface UploadLogsOptions {
   logsCount: number;
