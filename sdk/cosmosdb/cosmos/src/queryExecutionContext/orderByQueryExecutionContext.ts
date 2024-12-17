@@ -3,8 +3,9 @@
 import type { ClientContext } from "../ClientContext";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import type { FeedOptions } from "../request/FeedOptions";
-import type { DocumentProducer } from "./documentProducer";
+import type { DocumentProducer } from "./documentProducer2";
 import type { ExecutionContext } from "./ExecutionContext";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 import type { SqlQuerySpec } from "./SqlQuerySpec";
@@ -59,8 +60,13 @@ export class OrderByQueryExecutionContext
     return this.orderByComparator.compare(docProd1, docProd2);
   }
 
-  public async bufferMore(): Promise<void> {
-    await super.bufferDocumentProducers();
+  public async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+    await super.bufferDocumentProducers(diagnosticNode);
     await super.fillBufferFromBufferQueue(true);
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
+    await this.bufferMore(diagnosticNode);
+    return super.drainBufferedItems(diagnosticNode);
   }
 }

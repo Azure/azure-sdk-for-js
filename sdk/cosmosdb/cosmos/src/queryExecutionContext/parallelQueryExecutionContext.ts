@@ -4,6 +4,8 @@
 import type { DocumentProducer } from "./documentProducer2";
 import type { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
+import { Response } from "../request";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -33,5 +35,10 @@ export class ParallelQueryExecutionContext
     // TODO: need to upadte headers from here, so make sure it returns it
     await this.bufferDocumentProducers();
     await this.fillBufferFromBufferQueue();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    await this.bufferMore();
+    return this.drainBufferedItems(diagnosticNode);
   }
 }

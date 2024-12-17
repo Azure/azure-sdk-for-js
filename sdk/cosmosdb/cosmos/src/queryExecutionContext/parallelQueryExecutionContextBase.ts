@@ -88,6 +88,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
+    this.buffer = [];
 
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
@@ -556,7 +557,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     });
   }
 
-  public async bufferDocumentProducers(): Promise<void> {
+  public async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       console.log("inside bufferDocumentProducers");
       this.sem.take(async () => {
@@ -612,7 +613,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           const ifCallback = (): void => {
             console.log("ifCallback");
             this.sem.leave();
-            resolve(this.bufferDocumentProducers()); // Retry the method if repair is required
+            resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
           };
 
           const elseCallback = async (): Promise<void> => {
@@ -710,7 +711,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           } else {
             while (this.bufferedDocumentProducersQueue.size() > 0) {
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              this.buffer.push(...documentProducer.peekBufferedItems());
+              const { result } = await documentProducer.fetchBufferedItems();
+              this.buffer.push(...result);
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
