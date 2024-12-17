@@ -4,9 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@azure/monitor-opentelemetry-exporter": [
-        "./src/index"
-      ]
+      "@azure/monitor-opentelemetry-exporter": ["./src/index"]
     },
     "rootDir": "."
   },
