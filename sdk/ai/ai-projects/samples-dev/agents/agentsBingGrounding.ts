@@ -34,8 +34,6 @@ export async function main(): Promise<void> {
       name: "my-agent", 
       instructions: "You are a helpful agent",
       tools: [bingTool.definition]
-    }, {
-      headers: {"x-ms-enable-preview": "true"}
     });
   console.log(`Created agent, agent ID : ${agent.id}`);
 

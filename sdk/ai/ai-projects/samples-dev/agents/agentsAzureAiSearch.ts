@@ -35,8 +35,6 @@ export async function main(): Promise<void> {
       instructions: "You are a helpful agent",
       tools: [azureAISearchTool.definition],
       toolResources: azureAISearchTool.resources
-    }, {
-      headers: {"x-ms-enable-preview": "true"}
     });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
