@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { createPerfProgram } from "@azure-tools/test-perf";
-import { StorageDFSAppendTest } from "./append.spec";
-import { StorageDFSReadTest } from "./read.spec";
-import { StorageDFSUploadTest } from "./upload.spec";
-import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec";
+import { StorageDFSAppendTest } from "./append.spec.js";
+import { StorageDFSReadTest } from "./read.spec.js";
+import { StorageDFSUploadTest } from "./upload.spec.js";
+import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec.js";
 
 const perfProgram = createPerfProgram(
   StorageDFSAppendTest,

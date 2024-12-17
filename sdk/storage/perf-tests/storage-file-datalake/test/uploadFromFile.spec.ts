@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageDFSUploadTest } from "./upload.spec";
-import fs from "fs";
-import util from "util";
+import { StorageDFSUploadTest } from "./upload.spec.js";
+import fs from "node:fs";
+import util from "node:util";
 
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
