@@ -48,6 +48,8 @@
   },
   "files": [
     "dist/",
+    "review/",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],
