@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
+import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec.js";
 import {
   createDefaultHttpClient,
   HttpClient,

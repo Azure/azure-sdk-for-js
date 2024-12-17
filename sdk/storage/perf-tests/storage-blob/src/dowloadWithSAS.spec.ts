@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure-tools/test-perf";
-import { StorageBlobTest } from "./storageTest.spec";
+import { StorageBlobTest } from "./storageTest.spec.js";
 import {
   BlockBlobClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   BlobClient,
 } from "@azure/storage-blob";
-import { getValueInConnString } from "./utils/utils";
+import { getValueInConnString } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
 
 interface StorageBlobDownloadTestOptions {
