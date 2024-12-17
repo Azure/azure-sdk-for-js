@@ -331,9 +331,9 @@ function getAgents(context: Client): AgentsOperations {
 
     listFiles: (purpose?: FilePurpose, options?: ListFilesOptionalParams) =>
       listFiles(context, { purpose, ...options }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileOptionalParams) =>
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileOptionalParams) =>
       uploadFile(context, content, purpose, fileName, options),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, options?: UploadFileWithPollingOptionalParams) =>
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName: string, options?: UploadFileWithPollingOptionalParams) =>
       uploadFileAndPoll(context, content, purpose, fileName, options),
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams ) =>
       deleteFile(context, fileId, options),

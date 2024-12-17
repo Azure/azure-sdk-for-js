@@ -46,13 +46,16 @@ export async function listFiles(
 /** Uploads a file for use by other operations. */
 export async function uploadFile(
   context: Client,
-  options: UploadFileOptionalParams = { body: [] },
+  content: ReadableStream | NodeJS.ReadableStream, 
+  purpose: FilePurpose, 
+  fileName: string,
+  options: UploadFileWithPollingOptionalParams = {}, 
 ): Promise<OpenAIFileOutput> {
   const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),
     body: [
-          { name: "file" as const, body: "file content", filename: "fileName" },
-          { name: "purpose" as const, body: "purpose" }
+          { name: "file" as const, body: content, filename: fileName },
+          { name: "purpose" as const, body: purpose }
     ],
     contentType: "multipart/form-data"
   };
@@ -65,13 +68,16 @@ export async function uploadFile(
 
 export function uploadFileAndPoll(
   context: Client,
-  options: UploadFileWithPollingOptionalParams = { body: [] },
+  content: ReadableStream | NodeJS.ReadableStream, 
+  purpose: FilePurpose, 
+  fileName: string,
+  options: UploadFileWithPollingOptionalParams = {}, 
 ): Promise<OpenAIFileOutput> {
     const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),
     body: [
-          { name: "file" as const, body: "file content", filename: "fileName" },
-          { name: "purpose" as const, body: "purpose" }
+          { name: "file" as const, body: content, filename: fileName },
+          { name: "purpose" as const, body: purpose }
     ],
     contentType: "multipart/form-data"
   };
@@ -80,7 +86,7 @@ export function uploadFileAndPoll(
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
     if (!currentResult) {
-      file = await uploadFile(context, uploadFileOptions);
+      file = await uploadFile(context, content, purpose, fileName, uploadFileOptions);
     } else {
       file = await getFile(context, currentResult.id);
     }
