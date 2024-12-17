@@ -66,8 +66,9 @@ async function getTokenFromRelay(
   scopes: string | string[],
   options: GetTokenOptions = {},
 ): Promise<AccessToken> {
+  const scope = typeof scopes === "string" ? scopes : scopes[0];
   const params = new URLSearchParams({
-    scopes,
+    scopes: scope,
     options: JSON.stringify(options),
   });
 
