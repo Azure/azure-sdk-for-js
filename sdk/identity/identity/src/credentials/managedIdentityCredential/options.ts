@@ -3,7 +3,6 @@
 
 import type { TokenCredentialOptions } from "../../tokenCredentialOptions.js";
 
-
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
  * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
