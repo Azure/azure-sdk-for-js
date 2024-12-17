@@ -5,12 +5,33 @@ import type { OperationOptions, RequestParameters } from "@azure-rest/core-clien
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
-import type { CreateAndRunThreadOptions, CreateRunOptions } from "../customization/models.js";
+import type {
+  AgentThreadCreationOptions,
+  CreateAgentOptions,
+  CreateAndRunThreadOptions,
+  CreateRunOptions,
+  UpdateAgentOptions,
+  UpdateAgentThreadOptions,
+  VectorStoreFileStatusFilter,
+  VectorStoreOptions,
+  VectorStoreUpdateOptions,
+} from "../customization/models.js";
+import type {
+  ListMessagesQueryParamProperties,
+  ListFilesQueryParamProperties,
+} from "../customization/parameters.js";
+import type {
+  CreateVectorStoreFileBatchOptions,
+  CreateVectorStoreFileOptions,
+} from "./vectorStoresModels.js";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
  */
-export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">
+export type OptionalRequestParameters = Pick<
+  RequestParameters,
+  "headers" | "timeout" | "abortSignal" | "tracingOptions"
+>;
 
 /**
  * Request options for list requests.
@@ -53,6 +74,14 @@ export interface PollingOptions {
 }
 
 /**
+ * Optional parameters configuring polling behavior.
+ */
+export interface PollingOptionsParams {
+  /** Options for configuring polling behavior. */
+  pollingOptions?: PollingOptions;
+}
+
+/**
  * Agent run response with support to stream.
  */
 export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
@@ -66,27 +95,29 @@ export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
 /**
  * Optional parameters for creating and running a thread, excluding the assistantId.
  */
-export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> & OperationOptions;
+export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> &
+  OperationOptions;
 
 /**
  * Optional parameters for creating and running a thread, excluding the assistantId.
  */
-export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
+export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> &
+  OperationOptions;
 
 /**
  * Optional parameters for listing run queries.
  */
-export interface ListRunQueryOptionalParams extends ListQueryParameters, OperationOptions { }
+export interface ListRunQueryOptionalParams extends ListQueryParameters, OperationOptions {}
 
 /**
  * Optional parameters for getting a run.
  */
-export interface GetRunOptionalParams extends OperationOptions { }
+export interface GetRunOptionalParams extends OperationOptions {}
 
 /**
  * Optional parameters for canceling a run.
  */
-export interface CancelRunOptionalParams extends OperationOptions { }
+export interface CancelRunOptionalParams extends OperationOptions {}
 
 /**
  * Optional parameters for submitting tool outputs to a run.
@@ -102,30 +133,220 @@ export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
  * Optional parameters for updating a run.
  */
 export interface UpdateRunOptionalParams extends OperationOptions {
-  /**
-   * Metadata to update in the run.
-   */
+  /**  Metadata to update in the run.  */
   metadata?: Record<string, string> | null;
 }
 
 /**
- * Converts ListQueryParameters to a record of query parameters.
- * @param options - The list query parameters to convert.
- * @returns A record of query parameters.
+ * Optional parameters for creating an agent thread.
  */
-export function convertToListQueryParameters(options: ListQueryParameters): Record<string, string> {
-  const queryParameters: Record<string, string> = {};
-  if (options.limit) {
-    queryParameters.limit = options.limit.toString();
-  }
-  if (options.order) {
-    queryParameters.order = options.order;
-  }
-  if (options.after) {
-    queryParameters.after = options.after;
-  }
-  if (options.before) {
-    queryParameters.before = options.before;
-  }
-  return queryParameters;
+export interface CreateAgentThreadOptionalParams
+  extends AgentThreadCreationOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for getting an agent thread.
+ */
+export interface GetAgentThreadOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for updating an agent thread.
+ */
+export interface UpdateAgentThreadOptionalParams
+  extends UpdateAgentThreadOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for deleting an agent thread.
+ */
+export interface DeleteAgentThreadOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting an run step.
+ */
+export interface GetRunStepOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for listing run steps.
+ */
+export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions {}
+
+/**
+ * Optional parameters for creating a message.
+ */
+export interface CreateMessageOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for updating a message.
+ */
+export interface UpdateMessageOptionalParams extends OperationOptions {
+  /** Metadata to update in the message. */
+  metadata?: Record<string, string> | null;
 }
+
+/**
+ * Optional parameters for listing messages.
+ */
+export interface ListMessagesOptionalParams
+  extends ListMessagesQueryParamProperties,
+    OperationOptions {}
+
+/**
+ * Optional parameters creating vector store.
+ */
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
+
+/**
+ * Optional parameters for creating vector store with polling.
+ */
+export interface CreateVectorStoreWithPollingOptionalParams
+  extends CreateVectorStoreOptionalParams,
+    PollingOptionsParams {}
+
+/**
+ * Optional parameters for listing vector stores.
+ */
+export interface ListVectorStoresOptionalParams extends ListQueryParameters, OperationOptions {}
+
+/**
+ * Optional parameters for updating a vector store.
+ */
+export interface UpdateVectorStoreOptionalParams
+  extends VectorStoreUpdateOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for deleting a vector store.
+ */
+export interface DeleteVectorStoreOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting a vector store.
+ */
+export interface GetVectorStoreOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for listing vector store files.
+ */
+export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters, OperationOptions {}
+
+/**
+ * Optional parameters for creating a vector store file.
+ */
+export interface CreateVectorStoreFileOptionalParams
+  extends CreateVectorStoreFileOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for getting a vector store file.
+ */
+export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for deleting a vector store file.
+ */
+export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for creating a vector store file with polling.
+ */
+export interface CreateVectorStoreFileWithPollingOptionalParams
+  extends CreateVectorStoreFileOptions,
+    PollingOptionsParams,
+    OperationOptions {}
+
+/**
+ * Optional parameters for listing vector store file batches.
+ */
+export interface ListVectorStoreFileBatchFilesOptionalParams
+  extends ListQueryParameters,
+    OperationOptions {
+  /** Filter by file status. */
+  filter?: VectorStoreFileStatusFilter;
+}
+
+/**
+ * Optional parameters for getting a vector store file batch.
+ */
+export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for canceling a vector store file batch.
+ */
+export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for creating a vector store file batch.
+ */
+export interface CreateVectorStoreFileBatchOptionalParams
+  extends CreateVectorStoreFileBatchOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for creating a vector store file batch with polling.
+ */
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams
+  extends CreateVectorStoreFileBatchOptionalParams,
+    PollingOptionsParams {}
+
+/**
+ * Optional parameters for creating agent.
+ */
+export interface CreateAgentOptionalParams
+  extends Omit<CreateAgentOptions, "model">,
+    OperationOptions {}
+
+/**
+ * Optional parameters for updating agent.
+ */
+export interface UpdateAgentOptionalParams extends UpdateAgentOptions, OperationOptions {}
+
+/**
+ * Optional parameters for deleting agent.
+ */
+export interface DeleteAgentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting agent.
+ */
+export interface GetAgentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for listing agents.
+ */
+export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {}
+
+/**
+ * Optional parameters for listing files.
+ */
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {}
+
+/**
+ * Optional parameters for deleting a file.
+ */
+export interface DeleteFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting a file.
+ */
+export interface GetFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for getting file content.
+ */
+export interface GetFileContentOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for uploading a file.
+ */
+export interface UploadFileOptionalParams extends OperationOptions {
+  /** The name of the file. */
+  fileName?: string;
+}
+
+/**
+ * Optional parameters for uploading a file with polling.
+ */
+export interface UploadFileWithPollingOptionalParams
+  extends UploadFileOptionalParams,
+    PollingOptionsParams {}

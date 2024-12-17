@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
- 
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
- 
+
 describe("Agents - vector stores", () => {
   let recorder: Recorder;
-  let projectsClient : AIProjectsClient;
-  let agents: AgentsOperations
+  let projectsClient: AIProjectsClient;
+  let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents
+    agents = projectsClient.agents;
   });
 
   afterEach(async function () {
-     await recorder.stop();
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {
@@ -88,7 +88,9 @@ describe("Agents - vector stores", () => {
     const updatedVectorStore = await agents.modifyVectorStore(vectorStore.id, { name: "updated" });
     assert.equal(updatedVectorStore.id, vectorStore.id);
     assert.equal(updatedVectorStore.name, "updated");
-    console.log(`Updated vector store name to ${updatedVectorStore.name}, vector store ID: ${updatedVectorStore.id}`);
+    console.log(
+      `Updated vector store name to ${updatedVectorStore.name}, vector store ID: ${updatedVectorStore.id}`,
+    );
 
     // Delete vector store
     await agents.deleteVectorStore(vectorStore.id);
@@ -100,11 +102,12 @@ describe("Agents - vector stores", () => {
     const vectorStore = await agents.createVectorStoreAndPoll();
     assert.isNotNull(vectorStore);
     assert.notEqual(vectorStore.status, "in_progress");
-    console.log(`Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`);
+    console.log(
+      `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
+    );
 
     // Delete vector store
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
-
 });

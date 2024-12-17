@@ -7,10 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
-import { Paged } from '@azure/core-paging';
+import type { Paged } from '@azure/core-paging';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgentDeletionStatusOutput {
@@ -21,10 +21,7 @@ export interface AgentDeletionStatusOutput {
 
 // @public
 export interface AgentEventMessage {
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadOutput_2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "RunStepOutput_2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput_2" needs to be exported by the entry point index.d.ts
-    data: AgentThreadOutput_2 | ThreadRunOutput | RunStepOutput_2 | ThreadMessageOutput_2 | MessageDeltaChunk | RunStepDeltaChunk | string;
+    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
     event: AgentStreamEventType | string;
 }
 
@@ -34,7 +31,7 @@ export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<
 
 // @public
 export interface AgentOutput {
-    created_at: number;
+    createdAt: Date;
     description: string | null;
     id: string;
     instructions: string | null;
@@ -42,13 +39,11 @@ export interface AgentOutput {
     model: string;
     name: string | null;
     object: "assistant";
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOptionOutput_2" needs to be exported by the entry point index.d.ts
-    response_format?: AgentsApiResponseFormatOptionOutput_2 | null;
+    responseFormat?: AgentsApiResponseFormatOptionOutput | null;
     temperature: number | null;
-    tool_resources: ToolResourcesOutput | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-    tools: Array<ToolDefinitionOutput_2>;
-    top_p: number | null;
+    toolResources: ToolResourcesOutput | null;
+    tools: Array<ToolDefinitionOutput>;
+    topP: number | null;
 }
 
 // @public
@@ -70,11 +65,8 @@ export type AgentsApiResponseFormatModeOutput = string;
 // @public
 export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
 
-// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatModeOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput_2 | AgentsApiResponseFormatOutput_2;
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput;
 
 // @public
 export interface AgentsApiResponseFormatOutput {
@@ -101,10 +93,8 @@ export interface AgentsNamedToolChoice {
 
 // @public
 export interface AgentsNamedToolChoiceOutput {
-    // Warning: (ae-forgotten-export) The symbol "FunctionNameOutput_2" needs to be exported by the entry point index.d.ts
-    function?: FunctionNameOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "AgentsNamedToolChoiceTypeOutput_2" needs to be exported by the entry point index.d.ts
-    type: AgentsNamedToolChoiceTypeOutput_2;
+    function?: FunctionNameOutput;
+    type: AgentsNamedToolChoiceTypeOutput;
 }
 
 // @public
@@ -113,51 +103,51 @@ export type AgentsNamedToolChoiceType = string;
 // @public
 export type AgentsNamedToolChoiceTypeOutput = string;
 
-// @public (undocumented)
+// @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
+    createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
+    createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
-    createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
+    createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => Promise<VectorStoreOutput>;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
-    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
-    deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
-    deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
+    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
+    deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
+    deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
-    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
+    getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
+    getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
-    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
-    getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
+    getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
+    getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
-    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
-    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
-    listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
+    listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
+    listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
-    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
-    modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
-    updateAgent: (assistantId: string, options: UpdateAgentOptions, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
-    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
+    listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
+    modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+    submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
+    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
+    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
-    updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
 }
 
 // @public
@@ -167,19 +157,19 @@ export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepS
 export interface AgentThreadCreationOptions {
     messages?: Array<ThreadMessageOptions>;
     metadata?: Record<string, string> | null;
-    tool_resources?: ToolResources | null;
+    toolResources?: ToolResources | null;
 }
 
 // @public
 export interface AgentThreadOutput {
-    created_at: number;
+    createdAt: Date;
     id: string;
     metadata: Record<string, string> | null;
     object: "thread";
-    tool_resources: ToolResourcesOutput | null;
+    toolResources: ToolResourcesOutput | null;
 }
 
-// @public (undocumented)
+// @public
 export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
@@ -188,7 +178,7 @@ export class AIProjectsClient {
     readonly telemetry: TelemetryOperations;
 }
 
-// @public (undocumented)
+// @public
 export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }
 
@@ -246,18 +236,22 @@ export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputP
 
 // @public
 export interface BingGroundingToolDefinition extends ToolDefinitionParent {
-    bing_grounding: ToolConnectionList;
+    bingGrounding: ToolConnectionList;
     type: "bing_grounding";
 }
 
 // @public
 export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputParent {
-    bing_grounding: ToolConnectionListOutput;
+    bingGrounding: ToolConnectionListOutput;
     type: "bing_grounding";
 }
 
 // @public
 export interface CancelRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -272,17 +266,17 @@ export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutpu
 
 // @public
 export interface CodeInterpreterToolResource {
-    data_sources?: Array<VectorStoreDataSource>;
-    file_ids?: string[];
+    dataSources?: Array<VectorStoreDataSource>;
+    fileIds?: string[];
 }
 
 // @public
 export interface CodeInterpreterToolResourceOutput {
-    data_sources?: Array<VectorStoreDataSourceOutput>;
-    file_ids?: string[];
+    dataSources?: Array<VectorStoreDataSourceOutput>;
+    fileIds?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface ConnectionsOperations {
     getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
@@ -304,7 +298,8 @@ export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AISer
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
 // @public
-export function convertToListQueryParameters(options: ListQueryParameters): Record<string, string>;
+export interface CreateAgentOptionalParams extends Omit<CreateAgentOptions, "model">, OperationOptions {
+}
 
 // @public
 export interface CreateAgentOptions {
@@ -313,11 +308,15 @@ export interface CreateAgentOptions {
     metadata?: Record<string, string> | null;
     model: string;
     name?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     temperature?: number | null;
-    tool_resources?: ToolResources | null;
+    toolResources?: ToolResources | null;
     tools?: Array<ToolDefinition>;
-    top_p?: number | null;
+    topP?: number | null;
+}
+
+// @public
+export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOptions, OperationOptions {
 }
 
 // @public
@@ -331,21 +330,19 @@ export interface CreateAndRunThreadOptions {
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOption_2" needs to be exported by the entry point index.d.ts
-    responseFormat?: AgentsApiResponseFormatOption_2 | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadCreationOptions_2" needs to be exported by the entry point index.d.ts
-    thread?: AgentThreadCreationOptions_2;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption_2" needs to be exported by the entry point index.d.ts
-    toolChoice?: AgentsApiToolChoiceOption_2 | null;
-    // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions_2" needs to be exported by the entry point index.d.ts
-    toolResources?: UpdateToolResourcesOptions_2 | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinition_2" needs to be exported by the entry point index.d.ts
-    tools?: Array<ToolDefinition_2> | null;
+    thread?: AgentThreadCreationOptions;
+    toolChoice?: AgentsApiToolChoiceOption | null;
+    toolResources?: UpdateToolResourcesOptions | null;
+    tools?: Array<ToolDefinition> | null;
     topP?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "TruncationObject_2" needs to be exported by the entry point index.d.ts
-    truncationStrategy?: TruncationObject_2 | null;
+    truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface CreateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -354,21 +351,24 @@ export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, 
 // @public
 export interface CreateRunOptions {
     additionalInstructions?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessage_2" needs to be exported by the entry point index.d.ts
-    additionalMessages?: Array<ThreadMessage_2> | null;
+    additionalMessages?: Array<ThreadMessage> | null;
     assistantId: string;
     instructions?: string | null;
     maxCompletionTokens?: number | null;
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
-    responseFormat?: AgentsApiResponseFormatOption_2 | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
-    toolChoice?: AgentsApiToolChoiceOption_2 | null;
-    tools?: Array<ToolDefinition_2>;
+    toolChoice?: AgentsApiToolChoiceOption | null;
+    tools?: Array<ToolDefinition>;
     topP?: number | null;
-    truncationStrategy?: TruncationObject_2 | null;
+    truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions {
 }
 
 // @public
@@ -379,10 +379,30 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
+export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams, PollingOptionsParams {
+}
+
+// @public
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+}
+
+// @public
 export interface CreateVectorStoreFileOptions {
     chunkingStrategy?: VectorStoreChunkingStrategyRequest;
     dataSources?: Array<VectorStoreDataSource>;
     fileId?: string;
+}
+
+// @public
+export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
+}
+
+// @public
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
+}
+
+// @public
+export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams, PollingOptionsParams {
 }
 
 // @public
@@ -417,6 +437,26 @@ export interface DatasetOutput extends InputDataOutputParent {
     id: string;
     // (undocumented)
     readonly type: "dataset";
+}
+
+// @public
+export interface DeleteAgentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteAgentThreadOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteFileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeleteVectorStoreOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -512,51 +552,51 @@ export type FilePurposeOutput = string;
 // @public
 export interface FileSearchRankingOptions {
     ranker: string;
-    score_threshold: number;
+    scoreThreshold: number;
 }
 
 // @public
 export interface FileSearchRankingOptionsOutput {
     ranker: string;
-    score_threshold: number;
+    scoreThreshold: number;
 }
 
 // @public
 export interface FileSearchToolDefinition extends ToolDefinitionParent {
-    file_search?: FileSearchToolDefinitionDetails;
+    fileSearch?: FileSearchToolDefinitionDetails;
     type: "file_search";
 }
 
 // @public
 export interface FileSearchToolDefinitionDetails {
-    max_num_results?: number;
+    maxNumResults?: number;
     // (undocumented)
-    ranking_options?: FileSearchRankingOptions;
+    rankingOptions?: FileSearchRankingOptions;
 }
 
 // @public
 export interface FileSearchToolDefinitionDetailsOutput {
-    max_num_results?: number;
+    maxNumResults?: number;
     // (undocumented)
-    ranking_options?: FileSearchRankingOptionsOutput;
+    rankingOptions?: FileSearchRankingOptionsOutput;
 }
 
 // @public
 export interface FileSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    file_search?: FileSearchToolDefinitionDetailsOutput;
+    fileSearch?: FileSearchToolDefinitionDetailsOutput;
     type: "file_search";
 }
 
 // @public
 export interface FileSearchToolResource {
-    vector_store_ids?: string[];
-    vector_stores?: Array<VectorStoreConfigurations>;
+    vectorStoreIds?: string[];
+    vectorStores?: Array<VectorStoreConfigurations>;
 }
 
 // @public
 export interface FileSearchToolResourceOutput {
-    vector_store_ids?: string[];
-    vector_stores?: Array<VectorStoreConfigurationsOutput>;
+    vectorStoreIds?: string[];
+    vectorStores?: Array<VectorStoreConfigurationsOutput>;
 }
 
 // @public
@@ -572,9 +612,6 @@ export type Frequency = string;
 
 // @public
 export type FrequencyOutput = string;
-
-// @public
-export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;
 
 // @public
 export interface FunctionDefinition {
@@ -613,6 +650,14 @@ export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent
 }
 
 // @public
+export interface GetAgentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetAgentThreadOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetAppInsightsResponseOutput {
     id: string;
     name: string;
@@ -627,7 +672,31 @@ export interface GetConnectionResponseOutput {
 }
 
 // @public
+export interface GetFileContentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetFileOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GetRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetRunStepOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVectorStoreFileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVectorStoreOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -642,14 +711,14 @@ export type IncompleteRunDetailsOutput = string;
 
 // @public
 export interface IndexResource {
-    index_connection_id: string;
-    index_name: string;
+    indexConnectionId: string;
+    indexName: string;
 }
 
 // @public
 export interface IndexResourceOutput {
-    index_connection_id: string;
-    index_name: string;
+    indexConnectionId: string;
+    indexName: string;
 }
 
 // @public
@@ -703,6 +772,10 @@ export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
 
+// @public
+export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
 // @public (undocumented)
 export interface ListConnectionsQueryParamProperties {
     category?: ConnectionType;
@@ -713,6 +786,28 @@ export interface ListConnectionsQueryParamProperties {
 // @public
 export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
+}
+
+// @public
+export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListFilesQueryParamProperties {
+    purpose?: FilePurpose;
+}
+
+// @public
+export interface ListMessagesOptionalParams extends ListMessagesQueryParamProperties, OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListMessagesQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+    runId?: string;
 }
 
 // @public
@@ -728,19 +823,36 @@ export interface ListRunQueryOptionalParams extends ListQueryParameters, Operati
 }
 
 // @public
+export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
 export type ListSortOrder = "asc" | "desc";
 
 // @public
+export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
+    filter?: VectorStoreFileStatusFilter;
+}
+
+// @public
+export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
+export interface ListVectorStoresOptionalParams extends ListQueryParameters, OperationOptions {
+}
+
+// @public
 export interface MessageAttachment {
-    data_sources?: Array<VectorStoreDataSource>;
-    file_id?: string;
+    dataSources?: Array<VectorStoreDataSource>;
+    fileId?: string;
     tools: MessageAttachmentToolDefinition[];
 }
 
 // @public
 export interface MessageAttachmentOutput {
-    data_sources?: Array<VectorStoreDataSourceOutput>;
-    file_id?: string;
+    dataSources?: Array<VectorStoreDataSourceOutput>;
+    fileId?: string;
     tools: MessageAttachmentToolDefinitionOutput[];
 }
 
@@ -771,8 +883,7 @@ export interface MessageContentParent {
 // @public
 export interface MessageDelta {
     content: MessageDeltaContent[];
-    // Warning: (ae-forgotten-export) The symbol "MessageRole_2" needs to be exported by the entry point index.d.ts
-    role: MessageRole_2;
+    role: MessageRole;
 }
 
 // @public
@@ -854,24 +965,24 @@ export interface MessageDeltaTextUrlCitationDetails {
 
 // @public
 export interface MessageImageFileContent extends MessageContentParent {
-    image_file: MessageImageFileDetails;
+    imageFile: MessageImageFileDetails;
     type: "image_file";
 }
 
 // @public
 export interface MessageImageFileContentOutput extends MessageContentOutputParent {
-    image_file: MessageImageFileDetailsOutput;
+    imageFile: MessageImageFileDetailsOutput;
     type: "image_file";
 }
 
 // @public
 export interface MessageImageFileDetails {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MessageImageFileDetailsOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
@@ -957,106 +1068,106 @@ export interface MessageTextDetailsOutput {
 
 // @public
 export interface MessageTextFileCitationAnnotation extends MessageTextAnnotationParent {
-    end_index?: number;
-    file_citation: MessageTextFileCitationDetails;
-    start_index?: number;
+    endIndex?: number;
+    fileCitation: MessageTextFileCitationDetails;
+    startIndex?: number;
     type: "file_citation";
 }
 
 // @public
 export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
-    end_index?: number;
-    file_citation: MessageTextFileCitationDetailsOutput;
-    start_index?: number;
+    endIndex?: number;
+    fileCitation: MessageTextFileCitationDetailsOutput;
+    startIndex?: number;
     type: "file_citation";
 }
 
 // @public
 export interface MessageTextFileCitationDetails {
-    file_id: string;
+    fileId: string;
     quote: string;
 }
 
 // @public
 export interface MessageTextFileCitationDetailsOutput {
-    file_id: string;
+    fileId: string;
     quote: string;
 }
 
 // @public
 export interface MessageTextFilePathAnnotation extends MessageTextAnnotationParent {
-    end_index?: number;
-    file_path: MessageTextFilePathDetails;
-    start_index?: number;
+    endIndex?: number;
+    filePath: MessageTextFilePathDetails;
+    startIndex?: number;
     type: "file_path";
 }
 
 // @public
 export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
-    end_index?: number;
-    file_path: MessageTextFilePathDetailsOutput;
-    start_index?: number;
+    endIndex?: number;
+    filePath: MessageTextFilePathDetailsOutput;
+    startIndex?: number;
     type: "file_path";
 }
 
 // @public
 export interface MessageTextFilePathDetails {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MessageTextFilePathDetailsOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    microsoft_fabric: ToolConnectionList;
+    microsoftFabric: ToolConnectionList;
     type: "microsoft_fabric";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    microsoft_fabric: ToolConnectionListOutput;
+    microsoftFabric: ToolConnectionListOutput;
     type: "microsoft_fabric";
 }
 
 // @public
 export interface OpenAIFileOutput {
     bytes: number;
-    created_at: number;
+    createdAt: Date;
     filename: string;
     id: string;
     object: "file";
     purpose: FilePurposeOutput;
     status?: FileStateOutput;
-    status_details?: string;
+    statusDetails?: string;
 }
 
 // @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
 // @public
 export interface OpenAIPageableListOfRunStepOutput {
     data: Array<RunStepOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
 // @public
 export interface OpenAIPageableListOfThreadMessageOutput {
     data: Array<ThreadMessageOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
@@ -1072,18 +1183,18 @@ export interface OpenAIPageableListOfThreadRunOutput {
 // @public
 export interface OpenAIPageableListOfVectorStoreFileOutput {
     data: Array<VectorStoreFileOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
 // @public
 export interface OpenAIPageableListOfVectorStoreOutput {
     data: Array<VectorStoreOutput>;
-    first_id: string;
-    has_more: boolean;
-    last_id: string;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
     object: "list";
 }
 
@@ -1100,6 +1211,11 @@ export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
+}
+
+// @public
+export interface PollingOptionsParams {
+    pollingOptions?: PollingOptions;
 }
 
 // @public
@@ -1139,11 +1255,8 @@ export interface RecurrenceTriggerOutput extends TriggerOutputParent {
     readonly type: "Recurrence";
 }
 
-// Warning: (ae-forgotten-export) The symbol "RequiredActionOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsActionOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type RequiredActionOutput = RequiredActionOutputParent_2 | SubmitToolOutputsActionOutput_2;
+export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
 
 // @public
 export interface RequiredActionOutputParent {
@@ -1191,13 +1304,13 @@ export type RunStatusOutput = string;
 
 // @public
 export interface RunStepAzureAISearchToolCallOutput extends RunStepToolCallOutputParent {
-    azure_ai_search: Record<string, string>;
+    azureAISearch: Record<string, string>;
     type: "azure_ai_search";
 }
 
 // @public
 export interface RunStepBingGroundingToolCallOutput extends RunStepToolCallOutputParent {
-    bing_grounding: Record<string, string>;
+    bingGrounding: Record<string, string>;
     type: "bing_grounding";
 }
 
@@ -1209,7 +1322,7 @@ export interface RunStepCodeInterpreterImageOutputOutput extends RunStepCodeInte
 
 // @public
 export interface RunStepCodeInterpreterImageReferenceOutput {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
@@ -1226,7 +1339,7 @@ export interface RunStepCodeInterpreterToolCallDetailsOutput {
 
 // @public
 export interface RunStepCodeInterpreterToolCallOutput extends RunStepToolCallOutputParent {
-    code_interpreter: RunStepCodeInterpreterToolCallDetailsOutput;
+    codeInterpreter: RunStepCodeInterpreterToolCallDetailsOutput;
     type: "code_interpreter";
 }
 
@@ -1241,9 +1354,9 @@ export interface RunStepCodeInterpreterToolCallOutputOutputParent {
 
 // @public
 export interface RunStepCompletionUsageOutput {
-    completion_tokens: number;
-    prompt_tokens: number;
-    total_tokens: number;
+    completionTokens: number;
+    promptTokens: number;
+    totalTokens: number;
 }
 
 // @public
@@ -1361,7 +1474,7 @@ export interface RunStepErrorOutput {
 
 // @public
 export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
-    file_search: Record<string, string>;
+    fileSearch: Record<string, string>;
     type: "file_search";
 }
 
@@ -1380,44 +1493,44 @@ export interface RunStepFunctionToolCallOutput extends RunStepToolCallOutputPare
 
 // @public
 export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
-    message_creation: RunStepMessageCreationReferenceOutput;
+    messageCreation: RunStepMessageCreationReferenceOutput;
     type: "message_creation";
 }
 
 // @public
 export interface RunStepMessageCreationReferenceOutput {
-    message_id: string;
+    messageId: string;
 }
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    microsoft_fabric: Record<string, string>;
+    microsoftFabric: Record<string, string>;
     type: "microsoft_fabric";
 }
 
 // @public
 export interface RunStepOutput {
-    assistant_id: string;
-    cancelled_at: number | null;
-    completed_at: number | null;
-    created_at: number;
-    expired_at: number | null;
-    failed_at: number | null;
+    assistantId: string;
+    cancelledAt: Date | null;
+    completedAt: Date | null;
+    createdAt: Date;
+    expiredAt: Date | null;
+    failedAt: Date | null;
     id: string;
-    last_error: RunStepErrorOutput | null;
+    lastError: RunStepErrorOutput | null;
     metadata: Record<string, string> | null;
     object: "thread.run.step";
-    run_id: string;
+    runId: string;
     status: RunStepStatusOutput;
-    step_details: RunStepDetailsOutput;
-    thread_id: string;
+    stepDetails: RunStepDetailsOutput;
+    threadId: string;
     type: RunStepTypeOutput;
     usage?: RunStepCompletionUsageOutput | null;
 }
 
 // @public
 export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputParent {
-    sharepoint_grounding: Record<string, string>;
+    sharepointGrounding: Record<string, string>;
     type: "sharepoint_grounding";
 }
 
@@ -1437,7 +1550,7 @@ export enum RunStepStreamEvent {
 
 // @public
 export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
-    tool_calls: Array<RunStepToolCallOutput>;
+    toolCalls: Array<RunStepToolCallOutput>;
     type: "tool_calls";
 }
 
@@ -1469,25 +1582,25 @@ export enum RunStreamEvent {
 
 // @public
 export interface SharepointToolDefinition extends ToolDefinitionParent {
-    sharepoint_grounding: ToolConnectionList;
+    sharepointGrounding: ToolConnectionList;
     type: "sharepoint_grounding";
 }
 
 // @public
 export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputParent {
-    sharepoint_grounding: ToolConnectionListOutput;
+    sharepointGrounding: ToolConnectionListOutput;
     type: "sharepoint_grounding";
 }
 
 // @public
 export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
-    submit_tool_outputs: SubmitToolOutputsDetailsOutput;
+    submitToolOutputs: SubmitToolOutputsDetailsOutput;
     type: "submit_tool_outputs";
 }
 
 // @public
 export interface SubmitToolOutputsDetailsOutput {
-    tool_calls: Array<RequiredToolCallOutput>;
+    toolCalls: Array<RequiredToolCallOutput>;
 }
 
 // @public
@@ -1524,20 +1637,20 @@ export interface ThreadDeletionStatusOutput {
 
 // @public
 export interface ThreadMessage {
-    assistant_id: string | null;
+    assistantId: string | null;
     attachments: Array<MessageAttachment> | null;
-    completed_at: number | null;
+    completedAt: number | null;
     content: Array<MessageContent>;
-    created_at: number;
+    createdAt: number;
     id: string;
-    incomplete_at: number | null;
-    incomplete_details: MessageIncompleteDetails | null;
+    incompleteAt: number | null;
+    incompleteDetails: MessageIncompleteDetails | null;
     metadata: Record<string, string> | null;
     object: "thread.message";
     role: MessageRole;
-    run_id: string | null;
+    runId: string | null;
     status: MessageStatus;
-    thread_id: string;
+    threadId: string;
 }
 
 // @public
@@ -1550,20 +1663,20 @@ export interface ThreadMessageOptions {
 
 // @public
 export interface ThreadMessageOutput {
-    assistant_id: string | null;
+    assistantId: string | null;
     attachments: Array<MessageAttachmentOutput> | null;
-    completed_at: number | null;
+    completedAt: Date | null;
     content: Array<MessageContentOutput>;
-    created_at: number;
+    createdAt: Date;
     id: string;
-    incomplete_at: number | null;
-    incomplete_details: MessageIncompleteDetailsOutput | null;
+    incompleteAt: Date | null;
+    incompleteDetails: MessageIncompleteDetailsOutput | null;
     metadata: Record<string, string> | null;
     object: "thread.message";
     role: MessageRoleOutput;
-    run_id: string | null;
+    runId: string | null;
     status: MessageStatusOutput;
-    thread_id: string;
+    threadId: string;
 }
 
 // @public
@@ -1605,7 +1718,7 @@ export enum ThreadStreamEvent {
 
 // @public
 export interface ToolConnection {
-    connection_id: string;
+    connectionId: string;
 }
 
 // @public
@@ -1620,23 +1733,14 @@ export interface ToolConnectionListOutput {
 
 // @public
 export interface ToolConnectionOutput {
-    connection_id: string;
+    connectionId: string;
 }
 
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
 
-// Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutputParent_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "CodeInterpreterToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "FileSearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "FunctionToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "BingGroundingToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MicrosoftFabricToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "SharepointToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "AzureAISearchToolDefinitionOutput_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent_2 | CodeInterpreterToolDefinitionOutput_2 | FileSearchToolDefinitionOutput_2 | FunctionToolDefinitionOutput_2 | BingGroundingToolDefinitionOutput_2 | MicrosoftFabricToolDefinitionOutput_2 | SharepointToolDefinitionOutput_2 | AzureAISearchToolDefinitionOutput_2;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1653,21 +1757,21 @@ export interface ToolDefinitionParent {
 // @public
 export interface ToolOutput {
     output?: string;
-    tool_call_id?: string;
+    toolCallId?: string;
 }
 
 // @public
 export interface ToolResources {
-    azure_ai_search?: AzureAISearchResource;
-    code_interpreter?: CodeInterpreterToolResource;
-    file_search?: FileSearchToolResource;
+    azureAISearch?: AzureAISearchResource;
+    codeInterpreter?: CodeInterpreterToolResource;
+    fileSearch?: FileSearchToolResource;
 }
 
 // @public
 export interface ToolResourcesOutput {
-    azure_ai_search?: AzureAISearchResourceOutput;
-    code_interpreter?: CodeInterpreterToolResourceOutput;
-    file_search?: FileSearchToolResourceOutput;
+    azureAISearch?: AzureAISearchResourceOutput;
+    codeInterpreter?: CodeInterpreterToolResourceOutput;
+    fileSearch?: FileSearchToolResourceOutput;
 }
 
 // @public
@@ -1733,15 +1837,14 @@ export interface TriggerParent {
 
 // @public
 export interface TruncationObject {
-    last_messages?: number | null;
+    lastMessages?: number | null;
     type: TruncationStrategy;
 }
 
 // @public
 export interface TruncationObjectOutput {
     lastMessages?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "TruncationStrategyOutput_2" needs to be exported by the entry point index.d.ts
-    type: TruncationStrategyOutput_2;
+    type: TruncationStrategyOutput;
 }
 
 // @public
@@ -1751,48 +1854,55 @@ export type TruncationStrategy = string;
 export type TruncationStrategyOutput = string;
 
 // @public
+export interface UpdateAgentOptionalParams extends UpdateAgentOptions, OperationOptions {
+}
+
+// @public
 export interface UpdateAgentOptions {
     description?: string | null;
     instructions?: string | null;
     metadata?: Record<string, string> | null;
     model?: string;
     name?: string | null;
-    response_format?: AgentsApiResponseFormatOption | null;
+    responseFormat?: AgentsApiResponseFormatOption | null;
     temperature?: number | null;
-    tool_resources?: ToolResources;
+    toolResources?: ToolResources;
     tools?: Array<ToolDefinition>;
-    top_p?: number | null;
+    topP?: number | null;
+}
+
+// @public
+export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOptions, OperationOptions {
 }
 
 // @public
 export interface UpdateAgentThreadOptions {
     metadata?: Record<string, string> | null;
-    tool_resources?: ToolResources | null;
+    toolResources?: ToolResources | null;
 }
 
 // @public
 export interface UpdateCodeInterpreterToolResourceOptions {
-    file_ids?: string[];
+    fileIds?: string[];
 }
 
 // @public
 export interface UpdateCodeInterpreterToolResourceOptionsOutput {
-    file_ids?: string[];
+    fileIds?: string[];
 }
 
 // @public
 export interface UpdateFileSearchToolResourceOptions {
-    vector_store_ids?: string[];
+    vectorStoreIds?: string[];
 }
 
 // @public
 export interface UpdateFileSearchToolResourceOptionsOutput {
-    vector_store_ids?: string[];
+    vectorStoreIds?: string[];
 }
 
 // @public
-export interface UpdateMessageOptions {
-    // (undocumented)
+export interface UpdateMessageOptionalParams extends OperationOptions {
     metadata?: Record<string, string> | null;
 }
 
@@ -1802,26 +1912,30 @@ export interface UpdateRunOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UpdateRunOptions {
-    // (undocumented)
-    metadata?: Record<string, string> | null;
-}
-
-// @public
 export interface UpdateToolResourcesOptions {
-    azure_ai_search?: AzureAISearchResource;
-    code_interpreter?: UpdateCodeInterpreterToolResourceOptions;
-    file_search?: UpdateFileSearchToolResourceOptions;
+    azureAISearch?: AzureAISearchResource;
+    codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
+    fileSearch?: UpdateFileSearchToolResourceOptions;
 }
 
 // @public
 export interface UpdateToolResourcesOptionsOutput {
-    // Warning: (ae-forgotten-export) The symbol "AzureAISearchResourceOutput_2" needs to be exported by the entry point index.d.ts
-    azureAISearch?: AzureAISearchResourceOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "UpdateCodeInterpreterToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput_2;
-    // Warning: (ae-forgotten-export) The symbol "UpdateFileSearchToolResourceOptionsOutput_2" needs to be exported by the entry point index.d.ts
-    fileSearch?: UpdateFileSearchToolResourceOptionsOutput_2;
+    azureAISearch?: AzureAISearchResourceOutput;
+    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
+    fileSearch?: UpdateFileSearchToolResourceOptionsOutput;
+}
+
+// @public
+export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
+}
+
+// @public
+export interface UploadFileOptionalParams extends OperationOptions {
+    fileName?: string;
+}
+
+// @public
+export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
 }
 
 // @public
@@ -1860,12 +1974,12 @@ export type VectorStoreChunkingStrategyResponseTypeOutput = string;
 
 // @public
 export interface VectorStoreConfiguration {
-    data_sources: Array<VectorStoreDataSource>;
+    dataSources: Array<VectorStoreDataSource>;
 }
 
 // @public
 export interface VectorStoreConfigurationOutput {
-    data_sources: Array<VectorStoreDataSourceOutput>;
+    dataSources: Array<VectorStoreDataSourceOutput>;
 }
 
 // @public
@@ -1925,12 +2039,12 @@ export interface VectorStoreExpirationPolicyOutput {
 
 // @public
 export interface VectorStoreFileBatchOutput {
-    created_at: number;
-    file_counts: VectorStoreFileCountOutput;
+    createdAt: Date;
+    fileCounts: VectorStoreFileCountOutput;
     id: string;
     object: "vector_store.files_batch";
     status: VectorStoreFileBatchStatusOutput;
-    vector_store_id: string;
+    vectorStoreId: string;
 }
 
 // @public
@@ -1941,7 +2055,7 @@ export interface VectorStoreFileCountOutput {
     cancelled: number;
     completed: number;
     failed: number;
-    in_progress: number;
+    inProgress: number;
     total: number;
 }
 
@@ -1963,14 +2077,14 @@ export interface VectorStoreFileErrorOutput {
 
 // @public
 export interface VectorStoreFileOutput {
-    chunking_strategy: VectorStoreChunkingStrategyResponseOutput;
-    created_at: number;
+    chunkingStrategy: VectorStoreChunkingStrategyResponseOutput;
+    createdAt: Date;
     id: string;
-    last_error: VectorStoreFileErrorOutput | null;
+    lastError: VectorStoreFileErrorOutput | null;
     object: "vector_store.file";
     status: VectorStoreFileStatusOutput;
-    usage_bytes: number;
-    vector_store_id: string;
+    usageBytes: number;
+    vectorStoreId: string;
 }
 
 // @public
@@ -1981,39 +2095,39 @@ export type VectorStoreFileStatusOutput = string;
 
 // @public
 export interface VectorStoreOptions {
-    chunking_strategy?: VectorStoreChunkingStrategyRequest;
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
     configuration?: VectorStoreConfiguration;
-    expires_after?: VectorStoreExpirationPolicy;
-    file_ids?: string[];
+    expiresAfter?: VectorStoreExpirationPolicy;
+    fileIds?: string[];
     metadata?: Record<string, string> | null;
     name?: string;
 }
 
 // @public
 export interface VectorStoreOutput {
-    created_at: number;
-    expires_after?: VectorStoreExpirationPolicyOutput;
-    expires_at?: number | null;
-    file_counts: VectorStoreFileCountOutput;
+    createdAt: Date;
+    expiresAfter?: VectorStoreExpirationPolicyOutput;
+    expiresAt?: Date | null;
+    fileCounts: VectorStoreFileCountOutput;
     id: string;
-    last_active_at: number | null;
+    lastActiveAt: Date | null;
     metadata: Record<string, string> | null;
     name: string;
     object: "vector_store";
     status: VectorStoreStatusOutput;
-    usage_bytes: number;
+    usageBytes: number;
 }
 
 // @public
 export interface VectorStoreStaticChunkingStrategyOptions {
-    chunk_overlap_tokens: number;
-    max_chunk_size_tokens: number;
+    chunkOverlapTokens: number;
+    maxChunkSizeTokens: number;
 }
 
 // @public
 export interface VectorStoreStaticChunkingStrategyOptionsOutput {
-    chunk_overlap_tokens: number;
-    max_chunk_size_tokens: number;
+    chunkOverlapTokens: number;
+    maxChunkSizeTokens: number;
 }
 
 // @public
@@ -2033,7 +2147,7 @@ export type VectorStoreStatusOutput = string;
 
 // @public
 export interface VectorStoreUpdateOptions {
-    expires_after?: VectorStoreExpirationPolicy | null;
+    expiresAfter?: VectorStoreExpirationPolicy | null;
     metadata?: Record<string, string> | null;
     name?: string | null;
 }

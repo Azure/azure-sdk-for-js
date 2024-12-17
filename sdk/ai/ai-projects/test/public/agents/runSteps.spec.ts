@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay, Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
@@ -23,7 +24,10 @@ describe("Agents - run steps", () => {
 
   it("should list run steps", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" });
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread
@@ -31,7 +35,10 @@ describe("Agents - run steps", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "hello, world!",
+    });
     console.log(`Created message, message ID: ${message.id}`);
 
     // Create run
@@ -60,7 +67,10 @@ describe("Agents - run steps", () => {
 
   it("should get steps", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" });
+    const agent = await agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are helpful agent",
+    });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread
@@ -68,7 +78,10 @@ describe("Agents - run steps", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
+    const message = await agents.createMessage(thread.id, {
+      role: "user",
+      content: "hello, world!",
+    });
     console.log(`Created message, message ID: ${message.id}`);
 
     // Create run
@@ -104,5 +117,4 @@ describe("Agents - run steps", () => {
     await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
-
 });

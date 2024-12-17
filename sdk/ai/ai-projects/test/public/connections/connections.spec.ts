@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectsClient, ConnectionsOperations } from "../../../src/index.js";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AIProjectsClient, ConnectionsOperations } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("Agents - assistants", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectsClient;
-  let connections: ConnectionsOperations
+  let connections: ConnectionsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    connections = projectsClient.connections
+    connections = projectsClient.connections;
   });
 
   afterEach(async function () {
@@ -73,5 +73,4 @@ describe("Agents - assistants", () => {
       console.log(`Retrieved connection with secrets, connection name: ${connection.name}`);
     }
   });
-
 });

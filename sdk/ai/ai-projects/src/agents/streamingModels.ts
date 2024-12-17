@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import type { MessageRole } from "../customization/models.js";
-import type { AgentThreadOutput, RunStepOutput, ThreadMessageOutput, ThreadRunOutput } from "../customization/outputModels.js";
+import type {
+  AgentThreadOutput,
+  RunStepOutput,
+  ThreadMessageOutput,
+  ThreadRunOutput,
+} from "../customization/outputModels.js";
 
 /**
 Each event in a server-sent events stream has an `event` and `data` property:
@@ -23,11 +28,17 @@ Each event in a server-sent events stream has an `event` and `data` property:
   in your code.**/
 export interface AgentEventMessage {
   /** The data of the event. The data can be of type AgentThreadOutput, ThreadRunOutput, RunStepOutput, ThreadMessageOutput, MessageDeltaChunk,RunStepDeltaChunk  */
-  data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string
+  data:
+    | AgentThreadOutput
+    | ThreadRunOutput
+    | RunStepOutput
+    | ThreadMessageOutput
+    | MessageDeltaChunk
+    | RunStepDeltaChunk
+    | string;
   /** The type of the event. */
   event: AgentStreamEventType | string;
 }
-
 
 /** Thread operation related streaming events */
 export enum ThreadStreamEvent {
@@ -37,7 +48,6 @@ export enum ThreadStreamEvent {
 
 /** Run operation related streaming events */
 export enum RunStreamEvent {
-
   /** Event sent when a new run is created. The data of this event is of type ThreadRun */
   ThreadRunCreated = "thread.run.created",
 
@@ -68,7 +78,6 @@ export enum RunStreamEvent {
 
 /** Run step operation related streaming events */
 export enum RunStepStreamEvent {
-
   /** Event sent when a new thread run step is created. The data of this event is of type RunStep */
   ThreadRunStepCreated = "thread.run.step.created",
 
@@ -93,7 +102,6 @@ export enum RunStepStreamEvent {
 
 /** Message operation related streaming events */
 export enum MessageStreamEvent {
-
   /** Event sent when a new message is created. The data of this event is of type ThreadMessage */
   ThreadMessageCreated = "thread.message.created",
 
@@ -118,7 +126,6 @@ export enum ErrorEvent {
 
 /** Terminal event indicating the successful end of a stream. */
 export enum DoneEvent {
-
   /** Event sent when the stream is done. */
   Done = "done",
 }
@@ -206,8 +213,7 @@ export interface MessageDeltaTextAnnotation {
 }
 
 /** Represents a streamed file citation applied to a streaming text content part. */
-export interface MessageDeltaTextFileCitationAnnotation
-  extends MessageDeltaTextAnnotation {
+export interface MessageDeltaTextFileCitationAnnotation extends MessageDeltaTextAnnotation {
   /** The type of the text content annotation, which is always "file_citation." */
   type: "file_citation";
 
@@ -265,7 +271,6 @@ export interface MessageDeltaTextUrlCitationDetails {
   /** The title of the URL. */
   title?: string;
 }
-
 
 /** Represents a run step delta i.e. any changed fields on a run step during streaming. */
 export interface RunStepDeltaChunk {
@@ -342,7 +347,7 @@ export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCall {
   type: "file_search";
 
   /** Reserved for future use. */
-  fileSearch?: Array<string>
+  fileSearch?: Array<string>;
 }
 
 /** Represents a Code Interpreter tool call within a streaming run step's tool call details. */
@@ -389,8 +394,7 @@ export interface RunStepDeltaCodeInterpreterOutput {
 }
 
 /** Represents a log output as produced by the Code Interpreter tool and as represented in a streaming run step's delta tool calls collection. */
-export interface RunStepDeltaCodeInterpreterLogOutput
-  extends RunStepDeltaCodeInterpreterOutput {
+export interface RunStepDeltaCodeInterpreterLogOutput extends RunStepDeltaCodeInterpreterOutput {
   /** The type of the object, which is always "logs." */
   type: "logs";
 
@@ -399,8 +403,7 @@ export interface RunStepDeltaCodeInterpreterLogOutput
 }
 
 /** Represents an image output as produced the Code interpreter tool and as represented in a streaming run step's delta tool calls collection. */
-export interface RunStepDeltaCodeInterpreterImageOutput
-  extends RunStepDeltaCodeInterpreterOutput {
+export interface RunStepDeltaCodeInterpreterImageOutput extends RunStepDeltaCodeInterpreterOutput {
   /** The object type, which is always "image." */
   type: "image";
 
@@ -415,4 +418,6 @@ export interface RunStepDeltaCodeInterpreterImageOutputObject {
 }
 
 /** Represents a stream of agent event message. */
-export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> { }
+export interface AgentEventMessageStream
+  extends AsyncDisposable,
+    AsyncIterable<AgentEventMessage> {}
