@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AvroSerializerTest } from "./avroSerializerTest.spec";
+import { AvroSerializerTest } from "./avroSerializerTest.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 
 interface SerializePerfTestOptions {
