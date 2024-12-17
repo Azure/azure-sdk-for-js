@@ -1,11 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   SearchDocumentsBase,
   SearchDocumentsTestOptions,
 } from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { describe, it, assert } from "vitest";
 
-export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
+export class AutoCompleteTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
     documentsCount: {
       required: true,
@@ -26,6 +28,6 @@ export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTest
   }
 
   async run(): Promise<void> {
-    await this.searchClient.search("");
+    await this.searchClient.autocomplete("historic", this.suggesterName);
   }
 }

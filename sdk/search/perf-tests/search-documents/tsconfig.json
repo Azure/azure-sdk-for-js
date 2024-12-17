@@ -2,20 +2,19 @@
   "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "target": "ES2015",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true,
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-search-documents": ["./src/index"]
+    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",
     "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
-  ],
-  "exclude": ["node_modules"]
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts"
+  ]
 }

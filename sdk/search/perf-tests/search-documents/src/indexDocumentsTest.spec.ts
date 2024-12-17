@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   SearchDocumentsBase,
   SearchDocumentsTestOptions,
@@ -6,7 +9,6 @@ import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { generateHotels } from "./core/documentsGenerator.js";
 import { Hotel } from "./core/hotel.js";
 import { IndexDocumentsBatch } from "@azure/search-documents";
-import { describe, it, assert } from "vitest";
 
 export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {

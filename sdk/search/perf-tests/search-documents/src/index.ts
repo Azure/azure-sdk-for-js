@@ -6,11 +6,7 @@ import { AutoCompleteTest } from "./autoCompleteTest.spec.js";
 import { IndexDocumentsTest } from "./indexDocumentsTest.spec.js";
 import { SearchDocumentsTest } from "./searchDocumentsTest.spec.js";
 import { SuggestTest } from "./suggestTest.spec.js";
-
-import dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 const perfProgram = createPerfProgram(
   AutoCompleteTest,

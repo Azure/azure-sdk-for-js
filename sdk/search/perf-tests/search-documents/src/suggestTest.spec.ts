@@ -1,9 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   SearchDocumentsBase,
   SearchDocumentsTestOptions,
 } from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { describe, it, assert } from "vitest";
 
 export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
