@@ -232,10 +232,6 @@ Please add below comment in your PR to include `dpg-devs` to review your PR time
 cc @Azure/dpg-devs for awareness
 ```
 
-# Create API View
-
-When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. Then, you could click the API view link in that comment to know more details.
-
 # Release
 
-After the PR is merged, it is time to release package. Here is the [Release Checklist](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/8/Release-Checklist?anchor=prepare-release-script) you should know before release.
+Prepare your SDK for release. The necessary approvals, guidance for testing, documentation, and release pipelines is described in your release plan. More information about the Azure SDK Release Tool is [here](https://eng.ms/docs/products/azure-developer-experience/plan/release-plan)

@@ -3,9 +3,12 @@
 [TypeScript Azure SDK Design Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) is the overall design guideline of the client SDK.
 Make sure you are familiar with concepts such as "Service Client" and "Packaging".
 
-Make sure you are familiar with Git.
+See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@azure-tools/typespec-ts`. 
 
-See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@azure-tools/typespec-ts`. Make sure that NodeJS is installed.
+## Prerequisites
+
+- [Node.js 18.x LTS](https://nodejs.org/en/download) or later
+- [Git](https://git-scm.com/downloads)
 
 # Generate SDK
 
@@ -13,14 +16,14 @@ See [Prerequisite](https://www.npmjs.com/package/@azure-tools/typespec-ts) of `@
 
 :ballot_box_with_check: The package structure in the azure-rest-api-specs repository should follow [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/typespec-structure-guidelines.md#structure).
 
-Here are the samples for\
-[Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)\
-[RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
+### How to configure tspconfig.yaml
+You can reference these two config files to configure the Modular or RLC package:
+- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
+- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
 
 Please make sure `service-dir`, `package-dir`, `packageDetails`, `isModularLibrary`, `generateMetadata`, `flavor`(for typespec-ts) is correctly configured. `experimentalExtensibleEnums`, `enableOperationGroup`, `hierarchyClient` are the optional configs.
-If you want to generate samples with typespec-ts, you should add 
+If you want to enable sample generation with typespec-ts, you should add 
 ```
-examples-directory: "{project-root}/examples"
 generateSample:true
 ```
 in your tspconfig.yaml
