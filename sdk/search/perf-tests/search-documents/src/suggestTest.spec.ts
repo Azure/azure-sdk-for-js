@@ -1,7 +1,13 @@
-import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  SearchDocumentsBase,
+  SearchDocumentsTestOptions,
+} from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 
-export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
+export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
     documentsCount: {
       required: true,
@@ -22,6 +28,6 @@ export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTest
   }
 
   async run(): Promise<void> {
-    await this.searchClient.search("");
+    await this.searchClient.suggest("historic", this.suggesterName);
   }
 }

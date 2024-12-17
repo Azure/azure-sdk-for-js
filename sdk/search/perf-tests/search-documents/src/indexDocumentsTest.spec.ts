@@ -1,7 +1,13 @@
-import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  SearchDocumentsBase,
+  SearchDocumentsTestOptions,
+} from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { generateHotels } from "./core/documentsGenerator";
-import { Hotel } from "./core/hotel";
+import { generateHotels } from "./core/documentsGenerator.js";
+import { Hotel } from "./core/hotel.js";
 import { IndexDocumentsBatch } from "@azure/search-documents";
 
 export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {

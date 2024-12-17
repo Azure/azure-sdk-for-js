@@ -1,4 +1,10 @@
-import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  SearchDocumentsBase,
+  SearchDocumentsTestOptions,
+} from "./core/searchDocumentsBase.spec.js";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 
 export class AutoCompleteTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
