@@ -11,7 +11,6 @@ import {
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
-import { describe, it, assert } from "vitest";
 
 interface StorageBlobDownloadTestOptions {
   size: number;

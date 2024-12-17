@@ -9,7 +9,6 @@ import {
   PipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { drainStream } from "@azure-tools/test-perf";
-import { describe, it, assert } from "vitest";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: HttpClient;

@@ -11,10 +11,7 @@ import {
 import { getValueInConnString } from "./utils/utils.js";
 
 // Expects the .env file at the same level
-import * as dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: BlobServiceClient;

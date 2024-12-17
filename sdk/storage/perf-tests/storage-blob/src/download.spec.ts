@@ -5,7 +5,6 @@ import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec.js";
 import { BlockBlobClient } from "@azure/storage-blob";
 import { randomUUID } from "@azure/core-util";
-import { describe, it, assert } from "vitest";
 
 interface StorageBlobDownloadTestOptions {
   size: number;

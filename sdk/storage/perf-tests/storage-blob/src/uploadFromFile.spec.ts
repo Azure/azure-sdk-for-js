@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import fs from "node:fs";
-import util from "node:util";
-import { BlockBlobClient } from "@azure/storage-blob";
-const writeFile = util.promisify(fs.writeFile);
-const fileExists = util.promisify(fs.exists);
-const mkdir = util.promisify(fs.mkdir);
-const deleteFile = util.promisify(fs.unlink);
 
+import { existsSync } from "node:fs";
+import { mkdir, unlink, writeFile } from "node:fs/promises";
+import { BlockBlobClient } from "@azure/storage-blob";
 import { StorageBlobUploadTest } from "./upload.spec.js";
-import { describe, it, assert } from "vitest";
 
 const dirName = "temp";
 const fileName = `${dirName}/upload-from-test-temp-file.txt`;
@@ -23,12 +18,12 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
 
   public async globalSetup() {
     await super.globalSetup();
-    if (!(await fileExists(dirName))) await mkdir(dirName);
+    if (!existsSync(dirName)) await mkdir(dirName);
     await writeFile(fileName, Buffer.alloc(this.parsedOptions.size.value!));
   }
 
   public async globalCleanup() {
-    await deleteFile(fileName);
+    await unlink(fileName);
     await super.globalCleanup();
   }
 

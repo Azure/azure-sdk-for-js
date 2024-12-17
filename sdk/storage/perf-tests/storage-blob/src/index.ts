@@ -8,7 +8,6 @@ import { StorageBlobUploadFileTest } from "./uploadFromFile.spec.js";
 import { StorageBlobListTest } from "./listBlobs.spec.js";
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec.js";
 import { CoreHTTPSDownloadWithSASTest } from "./core-rest-pipeline.spec.js";
-import { describe, it, assert } from "vitest";
 
 const perfProgram = createPerfProgram(
   StorageBlobDownloadTest,
