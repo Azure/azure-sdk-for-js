@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import { MonitorQueryLog } from "./monitorQueryLog.spec.js";
-import { describe, it, assert } from "vitest";
 
 type MonitorQueryTestOptions = Record<string, unknown>;
 

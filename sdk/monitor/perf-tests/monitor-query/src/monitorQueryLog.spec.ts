@@ -4,12 +4,7 @@
 import { PerfTest } from "@azure-tools/test-perf";
 import { LogsQueryClient } from "@azure/monitor-query";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-import { describe, it, assert } from "vitest";
-
-dotenv.config();
+import "dotenv/config";
 
 export abstract class MonitorQueryLog<TOptions> extends PerfTest<TOptions> {
   client: LogsQueryClient;
