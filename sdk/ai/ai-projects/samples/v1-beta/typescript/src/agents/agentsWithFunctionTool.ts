@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
       }
       const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
       return result ? {
-        tool_call_id: toolCall.id,
+        toolCallId: toolCall.id,
         output: JSON.stringify(result)
       } : undefined;
     }
@@ -114,11 +114,11 @@ export async function main(): Promise<void> {
       await delay(1000);
       run = await agents.getRun(thread.id, run.id);
       console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-      if (run.status === "requires_action" && run.required_action) {
-        console.log(`Run requires action - ${run.required_action}`);
-        if (isOutputOfType<SubmitToolOutputsActionOutput>(run.required_action, "submit_tool_outputs")) {
-          const submitToolOutputsActionOutput = run.required_action as SubmitToolOutputsActionOutput;
-          const toolCalls = submitToolOutputsActionOutput.submit_tool_outputs.tool_calls;
+      if (run.status === "requires_action" && run.requiredAction) {
+        console.log(`Run requires action - ${run.requiredAction}`);
+        if (isOutputOfType<SubmitToolOutputsActionOutput>(run.requiredAction, "submit_tool_outputs")) {
+          const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsActionOutput;
+          const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
           const toolResponses = [];
           for (const toolCall of toolCalls) {
             if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
@@ -139,14 +139,14 @@ export async function main(): Promise<void> {
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
   messages.data.forEach(threadMessage => {
-    console.log(`Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`);
+    console.log(`Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`);
     threadMessage.content.forEach((content: MessageContentOutput) => {
       if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
         const textContent = content as MessageTextContentOutput;
         console.log(`Text Message Content - ${textContent.text.value}`);
       } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
         const imageContent = content as MessageImageFileContentOutput;
-        console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
+        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });

@@ -32,7 +32,9 @@ async function main() {
   const readable1 = new Readable();
   readable1.push(file1Content);
   readable1.push(null); // end the stream
-  const file1 = await client.agents.uploadFile(readable1, "assistants", "vectorFile1.txt");
+  const file1 = await client.agents.uploadFile(readable1, "assistants", {
+    fileName: "vectorFile1.txt",
+  });
   console.log(`Uploaded file1, file ID: ${file1.id}`);
 
   // Create and upload second file
@@ -40,7 +42,9 @@ async function main() {
   const readable2 = new Readable();
   readable2.push(file2Content);
   readable2.push(null); // end the stream
-  const file2 = await client.agents.uploadFile(readable2, "assistants", "vectorFile2.txt");
+  const file2 = await client.agents.uploadFile(readable2, "assistants", {
+    fileName: "vectorFile2.txt",
+  });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
   // Set up abort controller (optional)
@@ -48,12 +52,13 @@ async function main() {
   const abortController = new AbortController();
 
   // Create vector store file batch
-  const vectorStoreFileBatchOptions = { fileIds: [file1.id, file2.id] };
-  const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+  const vectorStoreFileBatchOptions = {
+    fileIds: [file1.id, file2.id],
+    abortSignal: abortController.signal,
+  };
   const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatchAndPoll(
     vectorStore.id,
     vectorStoreFileBatchOptions,
-    pollingOptions,
   );
   console.log(
     `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,

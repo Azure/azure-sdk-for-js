@@ -195,7 +195,7 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptions, OperationOptions {}
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
 
 /**
  * Response for creating vector store.
@@ -239,6 +239,23 @@ export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters,
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
+    OperationOptions {}
+
+/**
+ * Optional parameters for getting a vector store file.
+ */
+export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for deleting a vector store file.
+ */
+export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
+
+/**
+ * Optional parameters for creating a vector store file.
+ */
+export interface CreateVectorStoreFileOptionalParams
+  extends CreateVectorStoreFileOptions,
     PollingOptions,
     OperationOptions {}
 
@@ -251,16 +268,6 @@ export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> &
    */
   poller: PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
 };
-
-/**
- * Optional parameters for getting a vector store file.
- */
-export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
-
-/**
- * Optional parameters for deleting a vector store file.
- */
-export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
 
 /**
  * Optional parameters for listing vector store file batches.
@@ -282,9 +289,6 @@ export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions 
  */
 export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
-/**
- * Optional parameters for creating a vector store file batch.
- */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
     PollingOptions,

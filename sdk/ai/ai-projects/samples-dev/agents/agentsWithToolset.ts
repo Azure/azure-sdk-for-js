@@ -23,18 +23,18 @@ export async function main(): Promise<void> {
   // Upload file for code interpreter tool
   const filePath1 = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const fileStream1 = fs.createReadStream(filePath1);
-  const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", "myLocalFile");
+  const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", {fileName: "myLocalFile"});
 
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
   const filePath2 = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
   const fileStream2 = fs.createReadStream(filePath2);
-  const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", "sampleFileForUpload.txt");
+  const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", {fileName: "sampleFileForUpload.txt"});
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
-  const vectorStore = await client.agents.createVectorStoreAndPoll({file_ids: [fileSearchFile.id]});
+  const vectorStore = await client.agents.createVectorStoreAndPoll({fileIds: [fileSearchFile.id]});
 
   // Create tool set
   const toolSet = new ToolSet();
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: toolSet.toolDefinitions,
-    tool_resources: toolSet.toolResources
+    toolResources: toolSet.toolResources
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 

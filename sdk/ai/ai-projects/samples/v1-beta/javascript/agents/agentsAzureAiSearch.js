@@ -32,18 +32,12 @@ async function main() {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
 
   // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent(
-    "gpt-4-0125-preview",
-    {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [azureAISearchTool.definition],
-      tool_resources: azureAISearchTool.resources,
-    },
-    {
-      headers: { "x-ms-enable-preview": "true" },
-    },
-  );
+  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+    name: "my-agent",
+    instructions: "You are a helpful agent",
+    tools: [azureAISearchTool.definition],
+    toolResources: azureAISearchTool.resources,
+  });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -64,7 +58,7 @@ async function main() {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-    console.log(`Run failed: ${run.last_error}`);
+    console.log(`Run failed: ${run.lastError}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 

@@ -166,6 +166,7 @@ describe("Agents - vector stores files", () => {
     const vectorStoreFilePoller = agents.createVectorStoreFile(vectorStore.id, {
       fileId: file.id,
     }).poller;
+    assert.isNotNull(vectorStoreFilePoller);
     const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
     assert.isNotNull(vectorStoreFile);
     assert.isNotEmpty(vectorStoreFile.id);

@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,12 +25,15 @@ export async function main(): Promise<void> {
   // Upload file
   const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
   const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(localFileStream, "assistants", "sampleFileForUpload.txt");
+  const file = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "sampleFileForUpload.txt"});
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore({ file_ids: [file.id], name: "my_vector_store" });
+  const vectorStore = await client.agents.createVectorStore({ fileIds: [file.id], name: "myVectorStore" });
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+
+  // Initialize file search tool
+  const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
   const agent  = await client.agents.createAgent(
@@ -38,8 +41,8 @@ export async function main(): Promise<void> {
     {
       name:"SDK Test Agent - Retrieval",
       instructions:"You are helpful agent that can help fetch data from files you know about.",
-      tools: [{type: "file_search" }],
-      tool_resources: {file_search: {vector_store_ids: [vectorStore.id]} }
+      tools: [fileSearchTool.definition],
+      toolResources: fileSearchTool.resources
     }
   );
   console.log(`Created agent, agent ID : ${agent.id}`);
@@ -69,14 +72,14 @@ export async function main(): Promise<void> {
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
   messages.data.forEach(threadMessage => {
-    console.log(`Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`);
+    console.log(`Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`);
     threadMessage.content.forEach((content: MessageContentOutput) => {
       if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
         const textContent = content as MessageTextContentOutput;
         console.log(`Text Message Content - ${textContent.text.value}`);
       } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
         const imageContent = content as MessageImageFileContentOutput;
-        console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
+        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });

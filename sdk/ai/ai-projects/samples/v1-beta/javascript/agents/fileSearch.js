@@ -7,7 +7,7 @@
  * @summary This sample demonstrates how to use agent operations with file searching.
  */
 
-const { AIProjectsClient, isOutputOfType } = require("@azure/ai-projects");
+const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -29,26 +29,27 @@ async function main() {
   // Upload file
   const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
   const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(
-    localFileStream,
-    "assistants",
-    "sampleFileForUpload.txt",
-  );
+  const file = await client.agents.uploadFile(localFileStream, "assistants", {
+    fileName: "sampleFileForUpload.txt",
+  });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store
   const vectorStore = await client.agents.createVectorStore({
-    file_ids: [file.id],
-    name: "my_vector_store",
+    fileIds: [file.id],
+    name: "myVectorStore",
   });
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+
+  // Initialize file search tool
+  const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
   const agent = await client.agents.createAgent("gpt-4o", {
     name: "SDK Test Agent - Retrieval",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
-    tools: [{ type: "file_search" }],
-    tool_resources: { file_search: { vector_store_ids: [vectorStore.id] } },
+    tools: [fileSearchTool.definition],
+    toolResources: fileSearchTool.resources,
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
@@ -75,7 +76,7 @@ async function main() {
   const messages = await client.agents.listMessages(thread.id);
   messages.data.forEach((threadMessage) => {
     console.log(
-      `Thread Message Created at  - ${threadMessage.created_at} - Role - ${threadMessage.role}`,
+      `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
     threadMessage.content.forEach((content) => {
       if (isOutputOfType(content, "text")) {
@@ -83,7 +84,7 @@ async function main() {
         console.log(`Text Message Content - ${textContent.text.value}`);
       } else if (isOutputOfType(content, "image_file")) {
         const imageContent = content;
-        console.log(`Image Message Content - ${imageContent.image_file.file_id}`);
+        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });
