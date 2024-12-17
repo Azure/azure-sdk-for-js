@@ -7,6 +7,7 @@ import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/st
 // Expects the .env file at the same level as the "test" folder
 import dotenv from "dotenv";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, assert } from "vitest";
 
 dotenv.config();
 

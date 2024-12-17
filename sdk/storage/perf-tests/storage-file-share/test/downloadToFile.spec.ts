@@ -7,6 +7,7 @@ import { StorageFileShareTest } from "./storageTest.spec.js";
 import { randomUUID } from "@azure/core-util";
 import fs from "node:fs";
 import util from "node:util";
+import { describe, it, assert } from "vitest";
 
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);

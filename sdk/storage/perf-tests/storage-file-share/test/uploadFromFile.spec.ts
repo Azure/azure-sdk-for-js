@@ -13,6 +13,8 @@ const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
 import { StorageFileShareTest } from "./storageTest.spec.js";
+import { describe, it, assert } from "vitest";
+
 interface StorageFileShareUploadFromFileTestOptions {
   size: number;
 }
