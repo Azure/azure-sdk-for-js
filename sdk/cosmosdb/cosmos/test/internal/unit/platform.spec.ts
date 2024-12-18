@@ -14,6 +14,8 @@ describe("getUserAgent", function () {
   });
 
   it("should contain the current node version", () => {
+    console.log(getUserAgent());
+    console.log(process.version.replace("v", ""));
     assert(getUserAgent().includes(process.version.replace("v", "")));
   });
 
