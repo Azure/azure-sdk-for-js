@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { InteractiveBrowserCredential, BrowserLoginStyle } from "@azure/identity";
 import { ServiceBusClient } from "@azure/service-bus";
@@ -338,4 +339,5 @@ function TestPage() {
   );
 }
 
-ReactDOM.render(<TestPage />, document.getElementById("app"));
+const root = createRoot(document.getElementById("app"));
+root.render(<TestPage />);
