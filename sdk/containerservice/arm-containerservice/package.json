@@ -29,7 +29,7 @@
   "types": "./types/arm-containerservice.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
