@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   OpenAIPageableListOfRunStepOutput,
   RunStepOutput,
@@ -17,6 +17,7 @@ import {
 } from "./inputValidations.js";
 import type { GetRunStepOptionalParams, ListRunStepsOptionalParams } from "./customModels.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -40,7 +41,7 @@ export async function getRunStep(
     .path("/threads/{threadId}/runs/{runId}/steps/{stepId}", threadId, runId, stepId)
     .get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConverterFromWire.convertRunStepOutput(result.body);
 }
@@ -62,7 +63,7 @@ export async function listRunSteps(
     .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
     .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConverterFromWire.convertOpenAIPageableListOfRunStepOutput(result.body);
 }

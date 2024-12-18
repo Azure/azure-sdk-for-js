@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   OpenAIPageableListOfVectorStoreFileOutput,
   VectorStoreFileBatchOutput,
@@ -27,6 +27,7 @@ import type {
 } from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -47,7 +48,7 @@ export async function createVectorStoreFileBatch(
     .path("/vector_stores/{vectorStoreId}/file_batches", vectorStoreId)
     .post(createOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
 }
@@ -64,7 +65,7 @@ export async function getVectorStoreFileBatch(
     .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}", vectorStoreId, batchId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
 }
@@ -81,7 +82,7 @@ export async function cancelVectorStoreFileBatch(
     .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/cancel", vectorStoreId, batchId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
 }
@@ -107,7 +108,7 @@ export async function listVectorStoreFileBatchFiles(
     .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
     .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertOpenAIPageableListOfVectorStoreFileOutput(result.body);
 }

@@ -22,9 +22,7 @@ export function convertCreateAgentOptions(
   };
 }
 
-export function convertToolResources(
-  source: PublicModels.ToolResources,
-): GeneratedModels.ToolResources {
+function convertToolResources(source: PublicModels.ToolResources): GeneratedModels.ToolResources {
   return {
     ...(source.codeInterpreter && {
       code_interpreter: convertCodeInterpreterToolResource(source.codeInterpreter),
@@ -36,7 +34,7 @@ export function convertToolResources(
   };
 }
 
-export function convertMessageAttachmentToolDefinition(
+function convertMessageAttachmentToolDefinition(
   source: PublicModels.MessageAttachmentToolDefinition,
 ): GeneratedModels.MessageAttachmentToolDefinition {
   switch (source.type) {
@@ -51,7 +49,7 @@ export function convertMessageAttachmentToolDefinition(
   }
 }
 
-export function convertToolDefinition(
+function convertToolDefinition(
   source: PublicModels.ToolDefinition,
 ): GeneratedModels.ToolDefinition {
   switch (source.type) {
@@ -78,7 +76,7 @@ export function convertToolDefinition(
   }
 }
 
-export function convertCodeInterpreterToolDefinition(
+function convertCodeInterpreterToolDefinition(
   source: PublicModels.CodeInterpreterToolDefinition,
 ): GeneratedModels.CodeInterpreterToolDefinition {
   return {
@@ -86,7 +84,7 @@ export function convertCodeInterpreterToolDefinition(
   };
 }
 
-export function convertFileSearchToolDefinition(
+function convertFileSearchToolDefinition(
   source: PublicModels.FileSearchToolDefinition,
 ): GeneratedModels.FileSearchToolDefinition {
   return {
@@ -97,7 +95,7 @@ export function convertFileSearchToolDefinition(
   };
 }
 
-export function convertFunctionToolDefinition(
+function convertFunctionToolDefinition(
   source: PublicModels.FunctionToolDefinition,
 ): GeneratedModels.FunctionToolDefinition {
   return {
@@ -106,7 +104,7 @@ export function convertFunctionToolDefinition(
   };
 }
 
-export function convertBingGroundingToolDefinition(
+function convertBingGroundingToolDefinition(
   source: PublicModels.BingGroundingToolDefinition,
 ): GeneratedModels.BingGroundingToolDefinition {
   return {
@@ -115,7 +113,7 @@ export function convertBingGroundingToolDefinition(
   };
 }
 
-export function convertMicrosoftFabricToolDefinition(
+function convertMicrosoftFabricToolDefinition(
   source: PublicModels.MicrosoftFabricToolDefinition,
 ): GeneratedModels.MicrosoftFabricToolDefinition {
   return {
@@ -124,7 +122,7 @@ export function convertMicrosoftFabricToolDefinition(
   };
 }
 
-export function convertSharepointToolDefinition(
+function convertSharepointToolDefinition(
   source: PublicModels.SharepointToolDefinition,
 ): GeneratedModels.SharepointToolDefinition {
   return {
@@ -133,7 +131,7 @@ export function convertSharepointToolDefinition(
   };
 }
 
-export function convertAzureAISearchToolDefinition(
+function convertAzureAISearchToolDefinition(
   source: PublicModels.AzureAISearchToolDefinition,
 ): GeneratedModels.AzureAISearchToolDefinition {
   return {
@@ -141,7 +139,7 @@ export function convertAzureAISearchToolDefinition(
   };
 }
 
-export function convertFileSearchToolDefinitionDetails(
+function convertFileSearchToolDefinitionDetails(
   source: PublicModels.FileSearchToolDefinitionDetails,
 ): GeneratedModels.FileSearchToolDefinitionDetails {
   return {
@@ -152,7 +150,7 @@ export function convertFileSearchToolDefinitionDetails(
   };
 }
 
-export function convertFileSearchRankingOptions(
+function convertFileSearchRankingOptions(
   source: PublicModels.FileSearchRankingOptions,
 ): GeneratedModels.FileSearchRankingOptions {
   return {
@@ -161,7 +159,7 @@ export function convertFileSearchRankingOptions(
   };
 }
 
-export function convertCodeInterpreterToolResource(
+function convertCodeInterpreterToolResource(
   source: PublicModels.CodeInterpreterToolResource,
 ): GeneratedModels.CodeInterpreterToolResource {
   return {
@@ -181,7 +179,7 @@ export function convertVectorStoreDataSource(
   };
 }
 
-export function convertFileSearchToolResource(
+function convertFileSearchToolResource(
   source: PublicModels.FileSearchToolResource,
 ): GeneratedModels.FileSearchToolResource {
   return {
@@ -192,7 +190,7 @@ export function convertFileSearchToolResource(
   };
 }
 
-export function convertVectorStoreConfigurations(
+function convertVectorStoreConfigurations(
   source: PublicModels.VectorStoreConfigurations,
 ): GeneratedModels.VectorStoreConfigurations {
   return {
@@ -201,7 +199,7 @@ export function convertVectorStoreConfigurations(
   };
 }
 
-export function convertVectorStoreConfiguration(
+function convertVectorStoreConfiguration(
   source: PublicModels.VectorStoreConfiguration,
 ): GeneratedModels.VectorStoreConfiguration {
   return {
@@ -209,7 +207,7 @@ export function convertVectorStoreConfiguration(
   };
 }
 
-export function convertAzureAISearchResource(
+function convertAzureAISearchResource(
   source: PublicModels.AzureAISearchResource,
 ): GeneratedModels.AzureAISearchResource {
   return {
@@ -217,20 +215,10 @@ export function convertAzureAISearchResource(
   };
 }
 
-export function convertIndexResource(
-  source: PublicModels.IndexResource,
-): GeneratedModels.IndexResource {
+function convertIndexResource(source: PublicModels.IndexResource): GeneratedModels.IndexResource {
   return {
     index_connection_id: source.indexConnectionId,
     index_name: source.indexName,
-  };
-}
-
-export function convertAgentsApiResponseFormat(
-  source: PublicModels.AgentsApiResponseFormat,
-): GeneratedModels.AgentsApiResponseFormat {
-  return {
-    type: source.type,
   };
 }
 
@@ -270,7 +258,7 @@ export function convertAgentThreadUpdateOptions(
   };
 }
 
-export function convertThreadMessageOptions(
+function convertThreadMessageOptions(
   source: PublicModels.ThreadMessageOptions,
 ): GeneratedModels.ThreadMessageOptions {
   return {
@@ -281,7 +269,7 @@ export function convertThreadMessageOptions(
   };
 }
 
-export function convertMessageAttachment(
+function convertMessageAttachment(
   source: PublicModels.MessageAttachment,
 ): GeneratedModels.MessageAttachment {
   return {
@@ -323,7 +311,7 @@ export function convertCreateRunOptions(
   };
 }
 
-export function convertTruncationObject(
+function convertTruncationObject(
   source: PublicModels.TruncationObject,
 ): GeneratedModels.TruncationObject {
   return {
@@ -332,24 +320,7 @@ export function convertTruncationObject(
   };
 }
 
-export function convertAgentsNamedToolChoice(
-  source: PublicModels.AgentsNamedToolChoice,
-): GeneratedModels.AgentsNamedToolChoice {
-  return {
-    type: source.type,
-    ...(source.function && { function: convertFunctionName(source.function) }),
-  };
-}
-
-export function convertFunctionName(
-  source: PublicModels.FunctionName,
-): GeneratedModels.FunctionName {
-  return {
-    name: source.name,
-  };
-}
-
-export function convertUpdateToolResourcesOptions(
+function convertUpdateToolResourcesOptions(
   source: PublicModels.UpdateToolResourcesOptions,
 ): GeneratedModels.UpdateToolResourcesOptions {
   return {
@@ -365,7 +336,7 @@ export function convertUpdateToolResourcesOptions(
   };
 }
 
-export function convertUpdateCodeInterpreterToolResourceOptions(
+function convertUpdateCodeInterpreterToolResourceOptions(
   source: PublicModels.UpdateCodeInterpreterToolResourceOptions,
 ): GeneratedModels.UpdateCodeInterpreterToolResourceOptions {
   return {
@@ -373,7 +344,7 @@ export function convertUpdateCodeInterpreterToolResourceOptions(
   };
 }
 
-export function convertUpdateFileSearchToolResourceOptions(
+function convertUpdateFileSearchToolResourceOptions(
   source: PublicModels.UpdateFileSearchToolResourceOptions,
 ): GeneratedModels.UpdateFileSearchToolResourceOptions {
   return {
@@ -416,7 +387,7 @@ export function convertCreateAndRunThreadOptions(
   };
 }
 
-export function convertVectorStoreExpirationPolicy(
+function convertVectorStoreExpirationPolicy(
   source: PublicModels.VectorStoreExpirationPolicy,
 ): GeneratedModels.VectorStoreExpirationPolicy {
   return {
@@ -468,7 +439,7 @@ function convertVectorStoreStaticChunkingStrategyRequest(
   };
 }
 
-export function convertVectorStoreStaticChunkingStrategyOptions(
+function convertVectorStoreStaticChunkingStrategyOptions(
   source: PublicModels.VectorStoreStaticChunkingStrategyOptions,
 ): GeneratedModels.VectorStoreStaticChunkingStrategyOptions {
   return {
@@ -489,7 +460,7 @@ export function convertVectorStoreUpdateOptions(
   };
 }
 
-export function convertFunctionDefinition(
+function convertFunctionDefinition(
   source: PublicModels.FunctionDefinition,
 ): GeneratedModels.FunctionDefinition {
   return {
@@ -499,7 +470,7 @@ export function convertFunctionDefinition(
   };
 }
 
-export function convertToolConnectionList(
+function convertToolConnectionList(
   source: PublicModels.ToolConnectionList,
 ): GeneratedModels.ToolConnectionList {
   return {
@@ -507,7 +478,7 @@ export function convertToolConnectionList(
   };
 }
 
-export function convertToolConnection(
+function convertToolConnection(
   source: PublicModels.ToolConnection,
 ): GeneratedModels.ToolConnection {
   return {
@@ -515,9 +486,7 @@ export function convertToolConnection(
   };
 }
 
-export function convertThreadMessage(
-  source: PublicModels.ThreadMessage,
-): GeneratedModels.ThreadMessage {
+function convertThreadMessage(source: PublicModels.ThreadMessage): GeneratedModels.ThreadMessage {
   return {
     id: source.id,
     object: source.object,
@@ -540,7 +509,7 @@ export function convertThreadMessage(
   };
 }
 
-export function convertMessageIncompleteDetails(
+function convertMessageIncompleteDetails(
   source: PublicModels.MessageIncompleteDetails,
 ): GeneratedModels.MessageIncompleteDetails {
   return {
@@ -548,7 +517,7 @@ export function convertMessageIncompleteDetails(
   };
 }
 
-export function convertMessageContent(
+function convertMessageContent(
   source: PublicModels.MessageContent,
 ): GeneratedModels.MessageContent {
   switch (source.type) {
@@ -561,7 +530,7 @@ export function convertMessageContent(
   }
 }
 
-export function convertMessageTextContent(
+function convertMessageTextContent(
   source: PublicModels.MessageTextContent,
 ): GeneratedModels.MessageTextContent {
   return {
@@ -570,7 +539,7 @@ export function convertMessageTextContent(
   };
 }
 
-export function convertMessageTextDetails(
+function convertMessageTextDetails(
   source: PublicModels.MessageTextDetails,
 ): GeneratedModels.MessageTextDetails {
   return {
@@ -579,7 +548,7 @@ export function convertMessageTextDetails(
   };
 }
 
-export function convertMessageTextAnnotation(
+function convertMessageTextAnnotation(
   source: PublicModels.MessageTextAnnotation,
 ): GeneratedModels.MessageTextAnnotation {
   switch (source.type) {
@@ -596,7 +565,7 @@ export function convertMessageTextAnnotation(
   }
 }
 
-export function convertMessageTextFileCitationAnnotation(
+function convertMessageTextFileCitationAnnotation(
   source: PublicModels.MessageTextFileCitationAnnotation,
 ): GeneratedModels.MessageTextFileCitationAnnotation {
   return {
@@ -608,7 +577,7 @@ export function convertMessageTextFileCitationAnnotation(
   };
 }
 
-export function convertMessageTextFileCitationDetails(
+function convertMessageTextFileCitationDetails(
   source: PublicModels.MessageTextFileCitationDetails,
 ): GeneratedModels.MessageTextFileCitationDetails {
   return {
@@ -617,7 +586,7 @@ export function convertMessageTextFileCitationDetails(
   };
 }
 
-export function convertMessageTextFilePathAnnotation(
+function convertMessageTextFilePathAnnotation(
   source: PublicModels.MessageTextFilePathAnnotation,
 ): GeneratedModels.MessageTextFilePathAnnotation {
   return {
@@ -629,7 +598,7 @@ export function convertMessageTextFilePathAnnotation(
   };
 }
 
-export function convertMessageTextFilePathDetails(
+function convertMessageTextFilePathDetails(
   source: PublicModels.MessageTextFilePathDetails,
 ): GeneratedModels.MessageTextFilePathDetails {
   return {
@@ -637,7 +606,7 @@ export function convertMessageTextFilePathDetails(
   };
 }
 
-export function convertMessageImageFileContent(
+function convertMessageImageFileContent(
   source: PublicModels.MessageImageFileContent,
 ): GeneratedModels.MessageImageFileContent {
   return {
@@ -646,7 +615,7 @@ export function convertMessageImageFileContent(
   };
 }
 
-export function convertMessageImageFileDetails(
+function convertMessageImageFileDetails(
   source: PublicModels.MessageImageFileDetails,
 ): GeneratedModels.MessageImageFileDetails {
   return {

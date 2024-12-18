@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConverterToWire from "../customization/convertModelsToWrite.js";
 import * as ConverterFromWire from "../customization/convertOutputModelsFromWire.js";
@@ -26,6 +26,7 @@ import type {
   UpdateAgentThreadOptionalParams,
 } from "./customModels.js";
 import { convertThreadDeletionStatusOutput } from "../customization/convertOutputModelsFromWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -48,7 +49,7 @@ export async function createThread(
     async (updatedOptions) => {
       const result = await context.path("/threads").post(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -76,7 +77,7 @@ export async function getThread(
     async (updatedOptions) => {
       const result = await context.path("/threads/{threadId}", threadId).get(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -110,7 +111,7 @@ export async function updateThread(
     async (updatedOptions) => {
       const result = await context.path("/threads/{threadId}", threadId).post(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -141,7 +142,7 @@ export async function deleteThread(
     async (updatedOptions) => {
       const result = await context.path("/threads/{threadId}", threadId).delete(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },

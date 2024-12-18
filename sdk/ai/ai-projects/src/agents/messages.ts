@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   OpenAIPageableListOfThreadMessageOutput,
   ThreadMessageOutput,
@@ -28,6 +28,7 @@ import type {
 } from "./customModels.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -55,7 +56,7 @@ export async function createMessage(
         .path("/threads/{threadId}/messages", threadId)
         .post(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -92,7 +93,7 @@ export async function listMessages(
         .path("/threads/{threadId}/messages", threadId)
         .get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -126,7 +127,7 @@ export async function updateMessage(
         .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
         .post(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },

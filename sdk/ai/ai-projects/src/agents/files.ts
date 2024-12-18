@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   FileDeletionStatusOutput,
   FileListResponseOutput,
@@ -21,6 +21,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
 import { randomUUID } from "@azure/core-util";
+import { createOpenAIError } from "./openAIError.js";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -45,7 +46,7 @@ export async function listFiles(
   validateListFilesParameters(listOptions);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertFileListResponseOutput(result.body);
 }
@@ -67,7 +68,7 @@ export async function uploadFile(
   };
   const result = await context.path("/files").post(uploadFileOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertOpenAIFileOutput(result.body);
 }
@@ -113,7 +114,7 @@ export async function deleteFile(
   validateFileId(fileId);
   const result = await context.path("/files/{fileId}", fileId).delete(deleteOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return result.body;
 }
@@ -130,7 +131,7 @@ export async function getFile(
   };
   const result = await context.path("/files/{fileId}", fileId).get(getFileOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertOpenAIFileOutput(result.body);
 }

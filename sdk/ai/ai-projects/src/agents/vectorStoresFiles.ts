@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoreFilesParameters,
   CreateVectorStoreFileParameters,
@@ -31,6 +31,7 @@ import { convertToListQueryParameters } from "../customization/convertParameters
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -52,7 +53,7 @@ export async function listVectorStoreFiles(
     .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
     .get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertOpenAIPageableListOfVectorStoreFileOutput(result.body);
 }
@@ -74,7 +75,7 @@ export async function createVectorStoreFile(
     .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
     .post(createOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileOutput(result.body);
 }
@@ -96,7 +97,7 @@ export async function getVectorStoreFile(
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
     .get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileOutput(result.body);
 }
@@ -120,7 +121,7 @@ export async function deleteVectorStoreFile(
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
     .delete(deleteOptions);
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreFileDeletionStatusOutput(result.body);
 }

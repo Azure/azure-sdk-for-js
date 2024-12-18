@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   AgentDeletionStatusOutput,
   AgentOutput,
@@ -28,6 +28,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConverterToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -61,7 +62,7 @@ export async function createAgent(
     async (updatedOptions) => {
       const result = await context.path("/assistants").post(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -88,7 +89,7 @@ export async function listAgents(
     async (updateOptions) => {
       const result = await context.path("/assistants").get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -116,7 +117,7 @@ export async function getAgent(
         .path("/assistants/{assistantId}", assistantId)
         .get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -152,7 +153,7 @@ export async function updateAgent(
         .path("/assistants/{assistantId}", assistantId)
         .post(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -181,7 +182,7 @@ export async function deleteAgent(
         .path("/assistants/{assistantId}", assistantId)
         .delete(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
