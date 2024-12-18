@@ -81,15 +81,26 @@ export function createVectorStoreFileBatch(
     return result.status === "cancelled";
   }
 
+  const poller = new AgentsPoller<VectorStoreFileBatchOutput>({
+    update: updateCreateVectorStoreFileBatch,
+    cancel: cancelCreateVectorStoreFileBatch,
+    pollingOptions: pollingOptions,
+  });
+
+  async function pollOnce(): Promise<VectorStoreFileBatchOutput> {
+    await poller.poll();
+    const initialResult = poller.getOperationState().result;
+    if (!initialResult) {
+      throw new Error("Error creating vector store file batch");
+    }
+    return initialResult;
+  }
+
   return {
     then: function (onFulfilled, onRejected) {
-      return executeCreateVectorStoreFileBatch().then(onFulfilled, onRejected).catch(onRejected);
+      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
-    poller: new AgentsPoller<VectorStoreFileBatchOutput>({
-      update: updateCreateVectorStoreFileBatch,
-      cancel: cancelCreateVectorStoreFileBatch,
-      pollingOptions: pollingOptions,
-    }),
+    poller: poller,
   }
 }
 

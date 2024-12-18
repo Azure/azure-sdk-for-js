@@ -93,14 +93,25 @@ export function uploadFile(
     };
   }
 
+  const poller = new AgentsPoller<OpenAIFileOutput>({
+    update: updateUploadFile,
+    pollingOptions: pollingOptions,
+  });
+
+  async function pollOnce(): Promise<OpenAIFileOutput> {
+    await poller.poll();
+    const initialResult = poller.getOperationState().result;
+    if (!initialResult) {
+      throw new Error("Poller returned no result");
+    }
+    return initialResult;
+  }
+
   return {
     then: function (onFulfilled, onRejected) {
-      return executeUploadFile().then(onFulfilled, onRejected).catch(onRejected);
+      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
-    poller: new AgentsPoller<OpenAIFileOutput>({
-      update: updateUploadFile,
-      pollingOptions: pollingOptions,
-    }),
+    poller: poller,
   }
 }
 

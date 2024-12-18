@@ -93,14 +93,25 @@ export function createVectorStore(
     };
   }
 
+  const poller = new AgentsPoller<VectorStoreOutput>({
+    update: updateCreateVectorStore,
+    pollingOptions: pollingOptions,
+  });
+
+  async function pollOnce(): Promise<VectorStoreOutput> {
+    await poller.poll();
+    const initialResult = poller.getOperationState().result;
+    if (!initialResult) {
+      throw new Error("Error creating vector store");
+    }
+    return initialResult;
+  }
+
   return {
     then: function (onFulfilled, onRejected) {
-      return executeCreateVectorStore().then(onFulfilled, onRejected).catch(onRejected);
+      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
-    poller: new AgentsPoller<VectorStoreOutput>({
-      update: updateCreateVectorStore,
-      pollingOptions: pollingOptions,
-    }),
+    poller: poller,
   };
 }
 

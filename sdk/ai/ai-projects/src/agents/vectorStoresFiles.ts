@@ -96,14 +96,25 @@ export function createVectorStoreFile(
     };
   }
 
+  const poller = new AgentsPoller<VectorStoreFileOutput>({
+    update: updateCreateVectorStoreFile,
+    pollingOptions: pollingOptions,
+  });
+
+  async function pollOnce(): Promise<VectorStoreFileOutput> {
+    await poller.poll();
+    const initialResult = poller.getOperationState().result;
+    if (!initialResult) {
+      throw new Error("Error creating vector store file");
+    }
+    return initialResult;
+  }
+
   return {
     then: function (onFulfilled, onRejected) {
-      return executeCreateVectorStoreFile().then(onFulfilled, onRejected).catch(onRejected);
+      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
-    poller: new AgentsPoller<VectorStoreFileOutput>({
-      update: updateCreateVectorStoreFile,
-      pollingOptions: pollingOptions,
-    }),
+    poller: poller,
   }
 }
 
