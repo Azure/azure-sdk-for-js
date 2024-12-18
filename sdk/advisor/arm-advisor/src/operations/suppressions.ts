@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Suppressions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Suppressions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AdvisorManagementClient } from "../advisorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
   SuppressionContract,
   SuppressionsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   SuppressionsCreateResponse,
   SuppressionsDeleteOptionalParams,
   SuppressionsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Suppressions operations. */

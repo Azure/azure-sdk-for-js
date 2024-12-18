@@ -13,9 +13,7 @@ import {
   AdvisorManagementClient
 } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.

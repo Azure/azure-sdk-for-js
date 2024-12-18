@@ -14,7 +14,7 @@ import {
 import {
   ConfigData as ConfigDataMapper,
   SuppressionContract as SuppressionContractMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

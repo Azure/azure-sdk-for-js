@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve Azure Advisor configurations and also retrieve configurations of contained resource groups.

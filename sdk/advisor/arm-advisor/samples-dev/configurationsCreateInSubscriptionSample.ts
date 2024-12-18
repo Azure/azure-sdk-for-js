@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfigData, AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
