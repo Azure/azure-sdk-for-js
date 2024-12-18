@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
 /**
- * FILE: files.ts
+ * This sample demonstrates how to how to use basic connections operations.
  *
- * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name.
- *
- *  USAGE:
- *  npm node files.ts
- *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity stream dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
+ * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections,
+ * get the properties of a default connection, and get the properties of a connection by its name.
+ * 
  */
 
 const { AIProjectsClient } = require("@azure/ai-projects");
@@ -22,9 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv").config();
 
-const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>;<subscription>;<resource group>;<project>";
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"];
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(

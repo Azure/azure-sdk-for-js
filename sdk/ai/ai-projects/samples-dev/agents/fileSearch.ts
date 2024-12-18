@@ -8,16 +8,17 @@
  *
  */
 
-import { AIProjectsClient, isOutputOfType, MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput, ToolUtility } from "@azure/ai-projects";
+import type { MessageContentOutput, MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-dotenv.config();
 import path from "node:path";
+dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"];
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());

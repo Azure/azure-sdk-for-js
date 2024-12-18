@@ -7,15 +7,15 @@
  * @summary demonstrates how to use agent operations with code interpreter.
  */
 
-import {AIProjectsClient, isOutputOfType, MessageTextContentOutput, MessageImageFileContentOutput, ToolUtility } from "@azure/ai-projects"
+import { AIProjectsClient, isOutputOfType, MessageImageFileContentOutput, MessageTextContentOutput, ToolUtility } from "@azure/ai-projects";
+import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-dotenv.config();
 import * as fs from "fs";
-import { delay } from "@azure/core-util";
 import path from "node:path";
+dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"];
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());

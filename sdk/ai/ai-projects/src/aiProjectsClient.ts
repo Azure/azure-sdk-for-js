@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { Client } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-import createClient from "./generated/src/projectsClient.js";
 import type { AgentsOperations } from "./agents/index.js";
 import { getAgentsOperations } from "./agents/index.js";
 import type { ConnectionsOperations } from "./connections/index.js";
 import { getConnectionsOperations } from "./connections/index.js";
+import type { ProjectsClientOptions } from "./generated/src/projectsClient.js";
+import createClient from "./generated/src/projectsClient.js";
 import type { TelemetryOperations } from "./telemetry/index.js";
 import { getTelemetryOperations } from "./telemetry/index.js";
-import type { Client } from "@azure-rest/core-client";
 
 /**
  * The options for the AIProjectsClient
@@ -25,10 +25,10 @@ export class AIProjectsClient {
   private _telemetryClient: Client;
 
   /*
-   * @param endpointParam - The Azure AI Studio project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
+   * @param endpointParam - The Azure AI Foundry project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
    * @param subscriptionId - The Azure subscription ID.
    * @param resourceGroupName - The name of the Azure Resource Group.
-   * @param projectName - The Azure AI Studio project name.
+   * @param projectName - The Azure AI Foundry project name.
    * @param options - the parameter for all optional parameters
    */
   constructor(
