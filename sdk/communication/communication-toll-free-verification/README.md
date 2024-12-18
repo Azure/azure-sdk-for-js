@@ -65,7 +65,7 @@ npm install @azure/identity
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
 ```javascript
-const { DefaultAzureCredential } = require ("@azure/identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
 
 const credential = new DefaultAzureCredential();
@@ -79,6 +79,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Get a Campaign Brief](#get-a-campaign-brief)
 
 ### Get the current applied configuration
+
 Use the `getCampaignBrief` method to obtain the current applied configuration for your resource.
 
 ```javascript
@@ -107,11 +108,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-toll-free-verification%2FREADME.png)

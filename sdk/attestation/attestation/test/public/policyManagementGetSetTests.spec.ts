@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable @typescript-eslint/no-invalid-this */
 
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
@@ -12,7 +11,6 @@ import {
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils.js";
 import { KnownCertificateModification } from "../../src/generated/index.js";
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64.js";

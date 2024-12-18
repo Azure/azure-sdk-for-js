@@ -75,6 +75,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/core-util": "^1.11.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@opentelemetry/instrumentation": "^0.56.0",
@@ -125,7 +126,8 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "browser": "./dist/browser/index.js",
   "exports": {
