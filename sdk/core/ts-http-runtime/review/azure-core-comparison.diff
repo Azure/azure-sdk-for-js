@@ -904,17 +904,14 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 688a7ea..deb4279 100644
+index aa95065..65e7734 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,117 +9,73 @@ declare global {
-   interface ReadableStream<R = any> {}
+@@ -9,115 +9,71 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
--
- /* eslint-enable @typescript-eslint/no-unused-vars */
+ 
 -export type { HttpMethods } from "@azure/core-util";
-+
 +export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +export { AbortError } from "./abort-controller/AbortError.js";
 +export {
@@ -982,15 +979,15 @@ index 688a7ea..deb4279 100644
 -  type ExponentialRetryPolicyOptions,
 -  exponentialRetryPolicyName,
 -} from "./policies/exponentialRetryPolicy.js";
-+export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
- export {
+-export {
 -  setClientRequestIdPolicy,
 -  setClientRequestIdPolicyName,
 -} from "./policies/setClientRequestIdPolicy.js";
 -export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
 -export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 -export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
--export {
++export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
+ export {
 -  redirectPolicy,
 -  redirectPolicyName,
 -  type RedirectPolicyOptions,
@@ -1889,7 +1886,7 @@ index deeee45..0000000
 -  };
 -}
 diff --git a/src/policies/retryPolicy.ts b/src/policies/retryPolicy.ts
-index f937b36..63f4f2a 100644
+index 6d2afd5..badccb2 100644
 --- a/src/policies/retryPolicy.ts
 +++ b/src/policies/retryPolicy.ts
 @@ -4,10 +4,11 @@
@@ -2954,7 +2951,7 @@ index 25cf55a..685eaed 100644
  
  /**
 diff --git a/src/util/file.ts b/src/util/file.ts
-index 48d09e6..73d19de 100644
+index 48d09e6..65c0e25 100644
 --- a/src/util/file.ts
 +++ b/src/util/file.ts
 @@ -1,7 +1,7 @@
@@ -2966,16 +2963,6 @@ index 48d09e6..73d19de 100644
  import { isNodeReadableStream } from "./typeGuards.js";
  
  /**
-@@ -42,9 +42,6 @@ const unimplementedMethods = {
-   arrayBuffer: () => {
-     throw new Error("Not implemented");
-   },
--  bytes: () => {
--    throw new Error("Not implemented");
--  },
-   slice: () => {
-     throw new Error("Not implemented");
-   },
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
 index f6819e8..7272d5d 100644
 --- a/src/util/helpers.ts

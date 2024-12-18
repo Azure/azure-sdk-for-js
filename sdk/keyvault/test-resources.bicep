@@ -126,7 +126,7 @@ resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   parent: blobService
 }
 
-resource managedIdentityRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource managedIdentityRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (enableHsm) {
   name: guid(resourceGroup().id, 'StorageBlobContributor', managedIdentityId)
   properties: {
     roleDefinitionId: subscriptionResourceId(

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PerfTestBase } from "./perfTestBase";
+import { PerfTestBase } from "./perfTestBase.js";
 import { isDefined } from "@azure/core-util";
 
 /**

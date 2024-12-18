@@ -12,6 +12,7 @@ This package contains a JavaScript SDK for Azure Communication Call Automation. 
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
+
 ```bash
 npm install @azure/communication-call-automation
 ```
@@ -19,32 +20,37 @@ npm install @azure/communication-call-automation
 ### Browser support
 
 #### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation][build_doc].
 
 ## Key concepts
-| Name                 | Description                                                                                                                                                                                                                                                                                                                              |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CallAutomationClient | `CallAutomationClient` is the primary interface for developers using this client library. It can be used to initiate calls by `createCall` or `answerCall`.                                                                                                                                                                              |
-| CallConnection       | `CallConnection` represents a ongoing call. Once the call is established with `createCall` or `answerCall`, further actions can be performed for the call, such as `transfer` or `addParticipant`.                                                                                                                                       |
-| CallMedia            | `CallMedia` can be used to do media related actions, such as `play`, to play media file. This can be retrieved from established `CallConnection`.                                                                                                                                                                                        |
-| CallRecording        | `CallRecording` can be used to do recording related actions, such as `startRecording`. This can be retrieved from `CallAutomationClient`.                                                                                                                                                                                                |
-| Callback Events      | Callback events are events sent back during duration of the call. It gives information and state of the call, such as `CallConnected`. `CallbackUrl` must be provided during `createCall` and `answerCall`, and callback events will be sent to this url. You can use `callAutomationEventParser` to parse these events when it arrives. |
-| Incoming Call Event  | When incoming call happens (that can be answered with `answerCall`), incoming call eventgrid event will be sent. This is different from Callback events above, and should be setup on Azure portal. See [Incoming Call][incomingcall] for detail.                                                                                        |
-| CallAutomationEventProcessor | `CallAutomationEventProcessor` is a convinient way to handle mid-call callback events such as `CallConnected`. This will ensure correlation between call and events more easily. See below example for its usage.|
+
+| Name                         | Description                                                                                                                                                                                                                                                                                                                              |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CallAutomationClient         | `CallAutomationClient` is the primary interface for developers using this client library. It can be used to initiate calls by `createCall` or `answerCall`.                                                                                                                                                                              |
+| CallConnection               | `CallConnection` represents a ongoing call. Once the call is established with `createCall` or `answerCall`, further actions can be performed for the call, such as `transfer` or `addParticipant`.                                                                                                                                       |
+| CallMedia                    | `CallMedia` can be used to do media related actions, such as `play`, to play media file. This can be retrieved from established `CallConnection`.                                                                                                                                                                                        |
+| CallRecording                | `CallRecording` can be used to do recording related actions, such as `startRecording`. This can be retrieved from `CallAutomationClient`.                                                                                                                                                                                                |
+| Callback Events              | Callback events are events sent back during duration of the call. It gives information and state of the call, such as `CallConnected`. `CallbackUrl` must be provided during `createCall` and `answerCall`, and callback events will be sent to this url. You can use `callAutomationEventParser` to parse these events when it arrives. |
+| Incoming Call Event          | When incoming call happens (that can be answered with `answerCall`), incoming call eventgrid event will be sent. This is different from Callback events above, and should be setup on Azure portal. See [Incoming Call][incomingcall] for detail.                                                                                        |
+| CallAutomationEventProcessor | `CallAutomationEventProcessor` is a convinient way to handle mid-call callback events such as `CallConnected`. This will ensure correlation between call and events more easily. See below example for its usage.                                                                                                                        |
 
 ## Examples
+
 ### Initialize CallAutomationClient
+
 ```JavaScript
 import { CallAutomationClient } from '@azure/communication-call-automation';
-import { DefaultAzureCredential } from "@azure/identity"; 
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Your unique Azure Communication service endpoint
-const credential = new DefaultAzureCredential(); 
-const endpointUrl = '<ENDPOINT>' 
-const callAutomationClient = new CallAutomationClient(endpointUrl, credential); 
+const credential = new DefaultAzureCredential();
+const endpointUrl = '<ENDPOINT>'
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 ```
 
 ### Create Call
+
 ```JavaScript
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { CallAutomationClient, CallInvite } from '@azure/communication-call-automation';
@@ -68,6 +74,7 @@ const response = callAutomationClient.createCall(callInvite, callbackUrl);
 ```
 
 ### Play Media
+
 ```JavaScript
 // from callconnection of response above, play media of media file
 const myFile: FileSource = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" }
@@ -75,14 +82,18 @@ const response = callConnection.getCallMedia().playToAll(myFile);
 ```
 
 ### Handle Mid-Connection callback events
+
 To easily handle mid-connection events, Call Automation's SDK provides easier way to handle these events. Take a look at CallAutomationEventProcessor. This will ensure correlation between call and events more easily.
+
 ```JavaScript
 const eventProcessor: CallAutomationEventProcessor = await callAutomationClient.getEventProcessor();
 eventProcessor.processEvents(incomingEvent);
 ```
+
 ProcessEvents is required for EventProcessor to work. After event is being consumed by EventProcessor, you can start using its feature.
 
 See below for example: where you are making a call with CreateCall, and wait for CallConnected event of the call.
+
 ```JavaScript
 // send out the invitation, creating call
 const callInvite = new CallInvite(target);
@@ -104,6 +115,7 @@ if (createCallEventResult.isSuccess)
 ## Troubleshooting
 
 ## Next steps
+
 - [Call Automation Overview][overview]
 - [Incoming Call Concept][incomingcall]
 - [Build a customer interaction workflow using Call Automation][build1]
@@ -118,12 +130,13 @@ if (createCallEventResult.isSuccess)
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 <!-- LINKS -->
+
 [overview]: https://learn.microsoft.com/azure/communication-services/concepts/voice-video-calling/call-automation
-[product_docs]: https://docs.microsoft.com/azure/communication-services/overview
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[product_docs]: https://learn.microsoft.com/azure/communication-services/overview
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [build_doc]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md
 [incomingcall]: https://learn.microsoft.com/azure/communication-services/concepts/voice-video-calling/incoming-call-notification
 [build1]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/callflows-for-customer-interactions?pivots=programming-language-csha
