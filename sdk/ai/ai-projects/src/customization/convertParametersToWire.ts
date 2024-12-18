@@ -7,7 +7,6 @@ import {
   convertVectorStoreChunkingStrategyRequest,
   convertVectorStoreDataSource,
 } from "./convertModelsToWrite.js";
-import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Request options for list requests.
@@ -17,16 +16,6 @@ interface ListQueryParameters {
   order?: "asc" | "desc";
   after?: string;
   before?: string;
-}
-
-/**
- * Options for configuring polling behavior.
- */
-interface PollingOptionsParams {
-  pollingOptions?: {
-    sleepIntervalInMs?: number;
-    abortSignal?: AbortSignalLike;
-  };
 }
 
 export function convertCreateVectorStoreFileBatchParam(
@@ -86,16 +75,5 @@ export function convertListFilesQueryParamProperties(
 ): GeneratedParameters.ListFilesQueryParamProperties & Record<string, unknown> {
   return {
     ...(options.purpose && { purpose: options.purpose }),
-  };
-}
-
-export function convertPollingOptions<T extends PollingOptionsParams>(
-  options: T,
-): Record<string, unknown> {
-  return {
-    ...(options.pollingOptions?.sleepIntervalInMs && {
-      polling_interval: options.pollingOptions?.sleepIntervalInMs,
-    }),
-    ...(options.pollingOptions?.abortSignal && { poll_until: options.pollingOptions?.abortSignal }),
   };
 }

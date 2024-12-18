@@ -40,7 +40,6 @@ export function createVectorStoreFileBatch(
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileBatchParam({ body: options }),
   };
-  const pollingOptions = ConvertParamsToWire.convertPollingOptions(options);
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileBatchParameters(createOptions);
 
@@ -84,7 +83,7 @@ export function createVectorStoreFileBatch(
   const poller = new AgentsPoller<VectorStoreFileBatchOutput>({
     update: updateCreateVectorStoreFileBatch,
     cancel: cancelCreateVectorStoreFileBatch,
-    pollingOptions: pollingOptions,
+    pollingOptions: options.pollingOptions,
   });
 
   async function pollOnce(): Promise<VectorStoreFileBatchOutput> {

@@ -31,10 +31,7 @@ import {
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
-import {
-  convertPollingOptions,
-  convertToListQueryParameters,
-} from "../customization/convertParametersToWire.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 
@@ -66,7 +63,6 @@ export function createVectorStore(
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
   };
-  const pollingOptions = convertPollingOptions(options);
   validateCreateVectorStoreParameters(createOptions);
 
   async function executeCreateVectorStore(): Promise<VectorStoreOutput> {
@@ -97,7 +93,7 @@ export function createVectorStore(
 
   const poller = new AgentsPoller<VectorStoreOutput>({
     update: updateCreateVectorStore,
-    pollingOptions: pollingOptions,
+    pollingOptions: options.pollingOptions,
   });
 
   async function pollOnce(): Promise<VectorStoreOutput> {

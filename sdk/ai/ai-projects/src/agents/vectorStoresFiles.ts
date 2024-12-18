@@ -27,10 +27,7 @@ import {
   validateOrder,
   validateVectorStoreId,
 } from "./inputValidations.js";
-import {
-  convertToListQueryParameters,
-  convertPollingOptions,
-} from "../customization/convertParametersToWire.js";
+import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
@@ -70,7 +67,6 @@ export function createVectorStoreFile(
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileParam({ body: options }),
   };
-  const pollingOptions = convertPollingOptions(options);
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileParameters(createOptions);
 
@@ -101,7 +97,7 @@ export function createVectorStoreFile(
 
   const poller = new AgentsPoller<VectorStoreFileOutput>({
     update: updateCreateVectorStoreFile,
-    pollingOptions: pollingOptions,
+    pollingOptions: options.pollingOptions,
   });
 
   async function pollOnce(): Promise<VectorStoreFileOutput> {

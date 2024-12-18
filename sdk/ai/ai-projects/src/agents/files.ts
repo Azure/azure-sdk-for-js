@@ -22,7 +22,6 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
 import { randomUUID } from "@azure/core-util";
-import { convertPollingOptions } from "../customization/convertParametersToWire.js";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -67,7 +66,6 @@ export function uploadFile(
     ],
     contentType: "multipart/form-data",
   };
-  const pollingOptions = convertPollingOptions(options);
 
   async function executeUploadFile(): Promise<OpenAIFileOutput> {
     const result = await context.path("/files").post(uploadFileOptions);
@@ -95,7 +93,7 @@ export function uploadFile(
 
   const poller = new AgentsPoller<OpenAIFileOutput>({
     update: updateUploadFile,
-    pollingOptions: pollingOptions,
+    pollingOptions: options.pollingOptions,
   });
 
   async function pollOnce(): Promise<OpenAIFileOutput> {
