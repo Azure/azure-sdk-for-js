@@ -34,7 +34,7 @@ import {
   CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CallConnection. */

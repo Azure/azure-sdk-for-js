@@ -38,7 +38,7 @@ import {
   StartDialogRequest as StartDialogRequestMapper,
   UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
