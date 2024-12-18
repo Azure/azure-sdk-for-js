@@ -138,6 +138,12 @@ describe("Agents - Run", () => {
     while (["queued", "in_progress", "requires_action"].includes(runDetails.status)) {
       await delay(1000);
       runDetails = await agents.getRun(thread.id, run.id);
+      if (runDetails.lastError) {
+        console.log(
+          `Run status ${runDetails.status} - ${runDetails.lastError.code} - ${runDetails.lastError.message}`,
+          "color:red",
+        );
+      }
       if (runDetails) {
         console.log(`Run status - ${runDetails.status}, run ID: ${runDetails.id}`);
       } else {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
 import type {
   CreateRunParameters,
   CreateThreadAndRunBodyParam,
@@ -22,6 +21,7 @@ import {
   validateTools,
   validateTruncationStrategy,
 } from "./inputValidations.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -47,7 +47,7 @@ async function processStream(streamResponse: StreamableMethod): Promise<AgentEve
     : await streamResponse.asBrowserStream();
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   if (!result.body) {
     throw new Error("No body in response");

@@ -95,10 +95,14 @@ describe("Agents - function tool", () => {
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
-
+    let toolCalled = false;
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
       await delay(1000);
       run = await agents.getRun(thread.id, run.id);
+      if (run.status === "failed") {
+        console.log(`Run failed - ${run.lastError?.code} - ${run.lastError?.message}`);
+        break;
+      }
       console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
       if (run.status === "requires_action" && run.requiredAction) {
         console.log(`Run requires action - ${run.requiredAction}`);
@@ -112,6 +116,7 @@ describe("Agents - function tool", () => {
               const functionOutput = toolCall as FunctionToolDefinitionOutput;
               console.log(`Function tool call - ${functionOutput.function.name}`);
               const toolResponse = getCurrentDateTime();
+              toolCalled = true;
               run = await agents.submitToolOutputsToRun(thread.id, run.id, [
                 { toolCallId: toolCall.id, output: JSON.stringify(toolResponse) },
               ]);
@@ -122,6 +127,7 @@ describe("Agents - function tool", () => {
       }
     }
     assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
+    assert.isTrue(toolCalled);
     console.log(`Run status - ${run.status}, run ID: ${run.id}`);
     const messages = await agents.listMessages(thread.id);
     messages.data.forEach((threadMessage) => {
