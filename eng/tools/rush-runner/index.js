@@ -81,7 +81,10 @@ const flatMap = (arr, f) => {
 
 const { baseDir, action, services: serviceDirs, flags: rushParams, artifactNames } = parseArgs();
 const actionComponents = action.toLowerCase().split(":");
+
+console.log(`Packages to build: ${artifactNames}`);
 const { packageNames, packageDirs } = getServicePackages(baseDir, serviceDirs, artifactNames);
+console.log(`Packages eligible to run rush task: ${packageNames}`);
 
 /**
  * Helper function to provide the rush logic that is used frequently below
@@ -151,6 +154,9 @@ const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.j
 let exitCode = 0;
 if (serviceDirs.length === 0) {
   exitCode = spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
+  if (exitCode) {
+    process.exit(exitCode);
+  }
 } else {
   switch (actionComponents[0]) {
     case "build":

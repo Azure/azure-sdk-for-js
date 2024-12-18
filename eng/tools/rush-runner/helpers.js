@@ -127,7 +127,6 @@ export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   const packageNames = [];
   const packageDirs = [];
   let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
-  console.log(`Packages to build: ${artifactNames}`);
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
@@ -144,6 +143,5 @@ export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
       }
     }
   }
-  console.log(`Packages eligible to run rush task: ${packageNames}`);
   return {packageNames, packageDirs};
 };
