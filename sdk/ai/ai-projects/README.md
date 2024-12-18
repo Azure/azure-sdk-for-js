@@ -155,7 +155,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
 });
 ```
 
-To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `tool_resources` arguments.
+To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
 
 You can use `ToolSet` to do this:
 
@@ -169,7 +169,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
   tools: toolSet.toolDefinitions,
-  tool_resources: toolSet.toolResources,
+  toolResources: toolSet.toolResources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
@@ -180,15 +180,13 @@ To perform file search by an Agent, we first need to upload a file, create a vec
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
-const file = await client.agents.uploadFile(
-  localFileStream,
-  "assistants",
-  "sample_file_for_upload.txt",
-);
+const file = await client.agents.uploadFile(localFileStream, "assistants", {
+  fileName: "sample_file_for_upload.txt",
+});
 console.log(`Uploaded file, ID: ${file.id}`);
 
 const vectorStore = await client.agents.createVectorStore({
-  file_ids: [file.id],
+  fileIds: [file.id],
   name: "my_vector_store",
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
@@ -199,7 +197,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
   name: "SDK Test Agent - Retrieval",
   instructions: "You are helpful agent that can help fetch data from files you know about.",
   tools: [fileSearchTool.definition],
-  tool_resources: fileSearchTool.resources,
+  toolResources: fileSearchTool.resources,
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
@@ -210,11 +208,9 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 
 ```javascript
 const fileStream = fs.createReadStream("nifty_500_quarterly_results.csv");
-const fFile = await client.agents.uploadFile(
-  fileStream,
-  "assistants",
-  "nifty_500_quarterly_results.csv",
-);
+const fFile = await client.agents.uploadFile(fileStream, "assistants", {
+  fileName: "nifty_500_quarterly_results.csv",
+});
 console.log(`Uploaded local file, file ID : ${file.id}`);
 
 const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([file.id]);
@@ -224,7 +220,7 @@ const agent = await client.agents.createAgent("gpt-4o-mini", {
   name: "my-agent",
   instructions: "You are a helpful agent",
   tools: [codeInterpreterTool.definition],
-  tool_resources: codeInterpreterTool.resources,
+  toolResources: codeInterpreterTool.resources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
@@ -241,17 +237,11 @@ const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGroundi
   bingGroundingConnectionId,
 ]);
 
-const agent = await client.agents.createAgent(
-  "gpt-4-0125-preview",
-  {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [bingTool.definition],
-  },
-  {
-    headers: { "x-ms-enable-preview": "true" },
-  },
-);
+const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [bingTool.definition],
+});
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
@@ -272,24 +262,18 @@ const azureAISearchTool = ToolUtility.createAzureAISearchTool(
 );
 
 // Create agent with the Azure AI search tool
-const agent = await client.agents.createAgent(
-  "gpt-4-0125-preview",
-  {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [azureAISearchTool.definition],
-    tool_resources: azureAISearchTool.resources,
-  },
-  {
-    headers: { "x-ms-enable-preview": "true" },
-  },
-);
+const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [azureAISearchTool.definition],
+  toolResources: azureAISearchTool.resources,
+});
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
 #### Create Agent with Function Call
 
-You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `tool_resources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
+You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `toolResources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
 
 Here is an example:
 
@@ -352,7 +336,7 @@ class FunctionToolExecutor {
     }
     const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
     return result ? {
-      tool_call_id: toolCall.id,
+      toolCallId: toolCall.id,
       output: JSON.stringify(result)
     } : undefined;
   }
@@ -383,19 +367,17 @@ const thread = await client.agents.createThread();
 
 #### Create Thread with Tool Resource
 
-In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `tool_resources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `tool_resources` argument.
+In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
-const file = await client.agents.uploadFile(
-  localFileStream,
-  "assistants",
-  "sample_file_for_upload.txt",
-);
+const file = await client.agents.uploadFile(localFileStream, "assistants", {
+  fileName: "sample_file_for_upload.txt",
+});
 console.log(`Uploaded file, ID: ${file.id}`);
 
 const vectorStore = await client.agents.createVectorStore({
-  file_ids: [file.id],
+  fileIds: [file.id],
   name: "my_vector_store",
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
@@ -411,7 +393,7 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 
 // Create thread with file resources.
 // If the agent has multiple threads, only this thread can search this file.
-const thread = await client.agents.createThread({ tool_resources: fileSearchTool.resources });
+const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
 ```
 
 #### Create Message
@@ -435,7 +417,7 @@ const message = await client.agents.createMessage(thread.id, {
   role: "user",
   content: "What feature does Smart Eyewear offer?",
   attachments: {
-    file_id: file.id,
+    fileId: file.id,
     tools: [fileSearchTool.definition],
   },
 });
@@ -466,7 +448,7 @@ const message = await client.agents.createMessage(thread.id, {
   content:
     "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
   attachments: {
-    file_id: file.id,
+    fileId: file.id,
     tools: [codeInterpreterTool.definition],
   },
 });
@@ -568,10 +550,10 @@ Here is an example retrieving file ids from messages:
 
 ```javascript
 const messages = await client.agents.listMessages(thread.id);
-const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
-const imageFileName = (await client.agents.getFile(imageFile.file_id)).filename;
+const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
+const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
 
-const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
+const fileContent = await (await client.agents.getFileContent(imageFile.fileId).asNodeStream()).body;
 if (fileContent) {
   const chunks: Buffer[] = [];
   for await (const chunk of fileContent) {
@@ -596,7 +578,7 @@ console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 await client.agents.deleteFile(file.id);
 console.log(`Deleted file, file ID: ${file.id}`);
 
-project_client.agents.deleteAgent(agent.id);
+client.agents.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 
