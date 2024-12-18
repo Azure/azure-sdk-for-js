@@ -1,10 +1,13 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
 - User List endpoint
+- User defined endpoint
+- User defined endpoint with module
+- Roles endpoint
 
 ### Breaking Changes
 
