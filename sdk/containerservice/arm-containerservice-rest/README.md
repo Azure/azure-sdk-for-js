@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservice-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-containerservice)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview)
 - [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -35,7 +35,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -58,10 +58,12 @@ async function listManagedClusters() {
   const subscriptionId = process.env.SUBSCRIPTION_ID as string;
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-    subscriptionId
-  ).get();
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
+      subscriptionId,
+    )
+    .get();
   const result = paginate(client, initialResponse);
   const resArray = new Array();
   for await (let item of result) {

@@ -11,13 +11,6 @@ export default mergeConfig(
       fileParallelism: false,
       testTimeout: 30000,
       globalSetup: "test/server/start.mts",
-      include: ["test/**/*.spec.ts"],
-      exclude: ["test/snippets.spec.ts"],
-      typecheck: {
-        enabled: true,
-        tsconfig: "./tsconfig.test.json",
-        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"]
-      },
     },
   }),
 );

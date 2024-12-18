@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -9,12 +8,6 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      typecheck: {
-        enabled: true,
-        tsconfig: "tsconfig.test.json",
-        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
-      },
-      include: ["test/**/*.spec.ts"],
       hookTimeout: 60000,
       testTimeout: 600000,
     },
