@@ -106,7 +106,7 @@ jobs:
         Commitish: ${{ parameters.LanguageRepoCommitish }}
         WorkingDirectory: $(System.DefaultWorkingDirectory)
       - Name: Azure/azure-sdk-tools
-        Commitish: ${{ parameters.ToolsRepoCommitish }}
+        Commitish: 075e38660364c3f09556f90b3bd11952183c1a1f
         WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-tools
 
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -114,14 +114,6 @@ jobs:
       AgentImage: $(OSVmImage)
 
   - ${{ parameters.InstallLanguageSteps }}
-
-  - task: UseDotNet@2
-    displayName: "Use .NET SDK 9.0.x"
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: 9.0.x
-      performMultiLevelLookup: true
 
   - template: /eng/common/TestResources/deploy-test-resources.yml
     parameters:
