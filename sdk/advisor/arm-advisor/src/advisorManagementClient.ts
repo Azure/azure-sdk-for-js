@@ -20,15 +20,15 @@ import {
   RecommendationsImpl,
   OperationsImpl,
   SuppressionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   RecommendationMetadata,
   Configurations,
   Recommendations,
   Operations,
   Suppressions
-} from "./operationsInterfaces";
-import { AdvisorManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AdvisorManagementClientOptionalParams } from "./models/index.js";
 
 export class AdvisorManagementClient extends coreClient.ServiceClient {
   $host: string;
