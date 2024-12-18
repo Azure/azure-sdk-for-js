@@ -70,7 +70,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package",
+    "build": "npm run clean && tshy",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
@@ -132,6 +132,7 @@
     "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
+    "tshy": "^2.0.0",
     "vitest": "^2.1.8"
   },
   "tshy": {
