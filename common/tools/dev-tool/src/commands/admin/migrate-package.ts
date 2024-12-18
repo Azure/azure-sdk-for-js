@@ -130,12 +130,16 @@ async function applyCodemods(projectFolder: string): Promise<void> {
   for (const mod of codemods) {
     log.info(`Applying codemod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
-      // Skip whitelisted files
+      // Skip config files
       if (skipPatterns.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
         continue;
       }
 
       mod(sourceFile);
+
+      // Clean up source file after applying the codemod
+      sourceFile.fixUnusedIdentifiers();
+
       await sourceFile.save();
     }
     await commitChanges(projectFolder, `Apply codemod: "${mod.name}"`);
@@ -301,7 +305,10 @@ async function upgradePackageJson(
   setFilesSection(packageJson);
 
   // Set scripts
-  setScriptsSection(packageJson.scripts, options);
+  setScriptsSection(packageJson.scripts, {
+    ...options,
+    isArm: packageJson.name.includes("@azure/arm-"),
+  });
 
   // Rename files and rewrite browser field
   await renameFieldFiles("browser", "browser", projectFolder, packageJson);
@@ -318,7 +325,10 @@ async function upgradePackageJson(
   await saveJson(packageJsonPath, packageJson);
 }
 
-function setScriptsSection(scripts: PackageJson["scripts"], options: { browser: boolean }): void {
+function setScriptsSection(
+  scripts: PackageJson["scripts"],
+  options: { browser: boolean; isArm: boolean },
+): void {
   scripts["build"] =
     "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
 
@@ -328,6 +338,10 @@ function setScriptsSection(scripts: PackageJson["scripts"], options: { browser: 
   }
 
   scripts["unit-test:node"] = "dev-tool run test:vitest";
+
+  if (options.isArm) {
+    scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
+  }
 
   for (const script of Object.keys(scripts)) {
     if (scripts[script].includes("tsc -p .")) {
