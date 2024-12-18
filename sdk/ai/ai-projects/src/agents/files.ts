@@ -82,7 +82,7 @@ export function uploadFile(
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
     let file: OpenAIFileOutput;
     if (!currentResult) {
-      file = await uploadFile(context, content, purpose, options);
+      file = await executeUploadFile();
     } else {
       file = await getFile(context, currentResult.id, options);
     }
