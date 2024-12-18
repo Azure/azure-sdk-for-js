@@ -5,7 +5,10 @@
  * @summary Authenticates using Interactive Browser Credential
  */
 
-const { InteractiveBrowserCredential } = require("@azure/identity");
+const { InteractiveBrowserCredential, useIdentityPlugin } = require("@azure/identity");
+const { cachePersistencePlugin } = require("@azure/identity-cache-persistence");
+
+useIdentityPlugin(cachePersistencePlugin);
 const { setLogLevel } = require("@azure/logger");
 setLogLevel("verbose")
 require("dotenv").config();
@@ -15,7 +18,13 @@ const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Microsoft Entr
 
 async function main() {
   const credential = new InteractiveBrowserCredential({
-    loginHint: "kghiya8@gmail.com"
+    loginHint: "kghiya8@gmail.com",
+    tokenCachePersistenceOptions:
+    {
+      enabled: true,
+      name: "myCache",
+      cachePlugin: cachePersistencePlugin
+    }
   });
 
  
