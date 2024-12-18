@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/EmptyResponse.json
  */
 async function getGenerateStatus() {
-  const subscriptionId =
-    process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const operationId = "operationGUID";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential, subscriptionId);
@@ -28,7 +27,7 @@ async function getGenerateStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getGenerateStatus();
 }
 

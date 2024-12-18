@@ -26,7 +26,7 @@ async function getMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMetadata();
 }
 

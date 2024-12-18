@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  RecommendationsListOptionalParams,
-  AdvisorManagementClient
-} from "@azure/arm-advisor";
+import { RecommendationsListOptionalParams, AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendations.json
  */
 async function listRecommendations() {
-  const subscriptionId =
-    process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const top = 10;
   const options: RecommendationsListOptionalParams = { top };
   const credential = new DefaultAzureCredential();
@@ -35,7 +31,7 @@ async function listRecommendations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRecommendations();
 }
 

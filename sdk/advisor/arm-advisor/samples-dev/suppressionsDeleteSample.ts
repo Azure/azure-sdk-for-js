@@ -24,15 +24,11 @@ async function deleteSuppression() {
   const name = "suppressionName1";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.suppressions.delete(
-    resourceUri,
-    recommendationId,
-    name
-  );
+  const result = await client.suppressions.delete(resourceUri, recommendationId, name);
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSuppression();
 }
 

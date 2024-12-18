@@ -24,15 +24,11 @@ async function getSuppressionDetail() {
   const name = "suppressionName1";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.suppressions.get(
-    resourceUri,
-    recommendationId,
-    name
-  );
+  const result = await client.suppressions.get(resourceUri, recommendationId, name);
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSuppressionDetail();
 }
 

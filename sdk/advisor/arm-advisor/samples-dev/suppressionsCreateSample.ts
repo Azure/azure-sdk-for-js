@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  SuppressionContract,
-  AdvisorManagementClient
-} from "@azure/arm-advisor";
+import { SuppressionContract, AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -32,12 +29,12 @@ async function createSuppression() {
     resourceUri,
     recommendationId,
     name,
-    suppressionContract
+    suppressionContract,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createSuppression();
 }
 

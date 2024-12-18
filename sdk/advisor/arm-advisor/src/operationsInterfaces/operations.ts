@@ -16,7 +16,5 @@ export interface Operations {
    * Lists all the available Advisor REST API operations.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<OperationEntity>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
 }

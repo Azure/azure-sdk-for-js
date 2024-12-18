@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListConfigurations.json
  */
 async function getConfigurations() {
-  const subscriptionId =
-    process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -30,7 +29,7 @@ async function getConfigurations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getConfigurations();
 }
 

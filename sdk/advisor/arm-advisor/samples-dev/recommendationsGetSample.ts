@@ -23,14 +23,11 @@ async function getRecommendationDetail() {
   const recommendationId = "recommendationId";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.recommendations.get(
-    resourceUri,
-    recommendationId
-  );
+  const result = await client.recommendations.get(resourceUri, recommendationId);
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRecommendationDetail();
 }
 

@@ -1,6 +1,91 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
+function replaceWithViFn(node: Node) {
+  const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
+  const methodNameAfterStub = parent?.getName();
+
+  if (methodNameAfterStub === "returns" || methodNameAfterStub === "resolves") {
+    const returnsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
+    if (returnsCall && returnsCall.getArguments().length > 0) {
+      const returnValue = returnsCall.getArguments()[0].getText(); // Extract the text
+      const vitestMethod =
+        methodNameAfterStub === "returns" ? "mockReturnValue" : "mockResolvedValue";
+
+      // Replace the entire call chain (stub + returns) with spyOn + mockReturnValue
+      // or spyOn + mockResolvedValue depending on the method name
+      returnsCall.replaceWithText(`vi.fn().${vitestMethod}(${returnValue})`);
+
+      // Skip all children of the current node as it was already transformed
+      traversal.skip();
+    } else if (methodNameAfterStub === "throwsException") {
+      const throwsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
+      if (throwsCall && throwsCall.getArguments().length > 0) {
+        const errorValue = throwsCall.getArguments()[0].getText(); // Extract the text
+
+        // Replace the entire call chain (stub + throwsException) with spyOn + mockRejectedValue
+        throwsCall.replaceWithText(`vi.fn().mockRejectedValue(${errorValue})`);
+
+        // Skip all children of the current node as it was already transformed
+        traversal.skip();
+      }
+    } else if (methodNameAfterStub === undefined) {
+      // Replace the entire call chain (sinon.stub) with spyOn
+      node.replaceWithText(`vi.fn()`);
+
+      // Skip all children of the current node as it was already transformed
+      traversal.skip();
+    }
+  }
+}
+
+function replaceWithViSpyOn(node: Node) {
+  const obj = args[0].getText(); // Extract text before replacing the node
+  const methodName = args[1].getText(); // Extract text before replacing the node
+
+  const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
+  const methodNameAfterStub = parent?.getName();
+
+  if (methodNameAfterStub === "returns" || methodNameAfterStub === "resolves") {
+    const returnsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
+    if (returnsCall && returnsCall.getArguments().length > 0) {
+      const returnValue = returnsCall.getArguments()[0].getText(); // Extract the text
+      const vitestMethod =
+        methodNameAfterStub === "returns" ? "mockReturnValue" : "mockResolvedValue";
+
+      // Replace the entire call chain (stub + returns) with spyOn + mockReturnValue
+      // or spyOn + mockResolvedValue depending on the method name
+      returnsCall.replaceWithText(`
+            vi.spyOn(${obj}, ${methodName})
+            .${vitestMethod}(${returnValue})
+          `);
+
+      // Skip all children of the current node as it was already transformed
+      traversal.skip();
+    }
+  } else if (methodNameAfterStub === "throwsException") {
+    const throwsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
+    if (throwsCall && throwsCall.getArguments().length > 0) {
+      const errorValue = throwsCall.getArguments()[0].getText(); // Extract the text
+
+      // Replace the entire call chain (stub + throwsException) with spyOn + mockRejectedValue
+      throwsCall.replaceWithText(`
+            vi.spyOn(${obj}, ${methodName})
+            .mockRejectedValue(${errorValue})
+          `);
+
+      // Skip all children of the current node as it was already transformed
+      traversal.skip();
+    }
+  } else if (methodNameAfterStub === undefined) {
+    // Replace the entire call chain (sinon.stub) with spyOn
+    node.replaceWithText(`vi.spyOn(${obj}, ${methodName})`);
+
+    // Skip all children of the current node as it was already transformed
+    traversal.skip();
+  }
+}
+
 /**
  * Replaces usages of `sinon.stub` with `vi.spyOn` and `sinon.restore` with `vi.restoreAllMocks`
  *
@@ -11,6 +96,7 @@ import * as ts from "typescript"; // For using TypeScript factory methods
  * 3. sinon.stub(obj, "methodName").throwsException(someError) => vi.spyOn(obj, "methodName").mockRejectedValue(someError)
  * 4. sinon.restore() => vi.restoreAllMocks()
  * 5. sandbox.restore() => vi.restoreAllMocks()
+ * 6. sinon.stub() => vi.fn()
  */
 export default function replaceSinonStub(sourceFile: SourceFile) {
   // Helper function to perform a case-insensitive check for the 'sinon' identifier
@@ -30,51 +116,11 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
         callee.getName() === "stub"
       ) {
         const args = node.getArguments();
-        if (args.length < 2) return; // Ensure we have enough arguments
 
-        const obj = args[0].getText(); // Extract text before replacing the node
-        const methodName = args[1].getText(); // Extract text before replacing the node
-
-        const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
-        const methodNameAfterStub = parent?.getName();
-
-        if (methodNameAfterStub === "returns" || methodNameAfterStub === "resolves") {
-          const returnsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
-          if (returnsCall && returnsCall.getArguments().length > 0) {
-            const returnValue = returnsCall.getArguments()[0].getText(); // Extract the text
-            const vitestMethod =
-              methodNameAfterStub === "returns" ? "mockReturnValue" : "mockResolvedValue";
-
-            // Replace the entire call chain (stub + returns) with spyOn + mockReturnValue
-            // or spyOn + mockResolvedValue depending on the method name
-            returnsCall.replaceWithText(`
-            vi.spyOn(${obj}, ${methodName})
-            .${vitestMethod}(${returnValue})
-          `);
-
-            // Skip all children of the current node as it was already transformed
-            traversal.skip();
-          }
-        } else if (methodNameAfterStub === "throwsException") {
-          const throwsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
-          if (throwsCall && throwsCall.getArguments().length > 0) {
-            const errorValue = throwsCall.getArguments()[0].getText(); // Extract the text
-
-            // Replace the entire call chain (stub + throwsException) with spyOn + mockRejectedValue
-            throwsCall.replaceWithText(`
-            vi.spyOn(${obj}, ${methodName})
-            .mockRejectedValue(${errorValue})
-          `);
-
-            // Skip all children of the current node as it was already transformed
-            traversal.skip();
-          }
-        } else if (methodNameAfterStub === undefined) {
-          // Replace the entire call chain (sinon.stub) with spyOn
-          node.replaceWithText(`vi.spyOn(${obj}, ${methodName})`);
-
-          // Skip all children of the current node as it was already transformed
-          traversal.skip();
+        if (args.length === 0) {
+          replaceWithViFn(node);
+        } else if (args.length >= 2) {
+          replaceWithViSpyOn(node);
         }
       } else if (
         ts.isPropertyAccessExpression(callee.compilerNode) &&

@@ -275,7 +275,8 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
 }
 
 function setScriptsSection(scripts: PackageJson["scripts"]): void {
-  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
+  scripts["build"] =
+    "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
 
   scripts["unit-test:browser"] =
     "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
@@ -291,7 +292,7 @@ function setScriptsSection(scripts: PackageJson["scripts"]): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setFilesSection(packageJson: any): void {
-  packageJson.files = ["dist/", "README.md", "LICENSE"];
+  packageJson.files = ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
