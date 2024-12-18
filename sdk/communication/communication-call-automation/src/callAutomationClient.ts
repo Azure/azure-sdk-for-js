@@ -7,7 +7,6 @@ import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
-  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
 import { logger } from "./models/logger.js";
@@ -15,7 +14,6 @@ import type {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
-  MicrosoftTeamsAppIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
