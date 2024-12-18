@@ -72,19 +72,19 @@ importers:
         version: file:projects/app-configuration.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-advisor':
         specifier: file:./projects/arm-advisor.tgz
-        version: file:projects/arm-advisor.tgz
+        version: file:projects/arm-advisor.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-agrifood':
         specifier: file:./projects/arm-agrifood.tgz
-        version: file:projects/arm-agrifood.tgz
+        version: file:projects/arm-agrifood.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
       '@rush-temp/arm-analysisservices':
         specifier: file:./projects/arm-analysisservices.tgz
         version: file:projects/arm-analysisservices.tgz
       '@rush-temp/arm-apicenter':
         specifier: file:./projects/arm-apicenter.tgz
-        version: file:projects/arm-apicenter.tgz
+        version: file:projects/arm-apicenter.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
       '@rush-temp/arm-apimanagement':
         specifier: file:./projects/arm-apimanagement.tgz
-        version: file:projects/arm-apimanagement.tgz
+        version: file:projects/arm-apimanagement.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
       '@rush-temp/arm-appcomplianceautomation':
         specifier: file:./projects/arm-appcomplianceautomation.tgz
         version: file:projects/arm-appcomplianceautomation.tgz
@@ -2516,11 +2516,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
-    resolution: {integrity: sha512-xSYl+4IYPWIxFqAyION4BRsWO/OfSl2l0qETNmvz9LyfTDY36sw6tcqvzk0CVGp1M6rfzSFpkqqVhr2sTLqyLw==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-DSmDhGai4HPlrXuT+XuOo23UXk5rGNWK6MYU2DasODsLUEbzpyHacsH3vempWORzjXJ8/BQipeCTBg2AOReE0g==, tarball: file:projects/arm-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz':
-    resolution: {integrity: sha512-faqvQ6Yfe9K1eDj3m5YlpfAgE2vZXU3ERmbD9+npJdRhxEvazTNlKt6rMGCDkT6hb20CU8qO7eNpUx6ht//OeQ==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-Kv3K2J9hLs9u3a7bAIHg32VOovsjFMkNX4YyPdtzl8nvbJDbkWbgJMldGePCsVfQT/gKt9rb4FjQkuaEOnoXAg==, tarball: file:projects/arm-agrifood.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-analysisservices@file:projects/arm-analysisservices.tgz':
@@ -2528,11 +2528,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-apicenter@file:projects/arm-apicenter.tgz':
-    resolution: {integrity: sha512-7XnNlP+0iJQNJDlkcWeF5p2VfK3WokuFIR9TTVcsKp+HLFux7NxRLmJWOc0MHY+xCRInmoQGDWvIP7iyrvXKlw==, tarball: file:projects/arm-apicenter.tgz}
+    resolution: {integrity: sha512-15A5ivtSWTZ75Ev16QNA4jGVSb8pv3EZ4jif8RhfShiTAn8EK4S6fVqB3C0254Yv05PAqqjqspplpLWHqkVZfg==, tarball: file:projects/arm-apicenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
-    resolution: {integrity: sha512-00aKO8kZKXmEPx1Dk6WJaNWTZlkf8a/ACSgfzO3KJl+ajhHz6esxJiUXzr8JD946eXlxiEJ1HelJpeZKJQWMxg==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-21fUiCFQejze8e2l3PwTiHFc8KDuj3L8nXnEeFExNELM/nS+iCf6rEih+d5pe0+O6rQ3camxDNAA223kC/eBCA==, tarball: file:projects/arm-apimanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
@@ -10369,42 +10369,59 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
+  '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.2
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
 
-  '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz':
+  '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       tslib: 2.8.1
       typescript: 5.7.2
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
 
   '@rush-temp/arm-analysisservices@file:projects/arm-analysisservices.tgz':
     dependencies:
@@ -10425,45 +10442,55 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-apicenter@file:projects/arm-apicenter.tgz':
+  '@rush-temp/arm-apicenter@file:projects/arm-apicenter.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
       tslib: 2.8.1
       typescript: 5.7.2
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
 
-  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
+  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.68
-      chai: 4.5.0
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
       tslib: 2.8.1
       typescript: 5.7.2
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
     dependencies:
