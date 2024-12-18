@@ -14,15 +14,22 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"];
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  
-  const agent  = await client.agents.createAgent("gpt-4o",{name:"my-agent", instructions:"You are helpful agent"});
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
+
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are helpful agent",
+  });
 
   console.log(`Created agent, agent ID : ${agent.id}`);
-  
+
   client.agents.deleteAgent(agent.id);
 
   console.log(`Deleted agent, agent ID: ${agent.id}`);
