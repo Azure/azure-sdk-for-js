@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "{packageJson.name}": [
+      "@azure/arm-agrifood": [
         "./dist/esm"
       ]
     }
