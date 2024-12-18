@@ -253,13 +253,13 @@ export class Items {
   ): ChangeFeedPullModelIterator<T> {
     const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
-    const iterator = new ChangeFeedIteratorBuilder(
+    const iterator = new ChangeFeedIteratorBuilder<T>(
       cfOptions,
       this.clientContext,
       this.container,
       this.partitionKeyRangeCache,
     );
-    return iterator as unknown as ChangeFeedPullModelIterator<T>;
+    return iterator;
   }
 
   /**
