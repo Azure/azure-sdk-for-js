@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Visual Studio Resource Provider client.
 
-Use these APIs to manage Visual Studio Team Services resources through the Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see https://docs.microsoft.com/rest/api/index.
+Use these APIs to manage Visual Studio Team Services resources through the Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see https://learn.microsoft.com/rest/api/index.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/visualstudio/arm-visualstudio) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-visualstudio) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-visualstudio?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-visualstudio?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -46,7 +46,7 @@ npm install @azure/identity
 You will also need to **register a new AAD application and grant access to Azure Visual Studio Resource Provider** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
 const { VisualStudioResourceProviderClient } = require("@azure/arm-visualstudio");
@@ -64,8 +64,8 @@ const client = new VisualStudioResourceProviderClient(new DefaultAzureCredential
 // const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
 ```
 
-
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -101,7 +101,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fvisualstudio%2Farm-visualstudio%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com

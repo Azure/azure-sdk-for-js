@@ -2287,12 +2287,13 @@ export interface MitiScanProperties extends ScanProperties {
 }
 
 // @public (undocumented)
-export interface Notification {
+interface Notification_2 {
     // (undocumented)
     code?: number;
     // (undocumented)
     message?: string;
 }
+export { Notification_2 as Notification }
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -2834,7 +2835,7 @@ export interface ScanBase extends ProxyResource {
 export interface ScanDiagnostics {
     exceptionCountMap?: Record<string, number>;
     // (undocumented)
-    notifications?: Array<Notification>;
+    notifications?: Array<Notification_2>;
 }
 
 // @public (undocumented)
