@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GatewayContract, ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the details of the gateway specified by its identifier.
