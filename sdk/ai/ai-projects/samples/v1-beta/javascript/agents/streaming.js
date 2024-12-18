@@ -1,12 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * This sample demonstrates how to use agent operations in streaming from the Azure Agents service.
- *
- * @summary demonstrates how to use agent operations in streaming.
- */
-
 const {
   AIProjectsClient,
   DoneEvent,
@@ -19,8 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(

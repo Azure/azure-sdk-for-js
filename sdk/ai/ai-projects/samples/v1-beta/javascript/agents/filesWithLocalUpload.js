@@ -10,13 +10,13 @@
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
+dotenv.config();
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(

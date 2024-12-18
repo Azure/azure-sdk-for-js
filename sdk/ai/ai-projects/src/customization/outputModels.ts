@@ -1233,7 +1233,7 @@ export interface EvaluationOutput {
   readonly id: string;
   /** Data for evaluation. */
   data: InputDataOutput;
-  /** Display Name for evaluation. It helps to find evaluation easily in AI Studio. It does not need to be unique. */
+  /** Display Name for evaluation. It helps to find evaluation easily in AI Foundry. It does not need to be unique. */
   displayName?: string;
   /** Description of the evaluation. It can be used to store additional information about the evaluation and is mutable. */
   description?: string;

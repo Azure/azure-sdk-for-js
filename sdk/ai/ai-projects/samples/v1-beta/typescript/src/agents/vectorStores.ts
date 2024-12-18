@@ -13,10 +13,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Create a vector store
   const vectorStore = await client.agents.createVectorStore({ name: "myVectorStore" });
@@ -27,7 +31,9 @@ export async function main(): Promise<void> {
   console.log("List of vector stores:", vectorStores);
 
   // Modify the vector store
-  const updatedVectorStore = await client.agents.modifyVectorStore(vectorStore.id, { name: "updatedVectorStore" });
+  const updatedVectorStore = await client.agents.modifyVectorStore(vectorStore.id, {
+    name: "updatedVectorStore",
+  });
   console.log(`Updated vector store, vector store ID: ${updatedVectorStore.id}`);
 
   // Get a specific vector store

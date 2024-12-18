@@ -1,26 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** 
+/**
  * This sample demonstrates how to use basic run agent operations from the Azure Agents service.
- * 
+ *
  * @summary demonstrates how to use basic run agent operations.
  *
  */
-
 
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString, new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Create agent
-  const agent = await client.agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent" });
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are a helpful agent",
+  });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create thread
@@ -28,7 +34,10 @@ async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message
-  const message = await client.agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
+  const message = await client.agents.createMessage(thread.id, {
+    role: "user",
+    content: "hello, world!",
+  });
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run
@@ -37,7 +46,7 @@ async function main(): Promise<void> {
 
   // Wait for run to complete
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     run = await client.agents.getRun(thread.id, run.id);
     console.log(`Run status: ${run.status}`);
   }

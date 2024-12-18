@@ -1,12 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from the Azure Agents service.
- *
- * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.
- */
-
 const {
   AIProjectsClient,
   DoneEvent,
@@ -22,11 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  // Create an Azure AI Client from a connection string, copied from your AI Studio project.
+  // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
   const client = AIProjectsClient.fromConnectionString(

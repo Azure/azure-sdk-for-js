@@ -8,23 +8,44 @@
  *
  */
 
-import {AIProjectsClient, isOutputOfType, ToolUtility, MessageTextContentOutput, MessageImageFileContentOutput, RunStreamEvent, MessageStreamEvent, ThreadRunOutput, MessageDeltaChunk, MessageDeltaTextContent, ErrorEvent, DoneEvent } from "@azure/ai-projects"
+import type {
+  MessageDeltaChunk,
+  MessageDeltaTextContent,
+  MessageImageFileContentOutput,
+  MessageTextContentOutput,
+  ThreadRunOutput,
+} from "@azure/ai-projects";
+import {
+  AIProjectsClient,
+  DoneEvent,
+  ErrorEvent,
+  isOutputOfType,
+  MessageStreamEvent,
+  RunStreamEvent,
+  ToolUtility,
+} from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
-dotenv.config();
 import * as fs from "fs";
 import path from "node:path";
+dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "myLocalFile"});
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
+    fileName: "myLocalFile",
+  });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
@@ -45,9 +66,10 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.agents.createMessage(thread.id, { 
-    role: "user", 
-    content: "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?" 
+  const message = await client.agents.createMessage(thread.id, {
+    role: "user",
+    content:
+      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
   });
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -58,16 +80,16 @@ export async function main(): Promise<void> {
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`)
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
             if (contentPart.type === "text") {
-              const textContent = contentPart as MessageDeltaTextContent
-              const textValue = textContent.text?.value || "No text"
-              console.log(`Text delta received:: ${textValue}`)
+              const textContent = contentPart as MessageDeltaTextContent;
+              const textValue = textContent.text?.value || "No text";
+              console.log(`Text delta received:: ${textValue}`);
             }
           });
         }
@@ -94,9 +116,11 @@ export async function main(): Promise<void> {
   console.log("Messages:", messages);
 
   // Get most recent message from the assistant
-  const assistantMessage = messages.data.find(msg => msg.role === "assistant");
+  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
-    const textContent = assistantMessage.content.find(content => isOutputOfType<MessageTextContentOutput>(content, "text")) as MessageTextContentOutput;
+    const textContent = assistantMessage.content.find((content) =>
+      isOutputOfType<MessageTextContentOutput>(content, "text"),
+    ) as MessageTextContentOutput;
     if (textContent) {
       console.log(`Last message: ${textContent.text.value}`);
     }
@@ -104,9 +128,12 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFileOutput = (messages.data[0].content[0] as MessageImageFileContentOutput);
-  const imageFile = imageFileOutput.imageFile.fileId; 
-  const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png");
+  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContentOutput;
+  const imageFile = imageFileOutput.imageFile.fileId;
+  const imageFileName = path.resolve(
+    __dirname,
+    "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
+  );
   console.log(`Image file name : ${imageFileName}`);
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
@@ -122,16 +149,15 @@ export async function main(): Promise<void> {
   }
   console.log(`Saved image file to: ${imageFileName}`);
 
-
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
   messages.data.forEach((m) => {
     console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`); 
+    console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
       const textContent = m.content[0] as MessageTextContentOutput;
       console.log(`Text: ${textContent.text.value}`);
-    } 
+    }
     console.log(`File ID: ${m.id}`);
     console.log(`Start Index: ${messages.firstId}`);
     console.log(`End Index: ${messages.lastId}`);
