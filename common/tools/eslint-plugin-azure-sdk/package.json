@@ -25,6 +25,14 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "type": "module",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
