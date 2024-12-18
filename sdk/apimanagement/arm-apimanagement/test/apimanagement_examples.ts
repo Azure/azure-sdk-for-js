@@ -14,8 +14,8 @@ import {
     Recorder,
     RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { ApiManagementClient } from "../src/apiManagementClient.js";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
     SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
