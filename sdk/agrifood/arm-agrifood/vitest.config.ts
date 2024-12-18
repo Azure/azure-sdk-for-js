@@ -5,11 +5,4 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      include: ["test/**/*.spec.ts"],
-    },
-  }),
-);
+export default viteConfig;
