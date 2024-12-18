@@ -7,7 +7,7 @@
  */
 
 import { describe, it, assert } from "vitest";
-import plugin from "../src";
+import plugin from "../src/index.js";
 
 /**
  * A list of all currently supported rules
