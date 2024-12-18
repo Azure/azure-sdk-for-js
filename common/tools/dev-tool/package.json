@@ -58,6 +58,7 @@
     "env-paths": "^2.2.1",
     "express": "^4.19.2",
     "fs-extra": "^11.2.0",
+    "memfs": "^4.14.1",
     "minimist": "^1.2.8",
     "prettier": "^3.3.3",
     "rollup": "^4.22.0",

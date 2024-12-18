@@ -93,6 +93,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [dedicatedhsmupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2-beta/javascript/dedicatedHsmUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2-beta/javascript/operationsListSample.js
 [privateendpointconnectionslistbycloudhsmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2-beta/javascript/privateEndpointConnectionsListByCloudHsmClusterSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/README.md

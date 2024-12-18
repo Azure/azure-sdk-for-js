@@ -6,7 +6,7 @@ Azure Fleet Service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computefleet/arm-computefleet) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computefleet) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview) |
 
 ## Getting started
 
@@ -45,7 +45,7 @@ npm install @azure/identity
 You will also need to **register a new AAD application and grant access to AzureFleet** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
 const { AzureFleetClient } = require("@azure/arm-computefleet");
@@ -63,8 +63,8 @@ const client = new AzureFleetClient(new DefaultAzureCredential(), subscriptionId
 // const client = new AzureFleetClient(credential, subscriptionId);
 ```
 
-
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -85,7 +85,6 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
 
 ## Contributing
 

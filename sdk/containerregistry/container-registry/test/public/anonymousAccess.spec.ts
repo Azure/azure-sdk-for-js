@@ -3,8 +3,8 @@
 
 import type { ContainerRegistryClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { createRegistryClient, recorderStartOptions } from "../utils/utils.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const serviceVersion = "2021-07-01";
 

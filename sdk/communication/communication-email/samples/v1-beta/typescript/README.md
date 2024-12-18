@@ -66,9 +66,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailSingleRecipient.ts
 [sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailWithAttachments.ts
 [sendemailwithinlineattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailWithInlineAttachments.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-email
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-email
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesresource]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [createinstance_emailcommunicationservicesresource]: https://aka.ms/acsemail/createemailresource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

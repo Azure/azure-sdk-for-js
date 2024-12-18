@@ -46,7 +46,6 @@ export function retryPolicy(
       let responseError: RestError | undefined;
       let retryCount = -1;
 
-      // eslint-disable-next-line no-constant-condition
       retryRequest: while (true) {
         retryCount += 1;
         response = undefined;

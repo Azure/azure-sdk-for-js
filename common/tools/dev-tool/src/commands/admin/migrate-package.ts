@@ -10,6 +10,8 @@ import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
+import { existsSync } from "node:fs";
+import { isWindows } from "../../util/platform";
 
 const log = createPrinter("migrate-package");
 
@@ -86,7 +88,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder });
+  await run(["rushx", "format"], { cwd: projectFolder, shell: isWindows() });
   await commitChanges(projectFolder, "rushx format");
 
   log.info(
@@ -184,6 +186,10 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
+  if (!existsSync(apiExtractorJsonPath)) {
+    log.warn(`Could not find api-extractor.json at ${apiExtractorJsonPath}`);
+    return;
+  }
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
 
   const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
@@ -328,6 +334,7 @@ async function addNewPackages(packageJson: any): Promise<void> {
       latestVersion = (
         await run(["npm", "view", newPackage, "version"], {
           captureOutput: true,
+          shell: isWindows(),
         })
       ).output;
     }
