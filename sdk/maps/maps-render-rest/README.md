@@ -12,7 +12,7 @@ Key links:
 - [Product Information][product_info]
 
 | Package Version | Service Version |
-|-----------------|-----------------|
+| --------------- | --------------- |
 | ^1.0.0-beta.4   | V1              |
 | ^2.0.0-beta.1   | 2024-04-01      |
 
@@ -62,7 +62,7 @@ You'll need to register the new Microsoft Entra ID application and grant access 
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
-The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
+The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
 const MapsRender = require("@azure-rest/maps-render").default;
@@ -151,7 +151,7 @@ The following sections provide several code snippets covering some of the most c
 ### Request map tiles in vector or raster formats
 
 You can request map tiles in vector or raster formats. These tiles are typically to be integrated into a map control or SDK.
-Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://docs.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
+Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://learn.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
 
 ```javascript
 const { createWriteStream } = require("fs");
@@ -182,7 +182,7 @@ response.body.pipe(createWriteStream("tile.png"));
 ### Request map copyright attribution information
 
 You can request map copyright attribution information for a section of a tileset.
-A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render/get-map-attribution?tabs=HTTP#tilesetid).
+A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://learn.microsoft.com/rest/api/maps/render/get-map-attribution?tabs=HTTP#tilesetid).
 
 ```javascript
 const { isUnexpected } = require("@azure-rest/maps-render");
@@ -260,15 +260,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render
-[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
+[api_ref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples
-[product_info]: https://docs.microsoft.com/rest/api/maps/render
+[product_info]: https://learn.microsoft.com/rest/api/maps/render
 [nodejs_release]: https://github.com/nodejs/release#release-schedule
 [az_subscription]: https://azure.microsoft.com/free/
-[az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys
+[az_maps_account_management]: https://learn.microsoft.com/azure/azure-maps/how-to-manage-account-keys
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[az_map_pricing]: https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier
-[az_map_az_cli]: https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.maps/new-azmapsaccount
+[azure_cli]: https://learn.microsoft.com/cli/azure
+[az_map_pricing]: https://learn.microsoft.com/azure/azure-maps/choose-pricing-tier
+[az_map_az_cli]: https://learn.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
 [az_map_auth]: https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication

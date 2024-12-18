@@ -11,8 +11,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor)
-- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-metrics-advisor)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/metrics-advisor/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
 ## Getting started
@@ -269,7 +269,7 @@ async function main() {
     adminClient,
     dataFeedId,
     new Date(Date.UTC(2020, 8, 1)),
-    new Date(Date.UTC(2020, 8, 12))
+    new Date(Date.UTC(2020, 8, 12)),
   );
 }
 
@@ -443,7 +443,7 @@ async function main() {
     client,
     alertConfigId,
     new Date(Date.UTC(2020, 8, 1)),
-    new Date(Date.UTC(2020, 8, 12))
+    new Date(Date.UTC(2020, 8, 12)),
   );
 
   if (alerts.length > 1) {
@@ -466,12 +466,12 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
 
 async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`,
   );
   const iterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of iterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey} ${anomaly.timestamp}`,
     );
   }
 }
@@ -508,14 +508,14 @@ the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmetricsadvisor%2Fai-metrics-advisor%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[cognitive_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[cognitive_resource]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
-[onboard_data_feed]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data
-[data_schema_requirements]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data#data-schema-requirements-and-configuration
-[connect_sources_metrics_advisor]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/data-feeds-from-different-sources
+[metrics_advisor_glossary]: https://learn.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
+[onboard_data_feed]: https://learn.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data
+[data_schema_requirements]: https://learn.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data#data-schema-requirements-and-configuration
+[connect_sources_metrics_advisor]: https://learn.microsoft.com/azure/applied-ai-services/metrics-advisor/data-feeds-from-different-sources
