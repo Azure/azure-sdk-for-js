@@ -8,6 +8,8 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Paged } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
@@ -112,12 +114,9 @@ export interface AgentsOperations {
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => Promise<VectorStoreOutput>;
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => CreateVectorStoreFileResponse;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => CreateVectorStoreFileBatchResponse;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
@@ -146,8 +145,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => UploadFileResponse;
 }
 
 // @public
@@ -368,7 +366,7 @@ export interface CreateRunOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions {
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -379,11 +377,16 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams, PollingOptionsParams {
-}
+export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatchOutput> & {
+    poller: PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+};
 
 // @public
 export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+}
+
+// @public
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
@@ -394,16 +397,18 @@ export interface CreateVectorStoreFileOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
+export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> & {
+    poller: PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+};
+
+// @public
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptionsParams, OperationOptions {
 }
 
 // @public
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
-}
-
-// @public
-export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams, PollingOptionsParams {
-}
+export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
+    poller: PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+};
 
 // @public
 export interface CredentialsApiKeyAuthOutput {
@@ -1930,13 +1935,14 @@ export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOption
 }
 
 // @public
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends PollingOptionsParams, OperationOptions {
     fileName?: string;
 }
 
 // @public
-export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
-}
+export type UploadFileResponse = PromiseLike<OpenAIFileOutput> & {
+    poller: PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
+};
 
 // @public
 export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {

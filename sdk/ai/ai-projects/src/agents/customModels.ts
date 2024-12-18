@@ -3,7 +3,13 @@
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { ThreadRunOutput } from "../customization/outputModels.js";
+import type {
+  OpenAIFileOutput,
+  ThreadRunOutput,
+  VectorStoreFileBatchOutput,
+  VectorStoreFileOutput,
+  VectorStoreOutput,
+} from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,
@@ -24,6 +30,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -194,14 +201,20 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
+export interface CreateVectorStoreOptionalParams
+  extends VectorStoreOptions,
+    PollingOptionsParams,
+    OperationOptions {}
 
 /**
- * Optional parameters for creating vector store with polling.
+ * Response for creating vector store.
  */
-export interface CreateVectorStoreWithPollingOptionalParams
-  extends CreateVectorStoreOptionalParams,
-    PollingOptionsParams {}
+export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
+  /**
+   * Poller to poll the vector store creation operation.
+   */
+  poller: PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+};
 
 /**
  * Optional parameters for listing vector stores.
@@ -248,12 +261,22 @@ export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
 export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
 
 /**
- * Optional parameters for creating a vector store file with polling.
+ * Optional parameters for creating a vector store file.
  */
-export interface CreateVectorStoreFileWithPollingOptionalParams
+export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
     PollingOptionsParams,
     OperationOptions {}
+
+/**
+ * Response for creating a vector store file.
+ */
+export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> & {
+  /**
+   * Poller to poll the vector store file creation operation.
+   */
+  poller: PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+};
 
 /**
  * Optional parameters for listing vector store file batches.
@@ -280,14 +303,18 @@ export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptio
  */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
+    PollingOptionsParams,
     OperationOptions {}
 
 /**
- * Optional parameters for creating a vector store file batch with polling.
+ * Response for creating a vector store file batch.
  */
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams
-  extends CreateVectorStoreFileBatchOptionalParams,
-    PollingOptionsParams {}
+export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatchOutput> & {
+  /**
+   * Poller to poll the vector store file batch creation operation.
+   */
+  poller: PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+};
 
 /**
  * Optional parameters for creating agent.
@@ -339,14 +366,17 @@ export interface GetFileContentOptionalParams extends OperationOptions {}
 /**
  * Optional parameters for uploading a file.
  */
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends PollingOptionsParams, OperationOptions {
   /** The name of the file. */
   fileName?: string;
 }
 
 /**
- * Optional parameters for uploading a file with polling.
+ * Response for uploading a file.
  */
-export interface UploadFileWithPollingOptionalParams
-  extends UploadFileOptionalParams,
-    PollingOptionsParams {}
+export type UploadFileResponse = PromiseLike<OpenAIFileOutput> & {
+  /**
+   * Poller to poll the file upload operation.
+   */
+  poller: PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
+};

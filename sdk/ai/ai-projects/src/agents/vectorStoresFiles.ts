@@ -15,7 +15,7 @@ import type {
 import { AgentsPoller } from "./poller.js";
 import type {
   CreateVectorStoreFileOptionalParams,
-  CreateVectorStoreFileWithPollingOptionalParams,
+  CreateVectorStoreFileResponse,
   DeleteVectorStoreFileOptionalParams,
   GetVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
@@ -58,25 +58,63 @@ export async function listVectorStoreFiles(
 }
 
 /** Create a vector store file by attaching a file to a vector store. */
-export async function createVectorStoreFile(
+export function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileOptionalParams = {},
-): Promise<VectorStoreFileOutput> {
+): CreateVectorStoreFileResponse {
   const createOptions: CreateVectorStoreFileParameters = {
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileParam({ body: options }),
   };
-
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileParameters(createOptions);
-  const result = await context
-    .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
-    .post(createOptions);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+
+  async function executeCreateVectorStoreFile(): Promise<VectorStoreFileOutput> {
+    const result = await context
+      .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
+      .post(createOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return ConvertFromWire.convertVectorStoreFileOutput(result.body);
   }
-  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
+
+  async function updateCreateVectorStoreFile(
+    currentResult?: VectorStoreFileOutput,
+  ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
+    let vectorStoreFile: VectorStoreFileOutput;
+    if (!currentResult) {
+      vectorStoreFile = await executeCreateVectorStoreFile();
+    } else {
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
+    }
+    return {
+      result: vectorStoreFile,
+      completed: vectorStoreFile.status !== "in_progress",
+    };
+  }
+
+  const poller = new AgentsPoller<VectorStoreFileOutput>({
+    update: updateCreateVectorStoreFile,
+    pollingOptions: options.pollingOptions,
+  });
+
+  async function pollOnce(): Promise<VectorStoreFileOutput> {
+    await poller.poll();
+    const initialResult = poller.getOperationState().result;
+    if (!initialResult) {
+      throw new Error("Error creating vector store file");
+    }
+    return initialResult;
+  }
+
+  return {
+    then: function (onFulfilled, onRejected) {
+      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    poller: poller,
+  };
 }
 
 /** Retrieves a vector store file. */
@@ -123,34 +161,6 @@ export async function deleteVectorStoreFile(
     throw createRestError(result);
   }
   return ConvertFromWire.convertVectorStoreFileDeletionStatusOutput(result.body);
-}
-
-/** Create a vector store file by attaching a file to a vector store and poll. */
-export function createVectorStoreFileAndPoll(
-  context: Client,
-  vectorStoreId: string,
-  options: CreateVectorStoreFileWithPollingOptionalParams = {},
-): Promise<VectorStoreFileOutput> {
-  async function updateCreateVectorStoreFilePoll(
-    currentResult?: VectorStoreFileOutput,
-  ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
-    let vectorStoreFile: VectorStoreFileOutput;
-    if (!currentResult) {
-      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
-    } else {
-      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
-    }
-    return {
-      result: vectorStoreFile,
-      completed: vectorStoreFile.status !== "in_progress",
-    };
-  }
-
-  const poller = new AgentsPoller<VectorStoreFileOutput>({
-    update: updateCreateVectorStoreFilePoll,
-    pollingOptions: options.pollingOptions,
-  });
-  return poller.pollUntilDone();
 }
 
 function validateListVectorStoreFilesParameters(options?: ListVectorStoreFilesParameters): void {
