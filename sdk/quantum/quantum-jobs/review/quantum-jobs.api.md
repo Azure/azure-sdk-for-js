@@ -183,7 +183,7 @@ export class QuantumJobClient extends coreClient.ServiceClient {
     // (undocumented)
     resourceGroupName: string;
     // (undocumented)
-    storage: Storage;
+    storage: Storage_2;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -243,9 +243,10 @@ export interface SasUriResponse {
 }
 
 // @public
-export interface Storage {
+interface Storage_2 {
     sasUri(blobDetails: BlobDetails, options?: StorageSasUriOptionalParams): Promise<StorageSasUriResponse>;
 }
+export { Storage_2 as Storage }
 
 // @public
 export interface StorageSasUriOptionalParams extends coreClient.OperationOptions {

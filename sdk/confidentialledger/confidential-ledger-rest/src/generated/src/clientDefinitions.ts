@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   GetConstitutionParameters,
@@ -12,6 +12,7 @@ import {
   GetReceiptParameters,
   GetTransactionStatusParameters,
   GetCurrentLedgerEntryParameters,
+  ListUsersParameters,
   DeleteUserParameters,
   GetUserParameters,
   CreateOrUpdateUserParameters
@@ -37,6 +38,8 @@ import {
   GetTransactionStatusDefaultResponse,
   GetCurrentLedgerEntry200Response,
   GetCurrentLedgerEntryDefaultResponse,
+  ListUsers200Response,
+  ListUsersDefaultResponse,
   DeleteUser204Response,
   DeleteUserDefaultResponse,
   GetUser200Response,
@@ -131,6 +134,13 @@ export interface GetCurrentLedgerEntry {
   >;
 }
 
+export interface ListUsers {
+  /** All users' object IDs and roles will be returned. */
+  get(
+    options?: ListUsersParameters
+  ): StreamableMethod<ListUsers200Response | ListUsersDefaultResponse>;
+}
+
 export interface DeleteUser {
   /** Deletes a user from the Confidential Ledger. */
   delete(
@@ -176,6 +186,8 @@ export interface Routes {
   ): GetTransactionStatus;
   /** Resource for '/app/transactions/current' has methods for the following verbs: get */
   (path: "/app/transactions/current"): GetCurrentLedgerEntry;
+  /** Resource for '/app/users' has methods for the following verbs: get */
+  (path: "/app/users"): ListUsers;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
   (path: "/app/users/{userId}", userId: string): DeleteUser;
 }

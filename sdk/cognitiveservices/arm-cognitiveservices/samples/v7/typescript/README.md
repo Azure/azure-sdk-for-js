@@ -143,7 +143,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/typescript/src/privateLinkResourcesListSample.ts
 [resourceskuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/typescript/src/resourceSkusListSample.ts
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/typescript/src/usagesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cognitiveservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cognitiveservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/arm-cognitiveservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

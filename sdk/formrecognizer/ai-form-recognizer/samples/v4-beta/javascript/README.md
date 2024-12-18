@@ -84,7 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listclassifiers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/javascript/listClassifiers.js
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/javascript/listModels.js
 [readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/javascript/readDocument.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesaccount]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/README.md

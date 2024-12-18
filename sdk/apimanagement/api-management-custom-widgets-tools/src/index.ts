@@ -36,4 +36,4 @@ export {
 
 import deployNodeJS from "./node/deploy.js";
 export { deployNodeJS };
-export type { ServiceInformation, DeployConfig } from "./node/deploy.js";
+export type { ServiceInformation, DeployConfig } from "./node/types.js";
