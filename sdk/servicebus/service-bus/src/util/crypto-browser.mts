@@ -1,41 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-declare global {
-  interface HmacImportParams {
-    name: string;
-    hash: { name: string };
-  }
-
-  interface CryptoKey {
-    algorithm: HmacImportParams;
-    type: string;
-    extractable: boolean;
-    usages: string[];
-  }
-
-  function btoa(input: string): string;
-}
-
-declare const self: {
-  crypto: {
-    subtle: {
-      importKey(
-        format: string,
-        keyData: Uint8Array,
-        algorithm: HmacImportParams,
-        extractable: boolean,
-        usages: string[],
-      ): Promise<CryptoKey>;
-      sign(
-        algorithm: string | HmacImportParams,
-        key: CryptoKey,
-        data: Uint8Array,
-      ): Promise<ArrayBuffer>;
-    };
-  };
-};
-
 /**
  * @internal
  */

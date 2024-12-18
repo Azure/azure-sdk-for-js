@@ -71,7 +71,7 @@ Note that these samples assume you have a `CONTAINER_REGISTRY_ENDPOINT` environm
 
 #### National Clouds
 
-To authenticate with a registry in a [National Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your configuration:
+To authenticate with a registry in a [National Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your configuration:
 
 - Set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable
 - Set the `audience` in `ContainerRegistryClientOptions`
@@ -90,17 +90,17 @@ const client = new ContainerRegistryClient(
   new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
   {
     audience: KnownContainerRegistryAudience.AzureResourceManagerChina,
-  }
+  },
 );
 ```
 
-For more information on using AAD with Azure Container Registry, please see the service's [Authentication Overview](https://docs.microsoft.com/azure/container-registry/container-registry-authentication).
+For more information on using AAD with Azure Container Registry, please see the service's [Authentication Overview](https://learn.microsoft.com/azure/container-registry/container-registry-authentication).
 
 ## Key concepts
 
 A **registry** stores Docker images and [OCI Artifacts](https://opencontainers.org/). An image or artifact consists of a **manifest** and **layers**. An image's manifest describes the layers that make up the image, and is uniquely identified by its **digest**. An image can also be "tagged" to give it a human-readable alias. An image or artifact can have zero or more **tags** associated with it, and each tag uniquely identifies the image. A collection of images that share the same name but have different tags, is referred to as a **repository**.
 
-For more information please see [Container Registry Concepts](https://docs.microsoft.com/azure/container-registry/container-registry-concepts).
+For more information please see [Container Registry Concepts](https://learn.microsoft.com/azure/container-registry/container-registry-concepts).
 
 ## Examples
 
@@ -266,7 +266,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   const config = Buffer.from("Sample config");
@@ -324,7 +324,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag
@@ -372,7 +372,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   const downloadResult = await client.getManifest("latest");
@@ -402,7 +402,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   const downloadResult = await client.getManifest("latest");
@@ -439,17 +439,17 @@ If you'd like to contribute to this library, please read the [contributing guide
 [acr_resource]: https://ms.portal.azure.com/#create/Microsoft.ContainerRegistry
 [source]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/
 [package]: https://www.npmjs.com/package/@azure/container-registry
-[api_docs]: https://docs.microsoft.com/javascript/api/@azure/container-registry
-[rest_docs]: https://docs.microsoft.com/rest/api/containerregistry/
-[product_docs]: https://docs.microsoft.com/azure/container-registry/
+[api_docs]: https://learn.microsoft.com/javascript/api/@azure/container-registry
+[rest_docs]: https://learn.microsoft.com/rest/api/containerregistry/
+[product_docs]: https://learn.microsoft.com/azure/container-registry/
 [cors]: https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/container-registry/samples
-[container_registry_docs]: https://docs.microsoft.com/azure/container-registry/container-registry-intro
-[container_registry_create_ps]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-powershell
-[container_registry_create_cli]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-azure-cli
-[container_registry_create_portal]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal
-[container_registry_concepts]: https://docs.microsoft.com/azure/container-registry/container-registry-concepts
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[container_registry_docs]: https://learn.microsoft.com/azure/container-registry/container-registry-intro
+[container_registry_create_ps]: https://learn.microsoft.com/azure/container-registry/container-registry-get-started-powershell
+[container_registry_create_cli]: https://learn.microsoft.com/azure/container-registry/container-registry-get-started-azure-cli
+[container_registry_create_portal]: https://learn.microsoft.com/azure/container-registry/container-registry-get-started-portal
+[container_registry_concepts]: https://learn.microsoft.com/azure/container-registry/container-registry-concepts
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
 [az_sdk_js]: https://github.com/Azure/azure-sdk-for-js

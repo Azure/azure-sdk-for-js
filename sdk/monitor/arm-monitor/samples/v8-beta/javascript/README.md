@@ -275,6 +275,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tenantactiongroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/javascript/tenantActionGroupsUpdateSample.js
 [tenantactivitylogslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/javascript/tenantActivityLogsListSample.js
 [vminsightsgetonboardingstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/javascript/vmInsightsGetOnboardingStatusSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor/README.md

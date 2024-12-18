@@ -87,20 +87,20 @@ export default leafCommand(commandInfo, async (options) => {
 
     log.info(`Building for browser testing...`);
     const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
-    compileForEnvironment("browser", browserConfig, importMap, esmMap);
+    await compileForEnvironment("browser", browserConfig, importMap, esmMap);
   }
 
   return true;
 });
 
-function compileForEnvironment(
+async function compileForEnvironment(
   type: string,
   tsConfig: string,
   importMap: Map<string, string>,
   overrideMap: Map<string, string>,
-): boolean {
+): Promise<boolean> {
   const tsconfigPath = path.join(process.cwd(), tsConfig);
-  const tsConfigJSON = resolveConfig(tsconfigPath);
+  const tsConfigJSON = await resolveConfig(tsconfigPath);
   const outputPath = tsConfigJSON.compilerOptions.outDir;
   if (!existsSync(tsconfigPath)) {
     log.error(`TypeScript config ${tsConfig} does not exist`);

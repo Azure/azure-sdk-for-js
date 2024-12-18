@@ -20,7 +20,7 @@ async function createDevBox() {
 
     const projectList = await client.path("/projects").get();
     if (isUnexpected(projectList)) {
-        throw new Error(projectList.body.error);
+        throw projectList.body.error;
     }
 
     let project: ProjectOutput = projectList.body.value[0];
@@ -31,7 +31,7 @@ async function createDevBox() {
 
     const poolList = await client.path("/projects/{projectName}/pools", projectName).get();
     if (isUnexpected(poolList)) {
-        throw new Error(poolList.body.error);
+        throw poolList.body.error;
     }
 
     let pool: PoolOutput = poolList.body.value[0];
@@ -60,6 +60,9 @@ async function createDevBox() {
 
     const devBoxCreatePoller = await getLongRunningPoller(client, devBoxCreateResponse);
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
+    if (isUnexpected(devBoxCreateResult)) {
+        throw devBoxCreateResult.body.error;
+    }
 
     console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
 

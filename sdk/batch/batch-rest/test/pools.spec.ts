@@ -15,7 +15,12 @@ import type {
   ReplacePoolPropertiesParameters,
   ResizePoolParameters,
 } from "../src/index.js";
-import { isUnexpected, paginate } from "../src/index.js";
+import {
+  isUnexpected,
+  paginate,
+  type GetPool200Response,
+  type BatchPoolNodeCountsOutput,
+} from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";
@@ -137,7 +142,7 @@ describe("Pool Operations Test", () => {
   it("should get a pool reference successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const getSteadyPool = async () => {
+    const getSteadyPool = async (): Promise<GetPool200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}
@@ -419,9 +424,8 @@ describe("Pool Operations Test", () => {
   it("should get pool node counts successfully", async () => {
     // let poolList = [];
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    // eslint-disable-next-line no-constant-condition
 
-    const listNodeCounts = async () => {
+    const listNodeCounts = async (): Promise<BatchPoolNodeCountsOutput[] | null> => {
       const poolList = [];
       const listNodeCountResult = await batchClient.path("/nodecounts").get();
       if (isUnexpected(listNodeCountResult)) {
@@ -495,7 +499,7 @@ describe("Pool Operations Test", () => {
 
   it("should start pool resizing successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    const getSteadyPool = async () => {
+    const getSteadyPool = async (): Promise<GetPool200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}

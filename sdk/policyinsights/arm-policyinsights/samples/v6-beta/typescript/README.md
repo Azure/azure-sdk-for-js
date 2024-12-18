@@ -211,7 +211,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [remediationslistforresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policyinsights/arm-policyinsights/samples/v6-beta/typescript/src/remediationsListForResourceGroupSample.ts
 [remediationslistforresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policyinsights/arm-policyinsights/samples/v6-beta/typescript/src/remediationsListForResourceSample.ts
 [remediationslistforsubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policyinsights/arm-policyinsights/samples/v6-beta/typescript/src/remediationsListForSubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-policyinsights?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-policyinsights?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policyinsights/arm-policyinsights/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
