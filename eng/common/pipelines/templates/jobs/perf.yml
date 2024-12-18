@@ -106,7 +106,7 @@ jobs:
         Commitish: ${{ parameters.LanguageRepoCommitish }}
         WorkingDirectory: $(System.DefaultWorkingDirectory)
       - Name: Azure/azure-sdk-tools
-        Commitish: 075e38660364c3f09556f90b3bd11952183c1a1f
+        Commitish: a28658073134ccfe8ba63e0193874076c2b047f8
         WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-tools
 
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
