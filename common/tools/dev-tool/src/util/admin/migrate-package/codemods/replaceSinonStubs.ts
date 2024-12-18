@@ -1,7 +1,7 @@
-import { SourceFile, SyntaxKind, Node } from "ts-morph";
-import * as ts from "typescript"; // For using TypeScript factory methods
+import { SourceFile, SyntaxKind, Node, ForEachDescendantTraversalControl } from "ts-morph";
+import ts from "typescript"; // For using TypeScript factory methods
 
-function replaceWithViFn(node: Node) {
+function replaceWithViFn(node: Node, traversal: ForEachDescendantTraversalControl) {
   const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
   const methodNameAfterStub = parent?.getName();
 
@@ -14,32 +14,42 @@ function replaceWithViFn(node: Node) {
 
       // Replace the entire call chain (stub + returns) with spyOn + mockReturnValue
       // or spyOn + mockResolvedValue depending on the method name
-      returnsCall.replaceWithText(`vi.fn().${vitestMethod}(${returnValue})`);
-
-      // Skip all children of the current node as it was already transformed
-      traversal.skip();
-    } else if (methodNameAfterStub === "throwsException") {
-      const throwsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
-      if (throwsCall && throwsCall.getArguments().length > 0) {
-        const errorValue = throwsCall.getArguments()[0].getText(); // Extract the text
-
-        // Replace the entire call chain (stub + throwsException) with spyOn + mockRejectedValue
-        throwsCall.replaceWithText(`vi.fn().mockRejectedValue(${errorValue})`);
-
-        // Skip all children of the current node as it was already transformed
-        traversal.skip();
-      }
-    } else if (methodNameAfterStub === undefined) {
-      // Replace the entire call chain (sinon.stub) with spyOn
-      node.replaceWithText(`vi.fn()`);
+      returnsCall.replaceWithText(`
+            vi.fn()
+            .${vitestMethod}(${returnValue})
+          `);
 
       // Skip all children of the current node as it was already transformed
       traversal.skip();
     }
+  } else if (methodNameAfterStub === "throwsException") {
+    const throwsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
+    if (throwsCall && throwsCall.getArguments().length > 0) {
+      const errorValue = throwsCall.getArguments()[0].getText(); // Extract the text
+
+      // Replace the entire call chain (stub + throwsException) with spyOn + mockRejectedValue
+      throwsCall.replaceWithText(`
+            vi.fn()
+            .mockRejectedValue(${errorValue})
+          `);
+
+      // Skip all children of the current node as it was already transformed
+      traversal.skip();
+    }
+  } else if (methodNameAfterStub === undefined) {
+    // Replace the entire call chain (sinon.stub) with spyOn
+    node.replaceWithText(`vi.fn()`);
+
+    // Skip all children of the current node as it was already transformed
+    traversal.skip();
   }
 }
 
-function replaceWithViSpyOn(node: Node) {
+function replaceWithViSpyOn(
+  node: Node,
+  traversal: ForEachDescendantTraversalControl,
+  args: Node<ts.Node>[],
+) {
   const obj = args[0].getText(); // Extract text before replacing the node
   const methodName = args[1].getText(); // Extract text before replacing the node
 
@@ -118,9 +128,9 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
         const args = node.getArguments();
 
         if (args.length === 0) {
-          replaceWithViFn(node);
+          replaceWithViFn(node, traversal);
         } else if (args.length >= 2) {
-          replaceWithViSpyOn(node);
+          replaceWithViSpyOn(node, traversal, args);
         }
       } else if (
         ts.isPropertyAccessExpression(callee.compilerNode) &&
