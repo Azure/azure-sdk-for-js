@@ -51,7 +51,7 @@ import {
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
-import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilderClass";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
 
 /**
  * @hidden
