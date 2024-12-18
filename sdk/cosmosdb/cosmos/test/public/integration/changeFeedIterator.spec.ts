@@ -211,6 +211,38 @@ describe("Change Feed Iterator", function (this: Suite) {
         },
       );
     });
+
+    it("startFromBeginning should fetch results for all partition keys if undefined partition key is provided", async function () {
+      const partitionKey: string | undefined = undefined;
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+      };
+
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+        assert.equal(items.length, 40, "initial number of items should be equal to 40");
+      }
+    });
+
+    it("startFromBeginning should throw error if null partition key is provided", async function () {
+      const partitionKey: string | null = null;
+      try {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          await iterator.readNext();
+          assert.fail("Should have failed");
+        }
+      } catch (err: any) {
+        assert.strictEqual(err.code, StatusCodes.BadRequest);
+        return;
+      }
+    });
   });
 
   describe("test changefeed for one prefix partition key", function () {
