@@ -11,6 +11,7 @@ urlFragment: ai-projects-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Projects in some common scenarios.
 
+<!--
 | **File Name**                                                                               | **Description**                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [agents\agentCreateWithTracingConsole.ts][agents_agentcreatewithtracingconsole]             | Create Agent and instrument using open telemetry.                                                                                                                                                      |
@@ -37,6 +38,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agents\vectorStores.ts][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                                                                                                           |
 | [agents\vectorStoresWithPolling.ts][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
 | [connections\connectionsBasics.ts][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
+-->
 
 ## Prerequisites
 
@@ -88,6 +90,7 @@ npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure 
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+<!--
 [agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents\agentCreateWithTracingConsole.ts
 [agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents\agentsAzureAiSearch.ts
 [agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents\agentsBasics.ts
@@ -116,3 +119,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
+-->
