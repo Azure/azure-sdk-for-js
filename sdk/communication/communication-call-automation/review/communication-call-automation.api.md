@@ -905,7 +905,8 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 // @public
-export type RecordingState = string;
+type RecordingState_2 = string;
+export { RecordingState_2 as RecordingState }
 
 // Warning: (ae-forgotten-export) The symbol "RestRecordingStateChanged" needs to be exported by the entry point index.d.ts
 //
@@ -925,7 +926,7 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingKind: string;
     // (undocumented)
-    recordingState: RecordingState;
+    recordingState: RecordingState_2;
 }
 
 // @public

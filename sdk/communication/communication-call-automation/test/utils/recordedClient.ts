@@ -33,6 +33,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
+import { AzureCliCredential } from "@azure/identity";
 import type {
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
@@ -48,24 +49,23 @@ if (isNodeLike) {
 }
 
 const envSetupForPlayback: Record<string, string> = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=redacted",
-  DISPATCHER_ENDPOINT: "https://redacted.azurewebsites.net",
-  SERVICEBUS_STRING:
-    "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
-  FILE_SOURCE_URL: "https://example.com/audio/test.wav",
-  TRANSPORT_URL: "https://REDACTED",
-  COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized/;accesskey=redacted",
+  DISPATCHER_ENDPOINT: "https://Sanitized",
+  SERVICEBUS_STRING: "redacted.servicebus.windows.net",
+    FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
+    TRANSPORT_URL: "https://REDACTED",
+    COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
 };
 
 const fakeToken = generateToken();
 const dispatcherEndpoint: string = !isPlaybackMode()
   ? (env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["DISPATCHER_ENDPOINT"];
-const serviceBusConnectionString: string = !isPlaybackMode()
-  ? (env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
+const serviceBusString: string = !isPlaybackMode()
+  ? (env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"])
   : envSetupForPlayback["SERVICEBUS_STRING"];
 export const fileSourceUrl: string = !isPlaybackMode()
-  ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
+  ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
 export const transportUrl: string = !isPlaybackMode()
   ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
@@ -92,18 +92,13 @@ function removeAllNonChar(input: string): string {
   return input.replace(regex, "");
 }
 
-function encodePhoneNumber(input: string): string {
-  // Enocding + to UTF-16 to match unique id with Service bus queue
-  return input.replace("+", "\\u002B");
-}
-
 export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): string {
   const communicationIdentifierModel: CommunicationIdentifierModel =
     serializeCommunicationIdentifier(identifier);
   assert.isDefined(communicationIdentifierModel?.rawId);
   if (isPhoneNumberIdentifier(identifier)) {
     return communicationIdentifierModel?.rawId
-      ? removeAllNonChar(encodePhoneNumber(communicationIdentifierModel.rawId))
+      ? removeAllNonChar(communicationIdentifierModel.rawId)
       : "";
   } else {
     return communicationIdentifierModel?.rawId
@@ -113,7 +108,8 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
 }
 
 function createServiceBusClient(): ServiceBusClient {
-  return new ServiceBusClient(serviceBusConnectionString);
+  const credential = new AzureCliCredential();
+  return new ServiceBusClient(serviceBusString, credential);
 }
 
 export const recorderOptions: RecorderStartOptions = {
@@ -125,8 +121,38 @@ export const recorderOptions: RecorderStartOptions = {
         actualConnString: env["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"] || undefined,
       },
     ],
-    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
-    uriSanitizers: [{ regex: true, value: "https://endpoint", target: "https://([^/?]+)" }],
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.accessToken.token",
+        value: fakeToken,
+      },
+      {
+        jsonPath: "$..incomingCallContext",
+        value: "Sanitized",
+      },
+      {
+        jsonPath: "$..serverCallId",
+        value: "Sanitized",
+      },
+    ],
+    generalSanitizers: [
+      {
+        regex: true,
+        target: "[1]{1}[0-9]{10}",
+        value: "18880001111",
+      },
+      {
+        regex: true,
+        target: "https://[^/]+/",
+        value: "https://Sanitized/",
+      },
+      {
+        regex: true,
+        target:
+          "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}_[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}",
+        value: "00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
+      },
+    ],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
