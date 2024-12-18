@@ -43,7 +43,7 @@ import type {
   WeatherDataIngestionJob,
   WeatherDataProviderRequest,
   Zone,
-} from "./models";
+} from "./models.js";
 
 export interface ApplicationDataListQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */

@@ -3,16 +3,16 @@
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src/index.js";
 import { LATEST_API_VERSION } from "../../src/constants.js";
 import {
-  PipelineRequest,
-  PipelineResponse,
+  type PipelineRequest,
+  type PipelineResponse,
   createHttpHeaders,
-  HttpClient,
-  SendRequest,
+  type HttpClient,
+  type SendRequest,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
-import { describe, it, expect, beforeEach, afterEach, vi, MockInstance } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi, type MockInstance } from "vitest";
 
 // Adding this to the source would change the public API.
 type ApiVersions = "7.2" | "7.3";

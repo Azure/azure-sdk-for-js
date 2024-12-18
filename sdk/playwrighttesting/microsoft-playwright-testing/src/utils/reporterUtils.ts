@@ -272,7 +272,6 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -346,7 +345,6 @@ class ReporterUtils {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return 0;
     }
@@ -432,7 +430,6 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }

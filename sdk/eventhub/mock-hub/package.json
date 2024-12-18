@@ -49,6 +49,7 @@
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
   "tshy": {
+    "project": "tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

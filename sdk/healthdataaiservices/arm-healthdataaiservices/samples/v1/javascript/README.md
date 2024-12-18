@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/arm-healthdataaiservices/samples/v1/javascript/privateEndpointConnectionsGetSample.js
 [privateendpointconnectionslistbydeidservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/arm-healthdataaiservices/samples/v1/javascript/privateEndpointConnectionsListByDeidServiceSample.js
 [privatelinkslistbydeidservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/arm-healthdataaiservices/samples/v1/javascript/privateLinksListByDeidServiceSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices/README.md

@@ -125,7 +125,7 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-} from "./generated/service/models";
+} from "./generated/service/models/index.js";
 
 /**
  * Options for a list skillsets operation.
@@ -1443,12 +1443,10 @@ export enum KnownTokenizerNames {
   /**
    * Divides text using language-specific rules.
    */
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /**
    * Divides text using language-specific rules and reduces words to their base forms.
    */
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
   /**
    * Tokenizes the input into n-grams of the given size(s). See
@@ -2305,7 +2303,7 @@ export interface AIServicesVisionParameters {
   authIdentity?: SearchIndexerDataIdentity;
 }
 
-/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
 export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "aml";
@@ -2323,7 +2321,7 @@ export type AzureMachineLearningVectorizerParameters =
 export interface BaseAzureMachineLearningVectorizerParameters {
   /** When specified, indicates the timeout for the http client making the API call. */
   timeout?: string;
-  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
   modelName?: AIStudioModelCatalogName;
 }
 
