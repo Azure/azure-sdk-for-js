@@ -10,7 +10,7 @@ urlFragment: ai-projects-javascript-beta
 # Azure AI Projects client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Projects in some common scenarios.
-
+<!--
 | **File Name**                                                                               | **Description**                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [agents\agentCreateWithTracingConsole.js][agents_agentcreatewithtracingconsole]             | Create Agent and instrument using open telemetry.                                                                                                                                                      |
@@ -37,7 +37,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents\vectorStores.js][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                                                                                                           |
 | [agents\vectorStoresWithPolling.js][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
 | [connections\connectionsBasics.js][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
-
+-->
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
@@ -75,7 +75,7 @@ npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
+<!--
 [agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentCreateWithTracingConsole.js
 [agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsAzureAiSearch.js
 [agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsBasics.js
@@ -103,3 +103,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md
+-->
