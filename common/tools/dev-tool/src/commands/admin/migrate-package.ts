@@ -122,7 +122,7 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
 async function applyCodemods(projectFolder: string): Promise<void> {
   const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
 
-  const whiteListedFiles = [/^vitest.*\.config\.ts$/];
+  const skipPatterns= [/^vitest.*\.config\.ts$/];
 
   // Apply the codemods, one at a time, to all source files in the project.
   // Commit the changes after each codemod is applied for ease of reviewing.
