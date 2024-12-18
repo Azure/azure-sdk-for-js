@@ -26,7 +26,7 @@ interface PollingOptionsParams {
   pollingOptions?: {
     sleepIntervalInMs?: number;
     abortSignal?: AbortSignalLike;
-  }
+  };
 }
 
 export function convertCreateVectorStoreFileBatchParam(
@@ -93,7 +93,9 @@ export function convertPollingOptions<T extends PollingOptionsParams>(
   options: T,
 ): Record<string, unknown> {
   return {
-    ...(options.pollingOptions?.sleepIntervalInMs && { polling_interval: options.pollingOptions?.sleepIntervalInMs }),
+    ...(options.pollingOptions?.sleepIntervalInMs && {
+      polling_interval: options.pollingOptions?.sleepIntervalInMs,
+    }),
     ...(options.pollingOptions?.abortSignal && { poll_until: options.pollingOptions?.abortSignal }),
   };
 }

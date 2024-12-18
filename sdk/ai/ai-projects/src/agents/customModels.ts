@@ -3,7 +3,13 @@
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { OpenAIFileOutput, ThreadRunOutput, VectorStoreFileBatchOutput, VectorStoreFileOutput, VectorStoreOutput } from "../customization/outputModels.js";
+import type {
+  OpenAIFileOutput,
+  ThreadRunOutput,
+  VectorStoreFileBatchOutput,
+  VectorStoreFileOutput,
+  VectorStoreOutput,
+} from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,
@@ -195,7 +201,10 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, PollingOptionsParams, OperationOptions {}
+export interface CreateVectorStoreOptionalParams
+  extends VectorStoreOptions,
+    PollingOptionsParams,
+    OperationOptions {}
 
 /**
  * Response for creating vector store.
@@ -370,4 +379,4 @@ export type UploadFileResponse = PromiseLike<OpenAIFileOutput> & {
    * Poller to poll the file upload operation.
    */
   poller: PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
-}
+};

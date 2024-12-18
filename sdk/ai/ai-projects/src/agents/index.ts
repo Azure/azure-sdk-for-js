@@ -28,13 +28,7 @@ import type {
   OpenAIPageableListOfAgentOutput,
 } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
-import {
-  deleteFile,
-  getFile,
-  getFileContent,
-  listFiles,
-  uploadFile,
-} from "./files.js";
+import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import {
   cancelRun,

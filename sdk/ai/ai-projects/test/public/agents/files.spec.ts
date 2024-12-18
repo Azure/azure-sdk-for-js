@@ -50,7 +50,7 @@ describe("Agents - files", () => {
       },
     });
     const filePoller = await agents.uploadFile(fileContent, "assistants", {
-      fileName: "fileName"
+      fileName: "fileName",
     }).poller;
     assert.isNotNull(filePoller);
     const file = await filePoller.pollUntilDone();

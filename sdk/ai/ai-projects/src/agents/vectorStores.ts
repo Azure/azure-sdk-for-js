@@ -14,8 +14,7 @@ import type {
   VectorStoreOutput,
 } from "../customization/outputModels.js";
 import { AgentsPoller } from "./poller.js";
-import type {
-  CreateVectorStoreResponse} from "./customModels.js";
+import type { CreateVectorStoreResponse } from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -32,7 +31,10 @@ import {
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
-import { convertPollingOptions, convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import {
+  convertPollingOptions,
+  convertToListQueryParameters,
+} from "../customization/convertParametersToWire.js";
 
 const expectedStatuses = ["200"];
 

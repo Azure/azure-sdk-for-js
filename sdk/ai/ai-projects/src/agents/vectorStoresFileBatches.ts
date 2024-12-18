@@ -40,7 +40,7 @@ export function createVectorStoreFileBatch(
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileBatchParam({ body: options }),
   };
-  const pollingOptions = ConvertParamsToWire.convertPollingOptions(options)
+  const pollingOptions = ConvertParamsToWire.convertPollingOptions(options);
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileBatchParameters(createOptions);
 
@@ -101,7 +101,7 @@ export function createVectorStoreFileBatch(
       return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: poller,
-  }
+  };
 }
 
 /** Retrieve a vector store file batch. */

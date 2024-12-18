@@ -27,7 +27,10 @@ import {
   validateOrder,
   validateVectorStoreId,
 } from "./inputValidations.js";
-import { convertToListQueryParameters, convertPollingOptions } from "../customization/convertParametersToWire.js";
+import {
+  convertToListQueryParameters,
+  convertPollingOptions,
+} from "../customization/convertParametersToWire.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
@@ -115,7 +118,7 @@ export function createVectorStoreFile(
       return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: poller,
-  }
+  };
 }
 
 /** Retrieves a vector store file. */

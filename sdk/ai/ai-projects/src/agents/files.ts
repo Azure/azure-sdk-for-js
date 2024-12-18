@@ -67,7 +67,7 @@ export function uploadFile(
     ],
     contentType: "multipart/form-data",
   };
-  const pollingOptions = convertPollingOptions(options)
+  const pollingOptions = convertPollingOptions(options);
 
   async function executeUploadFile(): Promise<OpenAIFileOutput> {
     const result = await context.path("/files").post(uploadFileOptions);
@@ -112,7 +112,7 @@ export function uploadFile(
       return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
     },
     poller: poller,
-  }
+  };
 }
 
 /** Delete a previously uploaded file. */
