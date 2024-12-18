@@ -122,7 +122,7 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
 async function applyCodemods(projectFolder: string): Promise<void> {
   const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
 
-  const skipPatterns= [/^vitest.*\.config\.ts$/];
+  const skipPatterns = [/^vitest.*\.config\.ts$/];
 
   // Apply the codemods, one at a time, to all source files in the project.
   // Commit the changes after each codemod is applied for ease of reviewing.
@@ -131,7 +131,7 @@ async function applyCodemods(projectFolder: string): Promise<void> {
     log.info(`Applying codemod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
       // Skip whitelisted files
-      if (whiteListedFiles.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
+      if (skipPatterns.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
         continue;
       }
 
@@ -146,17 +146,9 @@ const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      include: ["test/**/*.spec.ts"],
-    },
-  }),
-);
+export default viteConfig;
 `;
 
 const VITEST_BROWSER_CONFIG = `
@@ -347,7 +339,10 @@ function setScriptsSection(scripts: PackageJson["scripts"], options: { browser: 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setFilesSection(packageJson: any): void {
-  packageJson.files = ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"];
+  packageJson.files = ["dist/", "README.md", "LICENSE"];
+  if (packageJson.name.includes("@azure/arm-")) {
+    packageJson.files.push("review/", "CHANGELOG.md");
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
