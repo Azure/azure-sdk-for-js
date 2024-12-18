@@ -42,13 +42,7 @@ export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator
    * Gets an async iterator which will yield change feed results.
    */
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    if (!this.isInitialized) {
-      try {
-        await this.initializeIterator();
-      } catch (err) {
-        throw new ErrorResponse(err.message);
-      }
-    }
+    await this.initializeIterator();
     do {
       const result = await this.iterator.readNext();
       yield result;
@@ -59,28 +53,24 @@ export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator
    * Returns the result of change feed from Azure Cosmos DB.
    */
   public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    if (!this.isInitialized) {
-      try {
-        await this.initializeIterator();
-      } catch (err) {
-        throw new ErrorResponse(err.message);
-      }
-    }
+    await this.initializeIterator();
     return this.iterator.readNext();
   }
 
   private async initializeIterator(): Promise<void> {
-    try {
-      const iterator = await buildChangeFeedIterator(
-        this.cfOptions,
-        this.clientContext,
-        this.container,
-        this.partitionKeyRangeCache,
-      );
-      this.isInitialized = true;
-      this.iterator = iterator;
-    } catch (err) {
-      throw new ErrorResponse(err.message);
+    if (!this.isInitialized) {
+      try {
+        const iterator = await buildChangeFeedIterator(
+          this.cfOptions,
+          this.clientContext,
+          this.container,
+          this.partitionKeyRangeCache,
+        );
+        this.isInitialized = true;
+        this.iterator = iterator;
+      } catch (err) {
+        throw new ErrorResponse(err.message);
+      }
     }
   }
 }
