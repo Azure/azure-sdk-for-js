@@ -7,26 +7,41 @@
  * @summary demonstrates how to use basic message agent operations.
  */
 
-import {AIProjectsClient, MessageTextContentOutput} from "@azure/ai-projects"
+import type { MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  const agent  = await client.agents.createAgent("gpt-4o",{ name:"my-agent", instructions:"You are helpful agent"});
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are helpful agent",
+  });
   const thread = await client.agents.createThread();
 
-  const message = await client.agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
+  const message = await client.agents.createMessage(thread.id, {
+    role: "user",
+    content: "hello, world!",
+  });
   console.log(`Created message, message ID: ${message.id}`);
 
   const messages = await client.agents.listMessages(thread.id);
-  console.log(`Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContentOutput).text.value}`);
+  console.log(
+    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContentOutput).text.value}`,
+  );
 
-  const updatedMessage = await client.agents.updateMessage(thread.id, message.id, { metadata: {"introduction": "true"} });
+  const updatedMessage = await client.agents.updateMessage(thread.id, message.id, {
+    metadata: { introduction: "true" },
+  });
   console.log(`Updated message metadata - introduction: ${updatedMessage.metadata?.introduction}`);
 
   await client.agents.deleteThread(thread.id);

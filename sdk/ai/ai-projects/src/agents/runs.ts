@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import type * as CustomOutputModels from "../customization/outputModels.js";
 import type * as CustomModels from "../customization/models.js";
@@ -32,26 +32,19 @@ import {
 } from "./streaming.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
+  AgentRunResponse,
+  CreateRunOptionalParams,
   CancelRunOptionalParams,
   CreateAndRunThreadOptionalParams,
   GetRunOptionalParams,
+  ListRunQueryOptionalParams,
   SubmitToolOutputsToRunOptionalParams,
   UpdateRunOptionalParams,
 } from "./customModels.js";
-import {
-  type AgentRunResponse,
-  type CreateRunOptionalParams,
-  type ListRunQueryOptionalParams,
-} from "./customModels.js";
-import {
-  convertCreateAndRunThreadOptions,
-  convertCreateRunOptions,
-} from "../customization/convertModelsToWrite.js";
-import {
-  convertOpenAIPageableListOfThreadRunOutput,
-  convertThreadRunOutput,
-} from "../customization/convertOutputModelsFromWire.js";
+import * as ConverterToWire from "../customization/convertModelsToWrite.js";
+import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -65,7 +58,7 @@ export function createRun(
   const createRunOptions: GeneratedParameters.CreateRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ...convertCreateRunOptions({ ...options, assistantId }),
+      ...ConverterToWire.convertCreateRunOptions({ ...options, assistantId }),
       stream: false,
     },
   };
@@ -79,7 +72,7 @@ export function createRun(
       async (updateOptions) => {
         const result = await context.path("/threads/{threadId}/runs", threadId).post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          const error = createRestError(result);
+          const error = createOpenAIError(result);
           throw error;
         }
         return result.body;
@@ -87,7 +80,7 @@ export function createRun(
       (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId),
       traceEndCreateOrUpdateRun,
     );
-    return convertThreadRunOutput(output);
+    return ConvertFromWire.convertThreadRunOutput(output);
   }
 
   return {
@@ -118,9 +111,9 @@ export async function listRuns(
     async (updateOptions) => {
       const result = await context.path("/threads/{threadId}/runs", threadId).get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
-      return convertOpenAIPageableListOfThreadRunOutput(result.body);
+      return ConvertFromWire.convertOpenAIPageableListOfThreadRunOutput(result.body);
     },
     (span, updatedOptions) =>
       traceStartAgentGeneric(span, {
@@ -150,9 +143,9 @@ export async function getRun(
         .path("/threads/{threadId}/runs/{runId}", threadId, runId)
         .get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
-      return convertThreadRunOutput(result.body);
+      return ConvertFromWire.convertThreadRunOutput(result.body);
     },
     (span, updatedOptions) =>
       traceStartAgentGeneric(span, {
@@ -185,7 +178,7 @@ export async function updateRun(
         .path("/threads/{threadId}/runs/{runId}", threadId, runId)
         .post(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
-        throw createRestError(result);
+        throw createOpenAIError(result);
       }
       return result.body;
     },
@@ -197,7 +190,7 @@ export async function updateRun(
     traceEndCreateOrUpdateRun,
   );
 
-  return convertThreadRunOutput(response);
+  return ConvertFromWire.convertThreadRunOutput(response);
 }
 
 /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
@@ -213,12 +206,7 @@ export function submitToolOutputsToRun(
   const submitToolOutputsOptions: GeneratedParameters.SubmitToolOutputsToRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      tool_outputs: toolOutputs?.map((toolOutput) => {
-        return {
-          tool_call_id: toolOutput.toolCallId,
-          output: toolOutput.output,
-        };
-      }),
+      tool_outputs: toolOutputs?.map(ConverterToWire.convertToolOutput),
       stream: false,
     },
   };
@@ -232,7 +220,7 @@ export function submitToolOutputsToRun(
           .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
           .post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          throw createRestError(result);
+          throw createOpenAIError(result);
         }
         return result.body;
       },
@@ -240,7 +228,7 @@ export function submitToolOutputsToRun(
         traceStartSubmitToolOutputsToRun(span, updatedOptions, threadId, runId),
       traceEndSubmitToolOutputsToRun,
     );
-    return convertThreadRunOutput(response);
+    return ConvertFromWire.convertThreadRunOutput(response);
   }
 
   return {
@@ -270,9 +258,9 @@ export async function cancelRun(
       .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
       .post(updateOptions);
     if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+      throw createOpenAIError(result);
     }
-    return convertThreadRunOutput(result.body);
+    return ConvertFromWire.convertThreadRunOutput(result.body);
   });
 }
 
@@ -285,7 +273,7 @@ export function createThreadAndRun(
   const createThreadAndRunOptions: GeneratedParameters.CreateThreadAndRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ...convertCreateAndRunThreadOptions({ ...options, assistantId }),
+      ...ConverterToWire.convertCreateAndRunThreadOptions({ ...options, assistantId }),
       stream: false,
     },
   };
@@ -299,7 +287,7 @@ export function createThreadAndRun(
       async (updateOptions) => {
         const result = await context.path("/threads/runs").post(updateOptions);
         if (!expectedStatuses.includes(result.status)) {
-          throw createRestError(result);
+          throw createOpenAIError(result);
         }
 
         return result.body;
@@ -308,7 +296,7 @@ export function createThreadAndRun(
       traceEndCreateOrUpdateRun,
     );
 
-    return convertThreadRunOutput(response);
+    return ConvertFromWire.convertThreadRunOutput(response);
   }
 
   return {

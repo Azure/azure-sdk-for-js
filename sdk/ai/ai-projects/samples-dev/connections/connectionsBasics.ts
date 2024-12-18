@@ -2,20 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * 
- * FILE: files.ts
+ * This sample demonstrates how to how to use basic connections operations.
  *
- * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name.
- * 
- *  USAGE:
- *  npm node files.ts
+ * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections,
+ * get the properties of a default connection, and get the properties of a connection by its name.
  *
- *  Before running the sample:
- *
- *  npm install @azure/ai-projects @azure/identity stream dotenv
- *
- *  Set this environment variables with your own values:
- *  AZURE_AI_PROJECTS_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Studio Project
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";
@@ -24,10 +15,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Get the properties of the specified machine learning workspace
   const workspace = await client.connections.getWorkspace();
@@ -48,5 +43,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });

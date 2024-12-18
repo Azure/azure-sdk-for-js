@@ -7,10 +7,10 @@
  * @summary Create Agent and instrument using open telemetry.
  */
 
-const { trace, context } = require("@opentelemetry/api");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
+const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
+const { context, trace } = require("@opentelemetry/api");
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const {
   ConsoleSpanExporter,
   NodeTracerProvider,
@@ -32,8 +32,7 @@ const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 let appInsightsConnectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
 async function main() {

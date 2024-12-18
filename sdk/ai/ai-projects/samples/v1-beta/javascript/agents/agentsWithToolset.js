@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use agent operations with toolset and iteration in streaming from the Azure Agents service.
+ * This sample demonstrates how to use agent operations with toolset and iteration in streaming
+ * from the Azure Agents service.
+ *
  * @summary demonstrates how to use agent operations with toolset.
  */
 
@@ -15,8 +17,7 @@ const path = require("node:path");
 dotenv.config();
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoresParameters,
   CreateVectorStoreParameters,
@@ -32,6 +32,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { createOpenAIError } from "./openAIError.js";
 
 const expectedStatuses = ["200"];
 
@@ -49,7 +50,7 @@ export async function listVectorStores(
   const result = await context.path("/vector_stores").get(listOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertOpenAIPageableListOfVectorStoreOutput(result.body);
 }
@@ -68,7 +69,7 @@ export async function createVectorStore(
   const result = await context.path("/vector_stores").post(createOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
@@ -89,7 +90,7 @@ export async function getVectorStore(
     .get(getOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
@@ -112,7 +113,7 @@ export async function modifyVectorStore(
     .post(modifyOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreOutput(result.body);
 }
@@ -133,7 +134,7 @@ export async function deleteVectorStore(
     .delete(deleteOptions);
 
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    throw createOpenAIError(result);
   }
   return ConvertFromWire.convertVectorStoreDeletionStatusOutput(result.body);
 }

@@ -5,7 +5,7 @@
  * This sample demonstrates how to create the vector store with the list of files using polling operation.
  *
  * @summary demonstrates how to create the vector store with the list of files using polling operation.
- * 
+ *
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";
@@ -14,10 +14,14 @@ import * as dotenv from "dotenv";
 import { Readable } from "stream";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Create vector store
   const vectorStore = await client.agents.createVectorStore();
@@ -28,7 +32,9 @@ export async function main(): Promise<void> {
   const readable = new Readable();
   readable.push(fileContent);
   readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", {fileName: "vectorFile.txt"});
+  const file = await client.agents.uploadFile(readable, "assistants", {
+    fileName: "vectorFile.txt",
+  });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Set up abort controller (optional)

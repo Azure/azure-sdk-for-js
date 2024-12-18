@@ -5,11 +5,6 @@ import type * as GeneratedModels from "../generated/src/outputModels.js";
 import type * as PublicModels from "./outputModels.js";
 
 // Conversion functions
-export function convertToolDefinitionOutputParent(
-  input: GeneratedModels.ToolDefinitionOutputParent,
-): PublicModels.ToolDefinitionOutputParent {
-  return { ...input };
-}
 
 function convertCodeInterpreterToolDefinitionOutput(
   input: GeneratedModels.CodeInterpreterToolDefinitionOutput,
@@ -17,7 +12,7 @@ function convertCodeInterpreterToolDefinitionOutput(
   return { ...input };
 }
 
-export function convertFileSearchToolDefinitionOutput(
+function convertFileSearchToolDefinitionOutput(
   input: GeneratedModels.FileSearchToolDefinitionOutput,
 ): PublicModels.FileSearchToolDefinitionOutput {
   return {
@@ -28,7 +23,7 @@ export function convertFileSearchToolDefinitionOutput(
   };
 }
 
-export function convertFileSearchToolDefinitionDetailsOutput(
+function convertFileSearchToolDefinitionDetailsOutput(
   input: GeneratedModels.FileSearchToolDefinitionDetailsOutput,
 ): PublicModels.FileSearchToolDefinitionDetailsOutput {
   return {
@@ -39,7 +34,7 @@ export function convertFileSearchToolDefinitionDetailsOutput(
   };
 }
 
-export function convertFileSearchRankingOptionsOutput(
+function convertFileSearchRankingOptionsOutput(
   input: GeneratedModels.FileSearchRankingOptionsOutput,
 ): PublicModels.FileSearchRankingOptionsOutput {
   return {
@@ -72,7 +67,7 @@ function convertBingGroundingToolDefinitionOutput(
   };
 }
 
-export function convertToolConnectionListOutput(
+function convertToolConnectionListOutput(
   input: GeneratedModels.ToolConnectionListOutput,
 ): PublicModels.ToolConnectionListOutput {
   return {
@@ -112,7 +107,7 @@ function convertAzureAISearchToolDefinitionOutput(
   return { ...input };
 }
 
-export function convertToolResourcesOutput(
+function convertToolResourcesOutput(
   input: GeneratedModels.ToolResourcesOutput,
 ): PublicModels.ToolResourcesOutput {
   return {
@@ -128,7 +123,7 @@ export function convertToolResourcesOutput(
   };
 }
 
-export function convertCodeInterpreterToolResourceOutput(
+function convertCodeInterpreterToolResourceOutput(
   input: GeneratedModels.CodeInterpreterToolResourceOutput,
 ): PublicModels.CodeInterpreterToolResourceOutput {
   return {
@@ -137,13 +132,13 @@ export function convertCodeInterpreterToolResourceOutput(
   };
 }
 
-export function convertVectorStoreDataSourceOutput(
+function convertVectorStoreDataSourceOutput(
   input: GeneratedModels.VectorStoreDataSourceOutput,
 ): PublicModels.VectorStoreDataSourceOutput {
   return { ...input };
 }
 
-export function convertFileSearchToolResourceOutput(
+function convertFileSearchToolResourceOutput(
   input: GeneratedModels.FileSearchToolResourceOutput,
 ): PublicModels.FileSearchToolResourceOutput {
   return {
@@ -152,7 +147,7 @@ export function convertFileSearchToolResourceOutput(
   };
 }
 
-export function convertVectorStoreConfigurationsOutput(
+function convertVectorStoreConfigurationsOutput(
   input: GeneratedModels.VectorStoreConfigurationsOutput,
 ): PublicModels.VectorStoreConfigurationsOutput {
   return {
@@ -162,7 +157,7 @@ export function convertVectorStoreConfigurationsOutput(
   };
 }
 
-export function convertVectorStoreConfigurationOutput(
+function convertVectorStoreConfigurationOutput(
   input: GeneratedModels.VectorStoreConfigurationOutput,
 ): PublicModels.VectorStoreConfigurationOutput {
   return {
@@ -171,7 +166,7 @@ export function convertVectorStoreConfigurationOutput(
   };
 }
 
-export function convertAzureAISearchResourceOutput(
+function convertAzureAISearchResourceOutput(
   input: GeneratedModels.AzureAISearchResourceOutput,
 ): PublicModels.AzureAISearchResourceOutput {
   return {
@@ -179,16 +174,10 @@ export function convertAzureAISearchResourceOutput(
   };
 }
 
-export function convertIndexResourceOutput(
+function convertIndexResourceOutput(
   input: GeneratedModels.IndexResourceOutput,
 ): PublicModels.IndexResourceOutput {
   return { indexConnectionId: input.index_connection_id, indexName: input.index_name };
-}
-
-export function convertAgentsApiResponseFormatOutput(
-  input: GeneratedModels.AgentsApiResponseFormatOutput,
-): PublicModels.AgentsApiResponseFormatOutput {
-  return { ...input };
 }
 
 export function convertAgentOutput(input: GeneratedModels.AgentOutput): PublicModels.AgentOutput {
@@ -247,7 +236,7 @@ function convertToolDefinitionOutput(
   }
 }
 
-export function convertAgentsApiResponseFormatOptionOutput(
+function convertAgentsApiResponseFormatOptionOutput(
   input: GeneratedModels.AgentsApiResponseFormatOptionOutput,
 ): PublicModels.AgentsApiResponseFormatOptionOutput {
   return input;
@@ -271,7 +260,7 @@ export function convertAgentDeletionStatusOutput(
   return { ...input };
 }
 
-export function convertMessageAttachmentOutput(
+function convertMessageAttachmentOutput(
   input: GeneratedModels.MessageAttachmentOutput,
 ): PublicModels.MessageAttachmentOutput {
   return {
@@ -341,13 +330,13 @@ export function convertThreadMessageOutput(
   };
 }
 
-export function convertMessageIncompleteDetailsOutput(
+function convertMessageIncompleteDetailsOutput(
   input: GeneratedModels.MessageIncompleteDetailsOutput,
 ): PublicModels.MessageIncompleteDetailsOutput {
   return { ...input };
 }
 
-export function convertMessageContentOutput(
+function convertMessageContentOutput(
   input: GeneratedModels.MessageContentOutput,
 ): PublicModels.MessageContentOutput {
   switch (input.type) {
@@ -362,7 +351,7 @@ export function convertMessageContentOutput(
   }
 }
 
-export function convertMessageTextContentOutput(
+function convertMessageTextContentOutput(
   input: GeneratedModels.MessageTextContentOutput,
 ): PublicModels.MessageTextContentOutput {
   return {
@@ -371,7 +360,7 @@ export function convertMessageTextContentOutput(
   };
 }
 
-export function convertMessageTextDetailsOutput(
+function convertMessageTextDetailsOutput(
   input: GeneratedModels.MessageTextDetailsOutput,
 ): PublicModels.MessageTextDetailsOutput {
   return {
@@ -380,7 +369,7 @@ export function convertMessageTextDetailsOutput(
   };
 }
 
-export function convertMessageTextAnnotationOutput(
+function convertMessageTextAnnotationOutput(
   input: GeneratedModels.MessageTextAnnotationOutputParent,
 ): PublicModels.MessageTextAnnotationOutput {
   switch (input.type) {
@@ -397,7 +386,7 @@ export function convertMessageTextAnnotationOutput(
   }
 }
 
-export function convertMessageTextFileCitationAnnotationOutput(
+function convertMessageTextFileCitationAnnotationOutput(
   input: GeneratedModels.MessageTextFileCitationAnnotationOutput,
 ): PublicModels.MessageTextFileCitationAnnotationOutput {
   return {
@@ -408,7 +397,7 @@ export function convertMessageTextFileCitationAnnotationOutput(
   };
 }
 
-export function convertMessageTextFileCitationDetailsOutput(
+function convertMessageTextFileCitationDetailsOutput(
   input: GeneratedModels.MessageTextFileCitationDetailsOutput,
 ): PublicModels.MessageTextFileCitationDetailsOutput {
   return {
@@ -417,7 +406,7 @@ export function convertMessageTextFileCitationDetailsOutput(
   };
 }
 
-export function convertMessageTextFilePathAnnotationOutput(
+function convertMessageTextFilePathAnnotationOutput(
   input: GeneratedModels.MessageTextFilePathAnnotationOutput,
 ): PublicModels.MessageTextFilePathAnnotationOutput {
   return {
@@ -429,13 +418,13 @@ export function convertMessageTextFilePathAnnotationOutput(
   };
 }
 
-export function convertMessageTextFilePathDetailsOutput(
+function convertMessageTextFilePathDetailsOutput(
   input: GeneratedModels.MessageTextFilePathDetailsOutput,
 ): PublicModels.MessageTextFilePathDetailsOutput {
   return { fileId: input.file_id };
 }
 
-export function convertMessageImageFileContentOutput(
+function convertMessageImageFileContentOutput(
   input: GeneratedModels.MessageImageFileContentOutput,
 ): PublicModels.MessageImageFileContentOutput {
   return {
@@ -444,7 +433,7 @@ export function convertMessageImageFileContentOutput(
   };
 }
 
-export function convertMessageImageFileDetailsOutput(
+function convertMessageImageFileDetailsOutput(
   input: GeneratedModels.MessageImageFileDetailsOutput,
 ): PublicModels.MessageImageFileDetailsOutput {
   return { fileId: input.file_id };
@@ -459,6 +448,9 @@ export function convertThreadRunOutput(
     threadId: input.thread_id,
     assistantId: input.assistant_id,
     status: input.status,
+    ...(input.required_action && {
+      requiredAction: convertRequiredActionOutput(input.required_action),
+    }),
     lastError: input.last_error,
     model: input.model,
     instructions: input.instructions,
@@ -471,8 +463,8 @@ export function convertThreadRunOutput(
     failedAt: input.failed_at ? new Date(input.failed_at) : null,
     incompleteDetails: input.incomplete_details,
     usage: input.usage ? convertRunStepCompletionUsageOutput(input.usage) : null,
-    temperature: input.temperature,
-    topP: input.top_p,
+    ...(input.temperature && { temperature: input.temperature }),
+    ...(input.top_p && { topP: input.top_p }),
     maxPromptTokens: input.max_prompt_tokens,
     maxCompletionTokens: input.max_completion_tokens,
     truncationStrategy: input.truncation_strategy
@@ -481,27 +473,14 @@ export function convertThreadRunOutput(
     toolChoice: input.tool_choice,
     responseFormat: input.response_format,
     metadata: input.metadata,
-    toolResources: input.tool_resources ? convertToolResourcesOutput(input.tool_resources) : null,
+    ...(input.tool_resources && {
+      toolResources: convertToolResourcesOutput(input.tool_resources),
+    }),
     parallelToolCalls: input.parallelToolCalls,
   };
 }
 
-export function convertIncompleteRunDetailsOutput(
-  input: GeneratedModels.IncompleteRunDetailsOutput,
-): PublicModels.IncompleteRunDetailsOutput {
-  return input;
-}
-
-export function convertRunErrorOutput(
-  input: GeneratedModels.RunErrorOutput,
-): PublicModels.RunErrorOutput {
-  return {
-    message: input.message,
-    code: input.code,
-  };
-}
-
-export function convertRunCompletionUsageOutput(
+function convertRunCompletionUsageOutput(
   input: GeneratedModels.RunCompletionUsageOutput,
 ): PublicModels.RunCompletionUsageOutput {
   return {
@@ -511,7 +490,7 @@ export function convertRunCompletionUsageOutput(
   };
 }
 
-export function convertRequiredActionOutput(
+function convertRequiredActionOutput(
   input: GeneratedModels.RequiredActionOutput,
 ): PublicModels.RequiredActionOutput {
   switch (input.type) {
@@ -524,7 +503,7 @@ export function convertRequiredActionOutput(
   }
 }
 
-export function convertSubmitToolOutputsActionOutput(
+function convertSubmitToolOutputsActionOutput(
   input: GeneratedModels.SubmitToolOutputsActionOutput,
 ): PublicModels.SubmitToolOutputsActionOutput {
   return {
@@ -534,7 +513,7 @@ export function convertSubmitToolOutputsActionOutput(
   };
 }
 
-export function convertSubmitToolOutputsDetailsOutput(
+function convertSubmitToolOutputsDetailsOutput(
   input: GeneratedModels.SubmitToolOutputsDetailsOutput,
 ): PublicModels.SubmitToolOutputsDetailsOutput {
   return {
@@ -542,7 +521,7 @@ export function convertSubmitToolOutputsDetailsOutput(
   };
 }
 
-export function convertRequiredToolCallOutput(
+function convertRequiredToolCallOutput(
   input: GeneratedModels.RequiredToolCallOutput,
 ): PublicModels.RequiredToolCallOutput {
   switch (input.type) {
@@ -555,7 +534,7 @@ export function convertRequiredToolCallOutput(
   }
 }
 
-export function convertRequiredFunctionToolCallOutput(
+function convertRequiredFunctionToolCallOutput(
   input: GeneratedModels.RequiredFunctionToolCallOutput,
 ): PublicModels.RequiredFunctionToolCallOutput {
   return {
@@ -565,7 +544,7 @@ export function convertRequiredFunctionToolCallOutput(
   };
 }
 
-export function convertRequiredFunctionToolCallDetailsOutput(
+function convertRequiredFunctionToolCallDetailsOutput(
   input: GeneratedModels.RequiredFunctionToolCallDetailsOutput,
 ): PublicModels.RequiredFunctionToolCallDetailsOutput {
   return {
@@ -617,7 +596,7 @@ export function convertRunStepOutput(
   };
 }
 
-export function convertRunStepDetailsOutput(
+function convertRunStepDetailsOutput(
   input: GeneratedModels.RunStepDetailsOutput,
 ): PublicModels.RunStepDetailsOutput {
   switch (input.type) {
@@ -635,7 +614,7 @@ export function convertRunStepDetailsOutput(
   }
 }
 
-export function convertRunStepMessageCreationDetailsOutput(
+function convertRunStepMessageCreationDetailsOutput(
   input: GeneratedModels.RunStepMessageCreationDetailsOutput,
 ): PublicModels.RunStepMessageCreationDetailsOutput {
   return {
@@ -644,7 +623,7 @@ export function convertRunStepMessageCreationDetailsOutput(
   };
 }
 
-export function convertRunStepMessageCreationReferenceOutput(
+function convertRunStepMessageCreationReferenceOutput(
   input: GeneratedModels.RunStepMessageCreationReferenceOutput,
 ): PublicModels.RunStepMessageCreationReferenceOutput {
   return {
@@ -652,7 +631,7 @@ export function convertRunStepMessageCreationReferenceOutput(
   };
 }
 
-export function convertRunStepToolCallDetailsOutput(
+function convertRunStepToolCallDetailsOutput(
   input: GeneratedModels.RunStepToolCallDetailsOutput,
 ): PublicModels.RunStepToolCallDetailsOutput {
   return {
@@ -661,7 +640,7 @@ export function convertRunStepToolCallDetailsOutput(
   };
 }
 
-export function convertRunStepToolCallOutput(
+function convertRunStepToolCallOutput(
   input: GeneratedModels.RunStepToolCallOutput,
 ): PublicModels.RunStepToolCallOutput {
   switch (input.type) {
@@ -699,7 +678,7 @@ export function convertRunStepToolCallOutput(
   }
 }
 
-export function convertRunStepCodeInterpreterToolCallOutput(
+function convertRunStepCodeInterpreterToolCallOutput(
   input: GeneratedModels.RunStepCodeInterpreterToolCallOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallOutput {
   return {
@@ -711,7 +690,7 @@ export function convertRunStepCodeInterpreterToolCallOutput(
   };
 }
 
-export function convertRunStepFileSearchToolCallOutput(
+function convertRunStepFileSearchToolCallOutput(
   input: GeneratedModels.RunStepFileSearchToolCallOutput,
 ): PublicModels.RunStepFileSearchToolCallOutput {
   return {
@@ -721,7 +700,7 @@ export function convertRunStepFileSearchToolCallOutput(
   };
 }
 
-export function convertRunStepBingGroundingToolCallOutput(
+function convertRunStepBingGroundingToolCallOutput(
   input: GeneratedModels.RunStepBingGroundingToolCallOutput,
 ): PublicModels.RunStepBingGroundingToolCallOutput {
   return {
@@ -731,7 +710,7 @@ export function convertRunStepBingGroundingToolCallOutput(
   };
 }
 
-export function convertRunStepAzureAISearchToolCallOutput(
+function convertRunStepAzureAISearchToolCallOutput(
   input: GeneratedModels.RunStepAzureAISearchToolCallOutput,
 ): PublicModels.RunStepAzureAISearchToolCallOutput {
   return {
@@ -741,7 +720,7 @@ export function convertRunStepAzureAISearchToolCallOutput(
   };
 }
 
-export function convertRunStepSharepointToolCallOutput(
+function convertRunStepSharepointToolCallOutput(
   input: GeneratedModels.RunStepSharepointToolCallOutput,
 ): PublicModels.RunStepSharepointToolCallOutput {
   return {
@@ -751,7 +730,7 @@ export function convertRunStepSharepointToolCallOutput(
   };
 }
 
-export function convertRunStepMicrosoftFabricToolCallOutput(
+function convertRunStepMicrosoftFabricToolCallOutput(
   input: GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
 ): PublicModels.RunStepMicrosoftFabricToolCallOutput {
   return {
@@ -761,7 +740,7 @@ export function convertRunStepMicrosoftFabricToolCallOutput(
   };
 }
 
-export function convertRunStepFunctionToolCallOutput(
+function convertRunStepFunctionToolCallOutput(
   input: GeneratedModels.RunStepFunctionToolCallOutput,
 ): PublicModels.RunStepFunctionToolCallOutput {
   return {
@@ -771,7 +750,7 @@ export function convertRunStepFunctionToolCallOutput(
   };
 }
 
-export function convertRunStepFunctionToolCallDetailsOutput(
+function convertRunStepFunctionToolCallDetailsOutput(
   input: GeneratedModels.RunStepFunctionToolCallDetailsOutput,
 ): PublicModels.RunStepFunctionToolCallDetailsOutput {
   return {
@@ -781,7 +760,7 @@ export function convertRunStepFunctionToolCallDetailsOutput(
   };
 }
 
-export function convertRunStepCodeInterpreterToolCallDetailsOutput(
+function convertRunStepCodeInterpreterToolCallDetailsOutput(
   input: GeneratedModels.RunStepCodeInterpreterToolCallDetailsOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallDetailsOutput {
   return {
@@ -790,7 +769,7 @@ export function convertRunStepCodeInterpreterToolCallDetailsOutput(
   };
 }
 
-export function convertRunStepCodeInterpreterToolCallOutputOutput(
+function convertRunStepCodeInterpreterToolCallOutputOutput(
   input: GeneratedModels.RunStepCodeInterpreterToolCallOutputOutput,
 ): PublicModels.RunStepCodeInterpreterToolCallOutputOutput {
   switch (input.type) {
@@ -807,7 +786,7 @@ export function convertRunStepCodeInterpreterToolCallOutputOutput(
   }
 }
 
-export function convertRunStepCodeInterpreterLogOutputOutput(
+function convertRunStepCodeInterpreterLogOutputOutput(
   input: GeneratedModels.RunStepCodeInterpreterLogOutputOutput,
 ): PublicModels.RunStepCodeInterpreterLogOutputOutput {
   return {
@@ -816,7 +795,7 @@ export function convertRunStepCodeInterpreterLogOutputOutput(
   };
 }
 
-export function convertRunStepCodeInterpreterImageOutputOutput(
+function convertRunStepCodeInterpreterImageOutputOutput(
   input: GeneratedModels.RunStepCodeInterpreterImageOutputOutput,
 ): PublicModels.RunStepCodeInterpreterImageOutputOutput {
   return {
@@ -825,7 +804,7 @@ export function convertRunStepCodeInterpreterImageOutputOutput(
   };
 }
 
-export function convertRunStepCodeInterpreterImageReferenceOutput(
+function convertRunStepCodeInterpreterImageReferenceOutput(
   input: GeneratedModels.RunStepCodeInterpreterImageReferenceOutput,
 ): PublicModels.RunStepCodeInterpreterImageReferenceOutput {
   return {
@@ -833,7 +812,7 @@ export function convertRunStepCodeInterpreterImageReferenceOutput(
   };
 }
 
-export function convertRunStepErrorOutput(
+function convertRunStepErrorOutput(
   input: GeneratedModels.RunStepErrorOutput,
 ): PublicModels.RunStepErrorOutput {
   return {
@@ -842,7 +821,7 @@ export function convertRunStepErrorOutput(
   };
 }
 
-export function convertRunStepCompletionUsageOutput(
+function convertRunStepCompletionUsageOutput(
   input: GeneratedModels.RunStepCompletionUsageOutput,
 ): PublicModels.RunStepCompletionUsageOutput {
   return {

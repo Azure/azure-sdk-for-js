@@ -1,17 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/* eslint-disable @typescript-eslint/no-unused-vars
- */
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
-
-/**
- * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service.
- *
- * @summary demonstrates how to use basic agent operations using function tool.
- *
- */
-
 const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -19,8 +5,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -75,11 +60,11 @@ async function main() {
       return { location: "Seattle, WA" };
     }
 
-    getCityNickname(location) {
+    getCityNickname(_location) {
       return { nickname: "The Emerald City" };
     }
 
-    getWeather(location, unit) {
+    getWeather(_location, unit) {
       return { weather: unit === "f" ? "72f" : "22c" };
     }
 

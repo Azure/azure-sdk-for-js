@@ -13,10 +13,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Set up abort controller (optional)
   // Polling can then be stopped using abortController.abort()
@@ -25,7 +29,9 @@ export async function main(): Promise<void> {
   // Create a vector store
   const vectorStoreOptions = { name: "myVectorStore", pollingOptions: {sleepIntervalInMs: 2000, abortSignal: abortController.signal} };
   const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions);
-  console.log(`Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`);
+  console.log(
+    `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
+  );
 
   // Get a specific vector store
   const retrievedVectorStore = await client.agents.getVectorStore(vectorStore.id);

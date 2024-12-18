@@ -8,23 +8,30 @@
  *
  */
 
-import {AIProjectsClient, isOutputOfType, MessageTextContentOutput, MessageImageFileContentOutput, ToolUtility } from "@azure/ai-projects"
+import type { MessageImageFileContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
+import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-dotenv.config();
 import * as fs from "fs";
-import { delay } from "@azure/core-util";
 import path from "node:path";
+dotenv.config();
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
 
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {fileName: "localFile"});
+  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
+    fileName: "localFile",
+  });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
@@ -45,9 +52,10 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.agents.createMessage(thread.id, { 
-    role: "user", 
-    content: "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?" 
+  const message = await client.agents.createMessage(thread.id, {
+    role: "user",
+    content:
+      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
   });
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -73,9 +81,11 @@ export async function main(): Promise<void> {
   console.log("Messages:", messages);
 
   // Get most recent message from the assistant
-  const assistantMessage = messages.data.find(msg => msg.role === "assistant");
+  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
-    const textContent = assistantMessage.content.find(content => isOutputOfType<MessageTextContentOutput>(content, "text")) as MessageTextContentOutput;
+    const textContent = assistantMessage.content.find((content) =>
+      isOutputOfType<MessageTextContentOutput>(content, "text"),
+    ) as MessageTextContentOutput;
     if (textContent) {
       console.log(`Last message: ${textContent.text.value}`);
     }
@@ -85,18 +95,23 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
   console.log(`Image file ID : ${imageFile}`);
-  const imageFileName = path.resolve(__dirname, "../data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png");
+  const imageFileName = path.resolve(
+    __dirname,
+    "../data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png",
+  );
 
-  const fileContent = await (await client.agents.getFileContent(imageFile.fileId).asNodeStream()).body;
+  const fileContent = await (
+    await client.agents.getFileContent(imageFile.fileId).asNodeStream()
+  ).body;
   if (fileContent) {
-      const chunks: Buffer[] = [];
-      for await (const chunk of fileContent) {
-        chunks.push(Buffer.from(chunk));
-      }
-      const buffer = Buffer.concat(chunks);
-      fs.writeFileSync(imageFileName, buffer);
+    const chunks: Buffer[] = [];
+    for await (const chunk of fileContent) {
+      chunks.push(Buffer.from(chunk));
+    }
+    const buffer = Buffer.concat(chunks);
+    fs.writeFileSync(imageFileName, buffer);
   } else {
-      console.error("Failed to retrieve file content: fileContent is undefined");
+    console.error("Failed to retrieve file content: fileContent is undefined");
   }
   console.log(`Saved image file to: ${imageFileName}`);
 
@@ -104,11 +119,11 @@ export async function main(): Promise<void> {
   console.log(`Message Details:`);
   messages.data.forEach((m) => {
     console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`); 
+    console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
       const textContent = m.content[0] as MessageTextContentOutput;
       console.log(`Text: ${textContent.text.value}`);
-    } 
+    }
     console.log(`File ID: ${m.id}`);
     console.log(`Start Index: ${messages.firstId}`);
     console.log(`End Index: ${messages.lastId}`);
