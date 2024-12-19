@@ -7,7 +7,7 @@ import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator"
 import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { buildChangeFeedIterator } from "./buildChangeFeedIterator";
 import type { PartitionKeyRangeCache } from "../../routing";
-import { ErrorResponse } from "@azure/cosmos";
+import { ErrorResponse } from "../../request";
 
 /**
  * @hidden
