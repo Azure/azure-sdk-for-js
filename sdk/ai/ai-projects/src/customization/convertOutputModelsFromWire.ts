@@ -5,6 +5,7 @@ import type * as GeneratedModels from "../generated/src/outputModels.js";
 import type * as PublicModels from "./outputModels.js";
 import type * as WireStreamingModels from "./streamingWireModels.js";
 import type * as PublicStreamingModels from "./streamingModels.js";
+import { logger } from "../logger.js";
 
 // Conversion functions
 
@@ -1059,7 +1060,11 @@ function convertStreamingMessageDeltaContent(
         input as WireStreamingModels.MessageDeltaImageFileContent,
       );
     default:
-      throw new Error(`Unknown message content type: ${input.type}`);
+      logger.error(`Unknown message content type: ${input.type}`);
+      return {
+        index: input.index,
+        type: input.type,
+      };
   }
 }
 
@@ -1191,7 +1196,8 @@ function convertRunStepDetailsDelta(
         input as WireStreamingModels.RunStepDeltaToolCallObject,
       );
     default:
-      throw new Error(`Unknown run step type: ${input.type}`);
+      logger.error(`Unknown run step type: ${input.type}`);
+      return { type: input.type };
   }
 }
 
@@ -1239,7 +1245,12 @@ function convertRunStepToolCallDelta(
         input as WireStreamingModels.RunStepDeltaFunctionToolCall,
       );
     default:
-      throw new Error(`Unknown run step tool call type: ${input.type}`);
+      logger.error(`Unknown run step tool call type: ${input.type}`);
+      return {
+        index: input.index,
+        id: input.id,
+        type: input.type,
+      };
   }
 }
 

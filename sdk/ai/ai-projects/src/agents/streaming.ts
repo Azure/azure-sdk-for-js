@@ -33,6 +33,7 @@ import { createOpenAIError } from "./openAIError.js";
 import {
   convertAgentThreadOutput,
   convertMessageDeltaChunkOutput,
+  convertRunStepDeltaChunk,
   convertRunStepOutput,
   convertThreadMessageOutput,
   convertThreadRunOutput,
@@ -68,7 +69,7 @@ function deserializeEventData(event: EventMessage): AgentEventStreamDataOutput {
       case MessageStreamEvent.ThreadMessageDelta:
         return convertMessageDeltaChunkOutput(jsonData);
       case RunStepStreamEvent.ThreadRunStepDelta:
-        return convertMessageDeltaChunkOutput(jsonData);
+        return convertRunStepDeltaChunk(jsonData);
       default: {
         for (const { events, converter } of handlers) {
           if (events.includes(event.event)) {
