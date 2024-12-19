@@ -3364,7 +3364,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz':
-    resolution: {integrity: sha512-XJORCYQaxGTI4A/xLddK8PR4axcz55i7KHb9iXpwJCTbEt7VGQKD6HoRGSYrHVK1/zZjH91U2uTtIVZTCfB6nw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-xCkGElJtVReO5TDCkZ309jB7+ZGD0zkVnvEGKd+lFb7jR7y1oFVSk9hWDQ1AX615A1L4YGJrgemVpFymZhsr+g==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmesh@file:projects/arm-servicefabricmesh.tgz':
@@ -14733,7 +14733,7 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
       tslib: 2.8.1
       tsx: 4.19.2
