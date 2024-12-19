@@ -113,7 +113,6 @@ export class CallAutomationClient {
 
 // @public
 export interface CallAutomationClientOptions extends CommonClientOptions {
-    opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
     sourceIdentity?: CommunicationUserIdentifier;
 }
 
@@ -464,6 +463,7 @@ export interface CreateCallOptions extends OperationOptions {
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    teamsAppSource?: MicrosoftTeamsAppIdentifier;
     transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
