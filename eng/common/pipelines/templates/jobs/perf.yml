@@ -115,12 +115,12 @@ jobs:
 
   - ${{ parameters.InstallLanguageSteps }}
 
-  - template: /eng/common/TestResources/deploy-test-resources.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
-      Location: westus
-      ResourceType: perf
-      ServiceConnection: azure-sdk-tests-public
+  #  - template: /eng/common/TestResources/deploy-test-resources.yml
+  #    parameters:
+  #      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+  #      Location: westus
+  #      ResourceType: perf
+  #      ServiceConnection: azure-sdk-tests-public
 
   - task: AzurePowerShell@5
     inputs:
