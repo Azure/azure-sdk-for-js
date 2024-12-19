@@ -58,7 +58,7 @@ You'll need to register the new Microsoft Entra ID application and grant access 
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
-The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
+The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
 const MapsGeolocation = require("@azure-rest/maps-geolocation").default;
@@ -172,14 +172,14 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-geolocation
-[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-geolocation?view=azure-node-preview
+[api_ref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-geolocation?view=azure-node-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest/samples
 [product_info]: https://learn.microsoft.com/rest/api/maps/geolocation
 [az_subscription]: https://azure.microsoft.com/free/
-[az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys
+[az_maps_account_management]: https://learn.microsoft.com/azure/azure-maps/how-to-manage-account-keys
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[az_map_pricing]: https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier
-[az_map_az_cli]: https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.maps/new-azmapsaccount
+[azure_cli]: https://learn.microsoft.com/cli/azure
+[az_map_pricing]: https://learn.microsoft.com/azure/azure-maps/choose-pricing-tier
+[az_map_az_cli]: https://learn.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
 [az_map_auth]: https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication

@@ -796,13 +796,14 @@ export interface SuspendMode {
 }
 
 // @public (undocumented)
-export type Transformer<TFrom, TTo> = (input: TFrom) => TTo;
+type Transformer_2<TFrom, TTo> = (input: TFrom) => TTo;
+export { Transformer_2 as Transformer }
 
 // @public (undocumented)
 export class TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage = TElement[], TTransformedPage = TTransformed[], TPageSettings = PageSettings> {
     // (undocumented)
     [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage, TTransformedPage, TPageSettings>;
-    constructor(internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>, transform: Transformer<TElement, TTransformed>);
+    constructor(internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>, transform: Transformer_2<TElement, TTransformed>);
     // (undocumented)
     byPage(settings?: TPageSettings): AsyncIterableIterator<TTransformedPage>;
     // (undocumented)

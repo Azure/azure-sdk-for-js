@@ -1,0 +1,9 @@
+trigger: none
+
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure-rest/maps-timezone"
+      ServiceDirectory: maps
+      SupportedClouds: 'Public,Canary'
+      UseFederatedAuth: true

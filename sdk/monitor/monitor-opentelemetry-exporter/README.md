@@ -16,12 +16,12 @@ This exporter package assumes your application is [already instrumented](https:/
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
-> *Warning:* This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
+> _Warning:_ This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
 
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- An [Application Insights workspace](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/)
+- An [Application Insights workspace](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview/)
 
 ### Distributed Tracing
 
@@ -31,8 +31,8 @@ Add the exporter to your existing OpenTelemetry Tracer Provider (`NodeTracerProv
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
-const { Resource } = require("@opentelemetry/resources"); 
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
+const { Resource } = require("@opentelemetry/resources");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 
 const tracerProvider = new NodeTracerProvider({
   resource: new Resource({
@@ -45,15 +45,15 @@ tracerProvider.register();
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
 });
 
 // Add the exporter to the Provider
 tracerProvider.addSpanProcessor(
   new BatchSpanProcessor(exporter, {
     bufferTimeout: 15000,
-    bufferSize: 1000
-  })
+    bufferSize: 1000,
+  }),
 );
 ```
 
@@ -79,8 +79,7 @@ const meterProvider = new MeterProvider();
 meterProvider.addMetricReader(metricReader);
 
 // Register Meter Provider as global
- metrics.setGlobalMeterProvider(meterProvider);
-
+metrics.setGlobalMeterProvider(meterProvider);
 ```
 
 ### Logs
@@ -103,9 +102,7 @@ loggerProvider.addLogRecordProcessor(logRecordProcessor);
 
 // Register logger Provider as global
 logs.setGlobalLoggerProvider(loggerProvider);
-
 ```
-
 
 ### Sampling
 
@@ -115,8 +112,8 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
-const { Resource } = require("@opentelemetry/resources"); 
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
+const { Resource } = require("@opentelemetry/resources");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
 // A rate of 0.75 means approximately 75 % of your traces will be sent

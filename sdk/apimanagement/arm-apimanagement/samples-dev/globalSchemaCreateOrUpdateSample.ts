@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  GlobalSchemaContract,
-  ApiManagementClient
+    ApiManagementClient,
+    GlobalSchemaContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates new or updates existing specified Schema of the API Management service instance.
@@ -24,27 +22,27 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGlobalSchema1.json
  */
 async function apiManagementCreateSchema1() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const schemaId = "schema1";
-  const parameters: GlobalSchemaContract = {
-    description: "sample schema description",
-    schemaType: "xml",
-    value:
-      '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"\r\n           xmlns:tns="http://tempuri.org/PurchaseOrderSchema.xsd"\r\n           targetNamespace="http://tempuri.org/PurchaseOrderSchema.xsd"\r\n           elementFormDefault="qualified">\r\n <xsd:element name="PurchaseOrder" type="tns:PurchaseOrderType"/>\r\n <xsd:complexType name="PurchaseOrderType">\r\n  <xsd:sequence>\r\n   <xsd:element name="ShipTo" type="tns:USAddress" maxOccurs="2"/>\r\n   <xsd:element name="BillTo" type="tns:USAddress"/>\r\n  </xsd:sequence>\r\n  <xsd:attribute name="OrderDate" type="xsd:date"/>\r\n </xsd:complexType>\r\n\r\n <xsd:complexType name="USAddress">\r\n  <xsd:sequence>\r\n   <xsd:element name="name"   type="xsd:string"/>\r\n   <xsd:element name="street" type="xsd:string"/>\r\n   <xsd:element name="city"   type="xsd:string"/>\r\n   <xsd:element name="state"  type="xsd:string"/>\r\n   <xsd:element name="zip"    type="xsd:integer"/>\r\n  </xsd:sequence>\r\n  <xsd:attribute name="country" type="xsd:NMTOKEN" fixed="US"/>\r\n </xsd:complexType>\r\n</xsd:schema>'
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.globalSchema.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    schemaId,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const schemaId = "schema1";
+    const parameters: GlobalSchemaContract = {
+        description: "sample schema description",
+        schemaType: "xml",
+        value:
+            '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"\r\n           xmlns:tns="http://tempuri.org/PurchaseOrderSchema.xsd"\r\n           targetNamespace="http://tempuri.org/PurchaseOrderSchema.xsd"\r\n           elementFormDefault="qualified">\r\n <xsd:element name="PurchaseOrder" type="tns:PurchaseOrderType"/>\r\n <xsd:complexType name="PurchaseOrderType">\r\n  <xsd:sequence>\r\n   <xsd:element name="ShipTo" type="tns:USAddress" maxOccurs="2"/>\r\n   <xsd:element name="BillTo" type="tns:USAddress"/>\r\n  </xsd:sequence>\r\n  <xsd:attribute name="OrderDate" type="xsd:date"/>\r\n </xsd:complexType>\r\n\r\n <xsd:complexType name="USAddress">\r\n  <xsd:sequence>\r\n   <xsd:element name="name"   type="xsd:string"/>\r\n   <xsd:element name="street" type="xsd:string"/>\r\n   <xsd:element name="city"   type="xsd:string"/>\r\n   <xsd:element name="state"  type="xsd:string"/>\r\n   <xsd:element name="zip"    type="xsd:integer"/>\r\n  </xsd:sequence>\r\n  <xsd:attribute name="country" type="xsd:NMTOKEN" fixed="US"/>\r\n </xsd:complexType>\r\n</xsd:schema>'
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.globalSchema.beginCreateOrUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        schemaId,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -54,46 +52,46 @@ async function apiManagementCreateSchema1() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGlobalSchema2.json
  */
 async function apiManagementCreateSchema2() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const schemaId = "schema1";
-  const parameters: GlobalSchemaContract = {
-    description: "sample schema description",
-    document: {
-      type: "object",
-      $id: "https://example.com/person.schema.json",
-      $schema: "https://json-schema.org/draft/2020-12/schema",
-      properties: {
-        age: {
-          type: "integer",
-          description:
-            "Age in years which must be equal to or greater than zero.",
-          minimum: 0
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const schemaId = "schema1";
+    const parameters: GlobalSchemaContract = {
+        description: "sample schema description",
+        document: {
+            type: "object",
+            $id: "https://example.com/person.schema.json",
+            $schema: "https://json-schema.org/draft/2020-12/schema",
+            properties: {
+                age: {
+                    type: "integer",
+                    description:
+                        "Age in years which must be equal to or greater than zero.",
+                    minimum: 0
+                },
+                firstName: { type: "string", description: "The person's first name." },
+                lastName: { type: "string", description: "The person's last name." }
+            },
+            title: "Person"
         },
-        firstName: { type: "string", description: "The person's first name." },
-        lastName: { type: "string", description: "The person's last name." }
-      },
-      title: "Person"
-    },
-    schemaType: "json"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.globalSchema.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    schemaId,
-    parameters
-  );
-  console.log(result);
+        schemaType: "json"
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.globalSchema.beginCreateOrUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        schemaId,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementCreateSchema1();
-  apiManagementCreateSchema2();
+    apiManagementCreateSchema1();
+    apiManagementCreateSchema2();
 }
 
 main().catch(console.error);
