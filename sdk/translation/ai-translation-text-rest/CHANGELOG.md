@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.1 (2024-12-16)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh @azure-rest/ai-translation-text sdk
 
 ## 1.0.0 (2024-05-21)
 
