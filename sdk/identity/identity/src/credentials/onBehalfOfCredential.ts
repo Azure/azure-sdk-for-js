@@ -17,7 +17,7 @@ import {
 } from "../util/tenantIdUtils.js";
 
 import type { CertificateParts } from "../msal/types.js";
-import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential.js";
+import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredentialModels.js";
 import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";

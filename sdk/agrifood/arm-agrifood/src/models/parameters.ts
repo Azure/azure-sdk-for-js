@@ -16,7 +16,7 @@ import {
   FarmBeatsUpdateRequestModel as FarmBeatsUpdateRequestModelMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
