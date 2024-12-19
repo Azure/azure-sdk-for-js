@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-naming-options";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-naming-options.js";
 
 //------------------------------------------------------------------------------
 // Tests

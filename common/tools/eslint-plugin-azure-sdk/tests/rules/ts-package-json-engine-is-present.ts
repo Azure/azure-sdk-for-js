@@ -8,8 +8,8 @@
 
 "use strict";
 
-import { createRuleTester } from "../ruleTester";
-import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present";
+import { createRuleTester } from "../ruleTester.js";
+import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present.js";
 
 //------------------------------------------------------------------------------
 // Example files

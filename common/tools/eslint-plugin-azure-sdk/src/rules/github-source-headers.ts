@@ -5,7 +5,7 @@
  * @file Rule to require copyright headers in every source file.
  */
 
-import { createRule } from "../utils/ruleCreator";
+import { createRule } from "../utils/ruleCreator.js";
 import { TSESTree } from "@typescript-eslint/utils";
 
 const expectedLines = ["Copyright (c) Microsoft Corporation.", "Licensed under the MIT License."];

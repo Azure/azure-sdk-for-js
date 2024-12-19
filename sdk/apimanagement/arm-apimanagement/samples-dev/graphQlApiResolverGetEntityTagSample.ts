@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the entity state (Etag) version of the GraphQL API resolver specified by its identifier.
@@ -21,26 +19,26 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGraphQLApiResolver.json
  */
 async function apiManagementHeadGraphQlApiResolver() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const apiId = "57d2ef278aa04f0888cba3f3";
-  const resolverId = "57d2ef278aa04f0ad01d6cdc";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.graphQLApiResolver.getEntityTag(
-    resourceGroupName,
-    serviceName,
-    apiId,
-    resolverId
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const apiId = "57d2ef278aa04f0888cba3f3";
+    const resolverId = "57d2ef278aa04f0ad01d6cdc";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.graphQLApiResolver.getEntityTag(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        resolverId
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementHeadGraphQlApiResolver();
+    apiManagementHeadGraphQlApiResolver();
 }
 
 main().catch(console.error);

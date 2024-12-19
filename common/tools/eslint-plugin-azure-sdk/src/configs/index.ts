@@ -8,9 +8,9 @@ import eslintConfigPrettier from "eslint-config-prettier";
 import markdown from "eslint-plugin-markdown";
 import promise from "eslint-plugin-promise";
 
-import eslintCustomized from "./eslint-customized";
-import markdownCustomized from "./markdown-customized";
-import azureSdkCustomized from "./azure-sdk-customized";
+import eslintCustomized from "./eslint-customized.js";
+import markdownCustomized from "./markdown-customized.js";
+import azureSdkCustomized from "./azure-sdk-customized.js";
 
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
