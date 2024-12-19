@@ -13,10 +13,8 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient.js";
-
-
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
