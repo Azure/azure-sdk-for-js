@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a private endpoint connection.
  *
  * @summary Gets a private endpoint connection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-11-15/examples/CosmosDBPrivateEndpointConnectionGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBPrivateEndpointConnectionGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =

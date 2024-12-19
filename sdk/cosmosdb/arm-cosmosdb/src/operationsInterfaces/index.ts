@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./chaosFault";
 export * from "./databaseAccounts";
 export * from "./operations";
 export * from "./database";
@@ -19,14 +20,17 @@ export * from "./collectionPartitionRegion";
 export * from "./collectionPartition";
 export * from "./partitionKeyRangeId";
 export * from "./partitionKeyRangeIdRegion";
+export * from "./graphResources";
 export * from "./sqlResources";
 export * from "./mongoDBResources";
 export * from "./tableResources";
 export * from "./cassandraResources";
 export * from "./gremlinResources";
 export * from "./locations";
+export * from "./dataTransferJobs";
 export * from "./cassandraClusters";
 export * from "./cassandraDataCenters";
+export * from "./networkSecurityPerimeterConfigurations";
 export * from "./notebookWorkspaces";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
@@ -43,3 +47,7 @@ export * from "./restorableGremlinResources";
 export * from "./restorableTables";
 export * from "./restorableTableResources";
 export * from "./service";
+export * from "./throughputPools";
+export * from "./throughputPool";
+export * from "./throughputPoolAccounts";
+export * from "./throughputPoolAccount";
