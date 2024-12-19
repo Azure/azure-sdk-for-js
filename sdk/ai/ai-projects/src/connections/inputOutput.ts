@@ -3,6 +3,16 @@
 
 export { ListConnectionsQueryParamProperties } from "../customization/parameters.js";
 export {
-  GetWorkspaceResponseOutput,
   GetConnectionResponseOutput,
+  InternalConnectionPropertiesOutput,
+  InternalConnectionPropertiesOutputParent,
+  InternalConnectionPropertiesApiKeyAuthOutput,
+  InternalConnectionPropertiesAADAuthOutput,
+  InternalConnectionPropertiesSASAuthOutput,
+  CredentialsApiKeyAuthOutput,
+  AuthenticationTypeOutput,
+  ConnectionTypeOutput,
+  CredentialsSASAuthOutput,
 } from "../customization/outputModels.js";
+
+export * from "./customModels.js";

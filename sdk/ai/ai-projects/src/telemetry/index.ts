@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import type { ConnectionsOperations } from "../connections/index.js";
 import type { TelemetryOptions } from "./telemetry.js";
 import {
   getConnectionString,
@@ -10,6 +9,9 @@ import {
   resetTelemetryOptions,
   updateTelemetryOptions,
 } from "./telemetry.js";
+import type { ConnectionsInternalOperations } from "../connections/internalModels.js";
+import type { ConnectionsOperations } from "../connections/customModels.js";
+export { TelemetryOptions } from "./telemetry.js";
 
 /**
  * Telemetry operations
@@ -46,7 +48,8 @@ export function getTelemetryOperations(
 ): TelemetryOperations {
   resetTelemetryOptions();
   return {
-    getConnectionString: () => getConnectionString(context, connection),
+    getConnectionString: () =>
+      getConnectionString(context, connection as ConnectionsInternalOperations),
     updateSettings: (options: TelemetryOptions) => updateTelemetryOptions(options),
     getSettings: () => getTelemetryOptions(),
   };

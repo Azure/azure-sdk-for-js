@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionsOperations } from "../connections/index.js";
 import type { GetAppInsightsResponseOutput } from "../customization/outputModels.js";
 import type { Client } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
+import type { ConnectionsInternalOperations } from "../connections/internalModels.js";
 
 const expectedStatuses = ["200"];
 
@@ -12,6 +12,7 @@ const expectedStatuses = ["200"];
  * Telemetry options
  */
 export interface TelemetryOptions {
+  /** Enable content recording */
   enableContentRecording: boolean;
 }
 
@@ -51,7 +52,7 @@ export function resetTelemetryOptions(): void {
  */
 export async function getConnectionString(
   context: Client,
-  connection: ConnectionsOperations,
+  connection: ConnectionsInternalOperations,
 ): Promise<string> {
   if (!telemetryOptions.connectionString) {
     const workspace = await connection.getWorkspace();

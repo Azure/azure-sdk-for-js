@@ -7,10 +7,8 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { Paged } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
-import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -111,7 +109,7 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 // @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
-    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: CancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
     createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
@@ -123,11 +121,11 @@ export interface AgentsOperations {
     createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
-    deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
+    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: DeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
     getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
@@ -135,7 +133,7 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: GetVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
@@ -192,29 +190,6 @@ export type ApiResponseFormat = string;
 
 // @public
 export type ApiResponseFormatOutput = string;
-
-// @public
-export interface AppInsightsPropertiesOutput {
-    ConnectionString: string;
-}
-
-// @public
-export interface ApplicationInsightsConfiguration extends InputDataParent {
-    connectionString?: string;
-    query: string;
-    resourceId: string;
-    serviceName: string;
-}
-
-// @public
-export interface ApplicationInsightsConfigurationOutput extends InputDataOutputParent {
-    connectionString?: string;
-    query: string;
-    resourceId: string;
-    serviceName: string;
-    // (undocumented)
-    readonly type: "app_insights";
-}
 
 // @public
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
@@ -283,10 +258,9 @@ export interface CodeInterpreterToolResourceOutput {
 
 // @public
 export interface ConnectionsOperations {
-    getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
-    getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
-    getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
-    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<Array<GetConnectionResponseOutput>>;
+    getConnection: (connectionName: string, options?: GetConnectionOptionalParams) => Promise<GetConnectionResponseOutput>;
+    getConnectionWithSecrets: (connectionName: string, options?: GetConnectionWithSecretsOptionalParams) => Promise<GetConnectionResponseOutput>;
+    listConnections: (options?: ListConnectionsOptionalParams) => Promise<Array<GetConnectionResponseOutput>>;
 }
 
 // @public
@@ -421,30 +395,6 @@ export interface CredentialsSASAuthOutput {
 }
 
 // @public
-export interface CronTrigger extends TriggerParent {
-    expression: string;
-}
-
-// @public
-export interface CronTriggerOutput extends TriggerOutputParent {
-    expression: string;
-    // (undocumented)
-    readonly type: "Cron";
-}
-
-// @public
-export interface Dataset extends InputDataParent {
-    id: string;
-}
-
-// @public
-export interface DatasetOutput extends InputDataOutputParent {
-    id: string;
-    // (undocumented)
-    readonly type: "dataset";
-}
-
-// @public
 export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
@@ -472,67 +422,6 @@ export enum DoneEvent {
 // @public
 export enum ErrorEvent {
     Error = "error"
-}
-
-// @public
-export interface Evaluation {
-    data: InputData;
-    description?: string;
-    displayName?: string;
-    evaluators: Record<string, EvaluatorConfiguration>;
-    properties?: Record<string, string>;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface EvaluationOutput {
-    data: InputDataOutput;
-    description?: string;
-    displayName?: string;
-    evaluators: Record<string, EvaluatorConfigurationOutput>;
-    readonly id: string;
-    properties?: Record<string, string>;
-    readonly status?: string;
-    readonly systemData?: SystemDataOutput;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface EvaluationSchedule {
-    data: ApplicationInsightsConfiguration;
-    description?: string;
-    evaluators: Record<string, EvaluatorConfiguration>;
-    properties?: Record<string, string>;
-    tags?: Record<string, string>;
-    trigger: Trigger;
-}
-
-// @public
-export interface EvaluationScheduleOutput {
-    data: ApplicationInsightsConfigurationOutput;
-    description?: string;
-    evaluators: Record<string, EvaluatorConfigurationOutput>;
-    readonly isEnabled?: string;
-    readonly name: string;
-    properties?: Record<string, string>;
-    readonly provisioningState?: string;
-    readonly systemData?: SystemDataOutput;
-    tags?: Record<string, string>;
-    trigger: TriggerOutput;
-}
-
-// @public
-export interface EvaluatorConfiguration {
-    dataMapping?: Record<string, string>;
-    id: string;
-    initParams?: Record<string, unknown>;
-}
-
-// @public
-export interface EvaluatorConfigurationOutput {
-    dataMapping?: Record<string, string>;
-    id: string;
-    initParams?: Record<string, any>;
 }
 
 // @public
@@ -613,12 +502,6 @@ export interface FileStatusFilter {
 }
 
 // @public
-export type Frequency = string;
-
-// @public
-export type FrequencyOutput = string;
-
-// @public
 export interface FunctionDefinition {
     description?: string;
     name: string;
@@ -663,10 +546,7 @@ export interface GetAgentThreadOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetAppInsightsResponseOutput {
-    id: string;
-    name: string;
-    properties: AppInsightsPropertiesOutput;
+export interface GetConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -674,6 +554,10 @@ export interface GetConnectionResponseOutput {
     id: string;
     name: string;
     properties: InternalConnectionPropertiesOutput;
+}
+
+// @public
+export interface GetConnectionWithSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -705,10 +589,7 @@ export interface GetVectorStoreOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetWorkspaceResponseOutput {
-    id: string;
-    name: string;
-    properties: WorkspacePropertiesOutput;
+export interface GetWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -724,24 +605,6 @@ export interface IndexResource {
 export interface IndexResourceOutput {
     indexConnectionId: string;
     indexName: string;
-}
-
-// @public
-export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
-
-// @public
-export type InputDataOutput = InputDataOutputParent | ApplicationInsightsConfigurationOutput | DatasetOutput;
-
-// @public
-export interface InputDataOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface InputDataParent {
-    // (undocumented)
-    type: string;
 }
 
 // @public
@@ -781,16 +644,15 @@ export function isOutputOfType<T extends {
 export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
 }
 
+// @public
+export interface ListConnectionsOptionalParams extends ListConnectionsQueryParamProperties, OperationOptions {
+}
+
 // @public (undocumented)
 export interface ListConnectionsQueryParamProperties {
     category?: ConnectionType;
     includeAll?: boolean;
     target?: string;
-}
-
-// @public
-export interface ListConnectionsResponseOutput {
-    value: Array<GetConnectionResponseOutput>;
 }
 
 // @public
@@ -1210,15 +1072,6 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 }
 
 // @public
-export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">;
-
-// @public
-export type PagedEvaluationOutput = Paged<EvaluationOutput>;
-
-// @public
-export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
-
-// @public
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
@@ -1232,38 +1085,6 @@ export interface PollingOptionsParams {
 // @public
 export interface ProjectsClientOptions extends ClientOptions {
     apiVersion?: string;
-}
-
-// @public
-export interface RecurrenceSchedule {
-    hours: number[];
-    minutes: number[];
-    monthDays?: number[];
-    weekDays?: WeekDays[];
-}
-
-// @public
-export interface RecurrenceScheduleOutput {
-    hours: number[];
-    minutes: number[];
-    monthDays?: number[];
-    weekDays?: WeekDaysOutput[];
-}
-
-// @public
-export interface RecurrenceTrigger extends TriggerParent {
-    frequency: Frequency;
-    interval: number;
-    schedule?: RecurrenceSchedule;
-}
-
-// @public
-export interface RecurrenceTriggerOutput extends TriggerOutputParent {
-    frequency: FrequencyOutput;
-    interval: number;
-    schedule?: RecurrenceScheduleOutput;
-    // (undocumented)
-    readonly type: "Recurrence";
 }
 
 // @public
@@ -1626,23 +1447,15 @@ export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SystemData {
-}
-
-// @public
-export interface SystemDataOutput {
-    readonly createdAt?: string;
-    readonly createdBy?: string;
-    readonly createdByType?: string;
-    readonly lastModifiedAt?: string;
-}
-
-// @public
 export interface TelemetryOperations {
     getConnectionString(): Promise<string>;
     getSettings(): TelemetryOptions;
-    // Warning: (ae-forgotten-export) The symbol "TelemetryOptions" needs to be exported by the entry point index.d.ts
     updateSettings(options: TelemetryOptions): void;
+}
+
+// @public
+export interface TelemetryOptions {
+    enableContentRecording: boolean;
 }
 
 // @public
@@ -1832,24 +1645,6 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
-}
-
-// @public
-export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
-
-// @public
-export type TriggerOutput = TriggerOutputParent | RecurrenceTriggerOutput | CronTriggerOutput;
-
-// @public
-export interface TriggerOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface TriggerParent {
-    // (undocumented)
-    type: string;
 }
 
 // @public
@@ -2167,17 +1962,6 @@ export interface VectorStoreUpdateOptions {
     expiresAfter?: VectorStoreExpirationPolicy | null;
     metadata?: Record<string, string> | null;
     name?: string | null;
-}
-
-// @public
-export type WeekDays = string;
-
-// @public
-export type WeekDaysOutput = string;
-
-// @public
-export interface WorkspacePropertiesOutput {
-    applicationInsights: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -26,14 +26,6 @@ describe("Agents - assistants", () => {
     assert.isNotNull(connections);
   });
 
-  it("should retrieve workspace", async function () {
-    // Retrieve workspace
-    const workspace = await connections.getWorkspace();
-    assert.isNotNull(workspace);
-    assert.isNotNull(workspace.id);
-    console.log(`Retrieved workspace, workspace ID: ${workspace.id}`);
-  });
-
   it("should list connections", async function () {
     // List connections
     const connectionsList = await connections.listConnections();
