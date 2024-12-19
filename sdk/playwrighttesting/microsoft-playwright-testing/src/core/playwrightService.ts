@@ -12,6 +12,7 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
+  checkTokenExpiryWarning,
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
@@ -114,6 +115,7 @@ const getServiceConfig = (
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
+    checkTokenExpiryWarning();
   } else {
     // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
     if (isMultipleGlobalFileSupported) {
