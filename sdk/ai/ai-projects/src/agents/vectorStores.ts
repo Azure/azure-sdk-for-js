@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client } from "@azure-rest/core-client";
+import type { Client, HttpResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoresParameters,
@@ -9,11 +9,13 @@ import type {
   ModifyVectorStoreParameters,
 } from "../generated/src/parameters.js";
 import type {
+  VectorStoreOutput as WireVectorStoreOutput
+} from "../generated/src/outputModels.js";
+import type {
   OpenAIPageableListOfVectorStoreOutput,
   VectorStoreDeletionStatusOutput,
   VectorStoreOutput,
 } from "../customization/outputModels.js";
-import { AgentsPoller } from "./poller.js";
 import type { CreateVectorStoreResponse } from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
@@ -32,6 +34,8 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
+import { createHttpPoller, OperationResponse, RunningOperation } from "@azure/core-lro";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 const expectedStatuses = ["200"];
 
@@ -55,62 +59,70 @@ export async function listVectorStores(
 }
 
 /** Creates a vector store. */
-export function createVectorStore(
+export async function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): CreateVectorStoreResponse {
+): Promise<CreateVectorStoreResponse> {
   const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
   };
   validateCreateVectorStoreParameters(createOptions);
 
-  async function executeCreateVectorStore(): Promise<VectorStoreOutput> {
-    const result = await context.path("/vector_stores").post(createOptions);
-    if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
-    }
-    return ConvertFromWire.convertVectorStoreOutput(result.body);
+  const initialResponse = await context.path("/vector_stores").post(createOptions);
+  if (!expectedStatuses.includes(initialResponse.status)) {
+    throw createRestError(initialResponse);
   }
-
-  async function updateCreateVectorStore(
-    currentResult?: VectorStoreOutput,
-  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
-    let vectorStore: VectorStoreOutput;
-    if (!currentResult) {
-      vectorStore = await executeCreateVectorStore();
-    } else {
-      const getOptions: GetVectorStoreOptionalParams = {
-        ...operationOptionsToRequestParameters(options),
-      };
-      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
-    }
-    return {
-      result: vectorStore,
-      completed: vectorStore.status !== "in_progress",
-    };
-  }
-
-  const poller = new AgentsPoller<VectorStoreOutput>({
-    update: updateCreateVectorStore,
-    pollingOptions: options.pollingOptions,
-  });
-
-  async function pollOnce(): Promise<VectorStoreOutput> {
-    await poller.poll();
-    const initialResult = poller.getOperationState().result;
-    if (!initialResult) {
-      throw new Error("Error creating vector store");
-    }
-    return initialResult;
-  }
-
-  return {
-    then: function (onFulfilled, onRejected) {
-      return pollOnce().then(onFulfilled, onRejected).catch(onRejected);
+  
+  const abortController = new AbortController();
+  const poller: RunningOperation<VectorStoreOutput> = {
+    sendInitialRequest: async () => {
+      return {
+        flatResponse: initialResponse,
+        rawResponse: {
+          ...initialResponse,
+          statusCode: Number.parseInt(initialResponse.status),
+          body: ConvertFromWire.convertVectorStoreOutput(initialResponse.body as WireVectorStoreOutput),
+        }
+      }
     },
-    poller: poller,
-  };
+    sendPollRequest: async (_path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      let response;
+      try {
+        const getOptions: GetVectorStoreOptionalParams = {
+          ...operationOptionsToRequestParameters(options),
+        };
+        response = await context
+          .path("/vector_stores/{vectorStoreId}", initialResponse.body.id)
+          .get({ ...getOptions, abortSignal});
+      } finally {
+        inputAbortSignal?.removeEventListener("abort", abortListener);
+      }
+      return {
+        flatResponse: response,
+        rawResponse: {
+          ...response,
+          statusCode: Number.parseInt(response.status),
+          body: ConvertFromWire.convertVectorStoreOutput(response.body as WireVectorStoreOutput),
+        }
+      }
+    },
+  }
+
+  // TODO: Adjust parameters to match new polling options for v3 (intervalInMS and restoreFrom)
+  return createHttpPoller(poller, {intervalInMs: options.pollingOptions?.sleepIntervalInMs, restoreFrom: undefined})
 }
 
 /** Returns the vector store object matching the specified ID. */
