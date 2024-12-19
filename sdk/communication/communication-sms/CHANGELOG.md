@@ -1,14 +1,11 @@
 # Release History
 
-## 1.2.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.2.0-beta.3 (2024-12-19)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed Opt Out Remove action
+
 
 ## 1.2.0-beta.2 (2024-12-10)
 
