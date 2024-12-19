@@ -30,11 +30,7 @@ async function createDiscoveredAssetEndpointProfile() {
         discoveryId: "11111111-1111-1111-1111-111111111111",
         version: 73766,
         endpointProfileType: "myEndpointProfileType",
-        supportedAuthenticationMethods: [
-          "Anonymous",
-          "Certificate",
-          "UsernamePassword",
-        ],
+        supportedAuthenticationMethods: ["Anonymous", "Certificate", "UsernamePassword"],
       },
     },
   );

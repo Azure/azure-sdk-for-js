@@ -44,8 +44,7 @@ async function createDiscoveredAsset() {
         datasets: [
           {
             name: "dataset1",
-            datasetConfiguration:
-              '{"publishingInterval":10,"samplingInterval":15,"queueSize":20}',
+            datasetConfiguration: '{"publishingInterval":10,"samplingInterval":15,"queueSize":20}',
             topic: { path: "/path/dataset1", retain: "Keep" },
             dataPoints: [
               {
@@ -67,15 +66,13 @@ async function createDiscoveredAsset() {
           {
             name: "event1",
             eventNotifier: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
-            eventConfiguration:
-              '{"publishingInterval":7,"samplingInterval":1,"queueSize":8}',
+            eventConfiguration: '{"publishingInterval":7,"samplingInterval":1,"queueSize":8}',
             topic: { path: "/path/event1", retain: "Keep" },
           },
           {
             name: "event2",
             eventNotifier: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-            eventConfiguration:
-              '{"publishingInterval":7,"samplingInterval":8,"queueSize":4}',
+            eventConfiguration: '{"publishingInterval":7,"samplingInterval":8,"queueSize":4}',
           },
         ],
       },

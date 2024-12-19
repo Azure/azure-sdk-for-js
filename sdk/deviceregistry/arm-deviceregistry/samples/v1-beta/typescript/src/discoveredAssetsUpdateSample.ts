@@ -14,16 +14,12 @@ async function updateDiscoveredAsset() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.discoveredAssets.update(
-    "myResourceGroup",
-    "my-discoveredasset",
-    {
-      properties: {
-        documentationUri: "https://www.example.com/manual-2",
-        defaultTopic: { path: "/path/defaultTopic", retain: "Never" },
-      },
+  const result = await client.discoveredAssets.update("myResourceGroup", "my-discoveredasset", {
+    properties: {
+      documentationUri: "https://www.example.com/manual-2",
+      defaultTopic: { path: "/path/defaultTopic", retain: "Never" },
     },
-  );
+  });
   console.log(result);
 }
 
