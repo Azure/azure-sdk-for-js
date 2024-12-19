@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PortalSigninSettings,
-  ApiManagementClient
+    ApiManagementClient,
+    PortalSigninSettings
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update Sign-In settings.
@@ -24,26 +22,26 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsUpdateSignIn.json
  */
 async function apiManagementPortalSettingsUpdateSignIn() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const ifMatch = "*";
-  const parameters: PortalSigninSettings = { enabled: true };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.signInSettings.update(
-    resourceGroupName,
-    serviceName,
-    ifMatch,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const ifMatch = "*";
+    const parameters: PortalSigninSettings = { enabled: true };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.signInSettings.update(
+        resourceGroupName,
+        serviceName,
+        ifMatch,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementPortalSettingsUpdateSignIn();
+    apiManagementPortalSettingsUpdateSignIn();
 }
 
 main().catch(console.error);
