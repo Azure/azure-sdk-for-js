@@ -70,21 +70,21 @@ const redirectHash = self.location.hash;
  * @internal
  */
 export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBrowserClient {
-  let loginStyle = options.loginStyle;
+  const loginStyle = options.loginStyle;
   if (!options.clientId) {
     throw new CredentialUnavailableError("A client ID is required in browsers");
   }
-  let clientId = options.clientId;
-  let logger = options.logger;
-  let tenantId = resolveTenantId(logger, options.tenantId, options.clientId);
-  let additionallyAllowedTenantIds: string[] = resolveAdditionallyAllowedTenantIds(
+  const clientId = options.clientId;
+  const logger = options.logger;
+  const tenantId = resolveTenantId(logger, options.tenantId, options.clientId);
+  const additionallyAllowedTenantIds: string[] = resolveAdditionallyAllowedTenantIds(
     options?.tokenCredentialOptions?.additionallyAllowedTenants,
   );
-  let authorityHost = options.authorityHost;
-  let msalConfig = generateMsalBrowserConfiguration(options);
-  let disableAutomaticAuthentication = options.disableAutomaticAuthentication;
+  const authorityHost = options.authorityHost;
+  const msalConfig = generateMsalBrowserConfiguration(options);
+  const disableAutomaticAuthentication = options.disableAutomaticAuthentication;
   let app: msalBrowser.IPublicClientApplication;
-  let loginHint = options.loginHint;
+  const loginHint = options.loginHint;
 
   let account: AuthenticationRecord | undefined;
   if (options.authenticationRecord) {
@@ -137,8 +137,8 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
       }
 
       // If we don't have an active account, we try to activate it from all the already loaded accounts.
-      const accounts = app.getAllAccounts();
-      if (accounts.length > 1) {
+      const allAccounts = app.getAllAccounts();
+      if (allAccounts.length > 1) {
         // If there's more than one account in memory, we force the user to authenticate again.
         // At this point we can't identify which account should this credential work with,
         // since at this point the user won't have provided enough information.
@@ -160,10 +160,10 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
       }
 
       // If there's only one account for this MSAL object, we can safely activate it.
-      if (accounts.length === 1) {
-        const account = accounts[0];
-        msalApp.setActiveAccount(account);
-        return msalToPublic(clientId, account);
+      if (allAccounts.length === 1) {
+        const msalAccount = allAccounts[0];
+        msalApp.setActiveAccount(msalAccount);
+        return msalToPublic(clientId, msalAccount);
       }
 
       logger.info(`No accounts were found through MSAL.`);
@@ -208,12 +208,12 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    * Uses MSAL to retrieve the active account.
    */
   async function getActiveAccount(): Promise<AuthenticationRecord | undefined> {
-    const app = await getApp();
-    const account = app.getActiveAccount();
-    if (!account) {
+    const msalApp = await getApp();
+    const activeAccount = msalApp.getActiveAccount();
+    if (!activeAccount) {
       return;
     }
-    return msalToPublic(clientId, account);
+    return msalToPublic(clientId, activeAccount);
   }
 
   /**
@@ -241,31 +241,31 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function getTokenSilent(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    getTokenOptions?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
-    const account = await getActiveAccount();
-    if (!account) {
+    const activeAccount = await getActiveAccount();
+    if (!activeAccount) {
       throw new AuthenticationRequiredError({
         scopes,
-        getTokenOptions: options,
+        getTokenOptions,
         message:
           "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
     const parameters: msalBrowser.SilentRequest = {
-      authority: options?.authority || msalConfig.auth.authority!,
-      correlationId: options?.correlationId,
-      claims: options?.claims,
-      account: publicToMsal(account),
+      authority: getTokenOptions?.authority || msalConfig.auth.authority!,
+      correlationId: getTokenOptions?.correlationId,
+      claims: getTokenOptions?.claims,
+      account: publicToMsal(activeAccount),
       forceRefresh: false,
       scopes,
     };
 
     try {
       logger.info("Attempting to acquire token silently");
-      const app = await getApp();
-      const response = await app.acquireTokenSilent(parameters);
+      const msalApp = await getApp();
+      const response = await msalApp.acquireTokenSilent(parameters);
       return handleResult(scopes, response);
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -276,34 +276,34 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    getTokenOptions?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
-    const account = await getActiveAccount();
-    if (!account) {
+    const activeAccount = await getActiveAccount();
+    if (!activeAccount) {
       throw new AuthenticationRequiredError({
         scopes,
-        getTokenOptions: options,
+        getTokenOptions,
         message:
           "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
     const parameters: msalBrowser.RedirectRequest = {
-      authority: options?.authority || msalConfig.auth.authority!,
-      correlationId: options?.correlationId,
-      claims: options?.claims,
-      account: publicToMsal(account),
+      authority: getTokenOptions?.authority || msalConfig.auth.authority!,
+      correlationId: getTokenOptions?.correlationId,
+      claims: getTokenOptions?.claims,
+      account: publicToMsal(activeAccount),
       loginHint: loginHint,
       scopes,
     };
-    const app = await getApp();
+    const msalApp = await getApp();
     switch (loginStyle) {
       case "redirect":
         // This will go out of the page.
         // Once the InteractiveBrowserCredential is initialized again,
         // we'll load the MSAL account in the constructor.
 
-        await app.acquireTokenRedirect(parameters);
+        await msalApp.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0, tokenType: "Bearer" };
       case "popup":
         return handleResult(scopes, await app.acquireTokenPopup(parameters));
@@ -315,13 +315,14 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function getToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {},
+    getTokenOptions: CredentialFlowGetTokenOptions = {},
   ): Promise<AccessToken> {
     const getTokenTenantId =
-      processMultiTenantRequest(tenantId, options, additionallyAllowedTenantIds) || tenantId;
+      processMultiTenantRequest(tenantId, getTokenOptions, additionallyAllowedTenantIds) ||
+      tenantId;
 
-    if (!options.authority) {
-      options.authority = getAuthority(getTokenTenantId, authorityHost);
+    if (!getTokenOptions.authority) {
+      getTokenOptions.authority = getAuthority(getTokenTenantId, authorityHost);
     }
 
     // We ensure that redirection is handled at this point.
@@ -330,20 +331,20 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
     if (!(await getActiveAccount()) && !disableAutomaticAuthentication) {
       await login(scopes);
     }
-    return getTokenSilent(scopes).catch((err) => {
+    return getTokenSilent(scopes, getTokenOptions).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
-      if (options?.disableAutomaticAuthentication) {
+      if (getTokenOptions?.disableAutomaticAuthentication) {
         throw new AuthenticationRequiredError({
           scopes,
-          getTokenOptions: options,
+          getTokenOptions,
           message:
             "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
       logger.info(`Silent authentication failed, falling back to interactive method ${loginStyle}`);
-      return doGetToken(scopes);
+      return doGetToken(scopes, getTokenOptions);
     });
   }
   return {
