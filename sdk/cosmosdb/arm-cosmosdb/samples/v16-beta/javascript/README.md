@@ -543,6 +543,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [throughputpoolupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/arm-cosmosdb/samples/v16-beta/javascript/throughputPoolUpdateSample.js
 [throughputpoolslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/arm-cosmosdb/samples/v16-beta/javascript/throughputPoolsListByResourceGroupSample.js
 [throughputpoolslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/arm-cosmosdb/samples/v16-beta/javascript/throughputPoolsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb/README.md
