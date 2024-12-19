@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-pagination-list";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-pagination-list.js";
 
 //------------------------------------------------------------------------------
 // Tests
