@@ -2780,7 +2780,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-gGZGKv/2W3PKagNsG+DGP99wkQXtdBiEfl8mc/RJcG349cUedSrZWd/q8hfxh00N6ViqVgcl9AjsameGKkBeMA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-ih/+XoljaydHhxKI2AWkLQlx6fN9bknlzn3OLNppMosFZmH0g20fvzN7uUhbo8jIEHe7HTyfu6NSX+eg7OmeTQ==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -11735,7 +11735,7 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
       tslib: 2.8.1
       tsx: 4.19.2
