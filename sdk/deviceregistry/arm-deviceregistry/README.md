@@ -73,7 +73,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### DeviceRegistryManagementClient
 
-`DeviceRegistryManagementClient` is the primary interface for developers using the Azure DeviceRegistry client library. Explore the methods on this client object to understand the different features of the Azure DeviceRegistry service that you can access.
+`DeviceRegistryManagementClient` is the primary interface for developers using the Azure DeviceRegistryManagement client library. Explore the methods on this client object to understand the different features of the Azure DeviceRegistryManagement service that you can access.
 
 ## Troubleshooting
 
