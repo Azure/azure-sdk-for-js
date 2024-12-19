@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (2024-12-16)
+## 1.1.0 (2024-12-16)
 
 ### Features Added
 - refresh @azure-rest/iot-device-update sdk
