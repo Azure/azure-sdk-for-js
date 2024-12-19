@@ -4,6 +4,8 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
 export default mergeConfig(
   viteConfig,
   defineConfig({
