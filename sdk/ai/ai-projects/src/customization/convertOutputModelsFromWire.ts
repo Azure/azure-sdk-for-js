@@ -3,6 +3,9 @@
 
 import type * as GeneratedModels from "../generated/src/outputModels.js";
 import type * as PublicModels from "./outputModels.js";
+import type * as WireStreamingModels from "./streamingWireModels.js";
+import type * as PublicStreamingModels from "./streamingModels.js";
+import { logger } from "../logger.js";
 
 // Conversion functions
 
@@ -1023,5 +1026,329 @@ export function convertFileListResponseOutput(
   return {
     object: input.object,
     data: input.data.map(convertOpenAIFileOutput),
+  };
+}
+
+function convertMessageDelta(
+  input: WireStreamingModels.MessageDelta,
+): PublicStreamingModels.MessageDelta {
+  return {
+    role: input.role,
+    content: input.content?.map(convertStreamingMessageDeltaContent),
+  };
+}
+
+export function convertMessageDeltaChunkOutput(
+  input: WireStreamingModels.MessageDeltaChunk,
+): PublicStreamingModels.MessageDeltaChunk {
+  return {
+    id: input.id,
+    object: input.object,
+    delta: input.delta && convertMessageDelta(input.delta),
+  };
+}
+function convertStreamingMessageDeltaContent(
+  input: WireStreamingModels.MessageDeltaContent,
+): PublicStreamingModels.MessageDeltaContent {
+  switch (input.type) {
+    case "text":
+      return convertStreamingMessageTextContent(
+        input as WireStreamingModels.MessageDeltaTextContent,
+      );
+    case "image":
+      return convertStreamingMessageImageContent(
+        input as WireStreamingModels.MessageDeltaImageFileContent,
+      );
+    default:
+      logger.error(`Unknown message content type: ${input.type}`);
+      return {
+        index: input.index,
+        type: input.type,
+      };
+  }
+}
+
+function convertStreamingMessageTextContent(
+  input: WireStreamingModels.MessageDeltaTextContent,
+): PublicStreamingModels.MessageDeltaTextContent {
+  return {
+    index: input.index,
+    type: input.type,
+    text: input.text && convertStreamingMessageTextDetails(input.text),
+  };
+}
+
+function convertStreamingMessageTextDetails(
+  input: WireStreamingModels.MessageDeltaTextContentObject,
+): PublicStreamingModels.MessageDeltaTextContentObject {
+  return {
+    value: input.value,
+    annotations: input.annotations?.map(convertStreamingMessageTextAnnotation),
+  };
+}
+
+function convertStreamingMessageTextAnnotation(
+  input: WireStreamingModels.MessageDeltaTextAnnotation,
+): PublicStreamingModels.MessageDeltaTextAnnotation {
+  switch (input.type) {
+    case "file_citation":
+      return convertStreamingMessageTextFileCitationAnnotation(
+        input as WireStreamingModels.MessageDeltaTextFileCitationAnnotation,
+      );
+    case "file_path":
+      return convertStreamingMessageTextFilePathAnnotation(
+        input as WireStreamingModels.MessageDeltaTextFilePathAnnotation,
+      );
+    default:
+      return input;
+  }
+}
+
+function convertStreamingMessageTextFileCitationAnnotation(
+  input: WireStreamingModels.MessageDeltaTextFileCitationAnnotation,
+): PublicStreamingModels.MessageDeltaTextFileCitationAnnotation {
+  return {
+    index: input.index,
+    type: input.type,
+    text: input.text,
+    fileCitation:
+      input.file_citation && convertStreamingMessageTextFileCitationDetails(input.file_citation),
+    startIndex: input.start_index,
+    endIndex: input.end_index,
+  };
+}
+
+function convertStreamingMessageTextFileCitationDetails(
+  input: WireStreamingModels.MessageDeltaTextFileCitationAnnotationObject,
+): PublicStreamingModels.MessageDeltaTextFileCitationAnnotationObject {
+  return {
+    fileId: input.file_id,
+    quote: input.quote,
+  };
+}
+
+function convertStreamingMessageTextFilePathAnnotation(
+  input: WireStreamingModels.MessageDeltaTextFilePathAnnotation,
+): PublicStreamingModels.MessageDeltaTextFilePathAnnotation {
+  return {
+    index: input.index,
+    type: input.type,
+    text: input.text,
+    filePath: input.file_path && convertStreamingMessageTextFilePathDetails(input.file_path),
+    startIndex: input.start_index,
+    endIndex: input.end_index,
+  };
+}
+
+function convertStreamingMessageTextFilePathDetails(
+  input: WireStreamingModels.MessageDeltaTextFilePathAnnotationObject,
+): PublicStreamingModels.MessageDeltaTextFilePathAnnotationObject {
+  return {
+    fileId: input.file_id,
+  };
+}
+
+function convertStreamingMessageImageContent(
+  input: WireStreamingModels.MessageDeltaImageFileContent,
+): PublicStreamingModels.MessageDeltaImageFileContent {
+  return {
+    index: input.index,
+    type: input.type,
+    imageFile: input.image_file && convertStreamingMessageImageFileDetails(input.image_file),
+  };
+}
+
+function convertStreamingMessageImageFileDetails(
+  input: WireStreamingModels.MessageDeltaImageFileContentObject,
+): PublicStreamingModels.MessageDeltaImageFileContentObject {
+  return {
+    fileId: input.file_id,
+  };
+}
+
+export function convertRunStepDeltaChunk(
+  input: WireStreamingModels.RunStepDeltaChunk,
+): PublicStreamingModels.RunStepDeltaChunk {
+  return {
+    id: input.id,
+    object: input.object,
+    delta: input.delta && convertRunStepDelta(input.delta),
+  };
+}
+function convertRunStepDelta(
+  input: WireStreamingModels.RunStepDelta,
+): PublicStreamingModels.RunStepDelta {
+  return {
+    stepDetails: input.step_details && convertRunStepDetailsDelta(input.step_details),
+  };
+}
+
+function convertRunStepDetailsDelta(
+  input: WireStreamingModels.RunStepDeltaDetail,
+): PublicStreamingModels.RunStepDeltaDetail {
+  switch (input.type) {
+    case "message_creation":
+      return convertRunStepMessageCreationDetailsDelta(
+        input as WireStreamingModels.RunStepDeltaMessageCreation,
+      );
+    case "tool_call":
+      return convertRunStepToolCallDetailsDelta(
+        input as WireStreamingModels.RunStepDeltaToolCallObject,
+      );
+    default:
+      logger.error(`Unknown run step type: ${input.type}`);
+      return { type: input.type };
+  }
+}
+
+function convertRunStepMessageCreationDetailsDelta(
+  input: WireStreamingModels.RunStepDeltaMessageCreation,
+): PublicStreamingModels.RunStepDeltaMessageCreation {
+  return {
+    type: input.type,
+    messageCreation:
+      input.message_creation && convertRunStepDeltaMessageCreationObject(input.message_creation),
+  };
+}
+
+function convertRunStepDeltaMessageCreationObject(
+  input: WireStreamingModels.RunStepDeltaMessageCreationObject,
+): PublicStreamingModels.RunStepDeltaMessageCreationObject {
+  return {
+    messageId: input.message_id,
+  };
+}
+
+function convertRunStepToolCallDetailsDelta(
+  input: WireStreamingModels.RunStepDeltaToolCallObject,
+): PublicStreamingModels.RunStepDeltaToolCallObject {
+  return {
+    type: input.type,
+    toolCalls: input.tool_calls && input.tool_calls.map(convertRunStepToolCallDelta),
+  };
+}
+
+function convertRunStepToolCallDelta(
+  input: WireStreamingModels.RunStepDeltaToolCall,
+): PublicStreamingModels.RunStepDeltaToolCall {
+  switch (input.type) {
+    case "code_interpreter":
+      return convertRunStepCodeInterpreterToolCallDelta(
+        input as WireStreamingModels.RunStepDeltaCodeInterpreterToolCall,
+      );
+    case "file_search":
+      return convertRunStepFileSearchToolCallDelta(
+        input as WireStreamingModels.RunStepDeltaFileSearchToolCall,
+      );
+    case "function":
+      return convertRunStepFunctionToolCallDelta(
+        input as WireStreamingModels.RunStepDeltaFunctionToolCall,
+      );
+    default:
+      logger.error(`Unknown run step tool call type: ${input.type}`);
+      return {
+        index: input.index,
+        id: input.id,
+        type: input.type,
+      };
+  }
+}
+
+function convertRunStepCodeInterpreterToolCallDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterToolCall,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterToolCall {
+  return {
+    index: input.index,
+    type: input.type,
+    id: input.id,
+    codeInterpreter:
+      input.code_interpreter &&
+      convertRunStepCodeInterpreterToolCallDetailsDelta(input.code_interpreter),
+  };
+}
+
+function convertRunStepCodeInterpreterToolCallDetailsDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterDetailItemObject,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterDetailItemObject {
+  return {
+    input: input.input,
+    outputs: input.outputs && input.outputs.map(convertRunStepCodeInterpreterToolCallOutputDelta),
+  };
+}
+
+function convertRunStepCodeInterpreterToolCallOutputDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterOutput,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterOutput {
+  switch (input.type) {
+    case "logs":
+      return convertRunStepCodeInterpreterLogOutputDelta(
+        input as WireStreamingModels.RunStepDeltaCodeInterpreterLogOutput,
+      );
+    case "image":
+      return convertRunStepCodeInterpreterImageOutputDelta(
+        input as WireStreamingModels.RunStepDeltaCodeInterpreterImageOutput,
+      );
+    default:
+      return input;
+  }
+}
+
+function convertRunStepCodeInterpreterLogOutputDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterLogOutput,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterLogOutput {
+  return {
+    index: input.index,
+    type: input.type,
+    logs: input.logs,
+  };
+}
+
+function convertRunStepCodeInterpreterImageOutputDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterImageOutput,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterImageOutput {
+  return {
+    index: input.index,
+    type: input.type,
+    image: input.image && convertRunStepCodeInterpreterImageReferenceDelta(input.image),
+  };
+}
+
+function convertRunStepCodeInterpreterImageReferenceDelta(
+  input: WireStreamingModels.RunStepDeltaCodeInterpreterImageOutputObject,
+): PublicStreamingModels.RunStepDeltaCodeInterpreterImageOutputObject {
+  return {
+    fileId: input.file_id,
+  };
+}
+
+function convertRunStepFunctionToolCallDelta(
+  input: WireStreamingModels.RunStepDeltaFunctionToolCall,
+): PublicStreamingModels.RunStepDeltaFunctionToolCall {
+  return {
+    index: input.index,
+    type: input.type,
+    id: input.id,
+    function: input.function && convertRunStepFunctionToolCallDetailsDelta(input.function),
+  };
+}
+
+function convertRunStepFunctionToolCallDetailsDelta(
+  input: WireStreamingModels.RunStepDeltaFunction,
+): PublicStreamingModels.RunStepDeltaFunction {
+  return {
+    name: input.name,
+    arguments: input.arguments,
+    output: input.output,
+  };
+}
+
+function convertRunStepFileSearchToolCallDelta(
+  input: WireStreamingModels.RunStepDeltaFileSearchToolCall,
+): PublicStreamingModels.RunStepDeltaFileSearchToolCall {
+  return {
+    index: input.index,
+    type: input.type,
+    id: input.id,
+    fileSearch: input.file_search,
   };
 }

@@ -23,13 +23,16 @@ export interface AgentDeletionStatusOutput {
 
 // @public
 export interface AgentEventMessage {
-    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
+    data: AgentEventStreamDataOutput;
     event: AgentStreamEventType | string;
 }
 
 // @public
 export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> {
 }
+
+// @public
+export type AgentEventStreamDataOutput = AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
 
 // @public
 export interface AgentOutput {
@@ -884,7 +887,7 @@ export interface MessageContentParent {
 
 // @public
 export interface MessageDelta {
-    content: MessageDeltaContent[];
+    content: Array<MessageDeltaContent>;
     role: MessageRole;
 }
 
@@ -896,13 +899,16 @@ export interface MessageDeltaChunk {
 }
 
 // @public
-export interface MessageDeltaContent {
+export type MessageDeltaContent = MessageDeltaContentParent | MessageDeltaTextContent | MessageDeltaImageFileContent;
+
+// @public
+export interface MessageDeltaContentParent {
     index: number;
     type: string;
 }
 
 // @public
-export interface MessageDeltaImageFileContent extends MessageDeltaContent {
+export interface MessageDeltaImageFileContent extends MessageDeltaContentParent {
     imageFile?: MessageDeltaImageFileContentObject;
     type: "image_file";
 }
@@ -913,25 +919,28 @@ export interface MessageDeltaImageFileContentObject {
 }
 
 // @public
-export interface MessageDeltaTextAnnotation {
+export type MessageDeltaTextAnnotation = MessageDeltaTextAnnotationParent | MessageDeltaTextFileCitationAnnotation | MessageDeltaTextFilePathAnnotation;
+
+// @public
+export interface MessageDeltaTextAnnotationParent {
     index: number;
     type: string;
 }
 
 // @public
-export interface MessageDeltaTextContent extends MessageDeltaContent {
+export interface MessageDeltaTextContent extends MessageDeltaContentParent {
     text?: MessageDeltaTextContentObject;
     type: "text";
 }
 
 // @public
 export interface MessageDeltaTextContentObject {
-    annotations?: MessageDeltaTextAnnotation[];
+    annotations?: Array<MessageDeltaTextAnnotation>;
     value?: string;
 }
 
 // @public
-export interface MessageDeltaTextFileCitationAnnotation extends MessageDeltaTextAnnotation {
+export interface MessageDeltaTextFileCitationAnnotation extends MessageDeltaTextAnnotationParent {
     endIndex?: number;
     fileCitation?: MessageDeltaTextFileCitationAnnotationObject;
     startIndex?: number;
@@ -946,7 +955,7 @@ export interface MessageDeltaTextFileCitationAnnotationObject {
 }
 
 // @public
-export interface MessageDeltaTextFilePathAnnotation extends MessageDeltaTextAnnotation {
+export interface MessageDeltaTextFilePathAnnotation extends MessageDeltaTextAnnotationParent {
     endIndex?: number;
     filePath?: MessageDeltaTextFilePathAnnotationObject;
     startIndex?: number;
@@ -1376,11 +1385,11 @@ export interface RunStepDeltaChunk {
 // @public
 export interface RunStepDeltaCodeInterpreterDetailItemObject {
     input?: string;
-    outputs?: RunStepDeltaCodeInterpreterOutput[];
+    outputs?: Array<RunStepDeltaCodeInterpreterOutput>;
 }
 
 // @public
-export interface RunStepDeltaCodeInterpreterImageOutput extends RunStepDeltaCodeInterpreterOutput {
+export interface RunStepDeltaCodeInterpreterImageOutput extends RunStepDeltaCodeInterpreterOutputParent {
     image?: RunStepDeltaCodeInterpreterImageOutputObject;
     type: "image";
 }
@@ -1391,19 +1400,22 @@ export interface RunStepDeltaCodeInterpreterImageOutputObject {
 }
 
 // @public
-export interface RunStepDeltaCodeInterpreterLogOutput extends RunStepDeltaCodeInterpreterOutput {
+export interface RunStepDeltaCodeInterpreterLogOutput extends RunStepDeltaCodeInterpreterOutputParent {
     logs?: string;
     type: "logs";
 }
 
 // @public
-export interface RunStepDeltaCodeInterpreterOutput {
+export type RunStepDeltaCodeInterpreterOutput = RunStepDeltaCodeInterpreterOutputParent | RunStepDeltaCodeInterpreterLogOutput | RunStepDeltaCodeInterpreterImageOutput;
+
+// @public
+export interface RunStepDeltaCodeInterpreterOutputParent {
     index: number;
     type: string;
 }
 
 // @public
-export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCall {
+export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCallParent {
     codeInterpreter?: RunStepDeltaCodeInterpreterDetailItemObject;
     type: "code_interpreter";
 }
@@ -1414,7 +1426,7 @@ export interface RunStepDeltaDetail {
 }
 
 // @public
-export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCall {
+export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCallParent {
     fileSearch?: Array<string>;
     type: "file_search";
 }
@@ -1427,7 +1439,7 @@ export interface RunStepDeltaFunction {
 }
 
 // @public
-export interface RunStepDeltaFunctionToolCall extends RunStepDeltaToolCall {
+export interface RunStepDeltaFunctionToolCall extends RunStepDeltaToolCallParent {
     function?: RunStepDeltaFunction;
     type: "function";
 }
@@ -1444,16 +1456,19 @@ export interface RunStepDeltaMessageCreationObject {
 }
 
 // @public
-export interface RunStepDeltaToolCall {
-    id: string;
-    index: number;
-    type: string;
-}
+export type RunStepDeltaToolCall = RunStepDeltaToolCallParent | RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall;
 
 // @public
 export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
-    toolCalls?: RunStepDeltaToolCall[];
+    toolCalls?: Array<RunStepDeltaToolCall>;
     type: "tool_calls";
+}
+
+// @public
+export interface RunStepDeltaToolCallParent {
+    id: string;
+    index: number;
+    type: string;
 }
 
 // @public

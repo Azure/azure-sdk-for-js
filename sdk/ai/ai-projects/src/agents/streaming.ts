@@ -7,8 +7,16 @@ import type {
   CreateThreadAndRunBodyParam,
   SubmitToolOutputsToRunParameters,
 } from "../generated/src/index.js";
-import type { AgentEventMessage, AgentEventMessageStream } from "./streamingModels.js";
-import type { EventMessageStream } from "@azure/core-sse";
+import {
+  MessageStreamEvent,
+  RunStepStreamEvent,
+  RunStreamEvent,
+  ThreadStreamEvent,
+  type AgentEventMessage,
+  type AgentEventMessageStream,
+  type AgentEventStreamDataOutput,
+} from "./streamingModels.js";
+import type { EventMessage, EventMessageStream } from "@azure/core-sse";
 import { createSseStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
 import type { IncomingMessage } from "http";
@@ -22,8 +30,24 @@ import {
   validateTruncationStrategy,
 } from "./inputValidations.js";
 import { createOpenAIError } from "./openAIError.js";
+import {
+  convertAgentThreadOutput,
+  convertMessageDeltaChunkOutput,
+  convertRunStepDeltaChunk,
+  convertRunStepOutput,
+  convertThreadMessageOutput,
+  convertThreadRunOutput,
+} from "../customization/convertOutputModelsFromWire.js";
+import { logger } from "../logger.js";
 
 const expectedStatuses = ["200"];
+
+const handlers = [
+  { events: Object.values(ThreadStreamEvent) as string[], converter: convertAgentThreadOutput },
+  { events: Object.values(RunStreamEvent) as string[], converter: convertThreadRunOutput },
+  { events: Object.values(RunStepStreamEvent) as string[], converter: convertRunStepOutput },
+  { events: Object.values(MessageStreamEvent) as string[], converter: convertThreadMessageOutput },
+];
 
 function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
   const asyncIterator = toAsyncIterable(stream);
@@ -33,11 +57,32 @@ function createAgentStream(stream: EventMessageStream): AgentEventMessageStream 
 
 async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<AgentEventMessage> {
   for await (const event of stream) {
-    try {
-      yield { data: JSON.parse(event.data), event: event.event };
-    } catch {
-      yield { data: event.data, event: event.event };
+    const data = deserializeEventData(event);
+    yield { data: data, event: event.event };
+  }
+}
+
+function deserializeEventData(event: EventMessage): AgentEventStreamDataOutput {
+  try {
+    const jsonData = JSON.parse(event.data);
+    switch (event.event) {
+      case MessageStreamEvent.ThreadMessageDelta:
+        return convertMessageDeltaChunkOutput(jsonData);
+      case RunStepStreamEvent.ThreadRunStepDelta:
+        return convertRunStepDeltaChunk(jsonData);
+      default: {
+        for (const { events, converter } of handlers) {
+          if (events.includes(event.event)) {
+            return converter(jsonData);
+          }
+        }
+
+        return jsonData;
+      }
     }
+  } catch (ex) {
+    logger.error(`Failed to parse event data  ${event.event} - error: ${ex}`);
+    return event.data;
   }
 }
 
