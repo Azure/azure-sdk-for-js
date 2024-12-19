@@ -32,6 +32,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 
 const expectedStatuses = ["200"];
 
@@ -131,7 +132,7 @@ export function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileWithPollingOptionalParams = {},
-): Promise<VectorStoreFileOutput> {
+): PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput> {
   async function updateCreateVectorStoreFilePoll(
     currentResult?: VectorStoreFileOutput,
   ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
@@ -147,11 +148,10 @@ export function createVectorStoreFileAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreFileOutput>({
+  return new AgentsPoller<VectorStoreFileOutput>({
     update: updateCreateVectorStoreFilePoll,
     pollingOptions: options.pollingOptions,
   });
-  return poller.pollUntilDone();
 }
 
 function validateListVectorStoreFilesParameters(options?: ListVectorStoreFilesParameters): void {

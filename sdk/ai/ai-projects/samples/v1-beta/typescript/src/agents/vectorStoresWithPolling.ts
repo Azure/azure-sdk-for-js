@@ -29,10 +29,10 @@ export async function main(): Promise<void> {
   // Create a vector store
   const vectorStoreOptions = {
     name: "myVectorStore",
-    sleepIntervalInMs: 2000,
-    abortSignal: abortController.signal,
+    pollingOptions: { sleepIntervalInMs: 2000, abortSignal: abortController.signal },
   };
-  const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions);
+  const poller = client.agents.createVectorStoreAndPoll(vectorStoreOptions);
+  const vectorStore = await poller.pollUntilDone();
   console.log(
     `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
   );

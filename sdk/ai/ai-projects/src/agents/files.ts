@@ -22,6 +22,7 @@ import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.j
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
 import { randomUUID } from "@azure/core-util";
 import { createOpenAIError } from "./openAIError.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -78,7 +79,7 @@ export function uploadFileAndPoll(
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
   options: UploadFileWithPollingOptionalParams = {},
-): Promise<OpenAIFileOutput> {
+): PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput> {
   async function updateUploadFileAndPoll(
     currentResult?: OpenAIFileOutput,
   ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
@@ -94,12 +95,10 @@ export function uploadFileAndPoll(
         file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
     };
   }
-  const poller = new AgentsPoller<OpenAIFileOutput>({
+  return new AgentsPoller<OpenAIFileOutput>({
     update: updateUploadFileAndPoll,
     pollingOptions: options.pollingOptions ?? {},
   });
-
-  return poller.pollUntilDone();
 }
 
 /** Delete a previously uploaded file. */

@@ -43,13 +43,10 @@ async function main() {
   // Create vector store file
   const vectorStoreFileOptions = {
     fileId: file.id,
-    sleepIntervalInMs: 2000,
-    abortSignal: abortController.signal,
+    pollingOptions: { sleepIntervalInMs: 2000, abortSignal: abortController.signal },
   };
-  const vectorStoreFile = await client.agents.createVectorStoreFileAndPoll(
-    vectorStore.id,
-    vectorStoreFileOptions,
-  );
+  const poller = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions);
+  const vectorStoreFile = await poller.pollUntilDone();
   console.log(
     `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
   );

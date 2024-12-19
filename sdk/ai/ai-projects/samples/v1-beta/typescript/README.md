@@ -10,6 +10,7 @@ urlFragment: ai-projects-typescript-beta
 # Azure AI Projects client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Projects in some common scenarios.
+
 <!--
 | **File Name**                                                                               | **Description**                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -38,6 +39,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agents\vectorStoresWithPolling.ts][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
 | [connections\connectionsBasics.ts][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
 -->
+
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).

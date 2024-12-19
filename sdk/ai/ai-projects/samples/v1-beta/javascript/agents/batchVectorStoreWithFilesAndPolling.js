@@ -53,12 +53,13 @@ async function main() {
   // Create vector store file batch
   const vectorStoreFileBatchOptions = {
     fileIds: [file1.id, file2.id],
-    abortSignal: abortController.signal,
+    pollingOptions: { abortSignal: abortController.signal },
   };
-  const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatchAndPoll(
+  const poller = client.agents.createVectorStoreFileBatchAndPoll(
     vectorStore.id,
     vectorStoreFileBatchOptions,
   );
+  const vectorStoreFileBatch = await poller.pollUntilDone();
   console.log(
     `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
   );
