@@ -32,7 +32,7 @@ Install the Azure DeviceRegistry client library for JavaScript with `npm`:
 npm install @azure/arm-deviceregistry
 ```
 
-### Create and authenticate a `DeviceRegistryClient`
+### Create and authenticate a `DeviceRegistryManagementClient`
 
 To create a client object to access the Azure DeviceRegistry API, you will need the `endpoint` of your Azure DeviceRegistry resource and a `credential`. The Azure DeviceRegistry client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure DeviceRegistry resource in the [Azure Portal][azure_portal].
@@ -50,19 +50,19 @@ You will also need to **register a new AAD application and grant access to Azure
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { DeviceRegistryClient } = require("@azure/arm-deviceregistry");
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new DeviceRegistryClient(new DefaultAzureCredential(), subscriptionId);
+const client = new DeviceRegistryManagementClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new DeviceRegistryClient(credential, subscriptionId);
+// const client = new DeviceRegistryManagementClient(credential, subscriptionId);
 ```
 
 
@@ -71,9 +71,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### DeviceRegistryClient
+### DeviceRegistryManagementClient
 
-`DeviceRegistryClient` is the primary interface for developers using the Azure DeviceRegistry client library. Explore the methods on this client object to understand the different features of the Azure DeviceRegistry service that you can access.
+`DeviceRegistryManagementClient` is the primary interface for developers using the Azure DeviceRegistry client library. Explore the methods on this client object to understand the different features of the Azure DeviceRegistry service that you can access.
 
 ## Troubleshooting
 
