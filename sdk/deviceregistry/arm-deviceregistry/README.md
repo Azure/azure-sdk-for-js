@@ -34,7 +34,7 @@ npm install @azure/arm-deviceregistry
 
 ### Create and authenticate a `DeviceRegistryManagementClient`
 
-To create a client object to access the Azure DeviceRegistry API, you will need the `endpoint` of your Azure DeviceRegistry resource and a `credential`. The Azure DeviceRegistry client can use Azure Active Directory credentials to authenticate.
+To create a client object to access the Azure DeviceRegistryManagement API, you will need the `endpoint` of your Azure DeviceRegistryManagement resource and a `credential`. The Azure DeviceRegistryManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure DeviceRegistry resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
