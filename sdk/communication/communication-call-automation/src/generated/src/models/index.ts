@@ -27,8 +27,8 @@ export interface CreateCallRequest {
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
   source?: CommunicationUserIdentifierModel;
-  /** The identifier of the source in an OPS call */
-  opsSource?: MicrosoftTeamsAppIdentifierModel;
+  /** The identifier of the source for creating call with Teams resource account ID. */
+  teamsAppSource?: MicrosoftTeamsAppIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -747,6 +747,50 @@ export interface RecordingStateResponse {
   recordingId?: string;
   recordingState?: RecordingState;
   recordingKind?: RecordingKind;
+}
+
+/** The incoming call event. */
+export interface IncomingCall {
+  /**
+   * The communication identifier of the target user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly to?: CommunicationIdentifierModel;
+  /**
+   * The communication identifier of the user who initiated the call.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly from?: CommunicationIdentifierModel;
+  /**
+   * The server call id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Display name of caller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callerDisplayName?: string;
+  /**
+   * Custom Context of Incoming Call
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customContext?: CustomCallingContextInternal;
+  /**
+   * Incoming call context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingCallContext?: string;
+  /**
+   * The communication identifier of the user on behalf of whom the call is made.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly onBehalfOfCallee?: CommunicationIdentifierModel;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
 }
 
 export interface CollectTonesResult {
