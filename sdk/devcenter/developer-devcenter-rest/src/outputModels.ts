@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
 import type { ErrorModel } from "@azure-rest/core-client";
+
+/** Paged collection of Project items */
+export interface PagedProjectOutput {
+  /** The Project items on this page */
+  value: Array<ProjectOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
 
 /** Project details. */
 export interface ProjectOutput {
@@ -23,13 +30,17 @@ export interface OperationStatusOutput {
   readonly id: string;
   /** The operation id name. */
   readonly name: string;
-  /** Provisioning state of the resource. */
+  /**
+   * Provisioning state of the resource.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
   status: OperationStateOutput;
   /** The id of the resource. */
   resourceId?: string;
-  /** The start time of the operation. */
+  /** The start time of the operation, in RFC3339 format. */
   startTime?: string;
-  /** The end time of the operation. */
+  /** The end time of the operation, in RFC3339 format. */
   endTime?: string;
   /** Percent of the operation that is complete. */
   percentComplete?: number;
@@ -39,17 +50,33 @@ export interface OperationStatusOutput {
   error?: ErrorModel;
 }
 
+/** Paged collection of Pool items */
+export interface PagedPoolOutput {
+  /** The Pool items on this page */
+  value: Array<PoolOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** A pool of Dev Boxes. */
 export interface PoolOutput {
   /** Pool name. */
   readonly name: string;
   /** Azure region where Dev Boxes in the pool are located. */
   location: string;
-  /** The operating system type of Dev Boxes in this pool. */
+  /**
+   * The operating system type of Dev Boxes in this pool.
+   *
+   * Possible values: "Windows"
+   */
   osType?: OsTypeOutput;
   /** Hardware settings for the Dev Boxes created in this pool. */
   hardwareProfile?: HardwareProfileOutput;
-  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  /**
+   * Indicates whether hibernate is enabled/disabled or unknown.
+   *
+   * Possible values: "Enabled", "Disabled", "OsUnsupported"
+   */
   hibernateSupport?: HibernateSupportOutput;
   /** Storage settings for Dev Box created in this pool. */
   storageProfile?: StorageProfileOutput;
@@ -58,6 +85,8 @@ export interface PoolOutput {
   /**
    * Indicates whether owners of Dev Boxes in this pool are local administrators on
    * the Dev Boxes.
+   *
+   * Possible values: "Enabled", "Disabled"
    */
   localAdministrator?: LocalAdminStatusOutput;
   /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
@@ -65,13 +94,19 @@ export interface PoolOutput {
   /**
    * Overall health status of the Pool. Indicates whether or not the Pool is
    * available to create Dev Boxes.
+   *
+   * Possible values: "Unknown", "Pending", "Healthy", "Warning", "Unhealthy"
    */
   healthStatus: PoolHealthStatusOutput;
 }
 
 /** Hardware specifications for the Dev Box. */
 export interface HardwareProfileOutput {
-  /** The name of the SKU. */
+  /**
+   * The name of the SKU.
+   *
+   * Possible values: "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2", "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2", "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2", "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2", "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2", "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2", "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2", "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2", "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2", "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2", "general_a_32c128gb1024ssd_v2", "general_a_32c128gb2048ssd_v2"
+   */
   readonly skuName?: SkuNameOutput;
   /** The number of vCPUs available for the Dev Box. */
   readonly vCPUs?: number;
@@ -101,7 +136,7 @@ export interface ImageReferenceOutput {
   readonly operatingSystem?: string;
   /** The operating system build number of the image. */
   readonly osBuildNumber?: string;
-  /** The datetime that the backing image version was published. */
+  /** The datetime that the backing image version was published, in RFC3339 format. */
   readonly publishedDate?: string;
 }
 
@@ -110,6 +145,8 @@ export interface StopOnDisconnectConfigurationOutput {
   /**
    * Indicates whether the feature to stop the devbox on disconnect once the grace
    * period has lapsed is enabled.
+   *
+   * Possible values: "Enabled", "Disabled"
    */
   status: StopOnDisconnectEnableStatusOutput;
   /**
@@ -117,6 +154,14 @@ export interface StopOnDisconnectConfigurationOutput {
    * is detected.
    */
   gracePeriodMinutes?: number;
+}
+
+/** Paged collection of DevBox items */
+export interface PagedDevBoxOutput {
+  /** The DevBox items on this page */
+  value: Array<DevBoxOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** A Dev Box. */
@@ -127,16 +172,28 @@ export interface DevBoxOutput {
   readonly projectName?: string;
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
-  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  /**
+   * Indicates whether hibernate is enabled/disabled or unknown.
+   *
+   * Possible values: "Enabled", "Disabled", "OsUnsupported"
+   */
   readonly hibernateSupport?: HibernateSupportOutput;
-  /** The current provisioning state of the Dev Box. */
+  /**
+   * The current provisioning state of the Dev Box.
+   *
+   * Possible values: "Succeeded", "Failed", "Canceled", "Creating", "Deleting", "Updating", "Starting", "Stopping", "Provisioning", "ProvisionedWithWarning", "InGracePeriod", "NotProvisioned"
+   */
   readonly provisioningState?: DevBoxProvisioningStateOutput;
   /**
    * The current action state of the Dev Box. This is state is based on previous
    * action performed by user.
    */
   readonly actionState?: string;
-  /** The current power state of the Dev Box. */
+  /**
+   * The current power state of the Dev Box.
+   *
+   * Possible values: "Unknown", "Running", "Deallocated", "PoweredOff", "Hibernated"
+   */
   readonly powerState?: PowerStateOutput;
   /**
    * A unique identifier for the Dev Box. This is a GUID-formatted string (e.g.
@@ -150,7 +207,11 @@ export interface DevBoxOutput {
    * Virtual Network it is attached to.
    */
   readonly location?: string;
-  /** The operating system type of this Dev Box. */
+  /**
+   * The operating system type of this Dev Box.
+   *
+   * Possible values: "Windows"
+   */
   readonly osType?: OsTypeOutput;
   /** The AAD object id of the user this Dev Box is assigned to. */
   readonly user?: string;
@@ -160,19 +221,39 @@ export interface DevBoxOutput {
   readonly storageProfile?: StorageProfileOutput;
   /** Information about the image used for this Dev Box. */
   readonly imageReference?: ImageReferenceOutput;
-  /** Creation time of this Dev Box. */
+  /** Creation time of this Dev Box, in RFC3339 format. */
   readonly createdTime?: string;
-  /** Indicates whether the owner of the Dev Box is a local administrator. */
+  /**
+   * Indicates whether the owner of the Dev Box is a local administrator.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   localAdministrator?: LocalAdminStatusOutput;
+}
+
+/** Paged collection of Schedule items */
+export interface PagedScheduleOutput {
+  /** The Schedule items on this page */
+  value: Array<ScheduleOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** A Schedule to execute action. */
 export interface ScheduleOutput {
   /** Display name for the Schedule. */
   readonly name: string;
-  /** Supported type this scheduled task represents. */
+  /**
+   * Supported type this scheduled task represents.
+   *
+   * Possible values: "StopDevBox"
+   */
   type: ScheduledTypeOutput;
-  /** The frequency of this scheduled task. */
+  /**
+   * The frequency of this scheduled task.
+   *
+   * Possible values: "Daily"
+   */
   frequency: ScheduledFrequencyOutput;
   /** The target time to trigger the action. The format is HH:MM. */
   time: string;
@@ -188,15 +269,27 @@ export interface RemoteConnectionOutput {
   rdpConnectionUrl?: string;
 }
 
+/** Paged collection of DevBoxAction items */
+export interface PagedDevBoxActionOutput {
+  /** The DevBoxAction items on this page */
+  value: Array<DevBoxActionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** An action which will take place on a Dev Box. */
 export interface DevBoxActionOutput {
   /** The name of the action. */
   readonly name: string;
-  /** The action that will be taken. */
+  /**
+   * The action that will be taken.
+   *
+   * Possible values: "Stop"
+   */
   actionType: DevBoxActionTypeOutput;
   /** The id of the resource which triggered this action. */
   sourceId: string;
-  /** The earliest time that the action could occur (UTC). */
+  /** The earliest time that the action could occur (UTC), in RFC3339 format. */
   suspendedUntil?: string;
   /** Details about the next run of this action. */
   next?: DevBoxNextActionOutput;
@@ -204,20 +297,40 @@ export interface DevBoxActionOutput {
 
 /** Details about the next run of an action. */
 export interface DevBoxNextActionOutput {
-  /** The time the action will be triggered (UTC). */
+  /** The time the action will be triggered (UTC), in RFC3339 format. */
   scheduledTime: string;
+}
+
+/** Paged collection of DevBoxActionDelayResult items */
+export interface PagedDevBoxActionDelayResultOutput {
+  /** The DevBoxActionDelayResult items on this page */
+  value: Array<DevBoxActionDelayResultOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The action delay result. */
 export interface DevBoxActionDelayResultOutput {
   /** The name of the action. */
   name: string;
-  /** The result of the delay operation on this action. */
+  /**
+   * The result of the delay operation on this action.
+   *
+   * Possible values: "Succeeded", "Failed"
+   */
   result: DevBoxActionDelayResultStatusOutput;
   /** The delayed action. */
   action?: DevBoxActionOutput;
   /** Information about the error that occurred. Only populated on error. */
   error?: ErrorModel;
+}
+
+/** Paged collection of Environment items */
+export interface PagedEnvironmentOutput {
+  /** The Environment items on this page */
+  value: Array<EnvironmentOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Properties of an environment. */
@@ -230,7 +343,11 @@ export interface EnvironmentOutput {
   environmentType: string;
   /** The AAD object id of the owner of this Environment. */
   readonly user?: string;
-  /** The provisioning state of the environment. */
+  /**
+   * The provisioning state of the environment.
+   *
+   * Possible values: "Succeeded", "Failed", "Canceled", "Creating", "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing", "MovingResources", "TransientFailure", "StorageProvisioningFailed"
+   */
   readonly provisioningState?: EnvironmentProvisioningStateOutput;
   /** The identifier of the resource group containing the environment's resources. */
   readonly resourceGroupId?: string;
@@ -242,10 +359,26 @@ export interface EnvironmentOutput {
   readonly error?: ErrorModel;
 }
 
+/** Paged collection of Catalog items */
+export interface PagedCatalogOutput {
+  /** The Catalog items on this page */
+  value: Array<CatalogOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** A catalog. */
 export interface CatalogOutput {
   /** Name of the catalog. */
   readonly name: string;
+}
+
+/** Paged collection of EnvironmentDefinition items */
+export interface PagedEnvironmentDefinitionOutput {
+  /** The EnvironmentDefinition items on this page */
+  value: Array<EnvironmentDefinitionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** An environment definition. */
@@ -279,6 +412,8 @@ export interface EnvironmentDefinitionParameterOutput {
   /**
    * A string of one of the basic JSON types (number, integer, array, object,
    * boolean, string).
+   *
+   * Possible values: "array", "boolean", "integer", "number", "object", "string"
    */
   type: ParameterTypeOutput;
   /**
@@ -292,6 +427,14 @@ export interface EnvironmentDefinitionParameterOutput {
   allowed?: string[];
 }
 
+/** Paged collection of EnvironmentType items */
+export interface PagedEnvironmentTypeOutput {
+  /** The EnvironmentType items on this page */
+  value: Array<EnvironmentTypeOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type. */
@@ -302,128 +445,43 @@ export interface EnvironmentTypeOutput {
    * or management group.
    */
   deploymentTargetId: string;
-  /** Indicates whether this environment type is enabled for use in this project. */
+  /**
+   * Indicates whether this environment type is enabled for use in this project.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   status: EnvironmentTypeEnableStatusOutput;
 }
 
-/** Paged collection of Project items */
-export type PagedProjectOutput = Paged<ProjectOutput>;
-/** Enum describing allowed operation states. */
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
-/** Paged collection of Pool items */
-export type PagedPoolOutput = Paged<PoolOutput>;
+/** Alias for OperationStateOutput */
+export type OperationStateOutput = string;
 /** Alias for OsTypeOutput */
-export type OsTypeOutput = "Windows" | string;
+export type OsTypeOutput = string;
 /** Alias for SkuNameOutput */
-export type SkuNameOutput =
-  | "general_i_8c32gb256ssd_v2"
-  | "general_i_8c32gb512ssd_v2"
-  | "general_i_8c32gb1024ssd_v2"
-  | "general_i_8c32gb2048ssd_v2"
-  | "general_i_16c64gb256ssd_v2"
-  | "general_i_16c64gb512ssd_v2"
-  | "general_i_16c64gb1024ssd_v2"
-  | "general_i_16c64gb2048ssd_v2"
-  | "general_i_32c128gb512ssd_v2"
-  | "general_i_32c128gb1024ssd_v2"
-  | "general_i_32c128gb2048ssd_v2"
-  | "general_a_8c32gb256ssd_v2"
-  | "general_a_8c32gb512ssd_v2"
-  | "general_a_8c32gb1024ssd_v2"
-  | "general_a_8c32gb2048ssd_v2"
-  | "general_a_16c64gb256ssd_v2"
-  | "general_a_16c64gb512ssd_v2"
-  | "general_a_16c64gb1024ssd_v2"
-  | "general_a_16c64gb2048ssd_v2"
-  | "general_a_32c128gb512ssd_v2"
-  | "general_a_32c128gb1024ssd_v2"
-  | "general_a_32c128gb2048ssd_v2"
-  | string;
+export type SkuNameOutput = string;
 /** Alias for HibernateSupportOutput */
-export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupportOutput = string;
 /** Alias for LocalAdminStatusOutput */
-export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
+export type LocalAdminStatusOutput = string;
 /** Alias for StopOnDisconnectEnableStatusOutput */
-export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type StopOnDisconnectEnableStatusOutput = string;
 /** Alias for PoolHealthStatusOutput */
-export type PoolHealthStatusOutput =
-  | "Unknown"
-  | "Pending"
-  | "Healthy"
-  | "Warning"
-  | "Unhealthy"
-  | string;
-/** Paged collection of DevBox items */
-export type PagedDevBoxOutput = Paged<DevBoxOutput>;
+export type PoolHealthStatusOutput = string;
 /** Alias for DevBoxProvisioningStateOutput */
-export type DevBoxProvisioningStateOutput =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Deleting"
-  | "Updating"
-  | "Starting"
-  | "Stopping"
-  | "Provisioning"
-  | "ProvisionedWithWarning"
-  | "InGracePeriod"
-  | "NotProvisioned"
-  | string;
+export type DevBoxProvisioningStateOutput = string;
 /** Alias for PowerStateOutput */
-export type PowerStateOutput =
-  | "Unknown"
-  | "Running"
-  | "Deallocated"
-  | "PoweredOff"
-  | "Hibernated"
-  | string;
-/** Paged collection of Schedule items */
-export type PagedScheduleOutput = Paged<ScheduleOutput>;
+export type PowerStateOutput = string;
 /** Alias for ScheduledTypeOutput */
-export type ScheduledTypeOutput = "StopDevBox" | string;
+export type ScheduledTypeOutput = string;
 /** Alias for ScheduledFrequencyOutput */
-export type ScheduledFrequencyOutput = "Daily" | string;
-/** Paged collection of DevBoxAction items */
-export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
+export type ScheduledFrequencyOutput = string;
 /** Alias for DevBoxActionTypeOutput */
-export type DevBoxActionTypeOutput = "Stop" | string;
-/** Paged collection of DevBoxActionDelayResult items */
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
+export type DevBoxActionTypeOutput = string;
 /** Alias for DevBoxActionDelayResultStatusOutput */
-export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
-/** Paged collection of Environment items */
-export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
+export type DevBoxActionDelayResultStatusOutput = string;
 /** Alias for EnvironmentProvisioningStateOutput */
-export type EnvironmentProvisioningStateOutput =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Accepted"
-  | "Deleting"
-  | "Updating"
-  | "Preparing"
-  | "Running"
-  | "Syncing"
-  | "MovingResources"
-  | "TransientFailure"
-  | "StorageProvisioningFailed"
-  | string;
-/** Paged collection of Catalog items */
-export type PagedCatalogOutput = Paged<CatalogOutput>;
-/** Paged collection of EnvironmentDefinition items */
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
+export type EnvironmentProvisioningStateOutput = string;
 /** Alias for ParameterTypeOutput */
-export type ParameterTypeOutput =
-  | "array"
-  | "boolean"
-  | "integer"
-  | "number"
-  | "object"
-  | "string"
-  | string;
-/** Paged collection of EnvironmentType items */
-export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;
+export type ParameterTypeOutput = string;
 /** Alias for EnvironmentTypeEnableStatusOutput */
-export type EnvironmentTypeEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type EnvironmentTypeEnableStatusOutput = string;
