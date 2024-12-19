@@ -82,7 +82,7 @@ export async function getConnectionWithSecrets(
   const getOptions: GetConnectionWithSecretsParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ignored: "ignore",
+      ignored: "",
     },
   };
   const result = await context
