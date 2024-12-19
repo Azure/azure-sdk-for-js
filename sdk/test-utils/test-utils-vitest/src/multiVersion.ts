@@ -10,6 +10,7 @@ import {
   TestOptions,
 } from "vitest";
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {
   let describe: typeof vitestDescribe;
   let it: typeof vitestIt;
@@ -160,6 +161,7 @@ export function supports(
           // Record and playback depends on titles for recording file names so keeping them
           // in order to be compatible with existing recordings.
           function (
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
             title: string | Function,
             fn?: TestFunction | undefined,
             options?: number | TestOptions,
@@ -184,6 +186,7 @@ export function supports(
   // in order to be compatible with existing recordings.
   const wrappedDescribe = isLiveMode()
     ? function (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
         title: string | Function,
         fn?: SuiteFactory | undefined,
         options?: number | TestOptions,
@@ -197,6 +200,7 @@ export function supports(
     : supports.global.describe;
   const wrappedDescribeOnly = isLiveMode()
     ? function (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
         title: string | Function,
         fn?: SuiteFactory | undefined,
         options?: number | TestOptions,
