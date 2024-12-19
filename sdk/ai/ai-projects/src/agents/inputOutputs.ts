@@ -143,7 +143,6 @@ export {
   ListFilesQueryParamProperties,
 } from "../customization/parameters.js";
 export type {
-  OptionalRequestParameters,
   AgentRunResponse,
   CreateRunOptionalParams,
   GetRunOptionalParams,
@@ -189,6 +188,7 @@ export type {
   ListQueryParameters,
   PollingOptions,
   PollingOptionsParams,
+  CancelVectorStoreFileBatchOptionalParams,
 } from "./customModels.js";
 
 export {

@@ -115,6 +115,7 @@ import type {
   ListFilesOptionalParams,
   UploadFileOptionalParams,
   UploadFileWithPollingOptionalParams,
+  CancelVectorStoreFileBatchOptionalParams,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 import type { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -319,7 +320,7 @@ export interface AgentsOperations {
   cancelVectorStoreFileBatch: (
     vectorStoreId: string,
     batchId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: CancelVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatchOutput>;
   /** Returns a list of vector store files in a batch. */
   listVectorStoreFileBatchFiles: (
@@ -458,8 +459,8 @@ function getAgents(context: Client): AgentsOperations {
     cancelVectorStoreFileBatch: (
       vectorStoreId: string,
       batchId: string,
-      requestParams?: OptionalRequestParameters,
-    ) => cancelVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
+      options?: CancelVectorStoreFileBatchOptionalParams,
+    ) => cancelVectorStoreFileBatch(context, vectorStoreId, batchId, options),
     listVectorStoreFileBatchFiles: (
       vectorStoreId: string,
       batchId: string,

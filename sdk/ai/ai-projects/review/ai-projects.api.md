@@ -110,7 +110,7 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 // @public
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
-    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: CancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
     createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
@@ -122,6 +122,7 @@ export interface AgentsOperations {
     createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+    // Warning: (ae-forgotten-export) The symbol "OptionalRequestParameters" needs to be exported by the entry point index.d.ts
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
@@ -229,6 +230,10 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
 
 // @public
 export interface CancelRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1063,9 +1068,6 @@ export interface OpenAIPageableListOfVectorStoreOutput {
     lastId: string;
     object: "list";
 }
-
-// @public
-export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">;
 
 // @public
 export interface PollingOptions {
