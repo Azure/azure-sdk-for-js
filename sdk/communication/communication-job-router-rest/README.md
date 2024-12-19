@@ -11,7 +11,6 @@ Key links:
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/communication-job-router)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/samples)
 
-
 ## Getting started
 
 ### Currently supported environments
@@ -86,7 +85,8 @@ First we need to construct an `AzureCommunicationRoutingServiceClient`.
 ```js
 const JobRouterClient = require("@azure-rest/communication-job-router").default;
 
-const connectionString = "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 const routerClient = JobRouterClient(connectionString);
 ```
 
@@ -96,18 +96,20 @@ This policy determines which workers will receive job offers as jobs are distrib
 
 ```js
 const distributionPolicyId = "distribution-policy-id-1";
-const distributionPolicy = await routerClient.path("/routing/distributionPolicies/{id}", distributionPolicyId).patch({
-  contentType: "application/merge-patch+json",
-  body: {
-    name: "Default Distribution Policy",
-    offerExpiresAfterSeconds: 30,
-    mode: {
-      kind: "longestIdle",
-      minConcurrentOffers: 1,
-      maxConcurrentOffers: 3,
+const distributionPolicy = await routerClient
+  .path("/routing/distributionPolicies/{id}", distributionPolicyId)
+  .patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      name: "Default Distribution Policy",
+      offerExpiresAfterSeconds: 30,
+      mode: {
+        kind: "longestIdle",
+        minConcurrentOffers: 1,
+        maxConcurrentOffers: 3,
+      },
     },
-  }
-});
+  });
 ```
 
 ### Create a Queue
@@ -122,7 +124,7 @@ const salesQueue = await routerClient.path("/routing/queues/{id}", salesQueueId)
     distributionPolicyId: distributionPolicyId,
     name: "Main",
     labels: {},
-  }
+  },
 });
 ```
 
@@ -144,7 +146,7 @@ const workerAlice = await routerClient.path("/routing/workers/{id}", workerAlice
     labels: {
       Xbox: 5,
       german: 4,
-      name: "Alice"
+      name: "Alice",
     },
     channels: [
       {
@@ -156,7 +158,7 @@ const workerAlice = await routerClient.path("/routing/workers/{id}", workerAlice
         capacityCostPerJob: 100,
       },
     ],
-  }
+  },
 });
 
 // Create worker "Bob".
@@ -169,7 +171,7 @@ const workerBob = await routerClient.path("/routing/workers/{id}", workerBobId).
     labels: {
       Xbox: 5,
       english: 3,
-      name: "Alice"
+      name: "Alice",
     },
     channels: [
       {
@@ -181,7 +183,7 @@ const workerBob = await routerClient.path("/routing/workers/{id}", workerBobId).
         capacityCostPerJob: 100,
       },
     ],
-  }
+  },
 });
 ```
 
@@ -203,7 +205,7 @@ const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
     priority: 2,
     queueId: salesQueueId,
     labels: {},
-  }
+  },
 });
 ```
 
@@ -215,30 +217,32 @@ This policy classifies jobs upon creation.
 
 ```js
 const classificationPolicyId = "classification-policy-1";
-const classificationPolicy = await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
-  contentType: "application/merge-patch+json",
-  body: {
-    name: "Default Classification Policy",
-    fallbackQueueId: salesQueueId,
-    queueSelectorAttachments: [
-      {
-        kind: "static",
-        queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
+const classificationPolicy = await routerClient
+  .path("/routing/classificationPolicies/{id}", classificationPolicyId)
+  .patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      name: "Default Classification Policy",
+      fallbackQueueId: salesQueueId,
+      queueSelectorAttachments: [
+        {
+          kind: "static",
+          queueSelector: { key: "department", labelOperator: "equal", value: "xbox" },
+        },
+      ],
+      workerSelectorAttachments: [
+        {
+          kind: "static",
+          workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 },
+        },
+      ],
+      prioritizationRule: {
+        kind: "expression",
+        language: "powerFx",
+        expression: 'If(job.department = "xbox", 2, 1)',
       },
-    ],
-    workerSelectorAttachments: [
-      {
-        kind: "static",
-        workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
-      }
-    ],
-    prioritizationRule: {
-      kind: "expression",
-      language: "powerFx",
-      expression: "If(job.department = \"xbox\", 2, 1)"
-    }
-  }
-});
+    },
+  });
 ```
 
 - Refer to our [classification concepts documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/classification-concepts) to better understand queue selectors and worker selectors.
@@ -256,15 +260,15 @@ const job = await routerClient.path("/routing/jobs/{id}", jobId).patch({
     channelId: "voice",
     classificationPolicyId: classificationPolicy.body.id,
     labels: {
-      department: "xbox"
+      department: "xbox",
     },
-  }
+  },
 });
 ```
 
 ## Events
 
-Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://docs.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
+Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://learn.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
 
 In the previous example:
 
@@ -340,9 +344,13 @@ Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the
 - `offerId` - Id of the offer being accepted or declined.
 
 ```js
-const acceptResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId).post();
+const acceptResponse = await routerClient
+  .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
+  .post();
 // or
-const declineResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:decline", workerId, offerId).post();
+const declineResponse = await routerClient
+  .path("/routing/workers/{workerId}/offers/{offerId}:decline", workerId, offerId)
+  .post();
 ```
 
 ### Complete the Job
@@ -350,11 +358,17 @@ const declineResponse = await routerClient.path("/routing/workers/{workerId}/off
 The `assignmentId` received from the previous step's response is required to complete the job. Completing the job puts it in the wrap-up phase of its lifecycle.
 
 ```ts
-const completeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, acceptResponse.body.assignmentId).post({
-  body: {
-    note: `Job has been completed by ${workerId} at ${new Date()}`
-  }
-});
+const completeJob = await routerClient
+  .path(
+    "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
+    jobId,
+    acceptResponse.body.assignmentId,
+  )
+  .post({
+    body: {
+      note: `Job has been completed by ${workerId} at ${new Date()}`,
+    },
+  });
 ```
 
 ### Close the Job
@@ -362,11 +376,17 @@ const completeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{
 Once the worker has completed the wrap-up phase of the job we can close the job and attach a note to it for future reference.
 
 ```ts
-const closeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, acceptResponse.body.assignmentId).post({
-  body: {
-    note: `Job has been closed by ${workerId} at ${new Date()}`
-  }
-});
+const closeJob = await routerClient
+  .path(
+    "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
+    jobId,
+    acceptResponse.body.assignmentId,
+  )
+  .post({
+    body: {
+      note: `Job has been closed by ${workerId} at ${new Date()}`,
+    },
+  });
 ```
 
 ## Troubleshooting
