@@ -14,8 +14,8 @@ import {
   RecommendationsGenerateResponse,
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGetOptionalParams,
-  RecommendationsGetResponse
-} from "../models";
+  RecommendationsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Recommendations. */
@@ -26,7 +26,7 @@ export interface Recommendations {
    * @param options The options parameters.
    */
   list(
-    options?: RecommendationsListOptionalParams
+    options?: RecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceRecommendationBase>;
   /**
    * Initiates the recommendation generation or computation process for a subscription. This operation is
@@ -34,7 +34,7 @@ export interface Recommendations {
    * @param options The options parameters.
    */
   generate(
-    options?: RecommendationsGenerateOptionalParams
+    options?: RecommendationsGenerateOptionalParams,
   ): Promise<RecommendationsGenerateResponse>;
   /**
    * Retrieves the status of the recommendation computation or generation process. Invoke this API after
@@ -46,7 +46,7 @@ export interface Recommendations {
    */
   getGenerateStatus(
     operationId: string,
-    options?: RecommendationsGetGenerateStatusOptionalParams
+    options?: RecommendationsGetGenerateStatusOptionalParams,
   ): Promise<void>;
   /**
    * Obtains details of a cached recommendation.
@@ -58,6 +58,6 @@ export interface Recommendations {
   get(
     resourceUri: string,
     recommendationId: string,
-    options?: RecommendationsGetOptionalParams
+    options?: RecommendationsGetOptionalParams,
   ): Promise<RecommendationsGetResponse>;
 }

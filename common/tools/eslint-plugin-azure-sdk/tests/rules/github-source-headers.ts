@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/github-source-headers";
+import rule from "../../src/rules/github-source-headers.js";
 
 //------------------------------------------------------------------------------
 // Tests

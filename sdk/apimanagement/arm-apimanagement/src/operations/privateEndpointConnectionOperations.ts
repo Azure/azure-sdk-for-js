@@ -6,533 +6,533 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
+    createHttpPoller,
+    OperationState,
+    SimplePollerLike
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import { createLroSpec } from "../lroImpl.js";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionListByServiceOptionalParams,
-  PrivateEndpointConnectionListByServiceResponse,
-  PrivateEndpointConnectionGetByNameOptionalParams,
-  PrivateEndpointConnectionGetByNameResponse,
-  PrivateEndpointConnectionRequest,
-  PrivateEndpointConnectionCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionCreateOrUpdateResponse,
-  PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
-  PrivateEndpointConnectionListPrivateLinkResourcesResponse,
-  PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
-  PrivateEndpointConnectionGetPrivateLinkResourceResponse
-} from "../models";
+    PrivateEndpointConnection,
+    PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+    PrivateEndpointConnectionCreateOrUpdateResponse,
+    PrivateEndpointConnectionDeleteOptionalParams,
+    PrivateEndpointConnectionGetByNameOptionalParams,
+    PrivateEndpointConnectionGetByNameResponse,
+    PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
+    PrivateEndpointConnectionGetPrivateLinkResourceResponse,
+    PrivateEndpointConnectionListByServiceOptionalParams,
+    PrivateEndpointConnectionListByServiceResponse,
+    PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
+    PrivateEndpointConnectionListPrivateLinkResourcesResponse,
+    PrivateEndpointConnectionRequest
+} from "../models/index.js";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PrivateEndpointConnectionOperations } from "../operationsInterfaces/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnectionOperations operations. */
 export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations {
-  private readonly client: ApiManagementClient;
+    implements PrivateEndpointConnectionOperations {
+    private readonly client: ApiManagementClient;
 
-  /**
-   * Initialize a new instance of the class PrivateEndpointConnectionOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ApiManagementClient) {
-    this.client = client;
-  }
-
-  /**
-   * Lists all private endpoint connections of the API Management service instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  public listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PrivateEndpointConnectionListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByServicePagingPage(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PrivateEndpointConnectionListByServiceOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionListByServiceResponse;
-    result = await this._listByService(resourceGroupName, serviceName, options);
-    yield result.value || [];
-  }
-
-  private async *listByServicePagingAll(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PrivateEndpointConnectionListByServiceOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listByServicePagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
-      yield* page;
+    /**
+     * Initialize a new instance of the class PrivateEndpointConnectionOperations class.
+     * @param client Reference to the service client
+     */
+    constructor(client: ApiManagementClient) {
+        this.client = client;
     }
-  }
 
-  /**
-   * Lists all private endpoint connections of the API Management service instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  private _listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PrivateEndpointConnectionListByServiceOptionalParams
-  ): Promise<PrivateEndpointConnectionListByServiceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
-    );
-  }
+    /**
+     * Lists all private endpoint connections of the API Management service instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    public listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PrivateEndpointConnectionListByServiceOptionalParams
+    ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+        const iter = this.listByServicePagingAll(
+            resourceGroupName,
+            serviceName,
+            options
+        );
+        return {
+            next() {
+                return iter.next();
+            },
+            [Symbol.asyncIterator]() {
+                return this;
+            },
+            byPage: (settings?: PageSettings) => {
+                if (settings?.maxPageSize) {
+                    throw new Error("maxPageSize is not supported by this operation.");
+                }
+                return this.listByServicePagingPage(
+                    resourceGroupName,
+                    serviceName,
+                    options,
+                    settings
+                );
+            }
+        };
+    }
 
-  /**
-   * Gets the details of the Private Endpoint Connection specified by its identifier.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateEndpointConnectionName Name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  getByName(
-    resourceGroupName: string,
-    serviceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionGetByNameOptionalParams
-  ): Promise<PrivateEndpointConnectionGetByNameResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        privateEndpointConnectionName,
-        options
-      },
-      getByNameOperationSpec
-    );
-  }
+    private async *listByServicePagingPage(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PrivateEndpointConnectionListByServiceOptionalParams,
+        _settings?: PageSettings
+    ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+        let result: PrivateEndpointConnectionListByServiceResponse;
+        result = await this._listByService(resourceGroupName, serviceName, options);
+        yield result.value || [];
+    }
 
-  /**
-   * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateEndpointConnectionName Name of the private endpoint connection.
-   * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
-    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
-      PrivateEndpointConnectionCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
+    private async *listByServicePagingAll(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PrivateEndpointConnectionListByServiceOptionalParams
+    ): AsyncIterableIterator<PrivateEndpointConnection> {
+        for await (const page of this.listByServicePagingPage(
+            resourceGroupName,
+            serviceName,
+            options
+        )) {
+            yield* page;
         }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        privateEndpointConnectionName,
-        privateEndpointConnectionRequest,
-        options
-      },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      PrivateEndpointConnectionCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
+    /**
+     * Lists all private endpoint connections of the API Management service instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    private _listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PrivateEndpointConnectionListByServiceOptionalParams
+    ): Promise<PrivateEndpointConnectionListByServiceResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            listByServiceOperationSpec
+        );
+    }
 
-  /**
-   * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateEndpointConnectionName Name of the private endpoint connection.
-   * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
-    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      serviceName,
-      privateEndpointConnectionName,
-      privateEndpointConnectionRequest,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Gets the details of the Private Endpoint Connection specified by its identifier.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateEndpointConnectionName Name of the private endpoint connection.
+     * @param options The options parameters.
+     */
+    getByName(
+        resourceGroupName: string,
+        serviceName: string,
+        privateEndpointConnectionName: string,
+        options?: PrivateEndpointConnectionGetByNameOptionalParams
+    ): Promise<PrivateEndpointConnectionGetByNameResponse> {
+        return this.client.sendOperationRequest(
+            {
+                resourceGroupName,
+                serviceName,
+                privateEndpointConnectionName,
+                options
+            },
+            getByNameOperationSpec
+        );
+    }
 
-  /**
-   * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateEndpointConnectionName Name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    serviceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    /**
+     * Creates a new Private Endpoint Connection or updates an existing one.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateEndpointConnectionName Name of the private endpoint connection.
+     * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
+     * @param options The options parameters.
+     */
+    async beginCreateOrUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        privateEndpointConnectionName: string,
+        privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+        options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
+            PrivateEndpointConnectionCreateOrUpdateResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        privateEndpointConnectionName,
-        options
-      },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: {
+                resourceGroupName,
+                serviceName,
+                privateEndpointConnectionName,
+                privateEndpointConnectionRequest,
+                options
+            },
+            spec: createOrUpdateOperationSpec
+        });
+        const poller = await createHttpPoller<
+            PrivateEndpointConnectionCreateOrUpdateResponse,
+            OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs
+        });
+        await poller.poll();
+        return poller;
+    }
 
-  /**
-   * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateEndpointConnectionName Name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      privateEndpointConnectionName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Creates a new Private Endpoint Connection or updates an existing one.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateEndpointConnectionName Name of the private endpoint connection.
+     * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
+     * @param options The options parameters.
+     */
+    async beginCreateOrUpdateAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        privateEndpointConnectionName: string,
+        privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+        options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
+    ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse> {
+        const poller = await this.beginCreateOrUpdate(
+            resourceGroupName,
+            serviceName,
+            privateEndpointConnectionName,
+            privateEndpointConnectionRequest,
+            options
+        );
+        return poller.pollUntilDone();
+    }
 
-  /**
-   * Gets the private link resources
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  listPrivateLinkResources(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
-  ): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listPrivateLinkResourcesOperationSpec
-    );
-  }
+    /**
+     * Deletes the specified Private Endpoint Connection.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateEndpointConnectionName Name of the private endpoint connection.
+     * @param options The options parameters.
+     */
+    async beginDelete(
+        resourceGroupName: string,
+        serviceName: string,
+        privateEndpointConnectionName: string,
+        options?: PrivateEndpointConnectionDeleteOptionalParams
+    ): Promise<SimplePollerLike<OperationState<void>, void>> {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<void> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-  /**
-   * Gets the private link resources
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param privateLinkSubResourceName Name of the private link resource.
-   * @param options The options parameters.
-   */
-  getPrivateLinkResource(
-    resourceGroupName: string,
-    serviceName: string,
-    privateLinkSubResourceName: string,
-    options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
-  ): Promise<PrivateEndpointConnectionGetPrivateLinkResourceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, privateLinkSubResourceName, options },
-      getPrivateLinkResourceOperationSpec
-    );
-  }
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: {
+                resourceGroupName,
+                serviceName,
+                privateEndpointConnectionName,
+                options
+            },
+            spec: deleteOperationSpec
+        });
+        const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs
+        });
+        await poller.poll();
+        return poller;
+    }
+
+    /**
+     * Deletes the specified Private Endpoint Connection.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateEndpointConnectionName Name of the private endpoint connection.
+     * @param options The options parameters.
+     */
+    async beginDeleteAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        privateEndpointConnectionName: string,
+        options?: PrivateEndpointConnectionDeleteOptionalParams
+    ): Promise<void> {
+        const poller = await this.beginDelete(
+            resourceGroupName,
+            serviceName,
+            privateEndpointConnectionName,
+            options
+        );
+        return poller.pollUntilDone();
+    }
+
+    /**
+     * Gets the private link resources
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    listPrivateLinkResources(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
+    ): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            listPrivateLinkResourcesOperationSpec
+        );
+    }
+
+    /**
+     * Gets the private link resources
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param privateLinkSubResourceName Name of the private link resource.
+     * @param options The options parameters.
+     */
+    getPrivateLinkResource(
+        resourceGroupName: string,
+        serviceName: string,
+        privateLinkSubResourceName: string,
+        options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
+    ): Promise<PrivateEndpointConnectionGetPrivateLinkResourceResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, privateLinkSubResourceName, options },
+            getPrivateLinkResourceOperationSpec
+        );
+    }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PrivateEndpointConnectionListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getByNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PrivateEndpointConnection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.privateEndpointConnectionName
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    httpMethod: "PUT",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PrivateEndpointConnection
+        },
+        201: {
+            bodyMapper: Mappers.PrivateEndpointConnection
+        },
+        202: {
+            bodyMapper: Mappers.PrivateEndpointConnection
+        },
+        204: {
+            bodyMapper: Mappers.PrivateEndpointConnection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.privateEndpointConnectionRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.privateEndpointConnectionRequest,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.privateEndpointConnectionName
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    httpMethod: "DELETE",
+    responses: {
+        200: {},
+        201: {},
+        202: {},
+        204: {},
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.privateEndpointConnectionName
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateLinkResources",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PrivateLinkResourceListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getPrivateLinkResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateLinkResources/{privateLinkSubResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateLinkResources/{privateLinkSubResourceName}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PrivateLinkResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.privateLinkSubResourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.privateLinkSubResourceName
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
