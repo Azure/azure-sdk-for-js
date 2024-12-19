@@ -60,7 +60,7 @@ import {
   ThroughputPoolImpl,
   ThroughputPoolAccountsImpl,
   ThroughputPoolAccountImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ChaosFault,
   DatabaseAccounts,
@@ -107,8 +107,8 @@ import {
   ThroughputPool,
   ThroughputPoolAccounts,
   ThroughputPoolAccount,
-} from "./operationsInterfaces";
-import { CosmosDBManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CosmosDBManagementClientOptionalParams } from "./models/index.js";
 
 export class CosmosDBManagementClient extends coreClient.ServiceClient {
   $host: string;

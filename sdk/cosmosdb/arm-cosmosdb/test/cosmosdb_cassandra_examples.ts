@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
+import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient.js";
 
 
 
@@ -45,8 +43,8 @@ describe.only("Cosmosdb test", () => {
   let accountName: string;
   let keyspaceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used

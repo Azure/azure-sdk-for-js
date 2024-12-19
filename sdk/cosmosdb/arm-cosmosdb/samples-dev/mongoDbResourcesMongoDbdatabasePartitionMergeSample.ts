@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MergeParameters, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Merges the partitions of a MongoDB database

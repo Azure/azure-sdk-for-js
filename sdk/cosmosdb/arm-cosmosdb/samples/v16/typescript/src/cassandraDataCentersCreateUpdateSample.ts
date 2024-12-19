@@ -13,9 +13,7 @@ import {
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
