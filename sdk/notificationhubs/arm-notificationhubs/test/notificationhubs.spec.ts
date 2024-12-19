@@ -112,11 +112,7 @@ describe("NotificationHubs test", () => {
   });
 
   it("notificationHubs delete test", async () => {
-    const res = await client.notificationHubs.delete(
-      resourceGroup,
-      nameSpaceName,
-      notificationhubsName,
-    );
+    await client.notificationHubs.delete(resourceGroup, nameSpaceName, notificationhubsName);
     const resArray: NotificationHubResource[] = [];
     for await (const item of client.notificationHubs.list(resourceGroup, nameSpaceName)) {
       resArray.push(item);
@@ -125,6 +121,6 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces delete test", async () => {
-    const res = await client.namespaces.delete(resourceGroup, nameSpaceName);
+    await client.namespaces.delete(resourceGroup, nameSpaceName);
   });
 });

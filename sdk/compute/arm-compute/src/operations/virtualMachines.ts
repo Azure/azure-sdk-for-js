@@ -977,7 +977,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -1040,7 +1041,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.

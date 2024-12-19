@@ -2303,7 +2303,7 @@ export interface AIServicesVisionParameters {
   authIdentity?: SearchIndexerDataIdentity;
 }
 
-/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
 export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "aml";
@@ -2321,7 +2321,7 @@ export type AzureMachineLearningVectorizerParameters =
 export interface BaseAzureMachineLearningVectorizerParameters {
   /** When specified, indicates the timeout for the http client making the API call. */
   timeout?: string;
-  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
   modelName?: AIStudioModelCatalogName;
 }
 

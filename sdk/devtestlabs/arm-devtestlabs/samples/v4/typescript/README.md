@@ -319,7 +319,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/typescript/src/virtualNetworksGetSample.ts
 [virtualnetworkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/typescript/src/virtualNetworksListSample.ts
 [virtualnetworksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/typescript/src/virtualNetworksUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devtestlabs?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devtestlabs?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devtestlabs/arm-devtestlabs/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

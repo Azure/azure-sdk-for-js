@@ -30,7 +30,9 @@ export async function main() {
   });
   const exporter = new AzureMonitorMetricExporter({
     connectionString:
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+      // Replace with your Application Insights Connection String
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+      "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
   const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
     exporter: exporter,

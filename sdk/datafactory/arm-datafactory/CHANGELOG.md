@@ -1,15 +1,44 @@
 # Release History
-
-## 17.0.1 (Unreleased)
-
+    
+## 18.0.0 (2024-12-10)
+    
 ### Features Added
+
+  - Added Interface IcebergDataset
+  - Added Interface IcebergSink
+  - Added Interface IcebergWriteSettings
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter commandTimeout
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter database
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter encoding
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter port
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter readBufferSize
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter server
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter sslMode
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter timeout
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter timezone
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter trustServerCertificate
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter username
+  - Interface MariaDBLinkedService has a new optional parameter sslMode
+  - Interface MariaDBLinkedService has a new optional parameter useSystemTrustStore
+  - Interface MySqlLinkedService has a new optional parameter allowZeroDateTime
+  - Interface MySqlLinkedService has a new optional parameter connectionTimeout
+  - Interface MySqlLinkedService has a new optional parameter convertZeroDateTime
+  - Interface MySqlLinkedService has a new optional parameter guidFormat
+  - Interface MySqlLinkedService has a new optional parameter sslCert
+  - Interface MySqlLinkedService has a new optional parameter sslKey
+  - Interface MySqlLinkedService has a new optional parameter treatTinyAsBoolean
+  - Interface SalesforceV2Source has a new optional parameter pageSize
+  - Interface ServiceNowV2Source has a new optional parameter pageSize
+  - Interface SnowflakeV2LinkedService has a new optional parameter host
+  - Type of parameter type of interface CopySink has a new parameter "IcebergSink"
+  - Type of parameter type of interface Dataset has a new parameter "IcebergSink"
+  - Type of parameter type of interface FormatWriteSettings has a new parameter "IcebergWriteSettings"
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface PostgreSqlV2LinkedService has a new required parameter authenticationType
+    
+    
 ## 17.0.0 (2024-08-27)
     
 ### Features Added

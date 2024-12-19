@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Obtains details of a cached recommendation.
@@ -25,14 +23,11 @@ async function getRecommendationDetail() {
   const recommendationId = "recommendationId";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.recommendations.get(
-    resourceUri,
-    recommendationId
-  );
+  const result = await client.recommendations.get(resourceUri, recommendationId);
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRecommendationDetail();
 }
 
