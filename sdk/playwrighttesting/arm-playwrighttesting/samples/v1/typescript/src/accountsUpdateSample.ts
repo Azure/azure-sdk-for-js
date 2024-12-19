@@ -14,14 +14,10 @@ async function accountsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    "dummyrg",
-    "myPlaywrightAccount",
-    {
-      tags: { Team: "Dev Exp", Division: "LT" },
-      properties: { regionalAffinity: "Enabled" },
-    },
-  );
+  const result = await client.accounts.update("dummyrg", "myPlaywrightAccount", {
+    tags: { Team: "Dev Exp", Division: "LT" },
+    properties: { regionalAffinity: "Enabled" },
+  });
   console.log(result);
 }
 

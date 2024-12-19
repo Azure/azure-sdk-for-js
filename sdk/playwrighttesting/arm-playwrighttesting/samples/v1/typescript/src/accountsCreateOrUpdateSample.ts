@@ -14,15 +14,11 @@ async function accountsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
-    "dummyrg",
-    "myPlaywrightAccount",
-    {
-      location: "westus",
-      tags: { Team: "Dev Exp" },
-      properties: { regionalAffinity: "Enabled" },
-    },
-  );
+  const result = await client.accounts.createOrUpdate("dummyrg", "myPlaywrightAccount", {
+    location: "westus",
+    tags: { Team: "Dev Exp" },
+    properties: { regionalAffinity: "Enabled" },
+  });
   console.log(result);
 }
 
