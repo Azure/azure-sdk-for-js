@@ -1,0 +1,15 @@
+{
+  "extends": "./.tshy/build.json",
+  "include": [
+    "./runAllTests.ts",
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./test/**/*.spec.ts",
+    "./test/**/*.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist-test/",
+    "rootDir": ".",
+    "skipLibCheck": true
+  }
+}

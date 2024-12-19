@@ -24,7 +24,7 @@
     "generate:client": "autorest --typescript --use=@autorest/modelerfour@4.15.452 swagger/README.md && dev-tool admin migrate-source && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint README.md package.json api-extractor.json src test",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -79,7 +79,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.8"
   },
   "sideEffects": false,
@@ -97,7 +97,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "browser": "./dist/browser/index.js",
   "exports": {

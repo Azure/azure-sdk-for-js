@@ -244,7 +244,7 @@ describe("#StandardMetricsHandler", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
