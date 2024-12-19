@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-package-json-types";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-package-json-types.js";
 
 //------------------------------------------------------------------------------
 // Example files

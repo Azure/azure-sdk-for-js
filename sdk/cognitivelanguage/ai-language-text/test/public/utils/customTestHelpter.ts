@@ -15,7 +15,7 @@ import type { ContainerClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 import path from "node:path";
-import decompress from "decompress";
+import * as unzipper from "unzipper";
 import {
   customEntityAssets,
   customMultiLabelAssets,
@@ -110,7 +110,10 @@ export async function createCustomTestProject(
 ): Promise<void> {
   const { assets, fileName } = await getAssetsforProject(projectKind);
   const dirName = path.join(pathName, fileName);
-  await decompress(dirName.concat(".zip"), pathName);
+  const stream = await unzipper.Open.file(dirName.concat(".zip"));
+  await stream.extract({ path: pathName });
+  return;
+
   await uploadDocumentsToStorage(dirName);
 
   const createProjectOptions: CreateProjectOptions = {

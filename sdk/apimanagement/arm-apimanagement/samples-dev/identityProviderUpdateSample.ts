@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  IdentityProviderUpdateParameters,
-  ApiManagementClient
+    ApiManagementClient,
+    IdentityProviderUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing IdentityProvider configuration.
@@ -24,31 +22,31 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateIdentityProvider.json
  */
 async function apiManagementUpdateIdentityProvider() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const identityProviderName = "facebook";
-  const ifMatch = "*";
-  const parameters: IdentityProviderUpdateParameters = {
-    clientId: "updatedfacebookid",
-    clientSecret: "updatedfacebooksecret"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.identityProvider.update(
-    resourceGroupName,
-    serviceName,
-    identityProviderName,
-    ifMatch,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const identityProviderName = "facebook";
+    const ifMatch = "*";
+    const parameters: IdentityProviderUpdateParameters = {
+        clientId: "updatedfacebookid",
+        clientSecret: "updatedfacebooksecret"
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.identityProvider.update(
+        resourceGroupName,
+        serviceName,
+        identityProviderName,
+        ifMatch,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementUpdateIdentityProvider();
+    apiManagementUpdateIdentityProvider();
 }
 
 main().catch(console.error);

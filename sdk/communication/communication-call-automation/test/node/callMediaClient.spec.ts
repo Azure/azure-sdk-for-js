@@ -706,8 +706,19 @@ describe("Call Media Client Live Tests", function () {
       2,
       "Invalid PSTN setup, test needs at least 2 phone numbers",
     );
-    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    // Pick the first random index
+    const firstIndex = Math.floor(Math.random() * phoneNumbers.length);
+
+    // Pick the second random index, ensuring it's different from the first
+    let secondIndex;
+    do {
+      secondIndex = Math.floor(Math.random() * phoneNumbers.length);
+    } while (secondIndex === firstIndex);
+
+    // Assign the randomly chosen phone numbers
+    callerPhoneUser = { phoneNumber: phoneNumbers[firstIndex] };
+    receiverPhoneUser = { phoneNumber: phoneNumbers[secondIndex] };
 
     const callInvite: CallInvite = {
       targetParticipant: receiverPhoneUser,
