@@ -50,15 +50,15 @@ Because Confidential Ledgers use self-signed certificates securely generated and
 import ConfidentialLedger, { getLedgerIdentity } from "../../src";
 
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      // for example, test-ledger-name
-      LEDGER_IDENTITY,
-      // for example, https://identity.confidential-ledger.core.azure.com
-      IDENTITY_SERVICE_URL
-    );
-    const credential = new DefaultAzureCredential();
+  // for example, test-ledger-name
+  LEDGER_IDENTITY,
+  // for example, https://identity.confidential-ledger.core.azure.com
+  IDENTITY_SERVICE_URL,
+);
+const credential = new DefaultAzureCredential();
 
-    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-    const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerIdentityCertificate, credential);
+// ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerIdentityCertificate, credential);
 ```
 
 #### Using a client certificate
@@ -70,20 +70,20 @@ import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-
 
 // Get the signing certificate from the Confidential Ledger Identity Service
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      LEDGER_IDENTITY,
-      IDENTITY_SERVICE_URL
-    );
-    // both cert (certificate key) and key (private key) are in PEM format
-    const cert = PUBLIC_KEY;
-    const key = PRIVATE_KEY;
-    // Create the Confidential Ledger Client
-    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
-      tlsOptions: {
-        cert,
-        key,
-      },
-    });
+  LEDGER_IDENTITY,
+  IDENTITY_SERVICE_URL,
+);
+// both cert (certificate key) and key (private key) are in PEM format
+const cert = PUBLIC_KEY;
+const key = PRIVATE_KEY;
+// Create the Confidential Ledger Client
+// ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
+  tlsOptions: {
+    cert,
+    key,
+  },
+});
 ```
 
 ## Key concepts
@@ -126,6 +126,7 @@ This section contains code snippets for the following samples:
 - [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes")
 
 ### Post Ledger Entry
+
 ```typescript
 const entry: LedgerEntry = {
   contents: contentBody,
@@ -138,29 +139,32 @@ const result = await client.path("/app/transactions").post(ledgerEntry);
 ```
 
 ### Get a Ledger Entry By Transaction Id
+
 ```typescript
-const status = await client
-  .path("/app/transactions/{transactionId}/status", transactionId)
-  .get();
+const status = await client.path("/app/transactions/{transactionId}/status", transactionId).get();
 ```
 
 ### Get All Ledger Entries
+
 ```typescript
 const ledgerEntries = await client.path("/app/transactions");
 ```
 
 ### Get All Collections
+
 ```typescript
 const result = await client.path("/app/collections").get();
 ```
 
 ### Get Transactions for a Collection
+
 ```typescript
 const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
 const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
 ### List Enclave Quotes
+
 ```typescript
 // Get enclave quotes
 const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
@@ -177,6 +181,7 @@ Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
 ```
 
 ### Full Example
+
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -189,7 +194,7 @@ export async function main() {
   const confidentialLedger = ConfidentialLedger(
     "https://<ledger-name>.eastus.cloudapp.azure.com",
     ledgerIdentity.ledgerIdentityCertificate,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Get enclave quotes
@@ -251,4 +256,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[azure_resource_manager]: https://docs.microsoft.com/azure/azure-resource-manager/management/overview
+[azure_resource_manager]: https://learn.microsoft.com/azure/azure-resource-manager/management/overview

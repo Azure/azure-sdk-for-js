@@ -21,7 +21,6 @@ import { assert } from "vitest";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(
   client: SearchIndexClient,
   name: string,
@@ -344,7 +343,6 @@ export async function createIndex(
   return client.createIndex(hotelIndex);
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(
   client: SearchClient<Hotel>,
   openAIClient: OpenAIClient,
@@ -585,14 +583,12 @@ async function addVectorDescriptions(
   });
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   for (let i = 1; i <= 2; i++) {
     await client.deleteDataSourceConnection(`my-data-source-${i}`);
   }
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
   const testCaseNames: string[] = ["my-azureblob-skillset-1", "my-azureblob-skillset-2"];
   const skillSetNames: string[] = await client.listSkillsetsNames();
@@ -644,14 +640,12 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
   }
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteSkillsets(client: SearchIndexerClient): Promise<void> {
   for (let i = 1; i <= 2; i++) {
     await client.deleteSkillset(`my-azureblob-skillset-${i}`);
   }
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(
   client: SearchIndexerClient,
   targetIndexName: string,

@@ -12,6 +12,7 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  ChaosFaultResource as ChaosFaultResourceMapper,
   DatabaseAccountUpdateParameters as DatabaseAccountUpdateParametersMapper,
   DatabaseAccountCreateUpdateParameters as DatabaseAccountCreateUpdateParametersMapper,
   FailoverPolicies as FailoverPoliciesMapper,
@@ -36,6 +37,8 @@ import {
   MongoRoleDefinitionCreateUpdateParameters as MongoRoleDefinitionCreateUpdateParametersMapper,
   MongoUserDefinitionCreateUpdateParameters as MongoUserDefinitionCreateUpdateParametersMapper,
   TableCreateUpdateParameters as TableCreateUpdateParametersMapper,
+  TableRoleDefinitionResource as TableRoleDefinitionResourceMapper,
+  TableRoleAssignmentResource as TableRoleAssignmentResourceMapper,
   CassandraKeyspaceCreateUpdateParameters as CassandraKeyspaceCreateUpdateParametersMapper,
   CassandraTableCreateUpdateParameters as CassandraTableCreateUpdateParametersMapper,
   CassandraViewCreateUpdateParameters as CassandraViewCreateUpdateParametersMapper,
@@ -44,6 +47,7 @@ import {
   CreateJobRequest as CreateJobRequestMapper,
   ClusterResource as ClusterResourceMapper,
   CommandPostBody as CommandPostBodyMapper,
+  CommandAsyncPostBody as CommandAsyncPostBodyMapper,
   DataCenterResource as DataCenterResourceMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -51,8 +55,7 @@ import {
   ThroughputPoolResource as ThroughputPoolResourceMapper,
   ThroughputPoolUpdate as ThroughputPoolUpdateMapper,
   ThroughputPoolAccountResource as ThroughputPoolAccountResourceMapper,
-  ChaosFaultResource as ChaosFaultResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -81,13 +84,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
@@ -101,6 +101,18 @@ export const resourceGroupName: OperationURLParameter = {
     },
     serializedName: "resourceGroupName",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-12-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -123,18 +135,6 @@ export const accountName: OperationURLParameter = {
   },
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-09-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -145,6 +145,34 @@ export const contentType: OperationParameter = {
       name: "String",
     },
   },
+};
+
+export const chaosFaultRequest: OperationParameter = {
+  parameterPath: "chaosFaultRequest",
+  mapper: ChaosFaultResourceMapper,
+};
+
+export const chaosFault: OperationURLParameter = {
+  parameterPath: "chaosFault",
+  mapper: {
+    serializedName: "chaosFault",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const updateParameters: OperationParameter = {
@@ -196,18 +224,6 @@ export const filter1: OperationQueryParameter = {
       name: "String",
     },
   },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const databaseRid: OperationURLParameter = {
@@ -515,6 +531,16 @@ export const createUpdateTableParameters: OperationParameter = {
   mapper: TableCreateUpdateParametersMapper,
 };
 
+export const createUpdateTableRoleDefinitionParameters: OperationParameter = {
+  parameterPath: "createUpdateTableRoleDefinitionParameters",
+  mapper: TableRoleDefinitionResourceMapper,
+};
+
+export const createUpdateTableRoleAssignmentParameters: OperationParameter = {
+  parameterPath: "createUpdateTableRoleAssignmentParameters",
+  mapper: TableRoleAssignmentResourceMapper,
+};
+
 export const keyspaceName: OperationURLParameter = {
   parameterPath: "keyspaceName",
   mapper: {
@@ -615,6 +641,11 @@ export const body1: OperationParameter = {
   mapper: CommandPostBodyMapper,
 };
 
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: CommandAsyncPostBodyMapper,
+};
+
 export const commandId: OperationURLParameter = {
   parameterPath: "commandId",
   mapper: {
@@ -673,7 +704,7 @@ export const dataCenterName: OperationURLParameter = {
   },
 };
 
-export const body2: OperationParameter = {
+export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: DataCenterResourceMapper,
 };
@@ -853,12 +884,12 @@ export const throughputPoolName: OperationURLParameter = {
   },
 };
 
-export const body3: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: "body",
   mapper: ThroughputPoolResourceMapper,
 };
 
-export const body4: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: ThroughputPoolUpdateMapper,
 };
@@ -879,23 +910,7 @@ export const throughputPoolAccountName: OperationURLParameter = {
   },
 };
 
-export const body5: OperationParameter = {
+export const body6: OperationParameter = {
   parameterPath: "body",
   mapper: ThroughputPoolAccountResourceMapper,
-};
-
-export const chaosFaultRequest: OperationParameter = {
-  parameterPath: "chaosFaultRequest",
-  mapper: ChaosFaultResourceMapper,
-};
-
-export const chaosFault: OperationURLParameter = {
-  parameterPath: "chaosFault",
-  mapper: {
-    serializedName: "chaosFault",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };

@@ -74,7 +74,7 @@
     "express": "^4.19.2",
     "playwright": "^1.41.2",
     "tslib": "^2.6.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.0.5"
   },
   "tshy": {
@@ -90,7 +90,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

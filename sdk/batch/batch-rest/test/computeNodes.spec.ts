@@ -12,7 +12,7 @@ import type {
   UploadBatchServiceLogsContent,
   UploadNodeLogsParameters,
 } from "../src/index.js";
-import { isUnexpected } from "../src/index.js";
+import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
@@ -97,7 +97,7 @@ describe("Compute node operations", async () => {
   it("should list compute nodes successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const getListNodesResult = async () => {
+    const getListNodesResult = async (): Promise<ListNodes200Response | null> => {
       const res = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
       if (isUnexpected(res)) {
         assert.fail(`Received unexpected status code from getting pool: ${res.status}
@@ -275,7 +275,7 @@ describe("Compute node operations", async () => {
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(deallocateNodeResult.status, "202");
 
-    const checkIfDeallocated = async () => {
+    const checkIfDeallocated = async (): Promise<BatchNodeOutput | null> => {
       const nodes = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
       if (isUnexpected(nodes)) {
         assert.fail(`Received unexpected status code from listing nodes: ${nodes.status}

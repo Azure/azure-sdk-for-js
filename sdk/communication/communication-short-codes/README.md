@@ -96,6 +96,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Get short codes](#get-short-codes)
 
 ### Create and submit a program brief
+
 Initialize a `ShortCodesCreateUSProgramBriefParams` object and populate it with the details for your program brief.
 
 ```typescript
@@ -110,17 +111,19 @@ async function main() {
     body: {
       id: programBriefId,
       programDetails: {
-        description: "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+        description:
+          "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
         expectedDateOfService: new Date(2022, 1, 25),
         isPoliticalCampaign: false,
         isVanity: false,
         name: "Contoso Loyalty Program",
         numberType: "shortCode",
         privacyPolicyUrl: "https://contoso.com/privacy",
-        signUp: "This program will allow customers to receive exclusive offers and information to help them utilize our loyalty program to their best advantage. Customers who opt-in will receive regular coupons they can use in our stores, as well as advanced notice of sales and other promotional and marketing campaigns.",
-        signUpTypes: [ "sms", "website" ],
+        signUp:
+          "This program will allow customers to receive exclusive offers and information to help them utilize our loyalty program to their best advantage. Customers who opt-in will receive regular coupons they can use in our stores, as well as advanced notice of sales and other promotional and marketing campaigns.",
+        signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
-        url: "https://contoso.com/loyalty-program"
+        url: "https://contoso.com/loyalty-program",
       },
       companyInformation: {
         address: "1 Contoso Way Redmond, WA 98052",
@@ -129,31 +132,34 @@ async function main() {
         contactInformation: {
           email: "alex@contoso.com",
           name: "Alex",
-          phone: "+14255551234"
+          phone: "+14255551234",
         },
         customerCareInformation: {
           email: "customercare@contoso.com",
-          tollFreeNumber: "+18005551234"
-        }
+          tollFreeNumber: "+18005551234",
+        },
       },
       messageDetails: {
-        types: [ "sms" ],
+        types: ["sms"],
         recurrence: "subscription",
-        contentTypes: [ "coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes" ],
-        optInMessage: "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
+        contentTypes: ["coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes"],
+        optInMessage:
+          "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
-        confirmationMessage: "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-        useCase: "two-way"
+        confirmationMessage:
+          "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+        useCase: "two-way",
       },
       trafficDetails: {
         estimatedVolume: 10000,
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
         isSpiky: true,
-        spikeDetails: "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
-      }
-    }
-  }
+        spikeDetails:
+          "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+      },
+    },
+  };
 }
 
 main();
@@ -162,30 +168,31 @@ main();
 Then add a call to `upsertUSProgramBrief` and use the object you created as the parameter. This will create a program brief object which can then be modified as much as needed until it's ready to be submitted.
 
 ```typescript
-  // create program brief
-  const createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
-  if (createResponse._response.status !== 201) {
-    throw new Error(`Program brief creation failed.
+// create program brief
+const createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
+if (createResponse._response.status !== 201) {
+  throw new Error(`Program brief creation failed.
     Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText}; CV: ${createResponse._response.headers.get("MS-CV")}`);
-  } else {
-    console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
-  }
+} else {
+  console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
+}
 ```
 
 When ready to submit, call `submitUSProgramBrief` to submit for processing. After submission no edits will be allowed unless requested as part of the application process.
 
 ```typescript
-  // submit program brief
-  const submittedProgramBrief = await client.submitUSProgramBrief(programBriefId);
-  if (submittedProgramBrief._response.status === 200) {
-    console.log(`Successfully submitted program brief with Id ${programBriefId}`);
-  } else {
-    throw new Error(`Failed to submit program brief with Id ${programBriefId}.
+// submit program brief
+const submittedProgramBrief = await client.submitUSProgramBrief(programBriefId);
+if (submittedProgramBrief._response.status === 200) {
+  console.log(`Successfully submitted program brief with Id ${programBriefId}`);
+} else {
+  throw new Error(`Failed to submit program brief with Id ${programBriefId}.
     Status code: ${submittedProgramBrief._response.status}; Error: ${submittedProgramBrief._response.bodyAsText}; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
-  }
+}
 ```
 
 ### Get and delete program briefs
+
 Use the `listUSProgramBriefs` method to page through all program briefs for an ACS resource. Use `deleteUSProgramBrief` to delete unwanted program briefs. Keep in mind that once a program brief is submitted it is not eligible for deletion.
 
 ```typescript
@@ -203,15 +210,17 @@ async function main() {
     console.log(`Program Brief with Id ${programBrief.id} has status ${programBrief.status}`);
 
     // identify drafts
-    if (programBrief.status === 'draft') {
+    if (programBrief.status === "draft") {
       const unsubmittedProgramBriefId = programBrief.id;
-    
+
       // delete draft program brief
       const deleteResponse = await client.deleteUSProgramBrief(unsubmittedProgramBriefId);
       if (deleteResponse._response.status === 200) {
-          console.log(`Successfully deleted draft program brief with Id ${unsubmittedProgramBriefId}`);
+        console.log(
+          `Successfully deleted draft program brief with Id ${unsubmittedProgramBriefId}`,
+        );
       } else {
-          console.log(`Failed to delete draft program brief with Id ${unsubmittedProgramBriefId}.
+        console.log(`Failed to delete draft program brief with Id ${unsubmittedProgramBriefId}.
           Status code: ${deleteResponse._response.status}; Error: ${deleteResponse._response.bodyAsText}; CV: ${deleteResponse._response.headers.get("MS-CV")}`);
       }
     }
@@ -222,6 +231,7 @@ main();
 ```
 
 ### Get and update program brief
+
 Use the `getUSProgramBrief` to retrieve a single program brief by its Id. Use the `upsertUSProgramBrief` to update a program brief. `upsertUSProgramBrief` accepts a `ShortCodesUpsertUSProgramBriefOptionalParams` object, in which only the fields that are changing need to be set.
 
 ```typescript
@@ -234,23 +244,27 @@ async function main() {
   // get a program briefs for a resource
   const programBriefId = process.env.PROGRAM_BRIEF_TO_GET || "<program brief Id>";
   const programBrief = await client.getUSProgramBrief(programBriefId);
-  console.log(`Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`);
+  console.log(
+    `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`,
+  );
 
   // update the program brief
   const updateRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
-      body: {
-          id: programBriefId,
-          programDetails: {
-              privacyPolicyUrl: "https://contoso.com/updated-privacy",
-              termsOfServiceUrl: "https://contoso.com/updated-terms-of-service"
-          }
-      }
+    body: {
+      id: programBriefId,
+      programDetails: {
+        privacyPolicyUrl: "https://contoso.com/updated-privacy",
+        termsOfServiceUrl: "https://contoso.com/updated-terms-of-service",
+      },
+    },
   };
   const upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
   if (upsertResponse._response.status === 200) {
-      console.log(`Successfully updated terms of service and privacy policy for program brief ${programBriefId}`);
+    console.log(
+      `Successfully updated terms of service and privacy policy for program brief ${programBriefId}`,
+    );
   } else {
-      throw new Error(`Failed to update program brief with Id ${programBriefId}.
+    throw new Error(`Failed to update program brief with Id ${programBriefId}.
       Status code: ${upsertResponse._response.status}; Error: ${upsertResponse._response.bodyAsText}; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
   }
 }
@@ -259,6 +273,7 @@ main();
 ```
 
 ### Get short codes
+
 Use `listShortCodes` to page through all short codes owned by a resource.
 
 ```typescript
@@ -281,6 +296,7 @@ main();
 ```
 
 ### Get short code costs
+
 Use `listShortCodeCosts` to page through all short code costs eligible by a resource.
 
 ```typescript
@@ -318,10 +334,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
