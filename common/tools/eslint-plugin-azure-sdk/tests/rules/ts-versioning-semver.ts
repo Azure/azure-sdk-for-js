@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-versioning-semver";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-versioning-semver.js";
 
 //------------------------------------------------------------------------------
 // Example files

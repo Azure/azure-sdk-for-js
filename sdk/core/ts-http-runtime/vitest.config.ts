@@ -12,13 +12,6 @@ export default mergeConfig(
       alias: {
         "../commonjs/tracing/state.js": resolve("./src/tracing/state-cjs.cts"),
       },
-      include: ["test/**/*.spec.ts"],
-      exclude: ["test/snippets.spec.ts"],
-      typecheck: {
-        enabled: true,
-        tsconfig: "./tsconfig.test.json",
-        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"]
-      },
     },
   }),
 );

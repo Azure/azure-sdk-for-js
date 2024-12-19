@@ -67,6 +67,15 @@ import {
   VpnPacketCaptureStopParameters,
   VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
   VirtualNetworkGatewaysStopPacketCaptureResponse,
+  VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse,
+  VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse,
+  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse,
+  ExpressRouteFailoverStopApiParameters,
+  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse,
   VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams,
   VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse,
   P2SVpnConnectionRequest,
@@ -1749,6 +1758,424 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
   }
 
   /**
+   * This operation retrieves the details of all the failover tests performed on the gateway for
+   * different peering locations
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param typeParam The type of failover test
+   * @param fetchLatest Fetch only the latest tests for each peering location
+   * @param options The options parameters.
+   */
+  async beginGetFailoverAllTestDetails(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    typeParam: string,
+    fetchLatest: boolean,
+    options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>,
+      VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        typeParam,
+        fetchLatest,
+        options,
+      },
+      spec: getFailoverAllTestDetailsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse,
+      OperationState<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the details of all the failover tests performed on the gateway for
+   * different peering locations
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param typeParam The type of failover test
+   * @param fetchLatest Fetch only the latest tests for each peering location
+   * @param options The options parameters.
+   */
+  async beginGetFailoverAllTestDetailsAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    typeParam: string,
+    fetchLatest: boolean,
+    options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse> {
+    const poller = await this.beginGetFailoverAllTestDetails(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      typeParam,
+      fetchLatest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation retrieves the details of a particular failover test performed on the gateway based on
+   * the test Guid
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param failoverTestId The unique Guid value which identifies the test
+   * @param options The options parameters.
+   */
+  async beginGetFailoverSingleTestDetails(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    failoverTestId: string,
+    options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>,
+      VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        peeringLocation,
+        failoverTestId,
+        options,
+      },
+      spec: getFailoverSingleTestDetailsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse,
+      OperationState<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the details of a particular failover test performed on the gateway based on
+   * the test Guid
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param failoverTestId The unique Guid value which identifies the test
+   * @param options The options parameters.
+   */
+  async beginGetFailoverSingleTestDetailsAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    failoverTestId: string,
+    options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse> {
+    const poller = await this.beginGetFailoverSingleTestDetails(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      peeringLocation,
+      failoverTestId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation starts failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param options The options parameters.
+   */
+  async beginStartExpressRouteSiteFailoverSimulation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>,
+      VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        peeringLocation,
+        options,
+      },
+      spec: startExpressRouteSiteFailoverSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse,
+      OperationState<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation starts failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param options The options parameters.
+   */
+  async beginStartExpressRouteSiteFailoverSimulationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse> {
+    const poller = await this.beginStartExpressRouteSiteFailoverSimulation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      peeringLocation,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation stops failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+   *                       simulation on gateway.
+   * @param options The options parameters.
+   */
+  async beginStopExpressRouteSiteFailoverSimulation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    stopParameters: ExpressRouteFailoverStopApiParameters,
+    options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>,
+      VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        stopParameters,
+        options,
+      },
+      spec: stopExpressRouteSiteFailoverSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse,
+      OperationState<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation stops failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+   *                       simulation on gateway.
+   * @param options The options parameters.
+   */
+  async beginStopExpressRouteSiteFailoverSimulationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    stopParameters: ExpressRouteFailoverStopApiParameters,
+    options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse> {
+    const poller = await this.beginStopExpressRouteSiteFailoverSimulation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      stopParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get VPN client connection health detail per P2S client connection of the virtual network gateway in
    * the specified resource group.
    * @param resourceGroupName The name of the resource group.
@@ -2521,6 +2948,218 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const getFailoverAllTestDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getFailoverAllTestsDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverTestDetails",
+            },
+          },
+        },
+      },
+    },
+    201: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverTestDetails",
+            },
+          },
+        },
+      },
+    },
+    202: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverTestDetails",
+            },
+          },
+        },
+      },
+    },
+    204: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverTestDetails",
+            },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.typeParam,
+    Parameters.fetchLatest,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getFailoverSingleTestDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getFailoverSingleTestDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverSingleTestDetails",
+            },
+          },
+        },
+      },
+    },
+    201: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverSingleTestDetails",
+            },
+          },
+        },
+      },
+    },
+    202: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverSingleTestDetails",
+            },
+          },
+        },
+      },
+    },
+    204: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteFailoverSingleTestDetails",
+            },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.peeringLocation,
+    Parameters.failoverTestId,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const startExpressRouteSiteFailoverSimulationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startSiteFailoverTest",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      201: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      202: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      204: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion, Parameters.peeringLocation],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.virtualNetworkGatewayName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const stopExpressRouteSiteFailoverSimulationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopSiteFailoverTest",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      201: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      202: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      204: {
+        bodyMapper: { type: { name: "String" } },
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.stopParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.virtualNetworkGatewayName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const getVpnclientConnectionHealthOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth",
   httpMethod: "POST",

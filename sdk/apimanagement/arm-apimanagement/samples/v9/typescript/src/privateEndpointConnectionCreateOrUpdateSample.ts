@@ -13,9 +13,7 @@ import {
   ApiManagementClient
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new Private Endpoint Connection or updates an existing one.

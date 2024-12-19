@@ -2951,7 +2951,7 @@ index 25cf55a..685eaed 100644
  
  /**
 diff --git a/src/util/file.ts b/src/util/file.ts
-index 48d09e6..73d19de 100644
+index 48d09e6..65c0e25 100644
 --- a/src/util/file.ts
 +++ b/src/util/file.ts
 @@ -1,7 +1,7 @@
@@ -2963,16 +2963,6 @@ index 48d09e6..73d19de 100644
  import { isNodeReadableStream } from "./typeGuards.js";
  
  /**
-@@ -42,9 +42,6 @@ const unimplementedMethods = {
-   arrayBuffer: () => {
-     throw new Error("Not implemented");
-   },
--  bytes: () => {
--    throw new Error("Not implemented");
--  },
-   slice: () => {
-     throw new Error("Not implemented");
-   },
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
 index f6819e8..7272d5d 100644
 --- a/src/util/helpers.ts
