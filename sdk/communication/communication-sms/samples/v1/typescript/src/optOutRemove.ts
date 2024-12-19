@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send an SMS message to 1 or more recipients
+ * @summary Remove 1 or more recipients from Opt Out list
  */
 
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  console.log("== Se
+  console.log("== Opt Out Remove ==");
+
   // You will need to set this environment variable or edit the following values
   const connectionString =
     process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
@@ -21,7 +22,8 @@ export async function main() {
   // create new client
   const client = new SmsClient(connectionString);
 
-  // construct send request
+  // construct send parameters
+  const from = process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>";
   let phoneNumbers: string[];
   if (process.env.TO_PHONE_NUMBERS !== undefined) {
     phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",");
@@ -31,29 +33,25 @@ export async function main() {
     phoneNumbers = ["<to-phone-number-1>", "<to-phone-number-2>"];
   }
 
-  const sendRequest: SmsSendRequest = {
-    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
-    to: phoneNumbers,
-    message: "Hello World via SMS!",
-  };
+  // send add opt out request
+  const optOutRemoveResults = await client.optOuts.remove(
+    from,
+    phoneNumbers);
 
-  // send sms with request
-  const sendResults = await client.send(sendRequest);
-
-  // individual messages can encounter errors during sending
-  // use the "successful" property to verify
-  for (const sendResult of sendResults) {
-    if (sendResult.successful) {
-      console.log("Success: ", sendResult);
+  // individual requests can encounter errors during sending
+  // use the "httpStatusCode" property to verify
+  for (const optOutRemoveResult of optOutRemoveResults) {
+    if (optOutRemoveResult.httpStatusCode == 200) {
+      console.log("Success: ", optOutRemoveResult);
     } else {
-      console.error("Something went wrong when trying to send this message: ", sendResult);
+      console.error("Something went wrong when trying to send opt out remove request: ", optOutRemoveResult);
     }
   }
 
-  console.log("== Done: Send SMS Message ==");
+  console.log("== Done: Opt Out Remove ==");
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while sending SMS: ", error);
+  console.error("Encountered an error while sending opt out remove request: ", error);
   process.exit(1);
 });
