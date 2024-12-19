@@ -90,7 +90,7 @@ async function main(): Promise<void> {
     new DefaultAzureCredential()
   );
 
-  const dataSources = await client.path("/datasources").get();
+  const dataSources = await client.path("/scan/datasources").get();
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
