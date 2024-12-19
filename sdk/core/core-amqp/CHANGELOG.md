@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Support for specifying the Port in the connection string for AMQP-based libraries such as `@azure/service-bus` and `@azure/event-hubs` [PR #32091](https://github.com/Azure/azure-sdk-for-js/pull/32091)
+  e.g. `Endpoint=host;Port=1234`
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -36,6 +39,7 @@
 ## 4.3.0 (2024-05-20)
 
 ### Breaking Changes
+
 - Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.
 - Moved unit tests from mocha to vitest.
 
@@ -79,7 +83,7 @@
 
 ### Features Added
 
-- Changed `TokenProvider` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
+- Changed `TokenProvider` to use native crypto libraries. This changes the signature from `getToken` from being sync to async.
 
 ### Breaking Changes
 
