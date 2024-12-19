@@ -1,6 +1,6 @@
-# Azure DeviceRegistry client library for JavaScript
+# Azure DeviceRegistryManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DeviceRegistry client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DeviceRegistryManagement client.
 
 Microsoft.DeviceRegistry Resource Provider management API.
 
@@ -26,7 +26,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-deviceregistry` package
 
-Install the Azure DeviceRegistry client library for JavaScript with `npm`:
+Install the Azure DeviceRegistryManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-deviceregistry
