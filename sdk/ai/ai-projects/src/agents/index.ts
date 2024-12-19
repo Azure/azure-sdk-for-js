@@ -72,7 +72,6 @@ import {
   listVectorStoreFileBatchFiles,
 } from "./vectorStoresFileBatches.js";
 import type {
-  OptionalRequestParameters,
   AgentRunResponse,
   CreateRunOptionalParams,
   GetRunOptionalParams,
@@ -116,6 +115,7 @@ import type {
   UploadFileOptionalParams,
   UploadFileWithPollingOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
+  DeleteAgentOptionalParams,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 import type { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -136,7 +136,7 @@ export interface AgentsOperations {
   /** Deletes an agent. */
   deleteAgent: (
     assistantId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: DeleteAgentOptionalParams,
   ) => Promise<AgentDeletionStatusOutput>;
 
   /** Creates a new thread. Threads contain messages and can be run by agents. */
@@ -283,7 +283,7 @@ export interface AgentsOperations {
   getVectorStoreFile: (
     vectorStoreId: string,
     fileId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: GetVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFileOutput>;
   /** Returns a list of vector store files. */
   listVectorStoreFiles: (
@@ -297,7 +297,7 @@ export interface AgentsOperations {
   deleteVectorStoreFile: (
     vectorStoreId: string,
     fileId: string,
-    requestParams?: OptionalRequestParameters,
+    options?: DeleteVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFileDeletionStatusOutput>;
   /** Create a vector store file by attaching a file to a vector store and poll. */
   createVectorStoreFileAndPoll: (
@@ -358,8 +358,8 @@ function getAgents(context: Client): AgentsOperations {
       getAgent(context, assistantId, options),
     updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) =>
       updateAgent(context, assistantId, options),
-    deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) =>
-      deleteAgent(context, assistantId, requestParams),
+    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) =>
+      deleteAgent(context, assistantId, options),
 
     createThread: (options?: CreateAgentThreadOptionalParams) => createThread(context, options),
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) =>

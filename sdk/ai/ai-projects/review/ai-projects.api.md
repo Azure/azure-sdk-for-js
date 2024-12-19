@@ -9,7 +9,6 @@ import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
-import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -122,12 +121,11 @@ export interface AgentsOperations {
     createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
-    // Warning: (ae-forgotten-export) The symbol "OptionalRequestParameters" needs to be exported by the entry point index.d.ts
-    deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
+    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: DeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
     getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
@@ -135,7 +133,7 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: GetVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
@@ -394,6 +392,10 @@ export interface CredentialsApiKeyAuthOutput {
 // @public
 export interface CredentialsSASAuthOutput {
     SAS: string;
+}
+
+// @public
+export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public

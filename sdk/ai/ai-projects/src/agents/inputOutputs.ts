@@ -189,6 +189,7 @@ export type {
   PollingOptions,
   PollingOptionsParams,
   CancelVectorStoreFileBatchOptionalParams,
+  DeleteAgentOptionalParams,
 } from "./customModels.js";
 
 export {
