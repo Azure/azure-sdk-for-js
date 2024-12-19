@@ -2,23 +2,33 @@
 // Licensed under the MIT License.
 
 import type { Client } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
-import type { GetConnectionResponseOutput, GetWorkspaceResponseOutput } from "./inputOutput.js";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { GetConnectionResponseOutput } from "./inputOutput.js";
 import type {
   GetWorkspaceParameters,
   GetConnectionParameters,
   GetConnectionWithSecretsParameters,
   ListConnectionsParameters,
-} from "../generated/src/parameters.js";
+} from "../customization/parameters.js";
+import type {
+  GetConnectionOptionalParams,
+  GetConnectionWithSecretsOptionalParams,
+  GetWorkspaceOptionalParams,
+  ListConnectionsOptionalParams,
+} from "./customModels.js";
+import type { GetWorkspaceResponseOutput } from "../customization/outputModels.js";
 
 const expectedStatuses = ["200"];
 
 /** Gets the properties of the specified machine learning workspace. */
 export async function getWorkspace(
   context: Client,
-  options?: GetWorkspaceParameters,
+  options: GetWorkspaceOptionalParams = {},
 ): Promise<GetWorkspaceResponseOutput> {
-  const result = await context.path("/").get(options);
+  const getOptions: GetWorkspaceParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+  const result = await context.path("/").get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -28,9 +38,17 @@ export async function getWorkspace(
 /** List the details of all the connections (not including their credentials) */
 export async function listConnections(
   context: Client,
-  options?: ListConnectionsParameters,
+  options: ListConnectionsOptionalParams = {},
 ): Promise<Array<GetConnectionResponseOutput>> {
-  const result = await context.path("/connections").get(options);
+  const listOptions: ListConnectionsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      ...(options.includeAll && { includeAll: options.includeAll }),
+      ...(options.category && { category: options.category }),
+      ...(options.target && { target: options.target }),
+    },
+  };
+  const result = await context.path("/connections").get(listOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -41,9 +59,14 @@ export async function listConnections(
 export async function getConnection(
   context: Client,
   connectionName: string,
-  options?: GetConnectionParameters,
+  options: GetConnectionOptionalParams = {},
 ): Promise<GetConnectionResponseOutput> {
-  const result = await context.path("/connections/{connectionName}", connectionName).get(options);
+  const getOptions: GetConnectionParameters = {
+    ...operationOptionsToRequestParameters(options),
+  };
+  const result = await context
+    .path("/connections/{connectionName}", connectionName)
+    .get(getOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -54,11 +77,17 @@ export async function getConnection(
 export async function getConnectionWithSecrets(
   context: Client,
   connectionName: string,
-  options?: GetConnectionWithSecretsParameters,
+  options: GetConnectionWithSecretsOptionalParams = {},
 ): Promise<GetConnectionResponseOutput> {
+  const getOptions: GetConnectionWithSecretsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      ignored: "ignore",
+    },
+  };
   const result = await context
     .path("/connections/{connectionName}/listsecrets", connectionName)
-    .post(options);
+    .post(getOptions);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }

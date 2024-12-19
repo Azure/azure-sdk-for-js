@@ -41,5 +41,6 @@ describe("AI Projects - Telemetry", () => {
   it("get app insights connection string", async function () {
     const connectionString = await telemetry.getConnectionString();
     assert.isNotEmpty(connectionString);
+    console.log(`Connection string retrieved ${connectionString}`);
   });
 });
