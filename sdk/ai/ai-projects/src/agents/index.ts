@@ -107,6 +107,7 @@ import type {
   UploadFileResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
+import { OperationState, PollerLike } from "@azure/core-lro";
 /**
  * Agents Interface Contains operations for creating, listing, updating, and deleting agents, threads, runs, messages, and files.
  */
@@ -232,7 +233,7 @@ export interface AgentsOperations {
     options?: DeleteVectorStoreOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
-  createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
+  createVectorStore: (options?: CreateVectorStoreOptionalParams,) => Promise<PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>>;
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,

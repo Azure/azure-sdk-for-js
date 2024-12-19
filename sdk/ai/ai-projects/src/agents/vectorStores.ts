@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, HttpResponse } from "@azure-rest/core-client";
+import type { Client } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoresParameters,
@@ -16,7 +16,6 @@ import type {
   VectorStoreDeletionStatusOutput,
   VectorStoreOutput,
 } from "../customization/outputModels.js";
-import type { CreateVectorStoreResponse } from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -34,7 +33,7 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
-import { createHttpPoller, OperationResponse, RunningOperation } from "@azure/core-lro";
+import { createHttpPoller, OperationState, PollerLike, RunningOperation } from "@azure/core-lro";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 const expectedStatuses = ["200"];
@@ -62,7 +61,7 @@ export async function listVectorStores(
 export async function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): Promise<CreateVectorStoreResponse> {
+): Promise<PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>> {
   const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
@@ -73,6 +72,18 @@ export async function createVectorStore(
   if (!expectedStatuses.includes(initialResponse.status)) {
     throw createRestError(initialResponse);
   }
+  let intialStatusCode;
+  switch (initialResponse.body.status) {
+    case "completed":
+      intialStatusCode = 200;
+      break;
+    case "failed":
+      intialStatusCode = 500;
+      break;
+    default:
+      intialStatusCode = 202; // Poller interprets this as "running"
+      break;
+  }
   
   const abortController = new AbortController();
   const poller: RunningOperation<VectorStoreOutput> = {
@@ -81,7 +92,7 @@ export async function createVectorStore(
         flatResponse: initialResponse,
         rawResponse: {
           ...initialResponse,
-          statusCode: Number.parseInt(initialResponse.status),
+          statusCode: intialStatusCode,
           body: ConvertFromWire.convertVectorStoreOutput(initialResponse.body as WireVectorStoreOutput),
         }
       }
@@ -107,22 +118,39 @@ export async function createVectorStore(
         response = await context
           .path("/vector_stores/{vectorStoreId}", initialResponse.body.id)
           .get({ ...getOptions, abortSignal});
+          if (!expectedStatuses.includes(initialResponse.status)) {
+            throw createRestError(initialResponse);
+          }
       } finally {
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
+
+      let statusCode;
+      switch (response.body.status) {
+        case "completed":
+          statusCode = 200;
+          break;
+        case "failed":
+          statusCode = 500;
+          break;
+        default:
+          statusCode = 202; // Poller interprets this as "running"
+          break;
+      }
+
       return {
         flatResponse: response,
         rawResponse: {
           ...response,
-          statusCode: Number.parseInt(response.status),
+          statusCode: statusCode,
           body: ConvertFromWire.convertVectorStoreOutput(response.body as WireVectorStoreOutput),
         }
       }
     },
   }
-
-  // TODO: Adjust parameters to match new polling options for v3 (intervalInMS and restoreFrom)
-  return createHttpPoller(poller, {intervalInMs: options.pollingOptions?.sleepIntervalInMs, restoreFrom: undefined})
+  return createHttpPoller<VectorStoreOutput, OperationState<VectorStoreOutput>>(poller, {
+    ...options.pollingOptions
+  });
 }
 
 /** Returns the vector store object matching the specified ID. */

@@ -30,7 +30,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollerLike } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -72,12 +72,12 @@ export interface PollingOptions {
   /**
    * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
    */
-  sleepIntervalInMs?: number;
+  intervalInMs?: number;
 
   /**
-   * An AbortSignalLike object (as defined by @azure/abort-controller) that can be used to cancel the polling operation.
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
-  abortSignal?: AbortSignalLike;
+  restoreFrom?: string;
 }
 
 /**
