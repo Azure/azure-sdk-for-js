@@ -12,7 +12,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  console.log("== Se
+  console.log("== Send SMS Message ==");
+
   // You will need to set this environment variable or edit the following values
   const connectionString =
     process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
