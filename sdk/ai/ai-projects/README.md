@@ -8,9 +8,10 @@ Use the AI Projects client library (in preview) to:
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-| [Samples][samples]
-| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+
+<!-- | [Samples][samples] -->
+<!-- | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects) -->
+<!-- | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview) -->
 
 ## Table of contents
 
@@ -48,7 +49,7 @@ Use the AI Projects client library (in preview) to:
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
-- [Next steps](#next-steps)
+  <!-- - [Next steps](#next-steps) -->
 - [Contributing](#contributing)
 
 ## Getting started
@@ -59,7 +60,7 @@ Use the AI Projects client library (in preview) to:
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 - The project connection string. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `PROJECT_CONNECTION_STRING` was defined to hold this value.
-- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
+- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
   - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
@@ -155,7 +156,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
 });
 ```
 
-To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `tool_resources` arguments.
+To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
 
 You can use `ToolSet` to do this:
 
@@ -169,7 +170,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
   tools: toolSet.toolDefinitions,
-  tool_resources: toolSet.toolResources,
+  toolResources: toolSet.toolResources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
@@ -180,15 +181,13 @@ To perform file search by an Agent, we first need to upload a file, create a vec
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
-const file = await client.agents.uploadFile(
-  localFileStream,
-  "assistants",
-  "sample_file_for_upload.txt",
-);
+const file = await client.agents.uploadFile(localFileStream, "assistants", {
+  fileName: "sample_file_for_upload.txt",
+});
 console.log(`Uploaded file, ID: ${file.id}`);
 
 const vectorStore = await client.agents.createVectorStore({
-  file_ids: [file.id],
+  fileIds: [file.id],
   name: "my_vector_store",
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
@@ -199,7 +198,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
   name: "SDK Test Agent - Retrieval",
   instructions: "You are helpful agent that can help fetch data from files you know about.",
   tools: [fileSearchTool.definition],
-  tool_resources: fileSearchTool.resources,
+  toolResources: fileSearchTool.resources,
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
@@ -210,11 +209,9 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 
 ```javascript
 const fileStream = fs.createReadStream("nifty_500_quarterly_results.csv");
-const fFile = await client.agents.uploadFile(
-  fileStream,
-  "assistants",
-  "nifty_500_quarterly_results.csv",
-);
+const fFile = await client.agents.uploadFile(fileStream, "assistants", {
+  fileName: "nifty_500_quarterly_results.csv",
+});
 console.log(`Uploaded local file, file ID : ${file.id}`);
 
 const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([file.id]);
@@ -224,7 +221,7 @@ const agent = await client.agents.createAgent("gpt-4o-mini", {
   name: "my-agent",
   instructions: "You are a helpful agent",
   tools: [codeInterpreterTool.definition],
-  tool_resources: codeInterpreterTool.resources,
+  toolResources: codeInterpreterTool.resources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
@@ -241,17 +238,11 @@ const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGroundi
   bingGroundingConnectionId,
 ]);
 
-const agent = await client.agents.createAgent(
-  "gpt-4-0125-preview",
-  {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [bingTool.definition],
-  },
-  {
-    headers: { "x-ms-enable-preview": "true" },
-  },
-);
+const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [bingTool.definition],
+});
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
@@ -272,24 +263,18 @@ const azureAISearchTool = ToolUtility.createAzureAISearchTool(
 );
 
 // Create agent with the Azure AI search tool
-const agent = await client.agents.createAgent(
-  "gpt-4-0125-preview",
-  {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [azureAISearchTool.definition],
-    tool_resources: azureAISearchTool.resources,
-  },
-  {
-    headers: { "x-ms-enable-preview": "true" },
-  },
-);
+const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [azureAISearchTool.definition],
+  toolResources: azureAISearchTool.resources,
+});
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
 #### Create Agent with Function Call
 
-You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `tool_resources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
+You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `toolResources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
 
 Here is an example:
 
@@ -352,7 +337,7 @@ class FunctionToolExecutor {
     }
     const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
     return result ? {
-      tool_call_id: toolCall.id,
+      toolCallId: toolCall.id,
       output: JSON.stringify(result)
     } : undefined;
   }
@@ -383,19 +368,17 @@ const thread = await client.agents.createThread();
 
 #### Create Thread with Tool Resource
 
-In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `tool_resources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `tool_resources` argument.
+In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
 
 ```javascript
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
-const file = await client.agents.uploadFile(
-  localFileStream,
-  "assistants",
-  "sample_file_for_upload.txt",
-);
+const file = await client.agents.uploadFile(localFileStream, "assistants", {
+  fileName: "sample_file_for_upload.txt",
+});
 console.log(`Uploaded file, ID: ${file.id}`);
 
 const vectorStore = await client.agents.createVectorStore({
-  file_ids: [file.id],
+  fileIds: [file.id],
   name: "my_vector_store",
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
@@ -411,7 +394,7 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 
 // Create thread with file resources.
 // If the agent has multiple threads, only this thread can search this file.
-const thread = await client.agents.createThread({ tool_resources: fileSearchTool.resources });
+const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
 ```
 
 #### Create Message
@@ -435,7 +418,7 @@ const message = await client.agents.createMessage(thread.id, {
   role: "user",
   content: "What feature does Smart Eyewear offer?",
   attachments: {
-    file_id: file.id,
+    fileId: file.id,
     tools: [fileSearchTool.definition],
   },
 });
@@ -466,7 +449,7 @@ const message = await client.agents.createMessage(thread.id, {
   content:
     "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
   attachments: {
-    file_id: file.id,
+    fileId: file.id,
     tools: [codeInterpreterTool.definition],
   },
 });
@@ -568,10 +551,10 @@ Here is an example retrieving file ids from messages:
 
 ```javascript
 const messages = await client.agents.listMessages(thread.id);
-const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
-const imageFileName = (await client.agents.getFile(imageFile.file_id)).filename;
+const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
+const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
 
-const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
+const fileContent = await (await client.agents.getFileContent(imageFile.fileId).asNodeStream()).body;
 if (fileContent) {
   const chunks: Buffer[] = [];
   for await (const chunk of fileContent) {
@@ -596,7 +579,7 @@ console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 await client.agents.deleteFile(file.id);
 console.log(`Deleted file, file ID: ${file.id}`);
 
-project_client.agents.deleteAgent(agent.id);
+client.agents.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 
@@ -668,7 +651,7 @@ await tracer.startActiveSpan("main", async (span) => {
 
 ### Exceptions
 
-Client methods that make service calls raise an [RestError](https://learn.microsoft.com/en-us/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
+Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
 ```javascript
 import { RestError } from "@azure/core-rest-pipeline"
@@ -694,9 +677,9 @@ Operation returned an invalid status 'Unauthorized'
 
 To report issues with the client library, or request additional features, please open a GitHub issue [here](https://github.com/Azure/azure-sdk-for-js/issues)
 
-## Next steps
+<!-- ## Next steps
 
-Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
+Have a look at the [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code. -->
 
 ## Contributing
 
@@ -717,7 +700,8 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
+<!-- [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples -->
+
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
