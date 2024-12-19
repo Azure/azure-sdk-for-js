@@ -163,9 +163,10 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, {
+    const poller = agents.createVectorStoreFileAndPoll(vectorStore.id, {
       fileId: file.id,
     });
+    const vectorStoreFile = await poller.pollUntilDone();
     assert.isNotNull(vectorStoreFile);
     assert.isNotEmpty(vectorStoreFile.id);
     assert.notEqual(vectorStoreFile.status, "in_progress");

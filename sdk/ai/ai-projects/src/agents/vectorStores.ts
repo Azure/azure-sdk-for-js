@@ -33,6 +33,7 @@ import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.j
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 
 const expectedStatuses = ["200"];
 
@@ -145,7 +146,7 @@ export async function deleteVectorStore(
 export function createVectorStoreAndPoll(
   context: Client,
   options: CreateVectorStoreWithPollingOptionalParams = {},
-): Promise<VectorStoreOutput> {
+): PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput> {
   async function updateCreateVectorStorePoll(
     currentResult?: VectorStoreOutput,
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
@@ -164,11 +165,10 @@ export function createVectorStoreAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreOutput>({
+  return new AgentsPoller<VectorStoreOutput>({
     update: updateCreateVectorStorePoll,
     pollingOptions: options.pollingOptions,
   });
-  return poller.pollUntilDone();
 }
 
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {

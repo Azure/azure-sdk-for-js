@@ -28,6 +28,7 @@ import type {
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 
 const expectedStatuses = ["200"];
 
@@ -118,7 +119,7 @@ export function createVectorStoreFileBatchAndPoll(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchWithPollingOptionalParams = {},
-): Promise<VectorStoreFileBatchOutput> {
+): PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput> {
   async function updateCreateVectorStoreFileBatchPoll(
     currentResult?: VectorStoreFileBatchOutput,
   ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
@@ -146,12 +147,11 @@ export function createVectorStoreFileBatchAndPoll(
     return result.status === "cancelled";
   }
 
-  const poller = new AgentsPoller<VectorStoreFileBatchOutput>({
+  return new AgentsPoller<VectorStoreFileBatchOutput>({
     update: updateCreateVectorStoreFileBatchPoll,
     cancel: cancelCreateVectorStoreFileBatchPoll,
     pollingOptions: options.pollingOptions,
   });
-  return poller.pollUntilDone();
 }
 
 function validateBatchId(batchId: string): void {

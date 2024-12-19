@@ -8,6 +8,8 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Paged } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
 import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
@@ -113,11 +115,11 @@ export interface AgentsOperations {
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
     createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
@@ -147,7 +149,7 @@ export interface AgentsOperations {
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => Promise<OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => Promise<OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
 }
 
 // @public
