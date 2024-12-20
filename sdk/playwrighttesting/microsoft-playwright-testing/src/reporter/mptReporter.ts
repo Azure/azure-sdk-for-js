@@ -29,7 +29,7 @@ import { CIInfoProvider } from "../utils/cIInfoProvider";
 import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
-import type { MPTReporterConfig } from "../common/types";
+import type { ReporterConfiguration } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
@@ -78,7 +78,7 @@ class MPTReporter implements Reporter {
   private testRunUrl: string = "";
   private enableResultPublish: boolean = true;
 
-  constructor(config: Partial<MPTReporterConfig>) {
+  constructor(config: Partial<ReporterConfiguration>) {
     if (config?.enableGitHubSummary !== undefined) {
       this.enableGitHubSummary = config.enableGitHubSummary;
     }

@@ -28,12 +28,6 @@ export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptio
 export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
 
 // @public
-export interface MPTReporterConfig {
-    enableGitHubSummary?: boolean;
-    enableResultPublish?: boolean;
-}
-
-// @public
 export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
 
 // @public
@@ -47,6 +41,12 @@ export type PlaywrightServiceAdditionalOptions = {
     useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
     runName?: string;
+};
+
+// @public
+export type ReporterConfiguration = {
+    enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
 };
 
 // @public

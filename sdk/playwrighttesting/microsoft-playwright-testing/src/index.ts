@@ -12,7 +12,7 @@ import type {
   OsType,
   AuthenticationType,
   BrowserConnectOptions,
-  MPTReporterConfig,
+  ReporterConfiguration,
   EndpointOptions,
   PlaywrightServiceAdditionalOptions,
 } from "./common/types";
@@ -28,6 +28,6 @@ export {
   AuthenticationType,
   BrowserConnectOptions,
   EndpointOptions,
-  MPTReporterConfig,
+  ReporterConfiguration,
   PlaywrightServiceAdditionalOptions,
 };

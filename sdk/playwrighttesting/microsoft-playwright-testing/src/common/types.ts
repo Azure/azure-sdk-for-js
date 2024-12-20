@@ -169,7 +169,7 @@ export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
  * });
  * ```
  */
-export interface MPTReporterConfig {
+export type ReporterConfiguration = {
   /**
    * @public
    *
@@ -187,7 +187,7 @@ export interface MPTReporterConfig {
    * @defaultValue `true`
    */
   enableResultPublish?: boolean;
-}
+};
 
 // Internal APIs
 
