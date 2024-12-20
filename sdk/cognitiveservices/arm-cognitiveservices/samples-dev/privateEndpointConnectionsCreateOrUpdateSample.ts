@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  CognitiveServicesManagementClient
+  CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary Update the state of specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutPrivateEndpointConnection.json
  */
 async function putPrivateEndpointConnection() {
   const subscriptionId =
@@ -34,21 +34,22 @@ async function putPrivateEndpointConnection() {
     properties: {
       privateLinkServiceConnectionState: {
         description: "Auto-Approved",
-        status: "Approved"
-      }
-    }
+        status: "Approved",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
-  const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    accountName,
-    privateEndpointConnectionName,
-    properties
-  );
+  const result =
+    await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      properties,
+    );
   console.log(result);
 }
 

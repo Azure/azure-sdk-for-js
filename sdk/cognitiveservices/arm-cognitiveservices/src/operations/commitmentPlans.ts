@@ -16,7 +16,7 @@ import { CognitiveServicesManagementClient } from "../cognitiveServicesManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -55,7 +55,7 @@ import {
   CommitmentPlansListNextResponse,
   CommitmentPlansListPlansByResourceGroupNextResponse,
   CommitmentPlansListPlansBySubscriptionNextResponse,
-  CommitmentPlansListAssociationsNextResponse
+  CommitmentPlansListAssociationsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,7 +80,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: CommitmentPlansListOptionalParams
+    options?: CommitmentPlansListOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -98,9 +98,9 @@ export class CommitmentPlansImpl implements CommitmentPlans {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -108,7 +108,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     options?: CommitmentPlansListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommitmentPlan[]> {
     let result: CommitmentPlansListResponse;
     let continuationToken = settings?.continuationToken;
@@ -124,7 +124,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -136,12 +136,12 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: CommitmentPlansListOptionalParams
+    options?: CommitmentPlansListOptionalParams,
   ): AsyncIterableIterator<CommitmentPlan> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +154,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
    */
   public listPlansByResourceGroup(
     resourceGroupName: string,
-    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan> {
     const iter = this.listPlansByResourceGroupPagingAll(
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -174,16 +174,16 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         return this.listPlansByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPlansByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommitmentPlan[]> {
     let result: CommitmentPlansListPlansByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -198,7 +198,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       result = await this._listPlansByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -209,11 +209,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
 
   private async *listPlansByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CommitmentPlan> {
     for await (const page of this.listPlansByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -224,7 +224,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
    * @param options The options parameters.
    */
   public listPlansBySubscription(
-    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan> {
     const iter = this.listPlansBySubscriptionPagingAll(options);
     return {
@@ -239,13 +239,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPlansBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPlansBySubscriptionPagingPage(
     options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommitmentPlan[]> {
     let result: CommitmentPlansListPlansBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -259,7 +259,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     while (continuationToken) {
       result = await this._listPlansBySubscriptionNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -269,7 +269,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   }
 
   private async *listPlansBySubscriptionPagingAll(
-    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
   ): AsyncIterableIterator<CommitmentPlan> {
     for await (const page of this.listPlansBySubscriptionPagingPage(options)) {
       yield* page;
@@ -286,12 +286,12 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   public listAssociations(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansListAssociationsOptionalParams
+    options?: CommitmentPlansListAssociationsOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation> {
     const iter = this.listAssociationsPagingAll(
       resourceGroupName,
       commitmentPlanName,
-      options
+      options,
     );
     return {
       next() {
@@ -308,9 +308,9 @@ export class CommitmentPlansImpl implements CommitmentPlans {
           resourceGroupName,
           commitmentPlanName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -318,7 +318,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     options?: CommitmentPlansListAssociationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommitmentPlanAccountAssociation[]> {
     let result: CommitmentPlansListAssociationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -326,7 +326,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       result = await this._listAssociations(
         resourceGroupName,
         commitmentPlanName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -338,7 +338,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         resourceGroupName,
         commitmentPlanName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -350,12 +350,12 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private async *listAssociationsPagingAll(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansListAssociationsOptionalParams
+    options?: CommitmentPlansListAssociationsOptionalParams,
   ): AsyncIterableIterator<CommitmentPlanAccountAssociation> {
     for await (const page of this.listAssociationsPagingPage(
       resourceGroupName,
       commitmentPlanName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -370,11 +370,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: CommitmentPlansListOptionalParams
+    options?: CommitmentPlansListOptionalParams,
   ): Promise<CommitmentPlansListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -390,11 +390,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansGetOptionalParams
+    options?: CommitmentPlansGetOptionalParams,
   ): Promise<CommitmentPlansGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, commitmentPlanName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -412,7 +412,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     accountName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdateOptionalParams
+    options?: CommitmentPlansCreateOrUpdateOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -420,9 +420,9 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         accountName,
         commitmentPlanName,
         commitmentPlan,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -438,25 +438,24 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeleteOptionalParams
+    options?: CommitmentPlansDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -465,8 +464,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -474,19 +473,19 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, commitmentPlanName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -504,13 +503,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeleteOptionalParams
+    options?: CommitmentPlansDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       commitmentPlanName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -527,7 +526,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
@@ -536,21 +535,20 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CommitmentPlansCreateOrUpdatePlanResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -559,8 +557,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -568,15 +566,15 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, commitmentPlanName, commitmentPlan, options },
-      spec: createOrUpdatePlanOperationSpec
+      spec: createOrUpdatePlanOperationSpec,
     });
     const poller = await createHttpPoller<
       CommitmentPlansCreateOrUpdatePlanResponse,
@@ -584,7 +582,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -602,13 +600,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdatePlanResponse> {
     const poller = await this.beginCreateOrUpdatePlan(
       resourceGroupName,
       commitmentPlanName,
       commitmentPlan,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -625,7 +623,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: PatchResourceTagsAndSku,
-    options?: CommitmentPlansUpdatePlanOptionalParams
+    options?: CommitmentPlansUpdatePlanOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommitmentPlansUpdatePlanResponse>,
@@ -634,21 +632,20 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CommitmentPlansUpdatePlanResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -657,8 +654,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -666,15 +663,15 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, commitmentPlanName, commitmentPlan, options },
-      spec: updatePlanOperationSpec
+      spec: updatePlanOperationSpec,
     });
     const poller = await createHttpPoller<
       CommitmentPlansUpdatePlanResponse,
@@ -682,7 +679,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -700,13 +697,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: PatchResourceTagsAndSku,
-    options?: CommitmentPlansUpdatePlanOptionalParams
+    options?: CommitmentPlansUpdatePlanOptionalParams,
   ): Promise<CommitmentPlansUpdatePlanResponse> {
     const poller = await this.beginUpdatePlan(
       resourceGroupName,
       commitmentPlanName,
       commitmentPlan,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -721,25 +718,24 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   async beginDeletePlan(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeletePlanOptionalParams
+    options?: CommitmentPlansDeletePlanOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -748,8 +744,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -757,20 +753,20 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, commitmentPlanName, options },
-      spec: deletePlanOperationSpec
+      spec: deletePlanOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -786,12 +782,12 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   async beginDeletePlanAndWait(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeletePlanOptionalParams
+    options?: CommitmentPlansDeletePlanOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeletePlan(
       resourceGroupName,
       commitmentPlanName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -806,11 +802,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   getPlan(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansGetPlanOptionalParams
+    options?: CommitmentPlansGetPlanOptionalParams,
   ): Promise<CommitmentPlansGetPlanResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, commitmentPlanName, options },
-      getPlanOperationSpec
+      getPlanOperationSpec,
     );
   }
 
@@ -821,11 +817,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
    */
   private _listPlansByResourceGroup(
     resourceGroupName: string,
-    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): Promise<CommitmentPlansListPlansByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listPlansByResourceGroupOperationSpec
+      listPlansByResourceGroupOperationSpec,
     );
   }
 
@@ -834,11 +830,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
    * @param options The options parameters.
    */
   private _listPlansBySubscription(
-    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
   ): Promise<CommitmentPlansListPlansBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listPlansBySubscriptionOperationSpec
+      listPlansBySubscriptionOperationSpec,
     );
   }
 
@@ -852,11 +848,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private _listAssociations(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansListAssociationsOptionalParams
+    options?: CommitmentPlansListAssociationsOptionalParams,
   ): Promise<CommitmentPlansListAssociationsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, commitmentPlanName, options },
-      listAssociationsOperationSpec
+      listAssociationsOperationSpec,
     );
   }
 
@@ -873,16 +869,16 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansGetAssociationOptionalParams
+    options?: CommitmentPlansGetAssociationOptionalParams,
   ): Promise<CommitmentPlansGetAssociationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         commitmentPlanName,
         commitmentPlanAssociationName,
-        options
+        options,
       },
-      getAssociationOperationSpec
+      getAssociationOperationSpec,
     );
   }
 
@@ -901,7 +897,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
     association: CommitmentPlanAccountAssociation,
-    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
@@ -910,21 +906,20 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -933,8 +928,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -942,8 +937,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -954,9 +949,9 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         commitmentPlanName,
         commitmentPlanAssociationName,
         association,
-        options
+        options,
       },
-      spec: createOrUpdateAssociationOperationSpec
+      spec: createOrUpdateAssociationOperationSpec,
     });
     const poller = await createHttpPoller<
       CommitmentPlansCreateOrUpdateAssociationResponse,
@@ -964,7 +959,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -985,14 +980,14 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
     association: CommitmentPlanAccountAssociation,
-    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse> {
     const poller = await this.beginCreateOrUpdateAssociation(
       resourceGroupName,
       commitmentPlanName,
       commitmentPlanAssociationName,
       association,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1010,25 +1005,24 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansDeleteAssociationOptionalParams
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1037,8 +1031,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1046,8 +1040,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1057,14 +1051,14 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         resourceGroupName,
         commitmentPlanName,
         commitmentPlanAssociationName,
-        options
+        options,
       },
-      spec: deleteAssociationOperationSpec
+      spec: deleteAssociationOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1083,13 +1077,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansDeleteAssociationOptionalParams
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteAssociation(
       resourceGroupName,
       commitmentPlanName,
       commitmentPlanAssociationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1105,11 +1099,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: CommitmentPlansListNextOptionalParams
+    options?: CommitmentPlansListNextOptionalParams,
   ): Promise<CommitmentPlansListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -1123,11 +1117,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private _listPlansByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CommitmentPlansListPlansByResourceGroupNextOptionalParams
+    options?: CommitmentPlansListPlansByResourceGroupNextOptionalParams,
   ): Promise<CommitmentPlansListPlansByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listPlansByResourceGroupNextOperationSpec
+      listPlansByResourceGroupNextOperationSpec,
     );
   }
 
@@ -1139,11 +1133,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
    */
   private _listPlansBySubscriptionNext(
     nextLink: string,
-    options?: CommitmentPlansListPlansBySubscriptionNextOptionalParams
+    options?: CommitmentPlansListPlansBySubscriptionNextOptionalParams,
   ): Promise<CommitmentPlansListPlansBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listPlansBySubscriptionNextOperationSpec
+      listPlansBySubscriptionNextOperationSpec,
     );
   }
 
@@ -1159,11 +1153,11 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     nextLink: string,
-    options?: CommitmentPlansListAssociationsNextOptionalParams
+    options?: CommitmentPlansListAssociationsNextOptionalParams,
   ): Promise<CommitmentPlansListAssociationsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, commitmentPlanName, nextLink, options },
-      listAssociationsNextOperationSpec
+      listAssociationsNextOperationSpec,
     );
   }
 }
@@ -1171,38 +1165,15 @@ export class CommitmentPlansImpl implements CommitmentPlans {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
+      bodyMapper: Mappers.CommitmentPlanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1210,25 +1181,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.commitmentPlanName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlan,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     201: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.commitmentPlan,
   queryParameters: [Parameters.apiVersion],
@@ -1237,15 +1228,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.commitmentPlanName
+    Parameters.commitmentPlanName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1253,8 +1243,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1262,31 +1252,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.commitmentPlanName
+    Parameters.commitmentPlanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdatePlanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     201: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     202: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     204: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.commitmentPlan,
   queryParameters: [Parameters.apiVersion],
@@ -1294,32 +1283,31 @@ const createOrUpdatePlanOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.commitmentPlanName1
+    Parameters.commitmentPlanName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updatePlanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     201: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     202: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     204: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.CommitmentPlan,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.commitmentPlan1,
   queryParameters: [Parameters.apiVersion],
@@ -1327,15 +1315,14 @@ const updatePlanOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.commitmentPlanName1
+    Parameters.commitmentPlanName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deletePlanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1343,112 +1330,8 @@ const deletePlanOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.commitmentPlanName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getPlanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlan
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.commitmentPlanName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPlansByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPlansBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAssociationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.commitmentPlanName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAssociationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociation
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1456,31 +1339,129 @@ const getAssociationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.commitmentPlanName1,
-    Parameters.commitmentPlanAssociationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getPlanOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlan,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPlansByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPlansBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAssociationsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAssociationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+    Parameters.commitmentPlanAssociationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateAssociationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation,
     },
     201: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation,
     },
     202: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation,
     },
     204: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.association,
   queryParameters: [Parameters.apiVersion],
@@ -1489,15 +1470,14 @@ const createOrUpdateAssociationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.commitmentPlanName1,
-    Parameters.commitmentPlanAssociationName
+    Parameters.commitmentPlanAssociationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteAssociationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1505,8 +1485,8 @@ const deleteAssociationOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1514,89 +1494,89 @@ const deleteAssociationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.commitmentPlanName1,
-    Parameters.commitmentPlanAssociationName
+    Parameters.commitmentPlanAssociationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
+      bodyMapper: Mappers.CommitmentPlanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPlansByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
+      bodyMapper: Mappers.CommitmentPlanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPlansBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAssociationsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.commitmentPlanName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listPlansBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAssociationsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.commitmentPlanName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
