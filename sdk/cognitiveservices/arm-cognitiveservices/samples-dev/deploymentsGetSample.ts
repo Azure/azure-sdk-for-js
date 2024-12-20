@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified deployments associated with the Cognitive Services account.
  *
  * @summary Gets the specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetDeployment.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetDeployment.json
  */
 async function getDeployment() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getDeployment() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.deployments.get(
     resourceGroupName,
     accountName,
-    deploymentName
+    deploymentName,
   );
   console.log(result);
 }

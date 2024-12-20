@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the commitmentPlans associated with the Cognitive Services account.
  *
  * @summary Gets the commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListCommitmentPlans.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListCommitmentPlans.json
  */
 async function listCommitmentPlans() {
   const subscriptionId =
@@ -29,12 +29,12 @@ async function listCommitmentPlans() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.commitmentPlans.list(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

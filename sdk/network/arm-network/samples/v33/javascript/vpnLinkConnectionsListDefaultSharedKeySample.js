@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the value of the shared key of VpnLink connection specified.
  *
  * @summary Gets the value of the shared key of VpnLink connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnSiteLinkConnectionDefaultSharedKeyList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSiteLinkConnectionDefaultSharedKeyList.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

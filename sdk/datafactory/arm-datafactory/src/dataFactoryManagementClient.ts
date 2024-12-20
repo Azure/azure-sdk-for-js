@@ -98,7 +98,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/17.0.1`;
+    const packageDetails = `azsdk-js-arm-datafactory/18.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

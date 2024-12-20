@@ -26,20 +26,14 @@ import type {
 
 import type { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src/index.js";
 import { formatPreferHeader } from "./util.js";
-
 import type {
   ListMetricDefinitionsOptions,
-  LogsQueryBatchResult,
-  LogsTable,
-  MetricsQueryOptions,
-  MetricsQueryResult,
-  QueryBatch,
-} from "../../src/index.js";
-import type {
   Metric,
   MetricAvailability,
   MetricDefinition,
   MetricNamespace,
+  MetricsQueryOptions,
+  MetricsQueryResult,
   TimeSeriesElement,
 } from "../models/publicMetricsModels.js";
 import { createMetricsQueryResult, getMetricByName } from "../models/publicMetricsModels.js";
@@ -50,9 +44,12 @@ import {
 } from "../timespanConversion.js";
 import type {
   LogsErrorInfo,
+  LogsQueryBatchResult,
   LogsQueryError,
   LogsQueryPartialResult,
   LogsQuerySuccessfulResult,
+  LogsTable,
+  QueryBatch,
 } from "../models/publicLogsModels.js";
 import { LogsQueryResultStatus } from "../models/publicLogsModels.js";
 import type {
@@ -273,7 +270,6 @@ export function convertResponseForMetrics(
     return metricObject;
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
   const obj: Omit<MetricsQueryResult, "getMetricByName"> = {

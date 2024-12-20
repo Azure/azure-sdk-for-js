@@ -15,7 +15,7 @@ import {
   ThroughputPoolAccountCreateResponse,
   ThroughputPoolAccountDeleteOptionalParams,
   ThroughputPoolAccountDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ThroughputPoolAccount. */
 export interface ThroughputPoolAccount {

@@ -26,6 +26,7 @@ import type {
   OperationInput,
   BulkOptions,
   BulkOperationResponse,
+  Operation,
 } from "../../utils/batch.js";
 import {
   isKeyInRange,
@@ -482,8 +483,8 @@ export class Items {
           min: keyRange.minInclusive,
           max: keyRange.maxExclusive,
           rangeId: keyRange.id,
-          indexes: [],
-          operations: [],
+          indexes: [] as number[],
+          operations: [] as Operation[],
         };
       });
 
@@ -617,8 +618,8 @@ export class Items {
         min: keyRange.minInclusive,
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
-        indexes: [],
-        operations: [],
+        indexes: [] as number[],
+        operations: [] as Operation[],
       };
     });
     let indexValue = 0;
