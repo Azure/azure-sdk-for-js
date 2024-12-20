@@ -52,9 +52,9 @@ const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized/;accesskey=redacted",
   DISPATCHER_ENDPOINT: "https://Sanitized",
   SERVICEBUS_STRING: "redacted.servicebus.windows.net",
-    FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
-    TRANSPORT_URL: "https://REDACTED",
-    COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
+  FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
+  TRANSPORT_URL: "https://Sanitized",
+  COGNITIVE_SERVICE_ENDPOINT: "https://Sanitized",
 };
 
 const fakeToken = generateToken();
@@ -75,6 +75,7 @@ export const cognitiveServiceEndpoint: string = !isPlaybackMode()
   : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
+export const dummyFileSource: string =  !isPlaybackMode() ? "https://dummy.com/dummyurl.wav" : "https://Sanitized/dummyurl.wav";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
   ServiceBusReceiver

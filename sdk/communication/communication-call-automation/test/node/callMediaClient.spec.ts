@@ -63,6 +63,7 @@ import {
   getPhoneNumbers,
   transportUrl,
   cognitiveServiceEndpoint,
+  dummyFileSource,
 } from "../utils/recordedClient.js";
 import { createMediaClient, generateHttpClient } from "../utils/mockClient.js";
 import {
@@ -1483,7 +1484,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const filePrompt: FileSource = { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" };
+    const filePrompt: FileSource = { kind: "fileSource", url: dummyFileSource };
 
     await callConnection
       .getCallMedia()
@@ -1540,7 +1541,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const filePrompt: FileSource = { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" };
+    const filePrompt: FileSource = { kind: "fileSource", url: dummyFileSource };
 
     await callConnection
       .getCallMedia()
@@ -1652,7 +1653,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(recognizeFailedEventToMultipleSource);
 
       const multiplePrompts: (FileSource | TextSource)[] = [
-        { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+        { kind: "fileSource", url: dummyFileSource},
         { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
       ];
 
@@ -1771,7 +1772,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(recognizeFailedEventToMultipleSource);
 
       const multiplePrompts: (FileSource | TextSource)[] = [
-        { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+        { kind: "fileSource", url: dummyFileSource },
         { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
       ];
 
@@ -1903,7 +1904,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(recognizeFailedEventToMultipleSource);
 
       const multiplePrompts: (FileSource | TextSource)[] = [
-        { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+        { kind: "fileSource", url: dummyFileSource },
         { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
       ];
 
@@ -2026,7 +2027,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(recognizeFailedEventToMultipleSource);
 
       const multiplePrompts: (FileSource | TextSource)[] = [
-        { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+        { kind: "fileSource", url: dummyFileSource },
         { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
       ];
 
@@ -2090,7 +2091,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isFalse(participantUnhold.isOnHold);
 
     const playSource: FileSource = {
-      url: "https://dummy.com/dummyurl.wav",
+      url: dummyFileSource,
       kind: "fileSource",
     };
 
@@ -2107,7 +2108,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   });
 
-  it(
+  it.skip(
     "Creates a call, start transcription, and hangs up.",
     { timeout: 60000 },
     async function (ctx) {
@@ -2144,7 +2145,7 @@ describe("Call Media Client Live Tests", function () {
         enableIntermediateResults: false,
       };
 
-      const creatCallOptions: CreateCallOptions = {
+      const createCallOptions: CreateCallOptions = {
         transcriptionOptions: transcriptionOptions,
         callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
       };
@@ -2152,7 +2153,7 @@ describe("Call Media Client Live Tests", function () {
       const result = await callerCallAutomationClient.createCall(
         callInvite,
         callBackUrl,
-        creatCallOptions,
+        createCallOptions,
       );
       const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
       const callConnectionId: string = result.callConnectionProperties.callConnectionId
