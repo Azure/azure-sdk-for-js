@@ -1337,10 +1337,6 @@ packages:
     resolution: {integrity: sha512-0YIpccoX8m/k00O7mDDMdJpbr6mf1yWo2dfmxt5A8XVZVVMz2SSKaEbMCeJRvgQ0IaSlqhjT47p4hVIRRy90xw==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/core-lro@3.0.0':
-    resolution: {integrity: sha512-t46lsD0jDJ1o71hIGzoUfT9jH+rIkNJAJLhhPqW8XLbPueHBnP4x5PNJ2szXlLoztH/00OcUUH3FbFnAntOSWA==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/core-paging@1.6.2':
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
@@ -3671,7 +3667,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
-    resolution: {integrity: sha512-DUh+U6IwsLDin8o4TepU5ulb/ihIVvtVS5Ic7lo7fqWL+nu2co9OPa2LADWNZkynKnQ2PdpfYSUoHLswQ1Dg3A==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-zGrduZzNBYJVUxltyUcs6kpIlS2rvzxJkOjvFDlk132R/26IoWgcmseVvGkobtxPAr34R1UMqfGumW/Sb2y19A==, tarball: file:projects/developer-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
@@ -8420,13 +8416,6 @@ snapshots:
       - supports-color
 
   '@azure/core-lro@2.7.2':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-util': 1.11.0
-      '@azure/logger': 1.1.4
-      tslib: 2.8.1
-
-  '@azure/core-lro@3.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-util': 1.11.0
@@ -16842,13 +16831,14 @@ snapshots:
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/core-lro': 3.0.0
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      eslint: 9.17.0
+      eslint: 8.57.1
       playwright: 1.49.1
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
@@ -16857,7 +16847,6 @@ snapshots:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
