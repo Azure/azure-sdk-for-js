@@ -34,7 +34,7 @@ in your tspconfig.yaml
 SDK module would be generated under the SDK project folder at `sdk/<service>/<module>`.
 
 ### Generate Code with code-gen-pipeline tool (recommend)
-**Notice** These step is to generate code with your local spec repo. If you want to generate code with the github url, please refer [Generate Code with tsp-client tool](#Generate-Code-with-tsp-client-tool)
+**Notice** These steps are to generate code using the local spec repo. If you want to generate code with the github url, please refer [Generate Code with tsp-client tool](#Generate-Code-with-tsp-client-tool)
 
 Install dependencies to use code-gen-pipeline,  
 ```ps
