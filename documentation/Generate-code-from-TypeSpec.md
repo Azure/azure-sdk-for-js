@@ -13,7 +13,7 @@
 
 ## Use TypeSpec defined in REST API specifications
 
-:ballot_box_with_check: The package structure in the azure-rest-api-specs repository should follow [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/typespec-structure-guidelines.md#structure).
+It is recommended to configure TypeSpec package on [REST API specifications](https://github.com/Azure/azure-rest-api-specs). Please refer to [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/typespec-structure-guidelines.md).
 
 ### How to configure tspconfig.yaml
 You can reference these two config files to configure the Modular or RLC package:
