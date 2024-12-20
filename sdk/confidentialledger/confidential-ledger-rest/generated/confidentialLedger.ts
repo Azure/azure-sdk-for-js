@@ -21,7 +21,10 @@ export interface ConfidentialLedgerClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-01-26-preview", ...options }: ConfidentialLedgerClientOptions = {},
+  {
+    apiVersion = "2024-01-26-preview",
+    ...options
+  }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.0-beta.1`;
@@ -38,10 +41,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://confidential-ledger.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://confidential-ledger.azure.com/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as ConfidentialLedgerClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as ConfidentialLedgerClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -51,9 +60,8 @@ export default function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+          }api-version=${apiVersion}`;
       }
 
       return next(req);

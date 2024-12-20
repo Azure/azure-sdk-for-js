@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetConstitution200Response,
@@ -29,7 +29,7 @@ import {
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserDefaultResponse
+  CreateOrUpdateUserDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -46,56 +46,50 @@ const responseMap: Record<string, string[]> = {
   "GET /app/users": ["200"],
   "DELETE /app/users/{userId}": ["204"],
   "GET /app/users/{userId}": ["200"],
-  "PATCH /app/users/{userId}": ["200"]
+  "PATCH /app/users/{userId}": ["200"],
 };
 
 export function isUnexpected(
-  response: GetConstitution200Response | GetConstitutionDefaultResponse
+  response: GetConstitution200Response | GetConstitutionDefaultResponse,
 ): response is GetConstitutionDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListConsortiumMembers200Response
-    | ListConsortiumMembersDefaultResponse
+  response: ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse,
 ): response is ListConsortiumMembersDefaultResponse;
 export function isUnexpected(
-  response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse
+  response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse,
 ): response is GetEnclaveQuotesDefaultResponse;
 export function isUnexpected(
-  response: ListCollections200Response | ListCollectionsDefaultResponse
+  response: ListCollections200Response | ListCollectionsDefaultResponse,
 ): response is ListCollectionsDefaultResponse;
 export function isUnexpected(
-  response: ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse
+  response: ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse,
 ): response is ListLedgerEntriesDefaultResponse;
 export function isUnexpected(
-  response: CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse
+  response: CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse,
 ): response is CreateLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: GetLedgerEntry200Response | GetLedgerEntryDefaultResponse
+  response: GetLedgerEntry200Response | GetLedgerEntryDefaultResponse,
 ): response is GetLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: GetReceipt200Response | GetReceiptDefaultResponse
+  response: GetReceipt200Response | GetReceiptDefaultResponse,
 ): response is GetReceiptDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetTransactionStatus200Response
-    | GetTransactionStatusDefaultResponse
+  response: GetTransactionStatus200Response | GetTransactionStatusDefaultResponse,
 ): response is GetTransactionStatusDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCurrentLedgerEntry200Response
-    | GetCurrentLedgerEntryDefaultResponse
+  response: GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse,
 ): response is GetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response: ListUsers200Response | ListUsersDefaultResponse
+  response: ListUsers200Response | ListUsersDefaultResponse,
 ): response is ListUsersDefaultResponse;
 export function isUnexpected(
-  response: DeleteUser204Response | DeleteUserDefaultResponse
+  response: DeleteUser204Response | DeleteUserDefaultResponse,
 ): response is DeleteUserDefaultResponse;
 export function isUnexpected(
-  response: GetUser200Response | GetUserDefaultResponse
+  response: GetUser200Response | GetUserDefaultResponse,
 ): response is GetUserDefaultResponse;
 export function isUnexpected(
-  response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse
+  response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse,
 ): response is CreateOrUpdateUserDefaultResponse;
 export function isUnexpected(
   response:
@@ -126,7 +120,7 @@ export function isUnexpected(
     | GetUser200Response
     | GetUserDefaultResponse
     | CreateOrUpdateUser200Response
-    | CreateOrUpdateUserDefaultResponse
+    | CreateOrUpdateUserDefaultResponse,
 ): response is
   | GetConstitutionDefaultResponse
   | ListConsortiumMembersDefaultResponse
@@ -174,24 +168,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;
