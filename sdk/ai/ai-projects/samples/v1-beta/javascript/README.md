@@ -11,9 +11,9 @@ urlFragment: ai-projects-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Projects in some common scenarios.
 
-<!--
 | **File Name**                                                                               | **Description**                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [agents\codeInterpreterWithStreaming.js][agents_codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
 | [agents\agentCreateWithTracingConsole.js][agents_agentcreatewithtracingconsole]             | Create Agent and instrument using open telemetry.                                                                                                                                                      |
 | [agents\agentsAzureAiSearch.js][agents_agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                                                                                                |
 | [agents\agentsBasics.js][agents_agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                                                                                                        |
@@ -24,7 +24,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents\batchVectorStoreWithFiles.js][agents_batchvectorstorewithfiles]                     | demonstrates how to create the batch vector store with the list of files.                                                                                                                              |
 | [agents\batchVectorStoreWithFilesAndPolling.js][agents_batchvectorstorewithfilesandpolling] | demonstrates how to create the batch vector store with the list of files using polling operation.                                                                                                      |
 | [agents\codeInterpreter.js][agents_codeinterpreter]                                         | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
-| [agents\codeInterpreterWithStreaming.js][agents_codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
 | [agents\fileSearch.js][agents_filesearch]                                                   | This sample demonstrates how to use agent operations with file searching.                                                                                                                              |
 | [agents\files.js][agents_files]                                                             | demonstrates how to use basic files agent operations.                                                                                                                                                  |
 | [agents\filesWithLocalUpload.js][agents_fileswithlocalupload]                               | demonstrates how to use basic files agent operations with local file upload.                                                                                                                           |
@@ -38,7 +37,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents\vectorStores.js][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                                                                                                           |
 | [agents\vectorStoresWithPolling.js][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
 | [connections\connectionsBasics.js][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
--->
 
 ## Prerequisites
 
@@ -65,20 +63,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node agents\agentCreateWithTracingConsole.js
+node agents\codeInterpreterWithStreaming.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node agents\agentCreateWithTracingConsole.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" node agents\codeInterpreterWithStreaming.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-<!--
+[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\codeInterpreterWithStreaming.js
 [agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentCreateWithTracingConsole.js
 [agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsAzureAiSearch.js
 [agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsBasics.js
@@ -89,7 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\batchVectorStoreWithFiles.js
 [agents_batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\batchVectorStoreWithFilesAndPolling.js
 [agents_codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\codeInterpreter.js
-[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\codeInterpreterWithStreaming.js
 [agents_filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\fileSearch.js
 [agents_files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\files.js
 [agents_fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\filesWithLocalUpload.js
@@ -106,4 +103,3 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md
--->

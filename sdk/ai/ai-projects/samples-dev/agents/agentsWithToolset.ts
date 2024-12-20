@@ -44,9 +44,11 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
-  const vectorStore = await client.agents.createVectorStoreAndPoll({
-    fileIds: [fileSearchFile.id],
-  });
+  const vectorStore = await client.agents
+    .createVectorStoreAndPoll({
+      fileIds: [fileSearchFile.id],
+    })
+    .pollUntilDone();
 
   // Create tool set
   const toolSet = new ToolSet();

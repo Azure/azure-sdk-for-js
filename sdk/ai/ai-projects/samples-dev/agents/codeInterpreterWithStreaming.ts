@@ -5,7 +5,8 @@
  * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
  *
  * @summary demonstrates how to use agent operations with code interpreter.
- *
+ * @azsdk-weight 100
+ * 
  */
 
 import type {
