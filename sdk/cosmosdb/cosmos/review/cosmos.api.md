@@ -290,6 +290,8 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
+    updateUserAgent(userAgentSuffix: string): void;
+    // (undocumented)
     upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
         body: T;
         path: string;
@@ -699,6 +701,7 @@ export class CosmosClient {
     getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
+    updateUserAgent(userAgentSuffix: string): Promise<void>;
 }
 
 // @public (undocumented)
@@ -706,6 +709,7 @@ export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
+    connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
@@ -713,7 +717,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    endpoint: string;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
