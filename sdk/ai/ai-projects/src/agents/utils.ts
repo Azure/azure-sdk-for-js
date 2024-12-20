@@ -42,6 +42,12 @@ export enum connectionToolType {
   SharepointGrounding = "sharepoint_grounding",
 }
 
+const toolMap = {
+  bing_grounding: "bingGrounding",
+  microsoft_fabric: "microsoftFabric",
+  sharepoint_grounding: "sharepointGrounding",
+};
+
 /**
  * Utility class for creating various tools.
  */
@@ -60,7 +66,7 @@ export class ToolUtility {
     return {
       definition: {
         type: toolType,
-        [toolType]: {
+        [toolMap[toolType]]: {
           connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
         },
       },

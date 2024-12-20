@@ -24,7 +24,13 @@ export class OpenAIError extends RestError {
 
 export function createOpenAIError(response: PathUncheckedResponse): OpenAIError {
   const internalError = response.body.error || response.body;
-  const restError = createRestError(internalError, response);
+  let restError: RestError;
+  if (typeof internalError === "string") {
+    restError = createRestError(internalError, response);
+  } else {
+    restError = createRestError(response);
+  }
+
   return new OpenAIError(restError.message, {
     statusCode: restError?.statusCode,
     code: restError?.code,
