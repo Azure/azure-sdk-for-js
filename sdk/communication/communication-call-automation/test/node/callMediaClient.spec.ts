@@ -1653,7 +1653,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(recognizeFailedEventToMultipleSource);
 
       const multiplePrompts: (FileSource | TextSource)[] = [
-        { kind: "fileSource", url: dummyFileSource},
+        { kind: "fileSource", url: dummyFileSource },
         { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
       ];
 

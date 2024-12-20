@@ -75,7 +75,9 @@ export const cognitiveServiceEndpoint: string = !isPlaybackMode()
   : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
-export const dummyFileSource: string =  !isPlaybackMode() ? "https://dummy.com/dummyurl.wav" : "https://Sanitized/dummyurl.wav";
+export const dummyFileSource: string = !isPlaybackMode()
+  ? "https://dummy.com/dummyurl.wav"
+  : "https://Sanitized/dummyurl.wav";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
   ServiceBusReceiver
