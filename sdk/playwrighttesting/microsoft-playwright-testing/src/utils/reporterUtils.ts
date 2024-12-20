@@ -162,9 +162,9 @@ class ReporterUtils {
     testResult.status = this.getTestStatus(test, result);
     testResult.lineNumber = test.location.line;
     testResult.retry = result.retry ? result.retry : 0;
-    let browserName = test.parent.project()!.use.browserName?.toLowerCase();
+    let browserName = test.parent.project()?.use.browserName?.toLowerCase();
     if (!browserName) {
-      browserName = test.parent.project()!.use.defaultBrowserType?.toLowerCase();
+      browserName = test.parent.project()?.use.defaultBrowserType?.toLowerCase();
     }
     testResult.webTestConfig = {
       jobName: jobName,
