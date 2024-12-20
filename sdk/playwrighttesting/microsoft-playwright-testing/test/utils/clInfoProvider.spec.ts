@@ -4,11 +4,11 @@ import sinon from "sinon";
 
 describe("CIInfoProvider", () => {
   let sandbox: sinon.SinonSandbox;
-  let environmentVariables: NodeJS.ProcessEnv;
+  let environmentVariables: NodeJS.ProcessEnv = process.env;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    environmentVariables = process.env;
+    process.env = {};
   });
 
   afterEach(() => {

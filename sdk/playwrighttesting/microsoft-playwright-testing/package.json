@@ -89,7 +89,7 @@
     "typescript": "~5.7.2"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.43.1"
+    "@playwright/test": "^1.47.0"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {

@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { ConnectOptions } from '@playwright/test';
 import type { PlaywrightTestConfig } from '@playwright/test';
 import type { TokenCredential } from '@azure/identity';
 
@@ -13,16 +14,6 @@ export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 // @public
 export type BrowserConnectOptions = EndpointOptions & {
     options: ConnectOptions;
-};
-
-// @public
-export type ConnectOptions = {
-    headers?: {
-        [key: string]: string;
-    };
-    exposeNetwork?: string;
-    timeout?: number;
-    slowMo?: number;
 };
 
 // @public

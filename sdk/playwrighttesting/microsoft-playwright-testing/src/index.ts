@@ -14,7 +14,6 @@ import type {
   BrowserConnectOptions,
   MPTReporterConfig,
   EndpointOptions,
-  ConnectOptions,
   PlaywrightServiceAdditionalOptions,
 } from "./common/types";
 import { getServiceConfig, getConnectOptions } from "./core/playwrightService";
@@ -29,7 +28,6 @@ export {
   AuthenticationType,
   BrowserConnectOptions,
   EndpointOptions,
-  ConnectOptions,
   MPTReporterConfig,
   PlaywrightServiceAdditionalOptions,
 };
