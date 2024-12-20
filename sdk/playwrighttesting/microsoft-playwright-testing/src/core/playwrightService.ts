@@ -12,7 +12,7 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
-  checkTokenExpiryWarning,
+  warnIfAccessTokenCloseToExpiry,
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
@@ -112,10 +112,19 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
+
+  const performOneTimeOperation = (): void => {
+    const oneTimeOperationFlag = process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
+    if (!oneTimeOperationFlag) {
+      warnIfAccessTokenCloseToExpiry();
+      process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+    }
+  };
+
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
-    checkTokenExpiryWarning();
+    performOneTimeOperation();
   } else {
     // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
     if (isMultipleGlobalFileSupported) {
