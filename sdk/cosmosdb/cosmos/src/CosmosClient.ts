@@ -70,8 +70,14 @@ export class CosmosClient {
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    } else if (optionsOrConnectionString.connectionString) {
+      const { endpoint, key } = parseConnectionString(optionsOrConnectionString.connectionString);
+      optionsOrConnectionString.endpoint = endpoint;
+      optionsOrConnectionString.key = key;
     }
-
+    if (!optionsOrConnectionString.endpoint) {
+      throw new Error("Invalid endpoint specified");
+    }
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
@@ -271,5 +277,13 @@ export class CosmosClient {
     if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
       this.endpointRefresher.unref();
     }
+  }
+
+  /**
+   * Update the SDK user agent.
+   * @param userAgentSuffix - A custom string to append to the default SDK user agent.
+   */
+  public async updateUserAgent(userAgentSuffix: string) {
+    this.clientContext.updateUserAgent(userAgentSuffix);
   }
 }

@@ -38,6 +38,7 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
+import { getUserAgent } from "./common/platform";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -977,5 +978,11 @@ export class ClientContext {
 
   public getClientConfig(): ClientConfigDiagnostic {
     return this.clientConfig;
+  }
+
+  public updateUserAgent(userAgentSuffix: string): void {
+    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] =
+      getUserAgent(userAgentSuffix);
+    this.clientConfig.userAgentSuffix = userAgentSuffix;
   }
 }
