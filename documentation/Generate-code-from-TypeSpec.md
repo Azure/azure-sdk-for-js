@@ -44,15 +44,15 @@ npm install -g @azure-tools/js-sdk-release-tools
 
 Create a local json file named generatedInput.json with content similar to that shown below
 ```
-   {
+  {
     "dryRun": false,
     "specFolder": <your-local-spec-repo-path>,
     "headSha": <commit-id-you-want-to-generate-from>,
     "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
     "relatedTypeSpecProjectFolder": [
     "specification/SERVICE_DIRECTORY_NAME/PACKAGE_DIRECTORY_NAME/"
-  ]
-}
+    ]
+  }
 ```
 
 Run the command
