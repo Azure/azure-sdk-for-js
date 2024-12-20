@@ -8,12 +8,6 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      typecheck: {
-        enabled: true,
-        tsconfig: "tsconfig.test.json",
-        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
-      },
-      include: ["test/**/*.spec.ts"],
       hookTimeout: 1200000,
       testTimeout: 1200000,
     },
