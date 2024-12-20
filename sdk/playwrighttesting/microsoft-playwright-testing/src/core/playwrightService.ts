@@ -153,6 +153,7 @@ const getServiceConfig = (
       connectOptions: {
         wsEndpoint: getServiceWSEndpoint(
           playwrightServiceConfig.runId,
+          playwrightServiceConfig.runName,
           playwrightServiceConfig.serviceOs,
         ),
         headers: {
@@ -206,6 +207,7 @@ const getConnectOptions = async (
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,
+      playwrightServiceConfig.runName,
       playwrightServiceConfig.serviceOs,
     ),
     options: {
