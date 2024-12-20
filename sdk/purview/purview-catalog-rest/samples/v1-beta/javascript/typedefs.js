@@ -7,7 +7,8 @@
  * @summary gets a list of typedefs for entities
  */
 
-const PurviewCatalog = require("@azure-rest/purview-catalog").default;
+const PurviewCatalog = require("@azure-rest/purview-catalog").default,
+  { isUnexpected } = require("@azure-rest/purview-catalog");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -19,12 +20,12 @@ async function main() {
 
   const dataSources = await client.path("/atlas/v2/types/typedefs").get();
 
-  if (dataSources.status !== "200") {
+  if (isUnexpected(dataSources)) {
     throw dataSources;
   }
 
   if (!dataSources.body.entityDefs) {
-    throw new Error("entityDefs is undefined");
+    throw new Error("entityDefs is not defined");
   }
 
   console.log(dataSources.body.entityDefs.map((ds) => ds.name).join("\n"));
