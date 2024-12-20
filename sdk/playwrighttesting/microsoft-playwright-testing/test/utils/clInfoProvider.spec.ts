@@ -4,7 +4,7 @@ import sinon from "sinon";
 
 describe("CIInfoProvider", () => {
   let sandbox: sinon.SinonSandbox;
-  let environmentVariables: NodeJS.ProcessEnv = process.env;
+  let environmentVariables = process.env;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
