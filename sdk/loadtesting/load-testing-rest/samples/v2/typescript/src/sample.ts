@@ -8,19 +8,18 @@
  */
 
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
-import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
-import { v4 as uuidv4 } from "uuid";
+import { createReadStream } from "node:fs";
+import { randomUUID } from "node:crypto";
 
 const readStream = createReadStream("./sample.jmx");
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
-  const testId = uuidv4(); // ID to be assigned to a test
-  const testRunId = uuidv4(); // ID to be assigned to a testRun
+  const testId = randomUUID(); // ID to be assigned to a test
+  const testRunId = randomUUID(); // ID to be assigned to a testRun
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
@@ -41,8 +40,9 @@ async function main() {
     throw testCreationResult.body.error;
   }
 
-  if (testCreationResult.body.testId === undefined)
+  if (testCreationResult.body.testId === undefined) {
     throw new Error("Test ID returned as undefined.");
+  }
 
   // Uploading .jmx file to a test
   const fileUploadResult = await client
@@ -63,14 +63,15 @@ async function main() {
       abortSignal: AbortSignal.timeout(120 * 1000), // timeout of 120 seconds
     });
   } catch (ex: any) {
-    new Error("Error in polling file Validation" + ex.message); //polling timed out
+    new Error("Error in polling file Validation" + ex.message); // polling timed out
   }
 
-  if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidateResult)
+  if (fileValidatePoller.getOperationState().status !== "succeeded" && fileValidateResult) {
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-        fileValidateResult.body.validationFailureDetails
+        fileValidateResult.body.validationFailureDetails,
     );
+  }
 
   // Creating/Updating app component
   const appComponentCreationResult = await client
@@ -78,15 +79,12 @@ async function main() {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: testCreationResult.body.testId,
         components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
-            resourceId:
-              "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-            subscriptionId: SUBSCRIPTION_ID,
-          },
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
+            {
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+            },
         },
       },
     });
@@ -101,7 +99,6 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 
@@ -109,8 +106,9 @@ async function main() {
     throw testRunCreationResult.body.error;
   }
 
-  if (testRunCreationResult.body.testRunId === undefined)
+  if (testRunCreationResult.body.testRunId === undefined) {
     throw new Error("Test Run ID returned as undefined.");
+  }
 
   let testRunResult;
   const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
@@ -120,15 +118,16 @@ async function main() {
       abortSignal: AbortSignal.timeout(300 * 1000), // timeout of 5 minutes
     });
   } catch (ex: any) {
-    new Error("Error in polling test run completion" + ex.message); //polling timed out
+    new Error("Error in polling test run completion" + ex.message); // polling timed out
   }
 
-  if (testRunPoller.getOperationState().status != "succeeded")
+  if (testRunPoller.getOperationState().status !== "succeeded") {
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+  }
 
   if (testRunResult) {
-    let testRunStarttime = testRunResult.body.startDateTime;
-    let testRunEndTime = testRunResult.body.endDateTime;
+    const testRunStarttime = testRunResult.body.startDateTime;
+    const testRunEndTime = testRunResult.body.endDateTime;
 
     // get list of all metric namespaces and pick the first one
     const metricNamespaces = await client
