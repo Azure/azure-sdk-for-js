@@ -34,6 +34,7 @@ in your tspconfig.yaml
 SDK module would be generated under the SDK project folder at `sdk/<service>/<module>`.
 
 ### Generate Code with code-gen-pipeline tool (recommend)
+**Notice** These step is to generate code with your local spec repo. If you want to generate code with the github url, please refer [Generate Code with tsp-client tool](#Generate-Code-with-tsp-client-tool)
 
 Install dependencies to use code-gen-pipeline,  
 ```ps
@@ -57,10 +58,10 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-> path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline.
-
 code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
 ```
+
+> path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline. [generateOutput.json](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json) is to show us the location of generated artifact and any other messages.
 
 This command will automatically:
 1. Generate package code with TypeSpec.
@@ -92,15 +93,6 @@ For updating TypeSpec generated SDK, call below in the SDK module folder (`sdk/<
 
 ```ps
 tsp-client update
-```
-
-If you want to generate SDK from your local tspconfig file from spec repo, you can run
-```
-tsp-client init --tsp-config=<your-local-tspconfig-path> --local-spec-repo=<your-local-service-path> --repo=<your-spec-repo-path> --commit=<your-target-commit>
-```
-here is a example command of this
-```
-tsp-client init --tsp-config=../azure-rest-api-specs/specification/connectedcache/ConnectedCache.Management/tspconfig.yaml --local-spec-repo=../azure-rest-api-specs/specification/connectedcache/ConnectedCache.Management --repo=../azure-rest-api-specs --commit=60c67f112c66537f1d006bf1b497857ccd2afacd
 ```
 
 **Notice**
