@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
  *
  * @summary Sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnSiteLinkConnectionDefaultSharedKeyPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSiteLinkConnectionDefaultSharedKeyPut.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

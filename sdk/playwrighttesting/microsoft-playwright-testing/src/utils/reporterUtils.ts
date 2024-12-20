@@ -272,7 +272,6 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -346,11 +345,20 @@ class ReporterUtils {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return 0;
     }
   }
+
+  public static getBufferSize(attachmentBody: Buffer): number {
+    try {
+      const fileSizeInBytes = attachmentBody.length;
+      return fileSizeInBytes;
+    } catch (error) {
+      return 0;
+    }
+  }
+
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";
@@ -432,7 +440,6 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }
@@ -471,6 +478,11 @@ class ReporterUtils {
           attachmentStatus += ",";
         }
         attachmentStatus += "trace";
+      } else if (attachment.contentType === "text/plain") {
+        if (attachmentStatus !== "") {
+          attachmentStatus += ",";
+        }
+        attachmentStatus += "txt";
       }
     }
     return attachmentStatus;

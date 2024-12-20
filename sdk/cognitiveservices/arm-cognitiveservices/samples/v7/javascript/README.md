@@ -195,6 +195,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [raipolicieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/javascript/raiPoliciesListSample.js
 [resourceskuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/javascript/resourceSkusListSample.js
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/arm-cognitiveservices/samples/v7/javascript/usagesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cognitiveservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cognitiveservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/arm-cognitiveservices/README.md

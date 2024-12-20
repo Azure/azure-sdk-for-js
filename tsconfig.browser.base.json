@@ -1,5 +1,5 @@
 {
-  "exclude": ["${configDir}/test/**/node"],
+  "exclude": ["${configDir}/test/**/node", "${configDir}/test/stress", "${configDir}/test/snippets.spec.ts"],
   "compilerOptions": {
     "outDir": "${configDir}/dist-test/browser",
     "noEmit": false

@@ -5,7 +5,6 @@ import {
     CatalogOutput,
     EnvironmentTypeOutput,
     EnvironmentDefinitionOutput,
-    CreateOrUpdateEnvironmentParameters,
     getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -22,7 +21,7 @@ async function createEnvironment() {
 
     const projectList = await client.path("/projects").get();
     if (isUnexpected(projectList)) {
-        throw new Error(projectList.body.error.message);
+        throw projectList.body.error;
     }
 
     let project: ProjectOutput = projectList.body.value[0];
@@ -33,7 +32,7 @@ async function createEnvironment() {
 
     const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
     if (isUnexpected(catalogList)) {
-        throw new Error(catalogList.body.error);
+        throw catalogList.body.error;
     }
 
     const catalog: CatalogOutput = catalogList.body.value[0];
@@ -48,7 +47,7 @@ async function createEnvironment() {
         .get();
 
     if (isUnexpected(environmentDefinitionsList)) {
-        throw new Error(environmentDefinitionsList.body.error);
+        throw environmentDefinitionsList.body.error;
     }
 
     const environmentDefinition: EnvironmentDefinitionOutput = environmentDefinitionsList.body.value[0];
@@ -58,7 +57,7 @@ async function createEnvironment() {
         .path("/projects/{projectName}/environmentTypes", projectName)
         .get();
     if (isUnexpected(environmentTypeList)) {
-        throw new Error(environmentTypeList.body.error.message);
+        throw environmentTypeList.body.error;
     }
 
     let environmentType: EnvironmentTypeOutput = environmentTypeList.body.value[0];
@@ -66,7 +65,7 @@ async function createEnvironment() {
         throw new Error("No environment types found.");
     }
 
-    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
+    const environmentsCreateParameters = {
         contentType: "application/json",
         body: {
             environmentDefinitionName: environmentDefinitionName,
@@ -88,11 +87,14 @@ async function createEnvironment() {
         )
         .put(environmentsCreateParameters);
     if (isUnexpected(environmentCreateResponse)) {
-        throw new Error(environmentCreateResponse.body.error.message);
+        throw environmentCreateResponse.body.error;
     }
 
     const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
+    if (isUnexpected(environmentCreateResult)) {
+        throw environmentCreateResult.body.error;
+    }
     console.log(
         `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
     );
@@ -107,7 +109,7 @@ async function createEnvironment() {
         )
         .delete();
     if (isUnexpected(environmentDeleteResponse)) {
-        throw new Error(environmentDeleteResponse.body.error.message);
+        throw environmentDeleteResponse.body.error;
     }
 
     const environmentDeletePoller = await getLongRunningPoller(client, environmentDeleteResponse);

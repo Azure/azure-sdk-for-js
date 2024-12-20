@@ -36,7 +36,7 @@ async function updateClassificationPolicy(): Promise<void> {
         workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
       }],
       prioritizationRule: {
-        kind: "expression-rule",
+        kind: "expression",
         language: "powerFx",
         expression: "If(job.department = \"xbox\", 2, 1)"
       }

@@ -365,7 +365,7 @@ export class WebPubSubClient {
     dataType: WebPubSubDataType,
     options?: SendEventOptions,
   ): Promise<WebPubSubResult> {
-    return await this._operationExecuteWithRetry(
+    return this._operationExecuteWithRetry(
       () => this._sendEventAttempt(eventName, content, dataType, options),
       options?.abortSignal,
     );
@@ -379,7 +379,7 @@ export class WebPubSubClient {
   ): Promise<WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     if (!fireAndForget) {
-      return await this._sendMessageWithAckId(
+      return this._sendMessageWithAckId(
         (id) => {
           return {
             kind: "sendEvent",
@@ -411,7 +411,7 @@ export class WebPubSubClient {
    * @param options - The join group options
    */
   public async joinGroup(groupName: string, options?: JoinGroupOptions): Promise<WebPubSubResult> {
-    return await this._operationExecuteWithRetry(
+    return this._operationExecuteWithRetry(
       () => this._joinGroupAttempt(groupName, options),
       options?.abortSignal,
     );
@@ -431,7 +431,7 @@ export class WebPubSubClient {
     groupName: string,
     options?: JoinGroupOptions,
   ): Promise<WebPubSubResult> {
-    return await this._sendMessageWithAckId(
+    return this._sendMessageWithAckId(
       (id) => {
         return {
           group: groupName,
@@ -454,7 +454,7 @@ export class WebPubSubClient {
     groupName: string,
     options?: LeaveGroupOptions,
   ): Promise<WebPubSubResult> {
-    return await this._operationExecuteWithRetry(
+    return this._operationExecuteWithRetry(
       () => this._leaveGroupAttempt(groupName, options),
       options?.abortSignal,
     );
@@ -494,7 +494,7 @@ export class WebPubSubClient {
     dataType: WebPubSubDataType,
     options?: SendToGroupOptions,
   ): Promise<WebPubSubResult> {
-    return await this._operationExecuteWithRetry(
+    return this._operationExecuteWithRetry(
       () => this._sendToGroupAttempt(groupName, content, dataType, options),
       options?.abortSignal,
     );
@@ -509,7 +509,7 @@ export class WebPubSubClient {
     const fireAndForget = options?.fireAndForget ?? false;
     const noEcho = options?.noEcho ?? false;
     if (!fireAndForget) {
-      return await this._sendMessageWithAckId(
+      return this._sendMessageWithAckId(
         (id) => {
           return {
             kind: "sendToGroup",
@@ -576,7 +576,9 @@ export class WebPubSubClient {
         if (this._isStopping) {
           try {
             client.close();
-          } catch {}
+          } catch {
+            /** empty */
+          }
 
           reject(new Error(`The client is stopped`));
         }
@@ -662,9 +664,9 @@ export class WebPubSubClient {
                 }
               });
 
-              try {
-                await Promise.all(groupPromises);
-              } catch {}
+              await Promise.all(groupPromises).catch(() => {
+                /** empty */
+              });
             }
 
             this._safeEmitConnected(message.connectionId, message.userId);
@@ -799,10 +801,10 @@ export class WebPubSubClient {
             break;
           }
 
-          try {
-            logger.verbose(`Delay time for reconnect attempt ${attempt}: ${delayInMs}`);
-            await delay(delayInMs);
-          } catch {}
+          logger.verbose(`Delay time for reconnect attempt ${attempt}: ${delayInMs}`);
+          await delay(delayInMs).catch(() => {
+            /** empty */
+          });
         }
       }
     } finally {
@@ -874,7 +876,7 @@ export class WebPubSubClient {
       }
     }
 
-    return await entity.promise();
+    return entity.promise();
   }
 
   private async _handleConnectionClose(): Promise<void> {
@@ -1230,7 +1232,9 @@ class AbortableTask {
   public abort(): void {
     try {
       this._abortController.abort();
-    } catch {}
+    } catch {
+      /** empty */
+    }
   }
 
   private async _start(): Promise<void> {
@@ -1239,6 +1243,7 @@ class AbortableTask {
       try {
         await this._func(this._obj);
       } catch {
+        /** empty */
       } finally {
         await delay(this._interval);
       }

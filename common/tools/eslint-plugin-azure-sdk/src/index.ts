@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import processors from "./processors";
-import rules from "./rules";
-import { name, version } from "../package.json";
-
-import azsdkConfigs from "./configs/index";
+import processors from "./processors/index.js";
+import rules from "./rules/index.js";
+import * as constants from "./utils/constants.js";
+import azsdkConfigs from "./configs/index.js";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 
 const plugin: Omit<FlatConfig.Plugin, "configs"> = {
   meta: {
-    name,
-    version,
+    name: constants.SDK_NAME,
+    version: constants.SDK_VERSION,
   },
   processors,
   rules,
@@ -49,10 +48,16 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
       })
     : [];
 
-  return [...configs.recommended, ...updated];
+  return [
+    ...configs.recommended,
+    ...updated,
+    {
+      ignores: ["**/test/snippets.spec.ts", "**/test/stress"],
+    },
+  ];
 }
 
-export = {
+export default {
   ...plugin,
   configs,
   config,
