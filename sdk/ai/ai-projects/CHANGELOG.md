@@ -1,12 +1,15 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2024-12-19)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Address issue creating tool definition from connection.
+- Improve Error handling api call failure.
 
 ### Other Changes
 
