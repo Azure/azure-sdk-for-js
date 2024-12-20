@@ -1382,6 +1382,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cognitiveservices@7.5.0:
+    resolution: {integrity: sha512-UA13hCXP1Ou3chmwLf4FoXibVn5mmstcVqOhR+f5Iwv1ScwdlocIMC4jn9vkrJnkSwHE+03SSax5upAkmr6fnw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-compute@21.6.0:
     resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
     engines: {node: '>=18.0.0'}
@@ -13286,7 +13301,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-9tEMdT8rzdLZbdjBT+2hgzRtOCZ/sbBbE7hOEwiZL7PwbGNtL0bDy52FdXCHLHjNg2mfXDag4989Qj/YPD0QcQ==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-kU8dBNWUm8VGo/euxEUk12k3Wqu3sj7XQn3HbffgOVVYJCDOGR+OfhHPkL2KlvCRX2s0LnVzCWtIpKgdm54Y6g==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -13302,6 +13317,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -21814,10 +21830,11 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-HbvC8ZldtA4WQ2pLFQaqYn7GBJbve7a4L/FlCFInJL8qXMDqC0B0by+XFQRFwJNyhR16BUE4OzqLtmr0RZHi0A==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-WBMr219FukgA/DRhVZIynuBGggV/YspVdg/gkiZgp2b7xDNfjW9wAy4bAh25GrHYtqEqeDjBqj9DMLUurVhN7A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cognitiveservices': 7.5.0
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)

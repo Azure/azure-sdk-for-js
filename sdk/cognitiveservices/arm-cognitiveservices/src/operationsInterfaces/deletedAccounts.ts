@@ -13,7 +13,7 @@ import {
   DeletedAccountsListOptionalParams,
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
-  DeletedAccountsPurgeOptionalParams
+  DeletedAccountsPurgeOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface DeletedAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * Returns a Cognitive Services account specified by the parameters.
@@ -37,7 +37,7 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsGetOptionalParams
+    options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse>;
   /**
    * Deletes a Cognitive Services account from the resource group.
@@ -50,7 +50,7 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
+    options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
@@ -63,6 +63,6 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
+    options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<void>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CommitmentPlan,
-  CognitiveServicesManagementClient
+  CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create Cognitive Services commitment plan.
  *
  * @summary Create Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/CreateSharedCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CreateSharedCommitmentPlan.json
  */
 async function createCommitmentPlan() {
   const subscriptionId =
@@ -37,19 +37,19 @@ async function createCommitmentPlan() {
       autoRenew: true,
       current: { tier: "T1" },
       hostingModel: "Web",
-      planType: "STT"
+      planType: "STT",
     },
-    sku: { name: "S0" }
+    sku: { name: "S0" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.commitmentPlans.beginCreateOrUpdatePlanAndWait(
     resourceGroupName,
     commitmentPlanName,
-    commitmentPlan
+    commitmentPlan,
   );
   console.log(result);
 }
