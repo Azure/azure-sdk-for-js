@@ -187,3 +187,76 @@ export interface LedgerUserOutput {
   /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
   readonly userId?: string;
 }
+
+/** Paginated users returned in response to a query. */
+export interface PagedLedgerUsersOutput {
+  ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** Details about a Confidential Ledger user. */
+export interface LedgerUserMultipleRolesOutput {
+  /** Represents an assignable role. */
+  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+  /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
+  readonly userId?: string;
+}
+
+/** bundle for the user defined endpoints */
+export interface BundleOutput {
+  metadata: MetadataOutput;
+  /** Any object */
+  modules: Record<string, unknown>;
+}
+
+export interface MetadataOutput {
+  /** A map of path to method endpoints for the path */
+  endpoints: Record<string, MethodToEndpointPropertiesOutput>;
+}
+
+export interface MethodToEndpointPropertiesOutput {
+  get?: EndpointPropertiesOutput;
+  put?: EndpointPropertiesOutput;
+  patch?: EndpointPropertiesOutput;
+  delete?: EndpointPropertiesOutput;
+}
+
+export interface EndpointPropertiesOutput {
+  authn_policies: Array<any>;
+  forwarding_required: "sometimes" | "always" | "never";
+  interpreter_reuse?: InterpreterReusePolicyOutput;
+  js_function?: string;
+  js_module?: string;
+  mode?: "readwrite" | "readonly" | "historical";
+  /** Anything */
+  openapi?: any;
+  openapi_hidden?: boolean;
+  redirection_strategy?: "none" | "to_primary" | "to_backup";
+}
+
+export interface InterpreterReusePolicyOutput {
+  key: string;
+}
+
+/** JS runtime options for user defined endpoints */
+export interface JSRuntimeOptionsOutput {
+  log_exception_details?: boolean;
+  max_cached_interpreters?: number;
+  max_execution_time_ms?: number;
+  max_heap_bytes?: number;
+  max_stack_bytes?: number;
+  return_exception_details?: boolean;
+}
+
+export interface ModuleDefOutput {
+  module: string;
+  name: string;
+}
+
+/** Definition for roles */
+export interface RoleOutput {
+  /** name of the user defined role */
+  roleName?: string;
+  roleActions?: Array<string>;
+}
