@@ -108,6 +108,7 @@ The following types are renamed
 - `ResourceDetailsOutput` to `DocumentIntelligenceResourceDetailsOutput`
 - `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
 - `GetResourceInfo` to `GetResourceDetails`
+- `AnalyzeResultOperationOutput` to `AnalyzeOperationOutput`
 
 ## 1.0.0-beta.3 (2024-08-20)
 
