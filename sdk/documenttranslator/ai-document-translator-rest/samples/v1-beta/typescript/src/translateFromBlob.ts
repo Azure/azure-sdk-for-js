@@ -11,12 +11,12 @@
  * To handle these long running operations we need to call a few different endpoints, to track the status of the operation
  *
  * @summary translates a collection of documents
- * @azsdk-weight 40
  */
 
-import type { StartTranslationDetails } from "@azure-rest/ai-document-translator";
-import DocumentTranslator from "@azure-rest/ai-document-translator";
-import "dotenv/config";
+import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * These are states of the Long Running Operation considered as terminal
@@ -48,7 +48,7 @@ const batchSubmissionRequest: StartTranslationDetails = {
   ],
 };
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log("== Translate documents in a container sample ==");
 
   // Create a new client
@@ -112,7 +112,7 @@ function wait(seconds: number): Promise<void> {
 }
 
 // Helper function that extracts the batch id from operation-location header
-function extractBatchId(batchUrl: string = ""): string {
+function extractBatchId(batchUrl: string = "") {
   const parts = batchUrl.split("/");
 
   return parts[parts.length - 1];
