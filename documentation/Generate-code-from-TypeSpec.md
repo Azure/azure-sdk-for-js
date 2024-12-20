@@ -63,7 +63,6 @@ code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath
 ```
 
 This command will automatically:
-
 1. Generate package code with TypeSpec.
 2. Build the package.
 3. Generate and run tests (optional, with warnings displayed if they fail).
@@ -74,8 +73,8 @@ This command will automatically:
 8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
-> To reduce workload and unnecessary mistakes, it is recommended to use the simple method from the previous section. Only if you are clear about what you are doing and the method from the previous section does not meet your needs, should you consider using the method below.
 ### Generate Code with tsp-client tool
+> To reduce workload and unnecessary mistakes, it is recommended to use the simple method from the previous section. Only if you are clear about what you are doing and the method from the previous section does not meet your needs, should you consider using the method below.
 
 Install `tsp-client` CLI tool
 
