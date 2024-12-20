@@ -109,6 +109,10 @@ The following types are renamed
 - `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
 - `GetResourceInfo` to `GetResourceDetails`
 - `AnalyzeResultOperationOutput` to `AnalyzeOperationOutput`
+- `FontWeightOutput` to `DocumentFontWeightOutput`
+- `FontStyleOutput` to `DocumentFontStyleOutput`
+- `DocumentOutput` to `AnalyzedDocumentOutput`
+- `CopyAuthorizationOutput` to `ModelCopyAuthorizationOutput`
 
 ## 1.0.0-beta.3 (2024-08-20)
 
