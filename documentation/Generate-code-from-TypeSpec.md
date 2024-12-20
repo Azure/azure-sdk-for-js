@@ -6,6 +6,8 @@
 
 - [Node.js 18.x LTS](https://nodejs.org/en/download) or later
 - [Git](https://git-scm.com/downloads)
+- [azure-rest-api-specs repo](https://github.com/Azure/azure-rest-api-specs)
+- [azure-sdk-for-js repo](https://github.com/Azure/azure-sdk-for-js/)
 
 # Generate SDK
 
@@ -31,11 +33,11 @@ in your tspconfig.yaml
 
 SDK module would be generated under the SDK project folder at `sdk/<service>/<module>`.
 
-### Generate Code with code-gen-pipeline tool
+### Generate Code with code-gen-pipeline tool (recommend)
 
 Install dependencies to use code-gen-pipeline,  
 ```ps
-npm install -g @azure-tools/typespec-client-generator-cli
+npm install -g @azure-tools/typespec-client-generator-cli@0.14.1
 npm install -g @microsoft/rush@5.92.0
 npm install -g @azure-tools/js-sdk-release-tools
 ```
@@ -55,17 +57,24 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath={path-to-anywhere(This will not be used locally, but this is required to use code-gen-pipeline)}  --typespecEmitter=@azure-tools/typespec-ts  --local 
+> path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline.
+
+code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
 ```
 
-This command will do:\
-1: generate code with typespec\
-2: generate CHANGELOG.md\
-3: update rush.json(if the generated package is new)\
-4: generate/update ci.mgmt.yml or ci.yml(if the generated package is new)
+This command will automatically:
+
+1. Generate package code with TypeSpec.
+2. Build the package.
+3. Generate and run tests (optional, with warnings displayed if they fail).
+4. Generate samples, if enabled.
+5. Create or update the `CHANGELOG.md`.
+6. Bump the version according to the Azure SDK for JS policy.
+7. If this is a new package, add it to the project items in `rush.json`.
+8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
-
+> To reduce workload and unnecessary mistakes, it is recommended to use the simple method from the previous section. Only if you are clear about what you are doing and the method from the previous section does not meet your needs, should you consider using the method below.
 ### Generate Code with tsp-client tool
 
 Install `tsp-client` CLI tool
@@ -111,6 +120,6 @@ Here is the example of the config
 
 **2**: You should add `ci.yml` or `ci.mgmt.yml` under `sdk/<service>/<module`. `ci.yml` is for `Data Plane SDKs` and `ci.mgmt.yml` is for `Mgmt Plane SDKs`. See [Create/Update the ci.yaml](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#createupdate-the-ciyaml)
 
-# Build
+#### Build
 
 See [steps-after-generations](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md).
