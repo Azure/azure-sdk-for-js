@@ -7,8 +7,8 @@ import type {
   GatewayStatistics,
   MetadataLookUpDiagnostic,
   MetadataLookUpType,
-} from "../CosmosDiagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
+} from "../CosmosDiagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
 
 /**
  * @hidden

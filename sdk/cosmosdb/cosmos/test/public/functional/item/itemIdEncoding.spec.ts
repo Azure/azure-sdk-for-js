@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, CosmosClient } from "../../../../src";
+
+import type { Container, CosmosClient } from "../../../../src/index.js";
 import {
   getTestContainer,
   removeAllDatabases,
   defaultClient,
   defaultComputeGatewayClient,
-} from "../../common/TestHelpers";
+} from "../../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 interface ItemPayload {
   id?: string;
@@ -32,10 +32,10 @@ const createPayload = function (id: string): ItemPayload {
   };
 };
 
-const executeTestCase = async function (
+const executeTestCase = async (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
-) {
+): Promise<void> => {
   const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
@@ -113,12 +113,11 @@ const executeTestCase = async function (
   }
 };
 
-const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
+const executeTestCaseOnComputeGateway = async (scenario: TestScenario): Promise<void> => {
   return executeTestCase(scenario, true);
 };
 
-describe("Id encoding", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("Id encoding", { timeout: 10000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });

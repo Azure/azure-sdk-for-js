@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { Constants } from "../../../../src";
-import type { Batch, Operation } from "../../../../src/utils/batch";
+import { Constants } from "../../../../src/index.js";
+import type { Batch, Operation } from "../../../../src/utils/batch.js";
 import {
   BulkOperationType,
   calculateObjectSizeInBytes,
   splitBatchBasedOnBodySize,
-} from "../../../../src/utils/batch";
+} from "../../../../src/utils/batch.js";
+import { describe, it, assert } from "vitest";
 
 const operationSkeleton: Operation = {
   operationType: BulkOperationType.Create,

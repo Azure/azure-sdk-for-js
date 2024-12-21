@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common/constants";
-import { sleep } from "../common/helper";
-import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import type { Response } from "../request";
-import type { RequestContext } from "../request/RequestContext";
-import { TimeoutErrorCode } from "../request/TimeoutError";
-import { addDignosticChild } from "../utils/diagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
-import { DefaultRetryPolicy } from "./defaultRetryPolicy";
-import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
-import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
-import type { RetryContext } from "./RetryContext";
-import type { RetryPolicy } from "./RetryPolicy";
-import { SessionRetryPolicy } from "./sessionRetryPolicy";
-import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy";
+import { Constants } from "../common/constants.js";
+import { sleep } from "../common/helper.js";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
+import type { RequestContext } from "../request/RequestContext.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import { addDignosticChild } from "../utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
+import { DefaultRetryPolicy } from "./defaultRetryPolicy.js";
+import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy.js";
+import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
+import { SessionRetryPolicy } from "./sessionRetryPolicy.js";
+import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy.js";
 
 /**
  * @hidden

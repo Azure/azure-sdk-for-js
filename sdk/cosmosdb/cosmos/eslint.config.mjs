@@ -27,6 +27,7 @@ export default azsdkEslint.config([
       // left to the cosmos team make this rule error again
       "@azure/azure-sdk/ts-package-json-module": "warn",
       "@azure/azure-sdk/ts-doc-internal": "warn",
+      "@azure/azure-sdk/ts-use-interface-parameters": "off",
     },
   },
   {
