@@ -57,11 +57,8 @@ export const ServiceAuth: {
 
 // @public
 export const ServiceEnvironmentVariable: {
-    PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;
-    PLAYWRIGHT_SERVICE_REPORTING_URL: string;
 };
 
 // @public

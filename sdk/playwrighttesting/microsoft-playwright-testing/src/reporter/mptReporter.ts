@@ -377,12 +377,14 @@ class MPTReporter implements Reporter {
       this.isTokenValid = false;
       return;
     }
-    if (!process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]) {
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]) {
       process.stdout.write("\nReporting service url not found.");
       this.isTokenValid = false;
       return;
     }
-    reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
+    reporterLogger.info(
+      `Reporting url - ${process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]}`,
+    );
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
       process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR.message}`);
       this.isTokenValid = false;
