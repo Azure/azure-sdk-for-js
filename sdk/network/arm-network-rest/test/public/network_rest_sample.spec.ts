@@ -102,7 +102,7 @@ describe("Network test", () => {
       throw "create virtualNetworks set error result" + res;
     }
 
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, virtualNetworkName);
   });
@@ -129,7 +129,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create subnets set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, subnet_name);
   });
@@ -159,7 +159,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create ipGroups set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, ipGroupName);
   });
@@ -200,7 +200,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "get subnets set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, subnet_name);
   });
@@ -221,7 +221,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "get ipGroups set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, ipGroupName);
   });
@@ -304,7 +304,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "update virtualNetworks set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, virtualNetworkName);
   });
@@ -322,7 +322,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
@@ -362,7 +362,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
@@ -402,7 +402,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {

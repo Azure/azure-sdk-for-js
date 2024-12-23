@@ -52,13 +52,13 @@ module.exports = function (config) {
     },
 
     envPreprocessor: [
-      "RECORDINGS_RELATIVE_PATH",
       "TEST_MODE",
       "ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
@@ -102,7 +102,7 @@ module.exports = function (config) {
 
     // --no-sandbox allows our tests to run in Linux without having to change the system.
     // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["Firefox"],
+    browsers: ["ChromeHeadlessNoSandbox"],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
