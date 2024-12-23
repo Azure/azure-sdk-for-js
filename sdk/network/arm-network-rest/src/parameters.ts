@@ -153,8 +153,8 @@ export interface ApplicationGatewaysDeleteQueryParam {
   queryParameters: ApplicationGatewaysDeleteQueryParamProperties;
 }
 
-export type ApplicationGatewaysDeleteParameters =
-  ApplicationGatewaysDeleteQueryParam & RequestParameters;
+export type ApplicationGatewaysDeleteParameters = ApplicationGatewaysDeleteQueryParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysGetQueryParamProperties {
   /** Api Version */
@@ -165,8 +165,7 @@ export interface ApplicationGatewaysGetQueryParam {
   queryParameters: ApplicationGatewaysGetQueryParamProperties;
 }
 
-export type ApplicationGatewaysGetParameters =
-  ApplicationGatewaysGetQueryParam & RequestParameters;
+export type ApplicationGatewaysGetParameters = ApplicationGatewaysGetQueryParam & RequestParameters;
 
 export interface ApplicationGatewaysCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update application gateway operation. */
@@ -212,11 +211,10 @@ export interface ApplicationGatewaysUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ApplicationGatewaysUpdateTagsParameters =
-  ApplicationGatewaysUpdateTagsQueryParam &
-    ApplicationGatewaysUpdateTagsMediaTypesParam &
-    ApplicationGatewaysUpdateTagsBodyParam &
-    RequestParameters;
+export type ApplicationGatewaysUpdateTagsParameters = ApplicationGatewaysUpdateTagsQueryParam &
+  ApplicationGatewaysUpdateTagsMediaTypesParam &
+  ApplicationGatewaysUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysListQueryParamProperties {
   /** Api Version */
@@ -227,8 +225,8 @@ export interface ApplicationGatewaysListQueryParam {
   queryParameters: ApplicationGatewaysListQueryParamProperties;
 }
 
-export type ApplicationGatewaysListParameters =
-  ApplicationGatewaysListQueryParam & RequestParameters;
+export type ApplicationGatewaysListParameters = ApplicationGatewaysListQueryParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysListAllQueryParamProperties {
   /** Api Version */
@@ -239,8 +237,8 @@ export interface ApplicationGatewaysListAllQueryParam {
   queryParameters: ApplicationGatewaysListAllQueryParamProperties;
 }
 
-export type ApplicationGatewaysListAllParameters =
-  ApplicationGatewaysListAllQueryParam & RequestParameters;
+export type ApplicationGatewaysListAllParameters = ApplicationGatewaysListAllQueryParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysStartQueryParamProperties {
   /** Api Version */
@@ -251,8 +249,8 @@ export interface ApplicationGatewaysStartQueryParam {
   queryParameters: ApplicationGatewaysStartQueryParamProperties;
 }
 
-export type ApplicationGatewaysStartParameters =
-  ApplicationGatewaysStartQueryParam & RequestParameters;
+export type ApplicationGatewaysStartParameters = ApplicationGatewaysStartQueryParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysStopQueryParamProperties {
   /** Api Version */
@@ -263,8 +261,8 @@ export interface ApplicationGatewaysStopQueryParam {
   queryParameters: ApplicationGatewaysStopQueryParamProperties;
 }
 
-export type ApplicationGatewaysStopParameters =
-  ApplicationGatewaysStopQueryParam & RequestParameters;
+export type ApplicationGatewaysStopParameters = ApplicationGatewaysStopQueryParam &
+  RequestParameters;
 
 export interface ApplicationGatewaysBackendHealthQueryParamProperties {
   /** Api Version */
@@ -377,8 +375,7 @@ export interface ApplicationGatewaysListAvailableSslPredefinedPoliciesQueryParam
 }
 
 export type ApplicationGatewaysListAvailableSslPredefinedPoliciesParameters =
-  ApplicationGatewaysListAvailableSslPredefinedPoliciesQueryParam &
-    RequestParameters;
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesQueryParam & RequestParameters;
 
 export interface ApplicationGatewaysGetSslPredefinedPolicyQueryParamProperties {
   /** Api Version */
@@ -414,8 +411,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsDeleteQueryParam {
 }
 
 export type ApplicationGatewayPrivateEndpointConnectionsDeleteParameters =
-  ApplicationGatewayPrivateEndpointConnectionsDeleteQueryParam &
-    RequestParameters;
+  ApplicationGatewayPrivateEndpointConnectionsDeleteQueryParam & RequestParameters;
 
 export interface ApplicationGatewayPrivateEndpointConnectionsUpdateBodyParam {
   /** Parameters supplied to update application gateway private endpoint connection operation. */
@@ -464,8 +460,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsListQueryParam {
 }
 
 export type ApplicationGatewayPrivateEndpointConnectionsListParameters =
-  ApplicationGatewayPrivateEndpointConnectionsListQueryParam &
-    RequestParameters;
+  ApplicationGatewayPrivateEndpointConnectionsListQueryParam & RequestParameters;
 
 export interface ApplicationGatewayWafDynamicManifestsDefaultGetQueryParamProperties {
   /** Api Version */
@@ -500,8 +495,8 @@ export interface ApplicationSecurityGroupsDeleteQueryParam {
   queryParameters: ApplicationSecurityGroupsDeleteQueryParamProperties;
 }
 
-export type ApplicationSecurityGroupsDeleteParameters =
-  ApplicationSecurityGroupsDeleteQueryParam & RequestParameters;
+export type ApplicationSecurityGroupsDeleteParameters = ApplicationSecurityGroupsDeleteQueryParam &
+  RequestParameters;
 
 export interface ApplicationSecurityGroupsGetQueryParamProperties {
   /** Api Version */
@@ -512,8 +507,8 @@ export interface ApplicationSecurityGroupsGetQueryParam {
   queryParameters: ApplicationSecurityGroupsGetQueryParamProperties;
 }
 
-export type ApplicationSecurityGroupsGetParameters =
-  ApplicationSecurityGroupsGetQueryParam & RequestParameters;
+export type ApplicationSecurityGroupsGetParameters = ApplicationSecurityGroupsGetQueryParam &
+  RequestParameters;
 
 export interface ApplicationSecurityGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update ApplicationSecurityGroup operation. */
@@ -586,8 +581,8 @@ export interface ApplicationSecurityGroupsListQueryParam {
   queryParameters: ApplicationSecurityGroupsListQueryParamProperties;
 }
 
-export type ApplicationSecurityGroupsListParameters =
-  ApplicationSecurityGroupsListQueryParam & RequestParameters;
+export type ApplicationSecurityGroupsListParameters = ApplicationSecurityGroupsListQueryParam &
+  RequestParameters;
 
 export interface AvailableDelegationsListQueryParamProperties {
   /** Api Version */
@@ -598,8 +593,8 @@ export interface AvailableDelegationsListQueryParam {
   queryParameters: AvailableDelegationsListQueryParamProperties;
 }
 
-export type AvailableDelegationsListParameters =
-  AvailableDelegationsListQueryParam & RequestParameters;
+export type AvailableDelegationsListParameters = AvailableDelegationsListQueryParam &
+  RequestParameters;
 
 export interface AvailableResourceGroupDelegationsListQueryParamProperties {
   /** Api Version */
@@ -622,8 +617,8 @@ export interface AvailableServiceAliasesListQueryParam {
   queryParameters: AvailableServiceAliasesListQueryParamProperties;
 }
 
-export type AvailableServiceAliasesListParameters =
-  AvailableServiceAliasesListQueryParam & RequestParameters;
+export type AvailableServiceAliasesListParameters = AvailableServiceAliasesListQueryParam &
+  RequestParameters;
 
 export interface AvailableServiceAliasesListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -646,8 +641,7 @@ export interface AzureFirewallsDeleteQueryParam {
   queryParameters: AzureFirewallsDeleteQueryParamProperties;
 }
 
-export type AzureFirewallsDeleteParameters = AzureFirewallsDeleteQueryParam &
-  RequestParameters;
+export type AzureFirewallsDeleteParameters = AzureFirewallsDeleteQueryParam & RequestParameters;
 
 export interface AzureFirewallsGetQueryParamProperties {
   /** Api Version */
@@ -658,8 +652,7 @@ export interface AzureFirewallsGetQueryParam {
   queryParameters: AzureFirewallsGetQueryParamProperties;
 }
 
-export type AzureFirewallsGetParameters = AzureFirewallsGetQueryParam &
-  RequestParameters;
+export type AzureFirewallsGetParameters = AzureFirewallsGetQueryParam & RequestParameters;
 
 export interface AzureFirewallsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Azure Firewall operation. */
@@ -680,11 +673,10 @@ export interface AzureFirewallsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AzureFirewallsCreateOrUpdateParameters =
-  AzureFirewallsCreateOrUpdateQueryParam &
-    AzureFirewallsCreateOrUpdateMediaTypesParam &
-    AzureFirewallsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type AzureFirewallsCreateOrUpdateParameters = AzureFirewallsCreateOrUpdateQueryParam &
+  AzureFirewallsCreateOrUpdateMediaTypesParam &
+  AzureFirewallsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface AzureFirewallsUpdateTagsBodyParam {
   /** Parameters supplied to update azure firewall tags. */
@@ -705,11 +697,10 @@ export interface AzureFirewallsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AzureFirewallsUpdateTagsParameters =
-  AzureFirewallsUpdateTagsQueryParam &
-    AzureFirewallsUpdateTagsMediaTypesParam &
-    AzureFirewallsUpdateTagsBodyParam &
-    RequestParameters;
+export type AzureFirewallsUpdateTagsParameters = AzureFirewallsUpdateTagsQueryParam &
+  AzureFirewallsUpdateTagsMediaTypesParam &
+  AzureFirewallsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface AzureFirewallsListQueryParamProperties {
   /** Api Version */
@@ -720,8 +711,7 @@ export interface AzureFirewallsListQueryParam {
   queryParameters: AzureFirewallsListQueryParamProperties;
 }
 
-export type AzureFirewallsListParameters = AzureFirewallsListQueryParam &
-  RequestParameters;
+export type AzureFirewallsListParameters = AzureFirewallsListQueryParam & RequestParameters;
 
 export interface AzureFirewallsListAllQueryParamProperties {
   /** Api Version */
@@ -732,8 +722,7 @@ export interface AzureFirewallsListAllQueryParam {
   queryParameters: AzureFirewallsListAllQueryParamProperties;
 }
 
-export type AzureFirewallsListAllParameters = AzureFirewallsListAllQueryParam &
-  RequestParameters;
+export type AzureFirewallsListAllParameters = AzureFirewallsListAllQueryParam & RequestParameters;
 
 export interface AzureFirewallsListLearnedPrefixesQueryParamProperties {
   /** Api Version */
@@ -756,8 +745,8 @@ export interface AzureFirewallFqdnTagsListAllQueryParam {
   queryParameters: AzureFirewallFqdnTagsListAllQueryParamProperties;
 }
 
-export type AzureFirewallFqdnTagsListAllParameters =
-  AzureFirewallFqdnTagsListAllQueryParam & RequestParameters;
+export type AzureFirewallFqdnTagsListAllParameters = AzureFirewallFqdnTagsListAllQueryParam &
+  RequestParameters;
 
 export interface WebCategoriesGetQueryParamProperties {
   /** Api Version */
@@ -770,8 +759,7 @@ export interface WebCategoriesGetQueryParam {
   queryParameters: WebCategoriesGetQueryParamProperties;
 }
 
-export type WebCategoriesGetParameters = WebCategoriesGetQueryParam &
-  RequestParameters;
+export type WebCategoriesGetParameters = WebCategoriesGetQueryParam & RequestParameters;
 
 export interface WebCategoriesListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -782,8 +770,8 @@ export interface WebCategoriesListBySubscriptionQueryParam {
   queryParameters: WebCategoriesListBySubscriptionQueryParamProperties;
 }
 
-export type WebCategoriesListBySubscriptionParameters =
-  WebCategoriesListBySubscriptionQueryParam & RequestParameters;
+export type WebCategoriesListBySubscriptionParameters = WebCategoriesListBySubscriptionQueryParam &
+  RequestParameters;
 
 export interface BastionHostsDeleteQueryParamProperties {
   /** Api Version */
@@ -794,8 +782,7 @@ export interface BastionHostsDeleteQueryParam {
   queryParameters: BastionHostsDeleteQueryParamProperties;
 }
 
-export type BastionHostsDeleteParameters = BastionHostsDeleteQueryParam &
-  RequestParameters;
+export type BastionHostsDeleteParameters = BastionHostsDeleteQueryParam & RequestParameters;
 
 export interface BastionHostsGetQueryParamProperties {
   /** Api Version */
@@ -806,8 +793,7 @@ export interface BastionHostsGetQueryParam {
   queryParameters: BastionHostsGetQueryParamProperties;
 }
 
-export type BastionHostsGetParameters = BastionHostsGetQueryParam &
-  RequestParameters;
+export type BastionHostsGetParameters = BastionHostsGetQueryParam & RequestParameters;
 
 export interface BastionHostsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Bastion Host operation. */
@@ -828,11 +814,10 @@ export interface BastionHostsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type BastionHostsCreateOrUpdateParameters =
-  BastionHostsCreateOrUpdateQueryParam &
-    BastionHostsCreateOrUpdateMediaTypesParam &
-    BastionHostsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type BastionHostsCreateOrUpdateParameters = BastionHostsCreateOrUpdateQueryParam &
+  BastionHostsCreateOrUpdateMediaTypesParam &
+  BastionHostsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface BastionHostsUpdateTagsBodyParam {
   /** Parameters supplied to update BastionHost tags. */
@@ -853,11 +838,10 @@ export interface BastionHostsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type BastionHostsUpdateTagsParameters =
-  BastionHostsUpdateTagsQueryParam &
-    BastionHostsUpdateTagsMediaTypesParam &
-    BastionHostsUpdateTagsBodyParam &
-    RequestParameters;
+export type BastionHostsUpdateTagsParameters = BastionHostsUpdateTagsQueryParam &
+  BastionHostsUpdateTagsMediaTypesParam &
+  BastionHostsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface BastionHostsListQueryParamProperties {
   /** Api Version */
@@ -868,8 +852,7 @@ export interface BastionHostsListQueryParam {
   queryParameters: BastionHostsListQueryParamProperties;
 }
 
-export type BastionHostsListParameters = BastionHostsListQueryParam &
-  RequestParameters;
+export type BastionHostsListParameters = BastionHostsListQueryParam & RequestParameters;
 
 export interface BastionHostsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -880,8 +863,8 @@ export interface BastionHostsListByResourceGroupQueryParam {
   queryParameters: BastionHostsListByResourceGroupQueryParamProperties;
 }
 
-export type BastionHostsListByResourceGroupParameters =
-  BastionHostsListByResourceGroupQueryParam & RequestParameters;
+export type BastionHostsListByResourceGroupParameters = BastionHostsListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface PutBastionShareableLinkBodyParam {
   /** Post request for all the Bastion Shareable Link endpoints. */
@@ -902,11 +885,10 @@ export interface PutBastionShareableLinkMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PutBastionShareableLinkParameters =
-  PutBastionShareableLinkQueryParam &
-    PutBastionShareableLinkMediaTypesParam &
-    PutBastionShareableLinkBodyParam &
-    RequestParameters;
+export type PutBastionShareableLinkParameters = PutBastionShareableLinkQueryParam &
+  PutBastionShareableLinkMediaTypesParam &
+  PutBastionShareableLinkBodyParam &
+  RequestParameters;
 
 export interface DeleteBastionShareableLinkBodyParam {
   /** Post request for all the Bastion Shareable Link endpoints. */
@@ -927,11 +909,10 @@ export interface DeleteBastionShareableLinkMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DeleteBastionShareableLinkParameters =
-  DeleteBastionShareableLinkQueryParam &
-    DeleteBastionShareableLinkMediaTypesParam &
-    DeleteBastionShareableLinkBodyParam &
-    RequestParameters;
+export type DeleteBastionShareableLinkParameters = DeleteBastionShareableLinkQueryParam &
+  DeleteBastionShareableLinkMediaTypesParam &
+  DeleteBastionShareableLinkBodyParam &
+  RequestParameters;
 
 export interface GetBastionShareableLinkBodyParam {
   /** Post request for all the Bastion Shareable Link endpoints. */
@@ -952,11 +933,10 @@ export interface GetBastionShareableLinkMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type GetBastionShareableLinkParameters =
-  GetBastionShareableLinkQueryParam &
-    GetBastionShareableLinkMediaTypesParam &
-    GetBastionShareableLinkBodyParam &
-    RequestParameters;
+export type GetBastionShareableLinkParameters = GetBastionShareableLinkQueryParam &
+  GetBastionShareableLinkMediaTypesParam &
+  GetBastionShareableLinkBodyParam &
+  RequestParameters;
 
 export interface GetActiveSessionsQueryParamProperties {
   /** Api Version */
@@ -967,8 +947,7 @@ export interface GetActiveSessionsQueryParam {
   queryParameters: GetActiveSessionsQueryParamProperties;
 }
 
-export type GetActiveSessionsParameters = GetActiveSessionsQueryParam &
-  RequestParameters;
+export type GetActiveSessionsParameters = GetActiveSessionsQueryParam & RequestParameters;
 
 export interface DisconnectActiveSessionsBodyParam {
   /** The list of sessionids to disconnect. */
@@ -989,11 +968,10 @@ export interface DisconnectActiveSessionsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DisconnectActiveSessionsParameters =
-  DisconnectActiveSessionsQueryParam &
-    DisconnectActiveSessionsMediaTypesParam &
-    DisconnectActiveSessionsBodyParam &
-    RequestParameters;
+export type DisconnectActiveSessionsParameters = DisconnectActiveSessionsQueryParam &
+  DisconnectActiveSessionsMediaTypesParam &
+  DisconnectActiveSessionsBodyParam &
+  RequestParameters;
 
 export interface CheckDnsNameAvailabilityQueryParamProperties {
   /** The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$. */
@@ -1006,8 +984,8 @@ export interface CheckDnsNameAvailabilityQueryParam {
   queryParameters: CheckDnsNameAvailabilityQueryParamProperties;
 }
 
-export type CheckDnsNameAvailabilityParameters =
-  CheckDnsNameAvailabilityQueryParam & RequestParameters;
+export type CheckDnsNameAvailabilityParameters = CheckDnsNameAvailabilityQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteProviderPortQueryParamProperties {
   /** Api Version */
@@ -1018,8 +996,8 @@ export interface ExpressRouteProviderPortQueryParam {
   queryParameters: ExpressRouteProviderPortQueryParamProperties;
 }
 
-export type ExpressRouteProviderPortParameters =
-  ExpressRouteProviderPortQueryParam & RequestParameters;
+export type ExpressRouteProviderPortParameters = ExpressRouteProviderPortQueryParam &
+  RequestParameters;
 
 export interface ListActiveConnectivityConfigurationsBodyParam {
   /** Active Configuration Parameter. */
@@ -1069,11 +1047,10 @@ export interface ListActiveSecurityAdminRulesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ListActiveSecurityAdminRulesParameters =
-  ListActiveSecurityAdminRulesQueryParam &
-    ListActiveSecurityAdminRulesMediaTypesParam &
-    ListActiveSecurityAdminRulesBodyParam &
-    RequestParameters;
+export type ListActiveSecurityAdminRulesParameters = ListActiveSecurityAdminRulesQueryParam &
+  ListActiveSecurityAdminRulesMediaTypesParam &
+  ListActiveSecurityAdminRulesBodyParam &
+  RequestParameters;
 
 export interface ListNetworkManagerEffectiveConnectivityConfigurationsBodyParam {
   /** Parameters supplied to list correct page. */
@@ -1138,8 +1115,8 @@ export interface SupportedSecurityProvidersQueryParam {
   queryParameters: SupportedSecurityProvidersQueryParamProperties;
 }
 
-export type SupportedSecurityProvidersParameters =
-  SupportedSecurityProvidersQueryParam & RequestParameters;
+export type SupportedSecurityProvidersParameters = SupportedSecurityProvidersQueryParam &
+  RequestParameters;
 
 export interface GeneratevirtualwanvpnserverconfigurationvpnprofileBodyParam {
   /** Parameters supplied to the generate VirtualWan VPN profile generation operation. */
@@ -1176,8 +1153,7 @@ export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesQ
 }
 
 export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters =
-  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesQueryParam &
-    RequestParameters;
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesQueryParam & RequestParameters;
 
 export interface NetworkInterfacesListCloudServiceNetworkInterfacesQueryParamProperties {
   /** Api Version */
@@ -1189,8 +1165,7 @@ export interface NetworkInterfacesListCloudServiceNetworkInterfacesQueryParam {
 }
 
 export type NetworkInterfacesListCloudServiceNetworkInterfacesParameters =
-  NetworkInterfacesListCloudServiceNetworkInterfacesQueryParam &
-    RequestParameters;
+  NetworkInterfacesListCloudServiceNetworkInterfacesQueryParam & RequestParameters;
 
 export interface NetworkInterfacesGetCloudServiceNetworkInterfaceQueryParamProperties {
   /** Api Version */
@@ -1204,8 +1179,7 @@ export interface NetworkInterfacesGetCloudServiceNetworkInterfaceQueryParam {
 }
 
 export type NetworkInterfacesGetCloudServiceNetworkInterfaceParameters =
-  NetworkInterfacesGetCloudServiceNetworkInterfaceQueryParam &
-    RequestParameters;
+  NetworkInterfacesGetCloudServiceNetworkInterfaceQueryParam & RequestParameters;
 
 export interface NetworkInterfacesDeleteQueryParamProperties {
   /** Api Version */
@@ -1216,8 +1190,8 @@ export interface NetworkInterfacesDeleteQueryParam {
   queryParameters: NetworkInterfacesDeleteQueryParamProperties;
 }
 
-export type NetworkInterfacesDeleteParameters =
-  NetworkInterfacesDeleteQueryParam & RequestParameters;
+export type NetworkInterfacesDeleteParameters = NetworkInterfacesDeleteQueryParam &
+  RequestParameters;
 
 export interface NetworkInterfacesGetQueryParamProperties {
   /** Api Version */
@@ -1230,8 +1204,7 @@ export interface NetworkInterfacesGetQueryParam {
   queryParameters: NetworkInterfacesGetQueryParamProperties;
 }
 
-export type NetworkInterfacesGetParameters = NetworkInterfacesGetQueryParam &
-  RequestParameters;
+export type NetworkInterfacesGetParameters = NetworkInterfacesGetQueryParam & RequestParameters;
 
 export interface NetworkInterfacesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update network interface operation. */
@@ -1252,11 +1225,10 @@ export interface NetworkInterfacesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkInterfacesCreateOrUpdateParameters =
-  NetworkInterfacesCreateOrUpdateQueryParam &
-    NetworkInterfacesCreateOrUpdateMediaTypesParam &
-    NetworkInterfacesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NetworkInterfacesCreateOrUpdateParameters = NetworkInterfacesCreateOrUpdateQueryParam &
+  NetworkInterfacesCreateOrUpdateMediaTypesParam &
+  NetworkInterfacesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NetworkInterfacesUpdateTagsBodyParam {
   /** Parameters supplied to update network interface tags. */
@@ -1277,11 +1249,10 @@ export interface NetworkInterfacesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkInterfacesUpdateTagsParameters =
-  NetworkInterfacesUpdateTagsQueryParam &
-    NetworkInterfacesUpdateTagsMediaTypesParam &
-    NetworkInterfacesUpdateTagsBodyParam &
-    RequestParameters;
+export type NetworkInterfacesUpdateTagsParameters = NetworkInterfacesUpdateTagsQueryParam &
+  NetworkInterfacesUpdateTagsMediaTypesParam &
+  NetworkInterfacesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface NetworkInterfacesListAllQueryParamProperties {
   /** Api Version */
@@ -1292,8 +1263,8 @@ export interface NetworkInterfacesListAllQueryParam {
   queryParameters: NetworkInterfacesListAllQueryParamProperties;
 }
 
-export type NetworkInterfacesListAllParameters =
-  NetworkInterfacesListAllQueryParam & RequestParameters;
+export type NetworkInterfacesListAllParameters = NetworkInterfacesListAllQueryParam &
+  RequestParameters;
 
 export interface NetworkInterfacesListQueryParamProperties {
   /** Api Version */
@@ -1304,8 +1275,7 @@ export interface NetworkInterfacesListQueryParam {
   queryParameters: NetworkInterfacesListQueryParamProperties;
 }
 
-export type NetworkInterfacesListParameters = NetworkInterfacesListQueryParam &
-  RequestParameters;
+export type NetworkInterfacesListParameters = NetworkInterfacesListQueryParam & RequestParameters;
 
 export interface NetworkInterfacesGetEffectiveRouteTableQueryParamProperties {
   /** Api Version */
@@ -1329,8 +1299,7 @@ export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsQueryParam {
 }
 
 export type NetworkInterfacesListEffectiveNetworkSecurityGroupsParameters =
-  NetworkInterfacesListEffectiveNetworkSecurityGroupsQueryParam &
-    RequestParameters;
+  NetworkInterfacesListEffectiveNetworkSecurityGroupsQueryParam & RequestParameters;
 
 export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesQueryParamProperties {
   /** Api Version */
@@ -1342,8 +1311,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesQ
 }
 
 export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesParameters =
-  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesQueryParam &
-    RequestParameters;
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesQueryParam & RequestParameters;
 
 export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesQueryParamProperties {
   /** Api Version */
@@ -1355,8 +1323,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesQue
 }
 
 export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters =
-  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesQueryParam &
-    RequestParameters;
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesQueryParam & RequestParameters;
 
 export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceQueryParamProperties {
   /** Api Version */
@@ -1370,8 +1337,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceQuery
 }
 
 export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceParameters =
-  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceQueryParam &
-    RequestParameters;
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceQueryParam & RequestParameters;
 
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsQueryParamProperties {
   /** Api Version */
@@ -1385,8 +1351,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsQuer
 }
 
 export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters =
-  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsQueryParam &
-    RequestParameters;
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsQueryParam & RequestParameters;
 
 export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationQueryParamProperties {
   /** Api Version */
@@ -1400,8 +1365,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationQueryP
 }
 
 export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters =
-  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationQueryParam &
-    RequestParameters;
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationQueryParam & RequestParameters;
 
 export interface PublicIPAddressesListCloudServicePublicIPAddressesQueryParamProperties {
   /** Api Version */
@@ -1413,8 +1377,7 @@ export interface PublicIPAddressesListCloudServicePublicIPAddressesQueryParam {
 }
 
 export type PublicIPAddressesListCloudServicePublicIPAddressesParameters =
-  PublicIPAddressesListCloudServicePublicIPAddressesQueryParam &
-    RequestParameters;
+  PublicIPAddressesListCloudServicePublicIPAddressesQueryParam & RequestParameters;
 
 export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesQueryParamProperties {
   /** Api Version */
@@ -1426,8 +1389,7 @@ export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesQ
 }
 
 export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters =
-  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesQueryParam &
-    RequestParameters;
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesQueryParam & RequestParameters;
 
 export interface PublicIPAddressesGetCloudServicePublicIPAddressQueryParamProperties {
   /** Api Version */
@@ -1452,8 +1414,8 @@ export interface PublicIPAddressesDeleteQueryParam {
   queryParameters: PublicIPAddressesDeleteQueryParamProperties;
 }
 
-export type PublicIPAddressesDeleteParameters =
-  PublicIPAddressesDeleteQueryParam & RequestParameters;
+export type PublicIPAddressesDeleteParameters = PublicIPAddressesDeleteQueryParam &
+  RequestParameters;
 
 export interface PublicIPAddressesGetQueryParamProperties {
   /** Api Version */
@@ -1466,8 +1428,7 @@ export interface PublicIPAddressesGetQueryParam {
   queryParameters: PublicIPAddressesGetQueryParamProperties;
 }
 
-export type PublicIPAddressesGetParameters = PublicIPAddressesGetQueryParam &
-  RequestParameters;
+export type PublicIPAddressesGetParameters = PublicIPAddressesGetQueryParam & RequestParameters;
 
 export interface PublicIPAddressesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update public IP address operation. */
@@ -1488,11 +1449,10 @@ export interface PublicIPAddressesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PublicIPAddressesCreateOrUpdateParameters =
-  PublicIPAddressesCreateOrUpdateQueryParam &
-    PublicIPAddressesCreateOrUpdateMediaTypesParam &
-    PublicIPAddressesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type PublicIPAddressesCreateOrUpdateParameters = PublicIPAddressesCreateOrUpdateQueryParam &
+  PublicIPAddressesCreateOrUpdateMediaTypesParam &
+  PublicIPAddressesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface PublicIPAddressesUpdateTagsBodyParam {
   /** Parameters supplied to update public IP address tags. */
@@ -1513,11 +1473,10 @@ export interface PublicIPAddressesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PublicIPAddressesUpdateTagsParameters =
-  PublicIPAddressesUpdateTagsQueryParam &
-    PublicIPAddressesUpdateTagsMediaTypesParam &
-    PublicIPAddressesUpdateTagsBodyParam &
-    RequestParameters;
+export type PublicIPAddressesUpdateTagsParameters = PublicIPAddressesUpdateTagsQueryParam &
+  PublicIPAddressesUpdateTagsMediaTypesParam &
+  PublicIPAddressesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface PublicIPAddressesListAllQueryParamProperties {
   /** Api Version */
@@ -1528,8 +1487,8 @@ export interface PublicIPAddressesListAllQueryParam {
   queryParameters: PublicIPAddressesListAllQueryParamProperties;
 }
 
-export type PublicIPAddressesListAllParameters =
-  PublicIPAddressesListAllQueryParam & RequestParameters;
+export type PublicIPAddressesListAllParameters = PublicIPAddressesListAllQueryParam &
+  RequestParameters;
 
 export interface PublicIPAddressesListQueryParamProperties {
   /** Api Version */
@@ -1540,8 +1499,7 @@ export interface PublicIPAddressesListQueryParam {
   queryParameters: PublicIPAddressesListQueryParamProperties;
 }
 
-export type PublicIPAddressesListParameters = PublicIPAddressesListQueryParam &
-  RequestParameters;
+export type PublicIPAddressesListParameters = PublicIPAddressesListQueryParam & RequestParameters;
 
 export interface PublicIPAddressesDdosProtectionStatusQueryParamProperties {
   /** Api Version */
@@ -1565,8 +1523,7 @@ export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesQue
 }
 
 export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters =
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesQueryParam &
-    RequestParameters;
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesQueryParam & RequestParameters;
 
 export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesQueryParamProperties {
   /** Api Version */
@@ -1578,8 +1535,7 @@ export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesQ
 }
 
 export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters =
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesQueryParam &
-    RequestParameters;
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesQueryParam & RequestParameters;
 
 export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressQueryParamProperties {
   /** Api Version */
@@ -1593,8 +1549,7 @@ export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressQueryP
 }
 
 export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressParameters =
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressQueryParam &
-    RequestParameters;
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressQueryParam & RequestParameters;
 
 export interface CustomIPPrefixesDeleteQueryParamProperties {
   /** Api Version */
@@ -1605,8 +1560,7 @@ export interface CustomIPPrefixesDeleteQueryParam {
   queryParameters: CustomIPPrefixesDeleteQueryParamProperties;
 }
 
-export type CustomIPPrefixesDeleteParameters =
-  CustomIPPrefixesDeleteQueryParam & RequestParameters;
+export type CustomIPPrefixesDeleteParameters = CustomIPPrefixesDeleteQueryParam & RequestParameters;
 
 export interface CustomIPPrefixesGetQueryParamProperties {
   /** Api Version */
@@ -1619,8 +1573,7 @@ export interface CustomIPPrefixesGetQueryParam {
   queryParameters: CustomIPPrefixesGetQueryParamProperties;
 }
 
-export type CustomIPPrefixesGetParameters = CustomIPPrefixesGetQueryParam &
-  RequestParameters;
+export type CustomIPPrefixesGetParameters = CustomIPPrefixesGetQueryParam & RequestParameters;
 
 export interface CustomIPPrefixesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update custom IP prefix operation. */
@@ -1641,11 +1594,10 @@ export interface CustomIPPrefixesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CustomIPPrefixesCreateOrUpdateParameters =
-  CustomIPPrefixesCreateOrUpdateQueryParam &
-    CustomIPPrefixesCreateOrUpdateMediaTypesParam &
-    CustomIPPrefixesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type CustomIPPrefixesCreateOrUpdateParameters = CustomIPPrefixesCreateOrUpdateQueryParam &
+  CustomIPPrefixesCreateOrUpdateMediaTypesParam &
+  CustomIPPrefixesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface CustomIPPrefixesUpdateTagsBodyParam {
   /** Parameters supplied to update custom IP prefix tags. */
@@ -1666,11 +1618,10 @@ export interface CustomIPPrefixesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CustomIPPrefixesUpdateTagsParameters =
-  CustomIPPrefixesUpdateTagsQueryParam &
-    CustomIPPrefixesUpdateTagsMediaTypesParam &
-    CustomIPPrefixesUpdateTagsBodyParam &
-    RequestParameters;
+export type CustomIPPrefixesUpdateTagsParameters = CustomIPPrefixesUpdateTagsQueryParam &
+  CustomIPPrefixesUpdateTagsMediaTypesParam &
+  CustomIPPrefixesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface CustomIPPrefixesListAllQueryParamProperties {
   /** Api Version */
@@ -1681,8 +1632,8 @@ export interface CustomIPPrefixesListAllQueryParam {
   queryParameters: CustomIPPrefixesListAllQueryParamProperties;
 }
 
-export type CustomIPPrefixesListAllParameters =
-  CustomIPPrefixesListAllQueryParam & RequestParameters;
+export type CustomIPPrefixesListAllParameters = CustomIPPrefixesListAllQueryParam &
+  RequestParameters;
 
 export interface CustomIPPrefixesListQueryParamProperties {
   /** Api Version */
@@ -1693,8 +1644,7 @@ export interface CustomIPPrefixesListQueryParam {
   queryParameters: CustomIPPrefixesListQueryParamProperties;
 }
 
-export type CustomIPPrefixesListParameters = CustomIPPrefixesListQueryParam &
-  RequestParameters;
+export type CustomIPPrefixesListParameters = CustomIPPrefixesListQueryParam & RequestParameters;
 
 export interface DdosCustomPoliciesDeleteQueryParamProperties {
   /** Api Version */
@@ -1705,8 +1655,8 @@ export interface DdosCustomPoliciesDeleteQueryParam {
   queryParameters: DdosCustomPoliciesDeleteQueryParamProperties;
 }
 
-export type DdosCustomPoliciesDeleteParameters =
-  DdosCustomPoliciesDeleteQueryParam & RequestParameters;
+export type DdosCustomPoliciesDeleteParameters = DdosCustomPoliciesDeleteQueryParam &
+  RequestParameters;
 
 export interface DdosCustomPoliciesGetQueryParamProperties {
   /** Api Version */
@@ -1717,8 +1667,7 @@ export interface DdosCustomPoliciesGetQueryParam {
   queryParameters: DdosCustomPoliciesGetQueryParamProperties;
 }
 
-export type DdosCustomPoliciesGetParameters = DdosCustomPoliciesGetQueryParam &
-  RequestParameters;
+export type DdosCustomPoliciesGetParameters = DdosCustomPoliciesGetQueryParam & RequestParameters;
 
 export interface DdosCustomPoliciesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update operation. */
@@ -1764,11 +1713,10 @@ export interface DdosCustomPoliciesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DdosCustomPoliciesUpdateTagsParameters =
-  DdosCustomPoliciesUpdateTagsQueryParam &
-    DdosCustomPoliciesUpdateTagsMediaTypesParam &
-    DdosCustomPoliciesUpdateTagsBodyParam &
-    RequestParameters;
+export type DdosCustomPoliciesUpdateTagsParameters = DdosCustomPoliciesUpdateTagsQueryParam &
+  DdosCustomPoliciesUpdateTagsMediaTypesParam &
+  DdosCustomPoliciesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface DdosProtectionPlansDeleteQueryParamProperties {
   /** Api Version */
@@ -1779,8 +1727,8 @@ export interface DdosProtectionPlansDeleteQueryParam {
   queryParameters: DdosProtectionPlansDeleteQueryParamProperties;
 }
 
-export type DdosProtectionPlansDeleteParameters =
-  DdosProtectionPlansDeleteQueryParam & RequestParameters;
+export type DdosProtectionPlansDeleteParameters = DdosProtectionPlansDeleteQueryParam &
+  RequestParameters;
 
 export interface DdosProtectionPlansGetQueryParamProperties {
   /** Api Version */
@@ -1791,8 +1739,7 @@ export interface DdosProtectionPlansGetQueryParam {
   queryParameters: DdosProtectionPlansGetQueryParamProperties;
 }
 
-export type DdosProtectionPlansGetParameters =
-  DdosProtectionPlansGetQueryParam & RequestParameters;
+export type DdosProtectionPlansGetParameters = DdosProtectionPlansGetQueryParam & RequestParameters;
 
 export interface DdosProtectionPlansCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update operation. */
@@ -1838,11 +1785,10 @@ export interface DdosProtectionPlansUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DdosProtectionPlansUpdateTagsParameters =
-  DdosProtectionPlansUpdateTagsQueryParam &
-    DdosProtectionPlansUpdateTagsMediaTypesParam &
-    DdosProtectionPlansUpdateTagsBodyParam &
-    RequestParameters;
+export type DdosProtectionPlansUpdateTagsParameters = DdosProtectionPlansUpdateTagsQueryParam &
+  DdosProtectionPlansUpdateTagsMediaTypesParam &
+  DdosProtectionPlansUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface DdosProtectionPlansListQueryParamProperties {
   /** Api Version */
@@ -1853,8 +1799,8 @@ export interface DdosProtectionPlansListQueryParam {
   queryParameters: DdosProtectionPlansListQueryParamProperties;
 }
 
-export type DdosProtectionPlansListParameters =
-  DdosProtectionPlansListQueryParam & RequestParameters;
+export type DdosProtectionPlansListParameters = DdosProtectionPlansListQueryParam &
+  RequestParameters;
 
 export interface DdosProtectionPlansListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -1887,11 +1833,10 @@ export interface DscpConfigurationCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DscpConfigurationCreateOrUpdateParameters =
-  DscpConfigurationCreateOrUpdateQueryParam &
-    DscpConfigurationCreateOrUpdateMediaTypesParam &
-    DscpConfigurationCreateOrUpdateBodyParam &
-    RequestParameters;
+export type DscpConfigurationCreateOrUpdateParameters = DscpConfigurationCreateOrUpdateQueryParam &
+  DscpConfigurationCreateOrUpdateMediaTypesParam &
+  DscpConfigurationCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface DscpConfigurationDeleteQueryParamProperties {
   /** Api Version */
@@ -1902,8 +1847,8 @@ export interface DscpConfigurationDeleteQueryParam {
   queryParameters: DscpConfigurationDeleteQueryParamProperties;
 }
 
-export type DscpConfigurationDeleteParameters =
-  DscpConfigurationDeleteQueryParam & RequestParameters;
+export type DscpConfigurationDeleteParameters = DscpConfigurationDeleteQueryParam &
+  RequestParameters;
 
 export interface DscpConfigurationGetQueryParamProperties {
   /** Api Version */
@@ -1914,8 +1859,7 @@ export interface DscpConfigurationGetQueryParam {
   queryParameters: DscpConfigurationGetQueryParamProperties;
 }
 
-export type DscpConfigurationGetParameters = DscpConfigurationGetQueryParam &
-  RequestParameters;
+export type DscpConfigurationGetParameters = DscpConfigurationGetQueryParam & RequestParameters;
 
 export interface DscpConfigurationListQueryParamProperties {
   /** Api Version */
@@ -1926,8 +1870,7 @@ export interface DscpConfigurationListQueryParam {
   queryParameters: DscpConfigurationListQueryParamProperties;
 }
 
-export type DscpConfigurationListParameters = DscpConfigurationListQueryParam &
-  RequestParameters;
+export type DscpConfigurationListParameters = DscpConfigurationListQueryParam & RequestParameters;
 
 export interface DscpConfigurationListAllQueryParamProperties {
   /** Api Version */
@@ -1938,8 +1881,8 @@ export interface DscpConfigurationListAllQueryParam {
   queryParameters: DscpConfigurationListAllQueryParamProperties;
 }
 
-export type DscpConfigurationListAllParameters =
-  DscpConfigurationListAllQueryParam & RequestParameters;
+export type DscpConfigurationListAllParameters = DscpConfigurationListAllQueryParam &
+  RequestParameters;
 
 export interface AvailableEndpointServicesListQueryParamProperties {
   /** Api Version */
@@ -1950,8 +1893,8 @@ export interface AvailableEndpointServicesListQueryParam {
   queryParameters: AvailableEndpointServicesListQueryParamProperties;
 }
 
-export type AvailableEndpointServicesListParameters =
-  AvailableEndpointServicesListQueryParam & RequestParameters;
+export type AvailableEndpointServicesListParameters = AvailableEndpointServicesListQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitAuthorizationsDeleteQueryParamProperties {
   /** Api Version */
@@ -2035,8 +1978,8 @@ export interface ExpressRouteCircuitPeeringsGetQueryParam {
   queryParameters: ExpressRouteCircuitPeeringsGetQueryParamProperties;
 }
 
-export type ExpressRouteCircuitPeeringsGetParameters =
-  ExpressRouteCircuitPeeringsGetQueryParam & RequestParameters;
+export type ExpressRouteCircuitPeeringsGetParameters = ExpressRouteCircuitPeeringsGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitPeeringsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update express route circuit peering operation. */
@@ -2072,8 +2015,8 @@ export interface ExpressRouteCircuitPeeringsListQueryParam {
   queryParameters: ExpressRouteCircuitPeeringsListQueryParamProperties;
 }
 
-export type ExpressRouteCircuitPeeringsListParameters =
-  ExpressRouteCircuitPeeringsListQueryParam & RequestParameters;
+export type ExpressRouteCircuitPeeringsListParameters = ExpressRouteCircuitPeeringsListQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitConnectionsDeleteQueryParamProperties {
   /** Api Version */
@@ -2169,8 +2112,8 @@ export interface ExpressRouteCircuitsDeleteQueryParam {
   queryParameters: ExpressRouteCircuitsDeleteQueryParamProperties;
 }
 
-export type ExpressRouteCircuitsDeleteParameters =
-  ExpressRouteCircuitsDeleteQueryParam & RequestParameters;
+export type ExpressRouteCircuitsDeleteParameters = ExpressRouteCircuitsDeleteQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitsGetQueryParamProperties {
   /** Api Version */
@@ -2181,8 +2124,8 @@ export interface ExpressRouteCircuitsGetQueryParam {
   queryParameters: ExpressRouteCircuitsGetQueryParamProperties;
 }
 
-export type ExpressRouteCircuitsGetParameters =
-  ExpressRouteCircuitsGetQueryParam & RequestParameters;
+export type ExpressRouteCircuitsGetParameters = ExpressRouteCircuitsGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update express route circuit operation. */
@@ -2228,11 +2171,10 @@ export interface ExpressRouteCircuitsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ExpressRouteCircuitsUpdateTagsParameters =
-  ExpressRouteCircuitsUpdateTagsQueryParam &
-    ExpressRouteCircuitsUpdateTagsMediaTypesParam &
-    ExpressRouteCircuitsUpdateTagsBodyParam &
-    RequestParameters;
+export type ExpressRouteCircuitsUpdateTagsParameters = ExpressRouteCircuitsUpdateTagsQueryParam &
+  ExpressRouteCircuitsUpdateTagsMediaTypesParam &
+  ExpressRouteCircuitsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitsListArpTableQueryParamProperties {
   /** Api Version */
@@ -2279,8 +2221,8 @@ export interface ExpressRouteCircuitsGetStatsQueryParam {
   queryParameters: ExpressRouteCircuitsGetStatsQueryParamProperties;
 }
 
-export type ExpressRouteCircuitsGetStatsParameters =
-  ExpressRouteCircuitsGetStatsQueryParam & RequestParameters;
+export type ExpressRouteCircuitsGetStatsParameters = ExpressRouteCircuitsGetStatsQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitsGetPeeringStatsQueryParamProperties {
   /** Api Version */
@@ -2303,8 +2245,8 @@ export interface ExpressRouteCircuitsListQueryParam {
   queryParameters: ExpressRouteCircuitsListQueryParamProperties;
 }
 
-export type ExpressRouteCircuitsListParameters =
-  ExpressRouteCircuitsListQueryParam & RequestParameters;
+export type ExpressRouteCircuitsListParameters = ExpressRouteCircuitsListQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCircuitsListAllQueryParamProperties {
   /** Api Version */
@@ -2315,8 +2257,8 @@ export interface ExpressRouteCircuitsListAllQueryParam {
   queryParameters: ExpressRouteCircuitsListAllQueryParamProperties;
 }
 
-export type ExpressRouteCircuitsListAllParameters =
-  ExpressRouteCircuitsListAllQueryParam & RequestParameters;
+export type ExpressRouteCircuitsListAllParameters = ExpressRouteCircuitsListAllQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteServiceProvidersListQueryParamProperties {
   /** Api Version */
@@ -2363,8 +2305,8 @@ export interface ExpressRouteCrossConnectionsGetQueryParam {
   queryParameters: ExpressRouteCrossConnectionsGetQueryParamProperties;
 }
 
-export type ExpressRouteCrossConnectionsGetParameters =
-  ExpressRouteCrossConnectionsGetQueryParam & RequestParameters;
+export type ExpressRouteCrossConnectionsGetParameters = ExpressRouteCrossConnectionsGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteCrossConnectionsCreateOrUpdateBodyParam {
   /** Parameters supplied to the update express route crossConnection operation. */
@@ -2438,8 +2380,7 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummaryQueryParam {
 }
 
 export type ExpressRouteCrossConnectionsListRoutesTableSummaryParameters =
-  ExpressRouteCrossConnectionsListRoutesTableSummaryQueryParam &
-    RequestParameters;
+  ExpressRouteCrossConnectionsListRoutesTableSummaryQueryParam & RequestParameters;
 
 export interface ExpressRouteCrossConnectionsListRoutesTableQueryParamProperties {
   /** Api Version */
@@ -2523,8 +2464,8 @@ export interface ExpressRoutePortsLocationsListQueryParam {
   queryParameters: ExpressRoutePortsLocationsListQueryParamProperties;
 }
 
-export type ExpressRoutePortsLocationsListParameters =
-  ExpressRoutePortsLocationsListQueryParam & RequestParameters;
+export type ExpressRoutePortsLocationsListParameters = ExpressRoutePortsLocationsListQueryParam &
+  RequestParameters;
 
 export interface ExpressRoutePortsLocationsGetQueryParamProperties {
   /** Api Version */
@@ -2535,8 +2476,8 @@ export interface ExpressRoutePortsLocationsGetQueryParam {
   queryParameters: ExpressRoutePortsLocationsGetQueryParamProperties;
 }
 
-export type ExpressRoutePortsLocationsGetParameters =
-  ExpressRoutePortsLocationsGetQueryParam & RequestParameters;
+export type ExpressRoutePortsLocationsGetParameters = ExpressRoutePortsLocationsGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRoutePortsDeleteQueryParamProperties {
   /** Api Version */
@@ -2547,8 +2488,8 @@ export interface ExpressRoutePortsDeleteQueryParam {
   queryParameters: ExpressRoutePortsDeleteQueryParamProperties;
 }
 
-export type ExpressRoutePortsDeleteParameters =
-  ExpressRoutePortsDeleteQueryParam & RequestParameters;
+export type ExpressRoutePortsDeleteParameters = ExpressRoutePortsDeleteQueryParam &
+  RequestParameters;
 
 export interface ExpressRoutePortsGetQueryParamProperties {
   /** Api Version */
@@ -2559,8 +2500,7 @@ export interface ExpressRoutePortsGetQueryParam {
   queryParameters: ExpressRoutePortsGetQueryParamProperties;
 }
 
-export type ExpressRoutePortsGetParameters = ExpressRoutePortsGetQueryParam &
-  RequestParameters;
+export type ExpressRoutePortsGetParameters = ExpressRoutePortsGetQueryParam & RequestParameters;
 
 export interface ExpressRoutePortsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create ExpressRoutePort operation. */
@@ -2581,11 +2521,10 @@ export interface ExpressRoutePortsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ExpressRoutePortsCreateOrUpdateParameters =
-  ExpressRoutePortsCreateOrUpdateQueryParam &
-    ExpressRoutePortsCreateOrUpdateMediaTypesParam &
-    ExpressRoutePortsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ExpressRoutePortsCreateOrUpdateParameters = ExpressRoutePortsCreateOrUpdateQueryParam &
+  ExpressRoutePortsCreateOrUpdateMediaTypesParam &
+  ExpressRoutePortsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ExpressRoutePortsUpdateTagsBodyParam {
   /** Parameters supplied to update ExpressRoutePort resource tags. */
@@ -2606,11 +2545,10 @@ export interface ExpressRoutePortsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ExpressRoutePortsUpdateTagsParameters =
-  ExpressRoutePortsUpdateTagsQueryParam &
-    ExpressRoutePortsUpdateTagsMediaTypesParam &
-    ExpressRoutePortsUpdateTagsBodyParam &
-    RequestParameters;
+export type ExpressRoutePortsUpdateTagsParameters = ExpressRoutePortsUpdateTagsQueryParam &
+  ExpressRoutePortsUpdateTagsMediaTypesParam &
+  ExpressRoutePortsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface ExpressRoutePortsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -2633,8 +2571,7 @@ export interface ExpressRoutePortsListQueryParam {
   queryParameters: ExpressRoutePortsListQueryParamProperties;
 }
 
-export type ExpressRoutePortsListParameters = ExpressRoutePortsListQueryParam &
-  RequestParameters;
+export type ExpressRoutePortsListParameters = ExpressRoutePortsListQueryParam & RequestParameters;
 
 export interface ExpressRoutePortsGenerateLOABodyParam {
   /** Request parameters supplied to generate a letter of authorization. */
@@ -2655,11 +2592,10 @@ export interface ExpressRoutePortsGenerateLOAMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ExpressRoutePortsGenerateLOAParameters =
-  ExpressRoutePortsGenerateLOAQueryParam &
-    ExpressRoutePortsGenerateLOAMediaTypesParam &
-    ExpressRoutePortsGenerateLOABodyParam &
-    RequestParameters;
+export type ExpressRoutePortsGenerateLOAParameters = ExpressRoutePortsGenerateLOAQueryParam &
+  ExpressRoutePortsGenerateLOAMediaTypesParam &
+  ExpressRoutePortsGenerateLOABodyParam &
+  RequestParameters;
 
 export interface ExpressRouteLinksGetQueryParamProperties {
   /** Api Version */
@@ -2670,8 +2606,7 @@ export interface ExpressRouteLinksGetQueryParam {
   queryParameters: ExpressRouteLinksGetQueryParamProperties;
 }
 
-export type ExpressRouteLinksGetParameters = ExpressRouteLinksGetQueryParam &
-  RequestParameters;
+export type ExpressRouteLinksGetParameters = ExpressRouteLinksGetQueryParam & RequestParameters;
 
 export interface ExpressRouteLinksListQueryParamProperties {
   /** Api Version */
@@ -2682,8 +2617,7 @@ export interface ExpressRouteLinksListQueryParam {
   queryParameters: ExpressRouteLinksListQueryParamProperties;
 }
 
-export type ExpressRouteLinksListParameters = ExpressRouteLinksListQueryParam &
-  RequestParameters;
+export type ExpressRouteLinksListParameters = ExpressRouteLinksListQueryParam & RequestParameters;
 
 export interface ExpressRoutePortAuthorizationsDeleteQueryParamProperties {
   /** Api Version */
@@ -2769,8 +2703,7 @@ export interface FirewallPoliciesDeleteQueryParam {
   queryParameters: FirewallPoliciesDeleteQueryParamProperties;
 }
 
-export type FirewallPoliciesDeleteParameters =
-  FirewallPoliciesDeleteQueryParam & RequestParameters;
+export type FirewallPoliciesDeleteParameters = FirewallPoliciesDeleteQueryParam & RequestParameters;
 
 export interface FirewallPoliciesGetQueryParamProperties {
   /** Api Version */
@@ -2783,8 +2716,7 @@ export interface FirewallPoliciesGetQueryParam {
   queryParameters: FirewallPoliciesGetQueryParamProperties;
 }
 
-export type FirewallPoliciesGetParameters = FirewallPoliciesGetQueryParam &
-  RequestParameters;
+export type FirewallPoliciesGetParameters = FirewallPoliciesGetQueryParam & RequestParameters;
 
 export interface FirewallPoliciesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Firewall Policy operation. */
@@ -2805,11 +2737,10 @@ export interface FirewallPoliciesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type FirewallPoliciesCreateOrUpdateParameters =
-  FirewallPoliciesCreateOrUpdateQueryParam &
-    FirewallPoliciesCreateOrUpdateMediaTypesParam &
-    FirewallPoliciesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type FirewallPoliciesCreateOrUpdateParameters = FirewallPoliciesCreateOrUpdateQueryParam &
+  FirewallPoliciesCreateOrUpdateMediaTypesParam &
+  FirewallPoliciesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface FirewallPoliciesUpdateTagsBodyParam {
   /** Parameters supplied to update Azure Firewall Policy tags. */
@@ -2830,11 +2761,10 @@ export interface FirewallPoliciesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type FirewallPoliciesUpdateTagsParameters =
-  FirewallPoliciesUpdateTagsQueryParam &
-    FirewallPoliciesUpdateTagsMediaTypesParam &
-    FirewallPoliciesUpdateTagsBodyParam &
-    RequestParameters;
+export type FirewallPoliciesUpdateTagsParameters = FirewallPoliciesUpdateTagsQueryParam &
+  FirewallPoliciesUpdateTagsMediaTypesParam &
+  FirewallPoliciesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface FirewallPoliciesListQueryParamProperties {
   /** Api Version */
@@ -2845,8 +2775,7 @@ export interface FirewallPoliciesListQueryParam {
   queryParameters: FirewallPoliciesListQueryParamProperties;
 }
 
-export type FirewallPoliciesListParameters = FirewallPoliciesListQueryParam &
-  RequestParameters;
+export type FirewallPoliciesListParameters = FirewallPoliciesListQueryParam & RequestParameters;
 
 export interface FirewallPoliciesListAllQueryParamProperties {
   /** Api Version */
@@ -2857,8 +2786,8 @@ export interface FirewallPoliciesListAllQueryParam {
   queryParameters: FirewallPoliciesListAllQueryParamProperties;
 }
 
-export type FirewallPoliciesListAllParameters =
-  FirewallPoliciesListAllQueryParam & RequestParameters;
+export type FirewallPoliciesListAllParameters = FirewallPoliciesListAllQueryParam &
+  RequestParameters;
 
 export interface FirewallPolicyRuleCollectionGroupsDeleteQueryParamProperties {
   /** Api Version */
@@ -3052,8 +2981,7 @@ export interface IpAllocationsDeleteQueryParam {
   queryParameters: IpAllocationsDeleteQueryParamProperties;
 }
 
-export type IpAllocationsDeleteParameters = IpAllocationsDeleteQueryParam &
-  RequestParameters;
+export type IpAllocationsDeleteParameters = IpAllocationsDeleteQueryParam & RequestParameters;
 
 export interface IpAllocationsGetQueryParamProperties {
   /** Api Version */
@@ -3066,8 +2994,7 @@ export interface IpAllocationsGetQueryParam {
   queryParameters: IpAllocationsGetQueryParamProperties;
 }
 
-export type IpAllocationsGetParameters = IpAllocationsGetQueryParam &
-  RequestParameters;
+export type IpAllocationsGetParameters = IpAllocationsGetQueryParam & RequestParameters;
 
 export interface IpAllocationsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update virtual network operation. */
@@ -3088,11 +3015,10 @@ export interface IpAllocationsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type IpAllocationsCreateOrUpdateParameters =
-  IpAllocationsCreateOrUpdateQueryParam &
-    IpAllocationsCreateOrUpdateMediaTypesParam &
-    IpAllocationsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IpAllocationsCreateOrUpdateParameters = IpAllocationsCreateOrUpdateQueryParam &
+  IpAllocationsCreateOrUpdateMediaTypesParam &
+  IpAllocationsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IpAllocationsUpdateTagsBodyParam {
   /** Parameters supplied to update IpAllocation tags. */
@@ -3113,11 +3039,10 @@ export interface IpAllocationsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type IpAllocationsUpdateTagsParameters =
-  IpAllocationsUpdateTagsQueryParam &
-    IpAllocationsUpdateTagsMediaTypesParam &
-    IpAllocationsUpdateTagsBodyParam &
-    RequestParameters;
+export type IpAllocationsUpdateTagsParameters = IpAllocationsUpdateTagsQueryParam &
+  IpAllocationsUpdateTagsMediaTypesParam &
+  IpAllocationsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface IpAllocationsListQueryParamProperties {
   /** Api Version */
@@ -3128,8 +3053,7 @@ export interface IpAllocationsListQueryParam {
   queryParameters: IpAllocationsListQueryParamProperties;
 }
 
-export type IpAllocationsListParameters = IpAllocationsListQueryParam &
-  RequestParameters;
+export type IpAllocationsListParameters = IpAllocationsListQueryParam & RequestParameters;
 
 export interface IpAllocationsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -3175,11 +3099,10 @@ export interface IpGroupsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type IpGroupsCreateOrUpdateParameters =
-  IpGroupsCreateOrUpdateQueryParam &
-    IpGroupsCreateOrUpdateMediaTypesParam &
-    IpGroupsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IpGroupsCreateOrUpdateParameters = IpGroupsCreateOrUpdateQueryParam &
+  IpGroupsCreateOrUpdateMediaTypesParam &
+  IpGroupsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IpGroupsUpdateGroupsBodyParam {
   /** Parameters supplied to the update ipGroups operation. */
@@ -3214,8 +3137,7 @@ export interface IpGroupsDeleteQueryParam {
   queryParameters: IpGroupsDeleteQueryParamProperties;
 }
 
-export type IpGroupsDeleteParameters = IpGroupsDeleteQueryParam &
-  RequestParameters;
+export type IpGroupsDeleteParameters = IpGroupsDeleteQueryParam & RequestParameters;
 
 export interface IpGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -3226,8 +3148,8 @@ export interface IpGroupsListByResourceGroupQueryParam {
   queryParameters: IpGroupsListByResourceGroupQueryParamProperties;
 }
 
-export type IpGroupsListByResourceGroupParameters =
-  IpGroupsListByResourceGroupQueryParam & RequestParameters;
+export type IpGroupsListByResourceGroupParameters = IpGroupsListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface IpGroupsListQueryParamProperties {
   /** Api Version */
@@ -3249,8 +3171,7 @@ export interface LoadBalancersDeleteQueryParam {
   queryParameters: LoadBalancersDeleteQueryParamProperties;
 }
 
-export type LoadBalancersDeleteParameters = LoadBalancersDeleteQueryParam &
-  RequestParameters;
+export type LoadBalancersDeleteParameters = LoadBalancersDeleteQueryParam & RequestParameters;
 
 export interface LoadBalancersGetQueryParamProperties {
   /** Api Version */
@@ -3263,8 +3184,7 @@ export interface LoadBalancersGetQueryParam {
   queryParameters: LoadBalancersGetQueryParamProperties;
 }
 
-export type LoadBalancersGetParameters = LoadBalancersGetQueryParam &
-  RequestParameters;
+export type LoadBalancersGetParameters = LoadBalancersGetQueryParam & RequestParameters;
 
 export interface LoadBalancersCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update load balancer operation. */
@@ -3285,11 +3205,10 @@ export interface LoadBalancersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LoadBalancersCreateOrUpdateParameters =
-  LoadBalancersCreateOrUpdateQueryParam &
-    LoadBalancersCreateOrUpdateMediaTypesParam &
-    LoadBalancersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type LoadBalancersCreateOrUpdateParameters = LoadBalancersCreateOrUpdateQueryParam &
+  LoadBalancersCreateOrUpdateMediaTypesParam &
+  LoadBalancersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface LoadBalancersUpdateTagsBodyParam {
   /** Parameters supplied to update load balancer tags. */
@@ -3310,11 +3229,10 @@ export interface LoadBalancersUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LoadBalancersUpdateTagsParameters =
-  LoadBalancersUpdateTagsQueryParam &
-    LoadBalancersUpdateTagsMediaTypesParam &
-    LoadBalancersUpdateTagsBodyParam &
-    RequestParameters;
+export type LoadBalancersUpdateTagsParameters = LoadBalancersUpdateTagsQueryParam &
+  LoadBalancersUpdateTagsMediaTypesParam &
+  LoadBalancersUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface LoadBalancersListAllQueryParamProperties {
   /** Api Version */
@@ -3325,8 +3243,7 @@ export interface LoadBalancersListAllQueryParam {
   queryParameters: LoadBalancersListAllQueryParamProperties;
 }
 
-export type LoadBalancersListAllParameters = LoadBalancersListAllQueryParam &
-  RequestParameters;
+export type LoadBalancersListAllParameters = LoadBalancersListAllQueryParam & RequestParameters;
 
 export interface LoadBalancersListQueryParamProperties {
   /** Api Version */
@@ -3337,8 +3254,7 @@ export interface LoadBalancersListQueryParam {
   queryParameters: LoadBalancersListQueryParamProperties;
 }
 
-export type LoadBalancersListParameters = LoadBalancersListQueryParam &
-  RequestParameters;
+export type LoadBalancersListParameters = LoadBalancersListQueryParam & RequestParameters;
 
 export interface LoadBalancersSwapPublicIpAddressesBodyParam {
   /** Parameters that define which VIPs should be swapped. */
@@ -3484,8 +3400,7 @@ export interface InboundNatRulesListQueryParam {
   queryParameters: InboundNatRulesListQueryParamProperties;
 }
 
-export type InboundNatRulesListParameters = InboundNatRulesListQueryParam &
-  RequestParameters;
+export type InboundNatRulesListParameters = InboundNatRulesListQueryParam & RequestParameters;
 
 export interface InboundNatRulesDeleteQueryParamProperties {
   /** Api Version */
@@ -3496,8 +3411,7 @@ export interface InboundNatRulesDeleteQueryParam {
   queryParameters: InboundNatRulesDeleteQueryParamProperties;
 }
 
-export type InboundNatRulesDeleteParameters = InboundNatRulesDeleteQueryParam &
-  RequestParameters;
+export type InboundNatRulesDeleteParameters = InboundNatRulesDeleteQueryParam & RequestParameters;
 
 export interface InboundNatRulesGetQueryParamProperties {
   /** Api Version */
@@ -3510,8 +3424,7 @@ export interface InboundNatRulesGetQueryParam {
   queryParameters: InboundNatRulesGetQueryParamProperties;
 }
 
-export type InboundNatRulesGetParameters = InboundNatRulesGetQueryParam &
-  RequestParameters;
+export type InboundNatRulesGetParameters = InboundNatRulesGetQueryParam & RequestParameters;
 
 export interface InboundNatRulesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update inbound NAT rule operation. */
@@ -3532,11 +3445,10 @@ export interface InboundNatRulesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type InboundNatRulesCreateOrUpdateParameters =
-  InboundNatRulesCreateOrUpdateQueryParam &
-    InboundNatRulesCreateOrUpdateMediaTypesParam &
-    InboundNatRulesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type InboundNatRulesCreateOrUpdateParameters = InboundNatRulesCreateOrUpdateQueryParam &
+  InboundNatRulesCreateOrUpdateMediaTypesParam &
+  InboundNatRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface LoadBalancerLoadBalancingRulesListQueryParamProperties {
   /** Api Version */
@@ -3571,8 +3483,8 @@ export interface LoadBalancerOutboundRulesListQueryParam {
   queryParameters: LoadBalancerOutboundRulesListQueryParamProperties;
 }
 
-export type LoadBalancerOutboundRulesListParameters =
-  LoadBalancerOutboundRulesListQueryParam & RequestParameters;
+export type LoadBalancerOutboundRulesListParameters = LoadBalancerOutboundRulesListQueryParam &
+  RequestParameters;
 
 export interface LoadBalancerOutboundRulesGetQueryParamProperties {
   /** Api Version */
@@ -3583,8 +3495,8 @@ export interface LoadBalancerOutboundRulesGetQueryParam {
   queryParameters: LoadBalancerOutboundRulesGetQueryParamProperties;
 }
 
-export type LoadBalancerOutboundRulesGetParameters =
-  LoadBalancerOutboundRulesGetQueryParam & RequestParameters;
+export type LoadBalancerOutboundRulesGetParameters = LoadBalancerOutboundRulesGetQueryParam &
+  RequestParameters;
 
 export interface LoadBalancerNetworkInterfacesListQueryParamProperties {
   /** Api Version */
@@ -3607,8 +3519,7 @@ export interface LoadBalancerProbesListQueryParam {
   queryParameters: LoadBalancerProbesListQueryParamProperties;
 }
 
-export type LoadBalancerProbesListParameters =
-  LoadBalancerProbesListQueryParam & RequestParameters;
+export type LoadBalancerProbesListParameters = LoadBalancerProbesListQueryParam & RequestParameters;
 
 export interface LoadBalancerProbesGetQueryParamProperties {
   /** Api Version */
@@ -3619,8 +3530,7 @@ export interface LoadBalancerProbesGetQueryParam {
   queryParameters: LoadBalancerProbesGetQueryParamProperties;
 }
 
-export type LoadBalancerProbesGetParameters = LoadBalancerProbesGetQueryParam &
-  RequestParameters;
+export type LoadBalancerProbesGetParameters = LoadBalancerProbesGetQueryParam & RequestParameters;
 
 export interface NatGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -3631,8 +3541,7 @@ export interface NatGatewaysDeleteQueryParam {
   queryParameters: NatGatewaysDeleteQueryParamProperties;
 }
 
-export type NatGatewaysDeleteParameters = NatGatewaysDeleteQueryParam &
-  RequestParameters;
+export type NatGatewaysDeleteParameters = NatGatewaysDeleteQueryParam & RequestParameters;
 
 export interface NatGatewaysGetQueryParamProperties {
   /** Api Version */
@@ -3645,8 +3554,7 @@ export interface NatGatewaysGetQueryParam {
   queryParameters: NatGatewaysGetQueryParamProperties;
 }
 
-export type NatGatewaysGetParameters = NatGatewaysGetQueryParam &
-  RequestParameters;
+export type NatGatewaysGetParameters = NatGatewaysGetQueryParam & RequestParameters;
 
 export interface NatGatewaysCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update nat gateway operation. */
@@ -3667,11 +3575,10 @@ export interface NatGatewaysCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NatGatewaysCreateOrUpdateParameters =
-  NatGatewaysCreateOrUpdateQueryParam &
-    NatGatewaysCreateOrUpdateMediaTypesParam &
-    NatGatewaysCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NatGatewaysCreateOrUpdateParameters = NatGatewaysCreateOrUpdateQueryParam &
+  NatGatewaysCreateOrUpdateMediaTypesParam &
+  NatGatewaysCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NatGatewaysUpdateTagsBodyParam {
   /** Parameters supplied to update nat gateway tags. */
@@ -3706,8 +3613,7 @@ export interface NatGatewaysListAllQueryParam {
   queryParameters: NatGatewaysListAllQueryParamProperties;
 }
 
-export type NatGatewaysListAllParameters = NatGatewaysListAllQueryParam &
-  RequestParameters;
+export type NatGatewaysListAllParameters = NatGatewaysListAllQueryParam & RequestParameters;
 
 export interface NatGatewaysListQueryParamProperties {
   /** Api Version */
@@ -3718,8 +3624,7 @@ export interface NatGatewaysListQueryParam {
   queryParameters: NatGatewaysListQueryParamProperties;
 }
 
-export type NatGatewaysListParameters = NatGatewaysListQueryParam &
-  RequestParameters;
+export type NatGatewaysListParameters = NatGatewaysListQueryParam & RequestParameters;
 
 export interface NetworkInterfaceIPConfigurationsListQueryParamProperties {
   /** Api Version */
@@ -3827,8 +3732,7 @@ export interface NetworkManagersGetQueryParam {
   queryParameters: NetworkManagersGetQueryParamProperties;
 }
 
-export type NetworkManagersGetParameters = NetworkManagersGetQueryParam &
-  RequestParameters;
+export type NetworkManagersGetParameters = NetworkManagersGetQueryParam & RequestParameters;
 
 export interface NetworkManagersCreateOrUpdateBodyParam {
   /** Parameters supplied to specify which network manager is. */
@@ -3849,11 +3753,10 @@ export interface NetworkManagersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkManagersCreateOrUpdateParameters =
-  NetworkManagersCreateOrUpdateQueryParam &
-    NetworkManagersCreateOrUpdateMediaTypesParam &
-    NetworkManagersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NetworkManagersCreateOrUpdateParameters = NetworkManagersCreateOrUpdateQueryParam &
+  NetworkManagersCreateOrUpdateMediaTypesParam &
+  NetworkManagersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NetworkManagersDeleteQueryParamProperties {
   /** Api Version */
@@ -3866,8 +3769,7 @@ export interface NetworkManagersDeleteQueryParam {
   queryParameters: NetworkManagersDeleteQueryParamProperties;
 }
 
-export type NetworkManagersDeleteParameters = NetworkManagersDeleteQueryParam &
-  RequestParameters;
+export type NetworkManagersDeleteParameters = NetworkManagersDeleteQueryParam & RequestParameters;
 
 export interface NetworkManagersPatchBodyParam {
   /** Parameters supplied to specify which network manager is. */
@@ -3922,8 +3824,7 @@ export interface NetworkManagersListQueryParam {
   queryParameters: NetworkManagersListQueryParamProperties;
 }
 
-export type NetworkManagersListParameters = NetworkManagersListQueryParam &
-  RequestParameters;
+export type NetworkManagersListParameters = NetworkManagersListQueryParam & RequestParameters;
 
 export interface NetworkManagerCommitsPostBodyParam {
   /** Parameters supplied to specify which Managed Network commit is. */
@@ -3944,11 +3845,10 @@ export interface NetworkManagerCommitsPostMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkManagerCommitsPostParameters =
-  NetworkManagerCommitsPostQueryParam &
-    NetworkManagerCommitsPostMediaTypesParam &
-    NetworkManagerCommitsPostBodyParam &
-    RequestParameters;
+export type NetworkManagerCommitsPostParameters = NetworkManagerCommitsPostQueryParam &
+  NetworkManagerCommitsPostMediaTypesParam &
+  NetworkManagerCommitsPostBodyParam &
+  RequestParameters;
 
 export interface NetworkManagerDeploymentStatusListBodyParam {
   /** Parameters supplied to specify which Managed Network deployment status is. */
@@ -4116,8 +4016,8 @@ export interface ConnectivityConfigurationsGetQueryParam {
   queryParameters: ConnectivityConfigurationsGetQueryParamProperties;
 }
 
-export type ConnectivityConfigurationsGetParameters =
-  ConnectivityConfigurationsGetQueryParam & RequestParameters;
+export type ConnectivityConfigurationsGetParameters = ConnectivityConfigurationsGetQueryParam &
+  RequestParameters;
 
 export interface ConnectivityConfigurationsCreateOrUpdateBodyParam {
   /** Parameters supplied to create/update a network manager connectivity configuration */
@@ -4171,8 +4071,8 @@ export interface ConnectivityConfigurationsListQueryParam {
   queryParameters: ConnectivityConfigurationsListQueryParamProperties;
 }
 
-export type ConnectivityConfigurationsListParameters =
-  ConnectivityConfigurationsListQueryParam & RequestParameters;
+export type ConnectivityConfigurationsListParameters = ConnectivityConfigurationsListQueryParam &
+  RequestParameters;
 
 export interface NetworkGroupsGetQueryParamProperties {
   /** Api Version */
@@ -4183,8 +4083,7 @@ export interface NetworkGroupsGetQueryParam {
   queryParameters: NetworkGroupsGetQueryParamProperties;
 }
 
-export type NetworkGroupsGetParameters = NetworkGroupsGetQueryParam &
-  RequestParameters;
+export type NetworkGroupsGetParameters = NetworkGroupsGetQueryParam & RequestParameters;
 
 export interface NetworkGroupsCreateOrUpdateHeaders {
   /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
@@ -4214,12 +4113,11 @@ export interface NetworkGroupsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkGroupsCreateOrUpdateParameters =
-  NetworkGroupsCreateOrUpdateQueryParam &
-    NetworkGroupsCreateOrUpdateHeaderParam &
-    NetworkGroupsCreateOrUpdateMediaTypesParam &
-    NetworkGroupsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NetworkGroupsCreateOrUpdateParameters = NetworkGroupsCreateOrUpdateQueryParam &
+  NetworkGroupsCreateOrUpdateHeaderParam &
+  NetworkGroupsCreateOrUpdateMediaTypesParam &
+  NetworkGroupsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NetworkGroupsDeleteQueryParamProperties {
   /** Api Version */
@@ -4232,8 +4130,7 @@ export interface NetworkGroupsDeleteQueryParam {
   queryParameters: NetworkGroupsDeleteQueryParamProperties;
 }
 
-export type NetworkGroupsDeleteParameters = NetworkGroupsDeleteQueryParam &
-  RequestParameters;
+export type NetworkGroupsDeleteParameters = NetworkGroupsDeleteQueryParam & RequestParameters;
 
 export interface NetworkGroupsListQueryParamProperties {
   /** Api Version */
@@ -4248,8 +4145,7 @@ export interface NetworkGroupsListQueryParam {
   queryParameters: NetworkGroupsListQueryParamProperties;
 }
 
-export type NetworkGroupsListParameters = NetworkGroupsListQueryParam &
-  RequestParameters;
+export type NetworkGroupsListParameters = NetworkGroupsListQueryParam & RequestParameters;
 
 export interface StaticMembersGetQueryParamProperties {
   /** Api Version */
@@ -4260,8 +4156,7 @@ export interface StaticMembersGetQueryParam {
   queryParameters: StaticMembersGetQueryParamProperties;
 }
 
-export type StaticMembersGetParameters = StaticMembersGetQueryParam &
-  RequestParameters;
+export type StaticMembersGetParameters = StaticMembersGetQueryParam & RequestParameters;
 
 export interface StaticMembersCreateOrUpdateBodyParam {
   /** Parameters supplied to the specify the static member to create */
@@ -4282,11 +4177,10 @@ export interface StaticMembersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticMembersCreateOrUpdateParameters =
-  StaticMembersCreateOrUpdateQueryParam &
-    StaticMembersCreateOrUpdateMediaTypesParam &
-    StaticMembersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type StaticMembersCreateOrUpdateParameters = StaticMembersCreateOrUpdateQueryParam &
+  StaticMembersCreateOrUpdateMediaTypesParam &
+  StaticMembersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface StaticMembersDeleteQueryParamProperties {
   /** Api Version */
@@ -4297,8 +4191,7 @@ export interface StaticMembersDeleteQueryParam {
   queryParameters: StaticMembersDeleteQueryParamProperties;
 }
 
-export type StaticMembersDeleteParameters = StaticMembersDeleteQueryParam &
-  RequestParameters;
+export type StaticMembersDeleteParameters = StaticMembersDeleteQueryParam & RequestParameters;
 
 export interface StaticMembersListQueryParamProperties {
   /** Api Version */
@@ -4313,8 +4206,7 @@ export interface StaticMembersListQueryParam {
   queryParameters: StaticMembersListQueryParamProperties;
 }
 
-export type StaticMembersListParameters = StaticMembersListQueryParam &
-  RequestParameters;
+export type StaticMembersListParameters = StaticMembersListQueryParam & RequestParameters;
 
 export interface ScopeConnectionsCreateOrUpdateBodyParam {
   /** Scope connection to be created/updated. */
@@ -4335,11 +4227,10 @@ export interface ScopeConnectionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ScopeConnectionsCreateOrUpdateParameters =
-  ScopeConnectionsCreateOrUpdateQueryParam &
-    ScopeConnectionsCreateOrUpdateMediaTypesParam &
-    ScopeConnectionsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ScopeConnectionsCreateOrUpdateParameters = ScopeConnectionsCreateOrUpdateQueryParam &
+  ScopeConnectionsCreateOrUpdateMediaTypesParam &
+  ScopeConnectionsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ScopeConnectionsGetQueryParamProperties {
   /** Api Version */
@@ -4350,8 +4241,7 @@ export interface ScopeConnectionsGetQueryParam {
   queryParameters: ScopeConnectionsGetQueryParamProperties;
 }
 
-export type ScopeConnectionsGetParameters = ScopeConnectionsGetQueryParam &
-  RequestParameters;
+export type ScopeConnectionsGetParameters = ScopeConnectionsGetQueryParam & RequestParameters;
 
 export interface ScopeConnectionsDeleteQueryParamProperties {
   /** Api Version */
@@ -4362,8 +4252,7 @@ export interface ScopeConnectionsDeleteQueryParam {
   queryParameters: ScopeConnectionsDeleteQueryParamProperties;
 }
 
-export type ScopeConnectionsDeleteParameters =
-  ScopeConnectionsDeleteQueryParam & RequestParameters;
+export type ScopeConnectionsDeleteParameters = ScopeConnectionsDeleteQueryParam & RequestParameters;
 
 export interface ScopeConnectionsListQueryParamProperties {
   /** Api Version */
@@ -4378,8 +4267,7 @@ export interface ScopeConnectionsListQueryParam {
   queryParameters: ScopeConnectionsListQueryParamProperties;
 }
 
-export type ScopeConnectionsListParameters = ScopeConnectionsListQueryParam &
-  RequestParameters;
+export type ScopeConnectionsListParameters = ScopeConnectionsListQueryParam & RequestParameters;
 
 export interface SecurityAdminConfigurationsListQueryParamProperties {
   /** Api Version */
@@ -4394,8 +4282,8 @@ export interface SecurityAdminConfigurationsListQueryParam {
   queryParameters: SecurityAdminConfigurationsListQueryParamProperties;
 }
 
-export type SecurityAdminConfigurationsListParameters =
-  SecurityAdminConfigurationsListQueryParam & RequestParameters;
+export type SecurityAdminConfigurationsListParameters = SecurityAdminConfigurationsListQueryParam &
+  RequestParameters;
 
 export interface SecurityAdminConfigurationsGetQueryParamProperties {
   /** Api Version */
@@ -4406,8 +4294,8 @@ export interface SecurityAdminConfigurationsGetQueryParam {
   queryParameters: SecurityAdminConfigurationsGetQueryParamProperties;
 }
 
-export type SecurityAdminConfigurationsGetParameters =
-  SecurityAdminConfigurationsGetQueryParam & RequestParameters;
+export type SecurityAdminConfigurationsGetParameters = SecurityAdminConfigurationsGetQueryParam &
+  RequestParameters;
 
 export interface SecurityAdminConfigurationsCreateOrUpdateBodyParam {
   /** The security admin configuration to create or update */
@@ -4461,8 +4349,8 @@ export interface AdminRuleCollectionsListQueryParam {
   queryParameters: AdminRuleCollectionsListQueryParamProperties;
 }
 
-export type AdminRuleCollectionsListParameters =
-  AdminRuleCollectionsListQueryParam & RequestParameters;
+export type AdminRuleCollectionsListParameters = AdminRuleCollectionsListQueryParam &
+  RequestParameters;
 
 export interface AdminRuleCollectionsGetQueryParamProperties {
   /** Api Version */
@@ -4473,8 +4361,8 @@ export interface AdminRuleCollectionsGetQueryParam {
   queryParameters: AdminRuleCollectionsGetQueryParamProperties;
 }
 
-export type AdminRuleCollectionsGetParameters =
-  AdminRuleCollectionsGetQueryParam & RequestParameters;
+export type AdminRuleCollectionsGetParameters = AdminRuleCollectionsGetQueryParam &
+  RequestParameters;
 
 export interface AdminRuleCollectionsCreateOrUpdateBodyParam {
   /** The Rule Collection to create or update */
@@ -4512,8 +4400,8 @@ export interface AdminRuleCollectionsDeleteQueryParam {
   queryParameters: AdminRuleCollectionsDeleteQueryParamProperties;
 }
 
-export type AdminRuleCollectionsDeleteParameters =
-  AdminRuleCollectionsDeleteQueryParam & RequestParameters;
+export type AdminRuleCollectionsDeleteParameters = AdminRuleCollectionsDeleteQueryParam &
+  RequestParameters;
 
 export interface AdminRulesListQueryParamProperties {
   /** Api Version */
@@ -4528,8 +4416,7 @@ export interface AdminRulesListQueryParam {
   queryParameters: AdminRulesListQueryParamProperties;
 }
 
-export type AdminRulesListParameters = AdminRulesListQueryParam &
-  RequestParameters;
+export type AdminRulesListParameters = AdminRulesListQueryParam & RequestParameters;
 
 export interface AdminRulesGetQueryParamProperties {
   /** Api Version */
@@ -4540,8 +4427,7 @@ export interface AdminRulesGetQueryParam {
   queryParameters: AdminRulesGetQueryParamProperties;
 }
 
-export type AdminRulesGetParameters = AdminRulesGetQueryParam &
-  RequestParameters;
+export type AdminRulesGetParameters = AdminRulesGetQueryParam & RequestParameters;
 
 export interface AdminRulesCreateOrUpdateBodyParam {
   /** The admin rule to create or update */
@@ -4562,11 +4448,10 @@ export interface AdminRulesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AdminRulesCreateOrUpdateParameters =
-  AdminRulesCreateOrUpdateQueryParam &
-    AdminRulesCreateOrUpdateMediaTypesParam &
-    AdminRulesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type AdminRulesCreateOrUpdateParameters = AdminRulesCreateOrUpdateQueryParam &
+  AdminRulesCreateOrUpdateMediaTypesParam &
+  AdminRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface AdminRulesDeleteQueryParamProperties {
   /** Api Version */
@@ -4579,8 +4464,7 @@ export interface AdminRulesDeleteQueryParam {
   queryParameters: AdminRulesDeleteQueryParamProperties;
 }
 
-export type AdminRulesDeleteParameters = AdminRulesDeleteQueryParam &
-  RequestParameters;
+export type AdminRulesDeleteParameters = AdminRulesDeleteQueryParam & RequestParameters;
 
 export interface NetworkProfilesDeleteQueryParamProperties {
   /** Api Version */
@@ -4591,8 +4475,7 @@ export interface NetworkProfilesDeleteQueryParam {
   queryParameters: NetworkProfilesDeleteQueryParamProperties;
 }
 
-export type NetworkProfilesDeleteParameters = NetworkProfilesDeleteQueryParam &
-  RequestParameters;
+export type NetworkProfilesDeleteParameters = NetworkProfilesDeleteQueryParam & RequestParameters;
 
 export interface NetworkProfilesGetQueryParamProperties {
   /** Api Version */
@@ -4605,8 +4488,7 @@ export interface NetworkProfilesGetQueryParam {
   queryParameters: NetworkProfilesGetQueryParamProperties;
 }
 
-export type NetworkProfilesGetParameters = NetworkProfilesGetQueryParam &
-  RequestParameters;
+export type NetworkProfilesGetParameters = NetworkProfilesGetQueryParam & RequestParameters;
 
 export interface NetworkProfilesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update network profile operation. */
@@ -4627,11 +4509,10 @@ export interface NetworkProfilesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkProfilesCreateOrUpdateParameters =
-  NetworkProfilesCreateOrUpdateQueryParam &
-    NetworkProfilesCreateOrUpdateMediaTypesParam &
-    NetworkProfilesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NetworkProfilesCreateOrUpdateParameters = NetworkProfilesCreateOrUpdateQueryParam &
+  NetworkProfilesCreateOrUpdateMediaTypesParam &
+  NetworkProfilesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NetworkProfilesUpdateTagsBodyParam {
   /** Parameters supplied to update network profile tags. */
@@ -4652,11 +4533,10 @@ export interface NetworkProfilesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkProfilesUpdateTagsParameters =
-  NetworkProfilesUpdateTagsQueryParam &
-    NetworkProfilesUpdateTagsMediaTypesParam &
-    NetworkProfilesUpdateTagsBodyParam &
-    RequestParameters;
+export type NetworkProfilesUpdateTagsParameters = NetworkProfilesUpdateTagsQueryParam &
+  NetworkProfilesUpdateTagsMediaTypesParam &
+  NetworkProfilesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface NetworkProfilesListAllQueryParamProperties {
   /** Api Version */
@@ -4667,8 +4547,7 @@ export interface NetworkProfilesListAllQueryParam {
   queryParameters: NetworkProfilesListAllQueryParamProperties;
 }
 
-export type NetworkProfilesListAllParameters =
-  NetworkProfilesListAllQueryParam & RequestParameters;
+export type NetworkProfilesListAllParameters = NetworkProfilesListAllQueryParam & RequestParameters;
 
 export interface NetworkProfilesListQueryParamProperties {
   /** Api Version */
@@ -4679,8 +4558,7 @@ export interface NetworkProfilesListQueryParam {
   queryParameters: NetworkProfilesListQueryParamProperties;
 }
 
-export type NetworkProfilesListParameters = NetworkProfilesListQueryParam &
-  RequestParameters;
+export type NetworkProfilesListParameters = NetworkProfilesListQueryParam & RequestParameters;
 
 export interface NetworkSecurityGroupsDeleteQueryParamProperties {
   /** Api Version */
@@ -4691,8 +4569,8 @@ export interface NetworkSecurityGroupsDeleteQueryParam {
   queryParameters: NetworkSecurityGroupsDeleteQueryParamProperties;
 }
 
-export type NetworkSecurityGroupsDeleteParameters =
-  NetworkSecurityGroupsDeleteQueryParam & RequestParameters;
+export type NetworkSecurityGroupsDeleteParameters = NetworkSecurityGroupsDeleteQueryParam &
+  RequestParameters;
 
 export interface NetworkSecurityGroupsGetQueryParamProperties {
   /** Api Version */
@@ -4705,8 +4583,8 @@ export interface NetworkSecurityGroupsGetQueryParam {
   queryParameters: NetworkSecurityGroupsGetQueryParamProperties;
 }
 
-export type NetworkSecurityGroupsGetParameters =
-  NetworkSecurityGroupsGetQueryParam & RequestParameters;
+export type NetworkSecurityGroupsGetParameters = NetworkSecurityGroupsGetQueryParam &
+  RequestParameters;
 
 export interface NetworkSecurityGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update network security group operation. */
@@ -4752,11 +4630,10 @@ export interface NetworkSecurityGroupsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkSecurityGroupsUpdateTagsParameters =
-  NetworkSecurityGroupsUpdateTagsQueryParam &
-    NetworkSecurityGroupsUpdateTagsMediaTypesParam &
-    NetworkSecurityGroupsUpdateTagsBodyParam &
-    RequestParameters;
+export type NetworkSecurityGroupsUpdateTagsParameters = NetworkSecurityGroupsUpdateTagsQueryParam &
+  NetworkSecurityGroupsUpdateTagsMediaTypesParam &
+  NetworkSecurityGroupsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface NetworkSecurityGroupsListAllQueryParamProperties {
   /** Api Version */
@@ -4767,8 +4644,8 @@ export interface NetworkSecurityGroupsListAllQueryParam {
   queryParameters: NetworkSecurityGroupsListAllQueryParamProperties;
 }
 
-export type NetworkSecurityGroupsListAllParameters =
-  NetworkSecurityGroupsListAllQueryParam & RequestParameters;
+export type NetworkSecurityGroupsListAllParameters = NetworkSecurityGroupsListAllQueryParam &
+  RequestParameters;
 
 export interface NetworkSecurityGroupsListQueryParamProperties {
   /** Api Version */
@@ -4779,8 +4656,8 @@ export interface NetworkSecurityGroupsListQueryParam {
   queryParameters: NetworkSecurityGroupsListQueryParamProperties;
 }
 
-export type NetworkSecurityGroupsListParameters =
-  NetworkSecurityGroupsListQueryParam & RequestParameters;
+export type NetworkSecurityGroupsListParameters = NetworkSecurityGroupsListQueryParam &
+  RequestParameters;
 
 export interface SecurityRulesDeleteQueryParamProperties {
   /** Api Version */
@@ -4791,8 +4668,7 @@ export interface SecurityRulesDeleteQueryParam {
   queryParameters: SecurityRulesDeleteQueryParamProperties;
 }
 
-export type SecurityRulesDeleteParameters = SecurityRulesDeleteQueryParam &
-  RequestParameters;
+export type SecurityRulesDeleteParameters = SecurityRulesDeleteQueryParam & RequestParameters;
 
 export interface SecurityRulesGetQueryParamProperties {
   /** Api Version */
@@ -4803,8 +4679,7 @@ export interface SecurityRulesGetQueryParam {
   queryParameters: SecurityRulesGetQueryParamProperties;
 }
 
-export type SecurityRulesGetParameters = SecurityRulesGetQueryParam &
-  RequestParameters;
+export type SecurityRulesGetParameters = SecurityRulesGetQueryParam & RequestParameters;
 
 export interface SecurityRulesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update network security rule operation. */
@@ -4825,11 +4700,10 @@ export interface SecurityRulesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SecurityRulesCreateOrUpdateParameters =
-  SecurityRulesCreateOrUpdateQueryParam &
-    SecurityRulesCreateOrUpdateMediaTypesParam &
-    SecurityRulesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type SecurityRulesCreateOrUpdateParameters = SecurityRulesCreateOrUpdateQueryParam &
+  SecurityRulesCreateOrUpdateMediaTypesParam &
+  SecurityRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface SecurityRulesListQueryParamProperties {
   /** Api Version */
@@ -4840,8 +4714,7 @@ export interface SecurityRulesListQueryParam {
   queryParameters: SecurityRulesListQueryParamProperties;
 }
 
-export type SecurityRulesListParameters = SecurityRulesListQueryParam &
-  RequestParameters;
+export type SecurityRulesListParameters = SecurityRulesListQueryParam & RequestParameters;
 
 export interface DefaultSecurityRulesListQueryParamProperties {
   /** Api Version */
@@ -4852,8 +4725,8 @@ export interface DefaultSecurityRulesListQueryParam {
   queryParameters: DefaultSecurityRulesListQueryParamProperties;
 }
 
-export type DefaultSecurityRulesListParameters =
-  DefaultSecurityRulesListQueryParam & RequestParameters;
+export type DefaultSecurityRulesListParameters = DefaultSecurityRulesListQueryParam &
+  RequestParameters;
 
 export interface DefaultSecurityRulesGetQueryParamProperties {
   /** Api Version */
@@ -4864,8 +4737,8 @@ export interface DefaultSecurityRulesGetQueryParam {
   queryParameters: DefaultSecurityRulesGetQueryParamProperties;
 }
 
-export type DefaultSecurityRulesGetParameters =
-  DefaultSecurityRulesGetQueryParam & RequestParameters;
+export type DefaultSecurityRulesGetParameters = DefaultSecurityRulesGetQueryParam &
+  RequestParameters;
 
 export interface NetworkVirtualAppliancesDeleteQueryParamProperties {
   /** Api Version */
@@ -4876,8 +4749,8 @@ export interface NetworkVirtualAppliancesDeleteQueryParam {
   queryParameters: NetworkVirtualAppliancesDeleteQueryParamProperties;
 }
 
-export type NetworkVirtualAppliancesDeleteParameters =
-  NetworkVirtualAppliancesDeleteQueryParam & RequestParameters;
+export type NetworkVirtualAppliancesDeleteParameters = NetworkVirtualAppliancesDeleteQueryParam &
+  RequestParameters;
 
 export interface NetworkVirtualAppliancesGetQueryParamProperties {
   /** Api Version */
@@ -4890,8 +4763,8 @@ export interface NetworkVirtualAppliancesGetQueryParam {
   queryParameters: NetworkVirtualAppliancesGetQueryParamProperties;
 }
 
-export type NetworkVirtualAppliancesGetParameters =
-  NetworkVirtualAppliancesGetQueryParam & RequestParameters;
+export type NetworkVirtualAppliancesGetParameters = NetworkVirtualAppliancesGetQueryParam &
+  RequestParameters;
 
 export interface NetworkVirtualAppliancesUpdateTagsBodyParam {
   /** Parameters supplied to Update Network Virtual Appliance Tags. */
@@ -4964,8 +4837,8 @@ export interface NetworkVirtualAppliancesListQueryParam {
   queryParameters: NetworkVirtualAppliancesListQueryParamProperties;
 }
 
-export type NetworkVirtualAppliancesListParameters =
-  NetworkVirtualAppliancesListQueryParam & RequestParameters;
+export type NetworkVirtualAppliancesListParameters = NetworkVirtualAppliancesListQueryParam &
+  RequestParameters;
 
 export interface VirtualApplianceSitesDeleteQueryParamProperties {
   /** Api Version */
@@ -4976,8 +4849,8 @@ export interface VirtualApplianceSitesDeleteQueryParam {
   queryParameters: VirtualApplianceSitesDeleteQueryParamProperties;
 }
 
-export type VirtualApplianceSitesDeleteParameters =
-  VirtualApplianceSitesDeleteQueryParam & RequestParameters;
+export type VirtualApplianceSitesDeleteParameters = VirtualApplianceSitesDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualApplianceSitesGetQueryParamProperties {
   /** Api Version */
@@ -4988,8 +4861,8 @@ export interface VirtualApplianceSitesGetQueryParam {
   queryParameters: VirtualApplianceSitesGetQueryParamProperties;
 }
 
-export type VirtualApplianceSitesGetParameters =
-  VirtualApplianceSitesGetQueryParam & RequestParameters;
+export type VirtualApplianceSitesGetParameters = VirtualApplianceSitesGetQueryParam &
+  RequestParameters;
 
 export interface VirtualApplianceSitesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Network Virtual Appliance Site operation. */
@@ -5025,8 +4898,8 @@ export interface VirtualApplianceSitesListQueryParam {
   queryParameters: VirtualApplianceSitesListQueryParamProperties;
 }
 
-export type VirtualApplianceSitesListParameters =
-  VirtualApplianceSitesListQueryParam & RequestParameters;
+export type VirtualApplianceSitesListParameters = VirtualApplianceSitesListQueryParam &
+  RequestParameters;
 
 export interface VirtualApplianceSkusListQueryParamProperties {
   /** Api Version */
@@ -5037,8 +4910,8 @@ export interface VirtualApplianceSkusListQueryParam {
   queryParameters: VirtualApplianceSkusListQueryParamProperties;
 }
 
-export type VirtualApplianceSkusListParameters =
-  VirtualApplianceSkusListQueryParam & RequestParameters;
+export type VirtualApplianceSkusListParameters = VirtualApplianceSkusListQueryParam &
+  RequestParameters;
 
 export interface VirtualApplianceSkusGetQueryParamProperties {
   /** Api Version */
@@ -5049,8 +4922,8 @@ export interface VirtualApplianceSkusGetQueryParam {
   queryParameters: VirtualApplianceSkusGetQueryParamProperties;
 }
 
-export type VirtualApplianceSkusGetParameters =
-  VirtualApplianceSkusGetQueryParam & RequestParameters;
+export type VirtualApplianceSkusGetParameters = VirtualApplianceSkusGetQueryParam &
+  RequestParameters;
 
 export interface InboundSecurityRuleCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Network Virtual Appliance Inbound Security Rules operation. */
@@ -5096,11 +4969,10 @@ export interface NetworkWatchersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersCreateOrUpdateParameters =
-  NetworkWatchersCreateOrUpdateQueryParam &
-    NetworkWatchersCreateOrUpdateMediaTypesParam &
-    NetworkWatchersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NetworkWatchersCreateOrUpdateParameters = NetworkWatchersCreateOrUpdateQueryParam &
+  NetworkWatchersCreateOrUpdateMediaTypesParam &
+  NetworkWatchersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersGetQueryParamProperties {
   /** Api Version */
@@ -5111,8 +4983,7 @@ export interface NetworkWatchersGetQueryParam {
   queryParameters: NetworkWatchersGetQueryParamProperties;
 }
 
-export type NetworkWatchersGetParameters = NetworkWatchersGetQueryParam &
-  RequestParameters;
+export type NetworkWatchersGetParameters = NetworkWatchersGetQueryParam & RequestParameters;
 
 export interface NetworkWatchersDeleteQueryParamProperties {
   /** Api Version */
@@ -5123,8 +4994,7 @@ export interface NetworkWatchersDeleteQueryParam {
   queryParameters: NetworkWatchersDeleteQueryParamProperties;
 }
 
-export type NetworkWatchersDeleteParameters = NetworkWatchersDeleteQueryParam &
-  RequestParameters;
+export type NetworkWatchersDeleteParameters = NetworkWatchersDeleteQueryParam & RequestParameters;
 
 export interface NetworkWatchersUpdateTagsBodyParam {
   /** Parameters supplied to update network watcher tags. */
@@ -5145,11 +5015,10 @@ export interface NetworkWatchersUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersUpdateTagsParameters =
-  NetworkWatchersUpdateTagsQueryParam &
-    NetworkWatchersUpdateTagsMediaTypesParam &
-    NetworkWatchersUpdateTagsBodyParam &
-    RequestParameters;
+export type NetworkWatchersUpdateTagsParameters = NetworkWatchersUpdateTagsQueryParam &
+  NetworkWatchersUpdateTagsMediaTypesParam &
+  NetworkWatchersUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersListQueryParamProperties {
   /** Api Version */
@@ -5160,8 +5029,7 @@ export interface NetworkWatchersListQueryParam {
   queryParameters: NetworkWatchersListQueryParamProperties;
 }
 
-export type NetworkWatchersListParameters = NetworkWatchersListQueryParam &
-  RequestParameters;
+export type NetworkWatchersListParameters = NetworkWatchersListQueryParam & RequestParameters;
 
 export interface NetworkWatchersListAllQueryParamProperties {
   /** Api Version */
@@ -5172,8 +5040,7 @@ export interface NetworkWatchersListAllQueryParam {
   queryParameters: NetworkWatchersListAllQueryParamProperties;
 }
 
-export type NetworkWatchersListAllParameters =
-  NetworkWatchersListAllQueryParam & RequestParameters;
+export type NetworkWatchersListAllParameters = NetworkWatchersListAllQueryParam & RequestParameters;
 
 export interface NetworkWatchersGetTopologyBodyParam {
   /** Parameters that define the representation of topology. */
@@ -5194,11 +5061,10 @@ export interface NetworkWatchersGetTopologyMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersGetTopologyParameters =
-  NetworkWatchersGetTopologyQueryParam &
-    NetworkWatchersGetTopologyMediaTypesParam &
-    NetworkWatchersGetTopologyBodyParam &
-    RequestParameters;
+export type NetworkWatchersGetTopologyParameters = NetworkWatchersGetTopologyQueryParam &
+  NetworkWatchersGetTopologyMediaTypesParam &
+  NetworkWatchersGetTopologyBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersVerifyIPFlowBodyParam {
   /** Parameters that define the IP flow to be verified. */
@@ -5219,11 +5085,10 @@ export interface NetworkWatchersVerifyIPFlowMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersVerifyIPFlowParameters =
-  NetworkWatchersVerifyIPFlowQueryParam &
-    NetworkWatchersVerifyIPFlowMediaTypesParam &
-    NetworkWatchersVerifyIPFlowBodyParam &
-    RequestParameters;
+export type NetworkWatchersVerifyIPFlowParameters = NetworkWatchersVerifyIPFlowQueryParam &
+  NetworkWatchersVerifyIPFlowMediaTypesParam &
+  NetworkWatchersVerifyIPFlowBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersGetNextHopBodyParam {
   /** Parameters that define the source and destination endpoint. */
@@ -5244,11 +5109,10 @@ export interface NetworkWatchersGetNextHopMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersGetNextHopParameters =
-  NetworkWatchersGetNextHopQueryParam &
-    NetworkWatchersGetNextHopMediaTypesParam &
-    NetworkWatchersGetNextHopBodyParam &
-    RequestParameters;
+export type NetworkWatchersGetNextHopParameters = NetworkWatchersGetNextHopQueryParam &
+  NetworkWatchersGetNextHopMediaTypesParam &
+  NetworkWatchersGetNextHopBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersGetVMSecurityRulesBodyParam {
   /** Parameters that define the VM to check security groups for. */
@@ -5369,11 +5233,10 @@ export interface NetworkWatchersGetFlowLogStatusMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NetworkWatchersGetFlowLogStatusParameters =
-  NetworkWatchersGetFlowLogStatusQueryParam &
-    NetworkWatchersGetFlowLogStatusMediaTypesParam &
-    NetworkWatchersGetFlowLogStatusBodyParam &
-    RequestParameters;
+export type NetworkWatchersGetFlowLogStatusParameters = NetworkWatchersGetFlowLogStatusQueryParam &
+  NetworkWatchersGetFlowLogStatusMediaTypesParam &
+  NetworkWatchersGetFlowLogStatusBodyParam &
+  RequestParameters;
 
 export interface NetworkWatchersCheckConnectivityBodyParam {
   /** Parameters that determine how the connectivity check will be performed. */
@@ -5508,8 +5371,7 @@ export interface PacketCapturesGetQueryParam {
   queryParameters: PacketCapturesGetQueryParamProperties;
 }
 
-export type PacketCapturesGetParameters = PacketCapturesGetQueryParam &
-  RequestParameters;
+export type PacketCapturesGetParameters = PacketCapturesGetQueryParam & RequestParameters;
 
 export interface PacketCapturesDeleteQueryParamProperties {
   /** Api Version */
@@ -5520,8 +5382,7 @@ export interface PacketCapturesDeleteQueryParam {
   queryParameters: PacketCapturesDeleteQueryParamProperties;
 }
 
-export type PacketCapturesDeleteParameters = PacketCapturesDeleteQueryParam &
-  RequestParameters;
+export type PacketCapturesDeleteParameters = PacketCapturesDeleteQueryParam & RequestParameters;
 
 export interface PacketCapturesStopQueryParamProperties {
   /** Api Version */
@@ -5532,8 +5393,7 @@ export interface PacketCapturesStopQueryParam {
   queryParameters: PacketCapturesStopQueryParamProperties;
 }
 
-export type PacketCapturesStopParameters = PacketCapturesStopQueryParam &
-  RequestParameters;
+export type PacketCapturesStopParameters = PacketCapturesStopQueryParam & RequestParameters;
 
 export interface PacketCapturesGetStatusQueryParamProperties {
   /** Api Version */
@@ -5544,8 +5404,8 @@ export interface PacketCapturesGetStatusQueryParam {
   queryParameters: PacketCapturesGetStatusQueryParamProperties;
 }
 
-export type PacketCapturesGetStatusParameters =
-  PacketCapturesGetStatusQueryParam & RequestParameters;
+export type PacketCapturesGetStatusParameters = PacketCapturesGetStatusQueryParam &
+  RequestParameters;
 
 export interface PacketCapturesListQueryParamProperties {
   /** Api Version */
@@ -5556,8 +5416,7 @@ export interface PacketCapturesListQueryParam {
   queryParameters: PacketCapturesListQueryParamProperties;
 }
 
-export type PacketCapturesListParameters = PacketCapturesListQueryParam &
-  RequestParameters;
+export type PacketCapturesListParameters = PacketCapturesListQueryParam & RequestParameters;
 
 export interface ConnectionMonitorsCreateOrUpdateBodyParam {
   /** Parameters that define the operation to create a connection monitor. */
@@ -5595,8 +5454,7 @@ export interface ConnectionMonitorsGetQueryParam {
   queryParameters: ConnectionMonitorsGetQueryParamProperties;
 }
 
-export type ConnectionMonitorsGetParameters = ConnectionMonitorsGetQueryParam &
-  RequestParameters;
+export type ConnectionMonitorsGetParameters = ConnectionMonitorsGetQueryParam & RequestParameters;
 
 export interface ConnectionMonitorsDeleteQueryParamProperties {
   /** Api Version */
@@ -5607,8 +5465,8 @@ export interface ConnectionMonitorsDeleteQueryParam {
   queryParameters: ConnectionMonitorsDeleteQueryParamProperties;
 }
 
-export type ConnectionMonitorsDeleteParameters =
-  ConnectionMonitorsDeleteQueryParam & RequestParameters;
+export type ConnectionMonitorsDeleteParameters = ConnectionMonitorsDeleteQueryParam &
+  RequestParameters;
 
 export interface ConnectionMonitorsUpdateTagsBodyParam {
   /** Parameters supplied to update connection monitor tags. */
@@ -5629,11 +5487,10 @@ export interface ConnectionMonitorsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ConnectionMonitorsUpdateTagsParameters =
-  ConnectionMonitorsUpdateTagsQueryParam &
-    ConnectionMonitorsUpdateTagsMediaTypesParam &
-    ConnectionMonitorsUpdateTagsBodyParam &
-    RequestParameters;
+export type ConnectionMonitorsUpdateTagsParameters = ConnectionMonitorsUpdateTagsQueryParam &
+  ConnectionMonitorsUpdateTagsMediaTypesParam &
+  ConnectionMonitorsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface ConnectionMonitorsStopQueryParamProperties {
   /** Api Version */
@@ -5644,8 +5501,7 @@ export interface ConnectionMonitorsStopQueryParam {
   queryParameters: ConnectionMonitorsStopQueryParamProperties;
 }
 
-export type ConnectionMonitorsStopParameters =
-  ConnectionMonitorsStopQueryParam & RequestParameters;
+export type ConnectionMonitorsStopParameters = ConnectionMonitorsStopQueryParam & RequestParameters;
 
 export interface ConnectionMonitorsStartQueryParamProperties {
   /** Api Version */
@@ -5656,8 +5512,8 @@ export interface ConnectionMonitorsStartQueryParam {
   queryParameters: ConnectionMonitorsStartQueryParamProperties;
 }
 
-export type ConnectionMonitorsStartParameters =
-  ConnectionMonitorsStartQueryParam & RequestParameters;
+export type ConnectionMonitorsStartParameters = ConnectionMonitorsStartQueryParam &
+  RequestParameters;
 
 export interface ConnectionMonitorsQueryQueryParamProperties {
   /** Api Version */
@@ -5668,8 +5524,8 @@ export interface ConnectionMonitorsQueryQueryParam {
   queryParameters: ConnectionMonitorsQueryQueryParamProperties;
 }
 
-export type ConnectionMonitorsQueryParameters =
-  ConnectionMonitorsQueryQueryParam & RequestParameters;
+export type ConnectionMonitorsQueryParameters = ConnectionMonitorsQueryQueryParam &
+  RequestParameters;
 
 export interface ConnectionMonitorsListQueryParamProperties {
   /** Api Version */
@@ -5680,8 +5536,7 @@ export interface ConnectionMonitorsListQueryParam {
   queryParameters: ConnectionMonitorsListQueryParamProperties;
 }
 
-export type ConnectionMonitorsListParameters =
-  ConnectionMonitorsListQueryParam & RequestParameters;
+export type ConnectionMonitorsListParameters = ConnectionMonitorsListQueryParam & RequestParameters;
 
 export interface FlowLogsCreateOrUpdateBodyParam {
   /** Parameters that define the create or update flow log resource. */
@@ -5702,11 +5557,10 @@ export interface FlowLogsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type FlowLogsCreateOrUpdateParameters =
-  FlowLogsCreateOrUpdateQueryParam &
-    FlowLogsCreateOrUpdateMediaTypesParam &
-    FlowLogsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type FlowLogsCreateOrUpdateParameters = FlowLogsCreateOrUpdateQueryParam &
+  FlowLogsCreateOrUpdateMediaTypesParam &
+  FlowLogsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface FlowLogsUpdateTagsBodyParam {
   /** Parameters supplied to update flow log tags. */
@@ -5752,8 +5606,7 @@ export interface FlowLogsDeleteQueryParam {
   queryParameters: FlowLogsDeleteQueryParamProperties;
 }
 
-export type FlowLogsDeleteParameters = FlowLogsDeleteQueryParam &
-  RequestParameters;
+export type FlowLogsDeleteParameters = FlowLogsDeleteQueryParam & RequestParameters;
 
 export interface FlowLogsListQueryParamProperties {
   /** Api Version */
@@ -5775,8 +5628,7 @@ export interface OperationsListQueryParam {
   queryParameters: OperationsListQueryParamProperties;
 }
 
-export type OperationsListParameters = OperationsListQueryParam &
-  RequestParameters;
+export type OperationsListParameters = OperationsListQueryParam & RequestParameters;
 
 export interface PrivateEndpointsDeleteQueryParamProperties {
   /** Api Version */
@@ -5787,8 +5639,7 @@ export interface PrivateEndpointsDeleteQueryParam {
   queryParameters: PrivateEndpointsDeleteQueryParamProperties;
 }
 
-export type PrivateEndpointsDeleteParameters =
-  PrivateEndpointsDeleteQueryParam & RequestParameters;
+export type PrivateEndpointsDeleteParameters = PrivateEndpointsDeleteQueryParam & RequestParameters;
 
 export interface PrivateEndpointsGetQueryParamProperties {
   /** Api Version */
@@ -5801,8 +5652,7 @@ export interface PrivateEndpointsGetQueryParam {
   queryParameters: PrivateEndpointsGetQueryParamProperties;
 }
 
-export type PrivateEndpointsGetParameters = PrivateEndpointsGetQueryParam &
-  RequestParameters;
+export type PrivateEndpointsGetParameters = PrivateEndpointsGetQueryParam & RequestParameters;
 
 export interface PrivateEndpointsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update private endpoint operation. */
@@ -5823,11 +5673,10 @@ export interface PrivateEndpointsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PrivateEndpointsCreateOrUpdateParameters =
-  PrivateEndpointsCreateOrUpdateQueryParam &
-    PrivateEndpointsCreateOrUpdateMediaTypesParam &
-    PrivateEndpointsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type PrivateEndpointsCreateOrUpdateParameters = PrivateEndpointsCreateOrUpdateQueryParam &
+  PrivateEndpointsCreateOrUpdateMediaTypesParam &
+  PrivateEndpointsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface PrivateEndpointsListQueryParamProperties {
   /** Api Version */
@@ -5838,8 +5687,7 @@ export interface PrivateEndpointsListQueryParam {
   queryParameters: PrivateEndpointsListQueryParamProperties;
 }
 
-export type PrivateEndpointsListParameters = PrivateEndpointsListQueryParam &
-  RequestParameters;
+export type PrivateEndpointsListParameters = PrivateEndpointsListQueryParam & RequestParameters;
 
 export interface PrivateEndpointsListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -5875,8 +5723,7 @@ export interface AvailablePrivateEndpointTypesListByResourceGroupQueryParam {
 }
 
 export type AvailablePrivateEndpointTypesListByResourceGroupParameters =
-  AvailablePrivateEndpointTypesListByResourceGroupQueryParam &
-    RequestParameters;
+  AvailablePrivateEndpointTypesListByResourceGroupQueryParam & RequestParameters;
 
 export interface PrivateDnsZoneGroupsDeleteQueryParamProperties {
   /** Api Version */
@@ -5887,8 +5734,8 @@ export interface PrivateDnsZoneGroupsDeleteQueryParam {
   queryParameters: PrivateDnsZoneGroupsDeleteQueryParamProperties;
 }
 
-export type PrivateDnsZoneGroupsDeleteParameters =
-  PrivateDnsZoneGroupsDeleteQueryParam & RequestParameters;
+export type PrivateDnsZoneGroupsDeleteParameters = PrivateDnsZoneGroupsDeleteQueryParam &
+  RequestParameters;
 
 export interface PrivateDnsZoneGroupsGetQueryParamProperties {
   /** Api Version */
@@ -5899,8 +5746,8 @@ export interface PrivateDnsZoneGroupsGetQueryParam {
   queryParameters: PrivateDnsZoneGroupsGetQueryParamProperties;
 }
 
-export type PrivateDnsZoneGroupsGetParameters =
-  PrivateDnsZoneGroupsGetQueryParam & RequestParameters;
+export type PrivateDnsZoneGroupsGetParameters = PrivateDnsZoneGroupsGetQueryParam &
+  RequestParameters;
 
 export interface PrivateDnsZoneGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update private dns zone group operation. */
@@ -5936,8 +5783,8 @@ export interface PrivateDnsZoneGroupsListQueryParam {
   queryParameters: PrivateDnsZoneGroupsListQueryParamProperties;
 }
 
-export type PrivateDnsZoneGroupsListParameters =
-  PrivateDnsZoneGroupsListQueryParam & RequestParameters;
+export type PrivateDnsZoneGroupsListParameters = PrivateDnsZoneGroupsListQueryParam &
+  RequestParameters;
 
 export interface PrivateLinkServicesDeleteQueryParamProperties {
   /** Api Version */
@@ -5948,8 +5795,8 @@ export interface PrivateLinkServicesDeleteQueryParam {
   queryParameters: PrivateLinkServicesDeleteQueryParamProperties;
 }
 
-export type PrivateLinkServicesDeleteParameters =
-  PrivateLinkServicesDeleteQueryParam & RequestParameters;
+export type PrivateLinkServicesDeleteParameters = PrivateLinkServicesDeleteQueryParam &
+  RequestParameters;
 
 export interface PrivateLinkServicesGetQueryParamProperties {
   /** Api Version */
@@ -5962,8 +5809,7 @@ export interface PrivateLinkServicesGetQueryParam {
   queryParameters: PrivateLinkServicesGetQueryParamProperties;
 }
 
-export type PrivateLinkServicesGetParameters =
-  PrivateLinkServicesGetQueryParam & RequestParameters;
+export type PrivateLinkServicesGetParameters = PrivateLinkServicesGetQueryParam & RequestParameters;
 
 export interface PrivateLinkServicesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update private link service operation. */
@@ -5999,8 +5845,8 @@ export interface PrivateLinkServicesListQueryParam {
   queryParameters: PrivateLinkServicesListQueryParamProperties;
 }
 
-export type PrivateLinkServicesListParameters =
-  PrivateLinkServicesListQueryParam & RequestParameters;
+export type PrivateLinkServicesListParameters = PrivateLinkServicesListQueryParam &
+  RequestParameters;
 
 export interface PrivateLinkServicesListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -6063,8 +5909,7 @@ export interface PrivateLinkServicesDeletePrivateEndpointConnectionQueryParam {
 }
 
 export type PrivateLinkServicesDeletePrivateEndpointConnectionParameters =
-  PrivateLinkServicesDeletePrivateEndpointConnectionQueryParam &
-    RequestParameters;
+  PrivateLinkServicesDeletePrivateEndpointConnectionQueryParam & RequestParameters;
 
 export interface PrivateLinkServicesListPrivateEndpointConnectionsQueryParamProperties {
   /** Api Version */
@@ -6076,8 +5921,7 @@ export interface PrivateLinkServicesListPrivateEndpointConnectionsQueryParam {
 }
 
 export type PrivateLinkServicesListPrivateEndpointConnectionsParameters =
-  PrivateLinkServicesListPrivateEndpointConnectionsQueryParam &
-    RequestParameters;
+  PrivateLinkServicesListPrivateEndpointConnectionsQueryParam & RequestParameters;
 
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityBodyParam {
   /** The request body of CheckPrivateLinkService API call. */
@@ -6139,8 +5983,7 @@ export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesQueryPara
 }
 
 export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters =
-  PrivateLinkServicesListAutoApprovedPrivateLinkServicesQueryParam &
-    RequestParameters;
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesQueryParam & RequestParameters;
 
 export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -6164,8 +6007,7 @@ export interface PublicIPPrefixesDeleteQueryParam {
   queryParameters: PublicIPPrefixesDeleteQueryParamProperties;
 }
 
-export type PublicIPPrefixesDeleteParameters =
-  PublicIPPrefixesDeleteQueryParam & RequestParameters;
+export type PublicIPPrefixesDeleteParameters = PublicIPPrefixesDeleteQueryParam & RequestParameters;
 
 export interface PublicIPPrefixesGetQueryParamProperties {
   /** Api Version */
@@ -6178,8 +6020,7 @@ export interface PublicIPPrefixesGetQueryParam {
   queryParameters: PublicIPPrefixesGetQueryParamProperties;
 }
 
-export type PublicIPPrefixesGetParameters = PublicIPPrefixesGetQueryParam &
-  RequestParameters;
+export type PublicIPPrefixesGetParameters = PublicIPPrefixesGetQueryParam & RequestParameters;
 
 export interface PublicIPPrefixesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update public IP prefix operation. */
@@ -6200,11 +6041,10 @@ export interface PublicIPPrefixesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PublicIPPrefixesCreateOrUpdateParameters =
-  PublicIPPrefixesCreateOrUpdateQueryParam &
-    PublicIPPrefixesCreateOrUpdateMediaTypesParam &
-    PublicIPPrefixesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type PublicIPPrefixesCreateOrUpdateParameters = PublicIPPrefixesCreateOrUpdateQueryParam &
+  PublicIPPrefixesCreateOrUpdateMediaTypesParam &
+  PublicIPPrefixesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface PublicIPPrefixesUpdateTagsBodyParam {
   /** Parameters supplied to update public IP prefix tags. */
@@ -6225,11 +6065,10 @@ export interface PublicIPPrefixesUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PublicIPPrefixesUpdateTagsParameters =
-  PublicIPPrefixesUpdateTagsQueryParam &
-    PublicIPPrefixesUpdateTagsMediaTypesParam &
-    PublicIPPrefixesUpdateTagsBodyParam &
-    RequestParameters;
+export type PublicIPPrefixesUpdateTagsParameters = PublicIPPrefixesUpdateTagsQueryParam &
+  PublicIPPrefixesUpdateTagsMediaTypesParam &
+  PublicIPPrefixesUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface PublicIPPrefixesListAllQueryParamProperties {
   /** Api Version */
@@ -6240,8 +6079,8 @@ export interface PublicIPPrefixesListAllQueryParam {
   queryParameters: PublicIPPrefixesListAllQueryParamProperties;
 }
 
-export type PublicIPPrefixesListAllParameters =
-  PublicIPPrefixesListAllQueryParam & RequestParameters;
+export type PublicIPPrefixesListAllParameters = PublicIPPrefixesListAllQueryParam &
+  RequestParameters;
 
 export interface PublicIPPrefixesListQueryParamProperties {
   /** Api Version */
@@ -6252,8 +6091,7 @@ export interface PublicIPPrefixesListQueryParam {
   queryParameters: PublicIPPrefixesListQueryParamProperties;
 }
 
-export type PublicIPPrefixesListParameters = PublicIPPrefixesListQueryParam &
-  RequestParameters;
+export type PublicIPPrefixesListParameters = PublicIPPrefixesListQueryParam & RequestParameters;
 
 export interface RouteFiltersDeleteQueryParamProperties {
   /** Api Version */
@@ -6264,8 +6102,7 @@ export interface RouteFiltersDeleteQueryParam {
   queryParameters: RouteFiltersDeleteQueryParamProperties;
 }
 
-export type RouteFiltersDeleteParameters = RouteFiltersDeleteQueryParam &
-  RequestParameters;
+export type RouteFiltersDeleteParameters = RouteFiltersDeleteQueryParam & RequestParameters;
 
 export interface RouteFiltersGetQueryParamProperties {
   /** Api Version */
@@ -6278,8 +6115,7 @@ export interface RouteFiltersGetQueryParam {
   queryParameters: RouteFiltersGetQueryParamProperties;
 }
 
-export type RouteFiltersGetParameters = RouteFiltersGetQueryParam &
-  RequestParameters;
+export type RouteFiltersGetParameters = RouteFiltersGetQueryParam & RequestParameters;
 
 export interface RouteFiltersCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update route filter operation. */
@@ -6300,11 +6136,10 @@ export interface RouteFiltersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteFiltersCreateOrUpdateParameters =
-  RouteFiltersCreateOrUpdateQueryParam &
-    RouteFiltersCreateOrUpdateMediaTypesParam &
-    RouteFiltersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type RouteFiltersCreateOrUpdateParameters = RouteFiltersCreateOrUpdateQueryParam &
+  RouteFiltersCreateOrUpdateMediaTypesParam &
+  RouteFiltersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface RouteFiltersUpdateTagsBodyParam {
   /** Parameters supplied to update route filter tags. */
@@ -6325,11 +6160,10 @@ export interface RouteFiltersUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteFiltersUpdateTagsParameters =
-  RouteFiltersUpdateTagsQueryParam &
-    RouteFiltersUpdateTagsMediaTypesParam &
-    RouteFiltersUpdateTagsBodyParam &
-    RequestParameters;
+export type RouteFiltersUpdateTagsParameters = RouteFiltersUpdateTagsQueryParam &
+  RouteFiltersUpdateTagsMediaTypesParam &
+  RouteFiltersUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface RouteFiltersListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -6340,8 +6174,8 @@ export interface RouteFiltersListByResourceGroupQueryParam {
   queryParameters: RouteFiltersListByResourceGroupQueryParamProperties;
 }
 
-export type RouteFiltersListByResourceGroupParameters =
-  RouteFiltersListByResourceGroupQueryParam & RequestParameters;
+export type RouteFiltersListByResourceGroupParameters = RouteFiltersListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface RouteFiltersListQueryParamProperties {
   /** Api Version */
@@ -6352,8 +6186,7 @@ export interface RouteFiltersListQueryParam {
   queryParameters: RouteFiltersListQueryParamProperties;
 }
 
-export type RouteFiltersListParameters = RouteFiltersListQueryParam &
-  RequestParameters;
+export type RouteFiltersListParameters = RouteFiltersListQueryParam & RequestParameters;
 
 export interface RouteFilterRulesDeleteQueryParamProperties {
   /** Api Version */
@@ -6364,8 +6197,7 @@ export interface RouteFilterRulesDeleteQueryParam {
   queryParameters: RouteFilterRulesDeleteQueryParamProperties;
 }
 
-export type RouteFilterRulesDeleteParameters =
-  RouteFilterRulesDeleteQueryParam & RequestParameters;
+export type RouteFilterRulesDeleteParameters = RouteFilterRulesDeleteQueryParam & RequestParameters;
 
 export interface RouteFilterRulesGetQueryParamProperties {
   /** Api Version */
@@ -6376,8 +6208,7 @@ export interface RouteFilterRulesGetQueryParam {
   queryParameters: RouteFilterRulesGetQueryParamProperties;
 }
 
-export type RouteFilterRulesGetParameters = RouteFilterRulesGetQueryParam &
-  RequestParameters;
+export type RouteFilterRulesGetParameters = RouteFilterRulesGetQueryParam & RequestParameters;
 
 export interface RouteFilterRulesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update route filter rule operation. */
@@ -6398,11 +6229,10 @@ export interface RouteFilterRulesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteFilterRulesCreateOrUpdateParameters =
-  RouteFilterRulesCreateOrUpdateQueryParam &
-    RouteFilterRulesCreateOrUpdateMediaTypesParam &
-    RouteFilterRulesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type RouteFilterRulesCreateOrUpdateParameters = RouteFilterRulesCreateOrUpdateQueryParam &
+  RouteFilterRulesCreateOrUpdateMediaTypesParam &
+  RouteFilterRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface RouteFilterRulesListByRouteFilterQueryParamProperties {
   /** Api Version */
@@ -6425,8 +6255,7 @@ export interface RouteTablesDeleteQueryParam {
   queryParameters: RouteTablesDeleteQueryParamProperties;
 }
 
-export type RouteTablesDeleteParameters = RouteTablesDeleteQueryParam &
-  RequestParameters;
+export type RouteTablesDeleteParameters = RouteTablesDeleteQueryParam & RequestParameters;
 
 export interface RouteTablesGetQueryParamProperties {
   /** Api Version */
@@ -6439,8 +6268,7 @@ export interface RouteTablesGetQueryParam {
   queryParameters: RouteTablesGetQueryParamProperties;
 }
 
-export type RouteTablesGetParameters = RouteTablesGetQueryParam &
-  RequestParameters;
+export type RouteTablesGetParameters = RouteTablesGetQueryParam & RequestParameters;
 
 export interface RouteTablesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update route table operation. */
@@ -6461,11 +6289,10 @@ export interface RouteTablesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteTablesCreateOrUpdateParameters =
-  RouteTablesCreateOrUpdateQueryParam &
-    RouteTablesCreateOrUpdateMediaTypesParam &
-    RouteTablesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type RouteTablesCreateOrUpdateParameters = RouteTablesCreateOrUpdateQueryParam &
+  RouteTablesCreateOrUpdateMediaTypesParam &
+  RouteTablesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface RouteTablesUpdateTagsBodyParam {
   /** Parameters supplied to update route table tags. */
@@ -6500,8 +6327,7 @@ export interface RouteTablesListQueryParam {
   queryParameters: RouteTablesListQueryParamProperties;
 }
 
-export type RouteTablesListParameters = RouteTablesListQueryParam &
-  RequestParameters;
+export type RouteTablesListParameters = RouteTablesListQueryParam & RequestParameters;
 
 export interface RouteTablesListAllQueryParamProperties {
   /** Api Version */
@@ -6512,8 +6338,7 @@ export interface RouteTablesListAllQueryParam {
   queryParameters: RouteTablesListAllQueryParamProperties;
 }
 
-export type RouteTablesListAllParameters = RouteTablesListAllQueryParam &
-  RequestParameters;
+export type RouteTablesListAllParameters = RouteTablesListAllQueryParam & RequestParameters;
 
 export interface RoutesDeleteQueryParamProperties {
   /** Api Version */
@@ -6581,8 +6406,8 @@ export interface SecurityPartnerProvidersDeleteQueryParam {
   queryParameters: SecurityPartnerProvidersDeleteQueryParamProperties;
 }
 
-export type SecurityPartnerProvidersDeleteParameters =
-  SecurityPartnerProvidersDeleteQueryParam & RequestParameters;
+export type SecurityPartnerProvidersDeleteParameters = SecurityPartnerProvidersDeleteQueryParam &
+  RequestParameters;
 
 export interface SecurityPartnerProvidersGetQueryParamProperties {
   /** Api Version */
@@ -6593,8 +6418,8 @@ export interface SecurityPartnerProvidersGetQueryParam {
   queryParameters: SecurityPartnerProvidersGetQueryParamProperties;
 }
 
-export type SecurityPartnerProvidersGetParameters =
-  SecurityPartnerProvidersGetQueryParam & RequestParameters;
+export type SecurityPartnerProvidersGetParameters = SecurityPartnerProvidersGetQueryParam &
+  RequestParameters;
 
 export interface SecurityPartnerProvidersCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Security Partner Provider operation. */
@@ -6667,8 +6492,8 @@ export interface SecurityPartnerProvidersListQueryParam {
   queryParameters: SecurityPartnerProvidersListQueryParamProperties;
 }
 
-export type SecurityPartnerProvidersListParameters =
-  SecurityPartnerProvidersListQueryParam & RequestParameters;
+export type SecurityPartnerProvidersListParameters = SecurityPartnerProvidersListQueryParam &
+  RequestParameters;
 
 export interface BgpServiceCommunitiesListQueryParamProperties {
   /** Api Version */
@@ -6679,8 +6504,8 @@ export interface BgpServiceCommunitiesListQueryParam {
   queryParameters: BgpServiceCommunitiesListQueryParamProperties;
 }
 
-export type BgpServiceCommunitiesListParameters =
-  BgpServiceCommunitiesListQueryParam & RequestParameters;
+export type BgpServiceCommunitiesListParameters = BgpServiceCommunitiesListQueryParam &
+  RequestParameters;
 
 export interface ServiceEndpointPoliciesDeleteQueryParamProperties {
   /** Api Version */
@@ -6691,8 +6516,8 @@ export interface ServiceEndpointPoliciesDeleteQueryParam {
   queryParameters: ServiceEndpointPoliciesDeleteQueryParamProperties;
 }
 
-export type ServiceEndpointPoliciesDeleteParameters =
-  ServiceEndpointPoliciesDeleteQueryParam & RequestParameters;
+export type ServiceEndpointPoliciesDeleteParameters = ServiceEndpointPoliciesDeleteQueryParam &
+  RequestParameters;
 
 export interface ServiceEndpointPoliciesGetQueryParamProperties {
   /** Api Version */
@@ -6705,8 +6530,8 @@ export interface ServiceEndpointPoliciesGetQueryParam {
   queryParameters: ServiceEndpointPoliciesGetQueryParamProperties;
 }
 
-export type ServiceEndpointPoliciesGetParameters =
-  ServiceEndpointPoliciesGetQueryParam & RequestParameters;
+export type ServiceEndpointPoliciesGetParameters = ServiceEndpointPoliciesGetQueryParam &
+  RequestParameters;
 
 export interface ServiceEndpointPoliciesCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update service endpoint policy operation. */
@@ -6767,8 +6592,8 @@ export interface ServiceEndpointPoliciesListQueryParam {
   queryParameters: ServiceEndpointPoliciesListQueryParamProperties;
 }
 
-export type ServiceEndpointPoliciesListParameters =
-  ServiceEndpointPoliciesListQueryParam & RequestParameters;
+export type ServiceEndpointPoliciesListParameters = ServiceEndpointPoliciesListQueryParam &
+  RequestParameters;
 
 export interface ServiceEndpointPoliciesListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -6841,8 +6666,7 @@ export interface ServiceEndpointPolicyDefinitionsListByResourceGroupQueryParam {
 }
 
 export type ServiceEndpointPolicyDefinitionsListByResourceGroupParameters =
-  ServiceEndpointPolicyDefinitionsListByResourceGroupQueryParam &
-    RequestParameters;
+  ServiceEndpointPolicyDefinitionsListByResourceGroupQueryParam & RequestParameters;
 
 export interface ServiceTagsListQueryParamProperties {
   /** Api Version */
@@ -6853,8 +6677,7 @@ export interface ServiceTagsListQueryParam {
   queryParameters: ServiceTagsListQueryParamProperties;
 }
 
-export type ServiceTagsListParameters = ServiceTagsListQueryParam &
-  RequestParameters;
+export type ServiceTagsListParameters = ServiceTagsListQueryParam & RequestParameters;
 
 export interface ServiceTagInformationListQueryParamProperties {
   /** Api Version */
@@ -6869,8 +6692,8 @@ export interface ServiceTagInformationListQueryParam {
   queryParameters: ServiceTagInformationListQueryParamProperties;
 }
 
-export type ServiceTagInformationListParameters =
-  ServiceTagInformationListQueryParam & RequestParameters;
+export type ServiceTagInformationListParameters = ServiceTagInformationListQueryParam &
+  RequestParameters;
 
 export interface UsagesListQueryParamProperties {
   /** Api Version */
@@ -6892,8 +6715,7 @@ export interface VirtualNetworksDeleteQueryParam {
   queryParameters: VirtualNetworksDeleteQueryParamProperties;
 }
 
-export type VirtualNetworksDeleteParameters = VirtualNetworksDeleteQueryParam &
-  RequestParameters;
+export type VirtualNetworksDeleteParameters = VirtualNetworksDeleteQueryParam & RequestParameters;
 
 export interface VirtualNetworksGetQueryParamProperties {
   /** Api Version */
@@ -6906,8 +6728,7 @@ export interface VirtualNetworksGetQueryParam {
   queryParameters: VirtualNetworksGetQueryParamProperties;
 }
 
-export type VirtualNetworksGetParameters = VirtualNetworksGetQueryParam &
-  RequestParameters;
+export type VirtualNetworksGetParameters = VirtualNetworksGetQueryParam & RequestParameters;
 
 export interface VirtualNetworksCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update virtual network operation. */
@@ -6928,11 +6749,10 @@ export interface VirtualNetworksCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualNetworksCreateOrUpdateParameters =
-  VirtualNetworksCreateOrUpdateQueryParam &
-    VirtualNetworksCreateOrUpdateMediaTypesParam &
-    VirtualNetworksCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VirtualNetworksCreateOrUpdateParameters = VirtualNetworksCreateOrUpdateQueryParam &
+  VirtualNetworksCreateOrUpdateMediaTypesParam &
+  VirtualNetworksCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VirtualNetworksUpdateTagsBodyParam {
   /** Parameters supplied to update virtual network tags. */
@@ -6953,11 +6773,10 @@ export interface VirtualNetworksUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualNetworksUpdateTagsParameters =
-  VirtualNetworksUpdateTagsQueryParam &
-    VirtualNetworksUpdateTagsMediaTypesParam &
-    VirtualNetworksUpdateTagsBodyParam &
-    RequestParameters;
+export type VirtualNetworksUpdateTagsParameters = VirtualNetworksUpdateTagsQueryParam &
+  VirtualNetworksUpdateTagsMediaTypesParam &
+  VirtualNetworksUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface VirtualNetworksListAllQueryParamProperties {
   /** Api Version */
@@ -6968,8 +6787,7 @@ export interface VirtualNetworksListAllQueryParam {
   queryParameters: VirtualNetworksListAllQueryParamProperties;
 }
 
-export type VirtualNetworksListAllParameters =
-  VirtualNetworksListAllQueryParam & RequestParameters;
+export type VirtualNetworksListAllParameters = VirtualNetworksListAllQueryParam & RequestParameters;
 
 export interface VirtualNetworksListQueryParamProperties {
   /** Api Version */
@@ -6980,8 +6798,7 @@ export interface VirtualNetworksListQueryParam {
   queryParameters: VirtualNetworksListQueryParamProperties;
 }
 
-export type VirtualNetworksListParameters = VirtualNetworksListQueryParam &
-  RequestParameters;
+export type VirtualNetworksListParameters = VirtualNetworksListQueryParam & RequestParameters;
 
 export interface VirtualNetworksCheckIPAddressAvailabilityQueryParamProperties {
   /** The private IP address to be verified. */
@@ -7006,8 +6823,8 @@ export interface VirtualNetworksListUsageQueryParam {
   queryParameters: VirtualNetworksListUsageQueryParamProperties;
 }
 
-export type VirtualNetworksListUsageParameters =
-  VirtualNetworksListUsageQueryParam & RequestParameters;
+export type VirtualNetworksListUsageParameters = VirtualNetworksListUsageQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworksListDdosProtectionStatusQueryParamProperties {
   /** The max number of ip addresses to return. */
@@ -7034,8 +6851,7 @@ export interface SubnetsDeleteQueryParam {
   queryParameters: SubnetsDeleteQueryParamProperties;
 }
 
-export type SubnetsDeleteParameters = SubnetsDeleteQueryParam &
-  RequestParameters;
+export type SubnetsDeleteParameters = SubnetsDeleteQueryParam & RequestParameters;
 
 export interface SubnetsGetQueryParamProperties {
   /** Api Version */
@@ -7093,11 +6909,10 @@ export interface SubnetsPrepareNetworkPoliciesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SubnetsPrepareNetworkPoliciesParameters =
-  SubnetsPrepareNetworkPoliciesQueryParam &
-    SubnetsPrepareNetworkPoliciesMediaTypesParam &
-    SubnetsPrepareNetworkPoliciesBodyParam &
-    RequestParameters;
+export type SubnetsPrepareNetworkPoliciesParameters = SubnetsPrepareNetworkPoliciesQueryParam &
+  SubnetsPrepareNetworkPoliciesMediaTypesParam &
+  SubnetsPrepareNetworkPoliciesBodyParam &
+  RequestParameters;
 
 export interface SubnetsUnprepareNetworkPoliciesBodyParam {
   /** Parameters supplied to unprepare subnet to remove network intent policies. */
@@ -7118,11 +6933,10 @@ export interface SubnetsUnprepareNetworkPoliciesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SubnetsUnprepareNetworkPoliciesParameters =
-  SubnetsUnprepareNetworkPoliciesQueryParam &
-    SubnetsUnprepareNetworkPoliciesMediaTypesParam &
-    SubnetsUnprepareNetworkPoliciesBodyParam &
-    RequestParameters;
+export type SubnetsUnprepareNetworkPoliciesParameters = SubnetsUnprepareNetworkPoliciesQueryParam &
+  SubnetsUnprepareNetworkPoliciesMediaTypesParam &
+  SubnetsUnprepareNetworkPoliciesBodyParam &
+  RequestParameters;
 
 export interface SubnetsListQueryParamProperties {
   /** Api Version */
@@ -7144,8 +6958,8 @@ export interface ResourceNavigationLinksListQueryParam {
   queryParameters: ResourceNavigationLinksListQueryParamProperties;
 }
 
-export type ResourceNavigationLinksListParameters =
-  ResourceNavigationLinksListQueryParam & RequestParameters;
+export type ResourceNavigationLinksListParameters = ResourceNavigationLinksListQueryParam &
+  RequestParameters;
 
 export interface ServiceAssociationLinksListQueryParamProperties {
   /** Api Version */
@@ -7156,8 +6970,8 @@ export interface ServiceAssociationLinksListQueryParam {
   queryParameters: ServiceAssociationLinksListQueryParamProperties;
 }
 
-export type ServiceAssociationLinksListParameters =
-  ServiceAssociationLinksListQueryParam & RequestParameters;
+export type ServiceAssociationLinksListParameters = ServiceAssociationLinksListQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkPeeringsDeleteQueryParamProperties {
   /** Api Version */
@@ -7168,8 +6982,8 @@ export interface VirtualNetworkPeeringsDeleteQueryParam {
   queryParameters: VirtualNetworkPeeringsDeleteQueryParamProperties;
 }
 
-export type VirtualNetworkPeeringsDeleteParameters =
-  VirtualNetworkPeeringsDeleteQueryParam & RequestParameters;
+export type VirtualNetworkPeeringsDeleteParameters = VirtualNetworkPeeringsDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkPeeringsGetQueryParamProperties {
   /** Api Version */
@@ -7180,8 +6994,8 @@ export interface VirtualNetworkPeeringsGetQueryParam {
   queryParameters: VirtualNetworkPeeringsGetQueryParamProperties;
 }
 
-export type VirtualNetworkPeeringsGetParameters =
-  VirtualNetworkPeeringsGetQueryParam & RequestParameters;
+export type VirtualNetworkPeeringsGetParameters = VirtualNetworkPeeringsGetQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkPeeringsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update virtual network peering operation. */
@@ -7219,8 +7033,8 @@ export interface VirtualNetworkPeeringsListQueryParam {
   queryParameters: VirtualNetworkPeeringsListQueryParamProperties;
 }
 
-export type VirtualNetworkPeeringsListParameters =
-  VirtualNetworkPeeringsListQueryParam & RequestParameters;
+export type VirtualNetworkPeeringsListParameters = VirtualNetworkPeeringsListQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewaysCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update virtual network gateway operation. */
@@ -7256,8 +7070,8 @@ export interface VirtualNetworkGatewaysGetQueryParam {
   queryParameters: VirtualNetworkGatewaysGetQueryParamProperties;
 }
 
-export type VirtualNetworkGatewaysGetParameters =
-  VirtualNetworkGatewaysGetQueryParam & RequestParameters;
+export type VirtualNetworkGatewaysGetParameters = VirtualNetworkGatewaysGetQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -7268,8 +7082,8 @@ export interface VirtualNetworkGatewaysDeleteQueryParam {
   queryParameters: VirtualNetworkGatewaysDeleteQueryParamProperties;
 }
 
-export type VirtualNetworkGatewaysDeleteParameters =
-  VirtualNetworkGatewaysDeleteQueryParam & RequestParameters;
+export type VirtualNetworkGatewaysDeleteParameters = VirtualNetworkGatewaysDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewaysUpdateTagsBodyParam {
   /** Parameters supplied to update virtual network gateway tags. */
@@ -7305,8 +7119,8 @@ export interface VirtualNetworkGatewaysListQueryParam {
   queryParameters: VirtualNetworkGatewaysListQueryParamProperties;
 }
 
-export type VirtualNetworkGatewaysListParameters =
-  VirtualNetworkGatewaysListQueryParam & RequestParameters;
+export type VirtualNetworkGatewaysListParameters = VirtualNetworkGatewaysListQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewaysListConnectionsQueryParamProperties {
   /** Api Version */
@@ -7331,8 +7145,8 @@ export interface VirtualNetworkGatewaysResetQueryParam {
   queryParameters: VirtualNetworkGatewaysResetQueryParamProperties;
 }
 
-export type VirtualNetworkGatewaysResetParameters =
-  VirtualNetworkGatewaysResetQueryParam & RequestParameters;
+export type VirtualNetworkGatewaysResetParameters = VirtualNetworkGatewaysResetQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewaysResetVpnClientSharedKeyQueryParamProperties {
   /** Api Version */
@@ -7495,8 +7309,7 @@ export interface VirtualNetworkGatewaysGetVpnclientIpsecParametersQueryParam {
 }
 
 export type VirtualNetworkGatewaysGetVpnclientIpsecParametersParameters =
-  VirtualNetworkGatewaysGetVpnclientIpsecParametersQueryParam &
-    RequestParameters;
+  VirtualNetworkGatewaysGetVpnclientIpsecParametersQueryParam & RequestParameters;
 
 export interface VirtualNetworkGatewaysVpnDeviceConfigurationScriptBodyParam {
   /** Parameters supplied to the generate vpn device script operation. */
@@ -7583,8 +7396,7 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthQueryParam {
 }
 
 export type VirtualNetworkGatewaysGetVpnclientConnectionHealthParameters =
-  VirtualNetworkGatewaysGetVpnclientConnectionHealthQueryParam &
-    RequestParameters;
+  VirtualNetworkGatewaysGetVpnclientConnectionHealthQueryParam & RequestParameters;
 
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsBodyParam {
   /** The parameters are supplied to disconnect vpn connections. */
@@ -7867,8 +7679,8 @@ export interface LocalNetworkGatewaysGetQueryParam {
   queryParameters: LocalNetworkGatewaysGetQueryParamProperties;
 }
 
-export type LocalNetworkGatewaysGetParameters =
-  LocalNetworkGatewaysGetQueryParam & RequestParameters;
+export type LocalNetworkGatewaysGetParameters = LocalNetworkGatewaysGetQueryParam &
+  RequestParameters;
 
 export interface LocalNetworkGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -7879,8 +7691,8 @@ export interface LocalNetworkGatewaysDeleteQueryParam {
   queryParameters: LocalNetworkGatewaysDeleteQueryParamProperties;
 }
 
-export type LocalNetworkGatewaysDeleteParameters =
-  LocalNetworkGatewaysDeleteQueryParam & RequestParameters;
+export type LocalNetworkGatewaysDeleteParameters = LocalNetworkGatewaysDeleteQueryParam &
+  RequestParameters;
 
 export interface LocalNetworkGatewaysUpdateTagsBodyParam {
   /** Parameters supplied to update local network gateway tags. */
@@ -7901,11 +7713,10 @@ export interface LocalNetworkGatewaysUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LocalNetworkGatewaysUpdateTagsParameters =
-  LocalNetworkGatewaysUpdateTagsQueryParam &
-    LocalNetworkGatewaysUpdateTagsMediaTypesParam &
-    LocalNetworkGatewaysUpdateTagsBodyParam &
-    RequestParameters;
+export type LocalNetworkGatewaysUpdateTagsParameters = LocalNetworkGatewaysUpdateTagsQueryParam &
+  LocalNetworkGatewaysUpdateTagsMediaTypesParam &
+  LocalNetworkGatewaysUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface LocalNetworkGatewaysListQueryParamProperties {
   /** Api Version */
@@ -7916,8 +7727,8 @@ export interface LocalNetworkGatewaysListQueryParam {
   queryParameters: LocalNetworkGatewaysListQueryParamProperties;
 }
 
-export type LocalNetworkGatewaysListParameters =
-  LocalNetworkGatewaysListQueryParam & RequestParameters;
+export type LocalNetworkGatewaysListParameters = LocalNetworkGatewaysListQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkGatewayNatRulesGetQueryParamProperties {
   /** Api Version */
@@ -7978,8 +7789,7 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayQueryPa
 }
 
 export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters =
-  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayQueryParam &
-    RequestParameters;
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayQueryParam & RequestParameters;
 
 export interface VirtualNetworkTapsDeleteQueryParamProperties {
   /** Api Version */
@@ -7990,8 +7800,8 @@ export interface VirtualNetworkTapsDeleteQueryParam {
   queryParameters: VirtualNetworkTapsDeleteQueryParamProperties;
 }
 
-export type VirtualNetworkTapsDeleteParameters =
-  VirtualNetworkTapsDeleteQueryParam & RequestParameters;
+export type VirtualNetworkTapsDeleteParameters = VirtualNetworkTapsDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkTapsGetQueryParamProperties {
   /** Api Version */
@@ -8002,8 +7812,7 @@ export interface VirtualNetworkTapsGetQueryParam {
   queryParameters: VirtualNetworkTapsGetQueryParamProperties;
 }
 
-export type VirtualNetworkTapsGetParameters = VirtualNetworkTapsGetQueryParam &
-  RequestParameters;
+export type VirtualNetworkTapsGetParameters = VirtualNetworkTapsGetQueryParam & RequestParameters;
 
 export interface VirtualNetworkTapsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update virtual network tap operation. */
@@ -8049,11 +7858,10 @@ export interface VirtualNetworkTapsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualNetworkTapsUpdateTagsParameters =
-  VirtualNetworkTapsUpdateTagsQueryParam &
-    VirtualNetworkTapsUpdateTagsMediaTypesParam &
-    VirtualNetworkTapsUpdateTagsBodyParam &
-    RequestParameters;
+export type VirtualNetworkTapsUpdateTagsParameters = VirtualNetworkTapsUpdateTagsQueryParam &
+  VirtualNetworkTapsUpdateTagsMediaTypesParam &
+  VirtualNetworkTapsUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface VirtualNetworkTapsListAllQueryParamProperties {
   /** Api Version */
@@ -8064,8 +7872,8 @@ export interface VirtualNetworkTapsListAllQueryParam {
   queryParameters: VirtualNetworkTapsListAllQueryParamProperties;
 }
 
-export type VirtualNetworkTapsListAllParameters =
-  VirtualNetworkTapsListAllQueryParam & RequestParameters;
+export type VirtualNetworkTapsListAllParameters = VirtualNetworkTapsListAllQueryParam &
+  RequestParameters;
 
 export interface VirtualNetworkTapsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8088,8 +7896,7 @@ export interface VirtualRoutersDeleteQueryParam {
   queryParameters: VirtualRoutersDeleteQueryParamProperties;
 }
 
-export type VirtualRoutersDeleteParameters = VirtualRoutersDeleteQueryParam &
-  RequestParameters;
+export type VirtualRoutersDeleteParameters = VirtualRoutersDeleteQueryParam & RequestParameters;
 
 export interface VirtualRoutersGetQueryParamProperties {
   /** Api Version */
@@ -8102,8 +7909,7 @@ export interface VirtualRoutersGetQueryParam {
   queryParameters: VirtualRoutersGetQueryParamProperties;
 }
 
-export type VirtualRoutersGetParameters = VirtualRoutersGetQueryParam &
-  RequestParameters;
+export type VirtualRoutersGetParameters = VirtualRoutersGetQueryParam & RequestParameters;
 
 export interface VirtualRoutersCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Virtual Router. */
@@ -8124,11 +7930,10 @@ export interface VirtualRoutersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualRoutersCreateOrUpdateParameters =
-  VirtualRoutersCreateOrUpdateQueryParam &
-    VirtualRoutersCreateOrUpdateMediaTypesParam &
-    VirtualRoutersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VirtualRoutersCreateOrUpdateParameters = VirtualRoutersCreateOrUpdateQueryParam &
+  VirtualRoutersCreateOrUpdateMediaTypesParam &
+  VirtualRoutersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VirtualRoutersListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8151,8 +7956,7 @@ export interface VirtualRoutersListQueryParam {
   queryParameters: VirtualRoutersListQueryParamProperties;
 }
 
-export type VirtualRoutersListParameters = VirtualRoutersListQueryParam &
-  RequestParameters;
+export type VirtualRoutersListParameters = VirtualRoutersListQueryParam & RequestParameters;
 
 export interface VirtualRouterPeeringsDeleteQueryParamProperties {
   /** Api Version */
@@ -8163,8 +7967,8 @@ export interface VirtualRouterPeeringsDeleteQueryParam {
   queryParameters: VirtualRouterPeeringsDeleteQueryParamProperties;
 }
 
-export type VirtualRouterPeeringsDeleteParameters =
-  VirtualRouterPeeringsDeleteQueryParam & RequestParameters;
+export type VirtualRouterPeeringsDeleteParameters = VirtualRouterPeeringsDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualRouterPeeringsGetQueryParamProperties {
   /** Api Version */
@@ -8175,8 +7979,8 @@ export interface VirtualRouterPeeringsGetQueryParam {
   queryParameters: VirtualRouterPeeringsGetQueryParamProperties;
 }
 
-export type VirtualRouterPeeringsGetParameters =
-  VirtualRouterPeeringsGetQueryParam & RequestParameters;
+export type VirtualRouterPeeringsGetParameters = VirtualRouterPeeringsGetQueryParam &
+  RequestParameters;
 
 export interface VirtualRouterPeeringsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update Virtual Router Peering operation. */
@@ -8212,8 +8016,8 @@ export interface VirtualRouterPeeringsListQueryParam {
   queryParameters: VirtualRouterPeeringsListQueryParamProperties;
 }
 
-export type VirtualRouterPeeringsListParameters =
-  VirtualRouterPeeringsListQueryParam & RequestParameters;
+export type VirtualRouterPeeringsListParameters = VirtualRouterPeeringsListQueryParam &
+  RequestParameters;
 
 export interface VirtualWansGetQueryParamProperties {
   /** Api Version */
@@ -8224,8 +8028,7 @@ export interface VirtualWansGetQueryParam {
   queryParameters: VirtualWansGetQueryParamProperties;
 }
 
-export type VirtualWansGetParameters = VirtualWansGetQueryParam &
-  RequestParameters;
+export type VirtualWansGetParameters = VirtualWansGetQueryParam & RequestParameters;
 
 export interface VirtualWansCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update VirtualWAN. */
@@ -8246,11 +8049,10 @@ export interface VirtualWansCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualWansCreateOrUpdateParameters =
-  VirtualWansCreateOrUpdateQueryParam &
-    VirtualWansCreateOrUpdateMediaTypesParam &
-    VirtualWansCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VirtualWansCreateOrUpdateParameters = VirtualWansCreateOrUpdateQueryParam &
+  VirtualWansCreateOrUpdateMediaTypesParam &
+  VirtualWansCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VirtualWansUpdateTagsBodyParam {
   /** Parameters supplied to Update VirtualWAN tags. */
@@ -8285,8 +8087,7 @@ export interface VirtualWansDeleteQueryParam {
   queryParameters: VirtualWansDeleteQueryParamProperties;
 }
 
-export type VirtualWansDeleteParameters = VirtualWansDeleteQueryParam &
-  RequestParameters;
+export type VirtualWansDeleteParameters = VirtualWansDeleteQueryParam & RequestParameters;
 
 export interface VirtualWansListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8297,8 +8098,8 @@ export interface VirtualWansListByResourceGroupQueryParam {
   queryParameters: VirtualWansListByResourceGroupQueryParamProperties;
 }
 
-export type VirtualWansListByResourceGroupParameters =
-  VirtualWansListByResourceGroupQueryParam & RequestParameters;
+export type VirtualWansListByResourceGroupParameters = VirtualWansListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface VirtualWansListQueryParamProperties {
   /** Api Version */
@@ -8309,8 +8110,7 @@ export interface VirtualWansListQueryParam {
   queryParameters: VirtualWansListQueryParamProperties;
 }
 
-export type VirtualWansListParameters = VirtualWansListQueryParam &
-  RequestParameters;
+export type VirtualWansListParameters = VirtualWansListQueryParam & RequestParameters;
 
 export interface VpnSitesGetQueryParamProperties {
   /** Api Version */
@@ -8342,11 +8142,10 @@ export interface VpnSitesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnSitesCreateOrUpdateParameters =
-  VpnSitesCreateOrUpdateQueryParam &
-    VpnSitesCreateOrUpdateMediaTypesParam &
-    VpnSitesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VpnSitesCreateOrUpdateParameters = VpnSitesCreateOrUpdateQueryParam &
+  VpnSitesCreateOrUpdateMediaTypesParam &
+  VpnSitesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VpnSitesUpdateTagsBodyParam {
   /** Parameters supplied to update VpnSite tags. */
@@ -8381,8 +8180,7 @@ export interface VpnSitesDeleteQueryParam {
   queryParameters: VpnSitesDeleteQueryParamProperties;
 }
 
-export type VpnSitesDeleteParameters = VpnSitesDeleteQueryParam &
-  RequestParameters;
+export type VpnSitesDeleteParameters = VpnSitesDeleteQueryParam & RequestParameters;
 
 export interface VpnSitesListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8393,8 +8191,8 @@ export interface VpnSitesListByResourceGroupQueryParam {
   queryParameters: VpnSitesListByResourceGroupQueryParamProperties;
 }
 
-export type VpnSitesListByResourceGroupParameters =
-  VpnSitesListByResourceGroupQueryParam & RequestParameters;
+export type VpnSitesListByResourceGroupParameters = VpnSitesListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface VpnSitesListQueryParamProperties {
   /** Api Version */
@@ -8416,8 +8214,7 @@ export interface VpnSiteLinksGetQueryParam {
   queryParameters: VpnSiteLinksGetQueryParamProperties;
 }
 
-export type VpnSiteLinksGetParameters = VpnSiteLinksGetQueryParam &
-  RequestParameters;
+export type VpnSiteLinksGetParameters = VpnSiteLinksGetQueryParam & RequestParameters;
 
 export interface VpnSiteLinksListByVpnSiteQueryParamProperties {
   /** Api Version */
@@ -8428,8 +8225,8 @@ export interface VpnSiteLinksListByVpnSiteQueryParam {
   queryParameters: VpnSiteLinksListByVpnSiteQueryParamProperties;
 }
 
-export type VpnSiteLinksListByVpnSiteParameters =
-  VpnSiteLinksListByVpnSiteQueryParam & RequestParameters;
+export type VpnSiteLinksListByVpnSiteParameters = VpnSiteLinksListByVpnSiteQueryParam &
+  RequestParameters;
 
 export interface VpnSitesConfigurationDownloadBodyParam {
   /** Parameters supplied to download vpn-sites configuration. */
@@ -8450,11 +8247,10 @@ export interface VpnSitesConfigurationDownloadMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnSitesConfigurationDownloadParameters =
-  VpnSitesConfigurationDownloadQueryParam &
-    VpnSitesConfigurationDownloadMediaTypesParam &
-    VpnSitesConfigurationDownloadBodyParam &
-    RequestParameters;
+export type VpnSitesConfigurationDownloadParameters = VpnSitesConfigurationDownloadQueryParam &
+  VpnSitesConfigurationDownloadMediaTypesParam &
+  VpnSitesConfigurationDownloadBodyParam &
+  RequestParameters;
 
 export interface VpnServerConfigurationsGetQueryParamProperties {
   /** Api Version */
@@ -8465,8 +8261,8 @@ export interface VpnServerConfigurationsGetQueryParam {
   queryParameters: VpnServerConfigurationsGetQueryParamProperties;
 }
 
-export type VpnServerConfigurationsGetParameters =
-  VpnServerConfigurationsGetQueryParam & RequestParameters;
+export type VpnServerConfigurationsGetParameters = VpnServerConfigurationsGetQueryParam &
+  RequestParameters;
 
 export interface VpnServerConfigurationsCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update VpnServerConfiguration. */
@@ -8527,8 +8323,8 @@ export interface VpnServerConfigurationsDeleteQueryParam {
   queryParameters: VpnServerConfigurationsDeleteQueryParamProperties;
 }
 
-export type VpnServerConfigurationsDeleteParameters =
-  VpnServerConfigurationsDeleteQueryParam & RequestParameters;
+export type VpnServerConfigurationsDeleteParameters = VpnServerConfigurationsDeleteQueryParam &
+  RequestParameters;
 
 export interface VpnServerConfigurationsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8551,8 +8347,8 @@ export interface VpnServerConfigurationsListQueryParam {
   queryParameters: VpnServerConfigurationsListQueryParamProperties;
 }
 
-export type VpnServerConfigurationsListParameters =
-  VpnServerConfigurationsListQueryParam & RequestParameters;
+export type VpnServerConfigurationsListParameters = VpnServerConfigurationsListQueryParam &
+  RequestParameters;
 
 export interface ConfigurationPolicyGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update a VpnServerConfiguration PolicyGroup. */
@@ -8588,8 +8384,8 @@ export interface ConfigurationPolicyGroupsDeleteQueryParam {
   queryParameters: ConfigurationPolicyGroupsDeleteQueryParamProperties;
 }
 
-export type ConfigurationPolicyGroupsDeleteParameters =
-  ConfigurationPolicyGroupsDeleteQueryParam & RequestParameters;
+export type ConfigurationPolicyGroupsDeleteParameters = ConfigurationPolicyGroupsDeleteQueryParam &
+  RequestParameters;
 
 export interface ConfigurationPolicyGroupsGetQueryParamProperties {
   /** Api Version */
@@ -8600,8 +8396,8 @@ export interface ConfigurationPolicyGroupsGetQueryParam {
   queryParameters: ConfigurationPolicyGroupsGetQueryParamProperties;
 }
 
-export type ConfigurationPolicyGroupsGetParameters =
-  ConfigurationPolicyGroupsGetQueryParam & RequestParameters;
+export type ConfigurationPolicyGroupsGetParameters = ConfigurationPolicyGroupsGetQueryParam &
+  RequestParameters;
 
 export interface ConfigurationPolicyGroupsListByVpnServerConfigurationQueryParamProperties {
   /** Api Version */
@@ -8613,8 +8409,7 @@ export interface ConfigurationPolicyGroupsListByVpnServerConfigurationQueryParam
 }
 
 export type ConfigurationPolicyGroupsListByVpnServerConfigurationParameters =
-  ConfigurationPolicyGroupsListByVpnServerConfigurationQueryParam &
-    RequestParameters;
+  ConfigurationPolicyGroupsListByVpnServerConfigurationQueryParam & RequestParameters;
 
 export interface VirtualHubsGetQueryParamProperties {
   /** Api Version */
@@ -8625,8 +8420,7 @@ export interface VirtualHubsGetQueryParam {
   queryParameters: VirtualHubsGetQueryParamProperties;
 }
 
-export type VirtualHubsGetParameters = VirtualHubsGetQueryParam &
-  RequestParameters;
+export type VirtualHubsGetParameters = VirtualHubsGetQueryParam & RequestParameters;
 
 export interface VirtualHubsCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update VirtualHub. */
@@ -8647,11 +8441,10 @@ export interface VirtualHubsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualHubsCreateOrUpdateParameters =
-  VirtualHubsCreateOrUpdateQueryParam &
-    VirtualHubsCreateOrUpdateMediaTypesParam &
-    VirtualHubsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VirtualHubsCreateOrUpdateParameters = VirtualHubsCreateOrUpdateQueryParam &
+  VirtualHubsCreateOrUpdateMediaTypesParam &
+  VirtualHubsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VirtualHubsUpdateTagsBodyParam {
   /** Parameters supplied to update VirtualHub tags. */
@@ -8686,8 +8479,7 @@ export interface VirtualHubsDeleteQueryParam {
   queryParameters: VirtualHubsDeleteQueryParamProperties;
 }
 
-export type VirtualHubsDeleteParameters = VirtualHubsDeleteQueryParam &
-  RequestParameters;
+export type VirtualHubsDeleteParameters = VirtualHubsDeleteQueryParam & RequestParameters;
 
 export interface VirtualHubsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -8698,8 +8490,8 @@ export interface VirtualHubsListByResourceGroupQueryParam {
   queryParameters: VirtualHubsListByResourceGroupQueryParamProperties;
 }
 
-export type VirtualHubsListByResourceGroupParameters =
-  VirtualHubsListByResourceGroupQueryParam & RequestParameters;
+export type VirtualHubsListByResourceGroupParameters = VirtualHubsListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface VirtualHubsListQueryParamProperties {
   /** Api Version */
@@ -8710,8 +8502,7 @@ export interface VirtualHubsListQueryParam {
   queryParameters: VirtualHubsListQueryParamProperties;
 }
 
-export type VirtualHubsListParameters = VirtualHubsListQueryParam &
-  RequestParameters;
+export type VirtualHubsListParameters = VirtualHubsListQueryParam & RequestParameters;
 
 export interface VirtualHubsGetEffectiveVirtualHubRoutesBodyParam {
   /** Parameters supplied to get the effective routes for a specific resource. */
@@ -8757,11 +8548,10 @@ export interface VirtualHubsGetInboundRoutesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualHubsGetInboundRoutesParameters =
-  VirtualHubsGetInboundRoutesQueryParam &
-    VirtualHubsGetInboundRoutesMediaTypesParam &
-    VirtualHubsGetInboundRoutesBodyParam &
-    RequestParameters;
+export type VirtualHubsGetInboundRoutesParameters = VirtualHubsGetInboundRoutesQueryParam &
+  VirtualHubsGetInboundRoutesMediaTypesParam &
+  VirtualHubsGetInboundRoutesBodyParam &
+  RequestParameters;
 
 export interface VirtualHubsGetOutboundRoutesBodyParam {
   /** Parameters supplied to get the outbound routes for a connection resource. */
@@ -8782,11 +8572,10 @@ export interface VirtualHubsGetOutboundRoutesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualHubsGetOutboundRoutesParameters =
-  VirtualHubsGetOutboundRoutesQueryParam &
-    VirtualHubsGetOutboundRoutesMediaTypesParam &
-    VirtualHubsGetOutboundRoutesBodyParam &
-    RequestParameters;
+export type VirtualHubsGetOutboundRoutesParameters = VirtualHubsGetOutboundRoutesQueryParam &
+  VirtualHubsGetOutboundRoutesMediaTypesParam &
+  VirtualHubsGetOutboundRoutesBodyParam &
+  RequestParameters;
 
 export interface RouteMapsGetQueryParamProperties {
   /** Api Version */
@@ -8818,11 +8607,10 @@ export interface RouteMapsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteMapsCreateOrUpdateParameters =
-  RouteMapsCreateOrUpdateQueryParam &
-    RouteMapsCreateOrUpdateMediaTypesParam &
-    RouteMapsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type RouteMapsCreateOrUpdateParameters = RouteMapsCreateOrUpdateQueryParam &
+  RouteMapsCreateOrUpdateMediaTypesParam &
+  RouteMapsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface RouteMapsDeleteQueryParamProperties {
   /** Api Version */
@@ -8833,8 +8621,7 @@ export interface RouteMapsDeleteQueryParam {
   queryParameters: RouteMapsDeleteQueryParamProperties;
 }
 
-export type RouteMapsDeleteParameters = RouteMapsDeleteQueryParam &
-  RequestParameters;
+export type RouteMapsDeleteParameters = RouteMapsDeleteQueryParam & RequestParameters;
 
 export interface RouteMapsListQueryParamProperties {
   /** Api Version */
@@ -8845,8 +8632,7 @@ export interface RouteMapsListQueryParam {
   queryParameters: RouteMapsListQueryParamProperties;
 }
 
-export type RouteMapsListParameters = RouteMapsListQueryParam &
-  RequestParameters;
+export type RouteMapsListParameters = RouteMapsListQueryParam & RequestParameters;
 
 export interface HubVirtualNetworkConnectionsCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update a hub virtual network connection. */
@@ -8894,8 +8680,8 @@ export interface HubVirtualNetworkConnectionsGetQueryParam {
   queryParameters: HubVirtualNetworkConnectionsGetQueryParamProperties;
 }
 
-export type HubVirtualNetworkConnectionsGetParameters =
-  HubVirtualNetworkConnectionsGetQueryParam & RequestParameters;
+export type HubVirtualNetworkConnectionsGetParameters = HubVirtualNetworkConnectionsGetQueryParam &
+  RequestParameters;
 
 export interface HubVirtualNetworkConnectionsListQueryParamProperties {
   /** Api Version */
@@ -8918,8 +8704,7 @@ export interface VpnGatewaysGetQueryParam {
   queryParameters: VpnGatewaysGetQueryParamProperties;
 }
 
-export type VpnGatewaysGetParameters = VpnGatewaysGetQueryParam &
-  RequestParameters;
+export type VpnGatewaysGetParameters = VpnGatewaysGetQueryParam & RequestParameters;
 
 export interface VpnGatewaysCreateOrUpdateBodyParam {
   /** Parameters supplied to create or Update a virtual wan vpn gateway. */
@@ -8940,11 +8725,10 @@ export interface VpnGatewaysCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnGatewaysCreateOrUpdateParameters =
-  VpnGatewaysCreateOrUpdateQueryParam &
-    VpnGatewaysCreateOrUpdateMediaTypesParam &
-    VpnGatewaysCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VpnGatewaysCreateOrUpdateParameters = VpnGatewaysCreateOrUpdateQueryParam &
+  VpnGatewaysCreateOrUpdateMediaTypesParam &
+  VpnGatewaysCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VpnGatewaysUpdateTagsBodyParam {
   /** Parameters supplied to update a virtual wan vpn gateway tags. */
@@ -8979,8 +8763,7 @@ export interface VpnGatewaysDeleteQueryParam {
   queryParameters: VpnGatewaysDeleteQueryParamProperties;
 }
 
-export type VpnGatewaysDeleteParameters = VpnGatewaysDeleteQueryParam &
-  RequestParameters;
+export type VpnGatewaysDeleteParameters = VpnGatewaysDeleteQueryParam & RequestParameters;
 
 export interface VpnGatewaysResetQueryParamProperties {
   /** Api Version */
@@ -8991,8 +8774,7 @@ export interface VpnGatewaysResetQueryParam {
   queryParameters: VpnGatewaysResetQueryParamProperties;
 }
 
-export type VpnGatewaysResetParameters = VpnGatewaysResetQueryParam &
-  RequestParameters;
+export type VpnGatewaysResetParameters = VpnGatewaysResetQueryParam & RequestParameters;
 
 export interface VpnGatewaysStartPacketCaptureBodyParam {
   /** Vpn gateway packet capture parameters supplied to start packet capture on vpn gateway. */
@@ -9013,11 +8795,10 @@ export interface VpnGatewaysStartPacketCaptureMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnGatewaysStartPacketCaptureParameters =
-  VpnGatewaysStartPacketCaptureQueryParam &
-    VpnGatewaysStartPacketCaptureMediaTypesParam &
-    VpnGatewaysStartPacketCaptureBodyParam &
-    RequestParameters;
+export type VpnGatewaysStartPacketCaptureParameters = VpnGatewaysStartPacketCaptureQueryParam &
+  VpnGatewaysStartPacketCaptureMediaTypesParam &
+  VpnGatewaysStartPacketCaptureBodyParam &
+  RequestParameters;
 
 export interface VpnGatewaysStopPacketCaptureBodyParam {
   /** Vpn gateway packet capture parameters supplied to stop packet capture on vpn gateway. */
@@ -9038,11 +8819,10 @@ export interface VpnGatewaysStopPacketCaptureMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnGatewaysStopPacketCaptureParameters =
-  VpnGatewaysStopPacketCaptureQueryParam &
-    VpnGatewaysStopPacketCaptureMediaTypesParam &
-    VpnGatewaysStopPacketCaptureBodyParam &
-    RequestParameters;
+export type VpnGatewaysStopPacketCaptureParameters = VpnGatewaysStopPacketCaptureQueryParam &
+  VpnGatewaysStopPacketCaptureMediaTypesParam &
+  VpnGatewaysStopPacketCaptureBodyParam &
+  RequestParameters;
 
 export interface VpnGatewaysListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -9053,8 +8833,8 @@ export interface VpnGatewaysListByResourceGroupQueryParam {
   queryParameters: VpnGatewaysListByResourceGroupQueryParamProperties;
 }
 
-export type VpnGatewaysListByResourceGroupParameters =
-  VpnGatewaysListByResourceGroupQueryParam & RequestParameters;
+export type VpnGatewaysListByResourceGroupParameters = VpnGatewaysListByResourceGroupQueryParam &
+  RequestParameters;
 
 export interface VpnGatewaysListQueryParamProperties {
   /** Api Version */
@@ -9065,8 +8845,7 @@ export interface VpnGatewaysListQueryParam {
   queryParameters: VpnGatewaysListQueryParamProperties;
 }
 
-export type VpnGatewaysListParameters = VpnGatewaysListQueryParam &
-  RequestParameters;
+export type VpnGatewaysListParameters = VpnGatewaysListQueryParam & RequestParameters;
 
 export interface VpnLinkConnectionsResetConnectionQueryParamProperties {
   /** Api Version */
@@ -9089,8 +8868,8 @@ export interface VpnLinkConnectionsGetIkeSasQueryParam {
   queryParameters: VpnLinkConnectionsGetIkeSasQueryParamProperties;
 }
 
-export type VpnLinkConnectionsGetIkeSasParameters =
-  VpnLinkConnectionsGetIkeSasQueryParam & RequestParameters;
+export type VpnLinkConnectionsGetIkeSasParameters = VpnLinkConnectionsGetIkeSasQueryParam &
+  RequestParameters;
 
 export interface VpnLinkConnectionsListByVpnConnectionQueryParamProperties {
   /** Api Version */
@@ -9113,8 +8892,7 @@ export interface VpnConnectionsGetQueryParam {
   queryParameters: VpnConnectionsGetQueryParamProperties;
 }
 
-export type VpnConnectionsGetParameters = VpnConnectionsGetQueryParam &
-  RequestParameters;
+export type VpnConnectionsGetParameters = VpnConnectionsGetQueryParam & RequestParameters;
 
 export interface VpnConnectionsCreateOrUpdateBodyParam {
   /** Parameters supplied to create or Update a VPN Connection. */
@@ -9135,11 +8913,10 @@ export interface VpnConnectionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnConnectionsCreateOrUpdateParameters =
-  VpnConnectionsCreateOrUpdateQueryParam &
-    VpnConnectionsCreateOrUpdateMediaTypesParam &
-    VpnConnectionsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type VpnConnectionsCreateOrUpdateParameters = VpnConnectionsCreateOrUpdateQueryParam &
+  VpnConnectionsCreateOrUpdateMediaTypesParam &
+  VpnConnectionsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface VpnConnectionsDeleteQueryParamProperties {
   /** Api Version */
@@ -9150,8 +8927,7 @@ export interface VpnConnectionsDeleteQueryParam {
   queryParameters: VpnConnectionsDeleteQueryParamProperties;
 }
 
-export type VpnConnectionsDeleteParameters = VpnConnectionsDeleteQueryParam &
-  RequestParameters;
+export type VpnConnectionsDeleteParameters = VpnConnectionsDeleteQueryParam & RequestParameters;
 
 export interface VpnConnectionsStartPacketCaptureBodyParam {
   /** Vpn Connection packet capture parameters supplied to start packet capture on gateway connection. */
@@ -9197,11 +8973,10 @@ export interface VpnConnectionsStopPacketCaptureMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VpnConnectionsStopPacketCaptureParameters =
-  VpnConnectionsStopPacketCaptureQueryParam &
-    VpnConnectionsStopPacketCaptureMediaTypesParam &
-    VpnConnectionsStopPacketCaptureBodyParam &
-    RequestParameters;
+export type VpnConnectionsStopPacketCaptureParameters = VpnConnectionsStopPacketCaptureQueryParam &
+  VpnConnectionsStopPacketCaptureMediaTypesParam &
+  VpnConnectionsStopPacketCaptureBodyParam &
+  RequestParameters;
 
 export interface VpnConnectionsListByVpnGatewayQueryParamProperties {
   /** Api Version */
@@ -9212,8 +8987,8 @@ export interface VpnConnectionsListByVpnGatewayQueryParam {
   queryParameters: VpnConnectionsListByVpnGatewayQueryParamProperties;
 }
 
-export type VpnConnectionsListByVpnGatewayParameters =
-  VpnConnectionsListByVpnGatewayQueryParam & RequestParameters;
+export type VpnConnectionsListByVpnGatewayParameters = VpnConnectionsListByVpnGatewayQueryParam &
+  RequestParameters;
 
 export interface VpnSiteLinkConnectionsGetQueryParamProperties {
   /** Api Version */
@@ -9224,8 +8999,8 @@ export interface VpnSiteLinkConnectionsGetQueryParam {
   queryParameters: VpnSiteLinkConnectionsGetQueryParamProperties;
 }
 
-export type VpnSiteLinkConnectionsGetParameters =
-  VpnSiteLinkConnectionsGetQueryParam & RequestParameters;
+export type VpnSiteLinkConnectionsGetParameters = VpnSiteLinkConnectionsGetQueryParam &
+  RequestParameters;
 
 export interface NatRulesGetQueryParamProperties {
   /** Api Version */
@@ -9257,11 +9032,10 @@ export interface NatRulesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type NatRulesCreateOrUpdateParameters =
-  NatRulesCreateOrUpdateQueryParam &
-    NatRulesCreateOrUpdateMediaTypesParam &
-    NatRulesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type NatRulesCreateOrUpdateParameters = NatRulesCreateOrUpdateQueryParam &
+  NatRulesCreateOrUpdateMediaTypesParam &
+  NatRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface NatRulesDeleteQueryParamProperties {
   /** Api Version */
@@ -9272,8 +9046,7 @@ export interface NatRulesDeleteQueryParam {
   queryParameters: NatRulesDeleteQueryParamProperties;
 }
 
-export type NatRulesDeleteParameters = NatRulesDeleteQueryParam &
-  RequestParameters;
+export type NatRulesDeleteParameters = NatRulesDeleteQueryParam & RequestParameters;
 
 export interface NatRulesListByVpnGatewayQueryParamProperties {
   /** Api Version */
@@ -9284,8 +9057,8 @@ export interface NatRulesListByVpnGatewayQueryParam {
   queryParameters: NatRulesListByVpnGatewayQueryParamProperties;
 }
 
-export type NatRulesListByVpnGatewayParameters =
-  NatRulesListByVpnGatewayQueryParam & RequestParameters;
+export type NatRulesListByVpnGatewayParameters = NatRulesListByVpnGatewayQueryParam &
+  RequestParameters;
 
 export interface P2SVpnGatewaysGetQueryParamProperties {
   /** Api Version */
@@ -9296,8 +9069,7 @@ export interface P2SVpnGatewaysGetQueryParam {
   queryParameters: P2SVpnGatewaysGetQueryParamProperties;
 }
 
-export type P2SVpnGatewaysGetParameters = P2SVpnGatewaysGetQueryParam &
-  RequestParameters;
+export type P2SVpnGatewaysGetParameters = P2SVpnGatewaysGetQueryParam & RequestParameters;
 
 export interface P2SVpnGatewaysCreateOrUpdateBodyParam {
   /** Parameters supplied to create or Update a virtual wan p2s vpn gateway. */
@@ -9318,11 +9090,10 @@ export interface P2SVpnGatewaysCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type P2SVpnGatewaysCreateOrUpdateParameters =
-  P2SVpnGatewaysCreateOrUpdateQueryParam &
-    P2SVpnGatewaysCreateOrUpdateMediaTypesParam &
-    P2SVpnGatewaysCreateOrUpdateBodyParam &
-    RequestParameters;
+export type P2SVpnGatewaysCreateOrUpdateParameters = P2SVpnGatewaysCreateOrUpdateQueryParam &
+  P2SVpnGatewaysCreateOrUpdateMediaTypesParam &
+  P2SVpnGatewaysCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface P2SVpnGatewaysUpdateTagsBodyParam {
   /** Parameters supplied to update a virtual wan p2s vpn gateway tags. */
@@ -9343,11 +9114,10 @@ export interface P2SVpnGatewaysUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type P2SVpnGatewaysUpdateTagsParameters =
-  P2SVpnGatewaysUpdateTagsQueryParam &
-    P2SVpnGatewaysUpdateTagsMediaTypesParam &
-    P2SVpnGatewaysUpdateTagsBodyParam &
-    RequestParameters;
+export type P2SVpnGatewaysUpdateTagsParameters = P2SVpnGatewaysUpdateTagsQueryParam &
+  P2SVpnGatewaysUpdateTagsMediaTypesParam &
+  P2SVpnGatewaysUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface P2SVpnGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -9358,8 +9128,7 @@ export interface P2SVpnGatewaysDeleteQueryParam {
   queryParameters: P2SVpnGatewaysDeleteQueryParamProperties;
 }
 
-export type P2SVpnGatewaysDeleteParameters = P2SVpnGatewaysDeleteQueryParam &
-  RequestParameters;
+export type P2SVpnGatewaysDeleteParameters = P2SVpnGatewaysDeleteQueryParam & RequestParameters;
 
 export interface P2SVpnGatewaysListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -9382,8 +9151,7 @@ export interface P2SVpnGatewaysListQueryParam {
   queryParameters: P2SVpnGatewaysListQueryParamProperties;
 }
 
-export type P2SVpnGatewaysListParameters = P2SVpnGatewaysListQueryParam &
-  RequestParameters;
+export type P2SVpnGatewaysListParameters = P2SVpnGatewaysListQueryParam & RequestParameters;
 
 export interface P2SVpnGatewaysResetQueryParamProperties {
   /** Api Version */
@@ -9394,8 +9162,7 @@ export interface P2SVpnGatewaysResetQueryParam {
   queryParameters: P2SVpnGatewaysResetQueryParamProperties;
 }
 
-export type P2SVpnGatewaysResetParameters = P2SVpnGatewaysResetQueryParam &
-  RequestParameters;
+export type P2SVpnGatewaysResetParameters = P2SVpnGatewaysResetQueryParam & RequestParameters;
 
 export interface P2SVpnGatewaysGenerateVpnProfileBodyParam {
   /** Parameters supplied to the generate P2SVpnGateway VPN client package operation. */
@@ -9494,8 +9261,7 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWanListQueryParam {
 }
 
 export type VpnServerConfigurationsAssociatedWithVirtualWanListParameters =
-  VpnServerConfigurationsAssociatedWithVirtualWanListQueryParam &
-    RequestParameters;
+  VpnServerConfigurationsAssociatedWithVirtualWanListQueryParam & RequestParameters;
 
 export interface VirtualHubRouteTableV2SGetQueryParamProperties {
   /** Api Version */
@@ -9506,8 +9272,8 @@ export interface VirtualHubRouteTableV2SGetQueryParam {
   queryParameters: VirtualHubRouteTableV2SGetQueryParamProperties;
 }
 
-export type VirtualHubRouteTableV2SGetParameters =
-  VirtualHubRouteTableV2SGetQueryParam & RequestParameters;
+export type VirtualHubRouteTableV2SGetParameters = VirtualHubRouteTableV2SGetQueryParam &
+  RequestParameters;
 
 export interface VirtualHubRouteTableV2SCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update VirtualHubRouteTableV2. */
@@ -9543,8 +9309,8 @@ export interface VirtualHubRouteTableV2SDeleteQueryParam {
   queryParameters: VirtualHubRouteTableV2SDeleteQueryParamProperties;
 }
 
-export type VirtualHubRouteTableV2SDeleteParameters =
-  VirtualHubRouteTableV2SDeleteQueryParam & RequestParameters;
+export type VirtualHubRouteTableV2SDeleteParameters = VirtualHubRouteTableV2SDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualHubRouteTableV2SListQueryParamProperties {
   /** Api Version */
@@ -9555,8 +9321,8 @@ export interface VirtualHubRouteTableV2SListQueryParam {
   queryParameters: VirtualHubRouteTableV2SListQueryParamProperties;
 }
 
-export type VirtualHubRouteTableV2SListParameters =
-  VirtualHubRouteTableV2SListQueryParam & RequestParameters;
+export type VirtualHubRouteTableV2SListParameters = VirtualHubRouteTableV2SListQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteGatewaysListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -9626,11 +9392,10 @@ export interface ExpressRouteGatewaysUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ExpressRouteGatewaysUpdateTagsParameters =
-  ExpressRouteGatewaysUpdateTagsQueryParam &
-    ExpressRouteGatewaysUpdateTagsMediaTypesParam &
-    ExpressRouteGatewaysUpdateTagsBodyParam &
-    RequestParameters;
+export type ExpressRouteGatewaysUpdateTagsParameters = ExpressRouteGatewaysUpdateTagsQueryParam &
+  ExpressRouteGatewaysUpdateTagsMediaTypesParam &
+  ExpressRouteGatewaysUpdateTagsBodyParam &
+  RequestParameters;
 
 export interface ExpressRouteGatewaysGetQueryParamProperties {
   /** Api Version */
@@ -9641,8 +9406,8 @@ export interface ExpressRouteGatewaysGetQueryParam {
   queryParameters: ExpressRouteGatewaysGetQueryParamProperties;
 }
 
-export type ExpressRouteGatewaysGetParameters =
-  ExpressRouteGatewaysGetQueryParam & RequestParameters;
+export type ExpressRouteGatewaysGetParameters = ExpressRouteGatewaysGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -9653,8 +9418,8 @@ export interface ExpressRouteGatewaysDeleteQueryParam {
   queryParameters: ExpressRouteGatewaysDeleteQueryParamProperties;
 }
 
-export type ExpressRouteGatewaysDeleteParameters =
-  ExpressRouteGatewaysDeleteQueryParam & RequestParameters;
+export type ExpressRouteGatewaysDeleteParameters = ExpressRouteGatewaysDeleteQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteConnectionsCreateOrUpdateBodyParam {
   /** Parameters required in an ExpressRouteConnection PUT operation. */
@@ -9690,8 +9455,8 @@ export interface ExpressRouteConnectionsGetQueryParam {
   queryParameters: ExpressRouteConnectionsGetQueryParamProperties;
 }
 
-export type ExpressRouteConnectionsGetParameters =
-  ExpressRouteConnectionsGetQueryParam & RequestParameters;
+export type ExpressRouteConnectionsGetParameters = ExpressRouteConnectionsGetQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteConnectionsDeleteQueryParamProperties {
   /** Api Version */
@@ -9702,8 +9467,8 @@ export interface ExpressRouteConnectionsDeleteQueryParam {
   queryParameters: ExpressRouteConnectionsDeleteQueryParamProperties;
 }
 
-export type ExpressRouteConnectionsDeleteParameters =
-  ExpressRouteConnectionsDeleteQueryParam & RequestParameters;
+export type ExpressRouteConnectionsDeleteParameters = ExpressRouteConnectionsDeleteQueryParam &
+  RequestParameters;
 
 export interface ExpressRouteConnectionsListQueryParamProperties {
   /** Api Version */
@@ -9714,8 +9479,8 @@ export interface ExpressRouteConnectionsListQueryParam {
   queryParameters: ExpressRouteConnectionsListQueryParamProperties;
 }
 
-export type ExpressRouteConnectionsListParameters =
-  ExpressRouteConnectionsListQueryParam & RequestParameters;
+export type ExpressRouteConnectionsListParameters = ExpressRouteConnectionsListQueryParam &
+  RequestParameters;
 
 export interface VirtualHubBgpConnectionGetQueryParamProperties {
   /** Api Version */
@@ -9726,8 +9491,8 @@ export interface VirtualHubBgpConnectionGetQueryParam {
   queryParameters: VirtualHubBgpConnectionGetQueryParamProperties;
 }
 
-export type VirtualHubBgpConnectionGetParameters =
-  VirtualHubBgpConnectionGetQueryParam & RequestParameters;
+export type VirtualHubBgpConnectionGetParameters = VirtualHubBgpConnectionGetQueryParam &
+  RequestParameters;
 
 export interface VirtualHubBgpConnectionCreateOrUpdateBodyParam {
   /** Parameters of Bgp connection. */
@@ -9763,8 +9528,8 @@ export interface VirtualHubBgpConnectionDeleteQueryParam {
   queryParameters: VirtualHubBgpConnectionDeleteQueryParamProperties;
 }
 
-export type VirtualHubBgpConnectionDeleteParameters =
-  VirtualHubBgpConnectionDeleteQueryParam & RequestParameters;
+export type VirtualHubBgpConnectionDeleteParameters = VirtualHubBgpConnectionDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualHubBgpConnectionsListQueryParamProperties {
   /** Api Version */
@@ -9775,8 +9540,8 @@ export interface VirtualHubBgpConnectionsListQueryParam {
   queryParameters: VirtualHubBgpConnectionsListQueryParamProperties;
 }
 
-export type VirtualHubBgpConnectionsListParameters =
-  VirtualHubBgpConnectionsListQueryParam & RequestParameters;
+export type VirtualHubBgpConnectionsListParameters = VirtualHubBgpConnectionsListQueryParam &
+  RequestParameters;
 
 export interface VirtualHubBgpConnectionsListLearnedRoutesQueryParamProperties {
   /** Api Version */
@@ -9811,8 +9576,8 @@ export interface VirtualHubIpConfigurationGetQueryParam {
   queryParameters: VirtualHubIpConfigurationGetQueryParamProperties;
 }
 
-export type VirtualHubIpConfigurationGetParameters =
-  VirtualHubIpConfigurationGetQueryParam & RequestParameters;
+export type VirtualHubIpConfigurationGetParameters = VirtualHubIpConfigurationGetQueryParam &
+  RequestParameters;
 
 export interface VirtualHubIpConfigurationCreateOrUpdateBodyParam {
   /** Hub Ip Configuration parameters. */
@@ -9848,8 +9613,8 @@ export interface VirtualHubIpConfigurationDeleteQueryParam {
   queryParameters: VirtualHubIpConfigurationDeleteQueryParamProperties;
 }
 
-export type VirtualHubIpConfigurationDeleteParameters =
-  VirtualHubIpConfigurationDeleteQueryParam & RequestParameters;
+export type VirtualHubIpConfigurationDeleteParameters = VirtualHubIpConfigurationDeleteQueryParam &
+  RequestParameters;
 
 export interface VirtualHubIpConfigurationListQueryParamProperties {
   /** Api Version */
@@ -9860,8 +9625,8 @@ export interface VirtualHubIpConfigurationListQueryParam {
   queryParameters: VirtualHubIpConfigurationListQueryParamProperties;
 }
 
-export type VirtualHubIpConfigurationListParameters =
-  VirtualHubIpConfigurationListQueryParam & RequestParameters;
+export type VirtualHubIpConfigurationListParameters = VirtualHubIpConfigurationListQueryParam &
+  RequestParameters;
 
 export interface HubRouteTablesCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update RouteTable. */
@@ -9882,11 +9647,10 @@ export interface HubRouteTablesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type HubRouteTablesCreateOrUpdateParameters =
-  HubRouteTablesCreateOrUpdateQueryParam &
-    HubRouteTablesCreateOrUpdateMediaTypesParam &
-    HubRouteTablesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type HubRouteTablesCreateOrUpdateParameters = HubRouteTablesCreateOrUpdateQueryParam &
+  HubRouteTablesCreateOrUpdateMediaTypesParam &
+  HubRouteTablesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface HubRouteTablesGetQueryParamProperties {
   /** Api Version */
@@ -9897,8 +9661,7 @@ export interface HubRouteTablesGetQueryParam {
   queryParameters: HubRouteTablesGetQueryParamProperties;
 }
 
-export type HubRouteTablesGetParameters = HubRouteTablesGetQueryParam &
-  RequestParameters;
+export type HubRouteTablesGetParameters = HubRouteTablesGetQueryParam & RequestParameters;
 
 export interface HubRouteTablesDeleteQueryParamProperties {
   /** Api Version */
@@ -9909,8 +9672,7 @@ export interface HubRouteTablesDeleteQueryParam {
   queryParameters: HubRouteTablesDeleteQueryParamProperties;
 }
 
-export type HubRouteTablesDeleteParameters = HubRouteTablesDeleteQueryParam &
-  RequestParameters;
+export type HubRouteTablesDeleteParameters = HubRouteTablesDeleteQueryParam & RequestParameters;
 
 export interface HubRouteTablesListQueryParamProperties {
   /** Api Version */
@@ -9921,8 +9683,7 @@ export interface HubRouteTablesListQueryParam {
   queryParameters: HubRouteTablesListQueryParamProperties;
 }
 
-export type HubRouteTablesListParameters = HubRouteTablesListQueryParam &
-  RequestParameters;
+export type HubRouteTablesListParameters = HubRouteTablesListQueryParam & RequestParameters;
 
 export interface RoutingIntentCreateOrUpdateBodyParam {
   /** Parameters supplied to create or update RoutingIntent. */
@@ -9943,11 +9704,10 @@ export interface RoutingIntentCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RoutingIntentCreateOrUpdateParameters =
-  RoutingIntentCreateOrUpdateQueryParam &
-    RoutingIntentCreateOrUpdateMediaTypesParam &
-    RoutingIntentCreateOrUpdateBodyParam &
-    RequestParameters;
+export type RoutingIntentCreateOrUpdateParameters = RoutingIntentCreateOrUpdateQueryParam &
+  RoutingIntentCreateOrUpdateMediaTypesParam &
+  RoutingIntentCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface RoutingIntentGetQueryParamProperties {
   /** Api Version */
@@ -9958,8 +9718,7 @@ export interface RoutingIntentGetQueryParam {
   queryParameters: RoutingIntentGetQueryParamProperties;
 }
 
-export type RoutingIntentGetParameters = RoutingIntentGetQueryParam &
-  RequestParameters;
+export type RoutingIntentGetParameters = RoutingIntentGetQueryParam & RequestParameters;
 
 export interface RoutingIntentDeleteQueryParamProperties {
   /** Api Version */
@@ -9970,8 +9729,7 @@ export interface RoutingIntentDeleteQueryParam {
   queryParameters: RoutingIntentDeleteQueryParamProperties;
 }
 
-export type RoutingIntentDeleteParameters = RoutingIntentDeleteQueryParam &
-  RequestParameters;
+export type RoutingIntentDeleteParameters = RoutingIntentDeleteQueryParam & RequestParameters;
 
 export interface RoutingIntentListQueryParamProperties {
   /** Api Version */
@@ -9982,8 +9740,7 @@ export interface RoutingIntentListQueryParam {
   queryParameters: RoutingIntentListQueryParamProperties;
 }
 
-export type RoutingIntentListParameters = RoutingIntentListQueryParam &
-  RequestParameters;
+export type RoutingIntentListParameters = RoutingIntentListQueryParam & RequestParameters;
 
 export interface WebApplicationFirewallPoliciesListQueryParamProperties {
   /** Api Version */

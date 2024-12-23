@@ -163,8 +163,7 @@ export interface SubResource {
 }
 
 /** Authentication certificates of an application gateway. */
-export interface ApplicationGatewayAuthenticationCertificate
-  extends SubResource {
+export interface ApplicationGatewayAuthenticationCertificate extends SubResource {
   /** Properties of the application gateway authentication certificate. */
   properties?: ApplicationGatewayAuthenticationCertificatePropertiesFormat;
   /** Name of the authentication certificate that is unique within an Application Gateway. */
@@ -194,8 +193,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
 }
 
 /** Trusted client certificates of an application gateway. */
-export interface ApplicationGatewayTrustedClientCertificate
-  extends SubResource {
+export interface ApplicationGatewayTrustedClientCertificate extends SubResource {
   /** Properties of the application gateway trusted client certificate. */
   properties?: ApplicationGatewayTrustedClientCertificatePropertiesFormat;
   /** Name of the trusted client certificate that is unique within an Application Gateway. */
@@ -820,12 +818,7 @@ export interface RoutePropertiesFormat {
   /** The destination CIDR to which the route applies. */
   addressPrefix?: string;
   /** The type of Azure hop the packet should be sent to. */
-  nextHopType:
-    | "VirtualNetworkGateway"
-    | "VnetLocal"
-    | "Internet"
-    | "VirtualAppliance"
-    | "None";
+  nextHopType: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** A value indicating whether this route overrides overlapping BGP routes regardless of LPM. */
@@ -1578,8 +1571,7 @@ export interface ApplicationGatewayAutoscaleConfiguration {
 }
 
 /** Private Link Configuration on an application gateway. */
-export interface ApplicationGatewayPrivateLinkConfiguration
-  extends SubResource {
+export interface ApplicationGatewayPrivateLinkConfiguration extends SubResource {
   /** Properties of the application gateway private link configuration. */
   properties?: ApplicationGatewayPrivateLinkConfigurationProperties;
   /** Name of the private link configuration that is unique within an Application Gateway. */
@@ -1593,8 +1585,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationProperties {
 }
 
 /** The application gateway private link ip configuration. */
-export interface ApplicationGatewayPrivateLinkIpConfiguration
-  extends SubResource {
+export interface ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
   /** Properties of an application gateway private link ip configuration. */
   properties?: ApplicationGatewayPrivateLinkIpConfigurationProperties;
   /** The name of application gateway private link ip configuration. */
@@ -1614,8 +1605,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationProperties {
 }
 
 /** Private Endpoint connection on an application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnection
-  extends SubResource {
+export interface ApplicationGatewayPrivateEndpointConnection extends SubResource {
   /** Properties of the application gateway private endpoint connection. */
   properties?: ApplicationGatewayPrivateEndpointConnectionProperties;
   /** Name of the private endpoint connection on an application gateway. */
@@ -1670,11 +1660,7 @@ export interface ApplicationGatewayGlobalConfiguration {
 /** Identity for the resource. */
 export interface ManagedServiceIdentity {
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<
     string,
@@ -2201,16 +2187,7 @@ export interface CustomIpPrefixPropertiesFormat {
   /** Whether to do express route advertise. */
   expressRouteAdvertise?: boolean;
   /** The Geo for CIDR advertising. Should be an Geo code. */
-  geo?:
-    | "GLOBAL"
-    | "AFRI"
-    | "APAC"
-    | "EURO"
-    | "LATAM"
-    | "NAM"
-    | "ME"
-    | "OCEANIA"
-    | "AQ";
+  geo?: "GLOBAL" | "AFRI" | "APAC" | "EURO" | "LATAM" | "NAM" | "ME" | "OCEANIA" | "AQ";
   /** Whether to Advertise the range to Internet. */
   noInternetAdvertise?: boolean;
   /** Type of custom IP prefix. Should be Singular, Parent, or Child. */
@@ -2258,16 +2235,7 @@ export interface DscpConfigurationPropertiesFormat {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRange>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
   /** QoS object definitions */
   qosDefinitionCollection?: Array<QosDefinition>;
 }
@@ -2301,16 +2269,7 @@ export interface QosDefinition {
   /** Destination port ranges. */
   destinationPortRanges?: Array<QosPortRange>;
   /** RNM supported protocol types. */
-  protocol?:
-    | "DoNotUse"
-    | "Icmp"
-    | "Tcp"
-    | "Udp"
-    | "Gre"
-    | "Esp"
-    | "Ah"
-    | "Vxlan"
-    | "All";
+  protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
 }
 
 /** Endpoint service. */
@@ -2343,10 +2302,7 @@ export interface ExpressRouteCircuitPeering extends SubResource {
 /** Properties of the express route circuit peering. */
 export interface ExpressRouteCircuitPeeringPropertiesFormat {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
@@ -2597,10 +2553,7 @@ export interface ExpressRouteCrossConnectionPeering extends SubResource {
 /** Properties of express route cross connection peering. */
 export interface ExpressRouteCrossConnectionPeeringProperties {
   /** The peering type. */
-  peeringType?:
-    | "AzurePublicPeering"
-    | "AzurePrivatePeering"
-    | "MicrosoftPeering";
+  peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The peer ASN. */
@@ -3388,9 +3341,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
   /** A description of the security configuration. */
   description?: string;
   /** Enum list of network intent policy based services. */
-  applyOnNetworkIntentPolicyBasedServices?: Array<
-    "None" | "All" | "AllowRulesOnly"
-  >;
+  applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
 }
 
 /** Defines the admin rule collection. */
@@ -3694,8 +3645,7 @@ export interface PacketCaptureFilter {
 }
 
 /** The properties of a packet capture session. */
-export interface PacketCaptureResultProperties
-  extends PacketCaptureParameters {}
+export interface PacketCaptureResultProperties extends PacketCaptureParameters {}
 
 /** Parameters that define the resource to troubleshoot. */
 export interface TroubleshootingParameters {
@@ -3936,13 +3886,7 @@ export interface ConnectionMonitorEndpoint {
   /** Endpoint scope. */
   scope?: ConnectionMonitorEndpointScope;
   /** Test coverage for the endpoint. */
-  coverageLevel?:
-    | "Default"
-    | "Low"
-    | "BelowAverage"
-    | "Average"
-    | "AboveAverage"
-    | "Full";
+  coverageLevel?: "Default" | "Low" | "BelowAverage" | "Average" | "AboveAverage" | "Full";
 }
 
 /** Describes the connection monitor endpoint filter. */
@@ -4064,8 +4008,7 @@ export interface ConnectionMonitorWorkspaceSettings {
 }
 
 /** Describes the properties of a connection monitor. */
-export interface ConnectionMonitorResultProperties
-  extends ConnectionMonitorParameters {}
+export interface ConnectionMonitorResultProperties extends ConnectionMonitorParameters {}
 
 /** Private dns zone group resource. */
 export interface PrivateDnsZoneGroup extends SubResource {
@@ -4540,30 +4483,11 @@ export interface IpsecPolicy {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -4790,30 +4714,11 @@ export interface VpnClientIPsecParameters {
     | "GCMAES192"
     | "GCMAES256";
   /** The IPSec integrity algorithm (IKE phase 1). */
-  ipsecIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "GCMAES128"
-    | "GCMAES192"
-    | "GCMAES256";
+  ipsecIntegrity: "MD5" | "SHA1" | "SHA256" | "GCMAES128" | "GCMAES192" | "GCMAES256";
   /** The IKE encryption algorithm (IKE phase 2). */
-  ikeEncryption:
-    | "DES"
-    | "DES3"
-    | "AES128"
-    | "AES192"
-    | "AES256"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeEncryption: "DES" | "DES3" | "AES128" | "AES192" | "AES256" | "GCMAES256" | "GCMAES128";
   /** The IKE integrity algorithm (IKE phase 2). */
-  ikeIntegrity:
-    | "MD5"
-    | "SHA1"
-    | "SHA256"
-    | "SHA384"
-    | "GCMAES256"
-    | "GCMAES128";
+  ikeIntegrity: "MD5" | "SHA1" | "SHA256" | "SHA384" | "GCMAES256" | "GCMAES128";
   /** The DH Group used in IKE Phase 1 for initial SA. */
   dhGroup:
     | "None"
@@ -5426,12 +5331,7 @@ export interface Criterion {
   /** List of AS paths which this criteria matches. */
   asPath?: Array<string>;
   /** Match condition to apply RouteMap rules. */
-  matchCondition?:
-    | "Unknown"
-    | "Contains"
-    | "Equals"
-    | "NotContains"
-    | "NotEquals";
+  matchCondition?: "Unknown" | "Contains" | "Equals" | "NotContains" | "NotEquals";
 }
 
 /** Action to be taken on a route matching a RouteMap criterion. */
@@ -5962,12 +5862,7 @@ export interface OwaspCrsExclusionEntry {
     | "RequestArgKeys"
     | "RequestArgValues";
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator:
-    | "Equals"
-    | "Contains"
-    | "StartsWith"
-    | "EndsWith"
-    | "EqualsAny";
+  selectorMatchOperator: "Equals" | "Contains" | "StartsWith" | "EndsWith" | "EqualsAny";
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
   selector: string;
   /** The managed rule sets that are associated with the exclusion. */
@@ -6039,8 +5934,7 @@ export interface SwapResourceProperties {
 }
 
 /** Firewall Policy NAT Rule Collection. */
-export interface FirewallPolicyNatRuleCollection
-  extends FirewallPolicyRuleCollectionParent {
+export interface FirewallPolicyNatRuleCollection extends FirewallPolicyRuleCollectionParent {
   /** The action type of a Nat rule collection. */
   action?: FirewallPolicyNatRuleCollectionAction;
   /** List of rules included in a rule collection. */
@@ -6060,16 +5954,11 @@ export interface FirewallPolicyRuleParent {
   name?: string;
   /** Description of the rule. */
   description?: string;
-  ruleType:
-    | "FirewallPolicyRule"
-    | "ApplicationRule"
-    | "NatRule"
-    | "NetworkRule";
+  ruleType: "FirewallPolicyRule" | "ApplicationRule" | "NatRule" | "NetworkRule";
 }
 
 /** Firewall Policy Filter Rule Collection. */
-export interface FirewallPolicyFilterRuleCollection
-  extends FirewallPolicyRuleCollectionParent {
+export interface FirewallPolicyFilterRuleCollection extends FirewallPolicyRuleCollectionParent {
   /** The action type of a Filter rule collection. */
   action?: FirewallPolicyFilterRuleCollectionAction;
   /** List of rules included in a rule collection. */

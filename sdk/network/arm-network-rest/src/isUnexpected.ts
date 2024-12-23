@@ -1580,8 +1580,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start":
@@ -1634,8 +1633,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations":
@@ -1656,18 +1656,16 @@ const responseMap: Record<string, string[]> = {
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes":
     ["200", "202"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags":
-    ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}":
-    ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags": ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}": [
+    "200",
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
@@ -1676,8 +1674,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
     ["200", "202"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks":
@@ -1728,8 +1725,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable":
@@ -1764,8 +1760,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus":
@@ -1786,8 +1781,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}":
@@ -1806,8 +1800,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}":
@@ -1818,8 +1811,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}":
@@ -1876,12 +1868,13 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits":
-    ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders":
-    ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits": ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders": [
+    "200",
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}":
@@ -1910,8 +1903,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}":
     ["200", "201"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}":
@@ -1924,8 +1918,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}":
@@ -1940,8 +1933,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}":
@@ -1952,8 +1946,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}":
@@ -1982,8 +1975,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}":
@@ -1996,9 +1988,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups": [
-    "200",
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}":
@@ -2007,8 +1997,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses":
@@ -2061,8 +2050,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations":
@@ -2087,8 +2075,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit":
@@ -2103,8 +2090,9 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}":
     ["200", "204"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections": [
+    "200",
+  ],
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}":
     ["200", "201"],
   "GET /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}":
@@ -2177,8 +2165,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}":
@@ -2189,8 +2176,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}":
@@ -2215,8 +2201,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}":
@@ -2225,8 +2212,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}":
@@ -2243,8 +2231,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify":
@@ -2348,8 +2335,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes":
@@ -2370,8 +2356,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}":
     ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}":
@@ -2400,8 +2385,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}":
@@ -2414,8 +2398,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}":
@@ -2434,8 +2417,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}":
@@ -2454,10 +2436,10 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders":
-    ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders": [
+    "200",
+  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}":
@@ -2466,8 +2448,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}":
@@ -2482,8 +2465,9 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}":
@@ -2492,8 +2476,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability":
@@ -2664,8 +2647,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}":
@@ -2676,8 +2658,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}":
@@ -2696,8 +2677,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}":
     ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}":
@@ -2708,9 +2688,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites": [
-    "200",
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks":
@@ -2729,8 +2707,9 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}":
     ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}":
@@ -2749,8 +2728,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes":
@@ -2801,8 +2779,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection":
     ["202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection":
@@ -2849,8 +2826,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset":
@@ -2883,8 +2859,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}":
@@ -2969,9 +2944,7 @@ export function isUnexpected(
     | ApplicationGatewaysDeleteDefaultResponse,
 ): response is ApplicationGatewaysDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysGet200Response
-    | ApplicationGatewaysGetDefaultResponse,
+  response: ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse,
 ): response is ApplicationGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -2980,19 +2953,13 @@ export function isUnexpected(
     | ApplicationGatewaysCreateOrUpdateDefaultResponse,
 ): response is ApplicationGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysUpdateTags200Response
-    | ApplicationGatewaysUpdateTagsDefaultResponse,
+  response: ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse,
 ): response is ApplicationGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysList200Response
-    | ApplicationGatewaysListDefaultResponse,
+  response: ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse,
 ): response is ApplicationGatewaysListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationGatewaysListAll200Response
-    | ApplicationGatewaysListAllDefaultResponse,
+  response: ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse,
 ): response is ApplicationGatewaysListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -3099,9 +3066,7 @@ export function isUnexpected(
     | ApplicationSecurityGroupsDeleteDefaultResponse,
 ): response is ApplicationSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationSecurityGroupsGet200Response
-    | ApplicationSecurityGroupsGetDefaultResponse,
+  response: ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse,
 ): response is ApplicationSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3120,14 +3085,10 @@ export function isUnexpected(
     | ApplicationSecurityGroupsListAllDefaultResponse,
 ): response is ApplicationSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationSecurityGroupsList200Response
-    | ApplicationSecurityGroupsListDefaultResponse,
+  response: ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse,
 ): response is ApplicationSecurityGroupsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableDelegationsList200Response
-    | AvailableDelegationsListDefaultResponse,
+  response: AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse,
 ): response is AvailableDelegationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3135,9 +3096,7 @@ export function isUnexpected(
     | AvailableResourceGroupDelegationsListDefaultResponse,
 ): response is AvailableResourceGroupDelegationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableServiceAliasesList200Response
-    | AvailableServiceAliasesListDefaultResponse,
+  response: AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse,
 ): response is AvailableServiceAliasesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3170,9 +3129,7 @@ export function isUnexpected(
   response: AzureFirewallsList200Response | AzureFirewallsListDefaultResponse,
 ): response is AzureFirewallsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AzureFirewallsListAll200Response
-    | AzureFirewallsListAllDefaultResponse,
+  response: AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse,
 ): response is AzureFirewallsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -3181,9 +3138,7 @@ export function isUnexpected(
     | AzureFirewallsListLearnedPrefixesDefaultResponse,
 ): response is AzureFirewallsListLearnedPrefixesDefaultResponse;
 export function isUnexpected(
-  response:
-    | AzureFirewallFqdnTagsListAll200Response
-    | AzureFirewallFqdnTagsListAllDefaultResponse,
+  response: AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse,
 ): response is AzureFirewallFqdnTagsListAllDefaultResponse;
 export function isUnexpected(
   response: WebCategoriesGet200Response | WebCategoriesGetDefaultResponse,
@@ -3236,9 +3191,7 @@ export function isUnexpected(
     | DeleteBastionShareableLinkDefaultResponse,
 ): response is DeleteBastionShareableLinkDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetBastionShareableLink200Response
-    | GetBastionShareableLinkDefaultResponse,
+  response: GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse,
 ): response is GetBastionShareableLinkDefaultResponse;
 export function isUnexpected(
   response:
@@ -3247,19 +3200,13 @@ export function isUnexpected(
     | GetActiveSessionsDefaultResponse,
 ): response is GetActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DisconnectActiveSessions200Response
-    | DisconnectActiveSessionsDefaultResponse,
+  response: DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse,
 ): response is DisconnectActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CheckDnsNameAvailability200Response
-    | CheckDnsNameAvailabilityDefaultResponse,
+  response: CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse,
 ): response is CheckDnsNameAvailabilityDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteProviderPort200Response
-    | ExpressRouteProviderPortDefaultResponse,
+  response: ExpressRouteProviderPort200Response | ExpressRouteProviderPortDefaultResponse,
 ): response is ExpressRouteProviderPortDefaultResponse;
 export function isUnexpected(
   response:
@@ -3267,9 +3214,7 @@ export function isUnexpected(
     | ListActiveConnectivityConfigurationsDefaultResponse,
 ): response is ListActiveConnectivityConfigurationsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListActiveSecurityAdminRules200Response
-    | ListActiveSecurityAdminRulesDefaultResponse,
+  response: ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse,
 ): response is ListActiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
   response:
@@ -3282,9 +3227,7 @@ export function isUnexpected(
     | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse,
 ): response is ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
-  response:
-    | SupportedSecurityProviders200Response
-    | SupportedSecurityProvidersDefaultResponse,
+  response: SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse,
 ): response is SupportedSecurityProvidersDefaultResponse;
 export function isUnexpected(
   response:
@@ -3315,9 +3258,7 @@ export function isUnexpected(
     | NetworkInterfacesDeleteDefaultResponse,
 ): response is NetworkInterfacesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesGet200Response
-    | NetworkInterfacesGetDefaultResponse,
+  response: NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse,
 ): response is NetworkInterfacesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3326,19 +3267,13 @@ export function isUnexpected(
     | NetworkInterfacesCreateOrUpdateDefaultResponse,
 ): response is NetworkInterfacesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesUpdateTags200Response
-    | NetworkInterfacesUpdateTagsDefaultResponse,
+  response: NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse,
 ): response is NetworkInterfacesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesListAll200Response
-    | NetworkInterfacesListAllDefaultResponse,
+  response: NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse,
 ): response is NetworkInterfacesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkInterfacesList200Response
-    | NetworkInterfacesListDefaultResponse,
+  response: NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse,
 ): response is NetworkInterfacesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3400,9 +3335,7 @@ export function isUnexpected(
     | PublicIPAddressesDeleteDefaultResponse,
 ): response is PublicIPAddressesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesGet200Response
-    | PublicIPAddressesGetDefaultResponse,
+  response: PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse,
 ): response is PublicIPAddressesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3411,19 +3344,13 @@ export function isUnexpected(
     | PublicIPAddressesCreateOrUpdateDefaultResponse,
 ): response is PublicIPAddressesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesUpdateTags200Response
-    | PublicIPAddressesUpdateTagsDefaultResponse,
+  response: PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse,
 ): response is PublicIPAddressesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesListAll200Response
-    | PublicIPAddressesListAllDefaultResponse,
+  response: PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse,
 ): response is PublicIPAddressesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPAddressesList200Response
-    | PublicIPAddressesListDefaultResponse,
+  response: PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse,
 ): response is PublicIPAddressesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3463,19 +3390,13 @@ export function isUnexpected(
     | CustomIPPrefixesCreateOrUpdateDefaultResponse,
 ): response is CustomIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesUpdateTags200Response
-    | CustomIPPrefixesUpdateTagsDefaultResponse,
+  response: CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse,
 ): response is CustomIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesListAll200Response
-    | CustomIPPrefixesListAllDefaultResponse,
+  response: CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse,
 ): response is CustomIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | CustomIPPrefixesList200Response
-    | CustomIPPrefixesListDefaultResponse,
+  response: CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse,
 ): response is CustomIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3485,9 +3406,7 @@ export function isUnexpected(
     | DdosCustomPoliciesDeleteDefaultResponse,
 ): response is DdosCustomPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosCustomPoliciesGet200Response
-    | DdosCustomPoliciesGetDefaultResponse,
+  response: DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse,
 ): response is DdosCustomPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3496,9 +3415,7 @@ export function isUnexpected(
     | DdosCustomPoliciesCreateOrUpdateDefaultResponse,
 ): response is DdosCustomPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosCustomPoliciesUpdateTags200Response
-    | DdosCustomPoliciesUpdateTagsDefaultResponse,
+  response: DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse,
 ): response is DdosCustomPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3508,9 +3425,7 @@ export function isUnexpected(
     | DdosProtectionPlansDeleteDefaultResponse,
 ): response is DdosProtectionPlansDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansGet200Response
-    | DdosProtectionPlansGetDefaultResponse,
+  response: DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse,
 ): response is DdosProtectionPlansGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3519,14 +3434,10 @@ export function isUnexpected(
     | DdosProtectionPlansCreateOrUpdateDefaultResponse,
 ): response is DdosProtectionPlansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansUpdateTags200Response
-    | DdosProtectionPlansUpdateTagsDefaultResponse,
+  response: DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse,
 ): response is DdosProtectionPlansUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DdosProtectionPlansList200Response
-    | DdosProtectionPlansListDefaultResponse,
+  response: DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse,
 ): response is DdosProtectionPlansListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3547,24 +3458,16 @@ export function isUnexpected(
     | DscpConfigurationDeleteDefaultResponse,
 ): response is DscpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationGet200Response
-    | DscpConfigurationGetDefaultResponse,
+  response: DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse,
 ): response is DscpConfigurationGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationList200Response
-    | DscpConfigurationListDefaultResponse,
+  response: DscpConfigurationList200Response | DscpConfigurationListDefaultResponse,
 ): response is DscpConfigurationListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DscpConfigurationListAll200Response
-    | DscpConfigurationListAllDefaultResponse,
+  response: DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse,
 ): response is DscpConfigurationListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | AvailableEndpointServicesList200Response
-    | AvailableEndpointServicesListDefaultResponse,
+  response: AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse,
 ): response is AvailableEndpointServicesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3653,9 +3556,7 @@ export function isUnexpected(
     | ExpressRouteCircuitsDeleteDefaultResponse,
 ): response is ExpressRouteCircuitsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsGet200Response
-    | ExpressRouteCircuitsGetDefaultResponse,
+  response: ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse,
 ): response is ExpressRouteCircuitsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3687,9 +3588,7 @@ export function isUnexpected(
     | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse,
 ): response is ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsGetStats200Response
-    | ExpressRouteCircuitsGetStatsDefaultResponse,
+  response: ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse,
 ): response is ExpressRouteCircuitsGetStatsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3697,14 +3596,10 @@ export function isUnexpected(
     | ExpressRouteCircuitsGetPeeringStatsDefaultResponse,
 ): response is ExpressRouteCircuitsGetPeeringStatsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsList200Response
-    | ExpressRouteCircuitsListDefaultResponse,
+  response: ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse,
 ): response is ExpressRouteCircuitsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteCircuitsListAll200Response
-    | ExpressRouteCircuitsListAllDefaultResponse,
+  response: ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse,
 ): response is ExpressRouteCircuitsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -3783,9 +3678,7 @@ export function isUnexpected(
     | ExpressRoutePortsLocationsListDefaultResponse,
 ): response is ExpressRoutePortsLocationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsLocationsGet200Response
-    | ExpressRoutePortsLocationsGetDefaultResponse,
+  response: ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse,
 ): response is ExpressRoutePortsLocationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3795,9 +3688,7 @@ export function isUnexpected(
     | ExpressRoutePortsDeleteDefaultResponse,
 ): response is ExpressRoutePortsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsGet200Response
-    | ExpressRoutePortsGetDefaultResponse,
+  response: ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse,
 ): response is ExpressRoutePortsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -3806,9 +3697,7 @@ export function isUnexpected(
     | ExpressRoutePortsCreateOrUpdateDefaultResponse,
 ): response is ExpressRoutePortsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsUpdateTags200Response
-    | ExpressRoutePortsUpdateTagsDefaultResponse,
+  response: ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse,
 ): response is ExpressRoutePortsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3816,24 +3705,16 @@ export function isUnexpected(
     | ExpressRoutePortsListByResourceGroupDefaultResponse,
 ): response is ExpressRoutePortsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsList200Response
-    | ExpressRoutePortsListDefaultResponse,
+  response: ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse,
 ): response is ExpressRoutePortsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRoutePortsGenerateLOA200Response
-    | ExpressRoutePortsGenerateLOADefaultResponse,
+  response: ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse,
 ): response is ExpressRoutePortsGenerateLOADefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteLinksGet200Response
-    | ExpressRouteLinksGetDefaultResponse,
+  response: ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse,
 ): response is ExpressRouteLinksGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteLinksList200Response
-    | ExpressRouteLinksListDefaultResponse,
+  response: ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse,
 ): response is ExpressRouteLinksListDefaultResponse;
 export function isUnexpected(
   response:
@@ -3880,19 +3761,13 @@ export function isUnexpected(
     | FirewallPoliciesCreateOrUpdateDefaultResponse,
 ): response is FirewallPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesUpdateTags200Response
-    | FirewallPoliciesUpdateTagsDefaultResponse,
+  response: FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse,
 ): response is FirewallPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesList200Response
-    | FirewallPoliciesListDefaultResponse,
+  response: FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse,
 ): response is FirewallPoliciesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallPoliciesListAll200Response
-    | FirewallPoliciesListAllDefaultResponse,
+  response: FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse,
 ): response is FirewallPoliciesListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -3964,9 +3839,7 @@ export function isUnexpected(
     | IpAllocationsCreateOrUpdateDefaultResponse,
 ): response is IpAllocationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpAllocationsUpdateTags200Response
-    | IpAllocationsUpdateTagsDefaultResponse,
+  response: IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse,
 ): response is IpAllocationsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: IpAllocationsList200Response | IpAllocationsListDefaultResponse,
@@ -3986,9 +3859,7 @@ export function isUnexpected(
     | IpGroupsCreateOrUpdateDefaultResponse,
 ): response is IpGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpGroupsUpdateGroups200Response
-    | IpGroupsUpdateGroupsDefaultResponse,
+  response: IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse,
 ): response is IpGroupsUpdateGroupsDefaultResponse;
 export function isUnexpected(
   response:
@@ -3998,9 +3869,7 @@ export function isUnexpected(
     | IpGroupsDeleteDefaultResponse,
 ): response is IpGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | IpGroupsListByResourceGroup200Response
-    | IpGroupsListByResourceGroupDefaultResponse,
+  response: IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse,
 ): response is IpGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: IpGroupsList200Response | IpGroupsListDefaultResponse,
@@ -4022,14 +3891,10 @@ export function isUnexpected(
     | LoadBalancersCreateOrUpdateDefaultResponse,
 ): response is LoadBalancersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancersUpdateTags200Response
-    | LoadBalancersUpdateTagsDefaultResponse,
+  response: LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse,
 ): response is LoadBalancersUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancersListAll200Response
-    | LoadBalancersListAllDefaultResponse,
+  response: LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse,
 ): response is LoadBalancersListAllDefaultResponse;
 export function isUnexpected(
   response: LoadBalancersList200Response | LoadBalancersListDefaultResponse,
@@ -4109,14 +3974,10 @@ export function isUnexpected(
     | LoadBalancerLoadBalancingRulesGetDefaultResponse,
 ): response is LoadBalancerLoadBalancingRulesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerOutboundRulesList200Response
-    | LoadBalancerOutboundRulesListDefaultResponse,
+  response: LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse,
 ): response is LoadBalancerOutboundRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerOutboundRulesGet200Response
-    | LoadBalancerOutboundRulesGetDefaultResponse,
+  response: LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse,
 ): response is LoadBalancerOutboundRulesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4124,14 +3985,10 @@ export function isUnexpected(
     | LoadBalancerNetworkInterfacesListDefaultResponse,
 ): response is LoadBalancerNetworkInterfacesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerProbesList200Response
-    | LoadBalancerProbesListDefaultResponse,
+  response: LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse,
 ): response is LoadBalancerProbesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadBalancerProbesGet200Response
-    | LoadBalancerProbesGetDefaultResponse,
+  response: LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse,
 ): response is LoadBalancerProbesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4151,9 +4008,7 @@ export function isUnexpected(
     | NatGatewaysCreateOrUpdateDefaultResponse,
 ): response is NatGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NatGatewaysUpdateTags200Response
-    | NatGatewaysUpdateTagsDefaultResponse,
+  response: NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse,
 ): response is NatGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse,
@@ -4216,9 +4071,7 @@ export function isUnexpected(
     | NetworkManagersDeleteDefaultResponse,
 ): response is NetworkManagersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkManagersPatch200Response
-    | NetworkManagersPatchDefaultResponse,
+  response: NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse,
 ): response is NetworkManagersPatchDefaultResponse;
 export function isUnexpected(
   response:
@@ -4284,9 +4137,7 @@ export function isUnexpected(
     | ManagementGroupNetworkManagerConnectionsListDefaultResponse,
 ): response is ManagementGroupNetworkManagerConnectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectivityConfigurationsGet200Response
-    | ConnectivityConfigurationsGetDefaultResponse,
+  response: ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse,
 ): response is ConnectivityConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4359,9 +4210,7 @@ export function isUnexpected(
     | ScopeConnectionsDeleteDefaultResponse,
 ): response is ScopeConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScopeConnectionsList200Response
-    | ScopeConnectionsListDefaultResponse,
+  response: ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse,
 ): response is ScopeConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4387,14 +4236,10 @@ export function isUnexpected(
     | SecurityAdminConfigurationsDeleteDefaultResponse,
 ): response is SecurityAdminConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | AdminRuleCollectionsList200Response
-    | AdminRuleCollectionsListDefaultResponse,
+  response: AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse,
 ): response is AdminRuleCollectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | AdminRuleCollectionsGet200Response
-    | AdminRuleCollectionsGetDefaultResponse,
+  response: AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse,
 ): response is AdminRuleCollectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4445,14 +4290,10 @@ export function isUnexpected(
     | NetworkProfilesCreateOrUpdateDefaultResponse,
 ): response is NetworkProfilesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkProfilesUpdateTags200Response
-    | NetworkProfilesUpdateTagsDefaultResponse,
+  response: NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse,
 ): response is NetworkProfilesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkProfilesListAll200Response
-    | NetworkProfilesListAllDefaultResponse,
+  response: NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse,
 ): response is NetworkProfilesListAllDefaultResponse;
 export function isUnexpected(
   response: NetworkProfilesList200Response | NetworkProfilesListDefaultResponse,
@@ -4465,9 +4306,7 @@ export function isUnexpected(
     | NetworkSecurityGroupsDeleteDefaultResponse,
 ): response is NetworkSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsGet200Response
-    | NetworkSecurityGroupsGetDefaultResponse,
+  response: NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse,
 ): response is NetworkSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4481,14 +4320,10 @@ export function isUnexpected(
     | NetworkSecurityGroupsUpdateTagsDefaultResponse,
 ): response is NetworkSecurityGroupsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsListAll200Response
-    | NetworkSecurityGroupsListAllDefaultResponse,
+  response: NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse,
 ): response is NetworkSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkSecurityGroupsList200Response
-    | NetworkSecurityGroupsListDefaultResponse,
+  response: NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse,
 ): response is NetworkSecurityGroupsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4510,14 +4345,10 @@ export function isUnexpected(
   response: SecurityRulesList200Response | SecurityRulesListDefaultResponse,
 ): response is SecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DefaultSecurityRulesList200Response
-    | DefaultSecurityRulesListDefaultResponse,
+  response: DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse,
 ): response is DefaultSecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DefaultSecurityRulesGet200Response
-    | DefaultSecurityRulesGetDefaultResponse,
+  response: DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse,
 ): response is DefaultSecurityRulesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4527,9 +4358,7 @@ export function isUnexpected(
     | NetworkVirtualAppliancesDeleteDefaultResponse,
 ): response is NetworkVirtualAppliancesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkVirtualAppliancesGet200Response
-    | NetworkVirtualAppliancesGetDefaultResponse,
+  response: NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse,
 ): response is NetworkVirtualAppliancesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4548,9 +4377,7 @@ export function isUnexpected(
     | NetworkVirtualAppliancesListByResourceGroupDefaultResponse,
 ): response is NetworkVirtualAppliancesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkVirtualAppliancesList200Response
-    | NetworkVirtualAppliancesListDefaultResponse,
+  response: NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse,
 ): response is NetworkVirtualAppliancesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4560,9 +4387,7 @@ export function isUnexpected(
     | VirtualApplianceSitesDeleteDefaultResponse,
 ): response is VirtualApplianceSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSitesGet200Response
-    | VirtualApplianceSitesGetDefaultResponse,
+  response: VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse,
 ): response is VirtualApplianceSitesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4571,19 +4396,13 @@ export function isUnexpected(
     | VirtualApplianceSitesCreateOrUpdateDefaultResponse,
 ): response is VirtualApplianceSitesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSitesList200Response
-    | VirtualApplianceSitesListDefaultResponse,
+  response: VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse,
 ): response is VirtualApplianceSitesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSkusList200Response
-    | VirtualApplianceSkusListDefaultResponse,
+  response: VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse,
 ): response is VirtualApplianceSkusListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualApplianceSkusGet200Response
-    | VirtualApplianceSkusGetDefaultResponse,
+  response: VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse,
 ): response is VirtualApplianceSkusGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4607,22 +4426,16 @@ export function isUnexpected(
     | NetworkWatchersDeleteDefaultResponse,
 ): response is NetworkWatchersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersUpdateTags200Response
-    | NetworkWatchersUpdateTagsDefaultResponse,
+  response: NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse,
 ): response is NetworkWatchersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: NetworkWatchersList200Response | NetworkWatchersListDefaultResponse,
 ): response is NetworkWatchersListDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersListAll200Response
-    | NetworkWatchersListAllDefaultResponse,
+  response: NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse,
 ): response is NetworkWatchersListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | NetworkWatchersGetTopology200Response
-    | NetworkWatchersGetTopologyDefaultResponse,
+  response: NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse,
 ): response is NetworkWatchersGetTopologyDefaultResponse;
 export function isUnexpected(
   response:
@@ -4691,9 +4504,7 @@ export function isUnexpected(
     | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse,
 ): response is NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse;
 export function isUnexpected(
-  response:
-    | PacketCapturesCreate201Response
-    | PacketCapturesCreateDefaultResponse,
+  response: PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse,
 ): response is PacketCapturesCreateDefaultResponse;
 export function isUnexpected(
   response: PacketCapturesGet200Response | PacketCapturesGetDefaultResponse,
@@ -4726,9 +4537,7 @@ export function isUnexpected(
     | ConnectionMonitorsCreateOrUpdateDefaultResponse,
 ): response is ConnectionMonitorsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsGet200Response
-    | ConnectionMonitorsGetDefaultResponse,
+  response: ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse,
 ): response is ConnectionMonitorsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4737,9 +4546,7 @@ export function isUnexpected(
     | ConnectionMonitorsDeleteDefaultResponse,
 ): response is ConnectionMonitorsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsUpdateTags200Response
-    | ConnectionMonitorsUpdateTagsDefaultResponse,
+  response: ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse,
 ): response is ConnectionMonitorsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -4760,9 +4567,7 @@ export function isUnexpected(
     | ConnectionMonitorsQueryDefaultResponse,
 ): response is ConnectionMonitorsQueryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionMonitorsList200Response
-    | ConnectionMonitorsListDefaultResponse,
+  response: ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse,
 ): response is ConnectionMonitorsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4777,10 +4582,7 @@ export function isUnexpected(
   response: FlowLogsGet200Response | FlowLogsGetDefaultResponse,
 ): response is FlowLogsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | FlowLogsDelete202Response
-    | FlowLogsDelete204Response
-    | FlowLogsDeleteDefaultResponse,
+  response: FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse,
 ): response is FlowLogsDeleteDefaultResponse;
 export function isUnexpected(
   response: FlowLogsList200Response | FlowLogsListDefaultResponse,
@@ -4805,9 +4607,7 @@ export function isUnexpected(
     | PrivateEndpointsCreateOrUpdateDefaultResponse,
 ): response is PrivateEndpointsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateEndpointsList200Response
-    | PrivateEndpointsListDefaultResponse,
+  response: PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse,
 ): response is PrivateEndpointsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4832,9 +4632,7 @@ export function isUnexpected(
     | PrivateDnsZoneGroupsDeleteDefaultResponse,
 ): response is PrivateDnsZoneGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateDnsZoneGroupsGet200Response
-    | PrivateDnsZoneGroupsGetDefaultResponse,
+  response: PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse,
 ): response is PrivateDnsZoneGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4843,9 +4641,7 @@ export function isUnexpected(
     | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse,
 ): response is PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateDnsZoneGroupsList200Response
-    | PrivateDnsZoneGroupsListDefaultResponse,
+  response: PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse,
 ): response is PrivateDnsZoneGroupsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4855,9 +4651,7 @@ export function isUnexpected(
     | PrivateLinkServicesDeleteDefaultResponse,
 ): response is PrivateLinkServicesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkServicesGet200Response
-    | PrivateLinkServicesGetDefaultResponse,
+  response: PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse,
 ): response is PrivateLinkServicesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -4866,9 +4660,7 @@ export function isUnexpected(
     | PrivateLinkServicesCreateOrUpdateDefaultResponse,
 ): response is PrivateLinkServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkServicesList200Response
-    | PrivateLinkServicesListDefaultResponse,
+  response: PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse,
 ): response is PrivateLinkServicesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4936,19 +4728,13 @@ export function isUnexpected(
     | PublicIPPrefixesCreateOrUpdateDefaultResponse,
 ): response is PublicIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesUpdateTags200Response
-    | PublicIPPrefixesUpdateTagsDefaultResponse,
+  response: PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse,
 ): response is PublicIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesListAll200Response
-    | PublicIPPrefixesListAllDefaultResponse,
+  response: PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse,
 ): response is PublicIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | PublicIPPrefixesList200Response
-    | PublicIPPrefixesListDefaultResponse,
+  response: PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse,
 ): response is PublicIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -4967,9 +4753,7 @@ export function isUnexpected(
     | RouteFiltersCreateOrUpdateDefaultResponse,
 ): response is RouteFiltersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RouteFiltersUpdateTags200Response
-    | RouteFiltersUpdateTagsDefaultResponse,
+  response: RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse,
 ): response is RouteFiltersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -5017,9 +4801,7 @@ export function isUnexpected(
     | RouteTablesCreateOrUpdateDefaultResponse,
 ): response is RouteTablesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RouteTablesUpdateTags200Response
-    | RouteTablesUpdateTagsDefaultResponse,
+  response: RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse,
 ): response is RouteTablesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response: RouteTablesList200Response | RouteTablesListDefaultResponse,
@@ -5054,9 +4836,7 @@ export function isUnexpected(
     | SecurityPartnerProvidersDeleteDefaultResponse,
 ): response is SecurityPartnerProvidersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | SecurityPartnerProvidersGet200Response
-    | SecurityPartnerProvidersGetDefaultResponse,
+  response: SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse,
 ): response is SecurityPartnerProvidersGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5075,14 +4855,10 @@ export function isUnexpected(
     | SecurityPartnerProvidersListByResourceGroupDefaultResponse,
 ): response is SecurityPartnerProvidersListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | SecurityPartnerProvidersList200Response
-    | SecurityPartnerProvidersListDefaultResponse,
+  response: SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse,
 ): response is SecurityPartnerProvidersListDefaultResponse;
 export function isUnexpected(
-  response:
-    | BgpServiceCommunitiesList200Response
-    | BgpServiceCommunitiesListDefaultResponse,
+  response: BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse,
 ): response is BgpServiceCommunitiesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5092,9 +4868,7 @@ export function isUnexpected(
     | ServiceEndpointPoliciesDeleteDefaultResponse,
 ): response is ServiceEndpointPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceEndpointPoliciesGet200Response
-    | ServiceEndpointPoliciesGetDefaultResponse,
+  response: ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse,
 ): response is ServiceEndpointPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5108,9 +4882,7 @@ export function isUnexpected(
     | ServiceEndpointPoliciesUpdateTagsDefaultResponse,
 ): response is ServiceEndpointPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceEndpointPoliciesList200Response
-    | ServiceEndpointPoliciesListDefaultResponse,
+  response: ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse,
 ): response is ServiceEndpointPoliciesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5144,9 +4916,7 @@ export function isUnexpected(
   response: ServiceTagsList200Response | ServiceTagsListDefaultResponse,
 ): response is ServiceTagsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceTagInformationList200Response
-    | ServiceTagInformationListDefaultResponse,
+  response: ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse,
 ): response is ServiceTagInformationListDefaultResponse;
 export function isUnexpected(
   response: UsagesList200Response | UsagesListDefaultResponse,
@@ -5168,14 +4938,10 @@ export function isUnexpected(
     | VirtualNetworksCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworksCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksUpdateTags200Response
-    | VirtualNetworksUpdateTagsDefaultResponse,
+  response: VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse,
 ): response is VirtualNetworksUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksListAll200Response
-    | VirtualNetworksListAllDefaultResponse,
+  response: VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse,
 ): response is VirtualNetworksListAllDefaultResponse;
 export function isUnexpected(
   response: VirtualNetworksList200Response | VirtualNetworksListDefaultResponse,
@@ -5186,9 +4952,7 @@ export function isUnexpected(
     | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse,
 ): response is VirtualNetworksCheckIPAddressAvailabilityDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworksListUsage200Response
-    | VirtualNetworksListUsageDefaultResponse,
+  response: VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse,
 ): response is VirtualNetworksListUsageDefaultResponse;
 export function isUnexpected(
   response:
@@ -5228,14 +4992,10 @@ export function isUnexpected(
   response: SubnetsList200Response | SubnetsListDefaultResponse,
 ): response is SubnetsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ResourceNavigationLinksList200Response
-    | ResourceNavigationLinksListDefaultResponse,
+  response: ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse,
 ): response is ResourceNavigationLinksListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServiceAssociationLinksList200Response
-    | ServiceAssociationLinksListDefaultResponse,
+  response: ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse,
 ): response is ServiceAssociationLinksListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5245,9 +5005,7 @@ export function isUnexpected(
     | VirtualNetworkPeeringsDeleteDefaultResponse,
 ): response is VirtualNetworkPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkPeeringsGet200Response
-    | VirtualNetworkPeeringsGetDefaultResponse,
+  response: VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse,
 ): response is VirtualNetworkPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5256,9 +5014,7 @@ export function isUnexpected(
     | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkPeeringsList200Response
-    | VirtualNetworkPeeringsListDefaultResponse,
+  response: VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse,
 ): response is VirtualNetworkPeeringsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5267,9 +5023,7 @@ export function isUnexpected(
     | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkGatewaysGet200Response
-    | VirtualNetworkGatewaysGetDefaultResponse,
+  response: VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse,
 ): response is VirtualNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5285,9 +5039,7 @@ export function isUnexpected(
     | VirtualNetworkGatewaysUpdateTagsDefaultResponse,
 ): response is VirtualNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkGatewaysList200Response
-    | VirtualNetworkGatewaysListDefaultResponse,
+  response: VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse,
 ): response is VirtualNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5463,9 +5215,7 @@ export function isUnexpected(
     | LocalNetworkGatewaysCreateOrUpdateDefaultResponse,
 ): response is LocalNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | LocalNetworkGatewaysGet200Response
-    | LocalNetworkGatewaysGetDefaultResponse,
+  response: LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse,
 ): response is LocalNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5480,9 +5230,7 @@ export function isUnexpected(
     | LocalNetworkGatewaysUpdateTagsDefaultResponse,
 ): response is LocalNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LocalNetworkGatewaysList200Response
-    | LocalNetworkGatewaysListDefaultResponse,
+  response: LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse,
 ): response is LocalNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5515,9 +5263,7 @@ export function isUnexpected(
     | VirtualNetworkTapsDeleteDefaultResponse,
 ): response is VirtualNetworkTapsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsGet200Response
-    | VirtualNetworkTapsGetDefaultResponse,
+  response: VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse,
 ): response is VirtualNetworkTapsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5526,14 +5272,10 @@ export function isUnexpected(
     | VirtualNetworkTapsCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkTapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsUpdateTags200Response
-    | VirtualNetworkTapsUpdateTagsDefaultResponse,
+  response: VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse,
 ): response is VirtualNetworkTapsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualNetworkTapsListAll200Response
-    | VirtualNetworkTapsListAllDefaultResponse,
+  response: VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse,
 ): response is VirtualNetworkTapsListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -5572,9 +5314,7 @@ export function isUnexpected(
     | VirtualRouterPeeringsDeleteDefaultResponse,
 ): response is VirtualRouterPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualRouterPeeringsGet200Response
-    | VirtualRouterPeeringsGetDefaultResponse,
+  response: VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse,
 ): response is VirtualRouterPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5583,9 +5323,7 @@ export function isUnexpected(
     | VirtualRouterPeeringsCreateOrUpdateDefaultResponse,
 ): response is VirtualRouterPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualRouterPeeringsList200Response
-    | VirtualRouterPeeringsListDefaultResponse,
+  response: VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse,
 ): response is VirtualRouterPeeringsListDefaultResponse;
 export function isUnexpected(
   response: VirtualWansGet200Response | VirtualWansGetDefaultResponse,
@@ -5597,9 +5335,7 @@ export function isUnexpected(
     | VirtualWansCreateOrUpdateDefaultResponse,
 ): response is VirtualWansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualWansUpdateTags200Response
-    | VirtualWansUpdateTagsDefaultResponse,
+  response: VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse,
 ): response is VirtualWansUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -5636,9 +5372,7 @@ export function isUnexpected(
     | VpnSitesDeleteDefaultResponse,
 ): response is VpnSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSitesListByResourceGroup200Response
-    | VpnSitesListByResourceGroupDefaultResponse,
+  response: VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse,
 ): response is VpnSitesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: VpnSitesList200Response | VpnSitesListDefaultResponse,
@@ -5647,9 +5381,7 @@ export function isUnexpected(
   response: VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse,
 ): response is VpnSiteLinksGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSiteLinksListByVpnSite200Response
-    | VpnSiteLinksListByVpnSiteDefaultResponse,
+  response: VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse,
 ): response is VpnSiteLinksListByVpnSiteDefaultResponse;
 export function isUnexpected(
   response:
@@ -5658,9 +5390,7 @@ export function isUnexpected(
     | VpnSitesConfigurationDownloadDefaultResponse,
 ): response is VpnSitesConfigurationDownloadDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnServerConfigurationsGet200Response
-    | VpnServerConfigurationsGetDefaultResponse,
+  response: VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse,
 ): response is VpnServerConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5686,9 +5416,7 @@ export function isUnexpected(
     | VpnServerConfigurationsListByResourceGroupDefaultResponse,
 ): response is VpnServerConfigurationsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnServerConfigurationsList200Response
-    | VpnServerConfigurationsListDefaultResponse,
+  response: VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse,
 ): response is VpnServerConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -5704,9 +5432,7 @@ export function isUnexpected(
     | ConfigurationPolicyGroupsDeleteDefaultResponse,
 ): response is ConfigurationPolicyGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConfigurationPolicyGroupsGet200Response
-    | ConfigurationPolicyGroupsGetDefaultResponse,
+  response: ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse,
 ): response is ConfigurationPolicyGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -5723,9 +5449,7 @@ export function isUnexpected(
     | VirtualHubsCreateOrUpdateDefaultResponse,
 ): response is VirtualHubsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubsUpdateTags200Response
-    | VirtualHubsUpdateTagsDefaultResponse,
+  response: VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse,
 ): response is VirtualHubsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -5900,9 +5624,7 @@ export function isUnexpected(
     | VpnConnectionsListByVpnGatewayDefaultResponse,
 ): response is VpnConnectionsListByVpnGatewayDefaultResponse;
 export function isUnexpected(
-  response:
-    | VpnSiteLinkConnectionsGet200Response
-    | VpnSiteLinkConnectionsGetDefaultResponse,
+  response: VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse,
 ): response is VpnSiteLinkConnectionsGetDefaultResponse;
 export function isUnexpected(
   response: NatRulesGet200Response | NatRulesGetDefaultResponse,
@@ -5921,9 +5643,7 @@ export function isUnexpected(
     | NatRulesDeleteDefaultResponse,
 ): response is NatRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NatRulesListByVpnGateway200Response
-    | NatRulesListByVpnGatewayDefaultResponse,
+  response: NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse,
 ): response is NatRulesListByVpnGatewayDefaultResponse;
 export function isUnexpected(
   response: P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse,
@@ -5992,9 +5712,7 @@ export function isUnexpected(
     | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse,
 ): response is VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubRouteTableV2SGet200Response
-    | VirtualHubRouteTableV2SGetDefaultResponse,
+  response: VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse,
 ): response is VirtualHubRouteTableV2SGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6010,9 +5728,7 @@ export function isUnexpected(
     | VirtualHubRouteTableV2SDeleteDefaultResponse,
 ): response is VirtualHubRouteTableV2SDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubRouteTableV2SList200Response
-    | VirtualHubRouteTableV2SListDefaultResponse,
+  response: VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse,
 ): response is VirtualHubRouteTableV2SListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6037,9 +5753,7 @@ export function isUnexpected(
     | ExpressRouteGatewaysUpdateTagsDefaultResponse,
 ): response is ExpressRouteGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteGatewaysGet200Response
-    | ExpressRouteGatewaysGetDefaultResponse,
+  response: ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse,
 ): response is ExpressRouteGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6055,9 +5769,7 @@ export function isUnexpected(
     | ExpressRouteConnectionsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteConnectionsGet200Response
-    | ExpressRouteConnectionsGetDefaultResponse,
+  response: ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse,
 ): response is ExpressRouteConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6067,14 +5779,10 @@ export function isUnexpected(
     | ExpressRouteConnectionsDeleteDefaultResponse,
 ): response is ExpressRouteConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExpressRouteConnectionsList200Response
-    | ExpressRouteConnectionsListDefaultResponse,
+  response: ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse,
 ): response is ExpressRouteConnectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubBgpConnectionGet200Response
-    | VirtualHubBgpConnectionGetDefaultResponse,
+  response: VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse,
 ): response is VirtualHubBgpConnectionGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6090,9 +5798,7 @@ export function isUnexpected(
     | VirtualHubBgpConnectionDeleteDefaultResponse,
 ): response is VirtualHubBgpConnectionDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubBgpConnectionsList200Response
-    | VirtualHubBgpConnectionsListDefaultResponse,
+  response: VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse,
 ): response is VirtualHubBgpConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6107,9 +5813,7 @@ export function isUnexpected(
     | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse,
 ): response is VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubIpConfigurationGet200Response
-    | VirtualHubIpConfigurationGetDefaultResponse,
+  response: VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse,
 ): response is VirtualHubIpConfigurationGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -6125,9 +5829,7 @@ export function isUnexpected(
     | VirtualHubIpConfigurationDeleteDefaultResponse,
 ): response is VirtualHubIpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | VirtualHubIpConfigurationList200Response
-    | VirtualHubIpConfigurationListDefaultResponse,
+  response: VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse,
 ): response is VirtualHubIpConfigurationListDefaultResponse;
 export function isUnexpected(
   response:
@@ -6199,10 +5901,7 @@ export function isUnexpected(
   response: VipSwapGet200Response | VipSwapGetDefaultResponse,
 ): response is VipSwapGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | VipSwapCreate200Response
-    | VipSwapCreate202Response
-    | VipSwapCreateDefaultResponse,
+  response: VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse,
 ): response is VipSwapCreateDefaultResponse;
 export function isUnexpected(
   response: VipSwapList200Response | VipSwapListDefaultResponse,
@@ -8420,24 +8119,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;
