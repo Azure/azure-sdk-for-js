@@ -12,7 +12,6 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import type {
   AvailabilitySetsCreateOrUpdateParameters,
   AvailabilitySetsDeleteParameters,
@@ -30,6 +29,8 @@ import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js
 import type { NetworkInterface, Subnet, VirtualNetwork } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
