@@ -3,12 +3,7 @@
 ### 1.0.0-beta.2 (Unreleased)
 
 #### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
+- Refresh sdk with latest codegen
 
 ### 1.0.0-beta.1 (2021-09-22)
 

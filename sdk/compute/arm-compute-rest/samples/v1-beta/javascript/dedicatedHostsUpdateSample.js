@@ -25,20 +25,6 @@ async function dedicatedHostsUpdateMaximumSetGen() {
     body: {
       properties: {
         autoReplaceOnFailure: true,
-        instanceView: {
-          availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
-          },
-          statuses: [
-            {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z"),
-            },
-          ],
-        },
         licenseType: "Windows_Server_Hybrid",
         platformFaultDomain: 1,
       },
