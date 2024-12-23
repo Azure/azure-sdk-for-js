@@ -3,7 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type {
@@ -12,6 +11,7 @@ import type {
   ManagedClusterUpgradeProfileOutput,
 } from "../../src/index.js";
 import ContainerServiceManagementClient, { getLongRunningPoller, paginate } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
