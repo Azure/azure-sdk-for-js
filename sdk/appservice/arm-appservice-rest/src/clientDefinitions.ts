@@ -654,7 +654,7 @@ import type {
   WebAppsUpdateVnetConnectionGatewayParameters,
   WebAppsListWebJobsParameters,
   WebAppsGetWebJobParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   AppServiceCertificateOrdersList200Response,
   AppServiceCertificateOrdersListDefaultResponse,
@@ -2185,7 +2185,7 @@ import type {
   WebAppsListWebJobsDefaultResponse,
   WebAppsGetWebJob200Response,
   WebAppsGetWebJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AppServiceCertificateOrdersList {

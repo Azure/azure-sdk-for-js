@@ -6,8 +6,8 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { WebSiteManagementClient } from "../../../src/index";
-import WebSiteClient from "../../../src/index";
+import type { WebSiteManagementClient } from "../../../src/index.js";
+import WebSiteClient from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

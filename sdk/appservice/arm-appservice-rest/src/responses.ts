@@ -174,7 +174,7 @@ import type {
   TriggeredJobHistoryOutput,
   WebJobCollectionOutput,
   WebJobOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** List all certificate orders in a subscription. */
 export interface AppServiceCertificateOrdersList200Response extends HttpResponse {

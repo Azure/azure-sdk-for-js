@@ -1531,7 +1531,7 @@ import type {
   WebAppsListWebJobsDefaultResponse,
   WebAppsGetWebJob200Response,
   WebAppsGetWebJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/certificateOrders":
