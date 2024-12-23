@@ -379,7 +379,9 @@ export function copyObject(obj: any): any {
     if (obj === null || typeof obj !== "object") {
       return obj;
     }
-
+    if (obj instanceof Date) {
+      return new Date(obj.getTime());
+    }
     if (Array.isArray(obj)) {
       const arrCopy = [];
       for (const item of obj) {
@@ -396,7 +398,6 @@ export function copyObject(obj: any): any {
     }
     return objCopy;
   }
-
   return deepCopyRecursive(obj);
 }
 
