@@ -83,7 +83,7 @@ describe("My test", () => {
           location: location,
         },
       });
-    const poller = getLongRunningPoller(client, initalResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initalResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     console.log(result);
     assert.equal(result.status, "200");
@@ -144,7 +144,7 @@ describe("My test", () => {
           tags: { tier: "testing", archv3: "" },
         },
       });
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.equal(res.status, "200");
     assert.equal(
@@ -162,7 +162,7 @@ describe("My test", () => {
         resourceName,
       )
       .delete();
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.isOk(res.status);
     const listInitialResponse = await client

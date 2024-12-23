@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
-  AgentPool,
-  MaintenanceConfiguration,
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   ManagedCluster,
-  ManagedClusterAADProfile,
+  TagsObject,
   ManagedClusterServicePrincipalProfile,
-  ManagedClusterSnapshot,
+  ManagedClusterAADProfile,
+  RunCommandRequest,
+  MaintenanceConfiguration,
+  AgentPool,
   PrivateEndpointConnection,
   PrivateLinkResource,
-  RunCommandRequest,
   Snapshot,
-  TagsObject,
+  ManagedClusterSnapshot,
   TrustedAccessRoleBinding,
 } from "./models";
 
@@ -28,8 +28,8 @@ export interface ManagedClustersGetOSOptionsQueryParam {
   queryParameters?: ManagedClustersGetOSOptionsQueryParamProperties;
 }
 
-export type ManagedClustersGetOSOptionsParameters = ManagedClustersGetOSOptionsQueryParam &
-  RequestParameters;
+export type ManagedClustersGetOSOptionsParameters =
+  ManagedClustersGetOSOptionsQueryParam & RequestParameters;
 export type ManagedClustersListParameters = RequestParameters;
 export type ManagedClustersListByResourceGroupParameters = RequestParameters;
 export type ManagedClustersGetUpgradeProfileParameters = RequestParameters;
@@ -71,7 +71,8 @@ export interface ManagedClustersListClusterMonitoringUserCredentialsQueryParam {
 }
 
 export type ManagedClustersListClusterMonitoringUserCredentialsParameters =
-  ManagedClustersListClusterMonitoringUserCredentialsQueryParam & RequestParameters;
+  ManagedClustersListClusterMonitoringUserCredentialsQueryParam &
+    RequestParameters;
 export type ManagedClustersGetParameters = RequestParameters;
 
 export interface ManagedClustersCreateOrUpdateBodyParam {
@@ -84,9 +85,10 @@ export interface ManagedClustersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClustersCreateOrUpdateParameters = ManagedClustersCreateOrUpdateMediaTypesParam &
-  ManagedClustersCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ManagedClustersCreateOrUpdateParameters =
+  ManagedClustersCreateOrUpdateMediaTypesParam &
+    ManagedClustersCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface ManagedClustersUpdateTagsBodyParam {
   /** Parameters supplied to the Update Managed Cluster Tags operation. */
@@ -98,9 +100,10 @@ export interface ManagedClustersUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClustersUpdateTagsParameters = ManagedClustersUpdateTagsMediaTypesParam &
-  ManagedClustersUpdateTagsBodyParam &
-  RequestParameters;
+export type ManagedClustersUpdateTagsParameters =
+  ManagedClustersUpdateTagsMediaTypesParam &
+    ManagedClustersUpdateTagsBodyParam &
+    RequestParameters;
 
 export interface ManagedClustersDeleteQueryParamProperties {
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
@@ -111,7 +114,8 @@ export interface ManagedClustersDeleteQueryParam {
   queryParameters?: ManagedClustersDeleteQueryParamProperties;
 }
 
-export type ManagedClustersDeleteParameters = ManagedClustersDeleteQueryParam & RequestParameters;
+export type ManagedClustersDeleteParameters = ManagedClustersDeleteQueryParam &
+  RequestParameters;
 
 export interface ManagedClustersResetServicePrincipalProfileBodyParam {
   /** The service principal profile to set on the managed cluster. */
@@ -142,8 +146,10 @@ export type ManagedClustersResetAADProfileParameters =
   ManagedClustersResetAADProfileMediaTypesParam &
     ManagedClustersResetAADProfileBodyParam &
     RequestParameters;
-export type ManagedClustersRotateClusterCertificatesParameters = RequestParameters;
-export type ManagedClustersRotateServiceAccountSigningKeysParameters = RequestParameters;
+export type ManagedClustersRotateClusterCertificatesParameters =
+  RequestParameters;
+export type ManagedClustersRotateServiceAccountSigningKeysParameters =
+  RequestParameters;
 export type ManagedClustersStopParameters = RequestParameters;
 export type ManagedClustersStartParameters = RequestParameters;
 
@@ -157,12 +163,15 @@ export interface ManagedClustersRunCommandMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClustersRunCommandParameters = ManagedClustersRunCommandMediaTypesParam &
-  ManagedClustersRunCommandBodyParam &
-  RequestParameters;
+export type ManagedClustersRunCommandParameters =
+  ManagedClustersRunCommandMediaTypesParam &
+    ManagedClustersRunCommandBodyParam &
+    RequestParameters;
 export type ManagedClustersGetCommandResultParameters = RequestParameters;
-export type ManagedClustersListOutboundNetworkDependenciesEndpointsParameters = RequestParameters;
-export type MaintenanceConfigurationsListByManagedClusterParameters = RequestParameters;
+export type ManagedClustersListOutboundNetworkDependenciesEndpointsParameters =
+  RequestParameters;
+export type MaintenanceConfigurationsListByManagedClusterParameters =
+  RequestParameters;
 export type MaintenanceConfigurationsGetParameters = RequestParameters;
 
 export interface MaintenanceConfigurationsCreateOrUpdateBodyParam {
@@ -193,9 +202,10 @@ export interface AgentPoolsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AgentPoolsCreateOrUpdateParameters = AgentPoolsCreateOrUpdateMediaTypesParam &
-  AgentPoolsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type AgentPoolsCreateOrUpdateParameters =
+  AgentPoolsCreateOrUpdateMediaTypesParam &
+    AgentPoolsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface AgentPoolsDeleteQueryParamProperties {
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
@@ -206,9 +216,11 @@ export interface AgentPoolsDeleteQueryParam {
   queryParameters?: AgentPoolsDeleteQueryParamProperties;
 }
 
-export type AgentPoolsDeleteParameters = AgentPoolsDeleteQueryParam & RequestParameters;
+export type AgentPoolsDeleteParameters = AgentPoolsDeleteQueryParam &
+  RequestParameters;
 export type AgentPoolsGetUpgradeProfileParameters = RequestParameters;
-export type AgentPoolsGetAvailableAgentPoolVersionsParameters = RequestParameters;
+export type AgentPoolsGetAvailableAgentPoolVersionsParameters =
+  RequestParameters;
 export type AgentPoolsUpgradeNodeImageVersionParameters = RequestParameters;
 export type PrivateEndpointConnectionsListParameters = RequestParameters;
 export type PrivateEndpointConnectionsGetParameters = RequestParameters;
@@ -258,9 +270,10 @@ export interface SnapshotsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SnapshotsCreateOrUpdateParameters = SnapshotsCreateOrUpdateMediaTypesParam &
-  SnapshotsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SnapshotsCreateOrUpdateParameters =
+  SnapshotsCreateOrUpdateMediaTypesParam &
+    SnapshotsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface SnapshotsUpdateTagsBodyParam {
   /** Parameters supplied to the Update snapshot Tags operation. */
@@ -277,7 +290,8 @@ export type SnapshotsUpdateTagsParameters = SnapshotsUpdateTagsMediaTypesParam &
   RequestParameters;
 export type SnapshotsDeleteParameters = RequestParameters;
 export type ManagedClusterSnapshotsListParameters = RequestParameters;
-export type ManagedClusterSnapshotsListByResourceGroupParameters = RequestParameters;
+export type ManagedClusterSnapshotsListByResourceGroupParameters =
+  RequestParameters;
 export type ManagedClusterSnapshotsGetParameters = RequestParameters;
 
 export interface ManagedClusterSnapshotsCreateOrUpdateBodyParam {
