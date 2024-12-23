@@ -615,7 +615,7 @@ import {
   VipSwapGetParameters,
   VipSwapCreateParameters,
   VipSwapListParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   ApplicationGatewaysDelete200Response,
   ApplicationGatewaysDelete202Response,
@@ -2182,7 +2182,7 @@ import {
   VipSwapCreateDefaultResponse,
   VipSwapList200Response,
   VipSwapListDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ApplicationGatewaysDelete {

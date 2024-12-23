@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   ExpressRouteCircuitsGetStatsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the stats from an express route circuit in a resource group.

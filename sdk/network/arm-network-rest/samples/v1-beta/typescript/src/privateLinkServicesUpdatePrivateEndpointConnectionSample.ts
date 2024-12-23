@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   PrivateLinkServicesUpdatePrivateEndpointConnectionParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.

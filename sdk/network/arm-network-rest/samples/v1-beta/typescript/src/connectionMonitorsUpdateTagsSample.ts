@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   ConnectionMonitorsUpdateTagsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update tags of the specified connection monitor.

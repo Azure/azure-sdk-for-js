@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   WebApplicationFirewallPoliciesGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve protection policy with specified name within a resource group.

@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   ServiceAssociationLinksListParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of service association links for a subnet.

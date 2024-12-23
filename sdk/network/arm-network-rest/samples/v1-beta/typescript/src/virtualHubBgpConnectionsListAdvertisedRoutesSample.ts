@@ -8,9 +8,7 @@ import createNetworkManagementClient, {
   getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.

@@ -1567,7 +1567,7 @@ import {
   VipSwapCreateDefaultResponse,
   VipSwapList200Response,
   VipSwapListDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}":

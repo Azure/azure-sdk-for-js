@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   ScopeConnectionsCreateOrUpdateParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates scope connection from Network Manager

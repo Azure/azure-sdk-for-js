@@ -4,10 +4,10 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { NetworkManagementClient } from "../../../src/clientDefinitions";
+import type { NetworkManagementClient } from "../../../src/clientDefinitions.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { ClientOptions } from "@azure-rest/core-client";
-import createNetworkManagementClient from "../../../src";
+import createNetworkManagementClient from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

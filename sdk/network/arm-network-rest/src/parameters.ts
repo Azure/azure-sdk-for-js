@@ -142,7 +142,7 @@ import {
   RoutingIntent,
   WebApplicationFirewallPolicy,
   SwapResource,
-} from "./models";
+} from "./models.js";
 
 export interface ApplicationGatewaysDeleteQueryParamProperties {
   /** Api Version */

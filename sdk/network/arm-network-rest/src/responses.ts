@@ -286,7 +286,7 @@ import {
   WebApplicationFirewallPolicyOutput,
   SwapResourceOutput,
   SwapResourceListResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Deletes the specified application gateway. */
 export interface ApplicationGatewaysDelete200Response extends HttpResponse {
