@@ -67,6 +67,6 @@ export class OrderByQueryExecutionContext
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
     await this.bufferMore(diagnosticNode);
-    return super.drainBufferedItems(diagnosticNode);
+    return this.drainBufferedItems();
   }
 }

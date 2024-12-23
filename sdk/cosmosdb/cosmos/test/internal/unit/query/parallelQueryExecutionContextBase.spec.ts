@@ -422,7 +422,7 @@ describe("parallelQueryExecutionContextBase", function () {
     beforeEach(function () {
       options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext);
+      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [ ["", "AA"], ["AA", "BB"], ["BB", "FF"] ]);
       context = new TestParallelQueryExecutionContext(
         clientContext,
         collectionLink,
@@ -499,7 +499,7 @@ describe("parallelQueryExecutionContextBase", function () {
   });
 });
 
-function initializeMockPartitionKeyRanges(
+export function initializeMockPartitionKeyRanges(
   createMockPartitionKeyRange: (
     id: string,
     minInclusive: string,
@@ -515,13 +515,14 @@ function initializeMockPartitionKeyRanges(
     status: string;
   },
   clientContext: ClientContext,
-) {
-  const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
-  const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
-  const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
+  ranges: [string, string][],
+): void {
+  const partitionKeyRanges = ranges.map((range, index) =>
+    createMockPartitionKeyRange(index.toString(), range[0], range[1])
+  );
 
   const fetchAllInternalStub = sinon.stub().resolves({
-    resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+    resources: partitionKeyRanges,
     headers: { "x-ms-request-charge": "1.23" },
     code: 200,
   });
@@ -530,10 +531,10 @@ function initializeMockPartitionKeyRanges(
   } as unknown as QueryIterator<PartitionKeyRange>);
 }
 
-function createTestClientContext(
+export function createTestClientContext(
   options: Partial<CosmosClientOptions>,
   diagnosticLevel: CosmosDbDiagnosticLevel,
-) {
+): ClientContext {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
     connectionPolicy: {
