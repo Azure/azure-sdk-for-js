@@ -10,7 +10,10 @@ import type {
   ManagedClusterOutput,
   ManagedClusterUpgradeProfileOutput,
 } from "../../src/index.js";
-import ContainerServiceManagementClient, { getLongRunningPoller, paginate } from "../../src/index.js";
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+  paginate,
+} from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {

@@ -118,10 +118,7 @@ export interface ManagedClusterIdentityOutput {
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: "SystemAssigned" | "UserAssigned" | "None";
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Record<
-    string,
-    ManagedServiceIdentityUserAssignedIdentitiesValueOutput
-  >;
+  userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValueOutput>;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValueOutput {
@@ -487,8 +484,7 @@ export interface ManagedClusterAddonProfileOutput {
 }
 
 /** Information of user assigned identity used by this add-on. */
-export interface ManagedClusterAddonProfileIdentityOutput
-  extends UserAssignedIdentityOutput {}
+export interface ManagedClusterAddonProfileIdentityOutput extends UserAssignedIdentityOutput {}
 
 /** Details about a user assigned identity. */
 export interface UserAssignedIdentityOutput {
@@ -958,8 +954,7 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItemOutput {
 }
 
 /** Managed cluster Access Profile. */
-export interface ManagedClusterAccessProfileOutput
-  extends TrackedResourceOutput {
+export interface ManagedClusterAccessProfileOutput extends TrackedResourceOutput {
   /** AccessProfile of a managed cluster. */
   properties?: AccessProfileOutput;
 }
@@ -1019,14 +1014,7 @@ export interface MaintenanceConfigurationPropertiesOutput {
 /** Time in a week. */
 export interface TimeInWeekOutput {
   /** The day of the week. */
-  day?:
-    | "Sunday"
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday";
+  day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
   /** Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range. */
   hourSlots?: Array<number>;
 }

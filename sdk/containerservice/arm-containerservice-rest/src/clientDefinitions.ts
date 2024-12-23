@@ -198,9 +198,7 @@ export interface OperationsList {
   /** Gets a list of operations. */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListDefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface ManagedClustersGetOSOptions {
@@ -208,8 +206,7 @@ export interface ManagedClustersGetOSOptions {
   get(
     options?: ManagedClustersGetOSOptionsParameters,
   ): StreamableMethod<
-    | ManagedClustersGetOSOptions200Response
-    | ManagedClustersGetOSOptionsDefaultResponse
+    ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse
   >;
 }
 
@@ -217,9 +214,7 @@ export interface ManagedClustersList {
   /** Gets a list of managed clusters in the specified subscription. */
   get(
     options?: ManagedClustersListParameters,
-  ): StreamableMethod<
-    ManagedClustersList200Response | ManagedClustersListDefaultResponse
-  >;
+  ): StreamableMethod<ManagedClustersList200Response | ManagedClustersListDefaultResponse>;
 }
 
 export interface ManagedClustersListByResourceGroup {
@@ -237,8 +232,7 @@ export interface ManagedClustersGetUpgradeProfile {
   get(
     options?: ManagedClustersGetUpgradeProfileParameters,
   ): StreamableMethod<
-    | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfileDefaultResponse
+    ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfileDefaultResponse
   >;
 }
 
@@ -247,8 +241,7 @@ export interface ManagedClustersGetAccessProfile {
   post(
     options?: ManagedClustersGetAccessProfileParameters,
   ): StreamableMethod<
-    | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfileDefaultResponse
+    ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfileDefaultResponse
   >;
 }
 
@@ -286,9 +279,7 @@ export interface ManagedClustersGet {
   /** Gets a managed cluster. */
   get(
     options?: ManagedClustersGetParameters,
-  ): StreamableMethod<
-    ManagedClustersGet200Response | ManagedClustersGetDefaultResponse
-  >;
+  ): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetDefaultResponse>;
   /** Creates or updates a managed cluster. */
   put(
     options: ManagedClustersCreateOrUpdateParameters,
@@ -301,8 +292,7 @@ export interface ManagedClustersGet {
   patch(
     options: ManagedClustersUpdateTagsParameters,
   ): StreamableMethod<
-    | ManagedClustersUpdateTags200Response
-    | ManagedClustersUpdateTagsDefaultResponse
+    ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse
   >;
   /** Deletes a managed cluster. */
   delete(
@@ -427,8 +417,7 @@ export interface MaintenanceConfigurationsGet {
   get(
     options?: MaintenanceConfigurationsGetParameters,
   ): StreamableMethod<
-    | MaintenanceConfigurationsGet200Response
-    | MaintenanceConfigurationsGetDefaultResponse
+    MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse
   >;
   /** Creates or updates a maintenance configuration in the specified managed cluster. */
   put(
@@ -451,9 +440,7 @@ export interface AgentPoolsList {
   /** Gets a list of agent pools in the specified managed cluster. */
   get(
     options?: AgentPoolsListParameters,
-  ): StreamableMethod<
-    AgentPoolsList200Response | AgentPoolsListDefaultResponse
-  >;
+  ): StreamableMethod<AgentPoolsList200Response | AgentPoolsListDefaultResponse>;
 }
 
 export interface AgentPoolsGet {
@@ -473,9 +460,7 @@ export interface AgentPoolsGet {
   delete(
     options?: AgentPoolsDeleteParameters,
   ): StreamableMethod<
-    | AgentPoolsDelete202Response
-    | AgentPoolsDelete204Response
-    | AgentPoolsDeleteDefaultResponse
+    AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeleteDefaultResponse
   >;
 }
 
@@ -484,8 +469,7 @@ export interface AgentPoolsGetUpgradeProfile {
   get(
     options?: AgentPoolsGetUpgradeProfileParameters,
   ): StreamableMethod<
-    | AgentPoolsGetUpgradeProfile200Response
-    | AgentPoolsGetUpgradeProfileDefaultResponse
+    AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse
   >;
 }
 
@@ -512,8 +496,7 @@ export interface PrivateEndpointConnectionsList {
   get(
     options?: PrivateEndpointConnectionsListParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListDefaultResponse
+    PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListDefaultResponse
   >;
 }
 
@@ -522,15 +505,13 @@ export interface PrivateEndpointConnectionsGet {
   get(
     options?: PrivateEndpointConnectionsGetParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse
+    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
   >;
   /** Updates a private endpoint connection. */
   put(
     options: PrivateEndpointConnectionsUpdateParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdateDefaultResponse
+    PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdateDefaultResponse
   >;
   /** Deletes a private endpoint connection. */
   delete(
@@ -547,8 +528,7 @@ export interface PrivateLinkResourcesList {
   get(
     options?: PrivateLinkResourcesListParameters,
   ): StreamableMethod<
-    | PrivateLinkResourcesList200Response
-    | PrivateLinkResourcesListDefaultResponse
+    PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse
   >;
 }
 
@@ -557,8 +537,7 @@ export interface ResolvePrivateLinkServiceIdPost {
   post(
     options: ResolvePrivateLinkServiceIdPostParameters,
   ): StreamableMethod<
-    | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostDefaultResponse
+    ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostDefaultResponse
   >;
 }
 
@@ -574,8 +553,7 @@ export interface SnapshotsListByResourceGroup {
   get(
     options?: SnapshotsListByResourceGroupParameters,
   ): StreamableMethod<
-    | SnapshotsListByResourceGroup200Response
-    | SnapshotsListByResourceGroupDefaultResponse
+    SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse
   >;
 }
 
@@ -595,16 +573,12 @@ export interface SnapshotsGet {
   /** Updates tags on a snapshot. */
   patch(
     options: SnapshotsUpdateTagsParameters,
-  ): StreamableMethod<
-    SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse
-  >;
+  ): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse>;
   /** Deletes a snapshot. */
   delete(
     options?: SnapshotsDeleteParameters,
   ): StreamableMethod<
-    | SnapshotsDelete200Response
-    | SnapshotsDelete204Response
-    | SnapshotsDeleteDefaultResponse
+    SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeleteDefaultResponse
   >;
 }
 
@@ -613,8 +587,7 @@ export interface ManagedClusterSnapshotsList {
   get(
     options?: ManagedClusterSnapshotsListParameters,
   ): StreamableMethod<
-    | ManagedClusterSnapshotsList200Response
-    | ManagedClusterSnapshotsListDefaultResponse
+    ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse
   >;
 }
 
@@ -633,8 +606,7 @@ export interface ManagedClusterSnapshotsGet {
   get(
     options?: ManagedClusterSnapshotsGetParameters,
   ): StreamableMethod<
-    | ManagedClusterSnapshotsGet200Response
-    | ManagedClusterSnapshotsGetDefaultResponse
+    ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse
   >;
   /** Creates or updates a managed cluster snapshot. */
   put(
@@ -648,8 +620,7 @@ export interface ManagedClusterSnapshotsGet {
   patch(
     options: ManagedClusterSnapshotsUpdateTagsParameters,
   ): StreamableMethod<
-    | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsDefaultResponse
+    ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsDefaultResponse
   >;
   /** Deletes a managed cluster snapshot. */
   delete(
@@ -665,9 +636,7 @@ export interface TrustedAccessRolesList {
   /** List supported trusted access roles. */
   get(
     options?: TrustedAccessRolesListParameters,
-  ): StreamableMethod<
-    TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse
-  >;
+  ): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse>;
 }
 
 export interface TrustedAccessRoleBindingsList {
@@ -675,8 +644,7 @@ export interface TrustedAccessRoleBindingsList {
   get(
     options?: TrustedAccessRoleBindingsListParameters,
   ): StreamableMethod<
-    | TrustedAccessRoleBindingsList200Response
-    | TrustedAccessRoleBindingsListDefaultResponse
+    TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse
   >;
 }
 
@@ -685,8 +653,7 @@ export interface TrustedAccessRoleBindingsGet {
   get(
     options?: TrustedAccessRoleBindingsGetParameters,
   ): StreamableMethod<
-    | TrustedAccessRoleBindingsGet200Response
-    | TrustedAccessRoleBindingsGetDefaultResponse
+    TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse
   >;
   /** Create or update a trusted access role binding */
   put(

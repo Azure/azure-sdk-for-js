@@ -138,8 +138,9 @@ const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.ContainerService/operations": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/osOptions/default":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters": [
+    "200",
+  ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default":
@@ -228,8 +229,7 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}":
@@ -268,9 +268,7 @@ export function isUnexpected(
   response: OperationsList200Response | OperationsListDefaultResponse,
 ): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClustersGetOSOptions200Response
-    | ManagedClustersGetOSOptionsDefaultResponse,
+  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse,
 ): response is ManagedClustersGetOSOptionsDefaultResponse;
 export function isUnexpected(
   response: ManagedClustersList200Response | ManagedClustersListDefaultResponse,
@@ -315,9 +313,7 @@ export function isUnexpected(
     | ManagedClustersCreateOrUpdateDefaultResponse,
 ): response is ManagedClustersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClustersUpdateTags200Response
-    | ManagedClustersUpdateTagsDefaultResponse,
+  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse,
 ): response is ManagedClustersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
@@ -384,9 +380,7 @@ export function isUnexpected(
     | MaintenanceConfigurationsListByManagedClusterDefaultResponse,
 ): response is MaintenanceConfigurationsListByManagedClusterDefaultResponse;
 export function isUnexpected(
-  response:
-    | MaintenanceConfigurationsGet200Response
-    | MaintenanceConfigurationsGetDefaultResponse,
+  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse,
 ): response is MaintenanceConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -418,9 +412,7 @@ export function isUnexpected(
     | AgentPoolsDeleteDefaultResponse,
 ): response is AgentPoolsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentPoolsGetUpgradeProfile200Response
-    | AgentPoolsGetUpgradeProfileDefaultResponse,
+  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse,
 ): response is AgentPoolsGetUpgradeProfileDefaultResponse;
 export function isUnexpected(
   response:
@@ -434,9 +426,7 @@ export function isUnexpected(
     | PrivateEndpointConnectionsListDefaultResponse,
 ): response is PrivateEndpointConnectionsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse,
+  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): response is PrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -450,9 +440,7 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDeleteDefaultResponse,
 ): response is PrivateEndpointConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkResourcesList200Response
-    | PrivateLinkResourcesListDefaultResponse,
+  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse,
 ): response is PrivateLinkResourcesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -463,9 +451,7 @@ export function isUnexpected(
   response: SnapshotsList200Response | SnapshotsListDefaultResponse,
 ): response is SnapshotsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | SnapshotsListByResourceGroup200Response
-    | SnapshotsListByResourceGroupDefaultResponse,
+  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse,
 ): response is SnapshotsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: SnapshotsGet200Response | SnapshotsGetDefaultResponse,
@@ -486,9 +472,7 @@ export function isUnexpected(
     | SnapshotsDeleteDefaultResponse,
 ): response is SnapshotsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClusterSnapshotsList200Response
-    | ManagedClusterSnapshotsListDefaultResponse,
+  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse,
 ): response is ManagedClusterSnapshotsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -496,9 +480,7 @@ export function isUnexpected(
     | ManagedClusterSnapshotsListByResourceGroupDefaultResponse,
 ): response is ManagedClusterSnapshotsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClusterSnapshotsGet200Response
-    | ManagedClusterSnapshotsGetDefaultResponse,
+  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse,
 ): response is ManagedClusterSnapshotsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -518,19 +500,13 @@ export function isUnexpected(
     | ManagedClusterSnapshotsDeleteDefaultResponse,
 ): response is ManagedClusterSnapshotsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRolesList200Response
-    | TrustedAccessRolesListDefaultResponse,
+  response: TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse,
 ): response is TrustedAccessRolesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRoleBindingsList200Response
-    | TrustedAccessRoleBindingsListDefaultResponse,
+  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse,
 ): response is TrustedAccessRoleBindingsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRoleBindingsGet200Response
-    | TrustedAccessRoleBindingsGetDefaultResponse,
+  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse,
 ): response is TrustedAccessRoleBindingsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -763,24 +739,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;
