@@ -163,7 +163,7 @@ Azure Communication Services support sending email with inline attachments.
 Adding an optional `contentId` parameter to an `attachment` will make it an inline attachment.
 
 ```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
-const imageBuffer = fs.readFileSync("C:/path/to/my_inline_image.jpg");
+const imageBuffer = await fs.readFile("C:/path/to/my_inline_image.jpg");
 const contentInBase64 = imageBuffer.toString("base64");
 
 const message = {
