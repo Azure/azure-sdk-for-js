@@ -25,6 +25,7 @@ export {
   FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
+  FilePosixProperties,
   Metadata,
   TimeNowType,
   TimePreserveType,
