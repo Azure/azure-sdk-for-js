@@ -523,7 +523,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.correlatedActivityId,
     );
   }
-  public async drainBufferedItems(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async drainBufferedItems(): Promise<Response<any>> {
     return new Promise<Response<any>>((resolve, reject) => {
       this.sem.take(() => {
         if (this.err) {
@@ -693,6 +693,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         try {
           if (isOrderBy) {
+            console.log("order by queue");
             while (
               this.unfilledDocumentProducersQueue.isEmpty() &&
               this.bufferedDocumentProducersQueue.size() > 0
@@ -727,11 +728,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // release the lock before returning
           this.sem.leave();
         }
-
-        resolve({
-          result: undefined,
-          headers: this._getAndResetActiveResponseHeaders(),
-        });
       });
     });
   }

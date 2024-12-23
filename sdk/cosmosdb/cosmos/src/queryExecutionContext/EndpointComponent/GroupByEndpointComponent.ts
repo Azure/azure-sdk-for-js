@@ -110,4 +110,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
+
+  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    await this.executionContext.bufferMore(diagnosticNode);
+  }
 }
