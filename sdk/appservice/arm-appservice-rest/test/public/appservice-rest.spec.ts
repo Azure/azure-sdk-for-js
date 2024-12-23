@@ -56,7 +56,7 @@ describe("Web test", () => {
           },
         },
       });
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.strictEqual(res.status, "200");
     assert.isTrue(res.body !== undefined);
@@ -97,7 +97,7 @@ describe("Web test", () => {
           },
         },
       });
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.strictEqual(res.status, "200");
     assert.isTrue(res.body !== undefined);

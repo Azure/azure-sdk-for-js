@@ -9,7 +9,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { WebSiteManagementClient } from "../../../src/index";
 import WebSiteClient from "../../../src/index";
 
-const envSetupForPlayback: { [k: string]: string } = {
+const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -20,6 +20,10 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 /**
@@ -27,6 +31,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
+
 export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
