@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  SharedGalleriesGetParameters
+  SharedGalleriesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function getASharedGallery() {
   const location = "myLocation";
   const galleryUniqueName = "galleryUniqueName";
   const options: SharedGalleriesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
       subscriptionId,
       location,
-      galleryUniqueName
+      galleryUniqueName,
     )
     .get(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsListSkusParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,14 +25,14 @@ async function virtualMachineScaleSetsListSkusMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const options: VirtualMachineScaleSetsListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -57,14 +57,14 @@ async function virtualMachineScaleSetsListSkusMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

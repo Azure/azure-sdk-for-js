@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMsDeallocateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsDeallocateParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,10 +34,10 @@ async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetVMSDeallocateMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaa";
   const options: VirtualMachineScaleSetVMsDeallocateParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -65,10 +65,10 @@ async function virtualMachineScaleSetVMSDeallocateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

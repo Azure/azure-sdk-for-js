@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryApplicationVersionsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,25 +34,25 @@ async function updateASimpleGalleryApplicationVersion() {
           manageActions: {
             install:
               'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:package"',
-            remove: "del C:package "
+            remove: "del C:package ",
           },
           replicaCount: 1,
           source: {
             mediaLink:
-              "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}"
+              "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}",
           },
           storageAccountType: "Standard_LRS",
           targetRegions: [
             {
               name: "West US",
               regionalReplicaCount: 1,
-              storageAccountType: "Standard_LRS"
-            }
-          ]
-        }
-      }
+              storageAccountType: "Standard_LRS",
+            },
+          ],
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -61,10 +61,10 @@ async function updateASimpleGalleryApplicationVersion() {
       resourceGroupName,
       galleryName,
       galleryApplicationName,
-      galleryApplicationVersionName
+      galleryApplicationVersionName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

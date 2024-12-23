@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   SharedGalleryImageVersionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function listSharedGalleryImageVersions() {
   const galleryUniqueName = "galleryUniqueName";
   const galleryImageName = "myGalleryImageName";
   const options: SharedGalleryImageVersionsListParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +34,7 @@ async function listSharedGalleryImageVersions() {
       subscriptionId,
       location,
       galleryUniqueName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

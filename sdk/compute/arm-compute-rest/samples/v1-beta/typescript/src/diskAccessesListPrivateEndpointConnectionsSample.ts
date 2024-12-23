@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskAccessesListPrivateEndpointConnectionsParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,14 +25,14 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   const resourceGroupName = "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const options: DiskAccessesListPrivateEndpointConnectionsParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -43,6 +43,4 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   console.log(result);
 }
 
-getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource().catch(
-  console.error
-);
+getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource().catch(console.error);

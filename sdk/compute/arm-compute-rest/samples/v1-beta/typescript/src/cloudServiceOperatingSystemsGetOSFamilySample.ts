@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceOperatingSystemsGetOSFamilyParameters
+  CloudServiceOperatingSystemsGetOSFamilyParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function getCloudServiceOSFamily() {
   const location = "westus2";
   const osFamilyName = "3";
   const options: CloudServiceOperatingSystemsGetOSFamilyParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
       subscriptionId,
       location,
-      osFamilyName
+      osFamilyName,
     )
     .get(options);
   console.log(result);

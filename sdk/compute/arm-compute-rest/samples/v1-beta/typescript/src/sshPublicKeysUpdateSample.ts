@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  SshPublicKeysUpdateParameters
+  SshPublicKeysUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,16 +26,16 @@ async function sshPublicKeysUpdateMaximumSetGen() {
   const options: SshPublicKeysUpdateParameters = {
     body: {
       properties: { publicKey: "{ssh-rsa public key}" },
-      tags: { key2854: "a" }
+      tags: { key2854: "a" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .patch(options);
   console.log(result);
@@ -56,14 +56,14 @@ async function sshPublicKeysUpdateMinimumSetGen() {
   const sshPublicKeyName = "aaaaaaaaaaa";
   const options: SshPublicKeysUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .patch(options);
   console.log(result);

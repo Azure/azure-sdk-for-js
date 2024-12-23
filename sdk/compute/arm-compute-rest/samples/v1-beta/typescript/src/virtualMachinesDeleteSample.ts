@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachinesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,17 +25,17 @@ async function forceDeleteAVM() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesDeleteParameters = {
-    queryParameters: { forceDeletion: true, "api-version": "2022-08-01" }
+    queryParameters: { forceDeletion: true, "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

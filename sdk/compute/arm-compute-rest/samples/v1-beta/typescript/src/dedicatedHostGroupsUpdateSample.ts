@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  DedicatedHostGroupsUpdateParameters
+  DedicatedHostGroupsUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,7 +30,7 @@ async function dedicatedHostGroupsUpdateMaximumSetGen() {
           hosts: [
             {
               availableCapacity: {
-                allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
+                allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
               },
               statuses: [
                 {
@@ -38,26 +38,26 @@ async function dedicatedHostGroupsUpdateMaximumSetGen() {
                   displayStatus: "aaaaaa",
                   level: "Info",
                   message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z")
-                }
-              ]
-            }
-          ]
+                  time: new Date("2021-11-30T12:58:26.522Z"),
+                },
+              ],
+            },
+          ],
         },
         platformFaultDomainCount: 3,
-        supportAutomaticPlacement: true
+        supportAutomaticPlacement: true,
       },
       tags: { key9921: "aaaaaaaaaa" },
-      zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+      zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .patch(options);
   console.log(result);
@@ -78,14 +78,14 @@ async function dedicatedHostGroupsUpdateMinimumSetGen() {
   const hostGroupName = "aaaaaaaaaaa";
   const options: DedicatedHostGroupsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .patch(options);
   console.log(result);

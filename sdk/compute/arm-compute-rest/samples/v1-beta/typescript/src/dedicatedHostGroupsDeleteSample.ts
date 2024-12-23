@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  DedicatedHostGroupsDeleteParameters
+  DedicatedHostGroupsDeleteParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function dedicatedHostGroupsDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const hostGroupName = "a";
   const options: DedicatedHostGroupsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .delete(options);
   console.log(result);
@@ -51,14 +51,14 @@ async function dedicatedHostGroupsDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const hostGroupName = "aaaa";
   const options: DedicatedHostGroupsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .delete(options);
   console.log(result);

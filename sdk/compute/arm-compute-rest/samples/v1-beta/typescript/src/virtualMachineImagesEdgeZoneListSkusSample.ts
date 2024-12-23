@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesEdgeZoneListSkusParameters
+  VirtualMachineImagesEdgeZoneListSkusParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
   const publisherName = "aaaaaaaaaaaa";
   const offer = "aaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -35,7 +35,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
       location,
       edgeZone,
       publisherName,
-      offer
+      offer,
     )
     .get(options);
   console.log(result);
@@ -57,7 +57,7 @@ async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
   const publisherName = "aaaaaaaaa";
   const offer = "aaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -66,7 +66,7 @@ async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
       location,
       edgeZone,
       publisherName,
-      offer
+      offer,
     )
     .get(options);
   console.log(result);

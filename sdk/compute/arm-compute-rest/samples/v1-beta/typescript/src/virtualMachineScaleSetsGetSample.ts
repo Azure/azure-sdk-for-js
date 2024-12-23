@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetsGetParameters
+  VirtualMachineScaleSetsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function getVMScaleSetVMWithDiskControllerType() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01", $expand: "userData" }
+    queryParameters: { "api-version": "2022-08-01", $expand: "userData" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);
@@ -51,14 +51,14 @@ async function getAVirtualMachineScaleSet() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);
@@ -78,21 +78,21 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);
 }
 
 getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
@@ -107,14 +107,14 @@ async function getAVirtualMachineScaleSetWithUserData() {
   const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const options: VirtualMachineScaleSetsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01", $expand: "userData" }
+    queryParameters: { "api-version": "2022-08-01", $expand: "userData" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);

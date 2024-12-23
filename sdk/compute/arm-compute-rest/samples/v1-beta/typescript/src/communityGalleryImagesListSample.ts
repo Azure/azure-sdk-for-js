@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CommunityGalleryImagesListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,14 +25,14 @@ async function listCommunityGalleryImages() {
   const location = "myLocation";
   const publicGalleryName = "publicGalleryName";
   const options: CommunityGalleryImagesListParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
       subscriptionId,
       location,
-      publicGalleryName
+      publicGalleryName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

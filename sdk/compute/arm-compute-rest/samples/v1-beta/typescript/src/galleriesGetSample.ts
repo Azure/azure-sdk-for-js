@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleriesGetParameters
-} from "@azure-rest/arm-compute";
+import createComputeManagementClient, { GalleriesGetParameters } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,14 +22,14 @@ async function getACommunityGallery() {
   const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const options: GalleriesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .get(options);
   console.log(result);
@@ -53,15 +51,15 @@ async function getAGalleryWithExpandSharingProfileGroups() {
   const options: GalleriesGetParameters = {
     queryParameters: {
       "api-version": "2022-01-03",
-      $expand: "SharingProfile/Groups"
-    }
+      $expand: "SharingProfile/Groups",
+    },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .get(options);
   console.log(result);
@@ -81,14 +79,14 @@ async function getAGalleryWithSelectPermissions() {
   const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const options: GalleriesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03", $select: "Permissions" }
+    queryParameters: { "api-version": "2022-01-03", $select: "Permissions" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .get(options);
   console.log(result);
@@ -108,14 +106,14 @@ async function getAGallery() {
   const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const options: GalleriesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .get(options);
   console.log(result);

@@ -105,7 +105,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -210,7 +210,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -285,7 +285,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -370,7 +370,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -445,7 +445,7 @@ async function createAScaleSetFromACustomImage() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -520,7 +520,7 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -590,7 +590,7 @@ async function createAScaleSetFromASpecializedSharedImage() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -688,7 +688,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -784,7 +784,7 @@ async function createAScaleSetWithApplicationProfile() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -867,7 +867,7 @@ async function createAScaleSetWithDiskControllerType() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -961,7 +961,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1057,7 +1057,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1141,7 +1141,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1226,7 +1226,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1308,7 +1308,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1391,7 +1391,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1474,7 +1474,7 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1566,7 +1566,7 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1645,7 +1645,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1729,7 +1729,7 @@ async function createAScaleSetWithBootDiagnostics() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1812,7 +1812,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1896,7 +1896,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1980,7 +1980,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2079,7 +2079,7 @@ async function createAScaleSetWithExtensionTimeBudget() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2158,7 +2158,7 @@ async function createAScaleSetWithManagedBootDiagnostics() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2236,7 +2236,7 @@ async function createAScaleSetWithPasswordAuthentication() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2314,7 +2314,7 @@ async function createAScaleSetWithPremiumStorage() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2399,7 +2399,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2478,7 +2478,7 @@ async function createAScaleSetWithScaleInPolicy() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2560,7 +2560,7 @@ async function createAScaleSetWithSpotRestorePolicy() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2649,7 +2649,7 @@ async function createAScaleSetWithSshAuthentication() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2733,7 +2733,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2812,7 +2812,7 @@ async function createAScaleSetWithUserData() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2896,7 +2896,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2978,7 +2978,7 @@ async function createAScaleSetWithVMSizeProperties() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -3061,7 +3061,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
       vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

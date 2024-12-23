@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   ResourceSkusListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,13 +23,10 @@ async function listsAllAvailableResourceSkUs() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: ResourceSkusListParameters = {
-    queryParameters: { "api-version": "2021-07-01" }
+    queryParameters: { "api-version": "2021-07-01" },
   };
   const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus",
-      subscriptionId
-    )
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus", subscriptionId)
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
@@ -53,14 +50,11 @@ async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
   const options: ResourceSkusListParameters = {
     queryParameters: {
       "api-version": "2021-07-01",
-      $filter: "location eq 'westus'"
-    }
+      $filter: "location eq 'westus'",
+    },
   };
   const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus",
-      subscriptionId
-    )
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus", subscriptionId)
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
@@ -84,14 +78,11 @@ async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
   const options: ResourceSkusListParameters = {
     queryParameters: {
       "api-version": "2021-07-01",
-      includeExtendedLocations: "true"
-    }
+      includeExtendedLocations: "true",
+    },
   };
   const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus",
-      subscriptionId
-    )
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus", subscriptionId)
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
@@ -101,6 +92,4 @@ async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
   console.log(result);
 }
 
-listsAllAvailableResourceSkUsWithExtendedLocationInformation().catch(
-  console.error
-);
+listsAllAvailableResourceSkUsWithExtendedLocationInformation().catch(console.error);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryImageVersionsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function deleteAGalleryImageVersion() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -36,10 +36,10 @@ async function deleteAGalleryImageVersion() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

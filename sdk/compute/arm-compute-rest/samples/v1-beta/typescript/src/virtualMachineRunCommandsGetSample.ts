@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineRunCommandsGetParameters
+  VirtualMachineRunCommandsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function virtualMachineRunCommandGet() {
   const location = "SoutheastAsia";
   const commandId = "RunPowerShellScript";
   const options: VirtualMachineRunCommandsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}",
       subscriptionId,
       location,
-      commandId
+      commandId,
     )
     .get(options);
   console.log(result);

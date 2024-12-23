@@ -338,7 +338,7 @@ describe("Compute test", () => {
     if (isUnexpected(initialResponse)) {
       throw "create virtual machine error. result" + initialResponse;
     }
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, virtual_machine_name);
   });
@@ -414,7 +414,7 @@ describe("Compute test", () => {
         virtual_machine_name,
       )
       .patch(options);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     if (isUnexpected(result)) {
       throw "update virtual machine error. result" + result;
@@ -434,7 +434,7 @@ describe("Compute test", () => {
         virtual_machine_name,
       )
       .delete(deleteOptions);
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
     if (isUnexpected(deleteResponse)) {
       throw "delete virtual machine error. result" + deleteResponse;

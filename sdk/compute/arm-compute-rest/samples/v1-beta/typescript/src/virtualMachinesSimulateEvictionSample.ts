@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachinesSimulateEvictionParameters
+  VirtualMachinesSimulateEvictionParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,14 +24,14 @@ async function simulateEvictionAVirtualMachine() {
   const resourceGroupName = "ResourceGroup";
   const vmName = "VMName";
   const options: VirtualMachinesSimulateEvictionParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   console.log(result);

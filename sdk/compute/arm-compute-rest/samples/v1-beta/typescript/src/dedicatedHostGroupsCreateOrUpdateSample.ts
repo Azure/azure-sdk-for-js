@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  DedicatedHostGroupsCreateOrUpdateParameters
+  DedicatedHostGroupsCreateOrUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,19 +29,19 @@ async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
       properties: {
         additionalCapabilities: { ultraSSDEnabled: true },
         platformFaultDomainCount: 3,
-        supportAutomaticPlacement: true
+        supportAutomaticPlacement: true,
       },
       tags: { department: "finance" },
-      zones: ["1"]
+      zones: ["1"],
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .put(options);
   console.log(result);
@@ -65,19 +65,19 @@ async function createOrUpdateADedicatedHostGroup() {
       location: "westus",
       properties: {
         platformFaultDomainCount: 3,
-        supportAutomaticPlacement: true
+        supportAutomaticPlacement: true,
       },
       tags: { department: "finance" },
-      zones: ["1"]
+      zones: ["1"],
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .put(options);
   console.log(result);

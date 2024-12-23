@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryImageVersionsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,19 +35,18 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
             {
               name: "East US",
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-          }
-        }
-      }
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -56,10 +55,10 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -88,14 +87,14 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
             {
               name: "East US",
               regionalReplicaCount: 2,
-              storageAccountType: "Standard_ZRS"
-            }
-          ]
+              storageAccountType: "Standard_ZRS",
+            },
+          ],
         },
-        storageProfile: {}
-      }
+        storageProfile: {},
+      },
     },
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -104,10 +103,10 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

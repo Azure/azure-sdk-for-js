@@ -50,7 +50,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -92,7 +92,7 @@ async function createAVirtualMachineImageFromABlob() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -138,7 +138,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -182,7 +182,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -228,7 +228,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -272,7 +272,7 @@ async function createAVirtualMachineImageFromASnapshot() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -309,7 +309,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -357,7 +357,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -409,7 +409,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -461,7 +461,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
       imageName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

@@ -45,7 +45,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
       diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -91,7 +91,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
       diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -133,7 +133,7 @@ async function createADiskEncryptionSet() {
       diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

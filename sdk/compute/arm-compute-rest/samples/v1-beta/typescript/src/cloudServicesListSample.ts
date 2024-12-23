@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServicesListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -24,13 +24,13 @@ async function listCloudServicesInAResourceGroup() {
   const subscriptionId = "";
   const resourceGroupName = "ConstosoRG";
   const options: CloudServicesListParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

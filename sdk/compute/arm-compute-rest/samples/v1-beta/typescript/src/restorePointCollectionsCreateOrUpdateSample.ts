@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  RestorePointCollectionsCreateOrUpdateParameters
+  RestorePointCollectionsCreateOrUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,20 +28,19 @@ async function createOrUpdateARestorePointCollectionForCrossRegionCopy() {
       location: "norwayeast",
       properties: {
         source: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName"
-        }
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName",
+        },
       },
-      tags: { myTag1: "tagValue1" }
+      tags: { myTag1: "tagValue1" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .put(options);
   console.log(result);
@@ -65,20 +64,19 @@ async function createOrUpdateARestorePointCollection() {
       location: "norwayeast",
       properties: {
         source: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
-        }
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        },
       },
-      tags: { myTag1: "tagValue1" }
+      tags: { myTag1: "tagValue1" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .put(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,12 +23,12 @@ async function listAllDiskEncryptionSetsInASubscription() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: DiskEncryptionSetsListParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
