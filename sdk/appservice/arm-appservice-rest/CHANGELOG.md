@@ -1,8 +1,8 @@
 # Release History
 
-### 1.0.0-beta.2 (2024-12-23)
+## 1.0.0-beta.2 (2024-12-23)
 
-#### Features Added
+### Features Added
 - Refresh sdk with latest codegen
 
 ## 1.0.0-beta.1 (2021-05-11)
