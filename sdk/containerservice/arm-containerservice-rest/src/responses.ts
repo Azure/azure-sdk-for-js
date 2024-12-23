@@ -31,7 +31,7 @@ import {
   TrustedAccessRoleListResultOutput,
   TrustedAccessRoleBindingListResultOutput,
   TrustedAccessRoleBindingOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Gets a list of operations. */
 export interface OperationsList200Response extends HttpResponse {

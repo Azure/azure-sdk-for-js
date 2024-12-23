@@ -15,7 +15,7 @@ import {
   Snapshot,
   ManagedClusterSnapshot,
   TrustedAccessRoleBinding,
-} from "./models";
+} from "./models.js";
 
 export type OperationsListParameters = RequestParameters;
 

@@ -132,7 +132,7 @@ import {
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
   TrustedAccessRoleBindingsDeleteDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.ContainerService/operations": ["200"],

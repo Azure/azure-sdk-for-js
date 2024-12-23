@@ -58,7 +58,7 @@ import {
   TrustedAccessRoleBindingsGetParameters,
   TrustedAccessRoleBindingsCreateOrUpdateParameters,
   TrustedAccessRoleBindingsDeleteParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   OperationsList200Response,
   OperationsListDefaultResponse,
@@ -191,7 +191,7 @@ import {
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
   TrustedAccessRoleBindingsDeleteDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface OperationsList {

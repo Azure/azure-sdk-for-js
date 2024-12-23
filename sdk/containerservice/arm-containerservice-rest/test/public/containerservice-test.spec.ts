@@ -4,15 +4,14 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createRecorder } from "./utils/recordedClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type {
   ContainerServiceClient,
   ManagedClusterOutput,
   ManagedClusterUpgradeProfileOutput,
-} from "../../src";
-import ContainerServiceManagementClient, { getLongRunningPoller, paginate } from "../../src";
+} from "../../src/index.js";
+import ContainerServiceManagementClient, { getLongRunningPoller, paginate } from "../../src/index.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -28,7 +27,7 @@ describe("My test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function () {
     recorder = await createRecorder(this);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
