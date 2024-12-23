@@ -6588,10 +6588,11 @@ export interface HardwareProfileOutput {
 }
 
 // @public
-export interface Image extends Resource {
+interface Image_2 extends Resource {
     extendedLocation?: ExtendedLocation;
     properties?: ImageProperties;
 }
+export { Image_2 as Image }
 
 // @public
 export interface ImageDataDisk extends ImageDisk {
@@ -6741,7 +6742,7 @@ export interface ImagesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ImagesCreateOrUpdateBodyParam {
-    body: Image;
+    body: Image_2;
 }
 
 // @public
