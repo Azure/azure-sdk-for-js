@@ -281,7 +281,7 @@ import type {
   CloudServiceOperatingSystemsListOSVersionsParameters,
   CloudServiceOperatingSystemsGetOSFamilyParameters,
   CloudServiceOperatingSystemsListOSFamiliesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   OperationsList200Response,
   OperationsListDefaultResponse,
@@ -967,7 +967,7 @@ import type {
   CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
   CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface OperationsList {

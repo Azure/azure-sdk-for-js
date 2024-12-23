@@ -650,7 +650,7 @@ import type {
   CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
   CloudServiceOperatingSystemsListOSFamilies200Response,
   CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.Compute/operations": ["200"],

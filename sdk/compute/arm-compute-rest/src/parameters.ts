@@ -72,7 +72,7 @@ import type {
   CloudServiceUpdate,
   RoleInstances,
   UpdateDomain,
-} from "./models";
+} from "./models.js";
 
 export interface OperationsListQueryParamProperties {
   /** Api Version */

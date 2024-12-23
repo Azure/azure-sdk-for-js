@@ -113,7 +113,7 @@ import type {
   OSVersionListResultOutput,
   OSFamilyOutput,
   OSFamilyListResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Gets a list of compute operations. */
 export interface OperationsList200Response extends HttpResponse {
