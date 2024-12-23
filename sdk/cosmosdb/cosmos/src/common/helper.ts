@@ -147,7 +147,7 @@ export function parsePath(path: string): string[] {
     const quote = path[currentIndex];
     let newIndex = ++currentIndex;
 
-    for (;;) {
+    for (; ;) {
       newIndex = path.indexOf(quote, newIndex);
       if (newIndex === -1) {
         throwError();
@@ -380,7 +380,7 @@ export function copyObject(obj: any): any {
       return obj;
     }
     if (obj instanceof Date) {
-      return new Date(obj.getTime());
+      return JSON.parse(JSON.stringify(obj));
     }
     if (Array.isArray(obj)) {
       const arrCopy = [];
