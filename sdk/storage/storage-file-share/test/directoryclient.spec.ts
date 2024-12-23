@@ -5,7 +5,7 @@ import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } f
 import type { ShareClient } from "../src";
 import { ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";

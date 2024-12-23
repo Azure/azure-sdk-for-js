@@ -196,10 +196,15 @@ export interface DirectoryCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    // Warning: (ae-forgotten-export) The symbol "NfsFileMode" needs to be exported by the entry point index.d.ts
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -279,13 +284,17 @@ export interface DirectoryGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     metadata?: {
         [propertyName: string]: string;
     };
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -431,10 +440,13 @@ export interface DirectorySetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -468,6 +480,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType;
+    nfsProperties?: FilePosixProperties;
 }
 
 // @public (undocumented)
@@ -479,6 +492,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType | TimePreserveType;
+    nfsProperties?: FilePosixProperties;
 }
 
 // @public
@@ -500,6 +514,29 @@ export interface FileCloseHandlesHeaders {
 }
 
 // @public
+export interface FileCreateHardLinkHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    etag?: string;
+    fileChangeTime?: Date;
+    fileCreationTime?: Date;
+    fileId?: string;
+    fileLastWriteTime?: Date;
+    fileMode?: NfsFileMode;
+    fileParentId?: string;
+    group?: string;
+    lastModified?: Date;
+    linkCount?: number;
+    nfsFileType?: NfsFileType;
+    owner?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type FileCreateHardLinkResponse = WithResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>;
+
+// @public
 export interface FileCreateHeaders {
     date?: Date;
     errorCode?: string;
@@ -509,10 +546,14 @@ export interface FileCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -532,6 +573,7 @@ export type FileCreateResponse = WithResponse<FileCreateHeaders, FileCreateHeade
 export interface FileDeleteHeaders {
     date?: Date;
     errorCode?: string;
+    linkCount?: number;
     requestId?: string;
     version?: string;
 }
@@ -576,16 +618,20 @@ export interface FileDownloadHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -610,7 +656,13 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 // @public
-export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
+export type FileDownloadResponse = FileDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export type FileDownloadResponseModel = WithResponse<FileDownloadResponse, FileDownloadHeaders>;
 
 // @public
 export interface FileDownloadToBufferOptions extends CommonOptions {
@@ -674,17 +726,22 @@ export interface FileGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
     fileType?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -793,6 +850,14 @@ export type FilePermissionInheritType = "inherit";
 
 // @public
 export type FilePermissionPreserveType = "preserve";
+
+// @public
+export interface FilePosixProperties {
+    fileMode?: NfsFileMode;
+    group?: string;
+    nfsFileType?: NfsFileType;
+    owner?: string;
+}
 
 // @public (undocumented)
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -904,8 +969,11 @@ export interface FileServiceProperties {
     protocol?: ShareProtocolSettings;
 }
 
+// @public (undocumented)
+export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;
+
 // @public
-export interface FileSetHTTPHeadersHeaders {
+export interface FileSetHttpHeadersHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
@@ -914,10 +982,14 @@ export interface FileSetHTTPHeadersHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    linkCount?: number;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -929,7 +1001,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // @public
-export type FileSetHTTPHeadersResponse = WithResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>;
+export type FileSetHTTPHeadersResponse = WithResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>;
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -971,6 +1043,7 @@ export interface FileStartCopyOptions extends CommonOptions {
     filePermissionKey?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    nfsProperties?: FilePosixProperties;
 }
 
 // @public
@@ -1241,6 +1314,9 @@ export interface Metrics {
 export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
+export type NfsFileType = string;
+
+// @public
 export type PermissionCopyModeType = "source" | "override";
 
 // @public
@@ -1277,11 +1353,8 @@ export interface RangeModel {
     start: number;
 }
 
-// @public
-export type RawFileDownloadResponse = FileDownloadHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
+// @public (undocumented)
+export type RawFileDownloadResponse = FileDownloadResponse;
 
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
@@ -1639,6 +1712,8 @@ export class ShareFileClient extends StorageClient {
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
+    // (undocumented)
+    createHardLink(targetFile: string, options?: FileForceCloseHandlesOptions): Promise<FileCreateHardLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;

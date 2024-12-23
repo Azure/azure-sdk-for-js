@@ -17,7 +17,7 @@ import type {
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
 } from "../generatedModels";
-import type { HttpAuthorization } from "../models";
+import type { HttpAuthorization, NfsFileMode, RolePermissions } from "../models";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
 import { isNode } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
@@ -778,5 +778,286 @@ export function asSharePermission(value: string | SharePermission): SharePermiss
 
   return {
     permission: value as string,
+  };
+}
+
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
+  if (input == undefined) {
+    return undefined;
+  }
+  
+  if (input.length !== 4) {
+                  //throw Errors.InvalidFormat(nameof(modeString));
+  }
+  
+  let nfsFileMode : NfsFileMode = {
+    owner : {
+      read: true, 
+      write: true, 
+      execute: true},//RolePermissionExtensions.ParseOctalRolePermissions(input[1])
+    group : {
+      read: false, 
+      write: false, 
+      execute: false}, //RolePermissionExtensions.ParseOctalRolePermissions(modeString[2])
+    other : {
+      read: false, 
+      write: false, 
+      execute: false},// = RolePermissionExtensions.ParseOctalRolePermissions(modeString[3]),
+    effectiveUserIdentity: false,
+    effectiveGroupIdentity: false,
+    stickyBit: false
+  };
+  
+  let value : number = Number.parseInt(input[0]);
+  
+              if ((value & 4) > 0)
+              {
+                  nfsFileMode.effectiveUserIdentity = true;
+              }
+  
+              if ((value & 2) > 0)
+              {
+                  nfsFileMode.effectiveGroupIdentity = true;
+              }
+  
+              if ((value & 1) > 0)
+              {
+                  nfsFileMode.stickyBit = true;
+              }
+  
+              return nfsFileMode;
+}
+
+export function toOctalFileMode(input?: NfsFileMode): string | undefined {
+  if (input === undefined) return undefined;
+
+  let higherOrderDigit = 0;
+  if (input?.effectiveUserIdentity) {
+    higherOrderDigit |= 4;
+  }
+  
+  if (input?.effectiveGroupIdentity) {
+    higherOrderDigit |= 2;
+  }
+  
+  if (input?.stickyBit) {
+    higherOrderDigit |= 1;
+  }
+            
+  let stringFileMode = higherOrderDigit.toString();
+  stringFileMode += toOctalRolePermissions(input!.owner);
+  stringFileMode += toOctalRolePermissions(input!.group);
+  stringFileMode += toOctalRolePermissions(input!.other);
+
+  return stringFileMode;
+
+}
+
+export function ToSymbolicFileMode(input?: NfsFileMode) : string | undefined {
+  input;
+  let stringFileMode = "";
+            // stringBuilder.Append(Owner.ToSymbolicRolePermissions());
+            // stringBuilder.Append(Group.ToSymbolicRolePermissions());
+            // stringBuilder.Append(Other.ToSymbolicRolePermissions());
+
+            // if (EffectiveUserIdentity)
+            // {
+            //     if (stringBuilder[2] == 'x')
+            //     {
+            //         stringBuilder[2] = 's';
+            //     }
+            //     else
+            //     {
+            //         stringBuilder[2] = 'S';
+            //     }
+            // }
+
+            // if (EffectiveGroupIdentity)
+            // {
+            //     if (stringBuilder[5] == 'x')
+            //     {
+            //         stringBuilder[5] = 's';
+            //     }
+            //     else
+            //     {
+            //         stringBuilder[5] = 'S';
+            //     }
+            // }
+
+            // if (StickyBit)
+            // {
+            //     if (stringBuilder[8] == 'x')
+            //     {
+            //         stringBuilder[8] = 't';
+            //     }
+            //     else
+            //     {
+            //         stringBuilder[8] = 'T';
+            //     }
+            // }
+            return stringFileMode;
+}
+        
+export function ParseSymbolicFileMode(input?: string) : NfsFileMode | undefined
+{
+  if (input === undefined) return undefined;
+  
+  if (input?.length != 9){
+    throw new Error("Invalid format of input string");
+  }
+  let nfsFileMode : NfsFileMode = {
+              owner : {
+                read: true, 
+                write: true, 
+                execute: true},//RolePermissionExtensions.ParseOctalRolePermissions(input[1])
+              group : {
+                read: false, 
+                write: false, 
+                execute: false}, //RolePermissionExtensions.ParseOctalRolePermissions(modeString[2])
+              other : {
+                read: false, 
+                write: false, 
+                execute: false},// = RolePermissionExtensions.ParseOctalRolePermissions(modeString[3]),
+              effectiveUserIdentity: false,
+              effectiveGroupIdentity: false,
+              stickyBit: false
+            };
+
+            //nfsFileMode.owner = RolePermissionExtensions.ParseSymbolicRolePermissions(modeString.Substring(0, 3), out bool effectiveUserIdentity);
+            //nfsFileMode.effectiveUserIdentity = effectiveUserIdentity;
+
+            // nfsFileMode.Group = RolePermissionExtensions.ParseSymbolicRolePermissions(modeString.Substring(3, 3), out bool effectiveGroupIdentity);
+            // nfsFileMode.EffectiveGroupIdentity = effectiveGroupIdentity;
+
+            // nfsFileMode.Other = RolePermissionExtensions.ParseSymbolicRolePermissions(modeString.Substring(6, 3), out bool stickyBit);
+            // nfsFileMode.StickyBit = stickyBit;
+
+            return nfsFileMode;
+          }
+
+export function ParseOctalRolePermissions(c: string) : RolePermissions
+{
+  let rolePermissions: RolePermissions = {
+    read: false,
+    write: false,
+    execute: false
+  };
+
+  let value = Number.parseInt(c);
+  
+  if (value < 0 || value > 7){
+    throw new Error("MustBeBetweenInclusive");
+  }
+  
+  if ((value & 4) > 0) {
+      rolePermissions.read = true;
+  }
+  
+  if ((value & 2) > 0) {
+    rolePermissions.write = true;
+  }
+  
+  if ((value & 1) > 0) {
+    rolePermissions.execute = true;
+  }
+  
+  return rolePermissions;
+}
+
+export function toOctalRolePermissions(rolePermissions: RolePermissions): string {
+  let result = 0;
+  if (rolePermissions.read === true) {
+    result |= 4;
+  }
+  
+  if (rolePermissions.write === true) {
+    result |= 2;
+  }
+  
+  if (rolePermissions.execute === true) {
+    result |= 1;
+  }
+  
+  return result.toString();
+}
+
+export function ToSymbolicRolePermissions(rolePermissions: RolePermissions): string {
+  let symbolicRolePermissions = "";
+  
+  if (rolePermissions.read === true) {
+    symbolicRolePermissions += "r";
+  }
+  else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.write === true) {
+    symbolicRolePermissions += "w";
+  }
+  else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.write === true) {
+    symbolicRolePermissions += "x";
+  }
+  else {
+    symbolicRolePermissions += "-";
+  }
+  return symbolicRolePermissions;
+}
+
+export function ParseSymbolicRolePermissions(input: string) : {
+  rolePermissions: RolePermissions;
+  setSticky: boolean;
+} {
+  if (input.length != 3) {
+    throw new Error("input must be 3 characters long");
+                //throw new FormatException($"s must be 3 characters long");
+  }
+  
+  let rolePermissions: RolePermissions = {
+    read: false,
+    write: false,
+    execute: false
+  }
+  
+  let setSticky = false;
+  
+  // Read character
+  if (input[0] == 'r') {
+    rolePermissions.read = true
+  }
+  else if (input[0] != '-') {
+    throw new Error(`Invalid character in symbolic role permission: ${input[0]}`);
+  }
+  
+  // Write character
+  if (input[1] == 'w'){
+    rolePermissions.write = true
+  }
+  else if (input[1] != '-') {
+    throw new Error(`Invalid character in symbolic role permission: ${input[1]}`);
+  }
+  
+  // Execute character
+  if (input[2] == 'x' || input[2] == 's' || input[2] == 't') {
+      rolePermissions.execute = true;
+      if (input[2] == 's' || input[2] == 't') {
+        setSticky = true;
+      }
+  }
+  
+  if (input[2] == 'S' || input[2] == 'T') {
+    setSticky = true;
+  }
+  
+  if (input[2] != 'x' && input[2] != 's' && input[2] != 'S' && input[2] != 't' && input[2] != 'T' && input[2] != '-') {
+    throw new Error(`Invalid character in symbolic role permission: ${input[2]}`);
+  }
+
+  return {
+    rolePermissions,
+    setSticky
   };
 }

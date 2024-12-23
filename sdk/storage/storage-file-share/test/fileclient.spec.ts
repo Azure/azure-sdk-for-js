@@ -7,6 +7,7 @@ import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
 import type {
+  FilePosixProperties,
   FileStartCopyOptions,
   ShareClient,
   ShareDirectoryClient,
@@ -14,13 +15,14 @@ import type {
 } from "../src";
 import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import type { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {
   bodyToString,
   compareBodyWithUint8Array,
   getBSU,
+  getGenericBSU,
   getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
@@ -74,6 +76,8 @@ describe("FileClient", () => {
     dirClient = shareClient.getDirectoryClient(dirName);
 
     defaultDirCreateResp = await dirClient.create();
+    // const res = await dirClient.getProperties();
+    // res;
 
     fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = dirClient.getFileClient(fileName);
@@ -2942,5 +2946,94 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   it("delete", async () => {
     await fileClient.create(content.length);
     await fileClient.delete();
+  });
+});
+
+
+
+describe("FileClient - NFS", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient; 
+  let shareName: string;
+  let shareClient: ShareClient; 
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let defaultDirCreateResp: DirectoryCreateResponse;
+  let fileName: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      this.skip();
+    }
+
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create({
+      protocols: {
+        smbEnabled: true,
+        nfsEnabled: true
+      }
+    });
+
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    defaultDirCreateResp = await dirClient.create();
+    defaultDirCreateResp;
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = dirClient.getFileClient(fileName);
+  });
+
+  it.only("create with nfs properties", async function () {
+    const nfsProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: {
+        owner: {
+          read: true, 
+          write: true,
+          execute: true
+        },
+        group: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        other: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        effectiveUserIdentity: false,
+        effectiveGroupIdentity: false,
+        stickyBit: false
+      },
+      nfsFileType: "Regular"
+    };
+    const cResp = await fileClient.create(content.length, {
+      nfsProperties: nfsProperties
+    });
+
+    assert.equal(cResp.errorCode, undefined);
+    assert.ok(cResp.fileChangeOn!);
+    assert.ok(cResp.fileCreatedOn!);
+    assert.ok(cResp.fileId!);
+    assert.ok(cResp.fileLastWriteOn!);
+    assert.ok(cResp.fileParentId!);
+    assert.ok(cResp.filePermissionKey!);
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, content.length),
+      "\u0000".repeat(content.length),
+    );
   });
 });
