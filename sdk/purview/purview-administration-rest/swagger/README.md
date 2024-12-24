@@ -7,21 +7,23 @@
 ```yaml $(purview-account) == true
 title: PurviewAccount
 description: Purview Account Client
-output-folder: ../src/account
-source-code-folder-path: ./
+output-folder: ../
+source-code-folder-path: ./src/account
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/purview/data-plane/Azure.Analytics.Purview.Account/preview/2019-11-01-preview/account.json
 ```
 
 ```yaml $(purview-metadata) == true
 title: PurviewMetadataPolicies
 description: Purview Metadata Policies Client
-output-folder: ../src/metadataPolicies
-source-code-folder-path: ./
+output-folder: ../
+source-code-folder-path: ./src/metadataPolicies
 input-file:  https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/purview/data-plane/Azure.Analytics.Purview.MetadataPolicies/preview/2021-07-01-preview/purviewMetadataPolicy.json
 ```
 
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 modelerfour.lenient-model-deduplication: true
 package-name: "@azure-rest/purview-administration"
 generate-metadata: false
@@ -32,4 +34,7 @@ add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
   "@autorest/typescript": "latest"
+batch:
+  - purview-metadata: true
+  - purview-account: true
 ```
