@@ -82,8 +82,7 @@ const responseMap: Record<string, string[]> = {
     ["200", "204"],
   "GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions/{clusterVersion}":
@@ -143,21 +142,13 @@ export function isUnexpected(
     | ClustersCreateOrUpdateDefaultResponse,
 ): response is ClustersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersUpdate200Response
-    | ClustersUpdate202Response
-    | ClustersUpdateDefaultResponse,
+  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdateDefaultResponse,
 ): response is ClustersUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersDelete200Response
-    | ClustersDelete204Response
-    | ClustersDeleteDefaultResponse,
+  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeleteDefaultResponse,
 ): response is ClustersDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersListByResourceGroup200Response
-    | ClustersListByResourceGroupDefaultResponse,
+  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupDefaultResponse,
 ): response is ClustersListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response: ClustersList200Response | ClustersListDefaultResponse,
@@ -201,14 +192,10 @@ export function isUnexpected(
     | ApplicationTypesDeleteDefaultResponse,
 ): response is ApplicationTypesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypesList200Response
-    | ApplicationTypesListDefaultResponse,
+  response: ApplicationTypesList200Response | ApplicationTypesListDefaultResponse,
 ): response is ApplicationTypesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypeVersionsGet200Response
-    | ApplicationTypeVersionsGetDefaultResponse,
+  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetDefaultResponse,
 ): response is ApplicationTypeVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -222,17 +209,13 @@ export function isUnexpected(
     | ApplicationTypeVersionsDeleteDefaultResponse,
 ): response is ApplicationTypeVersionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypeVersionsList200Response
-    | ApplicationTypeVersionsListDefaultResponse,
+  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListDefaultResponse,
 ): response is ApplicationTypeVersionsListDefaultResponse;
 export function isUnexpected(
   response: ApplicationsGet200Response | ApplicationsGetDefaultResponse,
 ): response is ApplicationsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationsCreateOrUpdate202Response
-    | ApplicationsCreateOrUpdateDefaultResponse,
+  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdateDefaultResponse,
 ): response is ApplicationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response: ApplicationsUpdate202Response | ApplicationsUpdateDefaultResponse,
@@ -250,18 +233,13 @@ export function isUnexpected(
   response: ServicesGet200Response | ServicesGetDefaultResponse,
 ): response is ServicesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServicesCreateOrUpdate202Response
-    | ServicesCreateOrUpdateDefaultResponse,
+  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdateDefaultResponse,
 ): response is ServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response: ServicesUpdate202Response | ServicesUpdateDefaultResponse,
 ): response is ServicesUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ServicesDelete202Response
-    | ServicesDelete204Response
-    | ServicesDeleteDefaultResponse,
+  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeleteDefaultResponse,
 ): response is ServicesDeleteDefaultResponse;
 export function isUnexpected(
   response: ServicesList200Response | ServicesListDefaultResponse,
@@ -398,24 +376,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

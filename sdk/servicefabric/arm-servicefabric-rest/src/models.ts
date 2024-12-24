@@ -14,10 +14,7 @@ export interface Cluster extends Resource {
 export interface ClusterProperties {
   /** The list of add-on features to enable in the cluster. */
   addOnFeatures?: Array<
-    | "RepairManager"
-    | "DnsService"
-    | "BackupRestoreService"
-    | "ResourceMonitorService"
+    "RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService"
   >;
   /** The AAD authentication settings of the cluster. */
   azureActiveDirectory?: AzureActiveDirectory;
@@ -428,10 +425,7 @@ export interface ClusterUpdateParameters {
 export interface ClusterPropertiesUpdateParameters {
   /** The list of add-on features to enable in the cluster. */
   addOnFeatures?: Array<
-    | "RepairManager"
-    | "DnsService"
-    | "BackupRestoreService"
-    | "ResourceMonitorService"
+    "RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService"
   >;
   /** The certificate to use for securing the cluster. The certificate provided will be used for  node to node security within the cluster, SSL certificate for cluster management endpoint and default  admin client. */
   certificate?: CertificateDescription;
@@ -531,11 +525,7 @@ export interface ApplicationResource extends ProxyResource {
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentity {
   /** The type of managed identity for the resource. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /**
    * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -547,8 +537,7 @@ export interface ManagedIdentity {
 export interface UserAssignedIdentity {}
 
 /** The application resource properties. */
-export interface ApplicationResourceProperties
-  extends ApplicationResourceUpdateProperties {
+export interface ApplicationResourceProperties extends ApplicationResourceUpdateProperties {
   /** The application type name as defined in the application manifest. */
   typeName?: string;
 }
@@ -587,11 +576,7 @@ export interface ApplicationUpgradePolicy {
    */
   applicationHealthPolicy?: ArmApplicationHealthPolicy;
   /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
-  upgradeMode?:
-    | "Invalid"
-    | "UnmonitoredAuto"
-    | "UnmonitoredManual"
-    | "Monitored";
+  upgradeMode?: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
   /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed and it will result in availability loss. */
   recreateApplication?: boolean;
 }
@@ -709,8 +694,7 @@ export interface ServiceResource extends ProxyResource {
 }
 
 /** The service resource properties. */
-export interface ServiceResourcePropertiesParent
-  extends ServiceResourcePropertiesBase {
+export interface ServiceResourcePropertiesParent extends ServiceResourcePropertiesBase {
   /** The name of the service type */
   serviceTypeName?: string;
   /** Describes how the service is partitioned. */
@@ -724,11 +708,7 @@ export interface ServiceResourcePropertiesParent
 
 /** Describes how the service is partitioned. */
 export interface PartitionSchemeDescriptionParent {
-  partitionScheme:
-    | "PartitionSchemeDescription"
-    | "Named"
-    | "Singleton"
-    | "UniformInt64Range";
+  partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
 /** The common service resource properties. */
@@ -779,14 +759,12 @@ export interface ServiceResourceUpdate extends ProxyResource {
 }
 
 /** The service resource properties for patch operations. */
-export interface ServiceResourceUpdatePropertiesParent
-  extends ServiceResourcePropertiesBase {
+export interface ServiceResourceUpdatePropertiesParent extends ServiceResourcePropertiesBase {
   serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
 
 /** Describes the named partition scheme of the service. */
-export interface NamedPartitionSchemeDescription
-  extends PartitionSchemeDescriptionParent {
+export interface NamedPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
   /** The number of partitions. */
   count: number;
   /** Array of size specified by the ‘count’ parameter, for the names of the partitions. */
@@ -795,14 +773,12 @@ export interface NamedPartitionSchemeDescription
 }
 
 /** SingletonPartitionSchemeDescription */
-export interface SingletonPartitionSchemeDescription
-  extends PartitionSchemeDescriptionParent {
+export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
   partitionScheme: "Singleton";
 }
 
 /** The properties of a stateful service resource. */
-export interface StatefulServiceProperties
-  extends ServiceResourcePropertiesParent {
+export interface StatefulServiceProperties extends ServiceResourcePropertiesParent {
   /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean;
   /** The target replica set size as a number. */
@@ -819,8 +795,7 @@ export interface StatefulServiceProperties
 }
 
 /** The properties of a stateful service resource for patch operations. */
-export interface StatefulServiceUpdateProperties
-  extends ServiceResourceUpdatePropertiesParent {
+export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
   /** The target replica set size as a number. */
   targetReplicaSetSize?: number;
   /** The minimum replica set size as a number. */
@@ -835,8 +810,7 @@ export interface StatefulServiceUpdateProperties
 }
 
 /** The properties of a stateless service resource. */
-export interface StatelessServiceProperties
-  extends ServiceResourcePropertiesParent {
+export interface StatelessServiceProperties extends ServiceResourcePropertiesParent {
   /** The instance count. */
   instanceCount?: number;
   /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is represented in ISO 8601 format (hh:mm:ss.s). */
@@ -845,8 +819,7 @@ export interface StatelessServiceProperties
 }
 
 /** The properties of a stateless service resource for patch operations. */
-export interface StatelessServiceUpdateProperties
-  extends ServiceResourceUpdatePropertiesParent {
+export interface StatelessServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
   /** The instance count. */
   instanceCount?: number;
   /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is first interpreted as a string representing an ISO 8601 duration. It is represented in ISO 8601 format (hh:mm:ss.s). */
@@ -875,9 +848,7 @@ export interface UniformInt64RangePartitionSchemeDescription
 }
 
 /** The service resource properties. */
-export type ServiceResourceProperties =
-  | StatefulServiceProperties
-  | StatelessServiceProperties;
+export type ServiceResourceProperties = StatefulServiceProperties | StatelessServiceProperties;
 /** Describes how the service is partitioned. */
 export type PartitionSchemeDescription =
   | NamedPartitionSchemeDescription
