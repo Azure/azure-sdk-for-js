@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { ServiceFabricClient } from "./clientDefinitions";
+import { ServiceFabricClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface ServiceFabricClientOptions extends ClientOptions {

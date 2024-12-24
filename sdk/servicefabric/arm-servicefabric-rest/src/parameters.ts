@@ -12,7 +12,7 @@ import {
   ApplicationResourceUpdate,
   ServiceResource,
   ServiceResourceUpdate,
-} from "./models";
+} from "./models.js";
 
 export type ClustersGetParameters = RequestParameters;
 

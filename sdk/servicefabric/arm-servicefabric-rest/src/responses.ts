@@ -17,7 +17,7 @@ import {
   ApplicationResourceListOutput,
   ServiceResourceOutput,
   ServiceResourceListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */
 export interface ClustersGet200Response extends HttpResponse {

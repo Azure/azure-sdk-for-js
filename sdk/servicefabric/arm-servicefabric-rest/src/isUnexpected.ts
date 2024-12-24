@@ -69,7 +69,7 @@ import {
   ServicesDeleteDefaultResponse,
   ServicesList200Response,
   ServicesListDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}":

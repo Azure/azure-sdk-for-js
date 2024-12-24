@@ -4,8 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type {
   ApplicationTypeResourceListOutput,
   ApplicationTypeResourceOutput,
@@ -15,8 +14,8 @@ import type {
   ClustersCreateOrUpdateParameters,
   ClustersUpdateParameters,
   ServiceFabricClient,
-} from "../../src/index";
-import { getLongRunningPoller } from "../../src/index";
+} from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -31,7 +30,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   let clusterName: string;
   let applicationTypeName: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function () {
     recorder = await createRecorder(this);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
@@ -199,7 +198,7 @@ describe("Service Fabric Rest Level Client Test", () => {
 
   it("clusters update test", async function () {
     if (isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
     const parameters: ClustersUpdateParameters = {
       body: {
