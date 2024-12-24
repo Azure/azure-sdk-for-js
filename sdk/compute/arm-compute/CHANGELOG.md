@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 22.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 22.2.0 (2024-12-11)
     
 ### Features Added
