@@ -13,7 +13,7 @@
  */
 
 import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
+  AnalyzeOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
@@ -47,7 +47,7 @@ async function main() {
   }
 
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
     .analyzeResult;
 
   const documents = analyzeResult?.documents;
