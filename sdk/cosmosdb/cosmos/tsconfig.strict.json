@@ -234,6 +234,10 @@
     "test/public/functional/NonStreamingQueryPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
     "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
-    "test/internal/unit/globalStatisticsAggregator.spec.ts"
+    "test/internal/unit/globalStatisticsAggregator.spec.ts",
+    "test/internal/unit/common/TestOrderbyQueryExecutionContext.ts",
+    "test/internal/unit/common/TestParallelQueryExecutionContext.ts",
+    "test/internal/unit/query/parallelQueryExecutionContext.spec.ts",
+    "test/internal/unit/query/parallelQueryExecutionContextBase.spec.ts",
   ]
 }
