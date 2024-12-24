@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
+import type {
+  PhoneNumberIdentifier,
+  CommunicationIdentifier,
+  MicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
   MediaStreamingConfiguration,
@@ -116,6 +120,12 @@ export interface CreateCallOptions extends OperationOptions {
   transcriptionConfiguration?: TranscriptionConfiguration;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
+  /**
+   * Overrides default client source by a MicrosoftTeamsAppIdentifier type source.
+   * Required for creating call with Teams resource account ID.
+   * This is per-operation setting and does not change the client's default source.
+   */
+  teamsAppSource?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
