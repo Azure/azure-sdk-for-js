@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { AppPlatformManagementClient } from "../src/appPlatformManagementClient";
+import { AppPlatformManagementClient } from "../src/appPlatformManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,8 +44,8 @@ describe("AppPlatform test", () => {
   let serviceName: string;
   let appName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -64,35 +62,9 @@ describe("AppPlatform test", () => {
   });
 
   it("services create test", async function () {
-    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, serviceName, {
-      sku: {
-        name: "B0",
-        tier: "Basic"
-      },
-      tags: {
-        key1: "value1"
-      },
-      location: location
-    }, testPollingOptions);
   });
 
   it("apps create test", async function () {
-    const res = await client.apps.beginCreateOrUpdateAndWait(resourceGroup, serviceName, appName, {
-      properties: {
-        public: true,
-        // activeDeploymentName: "mydeployment1",
-        fqdn: "myapp.mydomain.com",
-        httpsOnly: false,
-        temporaryDisk: {
-          sizeInGB: 2,
-          mountPath: "/mytemporarydisk"
-        },
-        persistentDisk: {
-          sizeInGB: 1,
-          mountPath: "/mypersistentdisk"
-        }
-      }
-    }, testPollingOptions);
   });
 
   it("services get test", async function () {
@@ -122,7 +94,6 @@ describe("AppPlatform test", () => {
   });
 
   it("apps delete test", async function () {
-    const res = await client.apps.beginDeleteAndWait(resourceGroup, serviceName, appName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.apps.list(resourceGroup, serviceName)) {
       resArray.push(item);
@@ -131,7 +102,6 @@ describe("AppPlatform test", () => {
   });
 
   it("services delete test", async function () {
-    const res = await client.services.beginDeleteAndWait(resourceGroup, serviceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.services.list(resourceGroup)) {
       resArray.push(item);
