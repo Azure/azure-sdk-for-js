@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthConfig, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the AuthConfig for a Container App.

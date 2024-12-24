@@ -15,7 +15,7 @@ import {
   ContainerAppsRevisionsActivateRevisionOptionalParams,
   ContainerAppsRevisionsDeactivateRevisionOptionalParams,
   ContainerAppsRevisionsRestartRevisionOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerAppsRevisions. */
