@@ -8,9 +8,7 @@ import createNetworkManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.

@@ -24,7 +24,7 @@ async function listClusters() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
-      subscriptionId
+      subscriptionId,
     )
     .get();
   console.log(result);

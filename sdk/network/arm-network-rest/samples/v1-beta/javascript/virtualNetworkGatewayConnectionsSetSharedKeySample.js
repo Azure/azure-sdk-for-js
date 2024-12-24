@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
@@ -29,7 +29,7 @@ async function setVirtualNetworkGatewayConnectionSharedKey() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

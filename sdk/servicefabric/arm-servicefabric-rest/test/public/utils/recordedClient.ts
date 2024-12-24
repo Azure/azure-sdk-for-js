@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { ServiceFabricClient } from "../../../src/index";
-import ServiceFabricManagementClient from "../../../src/index";
-import "./env";
+import type { ServiceFabricClient } from "../../../src/index.js";
+import ServiceFabricManagementClient from "../../../src/index.js";
+import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

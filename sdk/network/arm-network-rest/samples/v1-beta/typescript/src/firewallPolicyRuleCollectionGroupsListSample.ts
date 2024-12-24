@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   FirewallPolicyRuleCollectionGroupsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
@@ -25,14 +23,14 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const resourceGroupName = "rg1";
   const firewallPolicyName = "firewallPolicy";
   const options: FirewallPolicyRuleCollectionGroupsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -43,9 +41,7 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
   console.log(result);
 }
 
-listAllFirewallPolicyRuleCollectionGroupWithWebCategories().catch(
-  console.error
-);
+listAllFirewallPolicyRuleCollectionGroupWithWebCategories().catch(console.error);
 /**
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
@@ -59,14 +55,14 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
   const resourceGroupName = "rg1";
   const firewallPolicyName = "firewallPolicy";
   const options: FirewallPolicyRuleCollectionGroupsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -77,9 +73,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
   console.log(result);
 }
 
-listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy().catch(
-  console.error
-);
+listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy().catch(console.error);
 /**
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
@@ -93,14 +87,14 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
   const resourceGroupName = "rg1";
   const firewallPolicyName = "firewallPolicy";
   const options: FirewallPolicyRuleCollectionGroupsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -111,6 +105,4 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
   console.log(result);
 }
 
-listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy().catch(
-  console.error
-);
+listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy().catch(console.error);

@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   VirtualMachineScaleSetsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.

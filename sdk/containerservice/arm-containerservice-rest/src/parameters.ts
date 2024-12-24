@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
-  AgentPool,
-  MaintenanceConfiguration,
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   ManagedCluster,
-  ManagedClusterAADProfile,
+  TagsObject,
   ManagedClusterServicePrincipalProfile,
-  ManagedClusterSnapshot,
+  ManagedClusterAADProfile,
+  RunCommandRequest,
+  MaintenanceConfiguration,
+  AgentPool,
   PrivateEndpointConnection,
   PrivateLinkResource,
-  RunCommandRequest,
   Snapshot,
-  TagsObject,
+  ManagedClusterSnapshot,
   TrustedAccessRoleBinding,
-} from "./models";
+} from "./models.js";
 
 export type OperationsListParameters = RequestParameters;
 

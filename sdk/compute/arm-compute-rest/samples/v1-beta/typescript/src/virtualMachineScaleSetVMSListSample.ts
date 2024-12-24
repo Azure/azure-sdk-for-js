@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetVMsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
@@ -29,15 +27,15 @@ async function virtualMachineScaleSetVMSListMaximumSetGen() {
       $filter: "aaaaaaaaaaaaaa",
       $select: "aaaaaaaaaaaaaaaaaaaaa",
       $expand: "aaaaaaaaaaaaa",
-      "api-version": "2022-08-01"
-    }
+      "api-version": "2022-08-01",
+    },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines",
       subscriptionId,
       resourceGroupName,
-      virtualMachineScaleSetName
+      virtualMachineScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -62,14 +60,14 @@ async function virtualMachineScaleSetVMSListMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetVMsListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines",
       subscriptionId,
       resourceGroupName,
-      virtualMachineScaleSetName
+      virtualMachineScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

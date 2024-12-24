@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery image version.
@@ -98,7 +96,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -190,7 +188,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -284,7 +282,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -331,7 +329,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -423,7 +421,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -517,7 +515,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -600,7 +598,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -692,7 +690,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

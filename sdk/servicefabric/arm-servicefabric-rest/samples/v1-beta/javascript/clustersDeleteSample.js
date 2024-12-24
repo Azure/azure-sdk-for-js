@@ -28,7 +28,7 @@ async function deleteACluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .delete();
   console.log(result);

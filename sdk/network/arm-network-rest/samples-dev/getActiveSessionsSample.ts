@@ -9,9 +9,7 @@ import createNetworkManagementClient, {
   paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.

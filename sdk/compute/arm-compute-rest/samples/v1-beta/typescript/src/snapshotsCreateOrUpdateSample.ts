@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   SnapshotsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -30,31 +28,28 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
       properties: {
         creationData: {
           createOption: "Import",
-          sourceUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
           storageAccountId:
-            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
-        }
-      }
+            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription().catch(
-  console.error
-);
+createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
@@ -73,29 +68,26 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
       properties: {
         creationData: {
           createOption: "Import",
-          sourceUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
-        }
-      }
+          sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription().catch(
-  console.error
-);
+createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
@@ -115,27 +107,27 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
         creationData: {
           createOption: "CopyStart",
           sourceResourceId:
-            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
-        }
-      }
+            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
 createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -156,25 +148,23 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
         creationData: {
           createOption: "Copy",
           sourceResourceId:
-            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
-        }
-      }
+            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription().catch(
-  console.error
-);
+createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription().catch(console.error);

@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryApplicationVersionsListByGalleryApplicationParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List gallery Application Versions in a gallery Application Definition.
@@ -26,7 +24,7 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const options: GalleryApplicationVersionsListByGalleryApplicationParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +32,7 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryApplicationName
+      galleryApplicationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -45,6 +43,4 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   console.log(result);
 }
 
-listGalleryApplicationVersionsInAGalleryApplicationDefinition().catch(
-  console.error
-);
+listGalleryApplicationVersionsInAGalleryApplicationDefinition().catch(console.error);

@@ -28,7 +28,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .get();
   const result = paginate(client, initialResponse);

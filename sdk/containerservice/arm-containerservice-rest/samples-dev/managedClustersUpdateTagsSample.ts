@@ -39,7 +39,7 @@ async function updateManagedClusterTags() {
       resourceName,
     )
     .patch(parameters);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);
 }

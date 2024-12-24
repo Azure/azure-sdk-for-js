@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import type { TokenCredential } from "@azure/core-auth";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { ComputeManagementClient } from "../../../src/clientDefinitions";
-import createComputeManagementClient from "../../../src";
+import type { ComputeManagementClient } from "../../../src/clientDefinitions.js";
+import createComputeManagementClient from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

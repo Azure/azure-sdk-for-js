@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   ProximityPlacementGroupsListBySubscriptionParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all proximity placement groups in a subscription.
@@ -23,12 +21,12 @@ async function createAProximityPlacementGroup() {
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
   const options: ProximityPlacementGroupsListBySubscriptionParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

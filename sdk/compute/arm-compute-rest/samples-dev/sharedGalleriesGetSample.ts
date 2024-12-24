@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   SharedGalleriesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a shared gallery by subscription id or tenant id.

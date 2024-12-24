@@ -2,440 +2,78 @@
 // Licensed under the MIT License.
 
 import type {
-  AvailabilitySetsCreateOrUpdate200Response,
-  AvailabilitySetsCreateOrUpdateDefaultResponse,
-  AvailabilitySetsDelete200Response,
-  AvailabilitySetsDelete204Response,
-  AvailabilitySetsDeleteDefaultResponse,
-  AvailabilitySetsGet200Response,
-  AvailabilitySetsGetDefaultResponse,
-  AvailabilitySetsList200Response,
-  AvailabilitySetsListAvailableSizes200Response,
-  AvailabilitySetsListAvailableSizesDefaultResponse,
-  AvailabilitySetsListBySubscription200Response,
-  AvailabilitySetsListBySubscriptionDefaultResponse,
-  AvailabilitySetsListDefaultResponse,
-  AvailabilitySetsUpdate200Response,
-  AvailabilitySetsUpdateDefaultResponse,
-  CapacityReservationGroupsCreateOrUpdate200Response,
-  CapacityReservationGroupsCreateOrUpdate201Response,
-  CapacityReservationGroupsCreateOrUpdateDefaultResponse,
-  CapacityReservationGroupsDelete200Response,
-  CapacityReservationGroupsDelete204Response,
-  CapacityReservationGroupsDeleteDefaultResponse,
-  CapacityReservationGroupsGet200Response,
-  CapacityReservationGroupsGetDefaultResponse,
-  CapacityReservationGroupsListByResourceGroup200Response,
-  CapacityReservationGroupsListByResourceGroupDefaultResponse,
-  CapacityReservationGroupsListBySubscription200Response,
-  CapacityReservationGroupsListBySubscriptionDefaultResponse,
-  CapacityReservationGroupsUpdate200Response,
-  CapacityReservationGroupsUpdateDefaultResponse,
-  CapacityReservationsCreateOrUpdate200Response,
-  CapacityReservationsCreateOrUpdate201Response,
-  CapacityReservationsCreateOrUpdateDefaultResponse,
-  CapacityReservationsDelete200Response,
-  CapacityReservationsDelete202Response,
-  CapacityReservationsDelete204Response,
-  CapacityReservationsDeleteDefaultResponse,
-  CapacityReservationsGet200Response,
-  CapacityReservationsGetDefaultResponse,
-  CapacityReservationsListByCapacityReservationGroup200Response,
-  CapacityReservationsListByCapacityReservationGroupDefaultResponse,
-  CapacityReservationsUpdate200Response,
-  CapacityReservationsUpdate202Response,
-  CapacityReservationsUpdateDefaultResponse,
-  CloudServiceOperatingSystemsGetOSFamily200Response,
-  CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
-  CloudServiceOperatingSystemsGetOSVersion200Response,
-  CloudServiceOperatingSystemsGetOSVersionDefaultResponse,
-  CloudServiceOperatingSystemsListOSFamilies200Response,
-  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
-  CloudServiceOperatingSystemsListOSVersions200Response,
-  CloudServiceOperatingSystemsListOSVersionsDefaultResponse,
-  CloudServiceRoleInstancesDelete200Response,
-  CloudServiceRoleInstancesDelete202Response,
-  CloudServiceRoleInstancesDelete204Response,
-  CloudServiceRoleInstancesDeleteDefaultResponse,
-  CloudServiceRoleInstancesGet200Response,
-  CloudServiceRoleInstancesGetDefaultResponse,
-  CloudServiceRoleInstancesGetInstanceView200Response,
-  CloudServiceRoleInstancesGetInstanceViewDefaultResponse,
-  CloudServiceRoleInstancesGetRemoteDesktopFile200Response,
-  CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse,
-  CloudServiceRoleInstancesList200Response,
-  CloudServiceRoleInstancesListDefaultResponse,
-  CloudServiceRoleInstancesRebuild200Response,
-  CloudServiceRoleInstancesRebuild202Response,
-  CloudServiceRoleInstancesRebuildDefaultResponse,
-  CloudServiceRoleInstancesReimage200Response,
-  CloudServiceRoleInstancesReimage202Response,
-  CloudServiceRoleInstancesReimageDefaultResponse,
-  CloudServiceRoleInstancesRestart200Response,
-  CloudServiceRoleInstancesRestart202Response,
-  CloudServiceRoleInstancesRestartDefaultResponse,
-  CloudServiceRolesGet200Response,
-  CloudServiceRolesGetDefaultResponse,
-  CloudServiceRolesList200Response,
-  CloudServiceRolesListDefaultResponse,
-  CloudServicesCreateOrUpdate200Response,
-  CloudServicesCreateOrUpdate201Response,
-  CloudServicesCreateOrUpdateDefaultResponse,
-  CloudServicesDelete200Response,
-  CloudServicesDelete202Response,
-  CloudServicesDelete204Response,
-  CloudServicesDeleteDefaultResponse,
-  CloudServicesDeleteInstances200Response,
-  CloudServicesDeleteInstances202Response,
-  CloudServicesDeleteInstancesDefaultResponse,
-  CloudServicesGet200Response,
-  CloudServicesGetDefaultResponse,
-  CloudServicesGetInstanceView200Response,
-  CloudServicesGetInstanceViewDefaultResponse,
-  CloudServicesList200Response,
-  CloudServicesListAll200Response,
-  CloudServicesListAllDefaultResponse,
-  CloudServicesListDefaultResponse,
-  CloudServicesPowerOff200Response,
-  CloudServicesPowerOff202Response,
-  CloudServicesPowerOffDefaultResponse,
-  CloudServicesRebuild200Response,
-  CloudServicesRebuild202Response,
-  CloudServicesRebuildDefaultResponse,
-  CloudServicesReimage200Response,
-  CloudServicesReimage202Response,
-  CloudServicesReimageDefaultResponse,
-  CloudServicesRestart200Response,
-  CloudServicesRestart202Response,
-  CloudServicesRestartDefaultResponse,
-  CloudServicesStart200Response,
-  CloudServicesStart202Response,
-  CloudServicesStartDefaultResponse,
-  CloudServicesUpdate200Response,
-  CloudServicesUpdateDefaultResponse,
-  CloudServicesUpdateDomainGetUpdateDomain200Response,
-  CloudServicesUpdateDomainGetUpdateDomainDefaultResponse,
-  CloudServicesUpdateDomainListUpdateDomains200Response,
-  CloudServicesUpdateDomainListUpdateDomainsDefaultResponse,
-  CloudServicesUpdateDomainWalkUpdateDomain200Response,
-  CloudServicesUpdateDomainWalkUpdateDomain202Response,
-  CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse,
-  CommunityGalleriesGet200Response,
-  CommunityGalleriesGetDefaultResponse,
-  CommunityGalleryImageVersionsGet200Response,
-  CommunityGalleryImageVersionsGetDefaultResponse,
-  CommunityGalleryImageVersionsList200Response,
-  CommunityGalleryImageVersionsListDefaultResponse,
-  CommunityGalleryImagesGet200Response,
-  CommunityGalleryImagesGetDefaultResponse,
-  CommunityGalleryImagesList200Response,
-  CommunityGalleryImagesListDefaultResponse,
-  DedicatedHostGroupsCreateOrUpdate200Response,
-  DedicatedHostGroupsCreateOrUpdate201Response,
-  DedicatedHostGroupsCreateOrUpdateDefaultResponse,
-  DedicatedHostGroupsDelete200Response,
-  DedicatedHostGroupsDelete204Response,
-  DedicatedHostGroupsDeleteDefaultResponse,
-  DedicatedHostGroupsGet200Response,
-  DedicatedHostGroupsGetDefaultResponse,
-  DedicatedHostGroupsListByResourceGroup200Response,
-  DedicatedHostGroupsListByResourceGroupDefaultResponse,
-  DedicatedHostGroupsListBySubscription200Response,
-  DedicatedHostGroupsListBySubscriptionDefaultResponse,
-  DedicatedHostGroupsUpdate200Response,
-  DedicatedHostGroupsUpdateDefaultResponse,
-  DedicatedHostsCreateOrUpdate200Response,
-  DedicatedHostsCreateOrUpdate201Response,
-  DedicatedHostsCreateOrUpdateDefaultResponse,
-  DedicatedHostsDelete200Response,
-  DedicatedHostsDelete202Response,
-  DedicatedHostsDelete204Response,
-  DedicatedHostsDeleteDefaultResponse,
-  DedicatedHostsGet200Response,
-  DedicatedHostsGetDefaultResponse,
-  DedicatedHostsListByHostGroup200Response,
-  DedicatedHostsListByHostGroupDefaultResponse,
-  DedicatedHostsRestart200Response,
-  DedicatedHostsRestartDefaultResponse,
-  DedicatedHostsUpdate200Response,
-  DedicatedHostsUpdateDefaultResponse,
-  DiskAccessesCreateOrUpdate200Response,
-  DiskAccessesCreateOrUpdate202Response,
-  DiskAccessesCreateOrUpdateDefaultResponse,
-  DiskAccessesDelete200Response,
-  DiskAccessesDelete202Response,
-  DiskAccessesDelete204Response,
-  DiskAccessesDeleteAPrivateEndpointConnection200Response,
-  DiskAccessesDeleteAPrivateEndpointConnection202Response,
-  DiskAccessesDeleteAPrivateEndpointConnection204Response,
-  DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse,
-  DiskAccessesDeleteDefaultResponse,
-  DiskAccessesGet200Response,
-  DiskAccessesGetAPrivateEndpointConnection200Response,
-  DiskAccessesGetAPrivateEndpointConnectionDefaultResponse,
-  DiskAccessesGetDefaultResponse,
-  DiskAccessesList200Response,
-  DiskAccessesListByResourceGroup200Response,
-  DiskAccessesListByResourceGroupDefaultResponse,
-  DiskAccessesListDefaultResponse,
-  DiskAccessesListPrivateEndpointConnections200Response,
-  DiskAccessesListPrivateEndpointConnectionsDefaultResponse,
-  DiskAccessesUpdate200Response,
-  DiskAccessesUpdate202Response,
-  DiskAccessesUpdateAPrivateEndpointConnection200Response,
-  DiskAccessesUpdateAPrivateEndpointConnection202Response,
-  DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse,
-  DiskAccessesUpdateDefaultResponse,
-  DiskEncryptionSetsCreateOrUpdate200Response,
-  DiskEncryptionSetsCreateOrUpdate202Response,
-  DiskEncryptionSetsCreateOrUpdateDefaultResponse,
-  DiskEncryptionSetsDelete200Response,
-  DiskEncryptionSetsDelete202Response,
-  DiskEncryptionSetsDelete204Response,
-  DiskEncryptionSetsDeleteDefaultResponse,
-  DiskEncryptionSetsGet200Response,
-  DiskEncryptionSetsGetDefaultResponse,
-  DiskEncryptionSetsList200Response,
-  DiskEncryptionSetsListAssociatedResources200Response,
-  DiskEncryptionSetsListAssociatedResourcesDefaultResponse,
-  DiskEncryptionSetsListByResourceGroup200Response,
-  DiskEncryptionSetsListByResourceGroupDefaultResponse,
-  DiskEncryptionSetsListDefaultResponse,
-  DiskEncryptionSetsUpdate200Response,
-  DiskEncryptionSetsUpdate202Response,
-  DiskEncryptionSetsUpdateDefaultResponse,
-  DiskRestorePointGet200Response,
-  DiskRestorePointGetDefaultResponse,
-  DiskRestorePointGrantAccess200Response,
-  DiskRestorePointGrantAccess202Response,
-  DiskRestorePointGrantAccessDefaultResponse,
-  DiskRestorePointListByRestorePoint200Response,
-  DiskRestorePointListByRestorePointDefaultResponse,
-  DiskRestorePointRevokeAccess200Response,
-  DiskRestorePointRevokeAccess202Response,
-  DiskRestorePointRevokeAccessDefaultResponse,
-  GalleriesCreateOrUpdate200Response,
-  GalleriesCreateOrUpdate201Response,
-  GalleriesCreateOrUpdate202Response,
-  GalleriesCreateOrUpdateDefaultResponse,
-  GalleriesDelete200Response,
-  GalleriesDelete202Response,
-  GalleriesDelete204Response,
-  GalleriesDeleteDefaultResponse,
-  GalleriesGet200Response,
-  GalleriesGetDefaultResponse,
-  GalleriesList200Response,
-  GalleriesListByResourceGroup200Response,
-  GalleriesListByResourceGroupDefaultResponse,
-  GalleriesListDefaultResponse,
-  GalleriesUpdate200Response,
-  GalleriesUpdateDefaultResponse,
-  GalleryApplicationVersionsCreateOrUpdate200Response,
-  GalleryApplicationVersionsCreateOrUpdate201Response,
-  GalleryApplicationVersionsCreateOrUpdate202Response,
-  GalleryApplicationVersionsCreateOrUpdateDefaultResponse,
-  GalleryApplicationVersionsDelete200Response,
-  GalleryApplicationVersionsDelete202Response,
-  GalleryApplicationVersionsDelete204Response,
-  GalleryApplicationVersionsDeleteDefaultResponse,
-  GalleryApplicationVersionsGet200Response,
-  GalleryApplicationVersionsGetDefaultResponse,
-  GalleryApplicationVersionsListByGalleryApplication200Response,
-  GalleryApplicationVersionsListByGalleryApplicationDefaultResponse,
-  GalleryApplicationVersionsUpdate200Response,
-  GalleryApplicationVersionsUpdateDefaultResponse,
-  GalleryApplicationsCreateOrUpdate200Response,
-  GalleryApplicationsCreateOrUpdate201Response,
-  GalleryApplicationsCreateOrUpdate202Response,
-  GalleryApplicationsCreateOrUpdateDefaultResponse,
-  GalleryApplicationsDelete200Response,
-  GalleryApplicationsDelete202Response,
-  GalleryApplicationsDelete204Response,
-  GalleryApplicationsDeleteDefaultResponse,
-  GalleryApplicationsGet200Response,
-  GalleryApplicationsGetDefaultResponse,
-  GalleryApplicationsListByGallery200Response,
-  GalleryApplicationsListByGalleryDefaultResponse,
-  GalleryApplicationsUpdate200Response,
-  GalleryApplicationsUpdateDefaultResponse,
-  GalleryImageVersionsCreateOrUpdate200Response,
-  GalleryImageVersionsCreateOrUpdate201Response,
-  GalleryImageVersionsCreateOrUpdate202Response,
-  GalleryImageVersionsCreateOrUpdateDefaultResponse,
-  GalleryImageVersionsDelete200Response,
-  GalleryImageVersionsDelete202Response,
-  GalleryImageVersionsDelete204Response,
-  GalleryImageVersionsDeleteDefaultResponse,
-  GalleryImageVersionsGet200Response,
-  GalleryImageVersionsGetDefaultResponse,
-  GalleryImageVersionsListByGalleryImage200Response,
-  GalleryImageVersionsListByGalleryImageDefaultResponse,
-  GalleryImageVersionsUpdate200Response,
-  GalleryImageVersionsUpdateDefaultResponse,
-  GalleryImagesCreateOrUpdate200Response,
-  GalleryImagesCreateOrUpdate201Response,
-  GalleryImagesCreateOrUpdate202Response,
-  GalleryImagesCreateOrUpdateDefaultResponse,
-  GalleryImagesDelete200Response,
-  GalleryImagesDelete202Response,
-  GalleryImagesDelete204Response,
-  GalleryImagesDeleteDefaultResponse,
-  GalleryImagesGet200Response,
-  GalleryImagesGetDefaultResponse,
-  GalleryImagesListByGallery200Response,
-  GalleryImagesListByGalleryDefaultResponse,
-  GalleryImagesUpdate200Response,
-  GalleryImagesUpdateDefaultResponse,
-  GallerySharingProfileUpdate200Response,
-  GallerySharingProfileUpdate202Response,
-  GallerySharingProfileUpdateDefaultResponse,
-  ImagesCreateOrUpdate200Response,
-  ImagesCreateOrUpdate201Response,
-  ImagesCreateOrUpdateDefaultResponse,
-  ImagesDelete200Response,
-  ImagesDelete202Response,
-  ImagesDelete204Response,
-  ImagesDeleteDefaultResponse,
-  ImagesGet200Response,
-  ImagesGetDefaultResponse,
-  ImagesList200Response,
-  ImagesListByResourceGroup200Response,
-  ImagesListByResourceGroupDefaultResponse,
-  ImagesListDefaultResponse,
-  ImagesUpdate200Response,
-  ImagesUpdate201Response,
-  ImagesUpdateDefaultResponse,
-  LogAnalyticsExportRequestRateByInterval200Response,
-  LogAnalyticsExportRequestRateByInterval202Response,
-  LogAnalyticsExportRequestRateByIntervalDefaultResponse,
-  LogAnalyticsExportThrottledRequests200Response,
-  LogAnalyticsExportThrottledRequests202Response,
-  LogAnalyticsExportThrottledRequestsDefaultResponse,
   OperationsList200Response,
   OperationsListDefaultResponse,
-  ProximityPlacementGroupsCreateOrUpdate200Response,
-  ProximityPlacementGroupsCreateOrUpdate201Response,
-  ProximityPlacementGroupsCreateOrUpdateDefaultResponse,
-  ProximityPlacementGroupsDelete200Response,
-  ProximityPlacementGroupsDeleteDefaultResponse,
-  ProximityPlacementGroupsGet200Response,
-  ProximityPlacementGroupsGetDefaultResponse,
-  ProximityPlacementGroupsListByResourceGroup200Response,
-  ProximityPlacementGroupsListByResourceGroupDefaultResponse,
-  ProximityPlacementGroupsListBySubscription200Response,
-  ProximityPlacementGroupsListBySubscriptionDefaultResponse,
-  ProximityPlacementGroupsUpdate200Response,
-  ProximityPlacementGroupsUpdateDefaultResponse,
-  RestorePointCollectionsCreateOrUpdate200Response,
-  RestorePointCollectionsCreateOrUpdate201Response,
-  RestorePointCollectionsCreateOrUpdateDefaultResponse,
-  RestorePointCollectionsDelete200Response,
-  RestorePointCollectionsDelete202Response,
-  RestorePointCollectionsDelete204Response,
-  RestorePointCollectionsDeleteDefaultResponse,
-  RestorePointCollectionsGet200Response,
-  RestorePointCollectionsGetDefaultResponse,
-  RestorePointCollectionsList200Response,
-  RestorePointCollectionsListAll200Response,
-  RestorePointCollectionsListAllDefaultResponse,
-  RestorePointCollectionsListDefaultResponse,
-  RestorePointCollectionsUpdate200Response,
-  RestorePointCollectionsUpdateDefaultResponse,
-  RestorePointsCreate201Response,
-  RestorePointsCreateDefaultResponse,
-  RestorePointsDelete200Response,
-  RestorePointsDelete202Response,
-  RestorePointsDelete204Response,
-  RestorePointsDeleteDefaultResponse,
-  RestorePointsGet200Response,
-  RestorePointsGetDefaultResponse,
-  SharedGalleriesGet200Response,
-  SharedGalleriesGetDefaultResponse,
-  SharedGalleriesList200Response,
-  SharedGalleriesListDefaultResponse,
-  SharedGalleryImageVersionsGet200Response,
-  SharedGalleryImageVersionsGetDefaultResponse,
-  SharedGalleryImageVersionsList200Response,
-  SharedGalleryImageVersionsListDefaultResponse,
-  SharedGalleryImagesGet200Response,
-  SharedGalleryImagesGetDefaultResponse,
-  SharedGalleryImagesList200Response,
-  SharedGalleryImagesListDefaultResponse,
-  SshPublicKeysCreate200Response,
-  SshPublicKeysCreate201Response,
-  SshPublicKeysCreateDefaultResponse,
-  SshPublicKeysDelete200Response,
-  SshPublicKeysDelete204Response,
-  SshPublicKeysDeleteDefaultResponse,
-  SshPublicKeysGenerateKeyPair200Response,
-  SshPublicKeysGenerateKeyPairDefaultResponse,
-  SshPublicKeysGet200Response,
-  SshPublicKeysGetDefaultResponse,
-  SshPublicKeysListByResourceGroup200Response,
-  SshPublicKeysListByResourceGroupDefaultResponse,
-  SshPublicKeysListBySubscription200Response,
-  SshPublicKeysListBySubscriptionDefaultResponse,
-  SshPublicKeysUpdate200Response,
-  SshPublicKeysUpdateDefaultResponse,
   UsageList200Response,
   UsageListDefaultResponse,
-  VirtualMachineExtensionImagesGet200Response,
-  VirtualMachineExtensionImagesGetDefaultResponse,
-  VirtualMachineExtensionImagesListTypes200Response,
-  VirtualMachineExtensionImagesListTypesDefaultResponse,
-  VirtualMachineExtensionImagesListVersions200Response,
-  VirtualMachineExtensionImagesListVersionsDefaultResponse,
-  VirtualMachineExtensionsCreateOrUpdate200Response,
-  VirtualMachineExtensionsCreateOrUpdate201Response,
-  VirtualMachineExtensionsCreateOrUpdateDefaultResponse,
-  VirtualMachineExtensionsDelete200Response,
-  VirtualMachineExtensionsDelete202Response,
-  VirtualMachineExtensionsDelete204Response,
-  VirtualMachineExtensionsDeleteDefaultResponse,
-  VirtualMachineExtensionsGet200Response,
-  VirtualMachineExtensionsGetDefaultResponse,
-  VirtualMachineExtensionsList200Response,
-  VirtualMachineExtensionsListDefaultResponse,
-  VirtualMachineExtensionsUpdate200Response,
-  VirtualMachineExtensionsUpdateDefaultResponse,
-  VirtualMachineImagesEdgeZoneGet200Response,
-  VirtualMachineImagesEdgeZoneGetDefaultResponse,
-  VirtualMachineImagesEdgeZoneList200Response,
-  VirtualMachineImagesEdgeZoneListDefaultResponse,
-  VirtualMachineImagesEdgeZoneListOffers200Response,
-  VirtualMachineImagesEdgeZoneListOffersDefaultResponse,
-  VirtualMachineImagesEdgeZoneListPublishers200Response,
-  VirtualMachineImagesEdgeZoneListPublishersDefaultResponse,
-  VirtualMachineImagesEdgeZoneListSkus200Response,
-  VirtualMachineImagesEdgeZoneListSkusDefaultResponse,
-  VirtualMachineImagesGet200Response,
-  VirtualMachineImagesGetDefaultResponse,
-  VirtualMachineImagesList200Response,
-  VirtualMachineImagesListByEdgeZone200Response,
-  VirtualMachineImagesListByEdgeZoneDefaultResponse,
-  VirtualMachineImagesListDefaultResponse,
-  VirtualMachineImagesListOffers200Response,
-  VirtualMachineImagesListOffersDefaultResponse,
-  VirtualMachineImagesListPublishers200Response,
-  VirtualMachineImagesListPublishersDefaultResponse,
-  VirtualMachineImagesListSkus200Response,
-  VirtualMachineImagesListSkusDefaultResponse,
-  VirtualMachineRunCommandsCreateOrUpdate200Response,
-  VirtualMachineRunCommandsCreateOrUpdate201Response,
-  VirtualMachineRunCommandsCreateOrUpdateDefaultResponse,
-  VirtualMachineRunCommandsDelete200Response,
-  VirtualMachineRunCommandsDelete202Response,
-  VirtualMachineRunCommandsDelete204Response,
-  VirtualMachineRunCommandsDeleteDefaultResponse,
-  VirtualMachineRunCommandsGetByVirtualMachine200Response,
-  VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse,
-  VirtualMachineRunCommandsListByVirtualMachine200Response,
-  VirtualMachineRunCommandsListByVirtualMachineDefaultResponse,
-  VirtualMachineRunCommandsUpdate200Response,
-  VirtualMachineRunCommandsUpdateDefaultResponse,
+  VirtualMachineSizesList200Response,
+  VirtualMachineSizesListDefaultResponse,
+  VirtualMachineScaleSetsListByLocation200Response,
+  VirtualMachineScaleSetsListByLocationDefaultResponse,
+  VirtualMachineScaleSetsCreateOrUpdate200Response,
+  VirtualMachineScaleSetsCreateOrUpdate201Response,
+  VirtualMachineScaleSetsCreateOrUpdateDefaultResponse,
+  VirtualMachineScaleSetsUpdate200Response,
+  VirtualMachineScaleSetsUpdateDefaultResponse,
+  VirtualMachineScaleSetsDelete200Response,
+  VirtualMachineScaleSetsDelete202Response,
+  VirtualMachineScaleSetsDelete204Response,
+  VirtualMachineScaleSetsDeleteDefaultResponse,
+  VirtualMachineScaleSetsGet200Response,
+  VirtualMachineScaleSetsGetDefaultResponse,
+  VirtualMachineScaleSetsDeallocate200Response,
+  VirtualMachineScaleSetsDeallocate202Response,
+  VirtualMachineScaleSetsDeallocateDefaultResponse,
+  VirtualMachineScaleSetsDeleteInstances200Response,
+  VirtualMachineScaleSetsDeleteInstances202Response,
+  VirtualMachineScaleSetsDeleteInstancesDefaultResponse,
+  VirtualMachineScaleSetsGetInstanceView200Response,
+  VirtualMachineScaleSetsGetInstanceViewDefaultResponse,
+  VirtualMachineScaleSetsList200Response,
+  VirtualMachineScaleSetsListDefaultResponse,
+  VirtualMachineScaleSetsListAll200Response,
+  VirtualMachineScaleSetsListAllDefaultResponse,
+  VirtualMachineScaleSetsListSkus200Response,
+  VirtualMachineScaleSetsListSkusDefaultResponse,
+  VirtualMachineScaleSetsGetOSUpgradeHistory200Response,
+  VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse,
+  VirtualMachineScaleSetsPowerOff200Response,
+  VirtualMachineScaleSetsPowerOff202Response,
+  VirtualMachineScaleSetsPowerOffDefaultResponse,
+  VirtualMachineScaleSetsRestart200Response,
+  VirtualMachineScaleSetsRestart202Response,
+  VirtualMachineScaleSetsRestartDefaultResponse,
+  VirtualMachineScaleSetsStart200Response,
+  VirtualMachineScaleSetsStart202Response,
+  VirtualMachineScaleSetsStartDefaultResponse,
+  VirtualMachineScaleSetsRedeploy200Response,
+  VirtualMachineScaleSetsRedeploy202Response,
+  VirtualMachineScaleSetsRedeployDefaultResponse,
+  VirtualMachineScaleSetsPerformMaintenance200Response,
+  VirtualMachineScaleSetsPerformMaintenance202Response,
+  VirtualMachineScaleSetsPerformMaintenanceDefaultResponse,
+  VirtualMachineScaleSetsUpdateInstances200Response,
+  VirtualMachineScaleSetsUpdateInstances202Response,
+  VirtualMachineScaleSetsUpdateInstancesDefaultResponse,
+  VirtualMachineScaleSetsReimage200Response,
+  VirtualMachineScaleSetsReimage202Response,
+  VirtualMachineScaleSetsReimageDefaultResponse,
+  VirtualMachineScaleSetsReimageAll200Response,
+  VirtualMachineScaleSetsReimageAll202Response,
+  VirtualMachineScaleSetsReimageAllDefaultResponse,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response,
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response,
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse,
+  VirtualMachineScaleSetsSetOrchestrationServiceState200Response,
+  VirtualMachineScaleSetsSetOrchestrationServiceState202Response,
+  VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse,
   VirtualMachineScaleSetExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetExtensionsCreateOrUpdate201Response,
   VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse,
+  VirtualMachineScaleSetExtensionsUpdate200Response,
+  VirtualMachineScaleSetExtensionsUpdate201Response,
+  VirtualMachineScaleSetExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetExtensionsDelete200Response,
   VirtualMachineScaleSetExtensionsDelete202Response,
   VirtualMachineScaleSetExtensionsDelete204Response,
@@ -444,23 +82,22 @@ import type {
   VirtualMachineScaleSetExtensionsGetDefaultResponse,
   VirtualMachineScaleSetExtensionsList200Response,
   VirtualMachineScaleSetExtensionsListDefaultResponse,
-  VirtualMachineScaleSetExtensionsUpdate200Response,
-  VirtualMachineScaleSetExtensionsUpdate201Response,
-  VirtualMachineScaleSetExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesCancel200Response,
   VirtualMachineScaleSetRollingUpgradesCancel202Response,
   VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse,
-  VirtualMachineScaleSetRollingUpgradesGetLatest200Response,
-  VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse,
-  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response,
-  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response,
-  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse,
+  VirtualMachineScaleSetRollingUpgradesGetLatest200Response,
+  VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse,
+  VirtualMachineScaleSetVMExtensionsUpdate200Response,
+  VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse,
   VirtualMachineScaleSetVMExtensionsDelete200Response,
   VirtualMachineScaleSetVMExtensionsDelete202Response,
   VirtualMachineScaleSetVMExtensionsDelete204Response,
@@ -469,24 +106,18 @@ import type {
   VirtualMachineScaleSetVMExtensionsGetDefaultResponse,
   VirtualMachineScaleSetVMExtensionsList200Response,
   VirtualMachineScaleSetVMExtensionsListDefaultResponse,
-  VirtualMachineScaleSetVMExtensionsUpdate200Response,
-  VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse,
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response,
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response,
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse,
-  VirtualMachineScaleSetVMRunCommandsDelete200Response,
-  VirtualMachineScaleSetVMRunCommandsDelete202Response,
-  VirtualMachineScaleSetVMRunCommandsDelete204Response,
-  VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse,
-  VirtualMachineScaleSetVMRunCommandsGet200Response,
-  VirtualMachineScaleSetVMRunCommandsGetDefaultResponse,
-  VirtualMachineScaleSetVMRunCommandsList200Response,
-  VirtualMachineScaleSetVMRunCommandsListDefaultResponse,
-  VirtualMachineScaleSetVMRunCommandsUpdate200Response,
-  VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse,
+  VirtualMachineScaleSetVMsReimage200Response,
+  VirtualMachineScaleSetVMsReimage202Response,
+  VirtualMachineScaleSetVMsReimageDefaultResponse,
+  VirtualMachineScaleSetVMsReimageAll200Response,
+  VirtualMachineScaleSetVMsReimageAll202Response,
+  VirtualMachineScaleSetVMsReimageAllDefaultResponse,
   VirtualMachineScaleSetVMsDeallocate200Response,
   VirtualMachineScaleSetVMsDeallocate202Response,
   VirtualMachineScaleSetVMsDeallocateDefaultResponse,
+  VirtualMachineScaleSetVMsUpdate200Response,
+  VirtualMachineScaleSetVMsUpdate202Response,
+  VirtualMachineScaleSetVMsUpdateDefaultResponse,
   VirtualMachineScaleSetVMsDelete200Response,
   VirtualMachineScaleSetVMsDelete202Response,
   VirtualMachineScaleSetVMsDelete204Response,
@@ -497,160 +128,529 @@ import type {
   VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse,
   VirtualMachineScaleSetVMsList200Response,
   VirtualMachineScaleSetVMsListDefaultResponse,
-  VirtualMachineScaleSetVMsPerformMaintenance200Response,
-  VirtualMachineScaleSetVMsPerformMaintenance202Response,
-  VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse,
   VirtualMachineScaleSetVMsPowerOff200Response,
   VirtualMachineScaleSetVMsPowerOff202Response,
   VirtualMachineScaleSetVMsPowerOffDefaultResponse,
-  VirtualMachineScaleSetVMsRedeploy200Response,
-  VirtualMachineScaleSetVMsRedeploy202Response,
-  VirtualMachineScaleSetVMsRedeployDefaultResponse,
-  VirtualMachineScaleSetVMsReimage200Response,
-  VirtualMachineScaleSetVMsReimage202Response,
-  VirtualMachineScaleSetVMsReimageAll200Response,
-  VirtualMachineScaleSetVMsReimageAll202Response,
-  VirtualMachineScaleSetVMsReimageAllDefaultResponse,
-  VirtualMachineScaleSetVMsReimageDefaultResponse,
   VirtualMachineScaleSetVMsRestart200Response,
   VirtualMachineScaleSetVMsRestart202Response,
   VirtualMachineScaleSetVMsRestartDefaultResponse,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse,
-  VirtualMachineScaleSetVMsSimulateEviction204Response,
-  VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse,
   VirtualMachineScaleSetVMsStart200Response,
   VirtualMachineScaleSetVMsStart202Response,
   VirtualMachineScaleSetVMsStartDefaultResponse,
-  VirtualMachineScaleSetVMsUpdate200Response,
-  VirtualMachineScaleSetVMsUpdate202Response,
-  VirtualMachineScaleSetVMsUpdateDefaultResponse,
-  VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response,
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse,
-  VirtualMachineScaleSetsCreateOrUpdate200Response,
-  VirtualMachineScaleSetsCreateOrUpdate201Response,
-  VirtualMachineScaleSetsCreateOrUpdateDefaultResponse,
-  VirtualMachineScaleSetsDeallocate200Response,
-  VirtualMachineScaleSetsDeallocate202Response,
-  VirtualMachineScaleSetsDeallocateDefaultResponse,
-  VirtualMachineScaleSetsDelete200Response,
-  VirtualMachineScaleSetsDelete202Response,
-  VirtualMachineScaleSetsDelete204Response,
-  VirtualMachineScaleSetsDeleteDefaultResponse,
-  VirtualMachineScaleSetsDeleteInstances200Response,
-  VirtualMachineScaleSetsDeleteInstances202Response,
-  VirtualMachineScaleSetsDeleteInstancesDefaultResponse,
-  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response,
-  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse,
-  VirtualMachineScaleSetsGet200Response,
-  VirtualMachineScaleSetsGetDefaultResponse,
-  VirtualMachineScaleSetsGetInstanceView200Response,
-  VirtualMachineScaleSetsGetInstanceViewDefaultResponse,
-  VirtualMachineScaleSetsGetOSUpgradeHistory200Response,
-  VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse,
-  VirtualMachineScaleSetsList200Response,
-  VirtualMachineScaleSetsListAll200Response,
-  VirtualMachineScaleSetsListAllDefaultResponse,
-  VirtualMachineScaleSetsListByLocation200Response,
-  VirtualMachineScaleSetsListByLocationDefaultResponse,
-  VirtualMachineScaleSetsListDefaultResponse,
-  VirtualMachineScaleSetsListSkus200Response,
-  VirtualMachineScaleSetsListSkusDefaultResponse,
-  VirtualMachineScaleSetsPerformMaintenance200Response,
-  VirtualMachineScaleSetsPerformMaintenance202Response,
-  VirtualMachineScaleSetsPerformMaintenanceDefaultResponse,
-  VirtualMachineScaleSetsPowerOff200Response,
-  VirtualMachineScaleSetsPowerOff202Response,
-  VirtualMachineScaleSetsPowerOffDefaultResponse,
-  VirtualMachineScaleSetsRedeploy200Response,
-  VirtualMachineScaleSetsRedeploy202Response,
-  VirtualMachineScaleSetsRedeployDefaultResponse,
-  VirtualMachineScaleSetsReimage200Response,
-  VirtualMachineScaleSetsReimage202Response,
-  VirtualMachineScaleSetsReimageAll200Response,
-  VirtualMachineScaleSetsReimageAll202Response,
-  VirtualMachineScaleSetsReimageAllDefaultResponse,
-  VirtualMachineScaleSetsReimageDefaultResponse,
-  VirtualMachineScaleSetsRestart200Response,
-  VirtualMachineScaleSetsRestart202Response,
-  VirtualMachineScaleSetsRestartDefaultResponse,
-  VirtualMachineScaleSetsSetOrchestrationServiceState200Response,
-  VirtualMachineScaleSetsSetOrchestrationServiceState202Response,
-  VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse,
-  VirtualMachineScaleSetsStart200Response,
-  VirtualMachineScaleSetsStart202Response,
-  VirtualMachineScaleSetsStartDefaultResponse,
-  VirtualMachineScaleSetsUpdate200Response,
-  VirtualMachineScaleSetsUpdateDefaultResponse,
-  VirtualMachineScaleSetsUpdateInstances200Response,
-  VirtualMachineScaleSetsUpdateInstances202Response,
-  VirtualMachineScaleSetsUpdateInstancesDefaultResponse,
-  VirtualMachineSizesList200Response,
-  VirtualMachineSizesListDefaultResponse,
-  VirtualMachinesAssessPatches200Response,
-  VirtualMachinesAssessPatches202Response,
-  VirtualMachinesAssessPatchesDefaultResponse,
+  VirtualMachineScaleSetVMsRedeploy200Response,
+  VirtualMachineScaleSetVMsRedeploy202Response,
+  VirtualMachineScaleSetVMsRedeployDefaultResponse,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse,
+  VirtualMachineScaleSetVMsPerformMaintenance200Response,
+  VirtualMachineScaleSetVMsPerformMaintenance202Response,
+  VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse,
+  VirtualMachineScaleSetVMsSimulateEviction204Response,
+  VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse,
+  VirtualMachineExtensionsCreateOrUpdate200Response,
+  VirtualMachineExtensionsCreateOrUpdate201Response,
+  VirtualMachineExtensionsCreateOrUpdateDefaultResponse,
+  VirtualMachineExtensionsUpdate200Response,
+  VirtualMachineExtensionsUpdateDefaultResponse,
+  VirtualMachineExtensionsDelete200Response,
+  VirtualMachineExtensionsDelete202Response,
+  VirtualMachineExtensionsDelete204Response,
+  VirtualMachineExtensionsDeleteDefaultResponse,
+  VirtualMachineExtensionsGet200Response,
+  VirtualMachineExtensionsGetDefaultResponse,
+  VirtualMachineExtensionsList200Response,
+  VirtualMachineExtensionsListDefaultResponse,
+  VirtualMachinesListByLocation200Response,
+  VirtualMachinesListByLocationDefaultResponse,
   VirtualMachinesCapture200Response,
   VirtualMachinesCapture202Response,
   VirtualMachinesCaptureDefaultResponse,
-  VirtualMachinesConvertToManagedDisks200Response,
-  VirtualMachinesConvertToManagedDisks202Response,
-  VirtualMachinesConvertToManagedDisksDefaultResponse,
   VirtualMachinesCreateOrUpdate200Response,
   VirtualMachinesCreateOrUpdate201Response,
   VirtualMachinesCreateOrUpdateDefaultResponse,
-  VirtualMachinesDeallocate200Response,
-  VirtualMachinesDeallocate202Response,
-  VirtualMachinesDeallocateDefaultResponse,
+  VirtualMachinesUpdate200Response,
+  VirtualMachinesUpdateDefaultResponse,
   VirtualMachinesDelete200Response,
   VirtualMachinesDelete202Response,
   VirtualMachinesDelete204Response,
   VirtualMachinesDeleteDefaultResponse,
-  VirtualMachinesGeneralize200Response,
-  VirtualMachinesGeneralizeDefaultResponse,
   VirtualMachinesGet200Response,
   VirtualMachinesGetDefaultResponse,
-  VirtualMachinesInstallPatches200Response,
-  VirtualMachinesInstallPatches202Response,
-  VirtualMachinesInstallPatchesDefaultResponse,
   VirtualMachinesInstanceView200Response,
   VirtualMachinesInstanceViewDefaultResponse,
+  VirtualMachinesConvertToManagedDisks200Response,
+  VirtualMachinesConvertToManagedDisks202Response,
+  VirtualMachinesConvertToManagedDisksDefaultResponse,
+  VirtualMachinesDeallocate200Response,
+  VirtualMachinesDeallocate202Response,
+  VirtualMachinesDeallocateDefaultResponse,
+  VirtualMachinesGeneralize200Response,
+  VirtualMachinesGeneralizeDefaultResponse,
   VirtualMachinesList200Response,
+  VirtualMachinesListDefaultResponse,
   VirtualMachinesListAll200Response,
   VirtualMachinesListAllDefaultResponse,
   VirtualMachinesListAvailableSizes200Response,
   VirtualMachinesListAvailableSizesDefaultResponse,
-  VirtualMachinesListByLocation200Response,
-  VirtualMachinesListByLocationDefaultResponse,
-  VirtualMachinesListDefaultResponse,
-  VirtualMachinesPerformMaintenance200Response,
-  VirtualMachinesPerformMaintenance202Response,
-  VirtualMachinesPerformMaintenanceDefaultResponse,
   VirtualMachinesPowerOff200Response,
   VirtualMachinesPowerOff202Response,
   VirtualMachinesPowerOffDefaultResponse,
   VirtualMachinesReapply200Response,
   VirtualMachinesReapply202Response,
   VirtualMachinesReapplyDefaultResponse,
+  VirtualMachinesRestart200Response,
+  VirtualMachinesRestart202Response,
+  VirtualMachinesRestartDefaultResponse,
+  VirtualMachinesStart200Response,
+  VirtualMachinesStart202Response,
+  VirtualMachinesStartDefaultResponse,
   VirtualMachinesRedeploy200Response,
   VirtualMachinesRedeploy202Response,
   VirtualMachinesRedeployDefaultResponse,
   VirtualMachinesReimage200Response,
   VirtualMachinesReimage202Response,
   VirtualMachinesReimageDefaultResponse,
-  VirtualMachinesRestart200Response,
-  VirtualMachinesRestart202Response,
-  VirtualMachinesRestartDefaultResponse,
   VirtualMachinesRetrieveBootDiagnosticsData200Response,
   VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse,
+  VirtualMachinesPerformMaintenance200Response,
+  VirtualMachinesPerformMaintenance202Response,
+  VirtualMachinesPerformMaintenanceDefaultResponse,
   VirtualMachinesSimulateEviction204Response,
   VirtualMachinesSimulateEvictionDefaultResponse,
-  VirtualMachinesStart200Response,
-  VirtualMachinesStart202Response,
-  VirtualMachinesStartDefaultResponse,
-  VirtualMachinesUpdate200Response,
-  VirtualMachinesUpdateDefaultResponse,
-} from "./responses";
+  VirtualMachinesAssessPatches200Response,
+  VirtualMachinesAssessPatches202Response,
+  VirtualMachinesAssessPatchesDefaultResponse,
+  VirtualMachinesInstallPatches200Response,
+  VirtualMachinesInstallPatches202Response,
+  VirtualMachinesInstallPatchesDefaultResponse,
+  VirtualMachineImagesGet200Response,
+  VirtualMachineImagesGetDefaultResponse,
+  VirtualMachineImagesList200Response,
+  VirtualMachineImagesListDefaultResponse,
+  VirtualMachineImagesListOffers200Response,
+  VirtualMachineImagesListOffersDefaultResponse,
+  VirtualMachineImagesListPublishers200Response,
+  VirtualMachineImagesListPublishersDefaultResponse,
+  VirtualMachineImagesListSkus200Response,
+  VirtualMachineImagesListSkusDefaultResponse,
+  VirtualMachineImagesListByEdgeZone200Response,
+  VirtualMachineImagesListByEdgeZoneDefaultResponse,
+  VirtualMachineImagesEdgeZoneGet200Response,
+  VirtualMachineImagesEdgeZoneGetDefaultResponse,
+  VirtualMachineImagesEdgeZoneList200Response,
+  VirtualMachineImagesEdgeZoneListDefaultResponse,
+  VirtualMachineImagesEdgeZoneListOffers200Response,
+  VirtualMachineImagesEdgeZoneListOffersDefaultResponse,
+  VirtualMachineImagesEdgeZoneListPublishers200Response,
+  VirtualMachineImagesEdgeZoneListPublishersDefaultResponse,
+  VirtualMachineImagesEdgeZoneListSkus200Response,
+  VirtualMachineImagesEdgeZoneListSkusDefaultResponse,
+  VirtualMachineExtensionImagesGet200Response,
+  VirtualMachineExtensionImagesGetDefaultResponse,
+  VirtualMachineExtensionImagesListTypes200Response,
+  VirtualMachineExtensionImagesListTypesDefaultResponse,
+  VirtualMachineExtensionImagesListVersions200Response,
+  VirtualMachineExtensionImagesListVersionsDefaultResponse,
+  AvailabilitySetsCreateOrUpdate200Response,
+  AvailabilitySetsCreateOrUpdateDefaultResponse,
+  AvailabilitySetsUpdate200Response,
+  AvailabilitySetsUpdateDefaultResponse,
+  AvailabilitySetsDelete200Response,
+  AvailabilitySetsDelete204Response,
+  AvailabilitySetsDeleteDefaultResponse,
+  AvailabilitySetsGet200Response,
+  AvailabilitySetsGetDefaultResponse,
+  AvailabilitySetsListBySubscription200Response,
+  AvailabilitySetsListBySubscriptionDefaultResponse,
+  AvailabilitySetsList200Response,
+  AvailabilitySetsListDefaultResponse,
+  AvailabilitySetsListAvailableSizes200Response,
+  AvailabilitySetsListAvailableSizesDefaultResponse,
+  ProximityPlacementGroupsCreateOrUpdate200Response,
+  ProximityPlacementGroupsCreateOrUpdate201Response,
+  ProximityPlacementGroupsCreateOrUpdateDefaultResponse,
+  ProximityPlacementGroupsUpdate200Response,
+  ProximityPlacementGroupsUpdateDefaultResponse,
+  ProximityPlacementGroupsDelete200Response,
+  ProximityPlacementGroupsDeleteDefaultResponse,
+  ProximityPlacementGroupsGet200Response,
+  ProximityPlacementGroupsGetDefaultResponse,
+  ProximityPlacementGroupsListBySubscription200Response,
+  ProximityPlacementGroupsListBySubscriptionDefaultResponse,
+  ProximityPlacementGroupsListByResourceGroup200Response,
+  ProximityPlacementGroupsListByResourceGroupDefaultResponse,
+  DedicatedHostGroupsCreateOrUpdate200Response,
+  DedicatedHostGroupsCreateOrUpdate201Response,
+  DedicatedHostGroupsCreateOrUpdateDefaultResponse,
+  DedicatedHostGroupsUpdate200Response,
+  DedicatedHostGroupsUpdateDefaultResponse,
+  DedicatedHostGroupsDelete200Response,
+  DedicatedHostGroupsDelete204Response,
+  DedicatedHostGroupsDeleteDefaultResponse,
+  DedicatedHostGroupsGet200Response,
+  DedicatedHostGroupsGetDefaultResponse,
+  DedicatedHostGroupsListByResourceGroup200Response,
+  DedicatedHostGroupsListByResourceGroupDefaultResponse,
+  DedicatedHostGroupsListBySubscription200Response,
+  DedicatedHostGroupsListBySubscriptionDefaultResponse,
+  DedicatedHostsCreateOrUpdate200Response,
+  DedicatedHostsCreateOrUpdate201Response,
+  DedicatedHostsCreateOrUpdateDefaultResponse,
+  DedicatedHostsUpdate200Response,
+  DedicatedHostsUpdateDefaultResponse,
+  DedicatedHostsDelete200Response,
+  DedicatedHostsDelete202Response,
+  DedicatedHostsDelete204Response,
+  DedicatedHostsDeleteDefaultResponse,
+  DedicatedHostsGet200Response,
+  DedicatedHostsGetDefaultResponse,
+  DedicatedHostsListByHostGroup200Response,
+  DedicatedHostsListByHostGroupDefaultResponse,
+  DedicatedHostsRestart200Response,
+  DedicatedHostsRestartDefaultResponse,
+  SshPublicKeysListBySubscription200Response,
+  SshPublicKeysListBySubscriptionDefaultResponse,
+  SshPublicKeysListByResourceGroup200Response,
+  SshPublicKeysListByResourceGroupDefaultResponse,
+  SshPublicKeysCreate200Response,
+  SshPublicKeysCreate201Response,
+  SshPublicKeysCreateDefaultResponse,
+  SshPublicKeysUpdate200Response,
+  SshPublicKeysUpdateDefaultResponse,
+  SshPublicKeysDelete200Response,
+  SshPublicKeysDelete204Response,
+  SshPublicKeysDeleteDefaultResponse,
+  SshPublicKeysGet200Response,
+  SshPublicKeysGetDefaultResponse,
+  SshPublicKeysGenerateKeyPair200Response,
+  SshPublicKeysGenerateKeyPairDefaultResponse,
+  ImagesCreateOrUpdate200Response,
+  ImagesCreateOrUpdate201Response,
+  ImagesCreateOrUpdateDefaultResponse,
+  ImagesUpdate200Response,
+  ImagesUpdate201Response,
+  ImagesUpdateDefaultResponse,
+  ImagesDelete200Response,
+  ImagesDelete202Response,
+  ImagesDelete204Response,
+  ImagesDeleteDefaultResponse,
+  ImagesGet200Response,
+  ImagesGetDefaultResponse,
+  ImagesListByResourceGroup200Response,
+  ImagesListByResourceGroupDefaultResponse,
+  ImagesList200Response,
+  ImagesListDefaultResponse,
+  RestorePointCollectionsCreateOrUpdate200Response,
+  RestorePointCollectionsCreateOrUpdate201Response,
+  RestorePointCollectionsCreateOrUpdateDefaultResponse,
+  RestorePointCollectionsUpdate200Response,
+  RestorePointCollectionsUpdateDefaultResponse,
+  RestorePointCollectionsDelete200Response,
+  RestorePointCollectionsDelete202Response,
+  RestorePointCollectionsDelete204Response,
+  RestorePointCollectionsDeleteDefaultResponse,
+  RestorePointCollectionsGet200Response,
+  RestorePointCollectionsGetDefaultResponse,
+  RestorePointCollectionsList200Response,
+  RestorePointCollectionsListDefaultResponse,
+  RestorePointCollectionsListAll200Response,
+  RestorePointCollectionsListAllDefaultResponse,
+  RestorePointsCreate201Response,
+  RestorePointsCreateDefaultResponse,
+  RestorePointsDelete200Response,
+  RestorePointsDelete202Response,
+  RestorePointsDelete204Response,
+  RestorePointsDeleteDefaultResponse,
+  RestorePointsGet200Response,
+  RestorePointsGetDefaultResponse,
+  CapacityReservationGroupsCreateOrUpdate200Response,
+  CapacityReservationGroupsCreateOrUpdate201Response,
+  CapacityReservationGroupsCreateOrUpdateDefaultResponse,
+  CapacityReservationGroupsUpdate200Response,
+  CapacityReservationGroupsUpdateDefaultResponse,
+  CapacityReservationGroupsDelete200Response,
+  CapacityReservationGroupsDelete204Response,
+  CapacityReservationGroupsDeleteDefaultResponse,
+  CapacityReservationGroupsGet200Response,
+  CapacityReservationGroupsGetDefaultResponse,
+  CapacityReservationGroupsListByResourceGroup200Response,
+  CapacityReservationGroupsListByResourceGroupDefaultResponse,
+  CapacityReservationGroupsListBySubscription200Response,
+  CapacityReservationGroupsListBySubscriptionDefaultResponse,
+  CapacityReservationsCreateOrUpdate200Response,
+  CapacityReservationsCreateOrUpdate201Response,
+  CapacityReservationsCreateOrUpdateDefaultResponse,
+  CapacityReservationsUpdate200Response,
+  CapacityReservationsUpdate202Response,
+  CapacityReservationsUpdateDefaultResponse,
+  CapacityReservationsDelete200Response,
+  CapacityReservationsDelete202Response,
+  CapacityReservationsDelete204Response,
+  CapacityReservationsDeleteDefaultResponse,
+  CapacityReservationsGet200Response,
+  CapacityReservationsGetDefaultResponse,
+  CapacityReservationsListByCapacityReservationGroup200Response,
+  CapacityReservationsListByCapacityReservationGroupDefaultResponse,
+  LogAnalyticsExportRequestRateByInterval200Response,
+  LogAnalyticsExportRequestRateByInterval202Response,
+  LogAnalyticsExportRequestRateByIntervalDefaultResponse,
+  LogAnalyticsExportThrottledRequests200Response,
+  LogAnalyticsExportThrottledRequests202Response,
+  LogAnalyticsExportThrottledRequestsDefaultResponse,
+  VirtualMachineRunCommandsCreateOrUpdate200Response,
+  VirtualMachineRunCommandsCreateOrUpdate201Response,
+  VirtualMachineRunCommandsCreateOrUpdateDefaultResponse,
+  VirtualMachineRunCommandsUpdate200Response,
+  VirtualMachineRunCommandsUpdateDefaultResponse,
+  VirtualMachineRunCommandsDelete200Response,
+  VirtualMachineRunCommandsDelete202Response,
+  VirtualMachineRunCommandsDelete204Response,
+  VirtualMachineRunCommandsDeleteDefaultResponse,
+  VirtualMachineRunCommandsGetByVirtualMachine200Response,
+  VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse,
+  VirtualMachineRunCommandsListByVirtualMachine200Response,
+  VirtualMachineRunCommandsListByVirtualMachineDefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response,
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsUpdate200Response,
+  VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsDelete200Response,
+  VirtualMachineScaleSetVMRunCommandsDelete202Response,
+  VirtualMachineScaleSetVMRunCommandsDelete204Response,
+  VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsGet200Response,
+  VirtualMachineScaleSetVMRunCommandsGetDefaultResponse,
+  VirtualMachineScaleSetVMRunCommandsList200Response,
+  VirtualMachineScaleSetVMRunCommandsListDefaultResponse,
+  DiskAccessesCreateOrUpdate200Response,
+  DiskAccessesCreateOrUpdate202Response,
+  DiskAccessesCreateOrUpdateDefaultResponse,
+  DiskAccessesUpdate200Response,
+  DiskAccessesUpdate202Response,
+  DiskAccessesUpdateDefaultResponse,
+  DiskAccessesGet200Response,
+  DiskAccessesGetDefaultResponse,
+  DiskAccessesDelete200Response,
+  DiskAccessesDelete202Response,
+  DiskAccessesDelete204Response,
+  DiskAccessesDeleteDefaultResponse,
+  DiskAccessesListByResourceGroup200Response,
+  DiskAccessesListByResourceGroupDefaultResponse,
+  DiskAccessesList200Response,
+  DiskAccessesListDefaultResponse,
+  DiskAccessesUpdateAPrivateEndpointConnection200Response,
+  DiskAccessesUpdateAPrivateEndpointConnection202Response,
+  DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse,
+  DiskAccessesGetAPrivateEndpointConnection200Response,
+  DiskAccessesGetAPrivateEndpointConnectionDefaultResponse,
+  DiskAccessesDeleteAPrivateEndpointConnection200Response,
+  DiskAccessesDeleteAPrivateEndpointConnection202Response,
+  DiskAccessesDeleteAPrivateEndpointConnection204Response,
+  DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse,
+  DiskAccessesListPrivateEndpointConnections200Response,
+  DiskAccessesListPrivateEndpointConnectionsDefaultResponse,
+  DiskEncryptionSetsCreateOrUpdate200Response,
+  DiskEncryptionSetsCreateOrUpdate202Response,
+  DiskEncryptionSetsCreateOrUpdateDefaultResponse,
+  DiskEncryptionSetsUpdate200Response,
+  DiskEncryptionSetsUpdate202Response,
+  DiskEncryptionSetsUpdateDefaultResponse,
+  DiskEncryptionSetsGet200Response,
+  DiskEncryptionSetsGetDefaultResponse,
+  DiskEncryptionSetsDelete200Response,
+  DiskEncryptionSetsDelete202Response,
+  DiskEncryptionSetsDelete204Response,
+  DiskEncryptionSetsDeleteDefaultResponse,
+  DiskEncryptionSetsListByResourceGroup200Response,
+  DiskEncryptionSetsListByResourceGroupDefaultResponse,
+  DiskEncryptionSetsList200Response,
+  DiskEncryptionSetsListDefaultResponse,
+  DiskEncryptionSetsListAssociatedResources200Response,
+  DiskEncryptionSetsListAssociatedResourcesDefaultResponse,
+  DiskRestorePointGet200Response,
+  DiskRestorePointGetDefaultResponse,
+  DiskRestorePointListByRestorePoint200Response,
+  DiskRestorePointListByRestorePointDefaultResponse,
+  DiskRestorePointGrantAccess200Response,
+  DiskRestorePointGrantAccess202Response,
+  DiskRestorePointGrantAccessDefaultResponse,
+  DiskRestorePointRevokeAccess200Response,
+  DiskRestorePointRevokeAccess202Response,
+  DiskRestorePointRevokeAccessDefaultResponse,
+  GalleriesCreateOrUpdate200Response,
+  GalleriesCreateOrUpdate201Response,
+  GalleriesCreateOrUpdate202Response,
+  GalleriesCreateOrUpdateDefaultResponse,
+  GalleriesUpdate200Response,
+  GalleriesUpdateDefaultResponse,
+  GalleriesGet200Response,
+  GalleriesGetDefaultResponse,
+  GalleriesDelete200Response,
+  GalleriesDelete202Response,
+  GalleriesDelete204Response,
+  GalleriesDeleteDefaultResponse,
+  GalleriesListByResourceGroup200Response,
+  GalleriesListByResourceGroupDefaultResponse,
+  GalleriesList200Response,
+  GalleriesListDefaultResponse,
+  GalleryImagesCreateOrUpdate200Response,
+  GalleryImagesCreateOrUpdate201Response,
+  GalleryImagesCreateOrUpdate202Response,
+  GalleryImagesCreateOrUpdateDefaultResponse,
+  GalleryImagesUpdate200Response,
+  GalleryImagesUpdateDefaultResponse,
+  GalleryImagesGet200Response,
+  GalleryImagesGetDefaultResponse,
+  GalleryImagesDelete200Response,
+  GalleryImagesDelete202Response,
+  GalleryImagesDelete204Response,
+  GalleryImagesDeleteDefaultResponse,
+  GalleryImagesListByGallery200Response,
+  GalleryImagesListByGalleryDefaultResponse,
+  GalleryImageVersionsCreateOrUpdate200Response,
+  GalleryImageVersionsCreateOrUpdate201Response,
+  GalleryImageVersionsCreateOrUpdate202Response,
+  GalleryImageVersionsCreateOrUpdateDefaultResponse,
+  GalleryImageVersionsUpdate200Response,
+  GalleryImageVersionsUpdateDefaultResponse,
+  GalleryImageVersionsGet200Response,
+  GalleryImageVersionsGetDefaultResponse,
+  GalleryImageVersionsDelete200Response,
+  GalleryImageVersionsDelete202Response,
+  GalleryImageVersionsDelete204Response,
+  GalleryImageVersionsDeleteDefaultResponse,
+  GalleryImageVersionsListByGalleryImage200Response,
+  GalleryImageVersionsListByGalleryImageDefaultResponse,
+  GalleryApplicationsCreateOrUpdate200Response,
+  GalleryApplicationsCreateOrUpdate201Response,
+  GalleryApplicationsCreateOrUpdate202Response,
+  GalleryApplicationsCreateOrUpdateDefaultResponse,
+  GalleryApplicationsUpdate200Response,
+  GalleryApplicationsUpdateDefaultResponse,
+  GalleryApplicationsGet200Response,
+  GalleryApplicationsGetDefaultResponse,
+  GalleryApplicationsDelete200Response,
+  GalleryApplicationsDelete202Response,
+  GalleryApplicationsDelete204Response,
+  GalleryApplicationsDeleteDefaultResponse,
+  GalleryApplicationsListByGallery200Response,
+  GalleryApplicationsListByGalleryDefaultResponse,
+  GalleryApplicationVersionsCreateOrUpdate200Response,
+  GalleryApplicationVersionsCreateOrUpdate201Response,
+  GalleryApplicationVersionsCreateOrUpdate202Response,
+  GalleryApplicationVersionsCreateOrUpdateDefaultResponse,
+  GalleryApplicationVersionsUpdate200Response,
+  GalleryApplicationVersionsUpdateDefaultResponse,
+  GalleryApplicationVersionsGet200Response,
+  GalleryApplicationVersionsGetDefaultResponse,
+  GalleryApplicationVersionsDelete200Response,
+  GalleryApplicationVersionsDelete202Response,
+  GalleryApplicationVersionsDelete204Response,
+  GalleryApplicationVersionsDeleteDefaultResponse,
+  GalleryApplicationVersionsListByGalleryApplication200Response,
+  GalleryApplicationVersionsListByGalleryApplicationDefaultResponse,
+  GallerySharingProfileUpdate200Response,
+  GallerySharingProfileUpdate202Response,
+  GallerySharingProfileUpdateDefaultResponse,
+  SharedGalleriesList200Response,
+  SharedGalleriesListDefaultResponse,
+  SharedGalleriesGet200Response,
+  SharedGalleriesGetDefaultResponse,
+  SharedGalleryImagesList200Response,
+  SharedGalleryImagesListDefaultResponse,
+  SharedGalleryImagesGet200Response,
+  SharedGalleryImagesGetDefaultResponse,
+  SharedGalleryImageVersionsList200Response,
+  SharedGalleryImageVersionsListDefaultResponse,
+  SharedGalleryImageVersionsGet200Response,
+  SharedGalleryImageVersionsGetDefaultResponse,
+  CommunityGalleriesGet200Response,
+  CommunityGalleriesGetDefaultResponse,
+  CommunityGalleryImagesGet200Response,
+  CommunityGalleryImagesGetDefaultResponse,
+  CommunityGalleryImagesList200Response,
+  CommunityGalleryImagesListDefaultResponse,
+  CommunityGalleryImageVersionsGet200Response,
+  CommunityGalleryImageVersionsGetDefaultResponse,
+  CommunityGalleryImageVersionsList200Response,
+  CommunityGalleryImageVersionsListDefaultResponse,
+  CloudServiceRoleInstancesDelete200Response,
+  CloudServiceRoleInstancesDelete202Response,
+  CloudServiceRoleInstancesDelete204Response,
+  CloudServiceRoleInstancesDeleteDefaultResponse,
+  CloudServiceRoleInstancesGet200Response,
+  CloudServiceRoleInstancesGetDefaultResponse,
+  CloudServiceRoleInstancesGetInstanceView200Response,
+  CloudServiceRoleInstancesGetInstanceViewDefaultResponse,
+  CloudServiceRoleInstancesList200Response,
+  CloudServiceRoleInstancesListDefaultResponse,
+  CloudServiceRoleInstancesRestart200Response,
+  CloudServiceRoleInstancesRestart202Response,
+  CloudServiceRoleInstancesRestartDefaultResponse,
+  CloudServiceRoleInstancesReimage200Response,
+  CloudServiceRoleInstancesReimage202Response,
+  CloudServiceRoleInstancesReimageDefaultResponse,
+  CloudServiceRoleInstancesRebuild200Response,
+  CloudServiceRoleInstancesRebuild202Response,
+  CloudServiceRoleInstancesRebuildDefaultResponse,
+  CloudServiceRoleInstancesGetRemoteDesktopFile200Response,
+  CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse,
+  CloudServiceRolesGet200Response,
+  CloudServiceRolesGetDefaultResponse,
+  CloudServiceRolesList200Response,
+  CloudServiceRolesListDefaultResponse,
+  CloudServicesCreateOrUpdate200Response,
+  CloudServicesCreateOrUpdate201Response,
+  CloudServicesCreateOrUpdateDefaultResponse,
+  CloudServicesUpdate200Response,
+  CloudServicesUpdateDefaultResponse,
+  CloudServicesDelete200Response,
+  CloudServicesDelete202Response,
+  CloudServicesDelete204Response,
+  CloudServicesDeleteDefaultResponse,
+  CloudServicesGet200Response,
+  CloudServicesGetDefaultResponse,
+  CloudServicesGetInstanceView200Response,
+  CloudServicesGetInstanceViewDefaultResponse,
+  CloudServicesListAll200Response,
+  CloudServicesListAllDefaultResponse,
+  CloudServicesList200Response,
+  CloudServicesListDefaultResponse,
+  CloudServicesStart200Response,
+  CloudServicesStart202Response,
+  CloudServicesStartDefaultResponse,
+  CloudServicesPowerOff200Response,
+  CloudServicesPowerOff202Response,
+  CloudServicesPowerOffDefaultResponse,
+  CloudServicesRestart200Response,
+  CloudServicesRestart202Response,
+  CloudServicesRestartDefaultResponse,
+  CloudServicesReimage200Response,
+  CloudServicesReimage202Response,
+  CloudServicesReimageDefaultResponse,
+  CloudServicesRebuild200Response,
+  CloudServicesRebuild202Response,
+  CloudServicesRebuildDefaultResponse,
+  CloudServicesDeleteInstances200Response,
+  CloudServicesDeleteInstances202Response,
+  CloudServicesDeleteInstancesDefaultResponse,
+  CloudServicesUpdateDomainWalkUpdateDomain200Response,
+  CloudServicesUpdateDomainWalkUpdateDomain202Response,
+  CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse,
+  CloudServicesUpdateDomainGetUpdateDomain200Response,
+  CloudServicesUpdateDomainGetUpdateDomainDefaultResponse,
+  CloudServicesUpdateDomainListUpdateDomains200Response,
+  CloudServicesUpdateDomainListUpdateDomainsDefaultResponse,
+  CloudServiceOperatingSystemsGetOSVersion200Response,
+  CloudServiceOperatingSystemsGetOSVersionDefaultResponse,
+  CloudServiceOperatingSystemsListOSVersions200Response,
+  CloudServiceOperatingSystemsListOSVersionsDefaultResponse,
+  CloudServiceOperatingSystemsGetOSFamily200Response,
+  CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
+  CloudServiceOperatingSystemsListOSFamilies200Response,
+  CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.Compute/operations": ["200"],
@@ -662,21 +662,21 @@ const responseMap: Record<string, string[]> = {
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}":
     ["200", "202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView":
     ["200"],
@@ -689,134 +689,134 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk":
     ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}":
-    ["200", "201"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}":
     ["200", "201"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade":
     ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest":
+    ["200"],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}":
     ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}":
     ["200", "201"],
-  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}":
-    ["200"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}":
+    ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy":
     ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy":
+    ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/simulateEviction":
     ["204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}":
-    ["200", "201"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}":
@@ -825,27 +825,27 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
-    ["200", "201"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/generalize":
     ["200"],
@@ -854,49 +854,49 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/vmSizes":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reapply":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage":
     ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage":
+    ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/retrieveBootDiagnosticsData":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance":
     ["200", "202"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction":
     ["204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}":
     ["200"],
@@ -963,19 +963,19 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/hostGroups": ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart":
-    ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart":
+    ["200"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/sshPublicKeys": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys":
@@ -990,10 +990,10 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}/generateKeyPair":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}":
     ["200", "201"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}":
@@ -1005,19 +1005,19 @@ const responseMap: Record<string, string[]> = {
     ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}":
     ["200"],
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}":
-    ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}":
     ["200"],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}":
+    ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections": [
     "200",
   ],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}":
-    ["201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}":
+    ["201"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}":
     ["200", "202", "204"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}":
@@ -1033,52 +1033,52 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups": [
     "200",
   ],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
     ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests":
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
+    ["200", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
     ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
@@ -1086,18 +1086,18 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks": ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}":
+    ["200", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}":
     ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}":
@@ -1107,18 +1107,18 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}":
+    ["200", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}":
     ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}":
@@ -1132,18 +1132,18 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
+    ["200", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
     ["200", "202"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
@@ -1151,19 +1151,19 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots": ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess":
     ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus": ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
-    ["200", "201", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
+    ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
@@ -1171,49 +1171,49 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries": ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}":
-    ["200", "201", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}":
+    ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}":
-    ["200", "201", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}":
+    ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}":
-    ["200", "201", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}":
+    ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}":
-    ["200", "201", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}":
+    ["200", "201", "202"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}":
     ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries":
     ["200"],
@@ -1237,25 +1237,25 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions":
     ["200"],
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}":
-    ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}":
     ["200"],
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}":
+    ["200", "202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView":
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/remoteDesktopFile":
     ["200"],
@@ -1263,10 +1263,10 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles":
     ["200"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}":
-    ["200", "201"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}":
+    ["200", "201"],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}":
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}":
@@ -1276,34 +1276,34 @@ const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete":
     ["200", "202"],
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}":
     ["200"],
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains":
     ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}":
@@ -3491,59 +3491,70 @@ export function isUnexpected(
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
+  let matchedLen = -1,
+    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // If the candidate and actual paths don't match in size
-    // we move on to the next candidate path
-    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
-      // track if we have found a match to return the values found.
-      let found = true;
-      for (let i = 0; i < candidateParts.length; i++) {
-        if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.endsWith("}")) {
-          // If the current part of the candidate is a "template" part
-          // it is a match with the actual path part on hand
-          // skip as the parameterized part can match anything
-          continue;
-        }
+    // track if we have found a match to return the values found.
+    let found = true;
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+        const start = candidateParts[i]!.indexOf("}") + 1,
+          end = candidateParts[i]?.length;
+        // If the current part of the candidate is a "template" part
+        // Try to use the suffix of pattern to match the path
+        // {guid} ==> $
+        // {guid}:export ==> :export$
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
-        // If the candidate part is not a template and
-        // the parts don't match mark the candidate as not found
-        // to move on with the next candidate path.
-        if (candidateParts[i] !== pathParts[i]) {
+        if (!isMatched) {
           found = false;
           break;
         }
+        continue;
       }
 
-      // We finished evaluating the current candidate parts
-      // if all parts matched we return the success values form
-      // the path mapping.
-      if (found) {
-        return value;
+      // If the candidate part is not a template and
+      // the parts don't match mark the candidate as not found
+      // to move on with the next candidate path.
+      if (candidateParts[i] !== pathParts[j]) {
+        found = false;
+        break;
       }
+    }
+
+    // We finished evaluating the current candidate parts
+    // Update the matched value if and only if we found the longer pattern
+    if (found && candidatePath.length > matchedLen) {
+      matchedLen = candidatePath.length;
+      matchedValue = value;
     }
   }
 
-  // No match was found, return an empty array.
-  return [];
-}
-
-function hasParametrizedPath(path: string): boolean {
-  return path.includes("/{");
+  return matchedValue;
 }
 
 function getPathFromMapKey(mapKey: string): string {

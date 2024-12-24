@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
@@ -124,7 +124,7 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       subscriptionId,
       resourceGroupName,
-      policyName
+      policyName,
     )
     .put(options);
   console.log(result);

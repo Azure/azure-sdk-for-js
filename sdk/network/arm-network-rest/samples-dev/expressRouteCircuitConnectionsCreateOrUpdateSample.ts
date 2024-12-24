@@ -8,9 +8,7 @@ import createNetworkManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Express Route Circuit Connection in the specified express route circuits.
@@ -52,7 +50,7 @@ async function expressRouteCircuitConnectionCreate() {
       connectionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

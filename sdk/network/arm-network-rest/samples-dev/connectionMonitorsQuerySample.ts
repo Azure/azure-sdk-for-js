@@ -8,9 +8,7 @@ import createNetworkManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query a snapshot of the most recent connection states.
@@ -37,7 +35,7 @@ async function queryConnectionMonitor() {
       connectionMonitorName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

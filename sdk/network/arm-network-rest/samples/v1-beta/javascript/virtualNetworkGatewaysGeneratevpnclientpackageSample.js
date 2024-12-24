@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
@@ -29,7 +29,7 @@ async function generateVpnClientPackage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
