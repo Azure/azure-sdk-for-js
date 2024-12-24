@@ -49,7 +49,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
   });
 
-  it.only("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
+  it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
     const baseUri = "https://microsoft.com/baseuri";
     let getTokenCount = 0;
     const credential: TokenCredential = {
