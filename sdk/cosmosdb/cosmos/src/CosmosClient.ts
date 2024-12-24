@@ -280,10 +280,10 @@ export class CosmosClient {
   }
 
   /**
-   * Update the SDK user agent.
-   * @param userAgentSuffix - A custom string to append to the default SDK user agent.
+   * Append a custom string to the existing SDK user agent.
+   * @param userAgentSuffix - A custom string to append.
    */
-  public async updateUserAgent(userAgentSuffix: string): Promise<void> {
-    this.clientContext.updateUserAgent(userAgentSuffix);
+  public async appendToUserAgent(userAgentSuffix: string): Promise<void> {
+    this.clientContext.appendToUserAgent(userAgentSuffix);
   }
 }

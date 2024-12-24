@@ -979,7 +979,7 @@ export class ClientContext {
     return this.clientConfig;
   }
 
-  public updateUserAgent(userAgentSuffix: string): void {
+  public appendToUserAgent(userAgentSuffix: string): void {
     const updatedUserAgent =
       this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] +
       " " +
