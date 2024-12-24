@@ -26,7 +26,7 @@ import {
   TriggerEvaluationRequest,
   ProviderActionsTriggerEvaluationOptionalParams,
   ProviderActionsTriggerEvaluationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProviderActions. */
 export interface ProviderActions {

@@ -17,7 +17,7 @@ import {
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsUpdateResponse,
   ComponentLinkedStorageAccountsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ComponentLinkedStorageAccountsOperations. */
 export interface ComponentLinkedStorageAccountsOperations {

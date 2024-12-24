@@ -20,7 +20,7 @@ import {
   KeyValue as KeyValueMapper,
   Replica as ReplicaMapper,
   Snapshot as SnapshotMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

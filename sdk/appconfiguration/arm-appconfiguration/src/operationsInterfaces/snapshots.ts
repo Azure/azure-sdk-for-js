@@ -13,7 +13,7 @@ import {
   Snapshot,
   SnapshotsCreateOptionalParams,
   SnapshotsCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Snapshots. */
 export interface Snapshots {

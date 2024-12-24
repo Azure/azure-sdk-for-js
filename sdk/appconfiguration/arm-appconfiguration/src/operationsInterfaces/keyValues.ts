@@ -13,7 +13,7 @@ import {
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesCreateOrUpdateResponse,
   KeyValuesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a KeyValues. */
 export interface KeyValues {

@@ -27,7 +27,7 @@ import {
   SnapshotDownloadRequest as SnapshotDownloadRequestMapper,
   WebhookResource as WebhookResourceMapper,
   WebhookResourcePatch as WebhookResourcePatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

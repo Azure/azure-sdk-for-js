@@ -9,7 +9,7 @@
 import {
   RuntimeVersionsListRuntimeVersionsOptionalParams,
   RuntimeVersionsListRuntimeVersionsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RuntimeVersions. */
 export interface RuntimeVersions {

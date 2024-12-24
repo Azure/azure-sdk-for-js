@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerApp, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patches a Container App using JSON Merge Patch

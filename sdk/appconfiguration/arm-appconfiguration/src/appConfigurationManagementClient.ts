@@ -22,7 +22,7 @@ import {
   KeyValuesImpl,
   ReplicasImpl,
   SnapshotsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ConfigurationStores,
   Operations,
@@ -31,8 +31,8 @@ import {
   KeyValues,
   Replicas,
   Snapshots,
-} from "./operationsInterfaces";
-import { AppConfigurationManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AppConfigurationManagementClientOptionalParams } from "./models/index.js";
 
 export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   $host: string;
