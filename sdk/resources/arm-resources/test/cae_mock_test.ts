@@ -1,0 +1,94 @@
+import { TokenCredential } from "@azure/core-auth";
+import { assert } from "chai";
+import { ResourceManagementClient } from "../src/resourceManagementClient";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { OperationRequest } from "@azure/core-client";
+
+describe("Mock test for CAE with ResourceManagementClient", () => {
+  // this is not a real token, does not contain any sensitive info, just for test.
+  const caeChallenge = `Bearer realm="", error_description="Continuous access evaluation resulted in challenge", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=" `;
+  const invalidCAEChallenge = `Bearer realm="", error_description="", error="insufficient_claims", claims=""`;
+  it("should proceed CAE process for mgmt client if a valid CAE challenge", async function () {
+    const baseUri = "https://microsoft.com/baseuri";
+    let getTokenCount = 0;
+    const credential: TokenCredential = {
+      getToken: async (scopes) => {
+        getTokenCount++;
+        let token = "testToken";
+        if (getTokenCount === 0) {
+          token = "firstToken";
+        }
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      },
+    };
+
+    let getRequestCount = 0;
+    let request: OperationRequest;
+    const client = new ResourceManagementClient(credential, "subscriptionID", {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          getRequestCount++;
+          if (getRequestCount === 1) {
+            return Promise.resolve({ request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) });
+          }
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      credential
+    });
+
+    const result = await client.operations.list();
+    const items = [];
+    for await (let item of result) {
+      items.push(item);
+    }
+    assert.equal(items.length, 0);
+    assert.equal(getRequestCount, 2);
+    assert.equal(getTokenCount, 2);
+    assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+  });
+
+  it.only("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
+    const baseUri = "https://microsoft.com/baseuri";
+    let getTokenCount = 0;
+    const credential: TokenCredential = {
+      getToken: async (scopes) => {
+        getTokenCount++;
+        let token = "testToken";
+        if (getTokenCount === 0) {
+          token = "firstToken";
+        }
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      },
+    };
+
+    let getRequestCount = 0;
+    let request: OperationRequest;
+    const client = new ResourceManagementClient(credential, "subscriptionID", {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          getRequestCount++;
+          if (getRequestCount === 1) {
+            return Promise.resolve({ request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }) });
+          }
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        },
+      },
+      credential
+    });
+    try {
+      const result = await client.operations.list();
+      const items = [];
+      for await (let item of result) {
+        items.push(item);
+      }
+      assert.fail("Should not throw 401 exception");
+    } catch (e: any) {
+      assert.equal(e.statusCode, 401);
+      assert.equal(getRequestCount, 1);
+      assert.equal(getTokenCount, 1);
+    }
+  });
+});
