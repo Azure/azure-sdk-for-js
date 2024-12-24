@@ -14,9 +14,11 @@ describe("getUserAgent", function () {
   });
 
   it("should contain the current node version", () => {
-    console.log(getUserAgent());
-    console.log(process.version.replace("v", ""));
-    assert(getUserAgent().includes(process.version.replace("v", "")));
+    if (globalThis.navigator && globalThis.navigator.userAgent) {
+      assert(getUserAgent().includes(globalThis.navigator.userAgent));
+    } else if (globalThis.process && globalThis.process.version) {
+      assert(getUserAgent().includes(process.version.replace("v", "")));
+    }
   });
 
   it("should allow a custom suffix", () => {
