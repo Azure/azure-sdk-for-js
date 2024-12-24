@@ -69,6 +69,7 @@
     "src/queryExecutionContext/EndpointComponent/UnorderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/defaultQueryExecutionContext.ts",
     "src/queryExecutionContext/documentProducer.ts",
+    "src/queryExecutionContext/documentProducer2.ts",
     "src/queryExecutionContext/ExecutionContext.ts",
     "src/queryExecutionContext/headerUtils.ts",
     "src/queryExecutionContext/orderByDocumentProducerComparator.ts",
@@ -160,7 +161,6 @@
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
-    "test/internal/unit/defaultQueryExecutionContext.spec.ts",
     "test/internal/unit/helper.spec.ts",
     "test/internal/unit/inMemoryCollectionRoutingMap.spec.ts",
     "test/internal/unit/platform.spec.ts",
@@ -235,9 +235,8 @@
     "test/public/functional/computedProperties.spec.ts",
     "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
     "test/internal/unit/globalStatisticsAggregator.spec.ts",
-    "test/internal/unit/common/TestOrderbyQueryExecutionContext.ts",
-    "test/internal/unit/common/TestParallelQueryExecutionContext.ts",
-    "test/internal/unit/query/parallelQueryExecutionContext.spec.ts",
-    "test/internal/unit/query/parallelQueryExecutionContextBase.spec.ts",
+    "test/internal/unit/common/*.ts",
+    "test/internal/unit/query/*.ts",
+    "test/internal/unit/documentProducer.spec.ts"
   ]
 }

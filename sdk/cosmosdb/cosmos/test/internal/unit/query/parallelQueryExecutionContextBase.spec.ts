@@ -422,7 +422,11 @@ describe("parallelQueryExecutionContextBase", function () {
     beforeEach(function () {
       options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [ ["", "AA"], ["AA", "BB"], ["BB", "FF"] ]);
+      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
+        ["", "AA"],
+        ["AA", "BB"],
+        ["BB", "FF"],
+      ]);
       context = new TestParallelQueryExecutionContext(
         clientContext,
         collectionLink,
@@ -518,7 +522,7 @@ export function initializeMockPartitionKeyRanges(
   ranges: [string, string][],
 ): void {
   const partitionKeyRanges = ranges.map((range, index) =>
-    createMockPartitionKeyRange(index.toString(), range[0], range[1])
+    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
   );
 
   const fetchAllInternalStub = sinon.stub().resolves({

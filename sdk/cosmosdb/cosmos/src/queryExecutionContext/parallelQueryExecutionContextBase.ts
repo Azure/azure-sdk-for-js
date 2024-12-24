@@ -202,6 +202,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private async _getReplacementPartitionKeyRanges(
     documentProducer: DocumentProducer,
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
@@ -211,7 +212,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
-      this.getDiagnosticNode(),
+      diagnosticNode,
     );
   }
 
@@ -231,9 +232,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // Removing the invalid documentProducer from the orderByPQ
     const parentDocumentProducer = this.bufferedDocumentProducersQueue.deq();
     try {
-      const replacementPartitionKeyRanges: any[] =
-        await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
-      console.log("getting replacement partition key ranges", replacementPartitionKeyRanges);
+      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
+        parentDocumentProducer,
+        diagnosticNode,
+      );
 
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
@@ -245,7 +247,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         );
         replacementDocumentProducers.push(replacementDocumentProducer);
       });
-      console.log("replacement document producers", replacementDocumentProducers);
       // We need to check if the documentProducers even has anything left to fetch from before enqueing them
       const checkAndEnqueueDocumentProducer = async (
         documentProducerToCheck: DocumentProducer,
@@ -681,7 +682,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   public async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<Response<void>> {
-    return new Promise<Response<void>>((resolve, reject) => {
+    return new Promise<Response<void>>((_, reject) => {
       this.sem.take(async () => {
         if (this.err) {
           // if there is a prior error return error
