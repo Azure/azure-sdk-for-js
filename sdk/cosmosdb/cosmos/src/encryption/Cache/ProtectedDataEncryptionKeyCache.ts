@@ -1,0 +1,105 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { randomBytes } from "crypto";
+import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
+import { KeyEncryptionKey } from "../KeyEncryptionKey";
+import { Constants } from "../../common";
+
+export class ProtectedDataEncryptionKeyCache {
+  // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
+  private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;
+  // interval for clear cache to run
+  cacheRefresher: NodeJS.Timeout;
+
+  constructor(private cacheTimeToLive: number) {
+    this.protectedDataEncryptionKeyCache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
+    this.clearCacheOnTtlExpiry();
+  }
+
+  public getProtectedDataEncryptionKey(key: string): ProtectedDataEncryptionKey | undefined {
+    if (!this.protectedDataEncryptionKeyCache.has(key)) {
+      return undefined;
+    }
+    return this.protectedDataEncryptionKeyCache.get(key)[1];
+  }
+
+  private setProtectedDataEncryptionKey(
+    key: string,
+    protectedDataEncryptionKey: ProtectedDataEncryptionKey,
+  ): void {
+    if (this.cacheTimeToLive === 0) {
+      return;
+    }
+    this.protectedDataEncryptionKeyCache.set(key, [new Date(), protectedDataEncryptionKey]);
+  }
+
+  private async clearCacheOnTtlExpiry(): Promise<void> {
+    this.cacheRefresher = setInterval(() => {
+      const now = new Date();
+      for (const key of this.protectedDataEncryptionKeyCache.keys()) {
+        if (
+          now.getTime() - this.protectedDataEncryptionKeyCache.get(key)[0].getTime() >
+          this.cacheTimeToLive
+        ) {
+          this.protectedDataEncryptionKeyCache.delete(key);
+        }
+      }
+    }, Constants.EncryptionCacheRefreshInterval);
+  }
+
+  private async createProtectedDataEncryptionKey(
+    name: string,
+    keyEncryptionKey: KeyEncryptionKey,
+    encryptedValue?: Buffer,
+  ): Promise<ProtectedDataEncryptionKey> {
+    let rawKey: Buffer;
+    let encryptedKey: Buffer;
+    if (encryptedValue) {
+      rawKey = await keyEncryptionKey.unwrapEncryptionKey(encryptedValue);
+      encryptedKey = encryptedValue;
+    } else {
+      rawKey = this.generateColumnEncryptionKey();
+      encryptedKey = await keyEncryptionKey.wrapEncryptionKey(rawKey);
+    }
+    const newKey = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
+    if (this.cacheTimeToLive !== 0) {
+      const key = JSON.stringify([
+        name,
+        keyEncryptionKey.name,
+        keyEncryptionKey.path,
+        encryptedKey.toString("hex"),
+      ]);
+      this.setProtectedDataEncryptionKey(key, newKey);
+    }
+    return newKey;
+  }
+
+  public async getOrCreateProtectedDataEncryptionKey(
+    name: string,
+    keyEncryptionKey: KeyEncryptionKey,
+    encryptedValue?: Buffer,
+    forceRefresh?: boolean,
+  ): Promise<ProtectedDataEncryptionKey> {
+    if (this.cacheTimeToLive === 0 || forceRefresh) {
+      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+    }
+    if (encryptedValue) {
+      const key = JSON.stringify([
+        name,
+        keyEncryptionKey.name,
+        keyEncryptionKey.path,
+        encryptedValue.toString("hex"),
+      ]);
+      const protectedDataEncryptionKey = this.getProtectedDataEncryptionKey(key);
+      if (protectedDataEncryptionKey) {
+        return protectedDataEncryptionKey;
+      }
+    }
+    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+  }
+
+  private generateColumnEncryptionKey(): Buffer {
+    return randomBytes(32);
+  }
+}

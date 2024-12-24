@@ -83,6 +83,8 @@ export interface SubStatusCodesType {
 
   // 400: Bad Request Substatus
   CrossPartitionQueryNotServable: 1004;
+  IncorrectContainerRidSubstatus: 1024;
+  PartitionKeyMismatch: 1001;
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002;
@@ -104,6 +106,8 @@ export const SubStatusCodes: SubStatusCodesType = {
 
   // 400: Bad Request Substatus
   CrossPartitionQueryNotServable: 1004,
+  IncorrectContainerRidSubstatus: 1024,
+  PartitionKeyMismatch: 1001,
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002,

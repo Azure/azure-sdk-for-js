@@ -222,6 +222,13 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
   }
 
+  if (clientOptions.enableEncryption) {
+    headers[Constants.HttpHeaders.IsClientEncryptedHeader] = true;
+    if (options.containerRid) {
+      headers[Constants.HttpHeaders.IntendedCollectionHeader] = options.containerRid;
+    }
+  }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||
