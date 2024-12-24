@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import {
   Serializer,
@@ -147,7 +147,7 @@ export function parsePath(path: string): string[] {
     const quote = path[currentIndex];
     let newIndex = ++currentIndex;
 
-    for (; ;) {
+    for (;;) {
       newIndex = path.indexOf(quote, newIndex);
       if (newIndex === -1) {
         throwError();
@@ -374,6 +374,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  * in the CRUD methods.
  * @hidden
  */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-shadow, no-prototype-builtins */
 export function copyObject(obj: any): any {
   function deepCopyRecursive(obj: any): any {
     if (obj === null || typeof obj !== "object") {
