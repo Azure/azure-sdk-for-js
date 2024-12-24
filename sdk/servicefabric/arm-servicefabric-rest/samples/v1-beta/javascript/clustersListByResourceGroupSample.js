@@ -26,7 +26,7 @@ async function listClusterByResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get();
   console.log(result);

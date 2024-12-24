@@ -28,7 +28,7 @@ async function getACluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .get();
   console.log(result);

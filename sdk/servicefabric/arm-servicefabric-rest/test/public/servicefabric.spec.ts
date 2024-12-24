@@ -109,7 +109,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .put(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).name, clusterName);
@@ -254,7 +254,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .patch(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).properties?.upgradeMode, "Automatic");
@@ -270,7 +270,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         applicationTypeName,
       )
       .delete();
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const deleteResult = await poller.pollUntilDone();
     assert.equal(deleteResult.status, "204");
 
