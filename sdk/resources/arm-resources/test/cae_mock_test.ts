@@ -84,7 +84,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
       for await (let item of result) {
         items.push(item);
       }
-      assert.fail("Should not throw 401 exception");
+      assert.fail("Should not reach here and throw 401 exception");
     } catch (e: any) {
       assert.equal(e.statusCode, 401);
       assert.equal(getRequestCount, 1);
