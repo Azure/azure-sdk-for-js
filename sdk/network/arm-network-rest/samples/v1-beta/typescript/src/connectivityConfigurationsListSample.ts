@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConnectivityConfigurationsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function connectivityConfigurationsList() {
   const resourceGroupName = "myResourceGroup";
   const networkManagerName = "testNetworkManager";
   const options: ConnectivityConfigurationsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

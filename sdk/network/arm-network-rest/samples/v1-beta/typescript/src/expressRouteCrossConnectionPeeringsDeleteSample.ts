@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCrossConnectionPeeringsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function deleteExpressRouteCrossConnectionBgpPeering() {
   const crossConnectionName = "<circuitServiceKey>";
   const peeringName = "AzurePrivatePeering";
   const options: ExpressRouteCrossConnectionPeeringsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -32,7 +32,7 @@ async function deleteExpressRouteCrossConnectionBgpPeering() {
       subscriptionId,
       resourceGroupName,
       crossConnectionName,
-      peeringName
+      peeringName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

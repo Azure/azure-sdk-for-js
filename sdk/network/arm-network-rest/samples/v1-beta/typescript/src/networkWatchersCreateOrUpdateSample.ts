@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkWatchersCreateOrUpdateParameters
+  NetworkWatchersCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function createNetworkWatcher() {
   const networkWatcherName = "nw1";
   const options: NetworkWatchersCreateOrUpdateParameters = {
     body: { location: "eastus", properties: {} },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .put(options);
   console.log(result);

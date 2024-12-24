@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayNatRulesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function virtualNetworkGatewayNatRuleDelete() {
   const virtualNetworkGatewayName = "gateway1";
   const natRuleName = "natRule1";
   const options: VirtualNetworkGatewayNatRulesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -32,7 +32,7 @@ async function virtualNetworkGatewayNatRuleDelete() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName
+      natRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

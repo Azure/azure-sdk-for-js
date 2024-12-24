@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function deleteNetworkInterface() {
   const resourceGroupName = "rg1";
   const networkInterfaceName = "test-nic";
   const options: NetworkInterfacesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

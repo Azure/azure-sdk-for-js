@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConfigurationPolicyGroupsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -31,18 +31,18 @@ async function configurationPolicyGroupPut() {
           {
             name: "policy1",
             attributeType: "RadiusAzureGroupId",
-            attributeValue: "6ad1bd08"
+            attributeValue: "6ad1bd08",
           },
           {
             name: "policy2",
             attributeType: "CertificateGroupId",
-            attributeValue: "red.com"
-          }
+            attributeValue: "red.com",
+          },
         ],
-        priority: 0
-      }
+        priority: 0,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -50,10 +50,10 @@ async function configurationPolicyGroupPut() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

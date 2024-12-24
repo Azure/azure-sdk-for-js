@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnServerConfigurationsAssociatedWithVirtualWanListParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function getVirtualWanVpnServerConfigurations() {
   const resourceGroupName = "rg1";
   const virtualWANName = "wan1";
   const options: VpnServerConfigurationsAssociatedWithVirtualWanListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations",
       subscriptionId,
       resourceGroupName,
-      virtualWANName
+      virtualWANName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

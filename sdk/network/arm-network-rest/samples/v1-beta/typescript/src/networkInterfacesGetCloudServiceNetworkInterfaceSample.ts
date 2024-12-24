@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkInterfacesGetCloudServiceNetworkInterfaceParameters
+  NetworkInterfacesGetCloudServiceNetworkInterfaceParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function getCloudServiceNetworkInterface() {
   const roleInstanceName = "TestVMRole_IN_0";
   const networkInterfaceName = "nic1";
   const options: NetworkInterfacesGetCloudServiceNetworkInterfaceParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +33,7 @@ async function getCloudServiceNetworkInterface() {
       resourceGroupName,
       cloudServiceName,
       roleInstanceName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   console.log(result);

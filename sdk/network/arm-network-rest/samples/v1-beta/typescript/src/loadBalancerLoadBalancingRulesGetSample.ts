@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancerLoadBalancingRulesGetParameters
+  LoadBalancerLoadBalancingRulesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function loadBalancerLoadBalancingRuleGet() {
   const loadBalancerName = "lb1";
   const loadBalancingRuleName = "rule1";
   const options: LoadBalancerLoadBalancingRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function loadBalancerLoadBalancingRuleGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      loadBalancingRuleName
+      loadBalancingRuleName,
     )
     .get(options);
   console.log(result);

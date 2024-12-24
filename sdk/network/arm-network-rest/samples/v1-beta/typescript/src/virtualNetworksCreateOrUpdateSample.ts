@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworksCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -27,17 +27,17 @@ async function createVirtualNetwork() {
       location: "eastus",
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
-        flowTimeoutInMinutes: 10
-      }
+        flowTimeoutInMinutes: 10,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -64,19 +64,17 @@ async function createVirtualNetworkWithBgpCommunities() {
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         bgpCommunities: { virtualNetworkCommunity: "12076:20000" },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -110,22 +108,22 @@ async function createVirtualNetworkWithDelegatedSubnets() {
               delegations: [
                 {
                   name: "myDelegation",
-                  properties: { serviceName: "Microsoft.Sql/managedInstances" }
-                }
-              ]
-            }
-          }
-        ]
-      }
+                  properties: { serviceName: "Microsoft.Sql/managedInstances" },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -152,19 +150,17 @@ async function createVirtualNetworkWithEncryption() {
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         encryption: { enabled: true, enforcement: "AllowUnencrypted" },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -195,20 +191,20 @@ async function createVirtualNetworkWithServiceEndpoints() {
             name: "test-1",
             properties: {
               addressPrefix: "10.0.0.0/16",
-              serviceEndpoints: [{ service: "Microsoft.Storage" }]
-            }
-          }
-        ]
-      }
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -241,24 +237,23 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
               addressPrefix: "10.0.0.0/16",
               serviceEndpointPolicies: [
                 {
-                  id:
-                    "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"
-                }
+                  id: "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
+                },
               ],
-              serviceEndpoints: [{ service: "Microsoft.Storage" }]
-            }
-          }
-        ]
-      }
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -266,9 +261,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
   console.log(result);
 }
 
-createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(
-  console.error
-);
+createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
@@ -286,19 +279,17 @@ async function createVirtualNetworkWithSubnet() {
       location: "eastus",
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -327,19 +318,19 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
         subnets: [
           {
             name: "test-2",
-            properties: { addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] }
-          }
-        ]
-      }
+            properties: { addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

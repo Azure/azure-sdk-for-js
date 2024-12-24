@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ApplicationGatewaysListAvailableSslOptionsParameters
+  ApplicationGatewaysListAvailableSslOptionsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,12 +20,12 @@ async function getAvailableSslOptions() {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const options: ApplicationGatewaysListAvailableSslOptionsParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   HubRouteTablesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -34,12 +34,12 @@ async function routeTablePut() {
             destinations: ["10.0.0.0/8", "20.0.0.0/8", "30.0.0.0/8"],
             nextHop:
               "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1",
-            nextHopType: "ResourceId"
-          }
-        ]
-      }
+            nextHopType: "ResourceId",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -47,7 +47,7 @@ async function routeTablePut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName
+      routeTableName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

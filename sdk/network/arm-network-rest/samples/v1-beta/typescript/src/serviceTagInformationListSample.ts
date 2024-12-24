@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ServiceTagInformationListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,13 +22,13 @@ async function getListOfServiceTags() {
   const subscriptionId = "";
   const location = "westeurope";
   const options: ServiceTagInformationListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -52,13 +52,13 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
   const subscriptionId = "";
   const location = "westeurope";
   const options: ServiceTagInformationListParameters = {
-    queryParameters: { "api-version": "2022-05-01", noAddressPrefixes: true }
+    queryParameters: { "api-version": "2022-05-01", noAddressPrefixes: true },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -82,13 +82,13 @@ async function getListOfServiceTagsWithTagName() {
   const subscriptionId = "";
   const location = "westeurope";
   const options: ServiceTagInformationListParameters = {
-    queryParameters: { "api-version": "2022-05-01", tagName: "ApiManagement" }
+    queryParameters: { "api-version": "2022-05-01", tagName: "ApiManagement" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

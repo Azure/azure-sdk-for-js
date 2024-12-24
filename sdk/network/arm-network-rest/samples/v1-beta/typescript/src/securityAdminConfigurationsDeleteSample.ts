@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   SecurityAdminConfigurationsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const options: SecurityAdminConfigurationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01", force: false }
+    queryParameters: { "api-version": "2022-05-01", force: false },
   };
   const initialResponse = await client
     .path(
@@ -32,7 +32,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

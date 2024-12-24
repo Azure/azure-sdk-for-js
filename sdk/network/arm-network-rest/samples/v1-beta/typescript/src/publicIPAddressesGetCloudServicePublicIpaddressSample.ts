@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PublicIPAddressesGetCloudServicePublicIPAddressParameters
+  PublicIPAddressesGetCloudServicePublicIPAddressParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,7 +26,7 @@ async function getVmssPublicIP() {
   const ipConfigurationName = "ip1";
   const publicIpAddressName = "pub1";
   const options: PublicIPAddressesGetCloudServicePublicIPAddressParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -37,7 +37,7 @@ async function getVmssPublicIP() {
       roleInstanceName,
       networkInterfaceName,
       ipConfigurationName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .get(options);
   console.log(result);

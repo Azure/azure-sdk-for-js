@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkInterfaceTapConfigurationsGetParameters
+  NetworkInterfaceTapConfigurationsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function getNetworkInterfaceTapConfigurations() {
   const networkInterfaceName = "mynic";
   const tapConfigurationName = "tapconfiguration1";
   const options: NetworkInterfaceTapConfigurationsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function getNetworkInterfaceTapConfigurations() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      tapConfigurationName
+      tapConfigurationName,
     )
     .get(options);
   console.log(result);

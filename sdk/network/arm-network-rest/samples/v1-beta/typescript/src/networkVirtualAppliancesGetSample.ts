@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkVirtualAppliancesGetParameters
+  NetworkVirtualAppliancesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,14 +22,14 @@ async function getNetworkVirtualAppliance() {
   const resourceGroupName = "rg1";
   const networkVirtualApplianceName = "nva";
   const options: NetworkVirtualAppliancesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .get(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysGetAdvertisedRoutesParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function getVirtualNetworkGatewayAdvertisedRoutes() {
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const options: VirtualNetworkGatewaysGetAdvertisedRoutesParameters = {
-    queryParameters: { peer: "test", "api-version": "2022-05-01" }
+    queryParameters: { peer: "test", "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

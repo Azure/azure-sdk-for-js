@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   InboundNatRulesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -30,15 +30,14 @@ async function inboundNatRuleCreate() {
         enableFloatingIP: false,
         enableTcpReset: false,
         frontendIPConfiguration: {
-          id:
-            "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1"
+          id: "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1",
         },
         frontendPort: 3390,
         idleTimeoutInMinutes: 4,
-        protocol: "Tcp"
-      }
+        protocol: "Tcp",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -46,7 +45,7 @@ async function inboundNatRuleCreate() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      inboundNatRuleName
+      inboundNatRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

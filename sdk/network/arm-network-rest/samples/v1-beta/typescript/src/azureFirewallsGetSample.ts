@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  AzureFirewallsGetParameters
+  AzureFirewallsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,14 +22,14 @@ async function getAzureFirewall() {
   const resourceGroupName = "rg1";
   const azureFirewallName = "azurefirewall";
   const options: AzureFirewallsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -49,14 +49,14 @@ async function getAzureFirewallWithAdditionalProperties() {
   const resourceGroupName = "rg1";
   const azureFirewallName = "azurefirewall";
   const options: AzureFirewallsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -76,14 +76,14 @@ async function getAzureFirewallWithIPGroups() {
   const resourceGroupName = "rg1";
   const azureFirewallName = "azurefirewall";
   const options: AzureFirewallsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -103,14 +103,14 @@ async function getAzureFirewallWithZones() {
   const resourceGroupName = "rg1";
   const azureFirewallName = "azurefirewall";
   const options: AzureFirewallsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -130,14 +130,14 @@ async function getAzureFirewallWithManagementSubnet() {
   const resourceGroupName = "rg1";
   const azureFirewallName = "azurefirewall";
   const options: AzureFirewallsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCrossConnectionsListRoutesTableParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,7 +25,7 @@ async function getExpressRouteCrossConnectionsRouteTable() {
   const peeringName = "AzurePrivatePeering";
   const devicePath = "primary";
   const options: ExpressRouteCrossConnectionsListRoutesTableParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +34,7 @@ async function getExpressRouteCrossConnectionsRouteTable() {
       resourceGroupName,
       crossConnectionName,
       peeringName,
-      devicePath
+      devicePath,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

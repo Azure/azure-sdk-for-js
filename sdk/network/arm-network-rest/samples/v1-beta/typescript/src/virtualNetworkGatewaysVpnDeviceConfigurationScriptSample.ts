@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworkGatewaysVpnDeviceConfigurationScriptParameters
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,16 +25,16 @@ async function getVpnDeviceConfigurationScript() {
     body: {
       deviceFamily: "ISR",
       firmwareVersion: "IOS 15.1 (Preview)",
-      vendor: "Cisco"
+      vendor: "Cisco",
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .post(options);
   console.log(result);

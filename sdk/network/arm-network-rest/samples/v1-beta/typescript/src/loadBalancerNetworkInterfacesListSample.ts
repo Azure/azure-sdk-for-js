@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancerNetworkInterfacesListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function loadBalancerNetworkInterfaceListSimple() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb";
   const options: LoadBalancerNetworkInterfacesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -55,14 +55,14 @@ async function loadBalancerNetworkInterfaceListVmss() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb";
   const options: LoadBalancerNetworkInterfacesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

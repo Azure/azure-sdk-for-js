@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   WebApplicationFirewallPoliciesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function deletesAWafPolicyWithinAResourceGroup() {
   const resourceGroupName = "rg1";
   const policyName = "Policy1";
   const options: WebApplicationFirewallPoliciesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       subscriptionId,
       resourceGroupName,
-      policyName
+      policyName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

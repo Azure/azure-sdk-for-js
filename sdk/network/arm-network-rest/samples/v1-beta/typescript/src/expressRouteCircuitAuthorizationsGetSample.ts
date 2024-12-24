@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteCircuitAuthorizationsGetParameters
+  ExpressRouteCircuitAuthorizationsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function getExpressRouteCircuitAuthorization() {
   const circuitName = "circuitName";
   const authorizationName = "authorizationName";
   const options: ExpressRouteCircuitAuthorizationsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function getExpressRouteCircuitAuthorization() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      authorizationName
+      authorizationName,
     )
     .get(options);
   console.log(result);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VipSwapCreateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,7 +25,7 @@ async function putVipSwapOperation() {
   const singletonResource = "swap";
   const options: VipSwapCreateParameters = {
     body: { properties: { slotType: "Production" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -33,7 +33,7 @@ async function putVipSwapOperation() {
       subscriptionId,
       groupName,
       resourceName,
-      singletonResource
+      singletonResource,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

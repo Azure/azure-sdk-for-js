@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function listVirtualMachineScaleSetNetworkInterfaces() {
   const resourceGroupName = "rg1";
   const virtualMachineScaleSetName = "vmss1";
   const options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      virtualMachineScaleSetName
+      virtualMachineScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteGatewaysListByResourceGroupParameters
+  ExpressRouteGatewaysListByResourceGroupParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,13 +21,13 @@ async function expressRouteGatewayListByResourceGroup() {
   const subscriptionId = "";
   const resourceGroupName = "resourceGroupName";
   const options: ExpressRouteGatewaysListByResourceGroupParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   console.log(result);

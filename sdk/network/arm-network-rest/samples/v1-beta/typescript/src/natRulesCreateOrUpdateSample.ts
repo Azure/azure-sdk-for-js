@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NatRulesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -31,10 +31,10 @@ async function natRulePut() {
         internalMappings: [{ addressSpace: "10.4.0.0/24" }],
         ipConfigurationId:
           "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/cloudnet1-VNG/ipConfigurations/default",
-        mode: "EgressSnat"
-      }
+        mode: "EgressSnat",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -42,7 +42,7 @@ async function natRulePut() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      natRuleName
+      natRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

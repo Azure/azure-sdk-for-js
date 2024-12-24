@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function listVmssPublicIP() {
   const resourceGroupName = "vmss-tester";
   const virtualMachineScaleSetName = "vmss1";
   const options: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
       subscriptionId,
       resourceGroupName,
-      virtualMachineScaleSetName
+      virtualMachineScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

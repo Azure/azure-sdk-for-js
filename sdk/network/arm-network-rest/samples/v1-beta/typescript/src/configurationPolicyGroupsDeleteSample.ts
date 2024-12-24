@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConfigurationPolicyGroupsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function configurationPolicyGroupDelete() {
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const configurationPolicyGroupName = "policyGroup1";
   const options: ConfigurationPolicyGroupsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -32,10 +32,10 @@ async function configurationPolicyGroupDelete() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

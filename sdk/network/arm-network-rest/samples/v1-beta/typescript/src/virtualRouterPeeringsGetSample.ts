@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualRouterPeeringsGetParameters
+  VirtualRouterPeeringsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function getVirtualRouterPeering() {
   const virtualRouterName = "virtualRouter";
   const peeringName = "peering1";
   const options: VirtualRouterPeeringsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function getVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName
+      peeringName,
     )
     .get(options);
   console.log(result);

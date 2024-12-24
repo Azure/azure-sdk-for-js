@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPAddressesDdosProtectionStatusParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function getDdosProtectionStatusOfAPublicIPAddress() {
   const resourceGroupName = "rg1";
   const publicIpAddressName = "test-pip";
   const options: PublicIPAddressesDdosProtectionStatusParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

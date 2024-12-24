@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualWansDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function virtualWanDelete() {
   const resourceGroupName = "rg1";
   const VirtualWANName = "virtualWan1";
   const options: VirtualWansDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       subscriptionId,
       resourceGroupName,
-      VirtualWANName
+      VirtualWANName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

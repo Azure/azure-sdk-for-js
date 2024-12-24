@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualWansGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { VirtualWansGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,14 +20,14 @@ async function virtualWanGet() {
   const resourceGroupName = "rg1";
   const VirtualWANName = "wan1";
   const options: VirtualWansGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       subscriptionId,
       resourceGroupName,
-      VirtualWANName
+      VirtualWANName,
     )
     .get(options);
   console.log(result);

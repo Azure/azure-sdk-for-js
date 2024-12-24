@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworkPeeringsGetParameters
+  VirtualNetworkPeeringsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function getPeering() {
   const virtualNetworkName = "vnet1";
   const virtualNetworkPeeringName = "peer";
   const options: VirtualNetworkPeeringsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function getPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .get(options);
   console.log(result);
@@ -52,7 +52,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption() {
   const virtualNetworkName = "vnet1";
   const virtualNetworkPeeringName = "peer";
   const options: VirtualNetworkPeeringsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -60,7 +60,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .get(options);
   console.log(result);

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualHubRouteTableV2SGetParameters
+  VirtualHubRouteTableV2SGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function virtualHubVirtualHubRouteTableV2Get() {
   const virtualHubName = "virtualHub1";
   const routeTableName = "virtualHubRouteTable1a";
   const options: VirtualHubRouteTableV2SGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function virtualHubVirtualHubRouteTableV2Get() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName
+      routeTableName,
     )
     .get(options);
   console.log(result);

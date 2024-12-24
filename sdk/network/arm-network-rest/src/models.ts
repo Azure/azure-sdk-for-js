@@ -2656,12 +2656,6 @@ export interface ExpressRoutePortAuthorization extends SubResource {
 /** Properties of ExpressRoutePort Authorization. */
 export interface ExpressRoutePortAuthorizationPropertiesFormat {}
 
-/** ExpressRouteProviderPort resource. */
-export interface ExpressRouteProviderPort extends Resource {
-  /** Properties of the express route Service Provider Port. */
-  properties?: ExpressRouteProviderPortProperties;
-}
-
 /** Properties of ExpressRouteProviderPort. */
 export interface ExpressRouteProviderPortProperties {
   /** The peering location of the port pair. */

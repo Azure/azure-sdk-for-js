@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsSetSharedKeyParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,14 +24,14 @@ async function setVirtualNetworkGatewayConnectionSharedKey() {
   const virtualNetworkGatewayConnectionName = "connS2S";
   const options: VirtualNetworkGatewayConnectionsSetSharedKeyParameters = {
     body: { value: "AzureAbc123" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

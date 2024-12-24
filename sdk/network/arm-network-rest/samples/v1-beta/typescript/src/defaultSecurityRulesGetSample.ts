@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  DefaultSecurityRulesGetParameters
+  DefaultSecurityRulesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,7 +23,7 @@ async function defaultSecurityRuleGet() {
   const networkSecurityGroupName = "nsg1";
   const defaultSecurityRuleName = "AllowVnetInBound";
   const options: DefaultSecurityRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -31,7 +31,7 @@ async function defaultSecurityRuleGet() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      defaultSecurityRuleName
+      defaultSecurityRuleName,
     )
     .get(options);
   console.log(result);

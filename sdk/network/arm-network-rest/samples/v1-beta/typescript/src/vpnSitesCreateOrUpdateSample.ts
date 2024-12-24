@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnSitesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -29,11 +29,10 @@ async function vpnSiteCreate() {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         isSecuritySite: false,
         o365Policy: {
-          breakOutCategories: { default: false, allow: true, optimize: true }
+          breakOutCategories: { default: false, allow: true, optimize: true },
         },
         virtualWan: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
         },
         vpnSiteLinks: [
           {
@@ -44,22 +43,22 @@ async function vpnSiteCreate() {
               ipAddress: "50.50.50.56",
               linkProperties: {
                 linkProviderName: "vendor1",
-                linkSpeedInMbps: 0
-              }
-            }
-          }
-        ]
+                linkSpeedInMbps: 0,
+              },
+            },
+          },
+        ],
       },
-      tags: { key1: "value1" }
+      tags: { key1: "value1" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       subscriptionId,
       resourceGroupName,
-      vpnSiteName
+      vpnSiteName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

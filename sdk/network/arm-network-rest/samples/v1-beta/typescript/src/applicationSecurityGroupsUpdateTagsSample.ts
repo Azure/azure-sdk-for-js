@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ApplicationSecurityGroupsUpdateTagsParameters
+  ApplicationSecurityGroupsUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function updateApplicationSecurityGroupTags() {
   const applicationSecurityGroupName = "test-asg";
   const options: ApplicationSecurityGroupsUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      applicationSecurityGroupName
+      applicationSecurityGroupName,
     )
     .patch(options);
   console.log(result);

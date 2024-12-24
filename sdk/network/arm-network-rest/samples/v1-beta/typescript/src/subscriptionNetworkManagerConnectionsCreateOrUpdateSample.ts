@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  SubscriptionNetworkManagerConnectionsCreateOrUpdateParameters
+  SubscriptionNetworkManagerConnectionsCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,16 +24,16 @@ async function createOrUpdateSubscriptionNetworkManagerConnection() {
     body: {
       properties: {
         networkManagerId:
-          "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"
-      }
+          "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       subscriptionId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .put(options);
   console.log(result);

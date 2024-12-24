@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkManagersDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +23,14 @@ async function networkManagersDelete() {
   const resourceGroupName = "rg1";
   const networkManagerName = "testNetworkManager";
   const options: NetworkManagersDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01", force: false }
+    queryParameters: { "api-version": "2022-05-01", force: false },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitAuthorizationsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,7 +25,7 @@ async function createExpressRouteCircuitAuthorization() {
   const authorizationName = "authorizatinName";
   const options: ExpressRouteCircuitAuthorizationsCreateOrUpdateParameters = {
     body: { properties: {} },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -33,10 +33,10 @@ async function createExpressRouteCircuitAuthorization() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      authorizationName
+      authorizationName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

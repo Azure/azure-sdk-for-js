@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ServiceEndpointPolicyDefinitionsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy()
   const serviceEndpointPolicyName = "testPolicy";
   const serviceEndpointPolicyDefinitionName = "testDefinition";
   const options: ServiceEndpointPolicyDefinitionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -32,7 +32,7 @@ async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy()
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -40,6 +40,4 @@ async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy()
   console.log(result);
 }
 
-deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy().catch(
-  console.error
-);
+deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy().catch(console.error);

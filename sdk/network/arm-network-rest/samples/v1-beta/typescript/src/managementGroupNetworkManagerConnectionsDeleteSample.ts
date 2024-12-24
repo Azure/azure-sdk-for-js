@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ManagementGroupNetworkManagerConnectionsDeleteParameters
+  ManagementGroupNetworkManagerConnectionsDeleteParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,13 +21,13 @@ async function deleteManagementGroupNetworkManagerConnection() {
   const managementGroupId = "managementGroupA";
   const networkManagerConnectionName = "TestNMConnection";
   const options: ManagementGroupNetworkManagerConnectionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       managementGroupId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .delete(options);
   console.log(result);

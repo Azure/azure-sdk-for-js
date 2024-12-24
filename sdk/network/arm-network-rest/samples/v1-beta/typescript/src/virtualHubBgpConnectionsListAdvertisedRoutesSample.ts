@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubBgpConnectionsListAdvertisedRoutesParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function virtualRouterPeerListAdvertisedRoutes() {
   const hubName = "virtualRouter1";
   const connectionName = "peer1";
   const options: VirtualHubBgpConnectionsListAdvertisedRoutesParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -32,7 +32,7 @@ async function virtualRouterPeerListAdvertisedRoutes() {
       subscriptionId,
       resourceGroupName,
       hubName,
-      connectionName
+      connectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
