@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of metadata entities.
@@ -30,7 +28,7 @@ async function getMetadata() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMetadata();
 }
 
