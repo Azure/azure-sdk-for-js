@@ -107,7 +107,7 @@ export const Constants = {
 
     // IndexMetrics
     // Request header to tell backend to give you index metrics.
-    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics",
+    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics-V2",
     // Response header that holds the serialized version of index metrics.
     IndexUtilization: "x-ms-cosmos-index-utilization",
     // Version headers and values
