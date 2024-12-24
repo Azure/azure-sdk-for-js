@@ -170,6 +170,8 @@ export type ClientConfigDiagnostic = {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel);
     // (undocumented)
+    appendToUserAgent(userAgentSuffix: string): void;
+    // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
         body: T;
         path: string;
@@ -687,6 +689,7 @@ export class Containers {
 export class CosmosClient {
     constructor(connectionString: string);
     constructor(options: CosmosClientOptions);
+    appendToUserAgent(userAgentSuffix: string): Promise<void>;
     database(id: string): Database;
     readonly databases: Databases;
     dispose(): void;
@@ -706,6 +709,7 @@ export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
+    connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
@@ -713,7 +717,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    endpoint: string;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];

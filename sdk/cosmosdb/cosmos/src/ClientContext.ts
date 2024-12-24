@@ -978,4 +978,13 @@ export class ClientContext {
   public getClientConfig(): ClientConfigDiagnostic {
     return this.clientConfig;
   }
+
+  public appendToUserAgent(userAgentSuffix: string): void {
+    const updatedUserAgent =
+      this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] +
+      " " +
+      userAgentSuffix;
+    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
+    this.clientConfig.userAgentSuffix = userAgentSuffix;
+  }
 }
