@@ -530,7 +530,6 @@ export interface CreateCallOptions extends OperationOptions {
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
     teamsAppSource?: MicrosoftTeamsAppIdentifier;
-    transcriptionConfiguration?: TranscriptionConfiguration;
     transcriptionOptions?: TranscriptionOptions;
 }
 
