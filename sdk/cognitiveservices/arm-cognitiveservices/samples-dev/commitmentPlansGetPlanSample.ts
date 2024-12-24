@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a Cognitive Services commitment plan specified by the parameters.
  *
  * @summary Returns a Cognitive Services commitment plan specified by the parameters.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetSharedCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetSharedCommitmentPlan.json
  */
 async function getCommitmentPlan() {
   const subscriptionId =
@@ -30,11 +30,11 @@ async function getCommitmentPlan() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.commitmentPlans.getPlan(
     resourceGroupName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }
