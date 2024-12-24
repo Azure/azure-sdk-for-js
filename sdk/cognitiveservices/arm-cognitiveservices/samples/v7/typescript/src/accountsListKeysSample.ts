@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the account keys for the specified Cognitive Services account.
  *
  * @summary Lists the account keys for the specified Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListKeys.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListKeys.json
  */
 async function listKeys() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listKeys() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.accounts.listKeys(resourceGroupName, accountName);
   console.log(result);

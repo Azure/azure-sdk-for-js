@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists a collection of portalsettings defined within a service instance..
@@ -21,22 +19,22 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPortalSettings.json
  */
 async function apiManagementListPortalSettings() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.portalSettings.listByService(
-    resourceGroupName,
-    serviceName
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.portalSettings.listByService(
+        resourceGroupName,
+        serviceName
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementListPortalSettings();
+    apiManagementListPortalSettings();
 }
 
 main().catch(console.error);

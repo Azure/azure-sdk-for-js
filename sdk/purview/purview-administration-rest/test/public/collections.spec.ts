@@ -7,7 +7,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("List collections", () => {
   let recorder: Recorder;
-  let client: PurviewAccount.Client.PurviewAccountRestClient;
+  let client: PurviewAccount.Client.PurviewAccountClient;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);

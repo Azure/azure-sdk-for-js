@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes API deployment.

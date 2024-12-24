@@ -157,6 +157,39 @@ const poller = await emailClient.beginSend(message);
 const response = await poller.pollUntilDone();
 ```
 
+### Send Email with Inline Attachments
+
+Azure Communication Services support sending email with inline attachments.
+Adding an optional `contentId` parameter to an `attachment` will make it an inline attachment.
+
+```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
+const imageBuffer = await fs.readFile("C:/path/to/my_inline_image.jpg");
+const contentInBase64 = imageBuffer.toString("base64");
+
+const message = {
+  senderAddress: senderAddress,
+  content: {
+    subject: "This is the subject",
+    plainText: "This is the body",
+    html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
+  },
+  recipients: {
+    to: [{ address: recipientAddress, displayName: "Customer Name" }],
+  },
+  attachments: [
+    {
+      name: "myinlineimage.jpg",
+      contentType: "image/jpeg",
+      contentInBase64: contentInBase64,
+      contentId: "inline_image",
+    },
+  ],
+};
+
+const poller = await emailClient.beginSend(message);
+const response = await poller.pollUntilDone();
+```
+
 ## Next steps
 
 - [Read more about Email in Azure Communication Services][nextsteps]

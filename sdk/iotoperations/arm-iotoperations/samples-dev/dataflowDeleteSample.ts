@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DataflowResource
  *
  * @summary delete a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Dataflow_Delete_MaximumSet_Gen.json
  */
 async function dataflowDelete() {
   const credential = new DefaultAzureCredential();

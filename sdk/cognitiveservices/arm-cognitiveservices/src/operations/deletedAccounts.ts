@@ -16,7 +16,7 @@ import { CognitiveServicesManagementClient } from "../cognitiveServicesManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
   DeletedAccountsPurgeOptionalParams,
-  DeletedAccountsListNextResponse
+  DeletedAccountsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * @param options The options parameters.
    */
   public list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<Account> {
     const iter = this.listPagingAll(options);
     return {
@@ -63,13 +63,13 @@ export class DeletedAccountsImpl implements DeletedAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DeletedAccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Account[]> {
     let result: DeletedAccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
   }
 
   private async *listPagingAll(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): AsyncIterableIterator<Account> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -108,11 +108,11 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsGetOptionalParams
+    options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -127,25 +127,24 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
+    options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -154,8 +153,8 @@ export class DeletedAccountsImpl implements DeletedAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -163,19 +162,19 @@ export class DeletedAccountsImpl implements DeletedAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, resourceGroupName, accountName, options },
-      spec: purgeOperationSpec
+      spec: purgeOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -192,13 +191,13 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
+    options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurge(
       location,
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -208,7 +207,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * @param options The options parameters.
    */
   private _list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): Promise<DeletedAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -220,11 +219,11 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    */
   private _listNext(
     nextLink: string,
-    options?: DeletedAccountsListNextOptionalParams
+    options?: DeletedAccountsListNextOptionalParams,
   ): Promise<DeletedAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -232,16 +231,15 @@ export class DeletedAccountsImpl implements DeletedAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -249,14 +247,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -264,8 +261,8 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -273,44 +270,43 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

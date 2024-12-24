@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get tenant access information details without secrets.
@@ -21,20 +19,20 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantAccess.json
  */
 async function apiManagementGetTenantAccess() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const accessName = "access";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.tenantAccess.get(
-    resourceGroupName,
-    serviceName,
-    accessName
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const accessName = "access";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.tenantAccess.get(
+        resourceGroupName,
+        serviceName,
+        accessName
+    );
+    console.log(result);
 }
 
 /**
@@ -44,25 +42,25 @@ async function apiManagementGetTenantAccess() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantGitAccess.json
  */
 async function apiManagementGetTenantGitAccess() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const accessName = "gitAccess";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.tenantAccess.get(
-    resourceGroupName,
-    serviceName,
-    accessName
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const accessName = "gitAccess";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.tenantAccess.get(
+        resourceGroupName,
+        serviceName,
+        accessName
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementGetTenantAccess();
-  apiManagementGetTenantGitAccess();
+    apiManagementGetTenantAccess();
+    apiManagementGetTenantGitAccess();
 }
 
 main().catch(console.error);

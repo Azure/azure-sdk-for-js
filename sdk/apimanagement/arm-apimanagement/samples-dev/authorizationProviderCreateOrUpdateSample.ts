@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  AuthorizationProviderContract,
-  ApiManagementClient
+    ApiManagementClient,
+    AuthorizationProviderContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates authorization provider.
@@ -24,37 +22,37 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderAADAuthCode.json
  */
 async function apiManagementCreateAuthorizationProviderAadAuthCode() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const authorizationProviderId = "aadwithauthcode";
-  const parameters: AuthorizationProviderContract = {
-    displayName: "aadwithauthcode",
-    identityProvider: "aad",
-    oauth2: {
-      grantTypes: {
-        authorizationCode: {
-          clientId: "",
-          clientSecret: "",
-          resourceUri: "https://graph.microsoft.com",
-          scopes: "User.Read.All Group.Read.All"
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const authorizationProviderId = "aadwithauthcode";
+    const parameters: AuthorizationProviderContract = {
+        displayName: "aadwithauthcode",
+        identityProvider: "aad",
+        oauth2: {
+            grantTypes: {
+                authorizationCode: {
+                    clientId: "",
+                    clientSecret: "",
+                    resourceUri: "https://graph.microsoft.com",
+                    scopes: "User.Read.All Group.Read.All"
+                }
+            },
+            redirectUrl:
+                "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
         }
-      },
-      redirectUrl:
-        "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.authorizationProvider.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    authorizationProviderId,
-    parameters
-  );
-  console.log(result);
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.authorizationProvider.createOrUpdate(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -64,35 +62,35 @@ async function apiManagementCreateAuthorizationProviderAadAuthCode() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderAADClientCred.json
  */
 async function apiManagementCreateAuthorizationProviderAadClientCred() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const authorizationProviderId = "aadwithclientcred";
-  const parameters: AuthorizationProviderContract = {
-    displayName: "aadwithclientcred",
-    identityProvider: "aad",
-    oauth2: {
-      grantTypes: {
-        authorizationCode: {
-          resourceUri: "https://graph.microsoft.com",
-          scopes: "User.Read.All Group.Read.All"
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const authorizationProviderId = "aadwithclientcred";
+    const parameters: AuthorizationProviderContract = {
+        displayName: "aadwithclientcred",
+        identityProvider: "aad",
+        oauth2: {
+            grantTypes: {
+                authorizationCode: {
+                    resourceUri: "https://graph.microsoft.com",
+                    scopes: "User.Read.All Group.Read.All"
+                }
+            },
+            redirectUrl:
+                "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
         }
-      },
-      redirectUrl:
-        "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.authorizationProvider.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    authorizationProviderId,
-    parameters
-  );
-  console.log(result);
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.authorizationProvider.createOrUpdate(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -102,39 +100,39 @@ async function apiManagementCreateAuthorizationProviderAadClientCred() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderGenericOAuth2.json
  */
 async function apiManagementCreateAuthorizationProviderGenericOAuth2() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const authorizationProviderId = "eventbrite";
-  const parameters: AuthorizationProviderContract = {
-    displayName: "eventbrite",
-    identityProvider: "oauth2",
-    oauth2: {
-      grantTypes: {
-        authorizationCode: {
-          authorizationUrl: "https://www.eventbrite.com/oauth/authorize",
-          clientId: "",
-          clientSecret: "",
-          refreshUrl: "https://www.eventbrite.com/oauth/token",
-          scopes: "",
-          tokenUrl: "https://www.eventbrite.com/oauth/token"
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const authorizationProviderId = "eventbrite";
+    const parameters: AuthorizationProviderContract = {
+        displayName: "eventbrite",
+        identityProvider: "oauth2",
+        oauth2: {
+            grantTypes: {
+                authorizationCode: {
+                    authorizationUrl: "https://www.eventbrite.com/oauth/authorize",
+                    clientId: "",
+                    clientSecret: "",
+                    refreshUrl: "https://www.eventbrite.com/oauth/token",
+                    scopes: "",
+                    tokenUrl: "https://www.eventbrite.com/oauth/token"
+                }
+            },
+            redirectUrl:
+                "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
         }
-      },
-      redirectUrl:
-        "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.authorizationProvider.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    authorizationProviderId,
-    parameters
-  );
-  console.log(result);
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.authorizationProvider.createOrUpdate(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -144,44 +142,44 @@ async function apiManagementCreateAuthorizationProviderGenericOAuth2() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderOOBGoogle.json
  */
 async function apiManagementCreateAuthorizationProviderOobGoogle() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const authorizationProviderId = "google";
-  const parameters: AuthorizationProviderContract = {
-    displayName: "google",
-    identityProvider: "google",
-    oauth2: {
-      grantTypes: {
-        authorizationCode: {
-          clientId: "",
-          clientSecret: "",
-          scopes:
-            "openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const authorizationProviderId = "google";
+    const parameters: AuthorizationProviderContract = {
+        displayName: "google",
+        identityProvider: "google",
+        oauth2: {
+            grantTypes: {
+                authorizationCode: {
+                    clientId: "",
+                    clientSecret: "",
+                    scopes:
+                        "openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+                }
+            },
+            redirectUrl:
+                "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
         }
-      },
-      redirectUrl:
-        "https://authorization-manager.consent.azure-apim.net/redirect/apim/apimService1"
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.authorizationProvider.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    authorizationProviderId,
-    parameters
-  );
-  console.log(result);
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.authorizationProvider.createOrUpdate(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementCreateAuthorizationProviderAadAuthCode();
-  apiManagementCreateAuthorizationProviderAadClientCred();
-  apiManagementCreateAuthorizationProviderGenericOAuth2();
-  apiManagementCreateAuthorizationProviderOobGoogle();
+    apiManagementCreateAuthorizationProviderAadAuthCode();
+    apiManagementCreateAuthorizationProviderAadClientCred();
+    apiManagementCreateAuthorizationProviderGenericOAuth2();
+    apiManagementCreateAuthorizationProviderOobGoogle();
 }
 
 main().catch(console.error);

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-iotoperations",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for IoTOperationsClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -47,6 +47,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotoperations/arm-iotoperations/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
@@ -68,9 +69,10 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "eslint": "^9.9.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
@@ -103,7 +105,8 @@
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "update-snippets": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-iotoperations",

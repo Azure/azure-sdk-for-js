@@ -29,7 +29,7 @@ import {
   AccountsListSkusOptionalParams,
   AccountsListSkusResponse,
   AccountsListUsagesOptionalParams,
-  AccountsListUsagesResponse
+  AccountsListUsagesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,14 +42,14 @@ export interface Accounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * List available Models for the requested Cognitive Services account
@@ -60,7 +60,7 @@ export interface Accounts {
   listModels(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListModelsOptionalParams
+    options?: AccountsListModelsOptionalParams,
   ): PagedAsyncIterableIterator<AccountModel>;
   /**
    * Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the
@@ -74,7 +74,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsCreateOptionalParams
+    options?: AccountsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateResponse>,
@@ -93,7 +93,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsCreateOptionalParams
+    options?: AccountsCreateOptionalParams,
   ): Promise<AccountsCreateResponse>;
   /**
    * Updates a Cognitive Services account
@@ -106,7 +106,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsUpdateResponse>,
@@ -124,7 +124,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Deletes a Cognitive Services account from the resource group.
@@ -135,7 +135,7 @@ export interface Accounts {
   beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
@@ -146,7 +146,7 @@ export interface Accounts {
   beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a Cognitive Services account specified by the parameters.
@@ -157,7 +157,7 @@ export interface Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Lists the account keys for the specified Cognitive Services account.
@@ -168,7 +168,7 @@ export interface Accounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListKeysOptionalParams
+    options?: AccountsListKeysOptionalParams,
   ): Promise<AccountsListKeysResponse>;
   /**
    * Regenerates the specified account key for the specified Cognitive Services account.
@@ -181,7 +181,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     keyName: KeyName,
-    options?: AccountsRegenerateKeyOptionalParams
+    options?: AccountsRegenerateKeyOptionalParams,
   ): Promise<AccountsRegenerateKeyResponse>;
   /**
    * List available SKUs for the requested Cognitive Services account
@@ -192,7 +192,7 @@ export interface Accounts {
   listSkus(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListSkusOptionalParams
+    options?: AccountsListSkusOptionalParams,
   ): Promise<AccountsListSkusResponse>;
   /**
    * Get usages for the requested Cognitive Services account
@@ -203,6 +203,6 @@ export interface Accounts {
   listUsages(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListUsagesOptionalParams
+    options?: AccountsListUsagesOptionalParams,
   ): Promise<AccountsListUsagesResponse>;
 }

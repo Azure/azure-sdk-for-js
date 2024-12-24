@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Determine if the Notification Recipient User is subscribed to the notification.
@@ -21,26 +19,26 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadNotificationRecipientUser.json
  */
 async function apiManagementHeadNotificationRecipientUser() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const notificationName = "RequestPublisherNotificationMessage";
-  const userId = "576823d0a40f7e74ec07d642";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.notificationRecipientUser.checkEntityExists(
-    resourceGroupName,
-    serviceName,
-    notificationName,
-    userId
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const notificationName = "RequestPublisherNotificationMessage";
+    const userId = "576823d0a40f7e74ec07d642";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.notificationRecipientUser.checkEntityExists(
+        resourceGroupName,
+        serviceName,
+        notificationName,
+        userId
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementHeadNotificationRecipientUser();
+    apiManagementHeadNotificationRecipientUser();
 }
 
 main().catch(console.error);

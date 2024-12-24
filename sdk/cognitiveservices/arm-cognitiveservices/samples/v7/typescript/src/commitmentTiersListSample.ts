@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List Commitment Tiers.
  *
  * @summary List Commitment Tiers.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListCommitmentTiers.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListCommitmentTiers.json
  */
 async function listCommitmentTiers() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listCommitmentTiers() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.commitmentTiers.list(location)) {

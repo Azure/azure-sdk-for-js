@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CommitmentPlanAccountAssociation,
-  CognitiveServicesManagementClient
+  CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the association of the Cognitive Services commitment plan.
  *
  * @summary Create or update the association of the Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/CreateSharedCommitmentPlanAssociation.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CreateSharedCommitmentPlanAssociation.json
  */
 async function putCommitmentPlan() {
   const subscriptionId =
@@ -33,19 +33,20 @@ async function putCommitmentPlan() {
   const commitmentPlanAssociationName = "commitmentPlanAssociationName";
   const association: CommitmentPlanAccountAssociation = {
     accountId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName"
+      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName",
   };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
-  const result = await client.commitmentPlans.beginCreateOrUpdateAssociationAndWait(
-    resourceGroupName,
-    commitmentPlanName,
-    commitmentPlanAssociationName,
-    association
-  );
+  const result =
+    await client.commitmentPlans.beginCreateOrUpdateAssociationAndWait(
+      resourceGroupName,
+      commitmentPlanName,
+      commitmentPlanAssociationName,
+      association,
+    );
   console.log(result);
 }
 

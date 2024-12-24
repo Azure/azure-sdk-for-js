@@ -18,7 +18,7 @@ import {
   CommitmentTiersListNextOptionalParams,
   CommitmentTiersListOptionalParams,
   CommitmentTiersListResponse,
-  CommitmentTiersListNextResponse
+  CommitmentTiersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
    */
   public list(
     location: string,
-    options?: CommitmentTiersListOptionalParams
+    options?: CommitmentTiersListOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentTier> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class CommitmentTiersImpl implements CommitmentTiers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: CommitmentTiersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommitmentTier[]> {
     let result: CommitmentTiersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
 
   private async *listPagingAll(
     location: string,
-    options?: CommitmentTiersListOptionalParams
+    options?: CommitmentTiersListOptionalParams,
   ): AsyncIterableIterator<CommitmentTier> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class CommitmentTiersImpl implements CommitmentTiers {
    */
   private _list(
     location: string,
-    options?: CommitmentTiersListOptionalParams
+    options?: CommitmentTiersListOptionalParams,
   ): Promise<CommitmentTiersListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class CommitmentTiersImpl implements CommitmentTiers {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: CommitmentTiersListNextOptionalParams
+    options?: CommitmentTiersListNextOptionalParams,
   ): Promise<CommitmentTiersListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class CommitmentTiersImpl implements CommitmentTiers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/commitmentTiers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/commitmentTiers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentTierListResult
+      bodyMapper: Mappers.CommitmentTierListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommitmentTierListResult
+      bodyMapper: Mappers.CommitmentTierListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

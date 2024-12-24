@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a Cognitive Services commitment plan from the resource group.
  *
  * @summary Deletes a Cognitive Services commitment plan from the resource group.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/DeleteSharedCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteSharedCommitmentPlan.json
  */
 async function deleteCommitmentPlan() {
   const subscriptionId =
@@ -30,11 +30,11 @@ async function deleteCommitmentPlan() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.commitmentPlans.beginDeletePlanAndWait(
     resourceGroupName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }

@@ -40,3 +40,5 @@ extends:
         safeName: azurerestmapsgeolocation
       - name: azure-rest-maps-search
         safeName: azurerestmapssearch
+      - name: azure-rest-maps-timezone
+        safeName: azurerestmapstimezone

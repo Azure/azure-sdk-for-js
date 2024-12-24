@@ -18,7 +18,7 @@ import {
   ModelsListNextOptionalParams,
   ModelsListOptionalParams,
   ModelsListResponse,
-  ModelsListNextResponse
+  ModelsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class ModelsImpl implements Models {
    */
   public list(
     location: string,
-    options?: ModelsListOptionalParams
+    options?: ModelsListOptionalParams,
   ): PagedAsyncIterableIterator<Model> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class ModelsImpl implements Models {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: ModelsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Model[]> {
     let result: ModelsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class ModelsImpl implements Models {
 
   private async *listPagingAll(
     location: string,
-    options?: ModelsListOptionalParams
+    options?: ModelsListOptionalParams,
   ): AsyncIterableIterator<Model> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class ModelsImpl implements Models {
    */
   private _list(
     location: string,
-    options?: ModelsListOptionalParams
+    options?: ModelsListOptionalParams,
   ): Promise<ModelsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class ModelsImpl implements Models {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: ModelsListNextOptionalParams
+    options?: ModelsListNextOptionalParams,
   ): Promise<ModelsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class ModelsImpl implements Models {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/models",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/models",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelListResult
+      bodyMapper: Mappers.ModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelListResult
+      bodyMapper: Mappers.ModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

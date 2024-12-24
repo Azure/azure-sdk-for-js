@@ -8,6 +8,7 @@ export default function fixSourceFile(sourceFile: SourceFile): void {
     "chai.use(chaiAsPromised);",
     "chai.use(chaiExclude);",
     "const expect = chai.expect;",
+    "dotenv.config();",
   ];
   // Iterate over all the statements in the source file
   for (const statement of sourceFile.getStatements()) {
@@ -17,12 +18,19 @@ export default function fixSourceFile(sourceFile: SourceFile): void {
         statement.remove();
       }
     }
+  }
 
+  for (const statement of sourceFile.getStatements()) {
     const patternsToReplace = [
+      { pattern: /\(this: Suite\)/g, replace: "(ctx)" },
       { pattern: /\(this: Context\)/g, replace: "(ctx)" },
       { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
       { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
       { pattern: /this\.skip\(\);/g, replace: "ctx.skip();" },
+      {
+        pattern: /import\s+(?:\*\s+as\s+dotenv|dotenv)\s+from\s+"dotenv";/g,
+        replace: 'import "dotenv/config";',
+      },
     ];
 
     // Replace the patterns in the source file

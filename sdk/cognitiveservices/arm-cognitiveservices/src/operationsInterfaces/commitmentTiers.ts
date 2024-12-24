@@ -19,6 +19,6 @@ export interface CommitmentTiers {
    */
   list(
     location: string,
-    options?: CommitmentTiersListOptionalParams
+    options?: CommitmentTiersListOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentTier>;
 }

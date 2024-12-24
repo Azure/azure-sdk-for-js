@@ -19,7 +19,7 @@ describe("Reporter Utils", () => {
       correlationId: "test-correlation-id",
       region: "test-region",
     };
-
+    environmentVariables = process.env;
     reporterUtils = new ReporterUtils(envVariablesMock, {} as any, {} as any);
   });
   afterEach(() => {

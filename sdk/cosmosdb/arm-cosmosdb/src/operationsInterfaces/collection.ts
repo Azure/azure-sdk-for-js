@@ -14,7 +14,7 @@ import {
   CollectionListUsagesOptionalParams,
   MetricDefinition,
   CollectionListMetricDefinitionsOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Collection. */

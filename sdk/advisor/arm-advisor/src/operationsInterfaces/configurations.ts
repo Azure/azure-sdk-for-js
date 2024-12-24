@@ -15,8 +15,8 @@ import {
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsCreateInSubscriptionResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
-  ConfigurationsCreateInResourceGroupResponse
-} from "../models";
+  ConfigurationsCreateInResourceGroupResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Configurations. */
@@ -26,7 +26,7 @@ export interface Configurations {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConfigurationsListBySubscriptionOptionalParams
+    options?: ConfigurationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigData>;
   /**
    * Retrieve Azure Advisor configurations.
@@ -35,7 +35,7 @@ export interface Configurations {
    */
   listByResourceGroup(
     resourceGroup: string,
-    options?: ConfigurationsListByResourceGroupOptionalParams
+    options?: ConfigurationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigData>;
   /**
    * Create/Overwrite Azure Advisor configuration and also delete all configurations of contained
@@ -47,7 +47,7 @@ export interface Configurations {
   createInSubscription(
     configurationName: ConfigurationName,
     configContract: ConfigData,
-    options?: ConfigurationsCreateInSubscriptionOptionalParams
+    options?: ConfigurationsCreateInSubscriptionOptionalParams,
   ): Promise<ConfigurationsCreateInSubscriptionResponse>;
   /**
    * Create/Overwrite Azure Advisor configuration.
@@ -60,6 +60,6 @@ export interface Configurations {
     configurationName: ConfigurationName,
     resourceGroup: string,
     configContract: ConfigData,
-    options?: ConfigurationsCreateInResourceGroupOptionalParams
+    options?: ConfigurationsCreateInResourceGroupOptionalParams,
   ): Promise<ConfigurationsCreateInResourceGroupResponse>;
 }

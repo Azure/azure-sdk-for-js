@@ -28,7 +28,9 @@ const loggerProvider = new LoggerProvider({
 // Configure processor to send logs to the exporter
 const logExporter = new AzureMonitorLogExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+    // Replace with your Application Insights Connection String
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+    "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
 loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
 const logger = loggerProvider.getLogger("example-basic-logger-node");

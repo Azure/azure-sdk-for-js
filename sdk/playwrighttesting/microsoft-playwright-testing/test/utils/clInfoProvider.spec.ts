@@ -8,6 +8,7 @@ describe("CIInfoProvider", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    environmentVariables = process.env;
   });
 
   afterEach(() => {

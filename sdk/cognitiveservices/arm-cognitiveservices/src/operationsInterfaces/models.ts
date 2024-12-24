@@ -19,6 +19,6 @@ export interface Models {
    */
   list(
     location: string,
-    options?: ModelsListOptionalParams
+    options?: ModelsListOptionalParams,
   ): PagedAsyncIterableIterator<Model>;
 }

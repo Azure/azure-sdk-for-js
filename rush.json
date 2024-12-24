@@ -2322,6 +2322,11 @@
       "packageName": "@azure/arm-connectedcache",
       "projectFolder": "sdk/connectedcache/arm-connectedcache",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/ai-projects",
+      "projectFolder": "sdk/ai/ai-projects",
+      "versionPolicyName": "client"
     }
   ]
 }

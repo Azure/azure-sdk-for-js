@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Service Fabric managed application type name resource with the specified name.
  *
  * @summary Create or update a Service Fabric managed application type name resource with the specified name.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationTypeNamePutOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationTypeNamePutOperation_example.json
  */
 async function putAnApplicationType() {
   const subscriptionId =

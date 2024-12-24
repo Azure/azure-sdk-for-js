@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists developer portal's content items specified by the provided content type.
@@ -21,27 +19,27 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypeContentItems.json
  */
 async function apiManagementListContentTypeContentItems() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const contentTypeId = "page";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.contentItem.listByService(
-    resourceGroupName,
-    serviceName,
-    contentTypeId
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const contentTypeId = "page";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const resArray = new Array();
+    for await (let item of client.contentItem.listByService(
+        resourceGroupName,
+        serviceName,
+        contentTypeId
+    )) {
+        resArray.push(item);
+    }
+    console.log(resArray);
 }
 
 async function main() {
-  apiManagementListContentTypeContentItems();
+    apiManagementListContentTypeContentItems();
 }
 
 main().catch(console.error);

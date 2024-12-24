@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { GremlinResources } from "../operationsInterfaces";
+import { GremlinResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   GremlinDatabaseGetResults,
   GremlinResourcesListGremlinDatabasesOptionalParams,
@@ -59,7 +59,7 @@ import {
   ContinuousBackupRestoreLocation,
   GremlinResourcesRetrieveContinuousBackupInformationOptionalParams,
   GremlinResourcesRetrieveContinuousBackupInformationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GremlinResources operations. */
@@ -1723,8 +1723,8 @@ const getGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1753,8 +1753,8 @@ const createUpdateGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1783,8 +1783,8 @@ const deleteGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   serializer,
 };
@@ -1802,8 +1802,8 @@ const getGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1832,8 +1832,8 @@ const updateGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1865,8 +1865,8 @@ const migrateGremlinGraphToAutoscaleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
     Parameters.graphName,
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1898,8 +1898,8 @@ const migrateGremlinGraphToManualThroughputOperationSpec: coreClient.OperationSp
       Parameters.subscriptionId,
       Parameters.resourceGroupName,
       Parameters.accountName,
-      Parameters.databaseName,
       Parameters.graphName,
+      Parameters.databaseName,
     ],
     headerParameters: [Parameters.accept],
     serializer,
@@ -1932,8 +1932,8 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
       Parameters.subscriptionId,
       Parameters.resourceGroupName,
       Parameters.accountName,
-      Parameters.databaseName,
       Parameters.graphName,
+      Parameters.databaseName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
     mediaType: "json",

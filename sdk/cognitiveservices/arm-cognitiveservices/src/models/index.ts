@@ -112,6 +112,8 @@ export interface AccountProperties {
   encryption?: Encryption;
   /** The storage accounts for this resource. */
   userOwnedStorage?: UserOwnedStorage[];
+  /** The user owned AML workspace properties. */
+  amlWorkspace?: UserOwnedAmlWorkspace;
   /**
    * The private endpoint connection associated with the Cognitive Services account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -166,6 +168,8 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly abusePenalty?: AbusePenalty;
+  /** Cognitive Services Rai Monitor Config. */
+  raiMonitorConfig?: RaiMonitorConfig;
 }
 
 /** SkuCapability indicates the capability of a certain feature. */
@@ -190,6 +194,8 @@ export interface SkuChangeInfo {
 export interface NetworkRuleSet {
   /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
   defaultAction?: NetworkRuleAction;
+  /** Setting for trusted services. */
+  bypass?: ByPassSelection;
   /** The list of IP address rules. */
   ipRules?: IpRule[];
   /** The list of virtual network rules. */
@@ -235,6 +241,14 @@ export interface KeyVaultProperties {
 export interface UserOwnedStorage {
   /** Full resource id of a Microsoft.Storage resource. */
   resourceId?: string;
+  identityClientId?: string;
+}
+
+/** The user owned AML workspace for Cognitive Services account. */
+export interface UserOwnedAmlWorkspace {
+  /** Full resource id of a AML workspace resource. */
+  resourceId?: string;
+  /** Identity Client id of a AML workspace resource. */
   identityClientId?: string;
 }
 
@@ -379,6 +393,14 @@ export interface AbusePenalty {
   rateLimitPercentage?: number;
   /** The datetime of expiration of the AbusePenalty. */
   expiration?: Date;
+}
+
+/** Cognitive Services Rai Monitor Config. */
+export interface RaiMonitorConfig {
+  /** The storage resource Id. */
+  adxStorageResourceId?: string;
+  /** The identity client Id to access the storage. */
+  identityClientId?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -556,6 +578,8 @@ export interface AccountModelListResult {
 
 /** Properties of Cognitive Services account deployment model. */
 export interface DeploymentModel {
+  /** Deployment model publisher. */
+  publisher?: string;
   /** Deployment model format. */
   format?: string;
   /** Deployment model name. */
@@ -564,6 +588,8 @@ export interface DeploymentModel {
   version?: string;
   /** Optional. Deployment model source ARM resource ID. */
   source?: string;
+  /** Optional. Source of the model, another Microsoft.CognitiveServices accounts ARM resource ID. */
+  sourceAccount?: string;
   /**
    * The call rate limit Cognitive Services account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -583,6 +609,8 @@ export interface ModelSku {
   capacity?: CapacityConfig;
   /** The list of rateLimit. */
   rateLimits?: CallRateLimit[];
+  /** The list of billing meter info. */
+  cost?: BillingMeterInfo[];
 }
 
 /** The capacity configuration. */
@@ -595,6 +623,14 @@ export interface CapacityConfig {
   step?: number;
   /** The default capacity. */
   default?: number;
+  /** The array of allowed values for capacity. */
+  allowedValues?: number[];
+}
+
+export interface BillingMeterInfo {
+  name?: string;
+  meterId?: string;
+  unit?: string;
 }
 
 /** Cognitive Services account ModelDeprecationInfo. */
@@ -673,7 +709,7 @@ export interface OperationDisplay {
 export interface CheckSkuAvailabilityParameter {
   /** The SKU of the resource. */
   skus: string[];
-  /** The Kind of the resource. */
+  /** The kind (type) of cognitive service account. */
   kind: string;
   /** The Type of the resource. */
   type: string;
@@ -758,12 +794,33 @@ export interface ModelListResult {
 
 /** Cognitive Services Model. */
 export interface Model {
-  /** Model Metadata. */
+  /** Cognitive Services account Model. */
   model?: AccountModel;
-  /** The Kind of the Model. */
+  /** The kind (type) of cognitive service account. */
   kind?: string;
-  /** The SKU of the Model. */
+  /** The name of SKU. */
   skuName?: string;
+  /** The description of the model. */
+  description?: string;
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface ModelCapacityListResult {
+  /** The link used to get the next page of ModelSkuCapacity. */
+  nextLink?: string;
+  /** Gets the list of Cognitive Services accounts ModelSkuCapacity. */
+  value?: ModelCapacityListResultValueItem[];
+}
+
+/** Cognitive Services account ModelSkuCapacity. */
+export interface ModelSkuCapacityProperties {
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  skuName?: string;
+  /** The available capacity for deployment with this model and sku. */
+  availableCapacity?: number;
+  /** The available capacity for deployment with a fine-tune version of this model and sku. */
+  availableFinetuneCapacity?: number;
 }
 
 /** Check Domain availability parameter. */
@@ -788,6 +845,47 @@ export interface DomainAvailability {
   type?: string;
   /** The Kind of the resource. */
   kind?: string;
+}
+
+/** Calculate Model Capacity parameter. */
+export interface CalculateModelCapacityParameter {
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  /** The name of SKU. */
+  skuName?: string;
+  /** List of Model Capacity Calculator Workload. */
+  workloads?: ModelCapacityCalculatorWorkload[];
+}
+
+/** Model Capacity Calculator Workload. */
+export interface ModelCapacityCalculatorWorkload {
+  /** Request per minute. */
+  requestPerMinute?: number;
+  /** Dictionary, Model Capacity Calculator Workload Parameters. */
+  requestParameters?: ModelCapacityCalculatorWorkloadRequestParam;
+}
+
+/** Dictionary, Model Capacity Calculator Workload Parameters. */
+export interface ModelCapacityCalculatorWorkloadRequestParam {
+  /** Average prompt tokens. */
+  avgPromptTokens?: number;
+  /** Average generated tokens. */
+  avgGeneratedTokens?: number;
+}
+
+/** Calculate Model Capacity result. */
+export interface CalculateModelCapacityResult {
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  skuName?: string;
+  /** Model Estimated Capacity. */
+  estimatedCapacity?: CalculateModelCapacityResultEstimatedCapacity;
+}
+
+/** Model Estimated Capacity. */
+export interface CalculateModelCapacityResultEstimatedCapacity {
+  value?: number;
+  deployableValue?: number;
 }
 
 /** A list of private endpoint connections */
@@ -843,7 +941,7 @@ export interface DeploymentProperties {
   readonly provisioningState?: DeploymentProvisioningState;
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
-  /** Properties of Cognitive Services account deployment model. */
+  /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
   scaleSettings?: DeploymentScaleSettings;
   /**
    * The capabilities.
@@ -861,9 +959,20 @@ export interface DeploymentProperties {
   readonly rateLimits?: ThrottlingRule[];
   /** Deployment model version upgrade option. */
   versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  /**
+   * If the dynamic throttling is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dynamicThrottlingEnabled?: boolean;
+  /** The current capacity. */
+  currentCapacity?: number;
+  /** Internal use only. */
+  capacitySettings?: DeploymentCapacitySettings;
+  /** The name of parent deployment. */
+  parentDeploymentName?: string;
 }
 
-/** Properties of Cognitive Services account deployment model. */
+/** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettings {
   /** Deployment scale type. */
   scaleType?: DeploymentScaleType;
@@ -874,6 +983,41 @@ export interface DeploymentScaleSettings {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activeCapacity?: number;
+}
+
+/** Internal use only. */
+export interface DeploymentCapacitySettings {
+  /** The designated capacity. */
+  designatedCapacity?: number;
+  /** The priority of this capacity setting. */
+  priority?: number;
+}
+
+/** The object being used to update tags of a resource, in general used for PATCH operations. */
+export interface PatchResourceTags {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface DeploymentSkuListResult {
+  /** The link used to get the next page of deployment skus. */
+  nextLink?: string;
+  /**
+   * Gets the list of Cognitive Services accounts deployment skus.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SkuResource[];
+}
+
+/** Properties of Cognitive Services account resource sku resource properties. */
+export interface SkuResource {
+  /** The resource type name. */
+  resourceType?: string;
+  /** The resource model definition representing SKU */
+  sku?: Sku;
+  /** The capacity configuration. */
+  capacity?: CapacityConfig;
 }
 
 /** The list of cognitive services accounts operation response. */
@@ -941,10 +1085,114 @@ export interface CommitmentPeriod {
   readonly endDate?: string;
 }
 
-/** The object being used to update tags of a resource, in general used for PATCH operations. */
-export interface PatchResourceTags {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
+/** The list of cognitive services EncryptionScopes. */
+export interface EncryptionScopeListResult {
+  /** The link used to get the next page of EncryptionScope. */
+  nextLink?: string;
+  /** The list of EncryptionScope. */
+  value?: EncryptionScope[];
+}
+
+/** The list of cognitive services RaiPolicies. */
+export interface RaiPolicyListResult {
+  /** The link used to get the next page of RaiPolicy. */
+  nextLink?: string;
+  /** The list of RaiPolicy. */
+  value?: RaiPolicy[];
+}
+
+/** Azure OpenAI Content Filters properties. */
+export interface RaiPolicyProperties {
+  /**
+   * Content Filters policy type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: RaiPolicyType;
+  /** Rai policy mode. The enum value mapping is as below: Default = 0, Deferred=1, Blocking=2, Asynchronous_filter =3. Please use 'Asynchronous_filter' after 2024-10-01. It is the same as 'Deferred' in previous version. */
+  mode?: RaiPolicyMode;
+  /** Name of Rai policy. */
+  basePolicyName?: string;
+  /** The list of Content Filters. */
+  contentFilters?: RaiPolicyContentFilter[];
+  /** The list of custom Blocklist. */
+  customBlocklists?: CustomBlocklistConfig[];
+}
+
+/** Azure OpenAI Content Filter. */
+export interface RaiPolicyContentFilter {
+  /** Name of ContentFilter. */
+  name?: string;
+  /** If the ContentFilter is enabled. */
+  enabled?: boolean;
+  /** Level at which content is filtered. */
+  severityThreshold?: ContentLevel;
+  /** If blocking would occur. */
+  blocking?: boolean;
+  /** Content source to apply the Content Filters. */
+  source?: RaiPolicyContentSource;
+}
+
+/** Azure OpenAI blocklist config. */
+export interface RaiBlocklistConfig {
+  /** Name of ContentFilter. */
+  blocklistName?: string;
+  /** If blocking would occur. */
+  blocking?: boolean;
+}
+
+/** The list of cognitive services RAI Blocklists. */
+export interface RaiBlockListResult {
+  /** The link used to get the next page of RaiBlocklists. */
+  nextLink?: string;
+  /** The list of RaiBlocklist. */
+  value?: RaiBlocklist[];
+}
+
+/** RAI Custom Blocklist properties. */
+export interface RaiBlocklistProperties {
+  /** Description of the block list. */
+  description?: string;
+}
+
+/** The list of cognitive services RAI Blocklist Items. */
+export interface RaiBlockListItemsResult {
+  /** The link used to get the next page of RaiBlocklistItems. */
+  nextLink?: string;
+  /** The list of RaiBlocklistItems. */
+  value?: RaiBlocklistItem[];
+}
+
+/** RAI Custom Blocklist Item properties. */
+export interface RaiBlocklistItemProperties {
+  /** Pattern to match against. */
+  pattern?: string;
+  /** If the pattern is a regex pattern. */
+  isRegex?: boolean;
+}
+
+/** The Cognitive Services RaiBlocklist Item request body. */
+export interface RaiBlocklistItemBulkRequest {
+  name?: string;
+  /** Properties of Cognitive Services RaiBlocklist Item. */
+  properties?: RaiBlocklistItemProperties;
+}
+
+/** The list of Content Filters. */
+export interface RaiContentFilterListResult {
+  /** The link used to get the next page of Content Filters. */
+  nextLink?: string;
+  /** The list of RaiContentFilter. */
+  value?: RaiContentFilter[];
+}
+
+/** Azure OpenAI Content Filter Properties. */
+export interface RaiContentFilterProperties {
+  /** Name of Content Filter. */
+  name?: string;
+  /** If the Content Filter has multi severity levels(Low, Medium, or High). */
+  isMultiLevelFilter?: boolean;
+  /** Content source to apply the Content Filters. */
+  source?: RaiPolicyContentSource;
 }
 
 /** The list of cognitive services Commitment Plan Account Association operation response. */
@@ -958,6 +1206,130 @@ export interface CommitmentPlanAccountAssociationListResult {
   readonly value?: CommitmentPlanAccountAssociation[];
 }
 
+/** A list of NSP configurations for an Cognitive Services account. */
+export interface NetworkSecurityPerimeterConfigurationList {
+  /** Array of NSP configurations List Result for an Cognitive Services account. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** Link to retrieve next page of results. */
+  nextLink?: string;
+}
+
+/** The properties of an NSP Configuration. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /**
+   * Provisioning state of NetworkSecurityPerimeter configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** List of Provisioning Issues */
+  provisioningIssues?: ProvisioningIssue[];
+  /** Information about a linked Network Security Perimeter */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Network Security Perimeter Configuration Association Information */
+  resourceAssociation?: NetworkSecurityPerimeterConfigurationAssociationInfo;
+  /** Network Security Perimeter Profile Information */
+  profile?: NetworkSecurityPerimeterProfileInfo;
+}
+
+export interface ProvisioningIssue {
+  /** Name of the NSP provisioning issue */
+  name?: string;
+  /** Properties of Provisioning Issue */
+  properties?: ProvisioningIssueProperties;
+}
+
+/** Properties of Provisioning Issue */
+export interface ProvisioningIssueProperties {
+  /** Type of Issue */
+  issueType?: string;
+  /** Severity of the issue */
+  severity?: string;
+  /** Description of the issue */
+  description?: string;
+  /** IDs of resources that can be associated to the same perimeter to remediate the issue. */
+  suggestedResourceIds?: string[];
+  /** Optional array, suggested access rules */
+  suggestedAccessRules?: NetworkSecurityPerimeterAccessRule[];
+}
+
+/** Network Security Perimeter Access Rule */
+export interface NetworkSecurityPerimeterAccessRule {
+  /** Network Security Perimeter Access Rule Name */
+  name?: string;
+  /** Properties of Network Security Perimeter Access Rule */
+  properties?: NetworkSecurityPerimeterAccessRuleProperties;
+}
+
+/** The Properties of Network Security Perimeter Rule */
+export interface NetworkSecurityPerimeterAccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: NspAccessRuleDirection;
+  /** Address prefixes for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem[];
+  /** NetworkSecurityPerimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain name for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+}
+
+/** Subscription for inbound rule */
+export interface NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem {
+  /** Fully qualified identifier of subscription */
+  id?: string;
+}
+
+/** Information about a linked Network Security Perimeter */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified identifier of the resource */
+  id?: string;
+  /** Guid of the resource */
+  perimeterGuid?: string;
+  /** Location of the resource */
+  location?: string;
+}
+
+/** Network Security Perimeter Configuration Association Information */
+export interface NetworkSecurityPerimeterConfigurationAssociationInfo {
+  /** Name of the resource association */
+  name?: string;
+  /** Access Mode of the resource association */
+  accessMode?: string;
+}
+
+/** Network Security Perimeter Profile Information */
+export interface NetworkSecurityPerimeterProfileInfo {
+  /** Name of the resource profile */
+  name?: string;
+  /** Access rules version of the resource profile */
+  accessRulesVersion?: number;
+  accessRules?: NetworkSecurityPerimeterAccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of enabled log categories */
+  enabledLogCategories?: string[];
+}
+
+/** The list of cognitive services Defender for AI Settings. */
+export interface DefenderForAISettingResult {
+  /** The link used to get the next page of Defender for AI Settings. */
+  nextLink?: string;
+  /** The list of Defender for AI Settings. */
+  value?: DefenderForAISetting[];
+}
+
+/** Properties to EncryptionScope */
+export interface EncryptionScopeProperties extends Encryption {
+  /**
+   * Gets the status of the resource at the time the operation was called.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EncryptionScopeProvisioningState;
+  /** The encryptionScope state. */
+  state?: EncryptionScopeState;
+}
+
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
 export interface AzureEntityResource extends Resource {
   /**
@@ -967,18 +1339,18 @@ export interface AzureEntityResource extends Resource {
   readonly etag?: string;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** A private link resource */
 export interface PrivateLinkResource extends Resource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
 /** Cognitive Services account Model. */
 export interface AccountModel extends DeploymentModel {
-  /** Base Model Identifier. */
+  /** Properties of Cognitive Services account deployment model. */
   baseModel?: DeploymentModel;
   /** If the model is default version. */
   isDefaultVersion?: boolean;
@@ -1005,6 +1377,12 @@ export interface AccountModel extends DeploymentModel {
 export interface PatchResourceTagsAndSku extends PatchResourceTags {
   /** The resource model definition representing SKU */
   sku?: Sku;
+}
+
+/** Gets or sets the source to which filter applies. */
+export interface CustomBlocklistConfig extends RaiBlocklistConfig {
+  /** Content source to apply the Content Filters. */
+  source?: RaiPolicyContentSource;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -1041,6 +1419,13 @@ export interface Account extends AzureEntityResource {
   properties?: AccountProperties;
 }
 
+export interface ModelCapacityListResultValueItem extends ProxyResource {
+  /** The location of the Model Sku Capacity. */
+  location?: string;
+  /** Cognitive Services account ModelSkuCapacity. */
+  properties?: ModelSkuCapacityProperties;
+}
+
 /** Cognitive Services account deployment. */
 export interface Deployment extends ProxyResource {
   /** The resource model definition representing SKU */
@@ -1055,6 +1440,8 @@ export interface Deployment extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** Properties of Cognitive Services account deployment. */
   properties?: DeploymentProperties;
 }
@@ -1083,6 +1470,84 @@ export interface CommitmentPlan extends ProxyResource {
   properties?: CommitmentPlanProperties;
 }
 
+/** Cognitive Services EncryptionScope */
+export interface EncryptionScope extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Properties of Cognitive Services EncryptionScope. */
+  properties?: EncryptionScopeProperties;
+}
+
+/** Cognitive Services RaiPolicy. */
+export interface RaiPolicy extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Properties of Cognitive Services RaiPolicy. */
+  properties?: RaiPolicyProperties;
+}
+
+/** Cognitive Services RaiBlocklist. */
+export interface RaiBlocklist extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Properties of Cognitive Services RaiBlocklist. */
+  properties?: RaiBlocklistProperties;
+}
+
+/** Cognitive Services RaiBlocklist Item. */
+export interface RaiBlocklistItem extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Properties of Cognitive Services RaiBlocklist Item. */
+  properties?: RaiBlocklistItemProperties;
+}
+
+/** Azure OpenAI Content Filter. */
+export interface RaiContentFilter extends ProxyResource {
+  /** Azure OpenAI Content Filter Properties. */
+  properties?: RaiContentFilterProperties;
+}
+
 /** The commitment plan association. */
 export interface CommitmentPlanAccountAssociation extends ProxyResource {
   /**
@@ -1095,8 +1560,39 @@ export interface CommitmentPlanAccountAssociation extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** The Azure resource id of the account. */
   accountId?: string;
+}
+
+/** NSP Configuration for an Cognitive Services account. */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** NSP Configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+/** The Defender for AI resource. */
+export interface DefenderForAISetting extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Defender for AI state on the AI resource. */
+  state?: DefenderForAISettingState;
+}
+
+/** Defines headers for Deployments_update operation. */
+export interface DeploymentsUpdateHeaders {
+  location?: string;
 }
 
 /** Defines headers for CommitmentPlans_updatePlan operation. */
@@ -1114,6 +1610,31 @@ export interface CommitmentPlansDeleteAssociationHeaders {
   location?: string;
 }
 
+/** Defines headers for EncryptionScopes_delete operation. */
+export interface EncryptionScopesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for RaiPolicies_delete operation. */
+export interface RaiPoliciesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for RaiBlocklists_delete operation. */
+export interface RaiBlocklistsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for RaiBlocklistItems_delete operation. */
+export interface RaiBlocklistItemsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+  location?: string;
+}
+
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Free */
@@ -1125,7 +1646,7 @@ export enum KnownSkuTier {
   /** Premium */
   Premium = "Premium",
   /** Enterprise */
-  Enterprise = "Enterprise"
+  Enterprise = "Enterprise",
 }
 
 /**
@@ -1150,7 +1671,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1180,7 +1701,7 @@ export enum KnownProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** ResolvingDNS */
-  ResolvingDNS = "ResolvingDNS"
+  ResolvingDNS = "ResolvingDNS",
 }
 
 /**
@@ -1203,7 +1724,7 @@ export enum KnownNetworkRuleAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1216,12 +1737,30 @@ export enum KnownNetworkRuleAction {
  */
 export type NetworkRuleAction = string;
 
+/** Known values of {@link ByPassSelection} that the service accepts. */
+export enum KnownByPassSelection {
+  /** None */
+  None = "None",
+  /** AzureServices */
+  AzureServices = "AzureServices",
+}
+
+/**
+ * Defines values for ByPassSelection. \
+ * {@link KnownByPassSelection} can be used interchangeably with ByPassSelection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **AzureServices**
+ */
+export type ByPassSelection = string;
+
 /** Known values of {@link KeySource} that the service accepts. */
 export enum KnownKeySource {
   /** MicrosoftCognitiveServices */
   MicrosoftCognitiveServices = "Microsoft.CognitiveServices",
   /** MicrosoftKeyVault */
-  MicrosoftKeyVault = "Microsoft.KeyVault"
+  MicrosoftKeyVault = "Microsoft.KeyVault",
 }
 
 /**
@@ -1241,7 +1780,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -1264,7 +1803,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1284,7 +1823,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1304,7 +1843,7 @@ export enum KnownRoutingMethods {
   /** Weighted */
   Weighted = "Weighted",
   /** Performance */
-  Performance = "Performance"
+  Performance = "Performance",
 }
 
 /**
@@ -1323,7 +1862,7 @@ export enum KnownAbusePenaltyAction {
   /** Throttle */
   Throttle = "Throttle",
   /** Block */
-  Block = "Block"
+  Block = "Block",
 }
 
 /**
@@ -1341,7 +1880,7 @@ export enum KnownResourceSkuRestrictionsReasonCode {
   /** QuotaId */
   QuotaId = "QuotaId",
   /** NotAvailableForSubscription */
-  NotAvailableForSubscription = "NotAvailableForSubscription"
+  NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
 /**
@@ -1369,7 +1908,7 @@ export enum KnownUnitType {
   /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
   /** Milliseconds */
-  Milliseconds = "Milliseconds"
+  Milliseconds = "Milliseconds",
 }
 
 /**
@@ -1396,7 +1935,7 @@ export enum KnownQuotaUsageStatus {
   /** InOverage */
   InOverage = "InOverage",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -1413,10 +1952,16 @@ export type QuotaUsageStatus = string;
 
 /** Known values of {@link ModelLifecycleStatus} that the service accepts. */
 export enum KnownModelLifecycleStatus {
+  /** Stable */
+  Stable = "Stable",
+  /** Preview */
+  Preview = "Preview",
   /** GenerallyAvailable */
   GenerallyAvailable = "GenerallyAvailable",
-  /** Preview */
-  Preview = "Preview"
+  /** Deprecating */
+  Deprecating = "Deprecating",
+  /** Deprecated */
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -1424,8 +1969,11 @@ export enum KnownModelLifecycleStatus {
  * {@link KnownModelLifecycleStatus} can be used interchangeably with ModelLifecycleStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Stable** \
+ * **Preview** \
  * **GenerallyAvailable** \
- * **Preview**
+ * **Deprecating** \
+ * **Deprecated**
  */
 export type ModelLifecycleStatus = string;
 
@@ -1436,7 +1984,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -1453,7 +2001,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1474,7 +2022,7 @@ export enum KnownHostingModel {
   /** DisconnectedContainer */
   DisconnectedContainer = "DisconnectedContainer",
   /** ProvisionedWeb */
-  ProvisionedWeb = "ProvisionedWeb"
+  ProvisionedWeb = "ProvisionedWeb",
 }
 
 /**
@@ -1506,7 +2054,7 @@ export enum KnownDeploymentProvisioningState {
   /** Disabled */
   Disabled = "Disabled",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1530,7 +2078,7 @@ export enum KnownDeploymentScaleType {
   /** Standard */
   Standard = "Standard",
   /** Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -1550,7 +2098,7 @@ export enum KnownDeploymentModelVersionUpgradeOption {
   /** OnceCurrentVersionExpired */
   OnceCurrentVersionExpired = "OnceCurrentVersionExpired",
   /** NoAutoUpgrade */
-  NoAutoUpgrade = "NoAutoUpgrade"
+  NoAutoUpgrade = "NoAutoUpgrade",
 }
 
 /**
@@ -1579,7 +2127,7 @@ export enum KnownCommitmentPlanProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1596,6 +2144,174 @@ export enum KnownCommitmentPlanProvisioningState {
  * **Canceled**
  */
 export type CommitmentPlanProvisioningState = string;
+
+/** Known values of {@link EncryptionScopeProvisioningState} that the service accepts. */
+export enum KnownEncryptionScopeProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Moving */
+  Moving = "Moving",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for EncryptionScopeProvisioningState. \
+ * {@link KnownEncryptionScopeProvisioningState} can be used interchangeably with EncryptionScopeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Deleting** \
+ * **Moving** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled**
+ */
+export type EncryptionScopeProvisioningState = string;
+
+/** Known values of {@link EncryptionScopeState} that the service accepts. */
+export enum KnownEncryptionScopeState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for EncryptionScopeState. \
+ * {@link KnownEncryptionScopeState} can be used interchangeably with EncryptionScopeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type EncryptionScopeState = string;
+
+/** Known values of {@link RaiPolicyType} that the service accepts. */
+export enum KnownRaiPolicyType {
+  /** UserManaged */
+  UserManaged = "UserManaged",
+  /** SystemManaged */
+  SystemManaged = "SystemManaged",
+}
+
+/**
+ * Defines values for RaiPolicyType. \
+ * {@link KnownRaiPolicyType} can be used interchangeably with RaiPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UserManaged** \
+ * **SystemManaged**
+ */
+export type RaiPolicyType = string;
+
+/** Known values of {@link RaiPolicyMode} that the service accepts. */
+export enum KnownRaiPolicyMode {
+  /** Default */
+  Default = "Default",
+  /** Deferred */
+  Deferred = "Deferred",
+  /** Blocking */
+  Blocking = "Blocking",
+  /** AsynchronousFilter */
+  AsynchronousFilter = "Asynchronous_filter",
+}
+
+/**
+ * Defines values for RaiPolicyMode. \
+ * {@link KnownRaiPolicyMode} can be used interchangeably with RaiPolicyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Deferred** \
+ * **Blocking** \
+ * **Asynchronous_filter**
+ */
+export type RaiPolicyMode = string;
+
+/** Known values of {@link ContentLevel} that the service accepts. */
+export enum KnownContentLevel {
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for ContentLevel. \
+ * {@link KnownContentLevel} can be used interchangeably with ContentLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type ContentLevel = string;
+
+/** Known values of {@link RaiPolicyContentSource} that the service accepts. */
+export enum KnownRaiPolicyContentSource {
+  /** Prompt */
+  Prompt = "Prompt",
+  /** Completion */
+  Completion = "Completion",
+}
+
+/**
+ * Defines values for RaiPolicyContentSource. \
+ * {@link KnownRaiPolicyContentSource} can be used interchangeably with RaiPolicyContentSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Prompt** \
+ * **Completion**
+ */
+export type RaiPolicyContentSource = string;
+
+/** Known values of {@link NspAccessRuleDirection} that the service accepts. */
+export enum KnownNspAccessRuleDirection {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for NspAccessRuleDirection. \
+ * {@link KnownNspAccessRuleDirection} can be used interchangeably with NspAccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
+ */
+export type NspAccessRuleDirection = string;
+
+/** Known values of {@link DefenderForAISettingState} that the service accepts. */
+export enum KnownDefenderForAISettingState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for DefenderForAISettingState. \
+ * {@link KnownDefenderForAISettingState} can be used interchangeably with DefenderForAISettingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type DefenderForAISettingState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "None"
@@ -1812,6 +2528,20 @@ export interface CheckDomainAvailabilityOptionalParams
 export type CheckDomainAvailabilityResponse = DomainAvailability;
 
 /** Optional parameters. */
+export interface CalculateModelCapacityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  /** The name of SKU. */
+  skuName?: string;
+  /** List of Model Capacity Calculator Workload. */
+  workloads?: ModelCapacityCalculatorWorkload[];
+}
+
+/** Contains response data for the calculateModelCapacity operation. */
+export type CalculateModelCapacityResponse = CalculateModelCapacityResult;
+
+/** Optional parameters. */
 export interface CommitmentTiersListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1839,11 +2569,41 @@ export interface ModelsListNextOptionalParams
 export type ModelsListNextResponse = ModelListResult;
 
 /** Optional parameters. */
+export interface LocationBasedModelCapacitiesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LocationBasedModelCapacitiesListResponse = ModelCapacityListResult;
+
+/** Optional parameters. */
+export interface LocationBasedModelCapacitiesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type LocationBasedModelCapacitiesListNextResponse =
+  ModelCapacityListResult;
+
+/** Optional parameters. */
+export interface ModelCapacitiesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ModelCapacitiesListResponse = ModelCapacityListResult;
+
+/** Optional parameters. */
+export interface ModelCapacitiesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ModelCapacitiesListNextResponse = ModelCapacityListResult;
+
+/** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1862,7 +2622,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1907,6 +2668,18 @@ export interface DeploymentsCreateOrUpdateOptionalParams
 export type DeploymentsCreateOrUpdateResponse = Deployment;
 
 /** Optional parameters. */
+export interface DeploymentsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DeploymentsUpdateResponse = Deployment;
+
+/** Optional parameters. */
 export interface DeploymentsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1916,11 +2689,25 @@ export interface DeploymentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface DeploymentsListSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type DeploymentsListSkusResponse = DeploymentSkuListResult;
+
+/** Optional parameters. */
 export interface DeploymentsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = DeploymentListResult;
+
+/** Optional parameters. */
+export interface DeploymentsListSkusNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkusNext operation. */
+export type DeploymentsListSkusNextResponse = DeploymentSkuListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListOptionalParams
@@ -1997,28 +2784,32 @@ export interface CommitmentPlansListPlansByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansByResourceGroup operation. */
-export type CommitmentPlansListPlansByResourceGroupResponse = CommitmentPlanListResult;
+export type CommitmentPlansListPlansByResourceGroupResponse =
+  CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListPlansBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansBySubscription operation. */
-export type CommitmentPlansListPlansBySubscriptionResponse = CommitmentPlanListResult;
+export type CommitmentPlansListPlansBySubscriptionResponse =
+  CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListAssociationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAssociations operation. */
-export type CommitmentPlansListAssociationsResponse = CommitmentPlanAccountAssociationListResult;
+export type CommitmentPlansListAssociationsResponse =
+  CommitmentPlanAccountAssociationListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansGetAssociationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAssociation operation. */
-export type CommitmentPlansGetAssociationResponse = CommitmentPlanAccountAssociation;
+export type CommitmentPlansGetAssociationResponse =
+  CommitmentPlanAccountAssociation;
 
 /** Optional parameters. */
 export interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
@@ -2030,7 +2821,8 @@ export interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAssociation operation. */
-export type CommitmentPlansCreateOrUpdateAssociationResponse = CommitmentPlanAccountAssociation;
+export type CommitmentPlansCreateOrUpdateAssociationResponse =
+  CommitmentPlanAccountAssociation;
 
 /** Optional parameters. */
 export interface CommitmentPlansDeleteAssociationOptionalParams
@@ -2053,21 +2845,288 @@ export interface CommitmentPlansListPlansByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansByResourceGroupNext operation. */
-export type CommitmentPlansListPlansByResourceGroupNextResponse = CommitmentPlanListResult;
+export type CommitmentPlansListPlansByResourceGroupNextResponse =
+  CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListPlansBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansBySubscriptionNext operation. */
-export type CommitmentPlansListPlansBySubscriptionNextResponse = CommitmentPlanListResult;
+export type CommitmentPlansListPlansBySubscriptionNextResponse =
+  CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListAssociationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAssociationsNext operation. */
-export type CommitmentPlansListAssociationsNextResponse = CommitmentPlanAccountAssociationListResult;
+export type CommitmentPlansListAssociationsNextResponse =
+  CommitmentPlanAccountAssociationListResult;
+
+/** Optional parameters. */
+export interface EncryptionScopesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EncryptionScopesListResponse = EncryptionScopeListResult;
+
+/** Optional parameters. */
+export interface EncryptionScopesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EncryptionScopesGetResponse = EncryptionScope;
+
+/** Optional parameters. */
+export interface EncryptionScopesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EncryptionScopesCreateOrUpdateResponse = EncryptionScope;
+
+/** Optional parameters. */
+export interface EncryptionScopesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type EncryptionScopesDeleteResponse = EncryptionScopesDeleteHeaders;
+
+/** Optional parameters. */
+export interface EncryptionScopesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
+
+/** Optional parameters. */
+export interface RaiPoliciesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RaiPoliciesListResponse = RaiPolicyListResult;
+
+/** Optional parameters. */
+export interface RaiPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RaiPoliciesGetResponse = RaiPolicy;
+
+/** Optional parameters. */
+export interface RaiPoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RaiPoliciesCreateOrUpdateResponse = RaiPolicy;
+
+/** Optional parameters. */
+export interface RaiPoliciesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RaiPoliciesDeleteResponse = RaiPoliciesDeleteHeaders;
+
+/** Optional parameters. */
+export interface RaiPoliciesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RaiPoliciesListNextResponse = RaiPolicyListResult;
+
+/** Optional parameters. */
+export interface RaiBlocklistsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RaiBlocklistsListResponse = RaiBlockListResult;
+
+/** Optional parameters. */
+export interface RaiBlocklistsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RaiBlocklistsGetResponse = RaiBlocklist;
+
+/** Optional parameters. */
+export interface RaiBlocklistsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RaiBlocklistsCreateOrUpdateResponse = RaiBlocklist;
+
+/** Optional parameters. */
+export interface RaiBlocklistsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RaiBlocklistsDeleteResponse = RaiBlocklistsDeleteHeaders;
+
+/** Optional parameters. */
+export interface RaiBlocklistsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RaiBlocklistsListNextResponse = RaiBlockListResult;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RaiBlocklistItemsListResponse = RaiBlockListItemsResult;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RaiBlocklistItemsGetResponse = RaiBlocklistItem;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RaiBlocklistItemsCreateOrUpdateResponse = RaiBlocklistItem;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RaiBlocklistItemsDeleteResponse = RaiBlocklistItemsDeleteHeaders;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsBatchAddOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the batchAdd operation. */
+export type RaiBlocklistItemsBatchAddResponse = RaiBlocklist;
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsBatchDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface RaiBlocklistItemsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RaiBlocklistItemsListNextResponse = RaiBlockListItemsResult;
+
+/** Optional parameters. */
+export interface RaiContentFiltersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RaiContentFiltersListResponse = RaiContentFilterListResult;
+
+/** Optional parameters. */
+export interface RaiContentFiltersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RaiContentFiltersGetResponse = RaiContentFilter;
+
+/** Optional parameters. */
+export interface RaiContentFiltersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RaiContentFiltersListNextResponse = RaiContentFilterListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type NetworkSecurityPerimeterConfigurationsListResponse =
+  NetworkSecurityPerimeterConfigurationList;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkSecurityPerimeterConfigurationsGetResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcile operation. */
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NetworkSecurityPerimeterConfigurationsListNextResponse =
+  NetworkSecurityPerimeterConfigurationList;
+
+/** Optional parameters. */
+export interface DefenderForAISettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DefenderForAISettingsListResponse = DefenderForAISettingResult;
+
+/** Optional parameters. */
+export interface DefenderForAISettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DefenderForAISettingsGetResponse = DefenderForAISetting;
+
+/** Optional parameters. */
+export interface DefenderForAISettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DefenderForAISettingsCreateOrUpdateResponse = DefenderForAISetting;
+
+/** Optional parameters. */
+export interface DefenderForAISettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type DefenderForAISettingsUpdateResponse = DefenderForAISetting;
+
+/** Optional parameters. */
+export interface DefenderForAISettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DefenderForAISettingsListNextResponse = DefenderForAISettingResult;
 
 /** Optional parameters. */
 export interface CognitiveServicesManagementClientOptionalParams

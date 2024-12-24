@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -22,10 +22,19 @@ import {
   OperationsImpl,
   CommitmentTiersImpl,
   ModelsImpl,
+  LocationBasedModelCapacitiesImpl,
+  ModelCapacitiesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   DeploymentsImpl,
-  CommitmentPlansImpl
+  CommitmentPlansImpl,
+  EncryptionScopesImpl,
+  RaiPoliciesImpl,
+  RaiBlocklistsImpl,
+  RaiBlocklistItemsImpl,
+  RaiContentFiltersImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
+  DefenderForAISettingsImpl,
 } from "./operations";
 import {
   Accounts,
@@ -35,10 +44,19 @@ import {
   Operations,
   CommitmentTiers,
   Models,
+  LocationBasedModelCapacities,
+  ModelCapacities,
   PrivateEndpointConnections,
   PrivateLinkResources,
   Deployments,
-  CommitmentPlans
+  CommitmentPlans,
+  EncryptionScopes,
+  RaiPolicies,
+  RaiBlocklists,
+  RaiBlocklistItems,
+  RaiContentFilters,
+  NetworkSecurityPerimeterConfigurations,
+  DefenderForAISettings,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -47,7 +65,9 @@ import {
   CheckSkuAvailabilityOptionalParams,
   CheckSkuAvailabilityResponse,
   CheckDomainAvailabilityOptionalParams,
-  CheckDomainAvailabilityResponse
+  CheckDomainAvailabilityResponse,
+  CalculateModelCapacityOptionalParams,
+  CalculateModelCapacityResponse,
 } from "./models";
 
 export class CognitiveServicesManagementClient extends coreClient.ServiceClient {
@@ -64,7 +84,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: CognitiveServicesManagementClientOptionalParams
+    options?: CognitiveServicesManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -79,10 +99,10 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     }
     const defaults: CognitiveServicesManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.5.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/7.6.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -92,20 +112,21 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -115,7 +136,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -125,9 +146,9 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -135,7 +156,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2024-10-01";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
@@ -143,10 +164,22 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.operations = new OperationsImpl(this);
     this.commitmentTiers = new CommitmentTiersImpl(this);
     this.models = new ModelsImpl(this);
+    this.locationBasedModelCapacities = new LocationBasedModelCapacitiesImpl(
+      this,
+    );
+    this.modelCapacities = new ModelCapacitiesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.commitmentPlans = new CommitmentPlansImpl(this);
+    this.encryptionScopes = new EncryptionScopesImpl(this);
+    this.raiPolicies = new RaiPoliciesImpl(this);
+    this.raiBlocklists = new RaiBlocklistsImpl(this);
+    this.raiBlocklistItems = new RaiBlocklistItemsImpl(this);
+    this.raiContentFilters = new RaiContentFiltersImpl(this);
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
+    this.defenderForAISettings = new DefenderForAISettingsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -159,7 +192,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -173,7 +206,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -182,7 +215,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
    * Check available SKUs.
    * @param location Resource location.
    * @param skus The SKU of the resource.
-   * @param kind The Kind of the resource.
+   * @param kind The kind (type) of cognitive service account.
    * @param typeParam The Type of the resource.
    * @param options The options parameters.
    */
@@ -191,11 +224,11 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     skus: string[],
     kind: string,
     typeParam: string,
-    options?: CheckSkuAvailabilityOptionalParams
+    options?: CheckSkuAvailabilityOptionalParams,
   ): Promise<CheckSkuAvailabilityResponse> {
     return this.sendOperationRequest(
       { location, skus, kind, typeParam, options },
-      checkSkuAvailabilityOperationSpec
+      checkSkuAvailabilityOperationSpec,
     );
   }
 
@@ -208,11 +241,24 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   checkDomainAvailability(
     subdomainName: string,
     typeParam: string,
-    options?: CheckDomainAvailabilityOptionalParams
+    options?: CheckDomainAvailabilityOptionalParams,
   ): Promise<CheckDomainAvailabilityResponse> {
     return this.sendOperationRequest(
       { subdomainName, typeParam, options },
-      checkDomainAvailabilityOperationSpec
+      checkDomainAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Model capacity calculator.
+   * @param options The options parameters.
+   */
+  calculateModelCapacity(
+    options?: CalculateModelCapacityOptionalParams,
+  ): Promise<CalculateModelCapacityResponse> {
+    return this.sendOperationRequest(
+      { options },
+      calculateModelCapacityOperationSpec,
     );
   }
 
@@ -223,63 +269,95 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   commitmentTiers: CommitmentTiers;
   models: Models;
+  locationBasedModelCapacities: LocationBasedModelCapacities;
+  modelCapacities: ModelCapacities;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   deployments: Deployments;
   commitmentPlans: CommitmentPlans;
+  encryptionScopes: EncryptionScopes;
+  raiPolicies: RaiPolicies;
+  raiBlocklists: RaiBlocklists;
+  raiBlocklistItems: RaiBlocklistItems;
+  raiContentFilters: RaiContentFilters;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+  defenderForAISettings: DefenderForAISettings;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkSkuAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuAvailabilityListResult
+      bodyMapper: Mappers.SkuAvailabilityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: { skus: ["skus"], kind: ["kind"], typeParam: ["typeParam"] },
-    mapper: { ...Mappers.CheckSkuAvailabilityParameter, required: true }
+    mapper: { ...Mappers.CheckSkuAvailabilityParameter, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkDomainAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainAvailability
+      bodyMapper: Mappers.DomainAvailability,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       subdomainName: ["subdomainName"],
       typeParam: ["typeParam"],
-      kind: ["options", "kind"]
+      kind: ["options", "kind"],
     },
-    mapper: { ...Mappers.CheckDomainAvailabilityParameter, required: true }
+    mapper: { ...Mappers.CheckDomainAvailabilityParameter, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const calculateModelCapacityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/calculateModelCapacity",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CalculateModelCapacityResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      model: ["options", "model"],
+      skuName: ["options", "skuName"],
+      workloads: ["options", "workloads"],
+    },
+    mapper: { ...Mappers.CalculateModelCapacityParameter, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };

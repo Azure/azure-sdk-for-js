@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  NamedValueUpdateParameters,
-  ApiManagementClient
+    ApiManagementClient,
+    NamedValueUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the specific named value.
@@ -24,33 +22,33 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateNamedValue.json
  */
 async function apiManagementUpdateNamedValue() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const namedValueId = "testprop2";
-  const ifMatch = "*";
-  const parameters: NamedValueUpdateParameters = {
-    displayName: "prop3name",
-    secret: false,
-    tags: ["foo", "bar2"],
-    value: "propValue"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.namedValue.beginUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    namedValueId,
-    ifMatch,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const namedValueId = "testprop2";
+    const ifMatch = "*";
+    const parameters: NamedValueUpdateParameters = {
+        displayName: "prop3name",
+        secret: false,
+        tags: ["foo", "bar2"],
+        value: "propValue"
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.namedValue.beginUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        ifMatch,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementUpdateNamedValue();
+    apiManagementUpdateNamedValue();
 }
 
 main().catch(console.error);

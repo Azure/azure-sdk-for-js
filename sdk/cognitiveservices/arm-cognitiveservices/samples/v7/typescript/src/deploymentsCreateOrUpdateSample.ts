@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Deployment,
-  CognitiveServicesManagementClient
+  CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the state of specified deployments associated with the Cognitive Services account.
  *
  * @summary Update the state of specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/PutDeployment.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutDeployment.json
  */
 async function putDeployment() {
   const subscriptionId =
@@ -32,18 +32,18 @@ async function putDeployment() {
   const deploymentName = "deploymentName";
   const deployment: Deployment = {
     properties: { model: { name: "ada", format: "OpenAI", version: "1" } },
-    sku: { name: "Standard", capacity: 1 }
+    sku: { name: "Standard", capacity: 1 },
   };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.deployments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     accountName,
     deploymentName,
-    deployment
+    deployment,
   );
   console.log(result);
 }

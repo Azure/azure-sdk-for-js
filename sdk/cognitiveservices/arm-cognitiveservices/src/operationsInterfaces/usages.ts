@@ -19,6 +19,6 @@ export interface Usages {
    */
   list(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }

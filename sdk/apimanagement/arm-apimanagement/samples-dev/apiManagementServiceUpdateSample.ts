@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ApiManagementServiceUpdateParameters,
-  ApiManagementClient
+    ApiManagementClient,
+    ApiManagementServiceUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing API Management service.
@@ -24,24 +22,24 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServiceDisableTls10.json
  */
 async function apiManagementUpdateServiceDisableTls10() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceUpdateParameters = {
-    customProperties: {
-      microsoftWindowsAzureApiManagementGatewaySecurityProtocolsTls10: "false"
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const parameters: ApiManagementServiceUpdateParameters = {
+        customProperties: {
+            microsoftWindowsAzureApiManagementGatewaySecurityProtocolsTls10: "false"
+        }
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.apiManagementService.beginUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -51,23 +49,23 @@ async function apiManagementUpdateServiceDisableTls10() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServicePublisherDetails.json
  */
 async function apiManagementUpdateServicePublisherDetails() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceUpdateParameters = {
-    publisherEmail: "foobar@live.com",
-    publisherName: "Contoso Vnext"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const parameters: ApiManagementServiceUpdateParameters = {
+        publisherEmail: "foobar@live.com",
+        publisherName: "Contoso Vnext"
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.apiManagementService.beginUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        parameters
+    );
+    console.log(result);
 }
 
 /**
@@ -77,49 +75,49 @@ async function apiManagementUpdateServicePublisherDetails() {
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServiceToNewVnetAndAZs.json
  */
 async function apiManagementUpdateServiceToNewVnetAndAvailabilityZones() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const parameters: ApiManagementServiceUpdateParameters = {
-    additionalLocations: [
-      {
-        location: "Australia East",
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const parameters: ApiManagementServiceUpdateParameters = {
+        additionalLocations: [
+            {
+                location: "Australia East",
+                publicIpAddressId:
+                    "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/apim-australia-east-publicip",
+                sku: { name: "Premium", capacity: 3 },
+                virtualNetworkConfiguration: {
+                    subnetResourceId:
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/apimaeavnet/subnets/default"
+                },
+                zones: ["1", "2", "3"]
+            }
+        ],
         publicIpAddressId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/apim-australia-east-publicip",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/publicip-apim-japan-east",
         sku: { name: "Premium", capacity: 3 },
         virtualNetworkConfiguration: {
-          subnetResourceId:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/apimaeavnet/subnets/default"
+            subnetResourceId:
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-apim-japaneast/subnets/apim2"
         },
+        virtualNetworkType: "External",
         zones: ["1", "2", "3"]
-      }
-    ],
-    publicIpAddressId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/publicip-apim-japan-east",
-    sku: { name: "Premium", capacity: 3 },
-    virtualNetworkConfiguration: {
-      subnetResourceId:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-apim-japaneast/subnets/apim2"
-    },
-    virtualNetworkType: "External",
-    zones: ["1", "2", "3"]
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.beginUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters
-  );
-  console.log(result);
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.apiManagementService.beginUpdateAndWait(
+        resourceGroupName,
+        serviceName,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementUpdateServiceDisableTls10();
-  apiManagementUpdateServicePublisherDetails();
-  apiManagementUpdateServiceToNewVnetAndAvailabilityZones();
+    apiManagementUpdateServiceDisableTls10();
+    apiManagementUpdateServicePublisherDetails();
+    apiManagementUpdateServiceToNewVnetAndAvailabilityZones();
 }
 
 main().catch(console.error);
