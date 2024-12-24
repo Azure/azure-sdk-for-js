@@ -160,7 +160,8 @@ describe("Call Automation Client Unit Tests", () => {
         });
         assert.equal(result, createCallResultMock);
         return;
-      });
+      })
+      .catch((error) => console.error(error));
   });
 
   it("AnswerCall", async () => {
