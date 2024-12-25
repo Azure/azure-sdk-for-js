@@ -13,11 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { AutomationClient } from "../src/automationClient.js";
 import { RunbookCreateOrUpdateParameters } from "../src/index.js";
-
-
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
