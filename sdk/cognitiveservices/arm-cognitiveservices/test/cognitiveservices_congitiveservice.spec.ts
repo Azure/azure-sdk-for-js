@@ -11,8 +11,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient";
+import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -41,8 +40,8 @@ describe("CognitiveServices test", () => {
   let resourceGroup: string;
   let accountName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -95,7 +94,6 @@ describe("CognitiveServices test", () => {
   });
 
   it("accounts delete test", async function () {
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
