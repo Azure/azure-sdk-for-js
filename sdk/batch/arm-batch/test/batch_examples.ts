@@ -13,10 +13,10 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { BatchManagementClient } from "../src/batchManagementClient.js";
 import { fakeTestPasswordPlaceholder, fakeTestCertData } from "./fakeTestSecrets.js";
-import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -84,30 +84,6 @@ describe("Batch test", () => {
   });
 
   async function storageAccounts_beginCreateAndWait() {
-    const parameter: StorageAccountCreateParameters = {
-      sku: {
-        name: "Standard_GRS",
-      },
-      kind: "StorageV2",
-      location: "westeurope",
-      encryption: {
-        services: {
-          file: {
-            keyType: "Account",
-            enabled: true
-          },
-          blob: {
-            keyType: "Account",
-            enabled: true
-          },
-        },
-        keySource: "Microsoft.Storage",
-      },
-      tags: {
-        key1: "value1",
-        key2: "value2",
-      }
-    }
   };
 
   it("batchAccountOperations create test", async function () {
