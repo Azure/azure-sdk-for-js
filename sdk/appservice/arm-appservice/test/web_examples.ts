@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { WebSiteManagementClient } from "../src/webSiteManagementClient";
+import { WebSiteManagementClient } from "../src/webSiteManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,8 +41,8 @@ describe("Web test", () => {
   let appservicePlanName: string;
   let name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -144,7 +142,6 @@ describe("Web test", () => {
   });
 
   it("webApps delete test", async function () {
-    const res = await client.webApps.delete(resourceGroup, name);
     const resArray = new Array();
     for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -153,7 +150,6 @@ describe("Web test", () => {
   });
 
   it("appServicePlans delete test", async function () {
-    const res = await client.appServicePlans.delete(resourceGroup, appservicePlanName);
     const resArray = new Array();
     for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

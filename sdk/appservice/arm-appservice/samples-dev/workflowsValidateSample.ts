@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Workflow, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates the workflow definition.
