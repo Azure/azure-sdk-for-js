@@ -13,9 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { ChaosManagementClient } from "../src/chaosManagementClient.js";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb"
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
