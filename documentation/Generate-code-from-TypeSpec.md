@@ -137,4 +137,4 @@ After all the steps finished, you can prepare the release PullRequest for this g
 
 ## Prepare Release
 
-prepare your SDK for release. The necessary approvals, guidance for testing, documentation, and release pipelines is described in your release plan. More information about the Azure SDK Release Tool is [here](https://eng.ms/docs/products/azure-developer-experience/plan/release-plan).
+Prepare your SDK for release. The necessary approvals, guidance for testing, documentation, and release pipelines is described in your release plan. More information about the Azure SDK Release Tool is [here](https://eng.ms/docs/products/azure-developer-experience/plan/release-plan).
