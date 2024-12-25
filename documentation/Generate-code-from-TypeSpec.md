@@ -16,7 +16,7 @@ Getting Started: Generate JS SDK with TypeSpec
     ```
       git clone https://github.com/{YOUR_GITHUB_USERNAME}/azure-rest-api-specs.git
     ```
-- Local Clone of Go Language Repo Fork
+- Local Clone of JS Language Repo Fork
   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [JS Repo](https://github.com/Azure/azure-sdk-for-js).
   - Clone your fork of the repo.
 
