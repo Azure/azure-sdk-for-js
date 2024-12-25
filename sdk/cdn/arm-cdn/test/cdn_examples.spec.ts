@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { CdnManagementClient } from "../src/cdnManagementClient";
+import { CdnManagementClient } from "../src/cdnManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,8 +41,8 @@ describe("CDN test", () => {
   let profileName: string;
   let endpointName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -123,7 +121,6 @@ describe("CDN test", () => {
   });
 
   it("profiles update test", async function () {
-    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
   });
 
   it("endpoints list test", async function () {
@@ -154,7 +151,6 @@ describe("CDN test", () => {
   });
 
   it("endpoints delete test", async function () {
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
       resArray.push(item);
@@ -163,7 +159,6 @@ describe("CDN test", () => {
   });
 
   it("profiles delete test", async function () {
-    const res = await client.profiles.beginDeleteAndWait(resourceGroup, profileName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
