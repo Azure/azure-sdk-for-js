@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Watcher, AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create the watcher identified by watcher name.
