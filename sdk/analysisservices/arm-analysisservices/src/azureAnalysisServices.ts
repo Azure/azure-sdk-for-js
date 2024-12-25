@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { ServersImpl, OperationsImpl } from "./operations";
-import { Servers, Operations } from "./operationsInterfaces";
-import { AzureAnalysisServicesOptionalParams } from "./models";
+import { ServersImpl, OperationsImpl } from "./operations/index.js";
+import { Servers, Operations } from "./operationsInterfaces/index.js";
+import { AzureAnalysisServicesOptionalParams } from "./models/index.js";
 
 export class AzureAnalysisServices extends coreClient.ServiceClient {
   $host: string;
