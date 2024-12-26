@@ -170,8 +170,6 @@ export type ClientConfigDiagnostic = {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel);
     // (undocumented)
-    appendToUserAgent(userAgentSuffix: string): void;
-    // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
         body: T;
         path: string;
@@ -291,6 +289,8 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
+    // (undocumented)
+    updateHostFramework(hostFramework: string): void;
     // (undocumented)
     upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
         body: T;
@@ -689,7 +689,6 @@ export class Containers {
 export class CosmosClient {
     constructor(connectionString: string);
     constructor(options: CosmosClientOptions);
-    appendToUserAgent(userAgentSuffix: string): Promise<void>;
     database(id: string): Database;
     readonly databases: Databases;
     dispose(): void;
@@ -702,6 +701,7 @@ export class CosmosClient {
     getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
+    updateHostFramework(hostFramework: string): Promise<void>;
 }
 
 // @public (undocumented)
@@ -718,6 +718,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint?: string;
+    hostFramework?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
