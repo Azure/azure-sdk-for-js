@@ -61,8 +61,11 @@ export class OrderByQueryExecutionContext
   }
 
   public async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    await super.bufferDocumentProducers(diagnosticNode);
-    await super.fillBufferFromBufferQueue(true);
+    console.log("order by bufferMore");
+    await this.bufferDocumentProducers(diagnosticNode);
+    console.log("order by fillBufferFromBufferQueue");
+    await this.fillBufferFromBufferQueue(true);
+    console.log("order by bufferMore done");
   }
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {

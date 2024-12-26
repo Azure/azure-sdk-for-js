@@ -156,6 +156,7 @@ describe("parallelQueryExecutionContextBase", function () {
         undefined,
       );
     });
+    // TODO: Failing fix it
     it("should release the semaphore if an error occurs", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -194,6 +195,7 @@ describe("parallelQueryExecutionContextBase", function () {
       }
     });
 
+    // TODO: failing
     it("should propagate an existing error if this.err is already set", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -239,6 +241,7 @@ describe("parallelQueryExecutionContextBase", function () {
       }
     });
 
+    // TODO: failing
     it("should invoke _repairExecutionContext when a split error occurs and retry after repair", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -305,6 +308,7 @@ describe("parallelQueryExecutionContextBase", function () {
   });
 
   describe("fillBufferFromBufferQueue", function () {
+    // TODO: failing --> timeout
     it("should fill internal buffer from buffer queue for parallel query", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance

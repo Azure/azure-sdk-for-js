@@ -94,11 +94,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
 
+    this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
+      (a: DocumentProducer, b: DocumentProducer) => a.generation - b.generation,
+    );
     // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
-    this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
-    );
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
@@ -598,7 +598,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           ) {
             let documentProducer: DocumentProducer;
             try {
-              console.log("dequeueing document producer");
               documentProducer = this.unfilledDocumentProducersQueue.deq();
               console.log("dequeued document producer", documentProducer);
             } catch (e: any) {
@@ -681,8 +680,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     });
   }
 
-  public async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<Response<void>> {
-    return new Promise<Response<void>>((_, reject) => {
+  public async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
           // if there is a prior error return error
@@ -695,12 +694,34 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         try {
           if (isOrderBy) {
             console.log("order by queue");
+            console.log(
+              "unfilledDocumentProducersQueue size",
+              this.unfilledDocumentProducersQueue.size(),
+            );
+            console.log(
+              "bufferedDocumentProducersQueue size",
+              this.bufferedDocumentProducersQueue.size(),
+            );
             while (
               this.unfilledDocumentProducersQueue.isEmpty() &&
               this.bufferedDocumentProducersQueue.size() > 0
             ) {
+              console.log("in loop");
+              console.log(
+                "unfilledDocumentProducersQueue size",
+                this.unfilledDocumentProducersQueue.size(),
+              );
+              console.log(
+                "bufferedDocumentProducersQueue size",
+                this.bufferedDocumentProducersQueue.size(),
+              );
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
               const result = await documentProducer.fetchNextItem();
+              console.log(
+                "order by result, from document producer",
+                result,
+                documentProducer.generation,
+              );
               if (result) {
                 this.buffer.push(result);
               }
@@ -710,8 +731,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
             }
+            console.log("out of loop");
           } else {
+            console.log("parallel queue");
             while (this.bufferedDocumentProducersQueue.size() > 0) {
+              console.log("parallel: in loop");
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result } = await documentProducer.fetchBufferedItems();
               this.buffer.push(...result);
@@ -729,6 +753,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // release the lock before returning
           this.sem.leave();
         }
+        resolve();
+        return;
       });
     });
   }
