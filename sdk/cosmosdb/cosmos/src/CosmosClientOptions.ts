@@ -62,4 +62,6 @@ export interface CosmosClientOptions {
   plugins?: PluginConfig[];
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
   connectionString?: string;
+  /** A custom string used to generate the default SDK user agent. */
+  hostFramework?: string;
 }
