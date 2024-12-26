@@ -224,13 +224,13 @@ export const TestResultErrorConstants = [
     key: "QuotaLimitError_Scalable",
     message:
       "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded. Check the quota at https://aka.ms/mpt/resource-quota.",
-    pattern: /browserType.connect: Timeout .* exceeded/i,
+    pattern: /(?=.*browserType\.connect): (?=.*Timeout .* exceeded)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "BrowserConnectionError_Scalable",
     message: "The service is currently unavailable. Please try again after some time.",
-    pattern: /browserType.connect: Target page, context or browser has been closed/i,
+    pattern: /(?=.*browserType\.connect): (?=.Target page, context or browser has been closed)/i,
     type: TestErrorType.Scalable,
   },
 ];
