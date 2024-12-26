@@ -13,9 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { ContainerServiceClient } from "../src/containerServiceClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
