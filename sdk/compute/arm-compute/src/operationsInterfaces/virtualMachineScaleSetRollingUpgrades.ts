@@ -8,9 +8,9 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
-  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
+  VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestResponse,
 } from "../models";
@@ -18,26 +18,30 @@ import {
 /** Interface representing a VirtualMachineScaleSetRollingUpgrades. */
 export interface VirtualMachineScaleSetRollingUpgrades {
   /**
-   * Cancels the current virtual machine scale set rolling upgrade.
+   * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
+   * latest available extension version. Instances which are already running the latest extension
+   * versions are not affected.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
-  beginCancel(
+  beginStartExtensionUpgrade(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
+    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Cancels the current virtual machine scale set rolling upgrade.
+   * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
+   * latest available extension version. Instances which are already running the latest extension
+   * versions are not affected.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
-  beginCancelAndWait(
+  beginStartExtensionUpgradeAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
+    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   ): Promise<void>;
   /**
    * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
@@ -66,30 +70,26 @@ export interface VirtualMachineScaleSetRollingUpgrades {
     options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   ): Promise<void>;
   /**
-   * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
-   * latest available extension version. Instances which are already running the latest extension
-   * versions are not affected.
+   * Cancels the current virtual machine scale set rolling upgrade.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
-  beginStartExtensionUpgrade(
+  beginCancel(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
-   * latest available extension version. Instances which are already running the latest extension
-   * versions are not affected.
+   * Cancels the current virtual machine scale set rolling upgrade.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
-  beginStartExtensionUpgradeAndWait(
+  beginCancelAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of the latest virtual machine scale set rolling upgrade.

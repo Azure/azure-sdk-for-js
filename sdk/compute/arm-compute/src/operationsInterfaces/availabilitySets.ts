@@ -13,14 +13,14 @@ import {
   AvailabilitySetsListOptionalParams,
   VirtualMachineSize,
   AvailabilitySetsListAvailableSizesOptionalParams,
+  AvailabilitySetsGetOptionalParams,
+  AvailabilitySetsGetResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetUpdate,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
-  AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,6 +54,17 @@ export interface AvailabilitySets {
     availabilitySetName: string,
     options?: AvailabilitySetsListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize>;
+  /**
+   * Retrieves information about an availability set.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsGetOptionalParams,
+  ): Promise<AvailabilitySetsGetResponse>;
   /**
    * Create or update an availability set.
    * @param resourceGroupName The name of the resource group.
@@ -91,15 +102,4 @@ export interface AvailabilitySets {
     availabilitySetName: string,
     options?: AvailabilitySetsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Retrieves information about an availability set.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName The name of the availability set.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams,
-  ): Promise<AvailabilitySetsGetResponse>;
 }

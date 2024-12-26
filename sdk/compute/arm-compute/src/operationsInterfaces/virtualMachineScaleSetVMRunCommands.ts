@@ -11,14 +11,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineRunCommand,
   VirtualMachineScaleSetVMRunCommandsListOptionalParams,
+  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  VirtualMachineScaleSetVMRunCommandsGetResponse,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsUpdateResponse,
   VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,6 +37,21 @@ export interface VirtualMachineScaleSetVMRunCommands {
     instanceId: string,
     options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
+  /**
+   * The operation to get the VMSS VM run command.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param runCommandName The name of the virtual machine run command.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    runCommandName: string,
+    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
   /**
    * The operation to create or update the VMSS VM run command.
    * @param resourceGroupName The name of the resource group.
@@ -145,19 +160,4 @@ export interface VirtualMachineScaleSetVMRunCommands {
     runCommandName: string,
     options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    runCommandName: string,
-    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
 }

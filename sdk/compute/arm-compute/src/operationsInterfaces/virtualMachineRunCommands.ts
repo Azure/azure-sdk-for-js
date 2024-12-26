@@ -15,14 +15,14 @@ import {
   VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
   VirtualMachineRunCommandsGetOptionalParams,
   VirtualMachineRunCommandsGetResponse,
+  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  VirtualMachineRunCommandsGetByVirtualMachineResponse,
   VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineRunCommandsUpdateOptionalParams,
   VirtualMachineRunCommandsUpdateResponse,
   VirtualMachineRunCommandsDeleteOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,6 +59,19 @@ export interface VirtualMachineRunCommands {
     commandId: string,
     options?: VirtualMachineRunCommandsGetOptionalParams,
   ): Promise<VirtualMachineRunCommandsGetResponse>;
+  /**
+   * The operation to get the run command.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the run command.
+   * @param runCommandName The name of the virtual machine run command.
+   * @param options The options parameters.
+   */
+  getByVirtualMachine(
+    resourceGroupName: string,
+    vmName: string,
+    runCommandName: string,
+    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
   /**
    * The operation to create or update the run command.
    * @param resourceGroupName The name of the resource group.
@@ -155,17 +168,4 @@ export interface VirtualMachineRunCommands {
     runCommandName: string,
     options?: VirtualMachineRunCommandsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  getByVirtualMachine(
-    resourceGroupName: string,
-    vmName: string,
-    runCommandName: string,
-    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
 }

@@ -2673,30 +2673,23 @@ async function createAScaleSetWithPriorityMixPolicy() {
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
     orchestrationMode: "Flexible",
-    platformFaultDomainCount: 1,
     priorityMixPolicy: {
-      baseRegularPriorityCount: 10,
+      baseRegularPriorityCount: 4,
       regularPriorityPercentageAboveBase: 50,
     },
-    sku: { name: "Standard_A8m_v2", capacity: 2, tier: "Standard" },
+    singlePlacementGroup: false,
+    sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" },
     virtualMachineProfile: {
+      billingProfile: { maxPrice: -1 },
+      evictionPolicy: "Deallocate",
       networkProfile: {
-        networkApiVersion: "2020-11-01",
         networkInterfaceConfigurations: [
           {
             name: "{vmss-name}",
-            enableAcceleratedNetworking: false,
             enableIPForwarding: true,
             ipConfigurations: [
               {
                 name: "{vmss-name}",
-                applicationGatewayBackendAddressPools: [],
-                loadBalancerBackendAddressPools: [],
-                primary: true,
-                publicIPAddressConfiguration: {
-                  name: "{vmss-name}",
-                  idleTimeoutInMinutes: 15,
-                },
                 subnet: {
                   id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                 },
@@ -2714,9 +2707,9 @@ async function createAScaleSetWithPriorityMixPolicy() {
       priority: "Spot",
       storageProfile: {
         imageReference: {
-          offer: "0001-com-ubuntu-server-focal",
-          publisher: "Canonical",
-          sku: "20_04-lts-gen2",
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2016-Datacenter",
           version: "latest",
         },
         osDisk: {

@@ -21,14 +21,14 @@ import {
   SshPublicKeysListByResourceGroupNextOptionalParams,
   SshPublicKeysListByResourceGroupOptionalParams,
   SshPublicKeysListByResourceGroupResponse,
+  SshPublicKeysGetOptionalParams,
+  SshPublicKeysGetResponse,
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysCreateResponse,
   SshPublicKeyUpdateResource,
   SshPublicKeysUpdateOptionalParams,
   SshPublicKeysUpdateResponse,
   SshPublicKeysDeleteOptionalParams,
-  SshPublicKeysGetOptionalParams,
-  SshPublicKeysGetResponse,
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysGenerateKeyPairResponse,
   SshPublicKeysListBySubscriptionNextResponse,
@@ -204,6 +204,23 @@ export class SshPublicKeysImpl implements SshPublicKeys {
   }
 
   /**
+   * Retrieves information about an SSH public key.
+   * @param resourceGroupName The name of the resource group.
+   * @param sshPublicKeyName The name of the SSH public key.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    sshPublicKeyName: string,
+    options?: SshPublicKeysGetOptionalParams,
+  ): Promise<SshPublicKeysGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, sshPublicKeyName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates a new SSH public key resource.
    * @param resourceGroupName The name of the resource group.
    * @param sshPublicKeyName The name of the SSH public key.
@@ -255,23 +272,6 @@ export class SshPublicKeysImpl implements SshPublicKeys {
     return this.client.sendOperationRequest(
       { resourceGroupName, sshPublicKeyName, options },
       deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Retrieves information about an SSH public key.
-   * @param resourceGroupName The name of the resource group.
-   * @param sshPublicKeyName The name of the SSH public key.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    sshPublicKeyName: string,
-    options?: SshPublicKeysGetOptionalParams,
-  ): Promise<SshPublicKeysGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, sshPublicKeyName, options },
-      getOperationSpec,
     );
   }
 
@@ -365,6 +365,27 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SshPublicKeyResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sshPublicKeyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
   httpMethod: "PUT",
@@ -420,27 +441,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.sshPublicKeyName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SshPublicKeyResource,
-    },
     default: {
       bodyMapper: Mappers.CloudError,
     },

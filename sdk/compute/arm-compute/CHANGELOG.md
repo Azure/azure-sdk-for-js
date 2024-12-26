@@ -1,5 +1,113 @@
 # Release History
     
+## 23.0.0 (2024-12-26)
+    
+### Features Added
+
+  - Interface ComputeManagementClientOptionalParams has a new optional parameter apiVersion
+
+### Breaking Changes
+
+  - Removed operation group CloudServiceOperatingSystems
+  - Removed operation group CloudServiceRoleInstances
+  - Removed operation group CloudServiceRoles
+  - Removed operation group CloudServices
+  - Removed operation group CloudServicesUpdateDomain
+  - Removed operation group CommunityGalleries
+  - Removed operation group CommunityGalleryImages
+  - Removed operation group CommunityGalleryImageVersions
+  - Removed operation group DiskAccesses
+  - Removed operation group DiskEncryptionSets
+  - Removed operation group DiskRestorePointOperations
+  - Removed operation group Disks
+  - Removed operation group Galleries
+  - Removed operation group GalleryApplications
+  - Removed operation group GalleryApplicationVersions
+  - Removed operation group GalleryImages
+  - Removed operation group GalleryImageVersions
+  - Removed operation group GalleryInVMAccessControlProfiles
+  - Removed operation group GalleryInVMAccessControlProfileVersions
+  - Removed operation group GallerySharingProfile
+  - Removed operation group ResourceSkus
+  - Removed operation group SharedGalleries
+  - Removed operation group SharedGalleryImages
+  - Removed operation group SharedGalleryImageVersions
+  - Removed operation group Snapshots
+  - Removed operation group SoftDeletedResource
+  - Class ComputeManagementClient no longer has parameter cloudServiceOperatingSystems
+  - Class ComputeManagementClient no longer has parameter cloudServiceRoleInstances
+  - Class ComputeManagementClient no longer has parameter cloudServiceRoles
+  - Class ComputeManagementClient no longer has parameter cloudServices
+  - Class ComputeManagementClient no longer has parameter cloudServicesUpdateDomain
+  - Class ComputeManagementClient no longer has parameter communityGalleries
+  - Class ComputeManagementClient no longer has parameter communityGalleryImages
+  - Class ComputeManagementClient no longer has parameter communityGalleryImageVersions
+  - Class ComputeManagementClient no longer has parameter diskAccesses
+  - Class ComputeManagementClient no longer has parameter diskEncryptionSets
+  - Class ComputeManagementClient no longer has parameter diskRestorePointOperations
+  - Class ComputeManagementClient no longer has parameter disks
+  - Class ComputeManagementClient no longer has parameter galleries
+  - Class ComputeManagementClient no longer has parameter galleryApplications
+  - Class ComputeManagementClient no longer has parameter galleryApplicationVersions
+  - Class ComputeManagementClient no longer has parameter galleryImages
+  - Class ComputeManagementClient no longer has parameter galleryImageVersions
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfiles
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfileVersions
+  - Class ComputeManagementClient no longer has parameter gallerySharingProfile
+  - Class ComputeManagementClient no longer has parameter resourceSkus
+  - Class ComputeManagementClient no longer has parameter sharedGalleries
+  - Class ComputeManagementClient no longer has parameter sharedGalleryImages
+  - Class ComputeManagementClient no longer has parameter sharedGalleryImageVersions
+  - Class ComputeManagementClient no longer has parameter snapshots
+  - Class ComputeManagementClient no longer has parameter softDeletedResource
+  - Removed Enum KnownAccessControlRulesMode
+  - Removed Enum KnownAccessLevel
+  - Removed Enum KnownAggregatedReplicationState
+  - Removed Enum KnownArchitecture
+  - Removed Enum KnownCloudServiceSlotType
+  - Removed Enum KnownCloudServiceUpgradeMode
+  - Removed Enum KnownConfidentialVMEncryptionType
+  - Removed Enum KnownCopyCompletionErrorReason
+  - Removed Enum KnownDataAccessAuthMode
+  - Removed Enum KnownDiskCreateOption
+  - Removed Enum KnownDiskEncryptionSetIdentityType
+  - Removed Enum KnownDiskEncryptionSetType
+  - Removed Enum KnownDiskSecurityTypes
+  - Removed Enum KnownDiskState
+  - Removed Enum KnownDiskStorageAccountTypes
+  - Removed Enum KnownEdgeZoneStorageAccountType
+  - Removed Enum KnownEncryptionType
+  - Removed Enum KnownEndpointAccess
+  - Removed Enum KnownExtendedLocationType
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownGalleryApplicationScriptRebootBehavior
+  - Removed Enum KnownGalleryExpandParams
+  - Removed Enum KnownGalleryExtendedLocationType
+  - Removed Enum KnownGalleryProvisioningState
+  - Removed Enum KnownGallerySharingPermissionTypes
+  - Removed Enum KnownNetworkAccessPolicy
+  - Removed Enum KnownPolicyViolationCategory
+  - Removed Enum KnownPrivateEndpointConnectionProvisioningState
+  - Removed Enum KnownPrivateEndpointServiceConnectionStatus
+  - Removed Enum KnownProvisionedBandwidthCopyOption
+  - Removed Enum KnownPublicNetworkAccess
+  - Removed Enum KnownReplicationMode
+  - Removed Enum KnownReplicationState
+  - Removed Enum KnownReplicationStatusTypes
+  - Removed Enum KnownSelectPermissions
+  - Removed Enum KnownSharedGalleryHostCaching
+  - Removed Enum KnownSharedToValues
+  - Removed Enum KnownSharingProfileGroupTypes
+  - Removed Enum KnownSharingState
+  - Removed Enum KnownSharingUpdateOperationTypes
+  - Removed Enum KnownSnapshotStorageAccountTypes
+  - Removed Enum KnownSoftDeletedArtifactTypes
+  - Removed Enum KnownStorageAccountType
+  - Removed Enum KnownUefiKeyType
+  - Removed Enum KnownUefiSignatureTemplateName
+  - Removed Enum KnownValidationStatus
+    
+    
 ## 22.2.0 (2024-12-11)
     
 ### Features Added

@@ -18,6 +18,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  VirtualMachineExtensionsListOptionalParams,
+  VirtualMachineExtensionsListResponse,
+  VirtualMachineExtensionsGetOptionalParams,
+  VirtualMachineExtensionsGetResponse,
   VirtualMachineExtension,
   VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineExtensionsCreateOrUpdateResponse,
@@ -25,10 +29,6 @@ import {
   VirtualMachineExtensionsUpdateOptionalParams,
   VirtualMachineExtensionsUpdateResponse,
   VirtualMachineExtensionsDeleteOptionalParams,
-  VirtualMachineExtensionsGetOptionalParams,
-  VirtualMachineExtensionsGetResponse,
-  VirtualMachineExtensionsListOptionalParams,
-  VirtualMachineExtensionsListResponse,
 } from "../models";
 
 /** Class containing VirtualMachineExtensions operations. */
@@ -41,6 +41,42 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * The operation to get all extensions of a Virtual Machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the extension.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachineExtensionsListOptionalParams,
+  ): Promise<VirtualMachineExtensionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get the extension.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the extension.
+   * @param vmExtensionName The name of the virtual machine extension.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmName: string,
+    vmExtensionName: string,
+    options?: VirtualMachineExtensionsGetOptionalParams,
+  ): Promise<VirtualMachineExtensionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, vmExtensionName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -338,46 +374,53 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * The operation to get the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param vmExtensionName The name of the virtual machine extension.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmName: string,
-    vmExtensionName: string,
-    options?: VirtualMachineExtensionsGetOptionalParams,
-  ): Promise<VirtualMachineExtensionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, vmExtensionName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get all extensions of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachineExtensionsListOptionalParams,
-  ): Promise<VirtualMachineExtensionsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, options },
-      listOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineExtensionsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineExtension,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmExtensionName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "PUT",
@@ -462,49 +505,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineExtension,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineExtensionsListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.vmName,
   ],
   headerParameters: [Parameters.accept],

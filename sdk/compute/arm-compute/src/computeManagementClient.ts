@@ -8,20 +8,25 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   UsageOperationsImpl,
   VirtualMachineSizesImpl,
   VirtualMachineScaleSetsImpl,
-  VirtualMachineScaleSetExtensionsImpl,
   VirtualMachineScaleSetRollingUpgradesImpl,
-  VirtualMachineScaleSetVMExtensionsImpl,
+  VirtualMachineScaleSetExtensionsImpl,
   VirtualMachineScaleSetVMsImpl,
-  VirtualMachineExtensionsImpl,
+  VirtualMachineScaleSetVMExtensionsImpl,
   VirtualMachinesImpl,
-  VirtualMachineImagesImpl,
+  VirtualMachineExtensionsImpl,
   VirtualMachineImagesEdgeZoneImpl,
+  VirtualMachineImagesImpl,
   VirtualMachineExtensionImagesImpl,
   AvailabilitySetsImpl,
   ProximityPlacementGroupsImpl,
@@ -36,46 +41,20 @@ import {
   LogAnalyticsImpl,
   VirtualMachineRunCommandsImpl,
   VirtualMachineScaleSetVMRunCommandsImpl,
-  DisksImpl,
-  DiskAccessesImpl,
-  DiskEncryptionSetsImpl,
-  DiskRestorePointOperationsImpl,
-  SnapshotsImpl,
-  ResourceSkusImpl,
-  GalleriesImpl,
-  GalleryImagesImpl,
-  GalleryImageVersionsImpl,
-  GalleryApplicationsImpl,
-  GalleryApplicationVersionsImpl,
-  SoftDeletedResourceImpl,
-  GallerySharingProfileImpl,
-  GalleryInVMAccessControlProfilesImpl,
-  GalleryInVMAccessControlProfileVersionsImpl,
-  SharedGalleriesImpl,
-  SharedGalleryImagesImpl,
-  SharedGalleryImageVersionsImpl,
-  CommunityGalleriesImpl,
-  CommunityGalleryImagesImpl,
-  CommunityGalleryImageVersionsImpl,
-  CloudServiceRoleInstancesImpl,
-  CloudServiceRolesImpl,
-  CloudServicesImpl,
-  CloudServicesUpdateDomainImpl,
-  CloudServiceOperatingSystemsImpl,
 } from "./operations";
 import {
   Operations,
   UsageOperations,
   VirtualMachineSizes,
   VirtualMachineScaleSets,
-  VirtualMachineScaleSetExtensions,
   VirtualMachineScaleSetRollingUpgrades,
-  VirtualMachineScaleSetVMExtensions,
+  VirtualMachineScaleSetExtensions,
   VirtualMachineScaleSetVMs,
-  VirtualMachineExtensions,
+  VirtualMachineScaleSetVMExtensions,
   VirtualMachines,
-  VirtualMachineImages,
+  VirtualMachineExtensions,
   VirtualMachineImagesEdgeZone,
+  VirtualMachineImages,
   VirtualMachineExtensionImages,
   AvailabilitySets,
   ProximityPlacementGroups,
@@ -90,37 +69,12 @@ import {
   LogAnalytics,
   VirtualMachineRunCommands,
   VirtualMachineScaleSetVMRunCommands,
-  Disks,
-  DiskAccesses,
-  DiskEncryptionSets,
-  DiskRestorePointOperations,
-  Snapshots,
-  ResourceSkus,
-  Galleries,
-  GalleryImages,
-  GalleryImageVersions,
-  GalleryApplications,
-  GalleryApplicationVersions,
-  SoftDeletedResource,
-  GallerySharingProfile,
-  GalleryInVMAccessControlProfiles,
-  GalleryInVMAccessControlProfileVersions,
-  SharedGalleries,
-  SharedGalleryImages,
-  SharedGalleryImageVersions,
-  CommunityGalleries,
-  CommunityGalleryImages,
-  CommunityGalleryImageVersions,
-  CloudServiceRoleInstances,
-  CloudServiceRoles,
-  CloudServices,
-  CloudServicesUpdateDomain,
-  CloudServiceOperatingSystems,
 } from "./operationsInterfaces";
 import { ComputeManagementClientOptionalParams } from "./models";
 
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -151,7 +105,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.2.0`;
+    const packageDetails = `azsdk-js-arm-compute/23.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -205,23 +159,24 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.operations = new OperationsImpl(this);
     this.usageOperations = new UsageOperationsImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
-    this.virtualMachineScaleSetExtensions =
-      new VirtualMachineScaleSetExtensionsImpl(this);
     this.virtualMachineScaleSetRollingUpgrades =
       new VirtualMachineScaleSetRollingUpgradesImpl(this);
+    this.virtualMachineScaleSetExtensions =
+      new VirtualMachineScaleSetExtensionsImpl(this);
+    this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
     this.virtualMachineScaleSetVMExtensions =
       new VirtualMachineScaleSetVMExtensionsImpl(this);
-    this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
-    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
-    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
+    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
       this,
     );
+    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
     this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
       this,
     );
@@ -239,52 +194,49 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
     this.virtualMachineScaleSetVMRunCommands =
       new VirtualMachineScaleSetVMRunCommandsImpl(this);
-    this.disks = new DisksImpl(this);
-    this.diskAccesses = new DiskAccessesImpl(this);
-    this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
-    this.diskRestorePointOperations = new DiskRestorePointOperationsImpl(this);
-    this.snapshots = new SnapshotsImpl(this);
-    this.resourceSkus = new ResourceSkusImpl(this);
-    this.galleries = new GalleriesImpl(this);
-    this.galleryImages = new GalleryImagesImpl(this);
-    this.galleryImageVersions = new GalleryImageVersionsImpl(this);
-    this.galleryApplications = new GalleryApplicationsImpl(this);
-    this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
-    this.softDeletedResource = new SoftDeletedResourceImpl(this);
-    this.gallerySharingProfile = new GallerySharingProfileImpl(this);
-    this.galleryInVMAccessControlProfiles =
-      new GalleryInVMAccessControlProfilesImpl(this);
-    this.galleryInVMAccessControlProfileVersions =
-      new GalleryInVMAccessControlProfileVersionsImpl(this);
-    this.sharedGalleries = new SharedGalleriesImpl(this);
-    this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
-    this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
-    this.communityGalleries = new CommunityGalleriesImpl(this);
-    this.communityGalleryImages = new CommunityGalleryImagesImpl(this);
-    this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(
-      this,
-    );
-    this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
-    this.cloudServiceRoles = new CloudServiceRolesImpl(this);
-    this.cloudServices = new CloudServicesImpl(this);
-    this.cloudServicesUpdateDomain = new CloudServicesUpdateDomainImpl(this);
-    this.cloudServiceOperatingSystems = new CloudServiceOperatingSystemsImpl(
-      this,
-    );
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
   usageOperations: UsageOperations;
   virtualMachineSizes: VirtualMachineSizes;
   virtualMachineScaleSets: VirtualMachineScaleSets;
-  virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
-  virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
+  virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
-  virtualMachineExtensions: VirtualMachineExtensions;
+  virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
   virtualMachines: VirtualMachines;
-  virtualMachineImages: VirtualMachineImages;
+  virtualMachineExtensions: VirtualMachineExtensions;
   virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
+  virtualMachineImages: VirtualMachineImages;
   virtualMachineExtensionImages: VirtualMachineExtensionImages;
   availabilitySets: AvailabilitySets;
   proximityPlacementGroups: ProximityPlacementGroups;
@@ -299,30 +251,4 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   logAnalytics: LogAnalytics;
   virtualMachineRunCommands: VirtualMachineRunCommands;
   virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
-  disks: Disks;
-  diskAccesses: DiskAccesses;
-  diskEncryptionSets: DiskEncryptionSets;
-  diskRestorePointOperations: DiskRestorePointOperations;
-  snapshots: Snapshots;
-  resourceSkus: ResourceSkus;
-  galleries: Galleries;
-  galleryImages: GalleryImages;
-  galleryImageVersions: GalleryImageVersions;
-  galleryApplications: GalleryApplications;
-  galleryApplicationVersions: GalleryApplicationVersions;
-  softDeletedResource: SoftDeletedResource;
-  gallerySharingProfile: GallerySharingProfile;
-  galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
-  galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
-  sharedGalleries: SharedGalleries;
-  sharedGalleryImages: SharedGalleryImages;
-  sharedGalleryImageVersions: SharedGalleryImageVersions;
-  communityGalleries: CommunityGalleries;
-  communityGalleryImages: CommunityGalleryImages;
-  communityGalleryImageVersions: CommunityGalleryImageVersions;
-  cloudServiceRoleInstances: CloudServiceRoleInstances;
-  cloudServiceRoles: CloudServiceRoles;
-  cloudServices: CloudServices;
-  cloudServicesUpdateDomain: CloudServicesUpdateDomain;
-  cloudServiceOperatingSystems: CloudServiceOperatingSystems;
 }

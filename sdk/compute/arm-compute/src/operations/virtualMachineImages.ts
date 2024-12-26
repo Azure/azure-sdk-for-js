@@ -12,18 +12,18 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
-  VirtualMachineImagesGetOptionalParams,
-  VirtualMachineImagesGetResponse,
-  VirtualMachineImagesListOptionalParams,
-  VirtualMachineImagesListResponse,
-  VirtualMachineImagesListOffersOptionalParams,
-  VirtualMachineImagesListOffersResponse,
-  VirtualMachineImagesListPublishersOptionalParams,
-  VirtualMachineImagesListPublishersResponse,
-  VirtualMachineImagesListSkusOptionalParams,
-  VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
+  VirtualMachineImagesListPublishersOptionalParams,
+  VirtualMachineImagesListPublishersResponse,
+  VirtualMachineImagesListOffersOptionalParams,
+  VirtualMachineImagesListOffersResponse,
+  VirtualMachineImagesListSkusOptionalParams,
+  VirtualMachineImagesListSkusResponse,
+  VirtualMachineImagesListOptionalParams,
+  VirtualMachineImagesListResponse,
+  VirtualMachineImagesGetOptionalParams,
+  VirtualMachineImagesGetResponse,
 } from "../models";
 
 /** Class containing VirtualMachineImages operations. */
@@ -39,25 +39,70 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
   }
 
   /**
-   * Gets a virtual machine image.
+   * Gets a list of all virtual machine image versions for the specified edge zone
+   * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
+   * @param options The options parameters.
+   */
+  listByEdgeZone(
+    location: string,
+    edgeZone: string,
+    options?: VirtualMachineImagesListByEdgeZoneOptionalParams,
+  ): Promise<VirtualMachineImagesListByEdgeZoneResponse> {
+    return this.client.sendOperationRequest(
+      { location, edgeZone, options },
+      listByEdgeZoneOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a list of virtual machine image publishers for the specified Azure location.
+   * @param location The name of a supported Azure region.
+   * @param options The options parameters.
+   */
+  listPublishers(
+    location: string,
+    options?: VirtualMachineImagesListPublishersOptionalParams,
+  ): Promise<VirtualMachineImagesListPublishersResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listPublishersOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a list of virtual machine image offers for the specified location and publisher.
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param options The options parameters.
+   */
+  listOffers(
+    location: string,
+    publisherName: string,
+    options?: VirtualMachineImagesListOffersOptionalParams,
+  ): Promise<VirtualMachineImagesListOffersResponse> {
+    return this.client.sendOperationRequest(
+      { location, publisherName, options },
+      listOffersOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
-   * @param skus A valid image SKU.
-   * @param version A valid image SKU version.
    * @param options The options parameters.
    */
-  get(
+  listSkus(
     location: string,
     publisherName: string,
     offer: string,
-    skus: string,
-    version: string,
-    options?: VirtualMachineImagesGetOptionalParams,
-  ): Promise<VirtualMachineImagesGetResponse> {
+    options?: VirtualMachineImagesListSkusOptionalParams,
+  ): Promise<VirtualMachineImagesListSkusResponse> {
     return this.client.sendOperationRequest(
-      { location, publisherName, offer, skus, version, options },
-      getOperationSpec,
+      { location, publisherName, offer, options },
+      listSkusOperationSpec,
     );
   }
 
@@ -84,82 +129,129 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
   }
 
   /**
-   * Gets a list of virtual machine image offers for the specified location and publisher.
-   * @param location The name of a supported Azure region.
-   * @param publisherName A valid image publisher.
-   * @param options The options parameters.
-   */
-  listOffers(
-    location: string,
-    publisherName: string,
-    options?: VirtualMachineImagesListOffersOptionalParams,
-  ): Promise<VirtualMachineImagesListOffersResponse> {
-    return this.client.sendOperationRequest(
-      { location, publisherName, options },
-      listOffersOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a list of virtual machine image publishers for the specified Azure location.
-   * @param location The name of a supported Azure region.
-   * @param options The options parameters.
-   */
-  listPublishers(
-    location: string,
-    options?: VirtualMachineImagesListPublishersOptionalParams,
-  ): Promise<VirtualMachineImagesListPublishersResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listPublishersOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
+   * Gets a virtual machine image.
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param version A valid image SKU version.
    * @param options The options parameters.
    */
-  listSkus(
+  get(
     location: string,
     publisherName: string,
     offer: string,
-    options?: VirtualMachineImagesListSkusOptionalParams,
-  ): Promise<VirtualMachineImagesListSkusResponse> {
+    skus: string,
+    version: string,
+    options?: VirtualMachineImagesGetOptionalParams,
+  ): Promise<VirtualMachineImagesGetResponse> {
     return this.client.sendOperationRequest(
-      { location, publisherName, offer, options },
-      listSkusOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a list of all virtual machine image versions for the specified edge zone
-   * @param location The name of a supported Azure region.
-   * @param edgeZone The name of the edge zone.
-   * @param options The options parameters.
-   */
-  listByEdgeZone(
-    location: string,
-    edgeZone: string,
-    options?: VirtualMachineImagesListByEdgeZoneOptionalParams,
-  ): Promise<VirtualMachineImagesListByEdgeZoneResponse> {
-    return this.client.sendOperationRequest(
-      { location, edgeZone, options },
-      listByEdgeZoneOperationSpec,
+      { location, publisherName, offer, skus, version, options },
+      getOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineImage,
+      bodyMapper: Mappers.VmImagesInEdgeZoneListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.edgeZone,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPublishersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOffersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.publisherName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -172,8 +264,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.location1,
     Parameters.publisherName,
     Parameters.offer,
-    Parameters.skus,
-    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -216,83 +306,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOffersOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineImageResource",
-            },
-          },
-        },
-      },
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.publisherName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listPublishersOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineImageResource",
-            },
-          },
-        },
-      },
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineImageResource",
-            },
-          },
-        },
-      },
+      bodyMapper: Mappers.VirtualMachineImage,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -305,27 +324,8 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
     Parameters.location1,
     Parameters.publisherName,
     Parameters.offer,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VmImagesInEdgeZoneListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.edgeZone,
+    Parameters.skus,
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
   serializer,

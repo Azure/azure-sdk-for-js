@@ -30,14 +30,14 @@ import {
   VirtualMachineRunCommandsListByVirtualMachineResponse,
   VirtualMachineRunCommandsGetOptionalParams,
   VirtualMachineRunCommandsGetResponse,
+  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  VirtualMachineRunCommandsGetByVirtualMachineResponse,
   VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineRunCommandsUpdateOptionalParams,
   VirtualMachineRunCommandsUpdateResponse,
   VirtualMachineRunCommandsDeleteOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineResponse,
   VirtualMachineRunCommandsListNextResponse,
   VirtualMachineRunCommandsListByVirtualMachineNextResponse,
 } from "../models";
@@ -228,6 +228,42 @@ export class VirtualMachineRunCommandsImpl
     return this.client.sendOperationRequest(
       { location, commandId, options },
       getOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get all run commands of a Virtual Machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the run command.
+   * @param options The options parameters.
+   */
+  private _listByVirtualMachine(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
+  ): Promise<VirtualMachineRunCommandsListByVirtualMachineResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, options },
+      listByVirtualMachineOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get the run command.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the run command.
+   * @param runCommandName The name of the virtual machine run command.
+   * @param options The options parameters.
+   */
+  getByVirtualMachine(
+    resourceGroupName: string,
+    vmName: string,
+    runCommandName: string,
+    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, runCommandName, options },
+      getByVirtualMachineOperationSpec,
     );
   }
 
@@ -516,42 +552,6 @@ export class VirtualMachineRunCommandsImpl
   }
 
   /**
-   * The operation to get the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  getByVirtualMachine(
-    resourceGroupName: string,
-    vmName: string,
-    runCommandName: string,
-    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, runCommandName, options },
-      getByVirtualMachineOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get all run commands of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
-   * @param options The options parameters.
-   */
-  private _listByVirtualMachine(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
-  ): Promise<VirtualMachineRunCommandsListByVirtualMachineResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, options },
-      listByVirtualMachineOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param location The location upon which run commands is queried.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -621,6 +621,49 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.location,
     Parameters.subscriptionId,
     Parameters.commandId,
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer,
+};
+const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineRunCommandsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer,
+};
+const getByVirtualMachineOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineRunCommand,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.runCommandName,
   ],
   headerParameters: [Parameters.accept1],
   serializer,
@@ -710,49 +753,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vmName,
     Parameters.runCommandName,
-  ],
-  headerParameters: [Parameters.accept1],
-  serializer,
-};
-const getByVirtualMachineOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineRunCommand,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmName,
-    Parameters.runCommandName,
-  ],
-  headerParameters: [Parameters.accept1],
-  serializer,
-};
-const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineRunCommandsListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept1],
   serializer,

@@ -8,16 +8,29 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  RestorePointsGetOptionalParams,
+  RestorePointsGetResponse,
   RestorePoint,
   RestorePointsCreateOptionalParams,
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
-  RestorePointsGetOptionalParams,
-  RestorePointsGetResponse,
 } from "../models";
 
 /** Interface representing a RestorePoints. */
 export interface RestorePoints {
+  /**
+   * The operation to get the restore point.
+   * @param resourceGroupName The name of the resource group.
+   * @param restorePointCollectionName The name of the restore point collection.
+   * @param restorePointName The name of the restore point.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    restorePointName: string,
+    options?: RestorePointsGetOptionalParams,
+  ): Promise<RestorePointsGetResponse>;
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
@@ -81,17 +94,4 @@ export interface RestorePoints {
     restorePointName: string,
     options?: RestorePointsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
-   * @param restorePointName The name of the restore point.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    restorePointName: string,
-    options?: RestorePointsGetOptionalParams,
-  ): Promise<RestorePointsGetResponse>;
 }

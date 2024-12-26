@@ -24,14 +24,14 @@ import {
   VirtualMachineScaleSetVMRunCommandsListNextOptionalParams,
   VirtualMachineScaleSetVMRunCommandsListOptionalParams,
   VirtualMachineScaleSetVMRunCommandsListResponse,
+  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  VirtualMachineScaleSetVMRunCommandsGetResponse,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsUpdateResponse,
   VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetResponse,
   VirtualMachineScaleSetVMRunCommandsListNextResponse,
 } from "../models";
 
@@ -141,6 +141,52 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * The operation to get all run commands of an instance in Virtual Machine Scaleset.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMRunCommandsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmScaleSetName, instanceId, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get the VMSS VM run command.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param runCommandName The name of the virtual machine run command.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    runCommandName: string,
+    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmScaleSetName,
+        instanceId,
+        runCommandName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -463,52 +509,6 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
   }
 
   /**
-   * The operation to get the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    runCommandName: string,
-    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        vmScaleSetName,
-        instanceId,
-        runCommandName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get all run commands of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMRunCommandsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmScaleSetName, instanceId, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -532,6 +532,51 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineRunCommandsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineRunCommand,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+    Parameters.runCommandName,
+  ],
+  headerParameters: [Parameters.accept1],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}",
   httpMethod: "PUT",
@@ -620,51 +665,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vmScaleSetName,
     Parameters.instanceId,
     Parameters.runCommandName,
-  ],
-  headerParameters: [Parameters.accept1],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineRunCommand,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-    Parameters.runCommandName,
-  ],
-  headerParameters: [Parameters.accept1],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineRunCommandsListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept1],
   serializer,

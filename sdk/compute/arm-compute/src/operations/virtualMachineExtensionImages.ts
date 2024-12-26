@@ -12,12 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
-  VirtualMachineExtensionImagesGetOptionalParams,
-  VirtualMachineExtensionImagesGetResponse,
   VirtualMachineExtensionImagesListTypesOptionalParams,
   VirtualMachineExtensionImagesListTypesResponse,
   VirtualMachineExtensionImagesListVersionsOptionalParams,
   VirtualMachineExtensionImagesListVersionsResponse,
+  VirtualMachineExtensionImagesGetOptionalParams,
+  VirtualMachineExtensionImagesGetResponse,
 } from "../models";
 
 /** Class containing VirtualMachineExtensionImages operations. */
@@ -32,27 +32,6 @@ export class VirtualMachineExtensionImagesImpl
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets a virtual machine extension image.
-   * @param location The name of a supported Azure region.
-   * @param publisherName
-   * @param typeParam
-   * @param version
-   * @param options The options parameters.
-   */
-  get(
-    location: string,
-    publisherName: string,
-    typeParam: string,
-    version: string,
-    options?: VirtualMachineExtensionImagesGetOptionalParams,
-  ): Promise<VirtualMachineExtensionImagesGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, publisherName, typeParam, version, options },
-      getOperationSpec,
-    );
   }
 
   /**
@@ -90,33 +69,31 @@ export class VirtualMachineExtensionImagesImpl
       listVersionsOperationSpec,
     );
   }
+
+  /**
+   * Gets a virtual machine extension image.
+   * @param location The name of a supported Azure region.
+   * @param publisherName
+   * @param typeParam
+   * @param version
+   * @param options The options parameters.
+   */
+  get(
+    location: string,
+    publisherName: string,
+    typeParam: string,
+    version: string,
+    options?: VirtualMachineExtensionImagesGetOptionalParams,
+  ): Promise<VirtualMachineExtensionImagesGetResponse> {
+    return this.client.sendOperationRequest(
+      { location, publisherName, typeParam, version, options },
+      getOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions/{version}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineExtensionImage,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.publisherName,
-    Parameters.version,
-    Parameters.typeParam,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listTypesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
   httpMethod: "GET",
@@ -180,6 +157,29 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.publisherName,
+    Parameters.typeParam,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions/{version}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineExtensionImage,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.publisherName,
+    Parameters.version,
     Parameters.typeParam,
   ],
   headerParameters: [Parameters.accept],

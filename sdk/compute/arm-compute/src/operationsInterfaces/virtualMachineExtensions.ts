@@ -8,6 +8,10 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  VirtualMachineExtensionsListOptionalParams,
+  VirtualMachineExtensionsListResponse,
+  VirtualMachineExtensionsGetOptionalParams,
+  VirtualMachineExtensionsGetResponse,
   VirtualMachineExtension,
   VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineExtensionsCreateOrUpdateResponse,
@@ -15,14 +19,34 @@ import {
   VirtualMachineExtensionsUpdateOptionalParams,
   VirtualMachineExtensionsUpdateResponse,
   VirtualMachineExtensionsDeleteOptionalParams,
-  VirtualMachineExtensionsGetOptionalParams,
-  VirtualMachineExtensionsGetResponse,
-  VirtualMachineExtensionsListOptionalParams,
-  VirtualMachineExtensionsListResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineExtensions. */
 export interface VirtualMachineExtensions {
+  /**
+   * The operation to get all extensions of a Virtual Machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the extension.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachineExtensionsListOptionalParams,
+  ): Promise<VirtualMachineExtensionsListResponse>;
+  /**
+   * The operation to get the extension.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine containing the extension.
+   * @param vmExtensionName The name of the virtual machine extension.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmName: string,
+    vmExtensionName: string,
+    options?: VirtualMachineExtensionsGetOptionalParams,
+  ): Promise<VirtualMachineExtensionsGetResponse>;
   /**
    * The operation to create or update the extension.
    * @param resourceGroupName The name of the resource group.
@@ -119,28 +143,4 @@ export interface VirtualMachineExtensions {
     vmExtensionName: string,
     options?: VirtualMachineExtensionsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param vmExtensionName The name of the virtual machine extension.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmName: string,
-    vmExtensionName: string,
-    options?: VirtualMachineExtensionsGetOptionalParams,
-  ): Promise<VirtualMachineExtensionsGetResponse>;
-  /**
-   * The operation to get all extensions of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachineExtensionsListOptionalParams,
-  ): Promise<VirtualMachineExtensionsListResponse>;
 }

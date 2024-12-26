@@ -24,14 +24,14 @@ import {
   VirtualMachineSize,
   AvailabilitySetsListAvailableSizesOptionalParams,
   AvailabilitySetsListAvailableSizesResponse,
+  AvailabilitySetsGetOptionalParams,
+  AvailabilitySetsGetResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetUpdate,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
-  AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse,
 } from "../models";
@@ -233,6 +233,51 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
+   * Lists all availability sets in a subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
+  ): Promise<AvailabilitySetsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all availability sets in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    options?: AvailabilitySetsListOptionalParams,
+  ): Promise<AvailabilitySetsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about an availability set.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsGetOptionalParams,
+  ): Promise<AvailabilitySetsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update an availability set.
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
@@ -284,51 +329,6 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     return this.client.sendOperationRequest(
       { resourceGroupName, availabilitySetName, options },
       deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Retrieves information about an availability set.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName The name of the availability set.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams,
-  ): Promise<AvailabilitySetsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, availabilitySetName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all availability sets in a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams,
-  ): Promise<AvailabilitySetsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: AvailabilitySetsListOptionalParams,
-  ): Promise<AvailabilitySetsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
     );
   }
 
@@ -385,6 +385,63 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySet,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.availabilitySetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   httpMethod: "PUT",
@@ -447,63 +504,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.availabilitySetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySet,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.availabilitySetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

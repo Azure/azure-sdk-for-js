@@ -11,14 +11,14 @@ import {
   ProximityPlacementGroup,
   ProximityPlacementGroupsListBySubscriptionOptionalParams,
   ProximityPlacementGroupsListByResourceGroupOptionalParams,
+  ProximityPlacementGroupsGetOptionalParams,
+  ProximityPlacementGroupsGetResponse,
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsCreateOrUpdateResponse,
   ProximityPlacementGroupUpdate,
   ProximityPlacementGroupsUpdateOptionalParams,
   ProximityPlacementGroupsUpdateResponse,
   ProximityPlacementGroupsDeleteOptionalParams,
-  ProximityPlacementGroupsGetOptionalParams,
-  ProximityPlacementGroupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,6 +40,17 @@ export interface ProximityPlacementGroups {
     resourceGroupName: string,
     options?: ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ProximityPlacementGroup>;
+  /**
+   * Retrieves information about a proximity placement group .
+   * @param resourceGroupName The name of the resource group.
+   * @param proximityPlacementGroupName The name of the proximity placement group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: ProximityPlacementGroupsGetOptionalParams,
+  ): Promise<ProximityPlacementGroupsGetResponse>;
   /**
    * Create or update a proximity placement group.
    * @param resourceGroupName The name of the resource group.
@@ -77,15 +88,4 @@ export interface ProximityPlacementGroups {
     proximityPlacementGroupName: string,
     options?: ProximityPlacementGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Retrieves information about a proximity placement group .
-   * @param resourceGroupName The name of the resource group.
-   * @param proximityPlacementGroupName The name of the proximity placement group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    proximityPlacementGroupName: string,
-    options?: ProximityPlacementGroupsGetOptionalParams,
-  ): Promise<ProximityPlacementGroupsGetResponse>;
 }

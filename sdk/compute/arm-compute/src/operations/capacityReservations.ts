@@ -24,14 +24,14 @@ import {
   CapacityReservationsListByCapacityReservationGroupNextOptionalParams,
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
   CapacityReservationsListByCapacityReservationGroupResponse,
+  CapacityReservationsGetOptionalParams,
+  CapacityReservationsGetResponse,
   CapacityReservationsCreateOrUpdateOptionalParams,
   CapacityReservationsCreateOrUpdateResponse,
   CapacityReservationUpdate,
   CapacityReservationsUpdateOptionalParams,
   CapacityReservationsUpdateResponse,
   CapacityReservationsDeleteOptionalParams,
-  CapacityReservationsGetOptionalParams,
-  CapacityReservationsGetResponse,
   CapacityReservationsListByCapacityReservationGroupNextResponse,
 } from "../models";
 
@@ -131,6 +131,48 @@ export class CapacityReservationsImpl implements CapacityReservations {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
+   * property in the response to get the next page of capacity reservations.
+   * @param resourceGroupName The name of the resource group.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param options The options parameters.
+   */
+  private _listByCapacityReservationGroup(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
+  ): Promise<CapacityReservationsListByCapacityReservationGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, capacityReservationGroupName, options },
+      listByCapacityReservationGroupOperationSpec,
+    );
+  }
+
+  /**
+   * The operation that retrieves information about the capacity reservation.
+   * @param resourceGroupName The name of the resource group.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param capacityReservationName The name of the capacity reservation.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    capacityReservationName: string,
+    options?: CapacityReservationsGetOptionalParams,
+  ): Promise<CapacityReservationsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        capacityReservationGroupName,
+        capacityReservationName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -443,48 +485,6 @@ export class CapacityReservationsImpl implements CapacityReservations {
   }
 
   /**
-   * The operation that retrieves information about the capacity reservation.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param capacityReservationName The name of the capacity reservation.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    capacityReservationName: string,
-    options?: CapacityReservationsGetOptionalParams,
-  ): Promise<CapacityReservationsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        capacityReservationGroupName,
-        capacityReservationName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
-   * property in the response to get the next page of capacity reservations.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param options The options parameters.
-   */
-  private _listByCapacityReservationGroup(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
-  ): Promise<CapacityReservationsListByCapacityReservationGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, capacityReservationGroupName, options },
-      listByCapacityReservationGroupOperationSpec,
-    );
-  }
-
-  /**
    * ListByCapacityReservationGroupNext
    * @param resourceGroupName The name of the resource group.
    * @param capacityReservationGroupName The name of the capacity reservation group.
@@ -507,6 +507,49 @@ export class CapacityReservationsImpl implements CapacityReservations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByCapacityReservationGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.capacityReservationGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.capacityReservationGroupName,
+    Parameters.capacityReservationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
   httpMethod: "PUT",
@@ -592,49 +635,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.capacityReservationGroupName,
     Parameters.capacityReservationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservation,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.capacityReservationGroupName,
-    Parameters.capacityReservationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByCapacityReservationGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservationListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.capacityReservationGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

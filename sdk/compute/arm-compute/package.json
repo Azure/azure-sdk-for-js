@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "22.2.0",
+  "version": "23.0.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,7 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-compute.d.ts",
   "devDependencies": {
-    "typescript": "~5.7.2",
+    "typescript": "~5.6.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
@@ -40,8 +40,7 @@
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "@types/node": "^18.0.0",
-    "ts-node": "^10.0.0",
-    "@azure/arm-network": "^32.2.0"
+    "ts-node": "^10.0.0"
   },
   "repository": {
     "type": "git",

@@ -24,29 +24,29 @@ import {
   VirtualMachineScaleSetVMsListNextOptionalParams,
   VirtualMachineScaleSetVMsListOptionalParams,
   VirtualMachineScaleSetVMsListResponse,
-  VirtualMachineScaleSetVMsReimageOptionalParams,
-  VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
-  VirtualMachineScaleSetVMsDeallocateOptionalParams,
+  VirtualMachineScaleSetVMsGetOptionalParams,
+  VirtualMachineScaleSetVMsGetResponse,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
   VirtualMachineScaleSetVMsDeleteOptionalParams,
-  VirtualMachineScaleSetVMsGetOptionalParams,
-  VirtualMachineScaleSetVMsGetResponse,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
+  VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetVMsGetInstanceViewResponse,
-  VirtualMachineScaleSetVMsPowerOffOptionalParams,
-  VirtualMachineScaleSetVMsRestartOptionalParams,
-  VirtualMachineScaleSetVMsStartOptionalParams,
-  VirtualMachineScaleSetVMsRedeployOptionalParams,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
-  VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetVMsReimageOptionalParams,
+  VirtualMachineScaleSetVMsReimageAllOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
   AttachDetachDataDisksRequest,
   VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
   VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
+  VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  VirtualMachineScaleSetVMsRedeployOptionalParams,
+  VirtualMachineScaleSetVMsRestartOptionalParams,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
+  VirtualMachineScaleSetVMsStartOptionalParams,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse,
@@ -153,361 +153,39 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+   * Gets a list of all virtual machines in a VM scale sets.
    * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param virtualMachineScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
-  async beginReimage(
+  private _list(
     resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: reimageOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginReimageAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginReimage(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
+    virtualMachineScaleSetName: string,
+    options?: VirtualMachineScaleSetVMsListOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, virtualMachineScaleSetName, options },
+      listOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
-   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
-   * operation is only supported for managed disks.
+   * Gets a virtual machine from a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  async beginReimageAll(
+  get(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: reimageAllOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
-   * operation is only supported for managed disks.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginReimageAllAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginReimageAll(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
+    options?: VirtualMachineScaleSetVMsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmScaleSetName, instanceId, options },
+      getOperationSpec,
     );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginApproveRollingUpgrade(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>,
-      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: approveRollingUpgradeOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
-      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginApproveRollingUpgradeAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> {
-    const poller = await this.beginApproveRollingUpgrade(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
-   * releases the compute resources it uses. You are not billed for the compute resources of this virtual
-   * machine once it is deallocated.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginDeallocate(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: deallocateOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
-   * releases the compute resources it uses. You are not billed for the compute resources of this virtual
-   * machine once it is deallocated.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginDeallocateAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDeallocate(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -702,22 +380,187 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Gets a virtual machine from a VM scale set.
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  get(
+  async beginApproveRollingUpgrade(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmScaleSetName, instanceId, options },
-      getOperationSpec,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>,
+      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: approveRollingUpgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
+      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginApproveRollingUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> {
+    const poller = await this.beginApproveRollingUpgrade(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
     );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
+   * releases the compute resources it uses. You are not billed for the compute resources of this virtual
+   * machine once it is deallocated.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginDeallocate(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: deallocateOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
+   * releases the compute resources it uses. You are not billed for the compute resources of this virtual
+   * machine once it is deallocated.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginDeallocateAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeallocate(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -740,37 +583,17 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Gets a list of all virtual machines in a VM scale sets.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineScaleSetName The name of the VM scale set.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    options?: VirtualMachineScaleSetVMsListOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineScaleSetName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
-   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
-   * or already has been deallocated.
+   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  async beginPowerOff(
+  async beginReimage(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -813,7 +636,7 @@ export class VirtualMachineScaleSetVMsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: powerOffOperationSpec,
+      spec: reimageOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
@@ -824,22 +647,19 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
-   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
-   * or already has been deallocated.
+   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  async beginPowerOffAndWait(
+  async beginReimageAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPowerOff(
+    const poller = await this.beginReimage(
       resourceGroupName,
       vmScaleSetName,
       instanceId,
@@ -849,17 +669,18 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Restarts a virtual machine in a VM scale set.
+   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
+   * operation is only supported for managed disks.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  async beginRestart(
+  async beginReimageAll(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -902,7 +723,7 @@ export class VirtualMachineScaleSetVMsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: restartOperationSpec,
+      spec: reimageAllOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
@@ -913,298 +734,20 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
-   * Restarts a virtual machine in a VM scale set.
+   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
+   * operation is only supported for managed disks.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  async beginRestartAndWait(
+  async beginReimageAllAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Starts a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStart(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: startOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStartAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
-   * it back on.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginRedeploy(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: redeployOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
-   * it back on.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginRedeployAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRedeploy(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  retrieveBootDiagnosticsData(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmScaleSetName, instanceId, options },
-      retrieveBootDiagnosticsDataOperationSpec,
-    );
-  }
-
-  /**
-   * Performs maintenance on a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginPerformMaintenance(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, instanceId, options },
-      spec: performMaintenanceOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Performs maintenance on a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginPerformMaintenanceAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginPerformMaintenance(
+    const poller = await this.beginReimageAll(
       resourceGroupName,
       vmScaleSetName,
       instanceId,
@@ -1341,6 +884,461 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
+   * Performs maintenance on a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginPerformMaintenance(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: performMaintenanceOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Performs maintenance on a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginPerformMaintenanceAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginPerformMaintenance(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
+   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
+   * charges.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginPowerOff(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: powerOffOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
+   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
+   * charges.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginPowerOffAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginPowerOff(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
+   * it back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRedeploy(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: redeployOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
+   * it back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRedeployAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRedeploy(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Restarts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRestart(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: restartOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restarts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  retrieveBootDiagnosticsData(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmScaleSetName, instanceId, options },
+      retrieveBootDiagnosticsDataOperationSpec,
+    );
+  }
+
+  /**
+   * Starts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStart(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -1468,102 +1466,44 @@ export class VirtualMachineScaleSetVMsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const reimageOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.vmScaleSetVMReimageInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const reimageAllOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const approveRollingUpgradeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/approveRollingUpgrade",
-  httpMethod: "POST",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines",
+  httpMethod: "GET",
   responses: {
     200: {
-      headersMapper:
-        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
-    },
-    201: {
-      headersMapper:
-        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
-    },
-    202: {
-      headersMapper:
-        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
-    },
-    204: {
-      headersMapper:
-        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
+      bodyMapper: Mappers.VirtualMachineScaleSetVMListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand1,
+    Parameters.filter,
+    Parameters.select,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
+    Parameters.virtualMachineScaleSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const deallocateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate",
-  httpMethod: "POST",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.VirtualMachineScaleSetVM,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1635,18 +1575,54 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}",
-  httpMethod: "GET",
+const approveRollingUpgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/approveRollingUpgrade",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetVM,
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deallocateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1679,34 +1655,8 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetVMListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand1,
-    Parameters.filter,
-    Parameters.select,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineScaleSetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const powerOffOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff",
+const reimageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1717,29 +1667,7 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipShutdown],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const restartOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
+  requestBody: Parameters.vmScaleSetVMReimageInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1748,82 +1676,12 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.vmScaleSetName,
     Parameters.instanceId,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
-const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const redeployOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const retrieveBootDiagnosticsDataOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RetrieveBootDiagnosticsDataResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.sasUriExpirationTimeInMinutes,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const performMaintenanceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance",
+const reimageAllOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1896,6 +1754,146 @@ const attachDetachDataDisksOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const performMaintenanceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/performMaintenance",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const powerOffOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skipShutdown],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const redeployOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/redeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const retrieveBootDiagnosticsDataOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RetrieveBootDiagnosticsDataResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.sasUriExpirationTimeInMinutes,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const runCommandOperationSpec: coreClient.OperationSpec = {

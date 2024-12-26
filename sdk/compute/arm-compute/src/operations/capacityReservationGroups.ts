@@ -15,22 +15,22 @@ import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
   CapacityReservationGroup,
-  CapacityReservationGroupsListByResourceGroupNextOptionalParams,
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
-  CapacityReservationGroupsListByResourceGroupResponse,
   CapacityReservationGroupsListBySubscriptionNextOptionalParams,
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsListBySubscriptionResponse,
+  CapacityReservationGroupsListByResourceGroupNextOptionalParams,
+  CapacityReservationGroupsListByResourceGroupOptionalParams,
+  CapacityReservationGroupsListByResourceGroupResponse,
+  CapacityReservationGroupsGetOptionalParams,
+  CapacityReservationGroupsGetResponse,
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsCreateOrUpdateResponse,
   CapacityReservationGroupUpdate,
   CapacityReservationGroupsUpdateOptionalParams,
   CapacityReservationGroupsUpdateResponse,
   CapacityReservationGroupsDeleteOptionalParams,
-  CapacityReservationGroupsGetOptionalParams,
-  CapacityReservationGroupsGetResponse,
-  CapacityReservationGroupsListByResourceGroupNextResponse,
   CapacityReservationGroupsListBySubscriptionNextResponse,
+  CapacityReservationGroupsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,6 +46,61 @@ export class CapacityReservationGroupsImpl
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
+   * response to get the next page of capacity reservation groups.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<CapacityReservationGroup> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<CapacityReservationGroup[]> {
+    let result: CapacityReservationGroupsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<CapacityReservationGroup> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -123,54 +178,46 @@ export class CapacityReservationGroupsImpl
    * response to get the next page of capacity reservation groups.
    * @param options The options parameters.
    */
-  public listBySubscription(
+  private _listBySubscription(
     options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<CapacityReservationGroup> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
+  ): Promise<CapacityReservationGroupsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
-  private async *listBySubscriptionPagingPage(
-    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<CapacityReservationGroup[]> {
-    let result: CapacityReservationGroupsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
+   * property in the response to get the next page of capacity reservation groups.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
+  ): Promise<CapacityReservationGroupsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
-  private async *listBySubscriptionPagingAll(
-    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<CapacityReservationGroup> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * The operation that retrieves information about a capacity reservation group.
+   * @param resourceGroupName The name of the resource group.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationGroupsGetOptionalParams,
+  ): Promise<CapacityReservationGroupsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, capacityReservationGroupName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -235,49 +282,17 @@ export class CapacityReservationGroupsImpl
   }
 
   /**
-   * The operation that retrieves information about a capacity reservation group.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    options?: CapacityReservationGroupsGetOptionalParams,
-  ): Promise<CapacityReservationGroupsGetResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: CapacityReservationGroupsListBySubscriptionNextOptionalParams,
+  ): Promise<CapacityReservationGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, capacityReservationGroupName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
-   * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
-  ): Promise<CapacityReservationGroupsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
-   * response to get the next page of capacity reservation groups.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
-  ): Promise<CapacityReservationGroupsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -297,25 +312,71 @@ export class CapacityReservationGroupsImpl
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: CapacityReservationGroupsListBySubscriptionNextOptionalParams,
-  ): Promise<CapacityReservationGroupsListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservationGroupListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand7,
+    Parameters.resourceIdsOnly,
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservationGroupListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand7],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservationGroup,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.capacityReservationGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
   httpMethod: "PUT",
@@ -385,29 +446,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservationGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand7],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.capacityReservationGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups",
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -417,32 +457,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservationGroupListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand8,
-    Parameters.resourceIdsOnly,
-  ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -462,25 +481,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservationGroupListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -21,22 +21,22 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   Image,
-  ImagesListByResourceGroupNextOptionalParams,
-  ImagesListByResourceGroupOptionalParams,
-  ImagesListByResourceGroupResponse,
   ImagesListNextOptionalParams,
   ImagesListOptionalParams,
   ImagesListResponse,
+  ImagesListByResourceGroupNextOptionalParams,
+  ImagesListByResourceGroupOptionalParams,
+  ImagesListByResourceGroupResponse,
+  ImagesGetOptionalParams,
+  ImagesGetResponse,
   ImagesCreateOrUpdateOptionalParams,
   ImagesCreateOrUpdateResponse,
   ImageUpdate,
   ImagesUpdateOptionalParams,
   ImagesUpdateResponse,
   ImagesDeleteOptionalParams,
-  ImagesGetOptionalParams,
-  ImagesGetResponse,
-  ImagesListByResourceGroupNextResponse,
   ImagesListNextResponse,
+  ImagesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,6 +50,61 @@ export class ImagesImpl implements Images {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the list of Images in the subscription. Use nextLink property in the response to get the next
+   * page of Images. Do this till nextLink is null to fetch all the Images.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: ImagesListOptionalParams,
+  ): PagedAsyncIterableIterator<Image> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: ImagesListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Image[]> {
+    let result: ImagesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: ImagesListOptionalParams,
+  ): AsyncIterableIterator<Image> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -127,54 +182,43 @@ export class ImagesImpl implements Images {
    * page of Images. Do this till nextLink is null to fetch all the Images.
    * @param options The options parameters.
    */
-  public list(
+  private _list(
     options?: ImagesListOptionalParams,
-  ): PagedAsyncIterableIterator<Image> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
+  ): Promise<ImagesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: ImagesListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Image[]> {
-    let result: ImagesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ImagesListByResourceGroupOptionalParams,
+  ): Promise<ImagesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
-  private async *listPagingAll(
-    options?: ImagesListOptionalParams,
-  ): AsyncIterableIterator<Image> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Gets an image.
+   * @param resourceGroupName The name of the resource group.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    options?: ImagesGetOptionalParams,
+  ): Promise<ImagesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, imageName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -444,47 +488,18 @@ export class ImagesImpl implements Images {
   }
 
   /**
-   * Gets an image.
-   * @param resourceGroupName The name of the resource group.
-   * @param imageName The name of the image.
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    imageName: string,
-    options?: ImagesGetOptionalParams,
-  ): Promise<ImagesGetResponse> {
+  private _listNext(
+    nextLink: string,
+    options?: ImagesListNextOptionalParams,
+  ): Promise<ImagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, imageName, options },
-      getOperationSpec,
+      { nextLink, options },
+      listNextOperationSpec,
     );
-  }
-
-  /**
-   * Gets the list of images under a resource group. Use nextLink property in the response to get the
-   * next page of Images. Do this till nextLink is null to fetch all the Images.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ImagesListByResourceGroupOptionalParams,
-  ): Promise<ImagesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the list of Images in the subscription. Use nextLink property in the response to get the next
-   * page of Images. Do this till nextLink is null to fetch all the Images.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: ImagesListOptionalParams,
-  ): Promise<ImagesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -503,25 +518,67 @@ export class ImagesImpl implements Images {
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: ImagesListNextOptionalParams,
-  ): Promise<ImagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/images",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Image,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.imageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
   httpMethod: "PUT",
@@ -608,29 +665,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Image,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.imageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images",
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -640,28 +676,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/images",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -681,25 +700,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

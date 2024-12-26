@@ -10,21 +10,30 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestorePointCollection,
-  RestorePointCollectionsListOptionalParams,
   RestorePointCollectionsListAllOptionalParams,
+  RestorePointCollectionsListOptionalParams,
+  RestorePointCollectionsGetOptionalParams,
+  RestorePointCollectionsGetResponse,
   RestorePointCollectionsCreateOrUpdateOptionalParams,
   RestorePointCollectionsCreateOrUpdateResponse,
   RestorePointCollectionUpdate,
   RestorePointCollectionsUpdateOptionalParams,
   RestorePointCollectionsUpdateResponse,
   RestorePointCollectionsDeleteOptionalParams,
-  RestorePointCollectionsGetOptionalParams,
-  RestorePointCollectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorePointCollections. */
 export interface RestorePointCollections {
+  /**
+   * Gets the list of restore point collections in the subscription. Use nextLink property in the
+   * response to get the next page of restore point collections. Do this till nextLink is not null to
+   * fetch all the restore point collections.
+   * @param options The options parameters.
+   */
+  listAll(
+    options?: RestorePointCollectionsListAllOptionalParams,
+  ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
    * Gets the list of restore point collections in a resource group.
    * @param resourceGroupName The name of the resource group.
@@ -35,14 +44,16 @@ export interface RestorePointCollections {
     options?: RestorePointCollectionsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
-   * Gets the list of restore point collections in the subscription. Use nextLink property in the
-   * response to get the next page of restore point collections. Do this till nextLink is not null to
-   * fetch all the restore point collections.
+   * The operation to get the restore point collection.
+   * @param resourceGroupName The name of the resource group.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
-  listAll(
-    options?: RestorePointCollectionsListAllOptionalParams,
-  ): PagedAsyncIterableIterator<RestorePointCollection>;
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?: RestorePointCollectionsGetOptionalParams,
+  ): Promise<RestorePointCollectionsGetResponse>;
   /**
    * The operation to create or update the restore point collection. Please refer to
    * https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags
@@ -95,15 +106,4 @@ export interface RestorePointCollections {
     restorePointCollectionName: string,
     options?: RestorePointCollectionsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the restore point collection.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    options?: RestorePointCollectionsGetOptionalParams,
-  ): Promise<RestorePointCollectionsGetResponse>;
 }

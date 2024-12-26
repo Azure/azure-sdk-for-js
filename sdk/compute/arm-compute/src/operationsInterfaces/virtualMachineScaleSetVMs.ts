@@ -11,29 +11,29 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetVM,
   VirtualMachineScaleSetVMsListOptionalParams,
-  VirtualMachineScaleSetVMsReimageOptionalParams,
-  VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
-  VirtualMachineScaleSetVMsDeallocateOptionalParams,
+  VirtualMachineScaleSetVMsGetOptionalParams,
+  VirtualMachineScaleSetVMsGetResponse,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
   VirtualMachineScaleSetVMsDeleteOptionalParams,
-  VirtualMachineScaleSetVMsGetOptionalParams,
-  VirtualMachineScaleSetVMsGetResponse,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
+  VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetVMsGetInstanceViewResponse,
-  VirtualMachineScaleSetVMsPowerOffOptionalParams,
-  VirtualMachineScaleSetVMsRestartOptionalParams,
-  VirtualMachineScaleSetVMsStartOptionalParams,
-  VirtualMachineScaleSetVMsRedeployOptionalParams,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
-  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
-  VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetVMsReimageOptionalParams,
+  VirtualMachineScaleSetVMsReimageAllOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
   AttachDetachDataDisksRequest,
   VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
   VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
+  VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  VirtualMachineScaleSetVMsRedeployOptionalParams,
+  VirtualMachineScaleSetVMsRestartOptionalParams,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
+  VirtualMachineScaleSetVMsStartOptionalParams,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse,
@@ -54,58 +54,78 @@ export interface VirtualMachineScaleSetVMs {
     options?: VirtualMachineScaleSetVMsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineScaleSetVM>;
   /**
-   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+   * Gets a virtual machine from a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginReimage(
+  get(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
+    options?: VirtualMachineScaleSetVMsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsGetResponse>;
+  /**
+   * Updates a virtual machine of a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the Update Virtual Machine Scale Sets VM operation.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: VirtualMachineScaleSetVM,
+    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsUpdateResponse>,
+      VirtualMachineScaleSetVMsUpdateResponse
+    >
+  >;
+  /**
+   * Updates a virtual machine of a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the Update Virtual Machine Scale Sets VM operation.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: VirtualMachineScaleSetVM,
+    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsUpdateResponse>;
+  /**
+   * Deletes a virtual machine from a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+   * Deletes a virtual machine from a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginReimageAndWait(
+  beginDeleteAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
-  ): Promise<void>;
-  /**
-   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
-   * operation is only supported for managed disks.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginReimageAll(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
-   * operation is only supported for managed disks.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginReimageAllAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
+    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
@@ -169,80 +189,6 @@ export interface VirtualMachineScaleSetVMs {
     options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
   ): Promise<void>;
   /**
-   * Updates a virtual machine of a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param parameters Parameters supplied to the Update Virtual Machine Scale Sets VM operation.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    parameters: VirtualMachineScaleSetVM,
-    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineScaleSetVMsUpdateResponse>,
-      VirtualMachineScaleSetVMsUpdateResponse
-    >
-  >;
-  /**
-   * Updates a virtual machine of a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param parameters Parameters supplied to the Update Virtual Machine Scale Sets VM operation.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    parameters: VirtualMachineScaleSetVM,
-    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsUpdateResponse>;
-  /**
-   * Deletes a virtual machine from a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a virtual machine from a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
-   * Gets a virtual machine from a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsGetResponse>;
-  /**
    * Gets the status of a virtual machine from a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -256,155 +202,58 @@ export interface VirtualMachineScaleSetVMs {
     options?: VirtualMachineScaleSetVMsGetInstanceViewOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsGetInstanceViewResponse>;
   /**
-   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
-   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
-   * or already has been deallocated.
+   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginPowerOff(
+  beginReimage(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
-   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
-   * or already has been deallocated.
+   * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginPowerOffAndWait(
+  beginReimageAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<void>;
   /**
-   * Restarts a virtual machine in a VM scale set.
+   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
+   * operation is only supported for managed disks.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginRestart(
+  beginReimageAll(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Restarts a virtual machine in a VM scale set.
+   * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
+   * operation is only supported for managed disks.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
    */
-  beginRestartAndWait(
+  beginReimageAllAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
-  ): Promise<void>;
-  /**
-   * Starts a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginStart(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Starts a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams,
-  ): Promise<void>;
-  /**
-   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
-   * it back on.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginRedeploy(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
-   * it back on.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginRedeployAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
-  ): Promise<void>;
-  /**
-   * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  retrieveBootDiagnosticsData(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
-  /**
-   * Performs maintenance on a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginPerformMaintenance(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Performs maintenance on a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginPerformMaintenanceAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<void>;
   /**
    * The operation to simulate the eviction of spot virtual machine in a VM scale set.
@@ -456,6 +305,155 @@ export interface VirtualMachineScaleSetVMs {
     parameters: AttachDetachDataDisksRequest,
     options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
+  /**
+   * Performs maintenance on a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginPerformMaintenance(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Performs maintenance on a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginPerformMaintenanceAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
+  ): Promise<void>;
+  /**
+   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
+   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
+   * charges.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginPowerOff(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
+   * are getting charged for the resources. Instead, use deallocate to release resources and avoid
+   * charges.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginPowerOffAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
+  ): Promise<void>;
+  /**
+   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
+   * it back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginRedeploy(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
+   * it back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginRedeployAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
+  ): Promise<void>;
+  /**
+   * Restarts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginRestart(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Restarts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginRestartAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
+  ): Promise<void>;
+  /**
+   * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  retrieveBootDiagnosticsData(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
+  /**
+   * Starts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Starts a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
+  ): Promise<void>;
   /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.

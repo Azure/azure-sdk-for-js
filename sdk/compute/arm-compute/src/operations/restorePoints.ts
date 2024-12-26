@@ -18,12 +18,12 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  RestorePointsGetOptionalParams,
+  RestorePointsGetResponse,
   RestorePoint,
   RestorePointsCreateOptionalParams,
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
-  RestorePointsGetOptionalParams,
-  RestorePointsGetResponse,
 } from "../models";
 
 /** Class containing RestorePoints operations. */
@@ -36,6 +36,30 @@ export class RestorePointsImpl implements RestorePoints {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * The operation to get the restore point.
+   * @param resourceGroupName The name of the resource group.
+   * @param restorePointCollectionName The name of the restore point collection.
+   * @param restorePointName The name of the restore point.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    restorePointName: string,
+    options?: RestorePointsGetOptionalParams,
+  ): Promise<RestorePointsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        restorePointCollectionName,
+        restorePointName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -235,34 +259,32 @@ export class RestorePointsImpl implements RestorePoints {
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * The operation to get the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
-   * @param restorePointName The name of the restore point.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    restorePointName: string,
-    options?: RestorePointsGetOptionalParams,
-  ): Promise<RestorePointsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        restorePointCollectionName,
-        restorePointName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.restorePointCollectionName,
+    Parameters.restorePointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
   httpMethod: "PUT",
@@ -309,28 +331,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.restorePointCollectionName,
-    Parameters.restorePointName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePoint,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

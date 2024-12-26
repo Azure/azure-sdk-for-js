@@ -21,22 +21,22 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   RestorePointCollection,
-  RestorePointCollectionsListNextOptionalParams,
-  RestorePointCollectionsListOptionalParams,
-  RestorePointCollectionsListResponse,
   RestorePointCollectionsListAllNextOptionalParams,
   RestorePointCollectionsListAllOptionalParams,
   RestorePointCollectionsListAllResponse,
+  RestorePointCollectionsListNextOptionalParams,
+  RestorePointCollectionsListOptionalParams,
+  RestorePointCollectionsListResponse,
+  RestorePointCollectionsGetOptionalParams,
+  RestorePointCollectionsGetResponse,
   RestorePointCollectionsCreateOrUpdateOptionalParams,
   RestorePointCollectionsCreateOrUpdateResponse,
   RestorePointCollectionUpdate,
   RestorePointCollectionsUpdateOptionalParams,
   RestorePointCollectionsUpdateResponse,
   RestorePointCollectionsDeleteOptionalParams,
-  RestorePointCollectionsGetOptionalParams,
-  RestorePointCollectionsGetResponse,
-  RestorePointCollectionsListNextResponse,
   RestorePointCollectionsListAllNextResponse,
+  RestorePointCollectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,6 +50,62 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the list of restore point collections in the subscription. Use nextLink property in the
+   * response to get the next page of restore point collections. Do this till nextLink is not null to
+   * fetch all the restore point collections.
+   * @param options The options parameters.
+   */
+  public listAll(
+    options?: RestorePointCollectionsListAllOptionalParams,
+  ): PagedAsyncIterableIterator<RestorePointCollection> {
+    const iter = this.listAllPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listAllPagingPage(
+    options?: RestorePointCollectionsListAllOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<RestorePointCollection[]> {
+    let result: RestorePointCollectionsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAllNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAllPagingAll(
+    options?: RestorePointCollectionsListAllOptionalParams,
+  ): AsyncIterableIterator<RestorePointCollection> {
+    for await (const page of this.listAllPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -120,54 +176,42 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
    * fetch all the restore point collections.
    * @param options The options parameters.
    */
-  public listAll(
+  private _listAll(
     options?: RestorePointCollectionsListAllOptionalParams,
-  ): PagedAsyncIterableIterator<RestorePointCollection> {
-    const iter = this.listAllPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAllPagingPage(options, settings);
-      },
-    };
+  ): Promise<RestorePointCollectionsListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
-  private async *listAllPagingPage(
-    options?: RestorePointCollectionsListAllOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<RestorePointCollection[]> {
-    let result: RestorePointCollectionsListAllResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAll(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listAllNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Gets the list of restore point collections in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    options?: RestorePointCollectionsListOptionalParams,
+  ): Promise<RestorePointCollectionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listOperationSpec,
+    );
   }
 
-  private async *listAllPagingAll(
-    options?: RestorePointCollectionsListAllOptionalParams,
-  ): AsyncIterableIterator<RestorePointCollection> {
-    for await (const page of this.listAllPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * The operation to get the restore point collection.
+   * @param resourceGroupName The name of the resource group.
+   * @param restorePointCollectionName The name of the restore point collection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?: RestorePointCollectionsGetOptionalParams,
+  ): Promise<RestorePointCollectionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, restorePointCollectionName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -294,47 +338,18 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
   }
 
   /**
-   * The operation to get the restore point collection.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
+   * ListAllNext
+   * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    options?: RestorePointCollectionsGetOptionalParams,
-  ): Promise<RestorePointCollectionsGetResponse> {
+  private _listAllNext(
+    nextLink: string,
+    options?: RestorePointCollectionsListAllNextOptionalParams,
+  ): Promise<RestorePointCollectionsListAllNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, restorePointCollectionName, options },
-      getOperationSpec,
+      { nextLink, options },
+      listAllNextOperationSpec,
     );
-  }
-
-  /**
-   * Gets the list of restore point collections in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: RestorePointCollectionsListOptionalParams,
-  ): Promise<RestorePointCollectionsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the list of restore point collections in the subscription. Use nextLink property in the
-   * response to get the next page of restore point collections. Do this till nextLink is not null to
-   * fetch all the restore point collections.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: RestorePointCollectionsListAllOptionalParams,
-  ): Promise<RestorePointCollectionsListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
   /**
@@ -353,25 +368,67 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
       listNextOperationSpec,
     );
   }
-
-  /**
-   * ListAllNext
-   * @param nextLink The nextLink from the previous successful call to the ListAll method.
-   * @param options The options parameters.
-   */
-  private _listAllNext(
-    nextLink: string,
-    options?: RestorePointCollectionsListAllNextOptionalParams,
-  ): Promise<RestorePointCollectionsListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listAllOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePointCollectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePointCollectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePointCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.restorePointCollectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
   httpMethod: "PUT",
@@ -443,29 +500,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePointCollection,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.restorePointCollectionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections",
+const listAllNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -475,28 +511,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listAllOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePointCollectionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -516,25 +535,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listAllNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePointCollectionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -12,17 +12,17 @@ import {
   DedicatedHost,
   DedicatedHostsListByHostGroupOptionalParams,
   DedicatedHostsListAvailableSizesOptionalParams,
+  DedicatedHostsGetOptionalParams,
+  DedicatedHostsGetResponse,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
   DedicatedHostsUpdateOptionalParams,
   DedicatedHostsUpdateResponse,
   DedicatedHostsDeleteOptionalParams,
-  DedicatedHostsGetOptionalParams,
-  DedicatedHostsGetResponse,
-  DedicatedHostsRestartOptionalParams,
   DedicatedHostsRedeployOptionalParams,
   DedicatedHostsRedeployResponse,
+  DedicatedHostsRestartOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,6 +54,19 @@ export interface DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<string>;
+  /**
+   * Retrieves information about a dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsGetOptionalParams,
+  ): Promise<DedicatedHostsGetResponse>;
   /**
    * Create or update a dedicated host .
    * @param resourceGroupName The name of the resource group.
@@ -151,51 +164,6 @@ export interface DedicatedHosts {
     options?: DedicatedHostsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieves information about a dedicated host.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsGetOptionalParams,
-  ): Promise<DedicatedHostsGetResponse>;
-  /**
-   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
-   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
-   * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  beginRestart(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsRestartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
-   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
-   * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  beginRestartAndWait(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsRestartOptionalParams,
-  ): Promise<void>;
-  /**
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
@@ -232,4 +200,36 @@ export interface DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<DedicatedHostsRedeployResponse>;
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRestart(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRestartAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams,
+  ): Promise<void>;
 }

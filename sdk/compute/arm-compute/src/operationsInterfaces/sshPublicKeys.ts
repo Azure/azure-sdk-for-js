@@ -11,14 +11,14 @@ import {
   SshPublicKeyResource,
   SshPublicKeysListBySubscriptionOptionalParams,
   SshPublicKeysListByResourceGroupOptionalParams,
+  SshPublicKeysGetOptionalParams,
+  SshPublicKeysGetResponse,
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysCreateResponse,
   SshPublicKeyUpdateResource,
   SshPublicKeysUpdateOptionalParams,
   SshPublicKeysUpdateResponse,
   SshPublicKeysDeleteOptionalParams,
-  SshPublicKeysGetOptionalParams,
-  SshPublicKeysGetResponse,
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysGenerateKeyPairResponse,
 } from "../models";
@@ -44,6 +44,17 @@ export interface SshPublicKeys {
     resourceGroupName: string,
     options?: SshPublicKeysListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SshPublicKeyResource>;
+  /**
+   * Retrieves information about an SSH public key.
+   * @param resourceGroupName The name of the resource group.
+   * @param sshPublicKeyName The name of the SSH public key.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    sshPublicKeyName: string,
+    options?: SshPublicKeysGetOptionalParams,
+  ): Promise<SshPublicKeysGetResponse>;
   /**
    * Creates a new SSH public key resource.
    * @param resourceGroupName The name of the resource group.
@@ -81,17 +92,6 @@ export interface SshPublicKeys {
     sshPublicKeyName: string,
     options?: SshPublicKeysDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Retrieves information about an SSH public key.
-   * @param resourceGroupName The name of the resource group.
-   * @param sshPublicKeyName The name of the SSH public key.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    sshPublicKeyName: string,
-    options?: SshPublicKeysGetOptionalParams,
-  ): Promise<SshPublicKeysGetResponse>;
   /**
    * Generates and returns a public/private key pair and populates the SSH public key resource with the
    * public key. The length of the key will be 3072 bits. This operation can only be performed once per
