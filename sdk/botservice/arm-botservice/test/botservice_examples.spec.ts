@@ -14,7 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureBotService } from "../src/azureBotService.js";
-import { assert } from "vitest";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
