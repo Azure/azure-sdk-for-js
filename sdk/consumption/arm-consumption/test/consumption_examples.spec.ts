@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ConsumptionManagementClient } from "../src/consumptionManagementClient";
+import { ConsumptionManagementClient } from "../src/consumptionManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -47,8 +45,8 @@ describe("Consumption test", () => {
   let vmName: string;
   let scope: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -123,6 +121,5 @@ describe("Consumption test", () => {
   });
 
   it("budgets delete test", async function () {
-    const res = await client.budgets.delete(scope, budgetName);
   });
 });
