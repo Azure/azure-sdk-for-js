@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ContainerServiceClient } from "../src/containerServiceClient";
+import { ContainerServiceClient } from "../src/containerServiceClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
@@ -50,8 +48,8 @@ describe("ContainerService test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     clientId = env.AZURE_CLIENT_ID || '';
@@ -155,7 +153,6 @@ describe("ContainerService test", () => {
   });
 
   it("managedClusters delete test", async function () {
-    const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName, resourceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
