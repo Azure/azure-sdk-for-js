@@ -106,7 +106,7 @@ export class CapacityReservationGroupsImpl
   /**
    * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
    * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -190,7 +190,7 @@ export class CapacityReservationGroupsImpl
   /**
    * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
    * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -205,7 +205,7 @@ export class CapacityReservationGroupsImpl
 
   /**
    * The operation that retrieves information about a capacity reservation group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -224,19 +224,19 @@ export class CapacityReservationGroupsImpl
    * The operation to create or update a capacity reservation group. When updating a capacity reservation
    * group, only tags and sharing profile may be modified. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param parameters Parameters supplied to the Create capacity reservation Group.
+   * @param resource Parameters supplied to the Create capacity reservation Group.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    parameters: CapacityReservationGroup,
+    resource: CapacityReservationGroup,
     options?: CapacityReservationGroupsCreateOrUpdateOptionalParams,
   ): Promise<CapacityReservationGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, capacityReservationGroupName, parameters, options },
+      { resourceGroupName, capacityReservationGroupName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
@@ -244,7 +244,7 @@ export class CapacityReservationGroupsImpl
   /**
    * The operation to update a capacity reservation group. When updating a capacity reservation group,
    * only tags and sharing profile may be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Update capacity reservation Group operation.
    * @param options The options parameters.
@@ -266,7 +266,7 @@ export class CapacityReservationGroupsImpl
    * associated resources are disassociated from the reservation group and all capacity reservations
    * under the reservation group have also been deleted. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -298,7 +298,7 @@ export class CapacityReservationGroupsImpl
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -329,7 +329,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand7,
+    Parameters.expand1,
     Parameters.resourceIdsOnly,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -347,7 +347,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand7],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -367,7 +367,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand8],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -391,7 +391,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -414,7 +414,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters28,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -459,8 +459,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -478,8 +478,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

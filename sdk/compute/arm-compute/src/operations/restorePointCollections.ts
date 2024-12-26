@@ -110,7 +110,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
 
   /**
    * Gets the list of restore point collections in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -184,7 +184,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
 
   /**
    * Gets the list of restore point collections in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -199,7 +199,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
 
   /**
    * The operation to get the restore point collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
@@ -218,26 +218,26 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
    * The operation to create or update the restore point collection. Please refer to
    * https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags
    * may be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
-   * @param parameters Parameters supplied to the Create or Update restore point collection operation.
+   * @param resource Parameters supplied to the Create or Update restore point collection operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     restorePointCollectionName: string,
-    parameters: RestorePointCollection,
+    resource: RestorePointCollection,
     options?: RestorePointCollectionsCreateOrUpdateOptionalParams,
   ): Promise<RestorePointCollectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, restorePointCollectionName, parameters, options },
+      { resourceGroupName, restorePointCollectionName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
    * The operation to update the restore point collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param parameters Parameters supplied to the Update restore point collection operation.
    * @param options The options parameters.
@@ -257,8 +257,8 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
    * contained restore points.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -312,6 +312,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -320,8 +321,8 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
    * contained restore points.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -354,7 +355,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -419,7 +420,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  queryParameters: [Parameters.apiVersion, Parameters.expand7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -443,7 +444,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters24,
+  requestBody: Parameters.resource7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -466,7 +467,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -513,8 +514,8 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -532,8 +533,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

@@ -110,7 +110,7 @@ export class ImagesImpl implements Images {
   /**
    * Gets the list of images under a resource group. Use nextLink property in the response to get the
    * next page of Images. Do this till nextLink is null to fetch all the Images.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -191,7 +191,7 @@ export class ImagesImpl implements Images {
   /**
    * Gets the list of images under a resource group. Use nextLink property in the response to get the
    * next page of Images. Do this till nextLink is null to fetch all the Images.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -206,7 +206,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Gets an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param options The options parameters.
    */
@@ -223,15 +223,15 @@ export class ImagesImpl implements Images {
 
   /**
    * Create or update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
-   * @param parameters Parameters supplied to the Create Image operation.
+   * @param resource Parameters supplied to the Create Image operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     imageName: string,
-    parameters: Image,
+    resource: Image,
     options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -279,7 +279,7 @@ export class ImagesImpl implements Images {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, imageName, parameters, options },
+      args: { resourceGroupName, imageName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -288,6 +288,7 @@ export class ImagesImpl implements Images {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -295,21 +296,21 @@ export class ImagesImpl implements Images {
 
   /**
    * Create or update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
-   * @param parameters Parameters supplied to the Create Image operation.
+   * @param resource Parameters supplied to the Create Image operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     imageName: string,
-    parameters: Image,
+    resource: Image,
     options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<ImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       imageName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -317,7 +318,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Update Image operation.
    * @param options The options parameters.
@@ -379,6 +380,7 @@ export class ImagesImpl implements Images {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -386,7 +388,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Update Image operation.
    * @param options The options parameters.
@@ -408,7 +410,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Deletes an Image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param options The options parameters.
    */
@@ -463,6 +465,7 @@ export class ImagesImpl implements Images {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -470,7 +473,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Deletes an Image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param options The options parameters.
    */
@@ -504,7 +507,7 @@ export class ImagesImpl implements Images {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -569,7 +572,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -599,7 +602,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -631,7 +634,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -678,8 +681,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -697,8 +700,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

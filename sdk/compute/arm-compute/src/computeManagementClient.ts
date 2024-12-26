@@ -16,59 +16,59 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  AvailabilitySetsImpl,
+  CapacityReservationGroupsImpl,
+  DedicatedHostGroupsImpl,
+  ImagesImpl,
+  VirtualMachineImagesEdgeZoneImpl,
+  VirtualMachineImagesImpl,
+  LogAnalyticsImpl,
+  VirtualMachineExtensionImagesImpl,
+  VirtualMachineRunCommandsImpl,
   UsageOperationsImpl,
-  VirtualMachineSizesImpl,
   VirtualMachineScaleSetsImpl,
+  VirtualMachinesImpl,
+  VirtualMachineSizesImpl,
+  ProximityPlacementGroupsImpl,
+  RestorePointCollectionsImpl,
+  SshPublicKeysImpl,
+  CapacityReservationsImpl,
+  DedicatedHostsImpl,
+  RestorePointsImpl,
   VirtualMachineScaleSetRollingUpgradesImpl,
   VirtualMachineScaleSetExtensionsImpl,
   VirtualMachineScaleSetVMsImpl,
   VirtualMachineScaleSetVMExtensionsImpl,
-  VirtualMachinesImpl,
-  VirtualMachineExtensionsImpl,
-  VirtualMachineImagesEdgeZoneImpl,
-  VirtualMachineImagesImpl,
-  VirtualMachineExtensionImagesImpl,
-  AvailabilitySetsImpl,
-  ProximityPlacementGroupsImpl,
-  DedicatedHostGroupsImpl,
-  DedicatedHostsImpl,
-  SshPublicKeysImpl,
-  ImagesImpl,
-  RestorePointCollectionsImpl,
-  RestorePointsImpl,
-  CapacityReservationGroupsImpl,
-  CapacityReservationsImpl,
-  LogAnalyticsImpl,
-  VirtualMachineRunCommandsImpl,
   VirtualMachineScaleSetVMRunCommandsImpl,
+  VirtualMachineExtensionsImpl,
 } from "./operations";
 import {
   Operations,
+  AvailabilitySets,
+  CapacityReservationGroups,
+  DedicatedHostGroups,
+  Images,
+  VirtualMachineImagesEdgeZone,
+  VirtualMachineImages,
+  LogAnalytics,
+  VirtualMachineExtensionImages,
+  VirtualMachineRunCommands,
   UsageOperations,
-  VirtualMachineSizes,
   VirtualMachineScaleSets,
+  VirtualMachines,
+  VirtualMachineSizes,
+  ProximityPlacementGroups,
+  RestorePointCollections,
+  SshPublicKeys,
+  CapacityReservations,
+  DedicatedHosts,
+  RestorePoints,
   VirtualMachineScaleSetRollingUpgrades,
   VirtualMachineScaleSetExtensions,
   VirtualMachineScaleSetVMs,
   VirtualMachineScaleSetVMExtensions,
-  VirtualMachines,
-  VirtualMachineExtensions,
-  VirtualMachineImagesEdgeZone,
-  VirtualMachineImages,
-  VirtualMachineExtensionImages,
-  AvailabilitySets,
-  ProximityPlacementGroups,
-  DedicatedHostGroups,
-  DedicatedHosts,
-  SshPublicKeys,
-  Images,
-  RestorePointCollections,
-  RestorePoints,
-  CapacityReservationGroups,
-  CapacityReservations,
-  LogAnalytics,
-  VirtualMachineRunCommands,
   VirtualMachineScaleSetVMRunCommands,
+  VirtualMachineExtensions,
 } from "./operationsInterfaces";
 import { ComputeManagementClientOptionalParams } from "./models";
 
@@ -80,8 +80,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ComputeManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -161,9 +160,29 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-07-01";
     this.operations = new OperationsImpl(this);
+    this.availabilitySets = new AvailabilitySetsImpl(this);
+    this.capacityReservationGroups = new CapacityReservationGroupsImpl(this);
+    this.dedicatedHostGroups = new DedicatedHostGroupsImpl(this);
+    this.images = new ImagesImpl(this);
+    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
+      this,
+    );
+    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
+    this.logAnalytics = new LogAnalyticsImpl(this);
+    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
+      this,
+    );
+    this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
     this.usageOperations = new UsageOperationsImpl(this);
-    this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
+    this.virtualMachines = new VirtualMachinesImpl(this);
+    this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
+    this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
+    this.restorePointCollections = new RestorePointCollectionsImpl(this);
+    this.sshPublicKeys = new SshPublicKeysImpl(this);
+    this.capacityReservations = new CapacityReservationsImpl(this);
+    this.dedicatedHosts = new DedicatedHostsImpl(this);
+    this.restorePoints = new RestorePointsImpl(this);
     this.virtualMachineScaleSetRollingUpgrades =
       new VirtualMachineScaleSetRollingUpgradesImpl(this);
     this.virtualMachineScaleSetExtensions =
@@ -171,29 +190,9 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
     this.virtualMachineScaleSetVMExtensions =
       new VirtualMachineScaleSetVMExtensionsImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
-    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
-    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
-      this,
-    );
-    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
-    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
-      this,
-    );
-    this.availabilitySets = new AvailabilitySetsImpl(this);
-    this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
-    this.dedicatedHostGroups = new DedicatedHostGroupsImpl(this);
-    this.dedicatedHosts = new DedicatedHostsImpl(this);
-    this.sshPublicKeys = new SshPublicKeysImpl(this);
-    this.images = new ImagesImpl(this);
-    this.restorePointCollections = new RestorePointCollectionsImpl(this);
-    this.restorePoints = new RestorePointsImpl(this);
-    this.capacityReservationGroups = new CapacityReservationGroupsImpl(this);
-    this.capacityReservations = new CapacityReservationsImpl(this);
-    this.logAnalytics = new LogAnalyticsImpl(this);
-    this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
     this.virtualMachineScaleSetVMRunCommands =
       new VirtualMachineScaleSetVMRunCommandsImpl(this);
+    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -226,29 +225,29 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  availabilitySets: AvailabilitySets;
+  capacityReservationGroups: CapacityReservationGroups;
+  dedicatedHostGroups: DedicatedHostGroups;
+  images: Images;
+  virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
+  virtualMachineImages: VirtualMachineImages;
+  logAnalytics: LogAnalytics;
+  virtualMachineExtensionImages: VirtualMachineExtensionImages;
+  virtualMachineRunCommands: VirtualMachineRunCommands;
   usageOperations: UsageOperations;
-  virtualMachineSizes: VirtualMachineSizes;
   virtualMachineScaleSets: VirtualMachineScaleSets;
+  virtualMachines: VirtualMachines;
+  virtualMachineSizes: VirtualMachineSizes;
+  proximityPlacementGroups: ProximityPlacementGroups;
+  restorePointCollections: RestorePointCollections;
+  sshPublicKeys: SshPublicKeys;
+  capacityReservations: CapacityReservations;
+  dedicatedHosts: DedicatedHosts;
+  restorePoints: RestorePoints;
   virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
   virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
-  virtualMachines: VirtualMachines;
-  virtualMachineExtensions: VirtualMachineExtensions;
-  virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
-  virtualMachineImages: VirtualMachineImages;
-  virtualMachineExtensionImages: VirtualMachineExtensionImages;
-  availabilitySets: AvailabilitySets;
-  proximityPlacementGroups: ProximityPlacementGroups;
-  dedicatedHostGroups: DedicatedHostGroups;
-  dedicatedHosts: DedicatedHosts;
-  sshPublicKeys: SshPublicKeys;
-  images: Images;
-  restorePointCollections: RestorePointCollections;
-  restorePoints: RestorePoints;
-  capacityReservationGroups: CapacityReservationGroups;
-  capacityReservations: CapacityReservations;
-  logAnalytics: LogAnalytics;
-  virtualMachineRunCommands: VirtualMachineRunCommands;
   virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
+  virtualMachineExtensions: VirtualMachineExtensions;
 }

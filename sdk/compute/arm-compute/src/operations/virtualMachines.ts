@@ -30,9 +30,6 @@ import {
   VirtualMachinesListNextOptionalParams,
   VirtualMachinesListOptionalParams,
   VirtualMachinesListResponse,
-  VirtualMachineSize,
-  VirtualMachinesListAvailableSizesOptionalParams,
-  VirtualMachinesListAvailableSizesResponse,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesGetResponse,
   VirtualMachinesCreateOrUpdateOptionalParams,
@@ -58,18 +55,24 @@ import {
   VirtualMachinesInstanceViewOptionalParams,
   VirtualMachinesInstanceViewResponse,
   VirtualMachinesPerformMaintenanceOptionalParams,
+  VirtualMachinesPerformMaintenanceResponse,
   VirtualMachinesPowerOffOptionalParams,
+  VirtualMachinesPowerOffResponse,
   VirtualMachinesReapplyOptionalParams,
   VirtualMachinesRedeployOptionalParams,
   VirtualMachinesReimageOptionalParams,
+  VirtualMachinesReimageResponse,
   VirtualMachinesRestartOptionalParams,
   VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams,
   VirtualMachinesRetrieveBootDiagnosticsDataResponse,
-  VirtualMachinesSimulateEvictionOptionalParams,
-  VirtualMachinesStartOptionalParams,
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse,
+  VirtualMachinesSimulateEvictionOptionalParams,
+  VirtualMachinesStartOptionalParams,
+  VirtualMachinesStartResponse,
+  VirtualMachinesListAvailableSizesOptionalParams,
+  VirtualMachinesListAvailableSizesResponse,
   VirtualMachinesListByLocationNextResponse,
   VirtualMachinesListAllNextResponse,
   VirtualMachinesListNextResponse,
@@ -90,7 +93,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Gets all the virtual machines under the specified subscription for the specified location.
-   * @param location The location for which virtual machines under the subscription are queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listByLocation(
@@ -208,7 +211,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Lists all of the virtual machines in the specified resource group. Use the nextLink property in the
    * response to get the next page of virtual machines.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -269,70 +272,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Lists all available virtual machine sizes to which the specified virtual machine can be resized.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  public listAvailableSizes(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineSize> {
-    const iter = this.listAvailableSizesPagingAll(
-      resourceGroupName,
-      vmName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAvailableSizesPagingPage(
-          resourceGroupName,
-          vmName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listAvailableSizesPagingPage(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: VirtualMachinesListAvailableSizesResponse;
-    result = await this._listAvailableSizes(resourceGroupName, vmName, options);
-    yield result.value || [];
-  }
-
-  private async *listAvailableSizesPagingAll(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-  ): AsyncIterableIterator<VirtualMachineSize> {
-    for await (const page of this.listAvailableSizesPagingPage(
-      resourceGroupName,
-      vmName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Gets all the virtual machines under the specified subscription for the specified location.
-   * @param location The location for which virtual machines under the subscription are queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listByLocation(
@@ -359,7 +300,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Lists all of the virtual machines in the specified resource group. Use the nextLink property in the
    * response to get the next page of virtual machines.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -374,7 +315,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Retrieves information about the model view or the instance view of a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -392,15 +333,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to create or update a virtual machine. Please note some properties can be set only
    * during virtual machine creation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
-   * @param parameters Parameters supplied to the Create Virtual Machine operation.
+   * @param resource Parameters supplied to the Create Virtual Machine operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     vmName: string,
-    parameters: VirtualMachine,
+    resource: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -448,7 +389,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, vmName, parameters, options },
+      args: { resourceGroupName, vmName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -457,6 +398,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -465,21 +407,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to create or update a virtual machine. Please note some properties can be set only
    * during virtual machine creation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
-   * @param parameters Parameters supplied to the Create Virtual Machine operation.
+   * @param resource Parameters supplied to the Create Virtual Machine operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmName: string,
-    parameters: VirtualMachine,
+    resource: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachinesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vmName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -487,7 +429,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to update a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Update Virtual Machine operation.
    * @param options The options parameters.
@@ -552,6 +494,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -559,7 +502,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to update a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Update Virtual Machine operation.
    * @param options The options parameters.
@@ -581,7 +524,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to delete a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -636,6 +579,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -643,7 +587,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to delete a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -658,7 +602,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Assess patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -729,7 +673,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Assess patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -748,7 +692,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Attach and detach data disks to/from the virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
    *                   machine.
@@ -822,7 +766,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Attach and detach data disks to/from the virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
    *                   machine.
@@ -846,7 +790,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to
    * create similar VMs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Capture Virtual Machine operation.
    * @param options The options parameters.
@@ -920,7 +864,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to
    * create similar VMs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Capture Virtual Machine operation.
    * @param options The options parameters.
@@ -943,7 +887,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be
    * stop-deallocated before invoking this operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -998,6 +942,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1006,7 +951,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be
    * stop-deallocated before invoking this operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1026,7 +971,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Shuts down the virtual machine and releases the compute resources. You are not billed for the
    * compute resources that this virtual machine uses.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1081,6 +1026,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1089,7 +1035,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Shuts down the virtual machine and releases the compute resources. You are not billed for the
    * compute resources that this virtual machine uses.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1113,7 +1059,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
    * please refer to [How to create an image of a virtual machine or
    * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1130,7 +1076,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Installs patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
@@ -1203,7 +1149,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Installs patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
@@ -1225,7 +1171,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Retrieves information about the run-time state of a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1242,7 +1188,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to perform maintenance on a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1250,11 +1196,16 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesPerformMaintenanceResponse>,
+      VirtualMachinesPerformMaintenanceResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachinesPerformMaintenanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1294,9 +1245,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: { resourceGroupName, vmName, options },
       spec: performMaintenanceOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachinesPerformMaintenanceResponse,
+      OperationState<VirtualMachinesPerformMaintenanceResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1304,7 +1259,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to perform maintenance on a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1312,7 +1267,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachinesPerformMaintenanceResponse> {
     const poller = await this.beginPerformMaintenance(
       resourceGroupName,
       vmName,
@@ -1324,7 +1279,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
    * same provisioned resources. You are still charged for this virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1332,11 +1287,16 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPowerOffOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesPowerOffResponse>,
+      VirtualMachinesPowerOffResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachinesPowerOffResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1376,9 +1336,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: { resourceGroupName, vmName, options },
       spec: powerOffOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachinesPowerOffResponse,
+      OperationState<VirtualMachinesPowerOffResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1387,7 +1351,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
    * same provisioned resources. You are still charged for this virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1395,14 +1359,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPowerOffOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachinesPowerOffResponse> {
     const poller = await this.beginPowerOff(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to reapply a virtual machine's state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1457,6 +1421,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1464,7 +1429,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to reapply a virtual machine's state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1479,7 +1444,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Shuts down the virtual machine, moves it to a new node, and powers it back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1534,6 +1499,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1541,7 +1507,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Shuts down the virtual machine, moves it to a new node, and powers it back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1561,7 +1527,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
    * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
    * performing the reimage.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1569,11 +1535,16 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReimageOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesReimageResponse>,
+      VirtualMachinesReimageResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachinesReimageResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1613,9 +1584,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: { resourceGroupName, vmName, options },
       spec: reimageOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachinesReimageResponse,
+      OperationState<VirtualMachinesReimageResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1628,7 +1603,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
    * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
    * performing the reimage.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1636,14 +1611,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReimageOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachinesReimageResponse> {
     const poller = await this.beginReimage(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * The operation to restart a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1698,6 +1673,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1705,7 +1681,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to restart a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1720,7 +1696,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -1736,119 +1712,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * The operation to simulate the eviction of spot virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  simulateEviction(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesSimulateEvictionOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, options },
-      simulateEvictionOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to start a virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStart(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmName, options },
-      spec: startOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to start a virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStartAndWait(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesStartOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginStart(resourceGroupName, vmName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all available virtual machine sizes to which the specified virtual machine can be resized.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  private _listAvailableSizes(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-  ): Promise<VirtualMachinesListAvailableSizesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, options },
-      listAvailableSizesOperationSpec,
-    );
-  }
-
-  /**
    * Run command on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Run command operation.
    * @param options The options parameters.
@@ -1921,7 +1786,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Run command on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Run command operation.
    * @param options The options parameters.
@@ -1942,8 +1807,128 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
+   * The operation to simulate the eviction of spot virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  simulateEviction(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesSimulateEvictionOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, options },
+      simulateEvictionOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to start a virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStart(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesStartResponse>,
+      VirtualMachinesStartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachinesStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachinesStartResponse,
+      OperationState<VirtualMachinesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to start a virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesStartOptionalParams,
+  ): Promise<VirtualMachinesStartResponse> {
+    const poller = await this.beginStart(resourceGroupName, vmName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists all available virtual machine sizes to which the specified virtual machine can be resized.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  listAvailableSizes(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesListAvailableSizesOptionalParams,
+  ): Promise<VirtualMachinesListAvailableSizesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, options },
+      listAvailableSizesOperationSpec,
+    );
+  }
+
+  /**
    * ListByLocationNext
-   * @param location The location for which virtual machines under the subscription are queried.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
    * @param options The options parameters.
    */
@@ -1975,7 +1960,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -2001,14 +1986,14 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2028,7 +2013,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.statusOnly,
-    Parameters.expand3,
+    Parameters.expand5,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -2048,7 +2033,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand4,
+    Parameters.expand6,
   ],
   urlParameters: [
     Parameters.$host,
@@ -2069,7 +2054,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  queryParameters: [Parameters.apiVersion, Parameters.expand3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2099,7 +2084,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2110,8 +2095,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
+    Parameters.ifMatch1,
+    Parameters.ifNoneMatch1,
   ],
   mediaType: "json",
   serializer,
@@ -2122,15 +2107,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachine,
+      headersMapper: Mappers.VirtualMachinesUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachine,
+      headersMapper: Mappers.VirtualMachinesUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachine,
+      headersMapper: Mappers.VirtualMachinesUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachine,
+      headersMapper: Mappers.VirtualMachinesUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -2225,7 +2214,7 @@ const attachDetachDataDisksOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2257,7 +2246,7 @@ const captureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2389,10 +2378,18 @@ const performMaintenanceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachinesPerformMaintenanceHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachinesPerformMaintenanceHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachinesPerformMaintenanceHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachinesPerformMaintenanceHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2411,10 +2408,18 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachinesPowerOffHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachinesPowerOffHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachinesPowerOffHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachinesPowerOffHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2477,15 +2482,23 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachinesReimageHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachinesReimageHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachinesReimageHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachinesReimageHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2543,6 +2556,38 @@ const retrieveBootDiagnosticsDataOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const runCommandOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RunCommandResult,
+    },
+    201: {
+      bodyMapper: Mappers.RunCommandResult,
+    },
+    202: {
+      bodyMapper: Mappers.RunCommandResult,
+    },
+    204: {
+      bodyMapper: Mappers.RunCommandResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const simulateEvictionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction",
   httpMethod: "POST",
@@ -2566,10 +2611,18 @@ const startOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachinesStartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachinesStartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachinesStartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachinesStartHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2605,35 +2658,6 @@ const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const runCommandOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RunCommandResult,
-    },
-    201: {
-      bodyMapper: Mappers.RunCommandResult,
-    },
-    202: {
-      bodyMapper: Mappers.RunCommandResult,
-    },
-    204: {
-      bodyMapper: Mappers.RunCommandResult,
-    },
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
-  mediaType: "json",
-  serializer,
-};
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2642,14 +2666,14 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2667,8 +2691,8 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2686,8 +2710,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

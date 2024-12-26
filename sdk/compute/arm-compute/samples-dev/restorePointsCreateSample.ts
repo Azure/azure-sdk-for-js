@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RestorePoint, ComputeManagementClient } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,18 +27,12 @@ async function copyARestorePointToADifferentRegion() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
-  const parameters: RestorePoint = {
-    sourceRestorePoint: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName",
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePoints.beginCreateAndWait(
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters,
   );
   console.log(result);
 }
@@ -56,20 +50,12 @@ async function createARestorePoint() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
-  const parameters: RestorePoint = {
-    excludeDisks: [
-      {
-        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
-      },
-    ],
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePoints.beginCreateAndWait(
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters,
   );
   console.log(result);
 }

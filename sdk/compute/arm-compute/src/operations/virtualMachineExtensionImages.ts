@@ -36,7 +36,7 @@ export class VirtualMachineExtensionImagesImpl
 
   /**
    * Gets a list of virtual machine extension image types.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export class VirtualMachineExtensionImagesImpl
 
   /**
    * Gets a list of virtual machine extension image versions.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName
    * @param typeParam
    * @param options The options parameters.
@@ -72,7 +72,7 @@ export class VirtualMachineExtensionImagesImpl
 
   /**
    * Gets a virtual machine extension image.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName
    * @param typeParam
    * @param version
@@ -119,7 +119,7 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
   ],
   headerParameters: [Parameters.accept],
@@ -148,14 +148,14 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
     Parameters.top,
     Parameters.orderby,
+    Parameters.filter,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.typeParam,
   ],
@@ -177,7 +177,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.version,
     Parameters.typeParam,

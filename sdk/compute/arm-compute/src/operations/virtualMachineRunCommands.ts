@@ -59,7 +59,7 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * Lists all available run commands for a subscription in a location.
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -117,8 +117,8 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to get all run commands of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
    * @param options The options parameters.
    */
   public listByVirtualMachine(
@@ -201,7 +201,7 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * Lists all available run commands for a subscription in a location.
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -216,7 +216,7 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * Gets specific run command for a subscription in a location.
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param commandId The command id.
    * @param options The options parameters.
    */
@@ -233,8 +233,8 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to get all run commands of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
    * @param options The options parameters.
    */
   private _listByVirtualMachine(
@@ -250,9 +250,9 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to get the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   getByVirtualMachine(
@@ -269,17 +269,17 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to create or update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be created or updated.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     vmName: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -327,7 +327,7 @@ export class VirtualMachineRunCommandsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, vmName, runCommandName, runCommand, options },
+      args: { resourceGroupName, vmName, runCommandName, body, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -336,6 +336,7 @@ export class VirtualMachineRunCommandsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -343,24 +344,24 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to create or update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be created or updated.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmName: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineRunCommandsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vmName,
       runCommandName,
-      runCommand,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -368,9 +369,9 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -435,6 +436,7 @@ export class VirtualMachineRunCommandsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -442,9 +444,9 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -467,9 +469,9 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to delete the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be deleted.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   async beginDelete(
@@ -524,6 +526,7 @@ export class VirtualMachineRunCommandsImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -531,9 +534,9 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * The operation to delete the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be deleted.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -553,7 +556,7 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * ListNext
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -570,8 +573,8 @@ export class VirtualMachineRunCommandsImpl
 
   /**
    * ListByVirtualMachineNext
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
    * @param nextLink The nextLink from the previous successful call to the ListByVirtualMachine method.
    * @param options The options parameters.
    */
@@ -597,14 +600,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RunCommandListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.accept1],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -614,15 +620,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RunCommandDocument,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
     Parameters.commandId,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.accept1],
   serializer,
 };
 const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
@@ -636,14 +645,14 @@ const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getByVirtualMachineOperationSpec: coreClient.OperationSpec = {
@@ -657,7 +666,7 @@ const getByVirtualMachineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -665,7 +674,7 @@ const getByVirtualMachineOperationSpec: coreClient.OperationSpec = {
     Parameters.vmName,
     Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
@@ -688,7 +697,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.runCommand,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -697,7 +706,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.vmName,
     Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -707,21 +716,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineRunCommandsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineRunCommandsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineRunCommandsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineRunCommandsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.runCommand1,
+  requestBody: Parameters.runCommand,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -730,7 +743,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.vmName,
     Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -754,7 +767,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vmName,
     Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -764,14 +777,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RunCommandListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.accept1],
   serializer,
 };
 const listByVirtualMachineNextOperationSpec: coreClient.OperationSpec = {
@@ -787,11 +803,11 @@ const listByVirtualMachineNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };

@@ -106,7 +106,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
   /**
    * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the
    * response to get the next page of SSH public keys.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -190,7 +190,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
   /**
    * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the
    * response to get the next page of SSH public keys.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -205,7 +205,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
 
   /**
    * Retrieves information about an SSH public key.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sshPublicKeyName The name of the SSH public key.
    * @param options The options parameters.
    */
@@ -222,26 +222,26 @@ export class SshPublicKeysImpl implements SshPublicKeys {
 
   /**
    * Creates a new SSH public key resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sshPublicKeyName The name of the SSH public key.
-   * @param parameters Parameters supplied to create the SSH public key.
+   * @param resource Parameters supplied to create the SSH public key.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     sshPublicKeyName: string,
-    parameters: SshPublicKeyResource,
+    resource: SshPublicKeyResource,
     options?: SshPublicKeysCreateOptionalParams,
   ): Promise<SshPublicKeysCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, sshPublicKeyName, parameters, options },
+      { resourceGroupName, sshPublicKeyName, resource, options },
       createOperationSpec,
     );
   }
 
   /**
    * Updates a new SSH public key resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sshPublicKeyName The name of the SSH public key.
    * @param parameters Parameters supplied to update the SSH public key.
    * @param options The options parameters.
@@ -260,7 +260,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
 
   /**
    * Delete an SSH public key.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sshPublicKeyName The name of the SSH public key.
    * @param options The options parameters.
    */
@@ -279,7 +279,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
    * Generates and returns a public/private key pair and populates the SSH public key resource with the
    * public key. The length of the key will be 3072 bits. This operation can only be performed once per
    * SSH public key resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sshPublicKeyName The name of the SSH public key.
    * @param options The options parameters.
    */
@@ -311,7 +311,7 @@ export class SshPublicKeysImpl implements SshPublicKeys {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -400,7 +400,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.resource8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -423,7 +423,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -466,7 +466,7 @@ const generateKeyPairOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -491,8 +491,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -510,8 +510,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

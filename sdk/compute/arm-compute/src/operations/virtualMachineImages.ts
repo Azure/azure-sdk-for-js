@@ -40,7 +40,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 
   /**
    * Gets a list of all virtual machine image versions for the specified edge zone
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param options The options parameters.
    */
@@ -57,7 +57,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 
   /**
    * Gets a list of virtual machine image publishers for the specified Azure location.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listPublishers(
@@ -72,7 +72,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 
   /**
    * Gets a list of virtual machine image offers for the specified location and publisher.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param options The options parameters.
    */
@@ -89,7 +89,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 
   /**
    * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param options The options parameters.
@@ -109,7 +109,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
   /**
    * Gets a list of all virtual machine image versions for the specified location, publisher, offer, and
    * SKU.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
@@ -130,7 +130,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 
   /**
    * Gets a virtual machine image.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
@@ -162,14 +162,14 @@ const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VmImagesInEdgeZoneListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
   ],
   headerParameters: [Parameters.accept],
@@ -193,14 +193,14 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -223,14 +223,14 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
   ],
   headerParameters: [Parameters.accept],
@@ -254,14 +254,14 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
   ],
@@ -286,19 +286,19 @@ const listOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand1,
+    Parameters.expand,
     Parameters.top,
     Parameters.orderby,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -321,7 +321,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,

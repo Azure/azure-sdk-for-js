@@ -51,6 +51,7 @@ import {
   VMScaleSetConvertToSinglePlacementGroupInput,
   VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams,
   VirtualMachineScaleSetsDeallocateOptionalParams,
+  VirtualMachineScaleSetsDeallocateResponse,
   VirtualMachineScaleSetVMInstanceRequiredIDs,
   VirtualMachineScaleSetsDeleteInstancesOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
@@ -59,6 +60,7 @@ import {
   VirtualMachineScaleSetsGetInstanceViewResponse,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetsPerformMaintenanceResponse,
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsRedeployOptionalParams,
@@ -90,7 +92,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets all the VM scale sets under the specified subscription for the specified location.
-   * @param location The location for which VM scale sets under the subscription are queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public listByLocation(
@@ -208,7 +210,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets a list of all VM scale sets under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -270,7 +272,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets list of OS upgrades on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -355,7 +357,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances
    * allowed for each SKU.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -435,7 +437,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets all the VM scale sets under the specified subscription for the specified location.
-   * @param location The location for which VM scale sets under the subscription are queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _listByLocation(
@@ -462,7 +464,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets a list of all VM scale sets under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -477,7 +479,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Display information about a virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -494,15 +496,15 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Create or update a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set to create or update.
-   * @param parameters The scale set object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param resource The scale set object.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     vmScaleSetName: string,
-    parameters: VirtualMachineScaleSet,
+    resource: VirtualMachineScaleSet,
     options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -550,7 +552,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, parameters, options },
+      args: { resourceGroupName, vmScaleSetName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -559,6 +561,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -566,21 +569,21 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Create or update a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set to create or update.
-   * @param parameters The scale set object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param resource The scale set object.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    parameters: VirtualMachineScaleSet,
+    resource: VirtualMachineScaleSet,
     options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vmScaleSetName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -588,8 +591,8 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Update a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param parameters The scale set object.
    * @param options The options parameters.
    */
@@ -653,6 +656,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -660,8 +664,8 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Update a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param parameters The scale set object.
    * @param options The options parameters.
    */
@@ -682,7 +686,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Deletes a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -737,6 +741,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -744,7 +749,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Deletes a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -763,7 +768,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -826,6 +831,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -833,7 +839,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -852,8 +858,8 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param parameters The input object for ConvertToSinglePlacementGroup API.
    * @param options The options parameters.
    */
@@ -873,7 +879,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and
    * releases the compute resources. You are not billed for the compute resources that this virtual
    * machine scale set deallocates.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -881,11 +887,16 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsDeallocateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsDeallocateResponse>,
+      VirtualMachineScaleSetsDeallocateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachineScaleSetsDeallocateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -925,9 +936,13 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       args: { resourceGroupName, vmScaleSetName, options },
       spec: deallocateOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetsDeallocateResponse,
+      OperationState<VirtualMachineScaleSetsDeallocateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -937,7 +952,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and
    * releases the compute resources. You are not billed for the compute resources that this virtual
    * machine scale set deallocates.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -945,7 +960,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsDeallocateOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachineScaleSetsDeallocateResponse> {
     const poller = await this.beginDeallocate(
       resourceGroupName,
       vmScaleSetName,
@@ -956,7 +971,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Deletes virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param options The options parameters.
@@ -1013,6 +1028,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1020,7 +1036,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Deletes virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param options The options parameters.
@@ -1043,7 +1059,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Manual platform update domain walk to update virtual machines in a service fabric virtual machine
    * scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested
    * @param options The options parameters.
@@ -1062,7 +1078,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets the status of a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1079,7 +1095,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param options The options parameters.
@@ -1136,6 +1152,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1143,7 +1160,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param options The options parameters.
@@ -1165,7 +1182,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Gets list of OS upgrades on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1185,7 +1202,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * are not eligible for perform maintenance will be failed. Please refer to best practices for more
    * details:
    * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1193,11 +1210,16 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsPerformMaintenanceResponse>,
+      VirtualMachineScaleSetsPerformMaintenanceResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachineScaleSetsPerformMaintenanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1237,9 +1259,13 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       args: { resourceGroupName, vmScaleSetName, options },
       spec: performMaintenanceOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetsPerformMaintenanceResponse,
+      OperationState<VirtualMachineScaleSetsPerformMaintenanceResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1250,7 +1276,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * are not eligible for perform maintenance will be failed. Please refer to best practices for more
    * details:
    * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1258,7 +1284,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachineScaleSetsPerformMaintenanceResponse> {
     const poller = await this.beginPerformMaintenance(
       resourceGroupName,
       vmScaleSetName,
@@ -1271,7 +1297,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
    * and avoid charges.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1326,6 +1352,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1335,7 +1362,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
    * and avoid charges.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1354,7 +1381,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1417,7 +1444,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1437,7 +1464,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and
    * powers them back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1492,6 +1519,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1500,7 +1528,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and
    * powers them back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1521,7 +1549,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't
    * have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is
    * reset to initial state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1576,6 +1604,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1585,7 +1614,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't
    * have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is
    * reset to initial state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1605,7 +1634,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This
    * operation is only supported for managed disks.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1660,6 +1689,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1668,7 +1698,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This
    * operation is only supported for managed disks.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1687,7 +1717,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Restarts one or more virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1742,6 +1772,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1749,7 +1780,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Restarts one or more virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1768,8 +1799,8 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Changes ServiceState property for a given service
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param parameters The input object for SetOrchestrationServiceState API.
    * @param options The options parameters.
    */
@@ -1825,6 +1856,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1832,8 +1864,8 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Changes ServiceState property for a given service
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param parameters The input object for SetOrchestrationServiceState API.
    * @param options The options parameters.
    */
@@ -1855,7 +1887,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances
    * allowed for each SKU.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1872,7 +1904,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Starts one or more virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1927,6 +1959,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1934,7 +1967,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * Starts one or more virtual machines in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -1953,7 +1986,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * ListByLocationNext
-   * @param location The location for which VM scale sets under the subscription are queried.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
    * @param options The options parameters.
    */
@@ -1985,7 +2018,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -2002,7 +2035,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * GetOSUpgradeHistoryNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param nextLink The nextLink from the previous successful call to the GetOSUpgradeHistory method.
    * @param options The options parameters.
@@ -2021,7 +2054,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 
   /**
    * ListSkusNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param nextLink The nextLink from the previous successful call to the ListSkus method.
    * @param options The options parameters.
@@ -2049,14 +2082,14 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineScaleSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2108,7 +2141,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2138,7 +2171,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.resource4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2161,21 +2194,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSet,
+      headersMapper: Mappers.VirtualMachineScaleSetsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineScaleSet,
+      headersMapper: Mappers.VirtualMachineScaleSetsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineScaleSet,
+      headersMapper: Mappers.VirtualMachineScaleSetsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineScaleSet,
+      headersMapper: Mappers.VirtualMachineScaleSetsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2235,7 +2272,7 @@ const approveRollingUpgradeOperationSpec: coreClient.OperationSpec = {
         Mappers.VirtualMachineScaleSetsApproveRollingUpgradeHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.vmInstanceIDs,
@@ -2259,7 +2296,7 @@ const convertToSinglePlacementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2275,10 +2312,18 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachineScaleSetsDeallocateHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachineScaleSetsDeallocateHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachineScaleSetsDeallocateHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachineScaleSetsDeallocateHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2416,10 +2461,18 @@ const performMaintenanceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachineScaleSetsPerformMaintenanceHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachineScaleSetsPerformMaintenanceHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachineScaleSetsPerformMaintenanceHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachineScaleSetsPerformMaintenanceHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2590,7 +2643,7 @@ const setOrchestrationServiceStateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2655,14 +2708,14 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineScaleSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2680,8 +2733,8 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2699,8 +2752,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
@@ -2719,8 +2772,8 @@ const getOSUpgradeHistoryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
   ],
@@ -2740,8 +2793,8 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
   ],

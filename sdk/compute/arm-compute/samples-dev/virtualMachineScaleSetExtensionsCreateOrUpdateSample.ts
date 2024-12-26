@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetExtension,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -30,19 +27,6 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaa";
-  const extensionParameters: VirtualMachineScaleSetExtension = {
-    name: "{extension-name}",
-    typePropertiesType: "{extension-Type}",
-    autoUpgradeMinorVersion: true,
-    enableAutomaticUpgrade: true,
-    forceUpdateTag: "aaaaaaaaa",
-    protectedSettings: {},
-    provisionAfterExtensions: ["aa"],
-    publisher: "{extension-Publisher}",
-    settings: {},
-    suppressFailures: true,
-    typeHandlerVersion: "{handler-version}",
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result =
@@ -50,7 +34,6 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
       resourceGroupName,
       vmScaleSetName,
       vmssExtensionName,
-      extensionParameters,
     );
   console.log(result);
 }
@@ -68,7 +51,6 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaa";
-  const extensionParameters: VirtualMachineScaleSetExtension = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result =
@@ -76,7 +58,6 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
       resourceGroupName,
       vmScaleSetName,
       vmssExtensionName,
-      extensionParameters,
     );
   console.log(result);
 }

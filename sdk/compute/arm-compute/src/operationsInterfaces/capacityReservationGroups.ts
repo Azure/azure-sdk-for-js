@@ -35,7 +35,7 @@ export interface CapacityReservationGroups {
   /**
    * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
    * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -44,7 +44,7 @@ export interface CapacityReservationGroups {
   ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * The operation that retrieves information about a capacity reservation group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -57,21 +57,21 @@ export interface CapacityReservationGroups {
    * The operation to create or update a capacity reservation group. When updating a capacity reservation
    * group, only tags and sharing profile may be modified. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param parameters Parameters supplied to the Create capacity reservation Group.
+   * @param resource Parameters supplied to the Create capacity reservation Group.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    parameters: CapacityReservationGroup,
+    resource: CapacityReservationGroup,
     options?: CapacityReservationGroupsCreateOrUpdateOptionalParams,
   ): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
   /**
    * The operation to update a capacity reservation group. When updating a capacity reservation group,
    * only tags and sharing profile may be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Update capacity reservation Group operation.
    * @param options The options parameters.
@@ -87,7 +87,7 @@ export interface CapacityReservationGroups {
    * associated resources are disassociated from the reservation group and all capacity reservations
    * under the reservation group have also been deleted. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */

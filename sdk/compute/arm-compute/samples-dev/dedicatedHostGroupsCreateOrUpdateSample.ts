@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DedicatedHostGroup,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -29,20 +26,11 @@ async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
-  const parameters: DedicatedHostGroup = {
-    additionalCapabilities: { ultraSSDEnabled: true },
-    location: "westus",
-    platformFaultDomainCount: 3,
-    supportAutomaticPlacement: true,
-    tags: { department: "finance" },
-    zones: ["1"],
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.createOrUpdate(
     resourceGroupName,
     hostGroupName,
-    parameters,
   );
   console.log(result);
 }
@@ -59,19 +47,11 @@ async function createOrUpdateADedicatedHostGroup() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
-  const parameters: DedicatedHostGroup = {
-    location: "westus",
-    platformFaultDomainCount: 3,
-    supportAutomaticPlacement: true,
-    tags: { department: "finance" },
-    zones: ["1"],
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.createOrUpdate(
     resourceGroupName,
     hostGroupName,
-    parameters,
   );
   console.log(result);
 }

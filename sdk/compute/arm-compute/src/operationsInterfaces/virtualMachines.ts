@@ -13,8 +13,6 @@ import {
   VirtualMachinesListByLocationOptionalParams,
   VirtualMachinesListAllOptionalParams,
   VirtualMachinesListOptionalParams,
-  VirtualMachineSize,
-  VirtualMachinesListAvailableSizesOptionalParams,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesGetResponse,
   VirtualMachinesCreateOrUpdateOptionalParams,
@@ -40,18 +38,24 @@ import {
   VirtualMachinesInstanceViewOptionalParams,
   VirtualMachinesInstanceViewResponse,
   VirtualMachinesPerformMaintenanceOptionalParams,
+  VirtualMachinesPerformMaintenanceResponse,
   VirtualMachinesPowerOffOptionalParams,
+  VirtualMachinesPowerOffResponse,
   VirtualMachinesReapplyOptionalParams,
   VirtualMachinesRedeployOptionalParams,
   VirtualMachinesReimageOptionalParams,
+  VirtualMachinesReimageResponse,
   VirtualMachinesRestartOptionalParams,
   VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams,
   VirtualMachinesRetrieveBootDiagnosticsDataResponse,
-  VirtualMachinesSimulateEvictionOptionalParams,
-  VirtualMachinesStartOptionalParams,
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse,
+  VirtualMachinesSimulateEvictionOptionalParams,
+  VirtualMachinesStartOptionalParams,
+  VirtualMachinesStartResponse,
+  VirtualMachinesListAvailableSizesOptionalParams,
+  VirtualMachinesListAvailableSizesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +63,7 @@ import {
 export interface VirtualMachines {
   /**
    * Gets all the virtual machines under the specified subscription for the specified location.
-   * @param location The location for which virtual machines under the subscription are queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listByLocation(
@@ -77,7 +81,7 @@ export interface VirtualMachines {
   /**
    * Lists all of the virtual machines in the specified resource group. Use the nextLink property in the
    * response to get the next page of virtual machines.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
@@ -85,19 +89,8 @@ export interface VirtualMachines {
     options?: VirtualMachinesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachine>;
   /**
-   * Lists all available virtual machine sizes to which the specified virtual machine can be resized.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  listAvailableSizes(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineSize>;
-  /**
    * Retrieves information about the model view or the instance view of a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -109,15 +102,15 @@ export interface VirtualMachines {
   /**
    * The operation to create or update a virtual machine. Please note some properties can be set only
    * during virtual machine creation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
-   * @param parameters Parameters supplied to the Create Virtual Machine operation.
+   * @param resource Parameters supplied to the Create Virtual Machine operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     vmName: string,
-    parameters: VirtualMachine,
+    resource: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -128,20 +121,20 @@ export interface VirtualMachines {
   /**
    * The operation to create or update a virtual machine. Please note some properties can be set only
    * during virtual machine creation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
-   * @param parameters Parameters supplied to the Create Virtual Machine operation.
+   * @param resource Parameters supplied to the Create Virtual Machine operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmName: string,
-    parameters: VirtualMachine,
+    resource: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachinesCreateOrUpdateResponse>;
   /**
    * The operation to update a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Update Virtual Machine operation.
    * @param options The options parameters.
@@ -159,7 +152,7 @@ export interface VirtualMachines {
   >;
   /**
    * The operation to update a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Update Virtual Machine operation.
    * @param options The options parameters.
@@ -172,7 +165,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesUpdateResponse>;
   /**
    * The operation to delete a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -183,7 +176,7 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -194,7 +187,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Assess patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -210,7 +203,7 @@ export interface VirtualMachines {
   >;
   /**
    * Assess patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -221,7 +214,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesAssessPatchesResponse>;
   /**
    * Attach and detach data disks to/from the virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
    *                   machine.
@@ -240,7 +233,7 @@ export interface VirtualMachines {
   >;
   /**
    * Attach and detach data disks to/from the virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
    *                   machine.
@@ -255,7 +248,7 @@ export interface VirtualMachines {
   /**
    * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to
    * create similar VMs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Capture Virtual Machine operation.
    * @param options The options parameters.
@@ -274,7 +267,7 @@ export interface VirtualMachines {
   /**
    * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to
    * create similar VMs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Capture Virtual Machine operation.
    * @param options The options parameters.
@@ -288,7 +281,7 @@ export interface VirtualMachines {
   /**
    * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be
    * stop-deallocated before invoking this operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -300,7 +293,7 @@ export interface VirtualMachines {
   /**
    * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be
    * stop-deallocated before invoking this operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -312,7 +305,7 @@ export interface VirtualMachines {
   /**
    * Shuts down the virtual machine and releases the compute resources. You are not billed for the
    * compute resources that this virtual machine uses.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -324,7 +317,7 @@ export interface VirtualMachines {
   /**
    * Shuts down the virtual machine and releases the compute resources. You are not billed for the
    * compute resources that this virtual machine uses.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -340,7 +333,7 @@ export interface VirtualMachines {
    * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
    * please refer to [How to create an image of a virtual machine or
    * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -351,7 +344,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Installs patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
@@ -369,7 +362,7 @@ export interface VirtualMachines {
   >;
   /**
    * Installs patches on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param installPatchesInput Input for InstallPatches as directly received by the API
    * @param options The options parameters.
@@ -382,7 +375,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesInstallPatchesResponse>;
   /**
    * Retrieves information about the run-time state of a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -393,7 +386,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesInstanceViewResponse>;
   /**
    * The operation to perform maintenance on a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -401,10 +394,15 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesPerformMaintenanceResponse>,
+      VirtualMachinesPerformMaintenanceResponse
+    >
+  >;
   /**
    * The operation to perform maintenance on a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -412,11 +410,11 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams,
-  ): Promise<void>;
+  ): Promise<VirtualMachinesPerformMaintenanceResponse>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
    * same provisioned resources. You are still charged for this virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -424,11 +422,16 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPowerOffOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesPowerOffResponse>,
+      VirtualMachinesPowerOffResponse
+    >
+  >;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
    * same provisioned resources. You are still charged for this virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -436,10 +439,10 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPowerOffOptionalParams,
-  ): Promise<void>;
+  ): Promise<VirtualMachinesPowerOffResponse>;
   /**
    * The operation to reapply a virtual machine's state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -450,7 +453,7 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to reapply a virtual machine's state.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -461,7 +464,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Shuts down the virtual machine, moves it to a new node, and powers it back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -472,7 +475,7 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down the virtual machine, moves it to a new node, and powers it back on.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -488,7 +491,7 @@ export interface VirtualMachines {
    * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
    * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
    * performing the reimage.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -496,7 +499,12 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReimageOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesReimageResponse>,
+      VirtualMachinesReimageResponse
+    >
+  >;
   /**
    * Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for
    * virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE:
@@ -504,7 +512,7 @@ export interface VirtualMachines {
    * detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk
    * will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before
    * performing the reimage.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -512,10 +520,10 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReimageOptionalParams,
-  ): Promise<void>;
+  ): Promise<VirtualMachinesReimageResponse>;
   /**
    * The operation to restart a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -526,7 +534,7 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to restart a virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -537,7 +545,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
@@ -547,41 +555,8 @@ export interface VirtualMachines {
     options?: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams,
   ): Promise<VirtualMachinesRetrieveBootDiagnosticsDataResponse>;
   /**
-   * The operation to simulate the eviction of spot virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  simulateEviction(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesSimulateEvictionOptionalParams,
-  ): Promise<void>;
-  /**
-   * The operation to start a virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginStart(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * The operation to start a virtual machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAndWait(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachinesStartOptionalParams,
-  ): Promise<void>;
-  /**
    * Run command on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Run command operation.
    * @param options The options parameters.
@@ -599,7 +574,7 @@ export interface VirtualMachines {
   >;
   /**
    * Run command on the VM.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
    * @param parameters Parameters supplied to the Run command operation.
    * @param options The options parameters.
@@ -610,4 +585,53 @@ export interface VirtualMachines {
     parameters: RunCommandInput,
     options?: VirtualMachinesRunCommandOptionalParams,
   ): Promise<VirtualMachinesRunCommandResponse>;
+  /**
+   * The operation to simulate the eviction of spot virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  simulateEviction(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesSimulateEvictionOptionalParams,
+  ): Promise<void>;
+  /**
+   * The operation to start a virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesStartResponse>,
+      VirtualMachinesStartResponse
+    >
+  >;
+  /**
+   * The operation to start a virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesStartOptionalParams,
+  ): Promise<VirtualMachinesStartResponse>;
+  /**
+   * Lists all available virtual machine sizes to which the specified virtual machine can be resized.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  listAvailableSizes(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesListAvailableSizesOptionalParams,
+  ): Promise<VirtualMachinesListAvailableSizesResponse>;
 }

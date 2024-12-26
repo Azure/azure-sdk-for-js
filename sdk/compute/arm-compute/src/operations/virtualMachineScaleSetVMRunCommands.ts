@@ -52,9 +52,9 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to get all run commands of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
    * @param options The options parameters.
    */
   public list(
@@ -145,9 +145,9 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to get all run commands of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
    * @param options The options parameters.
    */
   private _list(
@@ -164,10 +164,10 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to get the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   get(
@@ -191,11 +191,11 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -203,7 +203,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     vmScaleSetName: string,
     instanceId: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -256,7 +256,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
         vmScaleSetName,
         instanceId,
         runCommandName,
-        runCommand,
+        body,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -267,6 +267,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -274,11 +275,11 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -286,7 +287,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     vmScaleSetName: string,
     instanceId: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -294,7 +295,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
       vmScaleSetName,
       instanceId,
       runCommandName,
-      runCommand,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -302,11 +303,11 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -378,6 +379,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -385,11 +387,11 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -413,10 +415,10 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   async beginDelete(
@@ -478,6 +480,7 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -485,10 +488,10 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -510,9 +513,9 @@ export class VirtualMachineScaleSetVMRunCommandsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -543,7 +546,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -551,7 +554,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.vmScaleSetName,
     Parameters.instanceId,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -565,16 +568,16 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.runCommandName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
-    Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
@@ -597,17 +600,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.runCommand,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.runCommandName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
-    Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -617,31 +620,35 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineScaleSetVMRunCommandsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineScaleSetVMRunCommandsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineScaleSetVMRunCommandsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineRunCommand,
+      headersMapper: Mappers.VirtualMachineScaleSetVMRunCommandsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.runCommand1,
+  requestBody: Parameters.runCommand,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.runCommandName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
-    Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -662,11 +669,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.runCommandName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
-    Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -682,12 +689,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
   ],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer,
 };

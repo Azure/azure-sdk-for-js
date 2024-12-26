@@ -36,7 +36,7 @@ export interface RestorePointCollections {
   ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
    * Gets the list of restore point collections in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
@@ -45,7 +45,7 @@ export interface RestorePointCollections {
   ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
    * The operation to get the restore point collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
@@ -58,20 +58,20 @@ export interface RestorePointCollections {
    * The operation to create or update the restore point collection. Please refer to
    * https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags
    * may be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
-   * @param parameters Parameters supplied to the Create or Update restore point collection operation.
+   * @param resource Parameters supplied to the Create or Update restore point collection operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     restorePointCollectionName: string,
-    parameters: RestorePointCollection,
+    resource: RestorePointCollection,
     options?: RestorePointCollectionsCreateOrUpdateOptionalParams,
   ): Promise<RestorePointCollectionsCreateOrUpdateResponse>;
   /**
    * The operation to update the restore point collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param parameters Parameters supplied to the Update restore point collection operation.
    * @param options The options parameters.
@@ -85,8 +85,8 @@ export interface RestorePointCollections {
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
    * contained restore points.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
   beginDelete(
@@ -97,8 +97,8 @@ export interface RestorePointCollections {
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
    * contained restore points.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ThrottledRequestsInput,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,21 +24,10 @@ async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourc
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus";
-  const parameters: ThrottledRequestsInput = {
-    blobContainerSasUri: "https://somesasuri",
-    fromTime: new Date("2018-01-21T01:54:06.862601Z"),
-    groupByClientApplicationId: false,
-    groupByOperationName: true,
-    groupByResourceName: false,
-    groupByUserAgent: false,
-    toTime: new Date("2018-01-23T01:54:06.862601Z"),
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.logAnalytics.beginExportThrottledRequestsAndWait(
-    location,
-    parameters,
-  );
+  const result =
+    await client.logAnalytics.beginExportThrottledRequestsAndWait(location);
   console.log(result);
 }
 

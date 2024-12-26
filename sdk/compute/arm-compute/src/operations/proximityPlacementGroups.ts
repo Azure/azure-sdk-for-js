@@ -102,7 +102,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -184,7 +184,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -199,7 +199,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Retrieves information about a proximity placement group .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The options parameters.
    */
@@ -216,26 +216,26 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Create or update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
-   * @param parameters Parameters supplied to the Create Proximity Placement Group operation.
+   * @param resource Parameters supplied to the Create Proximity Placement Group operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     proximityPlacementGroupName: string,
-    parameters: ProximityPlacementGroup,
+    resource: ProximityPlacementGroup,
     options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ): Promise<ProximityPlacementGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, proximityPlacementGroupName, parameters, options },
+      { resourceGroupName, proximityPlacementGroupName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Update Proximity Placement Group operation.
    * @param options The options parameters.
@@ -254,7 +254,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Delete a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The options parameters.
    */
@@ -286,7 +286,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -375,7 +375,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.resource6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -398,7 +398,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -442,8 +442,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -461,8 +461,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

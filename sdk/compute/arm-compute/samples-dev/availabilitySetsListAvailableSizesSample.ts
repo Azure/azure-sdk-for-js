@@ -28,14 +28,11 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.availabilitySets.listAvailableSizes(
+  const result = await client.availabilitySets.listAvailableSizes(
     resourceGroupName,
     availabilitySetName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -52,14 +49,11 @@ async function availabilitySetListAvailableSizesMinimumSetGen() {
   const availabilitySetName = "aa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.availabilitySets.listAvailableSizes(
+  const result = await client.availabilitySets.listAvailableSizes(
     resourceGroupName,
     availabilitySetName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

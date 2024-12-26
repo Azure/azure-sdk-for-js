@@ -40,7 +40,7 @@ export class RestorePointsImpl implements RestorePoints {
 
   /**
    * The operation to get the restore point.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
@@ -65,17 +65,17 @@ export class RestorePointsImpl implements RestorePoints {
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
-   * @param parameters Parameters supplied to the Create restore point operation.
+   * @param resource Parameters supplied to the Create restore point operation.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     restorePointCollectionName: string,
     restorePointName: string,
-    parameters: RestorePoint,
+    resource: RestorePoint,
     options?: RestorePointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -127,7 +127,7 @@ export class RestorePointsImpl implements RestorePoints {
         resourceGroupName,
         restorePointCollectionName,
         restorePointName,
-        parameters,
+        resource,
         options,
       },
       spec: createOperationSpec,
@@ -138,6 +138,7 @@ export class RestorePointsImpl implements RestorePoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -146,24 +147,24 @@ export class RestorePointsImpl implements RestorePoints {
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
-   * @param parameters Parameters supplied to the Create restore point operation.
+   * @param resource Parameters supplied to the Create restore point operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     restorePointCollectionName: string,
     restorePointName: string,
-    parameters: RestorePoint,
+    resource: RestorePoint,
     options?: RestorePointsCreateOptionalParams,
   ): Promise<RestorePointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       restorePointCollectionName,
       restorePointName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -171,8 +172,8 @@ export class RestorePointsImpl implements RestorePoints {
 
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -233,6 +234,7 @@ export class RestorePointsImpl implements RestorePoints {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -240,8 +242,8 @@ export class RestorePointsImpl implements RestorePoints {
 
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -274,7 +276,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand6],
+  queryParameters: [Parameters.apiVersion, Parameters.expand9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -291,21 +293,25 @@ const createOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
     },
     201: {
       bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
     },
     202: {
       bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
     },
     204: {
       bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.resource11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

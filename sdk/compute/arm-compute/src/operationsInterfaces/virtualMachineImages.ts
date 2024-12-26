@@ -25,7 +25,7 @@ import {
 export interface VirtualMachineImages {
   /**
    * Gets a list of all virtual machine image versions for the specified edge zone
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param options The options parameters.
    */
@@ -36,7 +36,7 @@ export interface VirtualMachineImages {
   ): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
   /**
    * Gets a list of virtual machine image publishers for the specified Azure location.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listPublishers(
@@ -45,7 +45,7 @@ export interface VirtualMachineImages {
   ): Promise<VirtualMachineImagesListPublishersResponse>;
   /**
    * Gets a list of virtual machine image offers for the specified location and publisher.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param options The options parameters.
    */
@@ -56,7 +56,7 @@ export interface VirtualMachineImages {
   ): Promise<VirtualMachineImagesListOffersResponse>;
   /**
    * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param options The options parameters.
@@ -70,7 +70,7 @@ export interface VirtualMachineImages {
   /**
    * Gets a list of all virtual machine image versions for the specified location, publisher, offer, and
    * SKU.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
@@ -85,7 +85,7 @@ export interface VirtualMachineImages {
   ): Promise<VirtualMachineImagesListResponse>;
   /**
    * Gets a virtual machine image.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.

@@ -47,7 +47,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to get all extensions of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param options The options parameters.
@@ -66,7 +66,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to get the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -93,11 +93,11 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to create or update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
-   * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+   * @param resource Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -105,7 +105,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     vmScaleSetName: string,
     instanceId: string,
     vmExtensionName: string,
-    extensionParameters: VirtualMachineScaleSetVMExtension,
+    resource: VirtualMachineScaleSetVMExtension,
     options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -158,7 +158,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
         vmScaleSetName,
         instanceId,
         vmExtensionName,
-        extensionParameters,
+        resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -169,6 +169,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -176,11 +177,11 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to create or update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
-   * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+   * @param resource Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -188,7 +189,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     vmScaleSetName: string,
     instanceId: string,
     vmExtensionName: string,
-    extensionParameters: VirtualMachineScaleSetVMExtension,
+    resource: VirtualMachineScaleSetVMExtension,
     options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -196,7 +197,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
       vmScaleSetName,
       instanceId,
       vmExtensionName,
-      extensionParameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -204,7 +205,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -280,6 +281,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -287,7 +289,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -315,7 +317,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to delete the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -380,6 +382,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -387,7 +390,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to delete the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -424,7 +427,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -446,7 +449,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -478,7 +481,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.extensionParameters2,
+  requestBody: Parameters.resource14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -498,21 +501,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.extensionParameters3,
+  requestBody: Parameters.extensionParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

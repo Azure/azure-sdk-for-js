@@ -40,7 +40,7 @@ export class VirtualMachineImagesEdgeZoneImpl
 
   /**
    * Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param options The options parameters.
    */
@@ -57,7 +57,7 @@ export class VirtualMachineImagesEdgeZoneImpl
 
   /**
    * Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param options The options parameters.
@@ -77,7 +77,7 @@ export class VirtualMachineImagesEdgeZoneImpl
   /**
    * Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and
    * offer.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
@@ -99,7 +99,7 @@ export class VirtualMachineImagesEdgeZoneImpl
   /**
    * Gets a list of all virtual machine image versions for the specified location, edge zone, publisher,
    * offer, and SKU.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
@@ -122,7 +122,7 @@ export class VirtualMachineImagesEdgeZoneImpl
 
   /**
    * Gets a virtual machine image in an edge zone.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
@@ -166,14 +166,14 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
   ],
   headerParameters: [Parameters.accept],
@@ -197,14 +197,14 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
     Parameters.publisherName,
   ],
@@ -229,14 +229,14 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,
@@ -262,19 +262,19 @@ const listOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand1,
+    Parameters.expand,
     Parameters.top,
     Parameters.orderby,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,
@@ -298,7 +298,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,

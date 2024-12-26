@@ -26,9 +26,9 @@ import {
 export interface VirtualMachineScaleSetVMRunCommands {
   /**
    * The operation to get all run commands of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
    * @param options The options parameters.
    */
   list(
@@ -39,10 +39,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /**
    * The operation to get the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   get(
@@ -54,11 +54,11 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
   /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -66,7 +66,7 @@ export interface VirtualMachineScaleSetVMRunCommands {
     vmScaleSetName: string,
     instanceId: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -76,11 +76,11 @@ export interface VirtualMachineScaleSetVMRunCommands {
   >;
   /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param body Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -88,16 +88,16 @@ export interface VirtualMachineScaleSetVMRunCommands {
     vmScaleSetName: string,
     instanceId: string,
     runCommandName: string,
-    runCommand: VirtualMachineRunCommand,
+    body: VirtualMachineRunCommand,
     options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>;
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -115,11 +115,11 @@ export interface VirtualMachineScaleSetVMRunCommands {
   >;
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -132,10 +132,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<VirtualMachineScaleSetVMRunCommandsUpdateResponse>;
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDelete(
@@ -147,10 +147,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDeleteAndWait(

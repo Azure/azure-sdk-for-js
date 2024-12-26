@@ -21,9 +21,6 @@ import {
   AvailabilitySetsListNextOptionalParams,
   AvailabilitySetsListOptionalParams,
   AvailabilitySetsListResponse,
-  VirtualMachineSize,
-  AvailabilitySetsListAvailableSizesOptionalParams,
-  AvailabilitySetsListAvailableSizesResponse,
   AvailabilitySetsGetOptionalParams,
   AvailabilitySetsGetResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
@@ -32,6 +29,8 @@ import {
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
+  AvailabilitySetsListAvailableSizesOptionalParams,
+  AvailabilitySetsListAvailableSizesResponse,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse,
 } from "../models";
@@ -105,7 +104,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -166,73 +165,6 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
-   * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
-   * existing availability set.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName The name of the availability set.
-   * @param options The options parameters.
-   */
-  public listAvailableSizes(
-    resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineSize> {
-    const iter = this.listAvailableSizesPagingAll(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAvailableSizesPagingPage(
-          resourceGroupName,
-          availabilitySetName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listAvailableSizesPagingPage(
-    resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: AvailabilitySetsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    );
-    yield result.value || [];
-  }
-
-  private async *listAvailableSizesPagingAll(
-    resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams,
-  ): AsyncIterableIterator<VirtualMachineSize> {
-    for await (const page of this.listAvailableSizesPagingPage(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all availability sets in a subscription.
    * @param options The options parameters.
    */
@@ -247,7 +179,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -262,7 +194,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Retrieves information about an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -279,26 +211,26 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Create or update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
-   * @param parameters Parameters supplied to the Create Availability Set operation.
+   * @param resource Parameters supplied to the Create Availability Set operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     availabilitySetName: string,
-    parameters: AvailabilitySet,
+    resource: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, availabilitySetName, parameters, options },
+      { resourceGroupName, availabilitySetName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Update Availability Set operation.
    * @param options The options parameters.
@@ -317,7 +249,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Delete an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -335,11 +267,11 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
    * existing availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
-  private _listAvailableSizes(
+  listAvailableSizes(
     resourceGroupName: string,
     availabilitySetName: string,
     options?: AvailabilitySetsListAvailableSizesOptionalParams,
@@ -367,7 +299,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -396,7 +328,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -453,7 +385,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -476,7 +408,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -542,8 +474,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -561,8 +493,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

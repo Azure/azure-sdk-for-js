@@ -4,7 +4,125 @@
     
 ### Features Added
 
+  - Added Interface CapacityReservationsCreateOrUpdateHeaders
+  - Added Interface CapacityReservationsDeleteHeaders
+  - Added Interface CapacityReservationsUpdateHeaders
+  - Added Interface DedicatedHostsCreateOrUpdateHeaders
+  - Added Interface DedicatedHostsDeleteHeaders
+  - Added Interface DedicatedHostsRestartHeaders
+  - Added Interface DedicatedHostsUpdateHeaders
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ImagesCreateOrUpdateHeaders
+  - Added Interface ImagesDeleteHeaders
+  - Added Interface ImagesUpdateHeaders
+  - Added Interface LogAnalyticsExportRequestRateByIntervalHeaders
+  - Added Interface LogAnalyticsExportThrottledRequestsHeaders
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface RestorePointCollectionsDeleteHeaders
+  - Added Interface RestorePointsCreateHeaders
+  - Added Interface RestorePointsDeleteHeaders
+  - Added Interface TrackedResource
+  - Added Interface VirtualMachineExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineExtensionsDeleteHeaders
+  - Added Interface VirtualMachineExtensionsUpdateHeaders
+  - Added Interface VirtualMachineRunCommandsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineRunCommandsDeleteHeaders
+  - Added Interface VirtualMachineRunCommandsUpdateHeaders
+  - Added Interface VirtualMachinesAssessPatchesHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesCancelHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetsDeallocateHeaders
+  - Added Interface VirtualMachineScaleSetsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetsDeleteInstancesHeaders
+  - Added Interface VirtualMachineScaleSetsPerformMaintenanceHeaders
+  - Added Interface VirtualMachineScaleSetsPowerOffHeaders
+  - Added Interface VirtualMachineScaleSetsRedeployHeaders
+  - Added Interface VirtualMachineScaleSetsReimageAllHeaders
+  - Added Interface VirtualMachineScaleSetsReimageHeaders
+  - Added Interface VirtualMachineScaleSetsRestartHeaders
+  - Added Interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders
+  - Added Interface VirtualMachineScaleSetsStartHeaders
+  - Added Interface VirtualMachineScaleSetsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetsUpdateInstancesHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMsDeallocateHeaders
+  - Added Interface VirtualMachineScaleSetVMsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMsPerformMaintenanceHeaders
+  - Added Interface VirtualMachineScaleSetVMsPowerOffHeaders
+  - Added Interface VirtualMachineScaleSetVMsRedeployHeaders
+  - Added Interface VirtualMachineScaleSetVMsReimageAllHeaders
+  - Added Interface VirtualMachineScaleSetVMsReimageHeaders
+  - Added Interface VirtualMachineScaleSetVMsRestartHeaders
+  - Added Interface VirtualMachineScaleSetVMsRunCommandHeaders
+  - Added Interface VirtualMachineScaleSetVMsStartHeaders
+  - Added Interface VirtualMachineScaleSetVMsUpdateHeaders
+  - Added Interface VirtualMachinesCaptureHeaders
+  - Added Interface VirtualMachinesConvertToManagedDisksHeaders
+  - Added Interface VirtualMachinesCreateOrUpdateHeaders
+  - Added Interface VirtualMachinesDeallocateHeaders
+  - Added Interface VirtualMachinesDeleteHeaders
+  - Added Interface VirtualMachinesInstallPatchesHeaders
+  - Added Interface VirtualMachinesPerformMaintenanceHeaders
+  - Added Interface VirtualMachinesPowerOffHeaders
+  - Added Interface VirtualMachinesReapplyHeaders
+  - Added Interface VirtualMachinesRedeployHeaders
+  - Added Interface VirtualMachinesReimageHeaders
+  - Added Interface VirtualMachinesRestartHeaders
+  - Added Interface VirtualMachinesRunCommandHeaders
+  - Added Interface VirtualMachinesStartHeaders
+  - Added Interface VirtualMachinesUpdateHeaders
+  - Added Type Alias ActionType
+  - Added Type Alias CreatedByType
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias Origin
+  - Added Type Alias VirtualMachineScaleSetRollingUpgradesCancelResponse
+  - Added Type Alias VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetsDeallocateResponse
+  - Added Type Alias VirtualMachineScaleSetsPerformMaintenanceResponse
+  - Added Type Alias VirtualMachinesPerformMaintenanceResponse
+  - Added Type Alias VirtualMachinesPowerOffResponse
+  - Added Type Alias VirtualMachinesReimageResponse
+  - Added Type Alias VirtualMachinesStartResponse
   - Interface ComputeManagementClientOptionalParams has a new optional parameter apiVersion
+  - Interface DedicatedHostsRedeployHeaders has a new optional parameter retryAfter
+  - Interface Resource has a new optional parameter systemData
+  - Interface RestorePointSourceVMStorageProfile has a new optional parameter dataDiskList
+  - Interface SystemData has a new optional parameter createdBy
+  - Interface SystemData has a new optional parameter createdByType
+  - Interface SystemData has a new optional parameter lastModifiedBy
+  - Interface SystemData has a new optional parameter lastModifiedByType
+  - Interface VirtualMachinesAttachDetachDataDisksHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetsReapplyHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders has a new optional parameter retryAfter
+  - Add parameters of DedicatedHostsUpdateHeaders to TypeAlias DedicatedHostsUpdateResponse
+  - Add parameters of RestorePointsCreateHeaders to TypeAlias RestorePointsCreateResponse
+  - Add parameters of VirtualMachineExtensionsUpdateHeaders to TypeAlias VirtualMachineExtensionsUpdateResponse
+  - Add parameters of VirtualMachineRunCommandsUpdateHeaders to TypeAlias VirtualMachineRunCommandsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetsUpdateHeaders to TypeAlias VirtualMachineScaleSetsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetVMExtensionsUpdateHeaders to TypeAlias VirtualMachineScaleSetVMExtensionsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetVMRunCommandsUpdateHeaders to TypeAlias VirtualMachineScaleSetVMRunCommandsUpdateResponse
+  - Add parameters of VirtualMachinesUpdateHeaders to TypeAlias VirtualMachinesUpdateResponse
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownOrigin
 
 ### Breaking Changes
 
@@ -34,6 +152,14 @@
   - Removed operation group SharedGalleryImageVersions
   - Removed operation group Snapshots
   - Removed operation group SoftDeletedResource
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Interface RestorePointSourceVMStorageProfile no longer has parameter dataDisks
+  - Interface VirtualMachineScaleSetExtension no longer has parameter name
+  - Interface VirtualMachineScaleSetExtension no longer has parameter type
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter name
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter type
+  - Parameter value of interface RestorePointCollectionListResult is now required
   - Class ComputeManagementClient no longer has parameter cloudServiceOperatingSystems
   - Class ComputeManagementClient no longer has parameter cloudServiceRoleInstances
   - Class ComputeManagementClient no longer has parameter cloudServiceRoles
@@ -64,6 +190,7 @@
   - Removed Enum KnownAccessLevel
   - Removed Enum KnownAggregatedReplicationState
   - Removed Enum KnownArchitecture
+  - Removed Enum KnownAvailabilitySetSkuTypes
   - Removed Enum KnownCloudServiceSlotType
   - Removed Enum KnownCloudServiceUpgradeMode
   - Removed Enum KnownConfidentialVMEncryptionType
@@ -106,6 +233,7 @@
   - Removed Enum KnownUefiKeyType
   - Removed Enum KnownUefiSignatureTemplateName
   - Removed Enum KnownValidationStatus
+  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
     
     
 ## 22.2.0 (2024-12-11)

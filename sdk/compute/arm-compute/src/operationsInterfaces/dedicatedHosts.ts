@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedHost,
   DedicatedHostsListByHostGroupOptionalParams,
-  DedicatedHostsListAvailableSizesOptionalParams,
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
   DedicatedHostsCreateOrUpdateOptionalParams,
@@ -20,6 +19,8 @@ import {
   DedicatedHostsUpdateOptionalParams,
   DedicatedHostsUpdateResponse,
   DedicatedHostsDeleteOptionalParams,
+  DedicatedHostsListAvailableSizesOptionalParams,
+  DedicatedHostsListAvailableSizesResponse,
   DedicatedHostsRedeployOptionalParams,
   DedicatedHostsRedeployResponse,
   DedicatedHostsRestartOptionalParams,
@@ -31,7 +32,7 @@ export interface DedicatedHosts {
   /**
    * Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in
    * the response to get the next page of dedicated hosts.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param options The options parameters.
    */
@@ -41,22 +42,8 @@ export interface DedicatedHosts {
     options?: DedicatedHostsListByHostGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHost>;
   /**
-   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
-   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  listAvailableSizes(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsListAvailableSizesOptionalParams,
-  ): PagedAsyncIterableIterator<string>;
-  /**
    * Retrieves information about a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -69,17 +56,17 @@ export interface DedicatedHosts {
   ): Promise<DedicatedHostsGetResponse>;
   /**
    * Create or update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
-   * @param parameters Parameters supplied to the Create Dedicated Host.
+   * @param hostName The name of the dedicated host.
+   * @param resource Parameters supplied to the Create Dedicated Host.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    parameters: DedicatedHost,
+    resource: DedicatedHost,
     options?: DedicatedHostsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -89,24 +76,24 @@ export interface DedicatedHosts {
   >;
   /**
    * Create or update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
-   * @param parameters Parameters supplied to the Create Dedicated Host.
+   * @param hostName The name of the dedicated host.
+   * @param resource Parameters supplied to the Create Dedicated Host.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    parameters: DedicatedHost,
+    resource: DedicatedHost,
     options?: DedicatedHostsCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHostsCreateOrUpdateResponse>;
   /**
    * Update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Update Dedicated Host operation.
    * @param options The options parameters.
    */
@@ -124,9 +111,9 @@ export interface DedicatedHosts {
   >;
   /**
    * Update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Update Dedicated Host operation.
    * @param options The options parameters.
    */
@@ -139,7 +126,7 @@ export interface DedicatedHosts {
   ): Promise<DedicatedHostsUpdateResponse>;
   /**
    * Delete a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -152,7 +139,7 @@ export interface DedicatedHosts {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -164,11 +151,25 @@ export interface DedicatedHosts {
     options?: DedicatedHostsDeleteOptionalParams,
   ): Promise<void>;
   /**
+   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
+   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  listAvailableSizes(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams,
+  ): Promise<DedicatedHostsListAvailableSizesResponse>;
+  /**
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
    * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -189,7 +190,7 @@ export interface DedicatedHosts {
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
    * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -205,7 +206,7 @@ export interface DedicatedHosts {
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
    * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -221,7 +222,7 @@ export interface DedicatedHosts {
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
    * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.

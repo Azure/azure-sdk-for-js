@@ -45,8 +45,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to get all extensions of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
   list(
@@ -62,8 +62,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to get the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param options The options parameters.
    */
@@ -81,17 +81,17 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to create or update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be created or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
-   * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+   * @param resource Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    extensionParameters: VirtualMachineExtension,
+    resource: VirtualMachineExtension,
     options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -139,13 +139,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        vmName,
-        vmExtensionName,
-        extensionParameters,
-        options,
-      },
+      args: { resourceGroupName, vmName, vmExtensionName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -154,6 +148,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -161,24 +156,24 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to create or update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be created or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
-   * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
+   * @param resource Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    extensionParameters: VirtualMachineExtension,
+    resource: VirtualMachineExtension,
     options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vmName,
       vmExtensionName,
-      extensionParameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -186,8 +181,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -259,6 +254,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -266,8 +262,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -291,8 +287,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param options The options parameters.
    */
@@ -348,6 +344,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -355,8 +352,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param options The options parameters.
    */
@@ -389,7 +386,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -410,13 +407,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -441,14 +438,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.extensionParameters4,
+  requestBody: Parameters.resource15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -460,28 +457,32 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.extensionParameters5,
+  requestBody: Parameters.extensionParameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -504,8 +505,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

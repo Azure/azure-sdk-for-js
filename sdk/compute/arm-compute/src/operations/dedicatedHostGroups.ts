@@ -104,7 +104,7 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
   /**
    * Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in
    * the response to get the next page of dedicated host groups.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -188,7 +188,7 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
   /**
    * Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in
    * the response to get the next page of dedicated host groups.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -203,7 +203,7 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
 
   /**
    * Retrieves information about a dedicated host group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param options The options parameters.
    */
@@ -221,26 +221,26 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
   /**
    * Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups
    * please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param parameters Parameters supplied to the Create Dedicated Host Group.
+   * @param resource Parameters supplied to the Create Dedicated Host Group.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     hostGroupName: string,
-    parameters: DedicatedHostGroup,
+    resource: DedicatedHostGroup,
     options?: DedicatedHostGroupsCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHostGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostGroupName, parameters, options },
+      { resourceGroupName, hostGroupName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Update an dedicated host group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param parameters Parameters supplied to the Update Dedicated Host Group operation.
    * @param options The options parameters.
@@ -259,7 +259,7 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
 
   /**
    * Delete a dedicated host group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param options The options parameters.
    */
@@ -291,7 +291,7 @@ export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -356,7 +356,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  queryParameters: [Parameters.apiVersion, Parameters.expand3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -380,7 +380,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -403,7 +403,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -448,8 +448,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -467,8 +467,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
