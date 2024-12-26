@@ -463,3 +463,11 @@ export interface UpdateTranscriptionOptions extends OperationOptions {
    */
   operationCallbackUrl?: string;
 }
+
+/**
+ * Options to interrupt audio and announce.
+ */
+export interface InterruptAudioAndAnnounceOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
