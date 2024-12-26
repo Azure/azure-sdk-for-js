@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ContainerServiceFleetClient } from "../src/containerServiceFleetClient";
+import { ContainerServiceFleetClient } from "../src/containerServiceFleetClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -42,8 +40,8 @@ describe("containerservicefleet test", () => {
   let resourceGroup: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -96,7 +94,6 @@ describe("containerservicefleet test", () => {
 
   it("fleets delete test", async function () {
     const resArray = new Array();
-    const res = await client.fleets.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
