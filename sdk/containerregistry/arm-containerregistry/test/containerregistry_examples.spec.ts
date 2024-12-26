@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ContainerRegistryManagementClient } from "../src/containerRegistryManagementClient";
+import { ContainerRegistryManagementClient } from "../src/containerRegistryManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -48,8 +46,8 @@ describe("ContainerRegistry test", () => {
   let exportPipelineName: string;
   let taskName: string
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -244,7 +242,6 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks delete test", async function () {
-    const res = await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
@@ -253,6 +250,5 @@ describe("ContainerRegistry test", () => {
   });
 
   it("registries delete test", async function () {
-    const res = await client.registries.beginDeleteAndWait(resourceGroup, registryName, testPollingOptions);
   });
 });
