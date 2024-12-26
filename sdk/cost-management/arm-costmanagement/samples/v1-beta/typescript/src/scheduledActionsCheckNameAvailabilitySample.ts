@@ -13,9 +13,7 @@ import {
   CostManagementClient
 } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks availability and correctness of the name for a scheduled action.
