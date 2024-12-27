@@ -48,16 +48,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   it("clusters create test", async function () {
     const parameters: ClustersCreateOrUpdateParameters = {
       body: {
-        type: "Microsoft.ServiceFabric/clusters",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName,
-        name: clusterName,
         properties: {
           managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
           fabricSettings: [
@@ -118,18 +109,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   it("applicationTypes create test", async function () {
     const parameters: ApplicationTypesCreateOrUpdateParameters = {
       body: {
-        type: "applicationTypes",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName +
-          "/applicationTypes/" +
-          applicationTypeName,
-        name: "myCluster",
       },
     };
     const result = await client
@@ -198,7 +178,7 @@ describe("Service Fabric Rest Level Client Test", () => {
 
   it("clusters update test", async function () {
     if (isPlaybackMode()) {
-      ctx.skip();
+      this.skip();
     }
     const parameters: ClustersUpdateParameters = {
       body: {
