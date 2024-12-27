@@ -97,7 +97,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managedclustersstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservice-rest/samples/v1-beta/typescript/src/managedClustersStartSample.ts
 [managedclustersstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservice-rest/samples/v1-beta/typescript/src/managedClustersStopSample.ts
 [managedclustersupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservice-rest/samples/v1-beta/typescript/src/managedClustersUpdateTagsSample.ts
-[apiref]: https://docs.microsoft.com/rest/api/aks
+[apiref]: https://learn.microsoft.com/rest/api/aks
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservice-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
