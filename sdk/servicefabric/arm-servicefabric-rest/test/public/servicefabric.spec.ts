@@ -3,7 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type {
   ApplicationTypeResourceListOutput,
@@ -16,6 +15,7 @@ import type {
   ServiceFabricClient,
 } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
