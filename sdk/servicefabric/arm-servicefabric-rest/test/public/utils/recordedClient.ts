@@ -8,7 +8,6 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { ServiceFabricClient } from "../../../src/index";
 import ServiceFabricManagementClient from "../../../src/index";
-import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
