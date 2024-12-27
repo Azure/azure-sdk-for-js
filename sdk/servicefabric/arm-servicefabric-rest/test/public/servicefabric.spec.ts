@@ -30,8 +30,8 @@ describe("Service Fabric Rest Level Client Test", () => {
   let clusterName: string;
   let applicationTypeName: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     client = await createClient(recorder);
@@ -48,16 +48,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   it("clusters create test", async function () {
     const parameters: ClustersCreateOrUpdateParameters = {
       body: {
-        type: "Microsoft.ServiceFabric/clusters",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName,
-        name: clusterName,
         properties: {
           managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
           fabricSettings: [
@@ -109,7 +100,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .put(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).name, clusterName);
@@ -118,18 +109,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   it("applicationTypes create test", async function () {
     const parameters: ApplicationTypesCreateOrUpdateParameters = {
       body: {
-        type: "applicationTypes",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName +
-          "/applicationTypes/" +
-          applicationTypeName,
-        name: "myCluster",
       },
     };
     const result = await client
@@ -196,7 +176,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceListOutput).value?.length, 1);
   });
 
-  it("clusters update test", async function () {
+  it("clusters update test", async function (ctx) {
     if (isPlaybackMode()) {
       ctx.skip();
     }
@@ -254,7 +234,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .patch(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).properties?.upgradeMode, "Automatic");
@@ -270,7 +250,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         applicationTypeName,
       )
       .delete();
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const deleteResult = await poller.pollUntilDone();
     assert.equal(deleteResult.status, "204");
 
