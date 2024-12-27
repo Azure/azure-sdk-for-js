@@ -32,7 +32,7 @@ import {
   ServicesUpdateParameters,
   ServicesDeleteParameters,
   ServicesListParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   ClustersGet200Response,
   ClustersGetDefaultResponse,
@@ -101,7 +101,7 @@ import {
   ServicesDeleteDefaultResponse,
   ServicesList200Response,
   ServicesListDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ClustersGet {
