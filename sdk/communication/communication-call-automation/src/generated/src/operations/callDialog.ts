@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CallDialog } from "../operationsInterfaces/index.js";
+import { CallDialog } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CallAutomationApiClient } from "../callAutomationApiClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CallAutomationApiClient } from "../callAutomationApiClient";
 import {
   StartDialogRequest,
   CallDialogStartDialogOptionalParams,
@@ -18,7 +18,7 @@ import {
   CallDialogStopDialogOptionalParams,
   UpdateDialogRequest,
   CallDialogUpdateDialogOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing CallDialog operations. */
 export class CallDialogImpl implements CallDialog {
