@@ -26,10 +26,9 @@ export interface ClustersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ClustersCreateOrUpdateParameters =
-  ClustersCreateOrUpdateMediaTypesParam &
-    ClustersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ClustersCreateOrUpdateParameters = ClustersCreateOrUpdateMediaTypesParam &
+  ClustersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ClustersUpdateBodyParam {
   /** The parameters which contains the property value and property name which used to update the cluster configuration. */
@@ -115,10 +114,9 @@ export interface ApplicationsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ApplicationsCreateOrUpdateParameters =
-  ApplicationsCreateOrUpdateMediaTypesParam &
-    ApplicationsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ApplicationsCreateOrUpdateParameters = ApplicationsCreateOrUpdateMediaTypesParam &
+  ApplicationsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ApplicationsUpdateBodyParam {
   /** The application resource for patch operations. */
@@ -147,10 +145,9 @@ export interface ServicesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ServicesCreateOrUpdateParameters =
-  ServicesCreateOrUpdateMediaTypesParam &
-    ServicesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ServicesCreateOrUpdateParameters = ServicesCreateOrUpdateMediaTypesParam &
+  ServicesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ServicesUpdateBodyParam {
   /** The service resource for patch operations. */

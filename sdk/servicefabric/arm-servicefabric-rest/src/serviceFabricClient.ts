@@ -21,8 +21,7 @@ export default function createClient(
   credentials: TokenCredential,
   { apiVersion = "2021-06-01", ...options }: ServiceFabricClientOptions = {},
 ): ServiceFabricClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
   const userAgentInfo = `azsdk-js-arm-servicefabric-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -37,16 +36,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://management.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as ServiceFabricClient;
+  const client = getClient(endpointUrl, credentials, options) as ServiceFabricClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

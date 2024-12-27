@@ -90,8 +90,7 @@ export interface ClustersListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Gets all Service Fabric cluster resources created or in the process of being created in the resource group. */
-export interface ClustersListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface ClustersListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -109,15 +108,13 @@ export interface ClustersListDefaultResponse extends HttpResponse {
 }
 
 /** If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version. */
-export interface ClustersListUpgradableVersions200Response
-  extends HttpResponse {
+export interface ClustersListUpgradableVersions200Response extends HttpResponse {
   status: "200";
   body: UpgradableVersionPathResultOutput;
 }
 
 /** If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version. */
-export interface ClustersListUpgradableVersionsDefaultResponse
-  extends HttpResponse {
+export interface ClustersListUpgradableVersionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -135,15 +132,13 @@ export interface ClusterVersionsGetDefaultResponse extends HttpResponse {
 }
 
 /** Gets information about an available Service Fabric cluster code version by environment. */
-export interface ClusterVersionsGetByEnvironment200Response
-  extends HttpResponse {
+export interface ClusterVersionsGetByEnvironment200Response extends HttpResponse {
   status: "200";
   body: ClusterCodeVersionsListResultOutput;
 }
 
 /** Gets information about an available Service Fabric cluster code version by environment. */
-export interface ClusterVersionsGetByEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface ClusterVersionsGetByEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -161,15 +156,13 @@ export interface ClusterVersionsListDefaultResponse extends HttpResponse {
 }
 
 /** Gets all available code versions for Service Fabric cluster resources by environment. */
-export interface ClusterVersionsListByEnvironment200Response
-  extends HttpResponse {
+export interface ClusterVersionsListByEnvironment200Response extends HttpResponse {
   status: "200";
   body: ClusterCodeVersionsListResultOutput;
 }
 
 /** Gets all available code versions for Service Fabric cluster resources by environment. */
-export interface ClusterVersionsListByEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface ClusterVersionsListByEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -199,15 +192,13 @@ export interface ApplicationTypesGetDefaultResponse extends HttpResponse {
 }
 
 /** Create or update a Service Fabric application type name resource with the specified name. */
-export interface ApplicationTypesCreateOrUpdate200Response
-  extends HttpResponse {
+export interface ApplicationTypesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: ApplicationTypeResourceOutput;
 }
 
 /** Create or update a Service Fabric application type name resource with the specified name. */
-export interface ApplicationTypesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ApplicationTypesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -247,22 +238,19 @@ export interface ApplicationTypeVersionsGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource. */
-export interface ApplicationTypeVersionsGetDefaultResponse
-  extends HttpResponse {
+export interface ApplicationTypeVersionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
 
 /** Create or update a Service Fabric application type version resource with the specified name. */
-export interface ApplicationTypeVersionsCreateOrUpdate202Response
-  extends HttpResponse {
+export interface ApplicationTypeVersionsCreateOrUpdate202Response extends HttpResponse {
   status: "202";
   body: ApplicationTypeVersionResourceOutput;
 }
 
 /** Create or update a Service Fabric application type version resource with the specified name. */
-export interface ApplicationTypeVersionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ApplicationTypeVersionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -278,8 +266,7 @@ export interface ApplicationTypeVersionsDelete204Response extends HttpResponse {
 }
 
 /** Delete a Service Fabric application type version resource with the specified name. */
-export interface ApplicationTypeVersionsDeleteDefaultResponse
-  extends HttpResponse {
+export interface ApplicationTypeVersionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -291,8 +278,7 @@ export interface ApplicationTypeVersionsList200Response extends HttpResponse {
 }
 
 /** Gets all application type version resources created or in the process of being created in the Service Fabric application type name resource. */
-export interface ApplicationTypeVersionsListDefaultResponse
-  extends HttpResponse {
+export interface ApplicationTypeVersionsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -316,8 +302,7 @@ export interface ApplicationsCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a Service Fabric application resource with the specified name. */
-export interface ApplicationsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ApplicationsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
