@@ -392,7 +392,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           let headers: CosmosHeaders;
           try {
             // const response = await documentProducer.nextItem(diagnosticNode);
-            const response = await documentProducer.peakNextItem();
+            const response = await documentProducer.fetchNextItem();
             item = response.result;
             headers = response.headers;
             this._mergeWithActiveResponseHeaders(headers);
@@ -574,6 +574,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         );
         // no more buffers to fetch
         if (this.unfilledDocumentProducersQueue.size() === 0) {
+          this.state = ParallelQueryExecutionContextBase.STATES.ended;
           this.sem.leave();
           resolve();
           return;
@@ -611,7 +612,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           }
 
           const ifCallback = (): void => {
-            console.log("ifCallback");
             this.sem.leave();
             resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
           };
@@ -651,7 +651,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               console.log("all document producers buffered");
             } catch (err) {
               this.err = err;
-              this.sem.leave();
               this.err.headers = this._getAndResetActiveResponseHeaders();
               reject(err);
               return;
