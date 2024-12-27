@@ -262,6 +262,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const replacementPartitionKeyRanges: any[] =
         await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
 
+      if (replacementPartitionKeyRanges.length === 0) {
+        throw new Error("PartitionKeyRangeGone error but no replacement partition key ranges");
+      }
+
       if (replacementPartitionKeyRanges.length === 1) {
         // Partition is gone due to Merge
         // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
