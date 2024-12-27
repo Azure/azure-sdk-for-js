@@ -31,7 +31,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  */
 
 export async function createRecorder(context: TestInfo): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

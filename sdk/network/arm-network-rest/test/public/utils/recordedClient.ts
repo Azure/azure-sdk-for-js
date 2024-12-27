@@ -26,7 +26,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * read before they are being used.
  */
 export async function createRecorder(context: TestInfo): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
