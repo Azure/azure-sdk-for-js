@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client } from "@azure-rest/core-client";
+import type { Client, HttpResponse } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   OpenAIPageableListOfVectorStoreFileOutput,
   VectorStoreFileBatchOutput,
 } from "../customization/outputModels.js";
-import { AgentsPoller } from "./poller.js";
 import type {
   CancelVectorStoreFileBatchOptionalParams,
   CreateVectorStoreFileBatchOptionalParams,
-  CreateVectorStoreFileBatchWithPollingOptionalParams,
+  CreateVectorStoreFileBatchResponse,
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
 } from "./customModels.js";
@@ -25,10 +24,15 @@ import type {
   CreateVectorStoreFileBatchParameters,
   ListVectorStoreFileBatchFilesParameters,
 } from "../generated/src/parameters.js";
+import type {
+  VectorStoreFileBatchOutput as WireVectorStoreFileBatchOutput,
+} from "../generated/src/outputModels.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { OperationResponse, OperationState, RawRequest, RunningOperation } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 const expectedStatuses = ["200"];
 
@@ -37,21 +41,61 @@ export async function createVectorStoreFileBatch(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = {},
-): Promise<VectorStoreFileBatchOutput> {
+): Promise<CreateVectorStoreFileBatchResponse> {
   const createOptions: CreateVectorStoreFileBatchParameters = {
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileBatchParam({ body: options }),
   };
-
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileBatchParameters(createOptions);
-  const result = await context
+
+  const initialResponse = await context
     .path("/vector_stores/{vectorStoreId}/file_batches", vectorStoreId)
     .post(createOptions);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createOpenAIError(result);
+  if (!expectedStatuses.includes(initialResponse.status)) {
+    throw createOpenAIError(initialResponse);
   }
-  return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
+
+  const abortController = new AbortController();
+  const poller: RunningOperation<VectorStoreFileBatchOutput> = {
+    sendInitialRequest: async () => generateLroResponse(initialResponse),
+    sendPollRequest: async (_path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      let response;
+      try {
+        const getOptions: GetVectorStoreFileBatchOptionalParams = {
+          ...operationOptionsToRequestParameters(options),
+        };
+        response = await context
+          .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}", vectorStoreId, initialResponse.body.id)
+          .get({ ...getOptions, abortSignal });
+          if (!expectedStatuses.includes(response.status)) {
+            throw createOpenAIError(response);
+          }
+      } finally {
+        inputAbortSignal?.removeEventListener("abort", abortListener);
+      }
+      return generateLroResponse(response);
+    }
+  }
+
+  return {
+    ...ConvertFromWire.convertVectorStoreFileBatchOutput(initialResponse.body),
+    poller: createHttpPoller<VectorStoreFileBatchOutput, OperationState<VectorStoreFileBatchOutput>>(poller, {
+      ...options.pollingOptions
+    }),
+  }
 }
 
 /** Retrieve a vector store file batch. */
@@ -114,44 +158,30 @@ export async function listVectorStoreFileBatchFiles(
   return ConvertFromWire.convertOpenAIPageableListOfVectorStoreFileOutput(result.body);
 }
 
-/** Create a vector store file batch and poll. */
-export function createVectorStoreFileBatchAndPoll(
-  context: Client,
-  vectorStoreId: string,
-  options: CreateVectorStoreFileBatchWithPollingOptionalParams = {},
-): PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput> {
-  async function updateCreateVectorStoreFileBatchPoll(
-    currentResult?: VectorStoreFileBatchOutput,
-  ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
-    let vectorStore: VectorStoreFileBatchOutput;
-    if (!currentResult) {
-      vectorStore = await createVectorStoreFileBatch(context, vectorStoreId, options);
-    } else {
-      vectorStore = await getVectorStoreFileBatch(
-        context,
-        vectorStoreId,
-        currentResult.id,
-        options,
-      );
+function generateLroResponse(response: HttpResponse) : OperationResponse<VectorStoreFileBatchOutput, RawRequest> {
+  const body = response.body as WireVectorStoreFileBatchOutput;
+  let statusCode;
+  // Possible values: "in_progress", "completed", "cancelled", "failed"
+  switch (body.status) {
+    case "completed":
+      statusCode = 200;
+      break;
+    case "in_progress":
+      statusCode = 202;
+      break;
+    default:
+      statusCode = 500;
+      break;
+  }
+  const convertedBody = ConvertFromWire.convertVectorStoreFileBatchOutput(body);
+  return {
+    flatResponse: convertedBody,
+    rawResponse: {
+      ...response,
+      statusCode: statusCode,
+      body: convertedBody,
     }
-    return {
-      result: vectorStore,
-      completed: vectorStore.status !== "in_progress",
-    };
-  }
-
-  async function cancelCreateVectorStoreFileBatchPoll(
-    currentResult: VectorStoreFileBatchOutput,
-  ): Promise<boolean> {
-    const result = await cancelVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
-    return result.status === "cancelled";
-  }
-
-  return new AgentsPoller<VectorStoreFileBatchOutput>({
-    update: updateCreateVectorStoreFileBatchPoll,
-    cancel: cancelCreateVectorStoreFileBatchPoll,
-    pollingOptions: options.pollingOptions,
-  });
+  };
 }
 
 function validateBatchId(batchId: string): void {

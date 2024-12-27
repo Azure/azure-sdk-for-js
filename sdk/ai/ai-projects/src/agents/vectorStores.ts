@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client } from "@azure-rest/core-client";
+import type { Client, HttpResponse } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoresParameters,
@@ -9,12 +9,15 @@ import type {
   ModifyVectorStoreParameters,
 } from "../generated/src/parameters.js";
 import type {
+  VectorStoreOutput as WireVectorStoreOutput
+} from "../generated/src/outputModels.js";
+import type {
   OpenAIPageableListOfVectorStoreOutput,
   VectorStoreDeletionStatusOutput,
   VectorStoreOutput,
 } from "../customization/outputModels.js";
-import { AgentsPoller } from "./poller.js";
-import type { CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
+import type {
+  CreateVectorStoreResponse} from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -33,7 +36,9 @@ import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.j
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { OperationState, RunningOperation, OperationResponse, RawRequest } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 const expectedStatuses = ["200"];
 
@@ -60,19 +65,58 @@ export async function listVectorStores(
 export async function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): Promise<VectorStoreOutput> {
+): Promise<CreateVectorStoreResponse> {
   const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
     ...operationOptionsToRequestParameters(options),
     body: ConvertToWire.convertVectorStoreOptions(options),
   };
-
   validateCreateVectorStoreParameters(createOptions);
-  const result = await context.path("/vector_stores").post(createOptions);
 
-  if (!expectedStatuses.includes(result.status)) {
-    throw createOpenAIError(result);
+  const initialResponse = await context.path("/vector_stores").post(createOptions);
+  if (!expectedStatuses.includes(initialResponse.status)) {
+    throw createOpenAIError(initialResponse);
   }
-  return ConvertFromWire.convertVectorStoreOutput(result.body);
+
+  const abortController = new AbortController();
+  const poller: RunningOperation<VectorStoreOutput> = {
+    sendInitialRequest: async () => generateLroResponse(initialResponse),
+    sendPollRequest: async (_path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      let response;
+      try {
+        const getOptions: GetVectorStoreOptionalParams = {
+          ...operationOptionsToRequestParameters(options),
+        };
+        response = await context
+          .path("/vector_stores/{vectorStoreId}", initialResponse.body.id)
+          .get({ ...getOptions, abortSignal});
+        if (!expectedStatuses.includes(initialResponse.status)) {
+          throw createOpenAIError(initialResponse);
+        }
+      } finally {
+        inputAbortSignal?.removeEventListener("abort", abortListener);
+      }
+      return generateLroResponse(response);
+    },
+  }
+
+  return {
+    ...ConvertFromWire.convertVectorStoreOutput(initialResponse.body),
+    poller: createHttpPoller<VectorStoreOutput, OperationState<VectorStoreOutput>>(poller, {
+      ...options.pollingOptions
+    }),
+  }
 }
 
 /** Returns the vector store object matching the specified ID. */
@@ -140,35 +184,30 @@ export async function deleteVectorStore(
   return ConvertFromWire.convertVectorStoreDeletionStatusOutput(result.body);
 }
 
-/**
- * Creates a vector store and poll.
- */
-export function createVectorStoreAndPoll(
-  context: Client,
-  options: CreateVectorStoreWithPollingOptionalParams = {},
-): PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput> {
-  async function updateCreateVectorStorePoll(
-    currentResult?: VectorStoreOutput,
-  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
-    let vectorStore: VectorStoreOutput;
-    if (!currentResult) {
-      vectorStore = await createVectorStore(context, options);
-    } else {
-      const getOptions: GetVectorStoreOptionalParams = {
-        ...operationOptionsToRequestParameters(options),
-      };
-      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
-    }
-    return {
-      result: vectorStore,
-      completed: vectorStore.status !== "in_progress",
-    };
+function generateLroResponse(response: HttpResponse) : OperationResponse<VectorStoreOutput, RawRequest> {
+  const body = response.body as WireVectorStoreOutput;
+  let statusCode;
+  // Possible values: "expired", "in_progress", "completed"
+  switch (body.status) {
+    case "completed":
+      statusCode = 200;
+      break;
+    case "in_progress":
+      statusCode = 202;
+      break;
+    default:
+      statusCode = 500;
+      break;
   }
-
-  return new AgentsPoller<VectorStoreOutput>({
-    update: updateCreateVectorStorePoll,
-    pollingOptions: options.pollingOptions,
-  });
+  const convertedBody = ConvertFromWire.convertVectorStoreOutput(body);
+  return {
+    flatResponse: convertedBody,
+    rawResponse: {
+      ...response,
+      statusCode: statusCode,
+      body: convertedBody,
+    }
+  };
 }
 
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {
