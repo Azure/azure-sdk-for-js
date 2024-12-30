@@ -272,8 +272,9 @@ export class InternalTableTransaction {
 
   /**
    * Submits the operations in the transaction
+   * @param options - Options for the request.
    */
-  public async submitTransaction(): Promise<TableTransactionResponse> {
+  public async submitTransaction(options: OperationOptions = {}): Promise<TableTransactionResponse> {
     await Promise.all(this.state.pendingOperations);
     const body = getTransactionHttpRequestBody(
       this.state.bodyParts,
@@ -285,7 +286,7 @@ export class InternalTableTransaction {
 
     return tracingClient.withSpan(
       "TableTransaction.submitTransaction",
-      {} as OperationOptions,
+      options,
       async (updatedOptions) => {
         const request = createPipelineRequest({
           url: this.url,
