@@ -70,7 +70,6 @@ export default (plugin: FlatConfig.Plugin) => ({
         "@azure/azure-sdk/github-source-headers": "warn",
         "@azure/azure-sdk/ts-apisurface-standardized-verbs": "off",
         "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
-        "@azure/azure-sdk/ts-config-include": "off",
         "@azure/azure-sdk/ts-doc-internal": "off",
         "@azure/azure-sdk/ts-doc-internal-private-member": "off",
         "@azure/azure-sdk/ts-error-handling": "off",
