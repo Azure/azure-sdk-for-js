@@ -67,6 +67,7 @@ export class Constants {
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
   public static readonly API_VERSION = "2024-09-01-preview";
+  public static readonly OS = "Os";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
   public static readonly SupportedRegions: string[] = [
     "eastus",
@@ -220,13 +221,13 @@ export const TestResultErrorConstants = [
     key: "QuotaLimitError_Scalable",
     message:
       "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded. Check the quota at https://aka.ms/mpt/resource-quota.",
-    pattern: /browserType.connect: Timeout .* exceeded/i,
+    pattern: /(?=.*browserType\.connect): (?=.*Timeout .* exceeded)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "BrowserConnectionError_Scalable",
     message: "The service is currently unavailable. Please try again after some time.",
-    pattern: /browserType.connect: Target page, context or browser has been closed/i,
+    pattern: /(?=.*browserType\.connect): (?=.Target page, context or browser has been closed)/i,
     type: TestErrorType.Scalable,
   },
 ];
