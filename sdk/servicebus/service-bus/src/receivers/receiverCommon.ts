@@ -28,8 +28,8 @@ import { delay, isDefined } from "@azure/core-util";
 import type { TracingSpanLink } from "@azure/core-tracing";
 import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
 import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
-import { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
-import { OperationOptions } from "@azure/core-client";
+import type { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
+import type { OperationOptions } from "@azure/core-client";
 
 /**
  * @internal

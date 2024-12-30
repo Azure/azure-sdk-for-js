@@ -51,7 +51,7 @@ import {
   type PagedAsyncIterableIterator,
   type PagedResult,
 } from "@azure/core-paging";
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 
 /**
  * The default time to wait for messages _after_ the first message

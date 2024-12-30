@@ -49,7 +49,8 @@ import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMess
 import { tracingClient } from "../diagnostics/tracing.js";
 import { receiverLogger as logger } from "../log.js";
 import { translateServiceBusError } from "../serviceBusError.js";
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
