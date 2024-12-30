@@ -137,12 +137,7 @@ export async function main(): Promise<void> {
 
   const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
   if (fileContent) {
-    const chunks: Buffer[] = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
+    fileContent.pipe(fs.createWriteStream(imageFileName));
   } else {
     console.error("Failed to retrieve file content: fileContent is undefined");
   }
