@@ -247,9 +247,9 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Uploaded file2, file2 ID: ${file2.id}`);
 
     // Create vector store file batch
-    const poller = agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
+    const poller = (await agents.createVectorStoreFileBatch(vectorStore.id, {
       fileIds: [file1.id, file2.id],
-    });
+    })).poller;
     const vectorStoreFileBatch = await poller.pollUntilDone();
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);

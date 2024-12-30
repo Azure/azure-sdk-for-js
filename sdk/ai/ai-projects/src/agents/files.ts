@@ -1,28 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   FileDeletionStatusOutput,
   FileListResponseOutput,
   OpenAIFileOutput,
 } from "../customization/outputModels.js";
+import type {
+  OpenAIFileOutput as WireOpenAIFileOutput,
+} from "../generated/src/outputModels.js";
 import type { FilePurpose as CustomizedFilePurpose } from "../customization/models.js";
 import type {
   DeleteFileOptionalParams,
   GetFileContentOptionalParams,
   GetFileOptionalParams,
   ListFilesOptionalParams,
-  UploadFileWithPollingOptionalParams,
+  UploadFileOptionalParams,
+  UploadFileResponse,
 } from "./customModels.js";
-import { AgentsPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParameters from "../customization/convertParametersToWire.js";
 import { randomUUID } from "@azure/core-util";
 import { createOpenAIError } from "./openAIError.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { RunningOperation} from "@azure/core-lro";
+import { createHttpPoller, type OperationResponse, type OperationState, type RawRequest } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
 const expectedStatuses = ["200"];
 
 enum FilePurpose {
@@ -57,8 +62,8 @@ export async function uploadFile(
   context: Client,
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
-): Promise<OpenAIFileOutput> {
+  options: UploadFileOptionalParams = {},
+): Promise<UploadFileResponse> {
   const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),
     body: [
@@ -67,38 +72,77 @@ export async function uploadFile(
     ],
     contentType: "multipart/form-data",
   };
-  const result = await context.path("/files").post(uploadFileOptions);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createOpenAIError(result);
+
+  const initialResponse = await context.path("/files").post(uploadFileOptions);
+  if (!expectedStatuses.includes(initialResponse.status)) {
+    throw createOpenAIError(initialResponse);
   }
-  return ConvertFromWire.convertOpenAIFileOutput(result.body);
+
+  const abortController = new AbortController();
+  const poller: RunningOperation<OpenAIFileOutput> = {
+    sendInitialRequest: async () => generateLroResponse(initialResponse),
+    sendPollRequest: async (_path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      let response;
+      try {
+        response = await context
+          .path("/files/{fileId}", initialResponse.body.id)
+          .get({ ...operationOptionsToRequestParameters(options), abortSignal });
+        if (!expectedStatuses.includes(response.status)) {
+          throw createOpenAIError(response);
+        }
+      } finally {
+        inputAbortSignal?.removeEventListener("abort", abortListener);
+      }
+      return generateLroResponse(response);
+    },
+  }
+  
+  return {
+    ...ConvertFromWire.convertOpenAIFileOutput(initialResponse.body),
+    poller: createHttpPoller<OpenAIFileOutput, OperationState<OpenAIFileOutput>>(poller, {
+      ...options.pollingOptions,
+    }),
+  }
 }
 
-export function uploadFileAndPoll(
-  context: Client,
-  content: ReadableStream | NodeJS.ReadableStream,
-  purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
-): PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput> {
-  async function updateUploadFileAndPoll(
-    currentResult?: OpenAIFileOutput,
-  ): Promise<{ result: OpenAIFileOutput; completed: boolean }> {
-    let file: OpenAIFileOutput;
-    if (!currentResult) {
-      file = await uploadFile(context, content, purpose, options);
-    } else {
-      file = await getFile(context, currentResult.id, options);
-    }
-    return {
-      result: file,
-      completed:
-        file.status === "uploaded" || file.status === "processed" || file.status === "deleted",
-    };
+function generateLroResponse(response: HttpResponse) : OperationResponse<OpenAIFileOutput, RawRequest> {
+  const body = response.body as WireOpenAIFileOutput;
+  let statusCode;
+  // Possible values: "uploaded", "pending", "running", "processed", "error", "deleting", "deleted"
+  switch (body.status) {
+    case "uploaded":
+    case "processed":
+      statusCode = 200;
+      break;
+    case "pending":
+    case "running":
+      statusCode = 202;
+      break;
+    default:
+      statusCode = 500;
+      break;
   }
-  return new AgentsPoller<OpenAIFileOutput>({
-    update: updateUploadFileAndPoll,
-    pollingOptions: options.pollingOptions ?? {},
-  });
+  const convertedBody = ConvertFromWire.convertOpenAIFileOutput(body);
+  return {
+    flatResponse: convertedBody,
+    rawResponse: {
+      ...response,
+      statusCode: statusCode,
+      body: convertedBody,
+    }
+  };
 }
 
 /** Delete a previously uploaded file. */

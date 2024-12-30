@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client } from "@azure-rest/core-client";
+import type { Client, HttpResponse } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   ListVectorStoreFilesParameters,
   CreateVectorStoreFileParameters,
 } from "../generated/src/parameters.js";
 import type {
+  VectorStoreFileOutput as WireVectorStoreFileOutput
+} from "../generated/src/outputModels.js";
+import type {
   OpenAIPageableListOfVectorStoreFileOutput,
   VectorStoreFileDeletionStatusOutput,
   VectorStoreFileOutput,
 } from "../customization/outputModels.js";
-import { AgentsPoller } from "./poller.js";
 import type {
   CreateVectorStoreFileOptionalParams,
-  CreateVectorStoreFileWithPollingOptionalParams,
+  CreateVectorStoreFileResponse,
   DeleteVectorStoreFileOptionalParams,
   GetVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
@@ -32,7 +34,9 @@ import type * as GeneratedParameters from "../generated/src/parameters.js";
 import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.js";
 import * as ConvertParamsToWire from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { RunningOperation} from "@azure/core-lro";
+import { createHttpPoller, type OperationResponse, type OperationState, type RawRequest } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 const expectedStatuses = ["200"];
 
@@ -64,21 +68,61 @@ export async function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileOptionalParams = {},
-): Promise<VectorStoreFileOutput> {
+): Promise<CreateVectorStoreFileResponse> {
   const createOptions: CreateVectorStoreFileParameters = {
     ...operationOptionsToRequestParameters(options),
     ...ConvertParamsToWire.convertCreateVectorStoreFileParam({ body: options }),
   };
-
   validateVectorStoreId(vectorStoreId);
   validateCreateVectorStoreFileParameters(createOptions);
-  const result = await context
+
+  const initialResponse = await context
     .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
     .post(createOptions);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createOpenAIError(result);
+  if (!expectedStatuses.includes(initialResponse.status)) {
+    throw createOpenAIError(initialResponse);
   }
-  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
+
+  const abortController = new AbortController();
+  const poller: RunningOperation<VectorStoreFileOutput> = {
+    sendInitialRequest: async () => generateLroResponse(initialResponse),
+    sendPollRequest: async (_path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      let response;
+      try {
+        const getOptions: GetVectorStoreFileOptionalParams = {
+          ...operationOptionsToRequestParameters(options),
+        };
+        response = await context
+          .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, initialResponse.body.id)
+          .get({ ...getOptions, abortSignal });
+        if (!expectedStatuses.includes(response.status)) {
+          throw createOpenAIError(response);
+        }
+      } finally {
+        inputAbortSignal?.removeEventListener("abort", abortListener);
+      }
+      return generateLroResponse(response);
+    },
+  }
+
+  return {
+    ...ConvertFromWire.convertVectorStoreFileOutput(initialResponse.body),
+    poller: createHttpPoller<VectorStoreFileOutput, OperationState<VectorStoreFileOutput>>(poller, {
+      ...options.pollingOptions
+    })
+  }
 }
 
 /** Retrieves a vector store file. */
@@ -127,31 +171,30 @@ export async function deleteVectorStoreFile(
   return ConvertFromWire.convertVectorStoreFileDeletionStatusOutput(result.body);
 }
 
-/** Create a vector store file by attaching a file to a vector store and poll. */
-export function createVectorStoreFileAndPoll(
-  context: Client,
-  vectorStoreId: string,
-  options: CreateVectorStoreFileWithPollingOptionalParams = {},
-): PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput> {
-  async function updateCreateVectorStoreFilePoll(
-    currentResult?: VectorStoreFileOutput,
-  ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
-    let vectorStoreFile: VectorStoreFileOutput;
-    if (!currentResult) {
-      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
-    } else {
-      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
-    }
-    return {
-      result: vectorStoreFile,
-      completed: vectorStoreFile.status !== "in_progress",
-    };
+function generateLroResponse(response: HttpResponse) : OperationResponse<VectorStoreFileOutput, RawRequest> {
+  const body = response.body as WireVectorStoreFileOutput;
+  let statusCode;
+  // Possible values: "in_progress", "completed", "failed", "cancelled"
+  switch (body.status) {
+    case "completed":
+      statusCode = 200;
+      break;
+    case "in_progress":
+      statusCode = 202;
+      break;
+    default:
+      statusCode = 500;
+      break;
   }
-
-  return new AgentsPoller<VectorStoreFileOutput>({
-    update: updateCreateVectorStoreFilePoll,
-    pollingOptions: options.pollingOptions,
-  });
+  const convertedBody = ConvertFromWire.convertVectorStoreFileOutput(body);
+  return {
+    flatResponse: convertedBody,
+    rawResponse: {
+      ...response,
+      statusCode: statusCode,
+      body: convertedBody,
+    }
+  };
 }
 
 function validateListVectorStoreFilesParameters(options?: ListVectorStoreFilesParameters): void {
