@@ -5,6 +5,7 @@ import { hashV2PartitionKey } from "./v2.js";
 
 /**
  * Generate Hash for a `Multi Hash` type partition.
+ * @internal
  * @param partitionKey - to be hashed.
  * @returns
  */

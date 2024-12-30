@@ -49,17 +49,21 @@ describe("Client Tests", { timeout: 200000 }, () => {
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
+
     it("Accepts a connection string", () => {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
       client.dispose();
     });
+
     it("throws on a bad connection string", () => {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
+
     it("throws on a bad endpoint", () => {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
+
     it("fails to read databases with bad AAD authentication", async () => {
       try {
         const credentials = new UsernamePasswordCredential(
@@ -93,6 +97,7 @@ describe("Client Tests", { timeout: 200000 }, () => {
       }
       client.dispose();
     });
+
     it("should throw exception if passed an already aborted signal", async () => {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
@@ -106,6 +111,7 @@ describe("Client Tests", { timeout: 200000 }, () => {
       }
       client.dispose();
     });
+
     it("should abort a query", async () => {
       const container = await getTestContainer("abort query");
       await bulkInsertItems(container, generateDocuments(20));
@@ -122,6 +128,7 @@ describe("Client Tests", { timeout: 200000 }, () => {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
+
     it("should not abort if abort signal is never called", async () => {
       // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
       const client = new CosmosClient({ endpoint, key: masterKey });
@@ -135,6 +142,7 @@ describe("Client Tests", { timeout: 200000 }, () => {
       client.dispose();
     });
   });
+
   describe("Background refresher", async () => {
     // not async to leverage done() callback inside setTimeout
     it("should fetch new endpoints", () =>

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GlobalStatistics } from "../../request/globalStatistics.js";
-import { Aggregator } from "./Aggregator.js";
+import type { GlobalStatistics } from "../../request/globalStatistics.js";
+import type { Aggregator } from "./Aggregator.js";
 
 export class GlobalStatisticsAggregator implements Aggregator {
   private globalStatistics: GlobalStatistics;

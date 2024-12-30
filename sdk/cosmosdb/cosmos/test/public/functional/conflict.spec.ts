@@ -26,6 +26,7 @@ describe("Conflicts", { timeout: 10000 }, () => {
       assert.equal(resources.length, 0);
     });
   });
+
   it("Test diagnostics for conflict", async () => {
     const container = await getTestContainer("conflicts");
     const timestamp = getCurrentTimestampInMs();

@@ -36,10 +36,11 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
-import { assert, expect } from "vitest";
-import { AssertionError } from "chai";
+import { assert, expect, chai } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
+
+const AssertionError = chai.AssertionError;
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
