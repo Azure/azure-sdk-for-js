@@ -71,6 +71,10 @@
 # ServiceLabel: %Communication - Alpha IDs
 /sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
+# PRLabel: %Communication - Call Automation
+# ServiceLabel: %Communication - Call Automation
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @cochi2
+
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft
@@ -81,7 +85,7 @@
 
 # PRLabel: %Communication - Email
 # ServiceLabel: %Communication - Email
-/sdk/communication/communication-email/ @yogeshmo
+/sdk/communication/communication-email/ @yogeshmo @natekimball-msft @kagbakpem
 
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router

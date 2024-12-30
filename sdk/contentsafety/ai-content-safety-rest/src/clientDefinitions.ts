@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
-  AnalyzeTextParameters,
   AnalyzeImageParameters,
+  AnalyzeTextParameters,
   GetTextBlocklistParameters,
   CreateOrUpdateTextBlocklistParameters,
   DeleteTextBlocklistParameters,
@@ -14,10 +14,10 @@ import type {
   ListTextBlocklistItemsParameters,
 } from "./parameters.js";
 import type {
-  AnalyzeText200Response,
-  AnalyzeTextDefaultResponse,
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
+  AnalyzeText200Response,
+  AnalyzeTextDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -38,18 +38,18 @@ import type {
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface AnalyzeText {
-  /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
-  post(
-    options: AnalyzeTextParameters,
-  ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
-}
-
 export interface AnalyzeImage {
   /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
     options: AnalyzeImageParameters,
   ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
+}
+
+export interface AnalyzeText {
+  /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
+  post(
+    options: AnalyzeTextParameters,
+  ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
 }
 
 export interface GetTextBlocklist {
@@ -109,10 +109,10 @@ export interface ListTextBlocklistItems {
 }
 
 export interface Routes {
-  /** Resource for '/text:analyze' has methods for the following verbs: post */
-  (path: "/text:analyze"): AnalyzeText;
   /** Resource for '/image:analyze' has methods for the following verbs: post */
   (path: "/image:analyze"): AnalyzeImage;
+  /** Resource for '/text:analyze' has methods for the following verbs: post */
+  (path: "/text:analyze"): AnalyzeText;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
   (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */

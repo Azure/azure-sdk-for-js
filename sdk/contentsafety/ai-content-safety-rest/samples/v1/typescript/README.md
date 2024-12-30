@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sampleanalyzeimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/typescript/src/sampleAnalyzeImage.ts
 [sampleanalyzetext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/typescript/src/sampleAnalyzeText.ts
 [samplemanageblocklist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/typescript/src/sampleManageBlocklist.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

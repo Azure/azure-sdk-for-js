@@ -44,7 +44,7 @@ For a short-lived clients, refreshing the token upon expiry is not necessary and
 
 ```typescript
 const tokenCredential = new AzureCommunicationTokenCredential(
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
 );
 ```
 
@@ -88,7 +88,7 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 ## Next steps
 
-- [Read more about Communication user access tokens](https://docs.microsoft.com/azure/communication-services/concepts/authentication?tabs=javascript)
+- [Read more about Communication user access tokens](https://learn.microsoft.com/azure/communication-services/concepts/authentication?tabs=javascript)
 
 ## Contributing
 
@@ -98,11 +98,11 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
-[invalid_token_sdk]: https://docs.microsoft.com/javascript/api/@azure/communication-identity/communicationaccesstoken#@azure-communication-identity-communicationaccesstoken-token
-[invalid_token_rest]: https://docs.microsoft.com/rest/api/communication/communication-identity/issue-access-token#communicationidentityaccesstoken
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[invalid_token_sdk]: https://learn.microsoft.com/javascript/api/@azure/communication-identity/communicationaccesstoken#@azure-communication-identity-communicationaccesstoken-token
+[invalid_token_rest]: https://learn.microsoft.com/rest/api/communication/communication-identity/issue-access-token#communicationidentityaccesstoken
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

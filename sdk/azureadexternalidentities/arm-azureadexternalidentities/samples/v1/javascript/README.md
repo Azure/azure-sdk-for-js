@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [guestusageslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/javascript/guestUsagesListBySubscriptionSample.js
 [guestusagesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/javascript/guestUsagesUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md

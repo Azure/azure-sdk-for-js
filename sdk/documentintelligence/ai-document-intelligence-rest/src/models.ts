@@ -24,7 +24,7 @@ export interface DocumentTypeDetails {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode?: DocumentBuildMode;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
@@ -123,7 +123,7 @@ export interface BuildDocumentModelRequest {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode: DocumentBuildMode;
   /**
@@ -178,7 +178,7 @@ export interface AuthorizeCopyRequest {
  * Authorization to copy a document model to the specified target resource and
  * modelId.
  */
-export interface CopyAuthorization {
+export interface ModelCopyAuthorization {
   /** ID of the target Azure resource where the document model should be copied to. */
   targetResourceId: string;
   /**
@@ -265,7 +265,7 @@ export type DocumentAnalysisFeature = string;
 export type ContentSourceKind = string;
 /** Alias for StringIndexType */
 export type StringIndexType = string;
-/** Alias for ContentFormat */
-export type ContentFormat = string;
+/** Alias for DocumentContentFormat */
+export type DocumentContentFormat = string;
 /** Alias for AnalyzeOutputOption */
 export type AnalyzeOutputOption = string;

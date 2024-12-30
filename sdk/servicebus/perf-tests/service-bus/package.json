@@ -19,7 +19,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@types/node": "^18.0.0",
     "eslint": "^9.9.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.7.2"
   },
   "private": true,
   "scripts": {
@@ -35,7 +35,7 @@
     "lint": "dev-tool run vendored eslint -c ../../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",
     "lint:fix": "dev-tool run vendored eslint -c ../../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "perf-test:node": "npm run build && node dist/esm/index.spec.js",
+    "perf-test:node": "npm run build && node dist/esm/index.js",
     "test": "echo skipped",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",

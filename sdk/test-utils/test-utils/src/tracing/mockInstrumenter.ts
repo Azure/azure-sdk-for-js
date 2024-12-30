@@ -7,9 +7,8 @@ import {
   TracingContext,
   TracingSpan,
 } from "@azure/core-tracing";
-import { MockContext, spanKey } from "./mockContext";
-
-import { MockTracingSpan } from "./mockTracingSpan";
+import { MockContext, spanKey } from "./mockContext.js";
+import { MockTracingSpan } from "./mockTracingSpan.js";
 
 /**
  * Represents an implementation of {@link Instrumenter} interface that keeps track of the tracing contexts and spans
