@@ -162,6 +162,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
       }
     }
+    this.fetchBuffer = [];
   }
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -170,13 +171,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
-    return this.endpoint.hasMoreResults();
+    return (this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults());
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // if the wrapped endpoint has different implementation for fetchMore use that
-    // otherwise use the default implementation
-    this.fetchBuffer = [];
     this.fetchMoreRespHeaders = getInitialHeader();
     if (this.nonStreamingOrderBy) {
       return this._nonStreamingFetchMoreImplementation(diagnosticNode);
@@ -193,30 +191,32 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         const temp = this.fetchBuffer.slice(0, this.pageSize);
         this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
         return { result: temp, headers: this.fetchMoreRespHeaders };
-      } else if (this.fetchBuffer.length > 0) {
-        const temp = this.fetchBuffer;
-        this.fetchBuffer = [];
-        return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-
-        if (!response.result) {
-          return { result: response.result, headers: this.fetchMoreRespHeaders };
+          if(response === undefined || response.result === undefined ) {
+            if (this.fetchBuffer.length > 0) {
+          const temp = this.fetchBuffer;
+          this.fetchBuffer = [];
+          return { result: temp, headers: this.fetchMoreRespHeaders };
+        } else {
+            return { result: undefined, headers: this.fetchMoreRespHeaders };
         }
+        }
+        this.fetchBuffer.push(...response.result);
 
-        if (response.result.length === 0) {
-          if (this.options.enableQueryControl) {
-            return { result: response.result, headers: this.fetchMoreRespHeaders };
-          } else {
-            this._fetchMoreImplementation(diagnosticNode);
+        if (this.options.enableQueryControl) {
+          if (this.fetchBuffer.length >= this.pageSize) {
+            const temp = this.fetchBuffer.slice(0, this.pageSize);
+            this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+            return { result: temp, headers: this.fetchMoreRespHeaders };
+          }else{
+            const temp = this.fetchBuffer;
+            this.fetchBuffer = [];
+            return { result: temp, headers: this.fetchMoreRespHeaders };
           }
         }
-
-        this.fetchBuffer.push(...response.result);
-        const temp = this.fetchBuffer.slice(0, this.pageSize);
-        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
+        return this._fetchMoreImplementation(diagnosticNode);
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
