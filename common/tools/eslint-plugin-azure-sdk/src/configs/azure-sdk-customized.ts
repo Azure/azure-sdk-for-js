@@ -170,7 +170,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     languageOptions: {
       parser,
       parserOptions: {
-        project: ["./tsconfig.json"],
+        projectService: true,
       },
     },
     rules,

@@ -17,14 +17,6 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
-    {
-      languageOptions: {
-        parser: typescriptEslint.parser,
-        parserOptions: {
-          project: ["./tsconfig.json"],
-        },
-      },
-    },
     eslint.configs.recommended,
     ...(options.typeChecked
       ? typescriptEslint.configs.recommendedTypeChecked
@@ -59,7 +51,7 @@ export default (plugin: FlatConfig.Plugin) => ({
       languageOptions: {
         parser: typescriptEslint.parser,
         parserOptions: {
-          project: ["./tsconfig.json"],
+          projectService: true,
         },
       },
     },
