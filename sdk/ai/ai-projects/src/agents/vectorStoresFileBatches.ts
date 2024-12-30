@@ -160,25 +160,34 @@ export async function listVectorStoreFileBatchFiles(
 
 function generateLroResponse(response: HttpResponse) : OperationResponse<VectorStoreFileBatchOutput, RawRequest> {
   const body = response.body as WireVectorStoreFileBatchOutput;
-  let statusCode;
+  let lroStatus;
+  let lroStatusCode;
   // Possible values: "in_progress", "completed", "cancelled", "failed"
   switch (body.status) {
     case "completed":
-      statusCode = 200;
+      lroStatus = "succeeded";
+      lroStatusCode = 200;
       break;
     case "in_progress":
-      statusCode = 202;
+      lroStatus = "running";
+      lroStatusCode = 202;
+      break;
+    case "cancelled":
+      lroStatus = "canceled";
+      lroStatusCode = 500;
       break;
     default:
-      statusCode = 500;
+      lroStatus = "failed";
+      lroStatusCode = 500;
       break;
   }
   const convertedBody = ConvertFromWire.convertVectorStoreFileBatchOutput(body);
+  response.status = lroStatus;
   return {
     flatResponse: convertedBody,
     rawResponse: {
       ...response,
-      statusCode: statusCode,
+      statusCode: lroStatusCode,
       body: convertedBody,
     }
   };
