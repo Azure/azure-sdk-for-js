@@ -11,11 +11,16 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Deployment,
   DeploymentsListOptionalParams,
+  SkuResource,
+  DeploymentsListSkusOptionalParams,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
-  DeploymentsDeleteOptionalParams
+  PatchResourceTagsAndSku,
+  DeploymentsUpdateOptionalParams,
+  DeploymentsUpdateResponse,
+  DeploymentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,8 +35,21 @@ export interface Deployments {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<Deployment>;
+  /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+  ): PagedAsyncIterableIterator<SkuResource>;
   /**
    * Gets the specified deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -43,7 +61,7 @@ export interface Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
    * Update the state of specified deployments associated with the Cognitive Services account.
@@ -58,7 +76,7 @@ export interface Deployments {
     accountName: string,
     deploymentName: string,
     deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -78,8 +96,43 @@ export interface Deployments {
     accountName: string,
     deploymentName: string,
     deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
+  >;
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams,
+  ): Promise<DeploymentsUpdateResponse>;
   /**
    * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -91,7 +144,7 @@ export interface Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified deployment associated with the Cognitive Services account.
@@ -104,6 +157,6 @@ export interface Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
 }

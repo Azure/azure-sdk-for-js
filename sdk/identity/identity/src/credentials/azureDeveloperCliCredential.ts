@@ -24,12 +24,12 @@ export const developerCliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env.SystemRoot) {
+      if (!process.env["SYSTEMROOT"]) {
         throw new Error(
-          "Azure Developer CLI credential expects a 'SystemRoot' environment variable",
+          "Azure Developer CLI credential expects a 'SYSTEMROOT' environment variable",
         );
       }
-      return process.env.SystemRoot;
+      return process.env["SYSTEMROOT"];
     } else {
       return "/bin";
     }
