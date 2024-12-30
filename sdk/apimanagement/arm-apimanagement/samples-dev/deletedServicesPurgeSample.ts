@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Purges Api Management Service (deletes it with no option to undelete).
@@ -21,21 +19,21 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeletedServicesPurge.json
  */
 async function apiManagementDeletedServicesPurge() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const serviceName = "apimService3";
-  const location = "westus";
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.deletedServices.beginPurgeAndWait(
-    serviceName,
-    location
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const serviceName = "apimService3";
+    const location = "westus";
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.deletedServices.beginPurgeAndWait(
+        serviceName,
+        location
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementDeletedServicesPurge();
+    apiManagementDeletedServicesPurge();
 }
 
 main().catch(console.error);

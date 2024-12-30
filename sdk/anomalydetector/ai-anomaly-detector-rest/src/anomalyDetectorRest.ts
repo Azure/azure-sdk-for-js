@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { KeyCredential } from "@azure/core-auth";
-import type { AnomalyDetectorRestClient } from "./clientDefinitions";
+import type { AnomalyDetectorRestClient } from "./clientDefinitions.js";
 
 export interface AnomalyDetectorRestClientOptions extends ClientOptions {
   ApiVersion?: string;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the rule collections in a routing configuration, in a paginated format.
  *
  * @summary Lists all the rule collections in a routing configuration, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRuleCollectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRuleCollectionList.json
  */
 async function listRoutingRuleCollections() {
   const subscriptionId =

@@ -1,3 +1,3 @@
-import azsdkEslint from "../common/tools/eslint-plugin-azure-sdk/dist-esm/src/index.js";
+import azsdkEslint from "../common/tools/eslint-plugin-azure-sdk/dist/esm/index.js";
 
-export default [...azsdkEslint.configs.recommended];
+export default azsdkEslint.config();

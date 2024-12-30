@@ -4,7 +4,7 @@
 import type { AccessToken, TokenCredential } from "../../../src/index.js";
 import { ChainedTokenCredential } from "../../../src/index.js";
 import { logger as chainedTokenCredentialLogger } from "../../../src/credentials/chainedTokenCredential.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 class TestMockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}

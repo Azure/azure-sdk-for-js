@@ -12,7 +12,12 @@
  * @azsdk-weight 60
  */
 
-import DocumentIntelligence, { DocumentModelBuildOperationDetailsOutput, DocumentModelComposeOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  DocumentModelBuildOperationDetailsOutput,
+  DocumentModelComposeOperationDetailsOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,7 +25,8 @@ dotenv.config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
 
   // This object will hold the SAS-encoded URLs to containers that hold
   // different types of purchase order documents and their labels.
@@ -43,29 +49,27 @@ async function main() {
   const random = Date.now().toString();
 
   const modelIds = await Promise.all(
-    Object.entries(purchaseOrderSasUrls)
-      .map(async ([kind, sasUrl]) => {
-        const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
-        const initialResponse = await client.path("/documentModels:build").post({
-          body: {
-            buildMode: "template",
-            modelId: modelId,
-            azureBlobSource: {
-              containerUrl: sasUrl,
-            },
+    Object.entries(purchaseOrderSasUrls).map(async ([kind, sasUrl]) => {
+      const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
+      const initialResponse = await client.path("/documentModels:build").post({
+        body: {
+          buildMode: "template",
+          modelId: modelId,
+          azureBlobSource: {
+            containerUrl: sasUrl,
           },
-        });
-        if (isUnexpected(initialResponse)) {
-          throw initialResponse.body.error;
-        }
-        const poller = await getLongRunningPoller(client, initialResponse);
-        const model = (
-          (await (poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-        ).result!;
+        },
+      });
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+      const poller = getLongRunningPoller(client, initialResponse);
+      const { docTypes } = (
+        (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
+      ).result!;
 
-        return model;
-      })
-      .map(async (model) => { return { modelId: (await model).modelId } })
+      return docTypes;
+    }),
   );
 
   // Finally, create the composed model.
@@ -74,22 +78,22 @@ async function main() {
 
   const initialResponse = await client.path("/documentModels:compose").post({
     body: {
-      description: "A composed model that classifies purchase order documents and extracts data from them.",
-      componentModels: modelIds,
       modelId: composedModelId,
-
+      description:
+        "A composed model that classifies purchase order documents and extracts data from them.",
+      classifierId: "classifierId", // Add the appropriate classifier ID here
+      docTypes: { model1: modelIds[0]!.modelId, model2: modelIds[1]!.modelId },
     },
   });
 
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
 
   const composedModel = (
-    (await (poller).pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
+    (await poller.pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
   ).result!;
-
 
   console.log("Model ID:", composedModel.modelId);
   console.log("Description:", composedModel.description);
@@ -100,13 +104,17 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    composedModel.docTypes || {}
+    composedModel.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
 
     // For simplicity, this example will only show top-level field names
     console.log("  Fields:");
+    if (!schema) {
+      console.log("    <no fields>");
+      continue;
+    }
 
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);

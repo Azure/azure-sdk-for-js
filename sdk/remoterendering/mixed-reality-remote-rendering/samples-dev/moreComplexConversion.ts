@@ -7,27 +7,23 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { v4 as uuid } from "uuid";
-
-import {
-  RemoteRenderingClient,
+import { randomUUID } from "node:crypto";
+import type {
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
   AssetConversionSettings,
   AssetConversionPollerLike,
   AssetConversion,
 } from "@azure/mixed-reality-remote-rendering";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+import type { DeviceCodeInfo } from "@azure/identity";
 import {
   DeviceCodeCredential,
-  DeviceCodeInfo,
   ClientSecretCredential,
   DefaultAzureCredential,
 } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const accountDomain = process.env["REMOTERENDERING_ARR_ACCOUNT_DOMAIN"] || "<account domain>";
@@ -50,13 +46,13 @@ const tenantId = process.env["REMOTERENDERING_TENANT_ID"] || "<tenantId>";
 const clientId = process.env["REMOTERENDERING_CLIENT_ID"] || "<clientId>";
 const clientSecret = process.env["REMOTERENDERING_CLIENT_SECRET"] || "<clientSecret>";
 
-export function getClientWithAccountKey() {
+export function getClientWithAccountKey(): RemoteRenderingClient {
   const credential = new AzureKeyCredential(accountKey);
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 }
 
-export function getClientWithAAD() {
+export function getClientWithAAD(): RemoteRenderingClient {
   const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
     authorityHost: "https://login.microsoftonline.com/" + tenantId,
   });
@@ -66,8 +62,8 @@ export function getClientWithAAD() {
   });
 }
 
-export function getClientWithDeviceCode() {
-  const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+export function getClientWithDeviceCode(): RemoteRenderingClient {
+  const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo): void => {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
   };
@@ -84,7 +80,7 @@ export function getClientWithDeviceCode() {
   });
 }
 
-export function getClientWithDefaultAzureCredential() {
+export function getClientWithDefaultAzureCredential(): RemoteRenderingClient {
   const credential = new DefaultAzureCredential();
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
@@ -92,7 +88,7 @@ export function getClientWithDefaultAzureCredential() {
   });
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Convert a more complex asset example ==");
 
   console.log("== Creating a client ==");
@@ -115,7 +111,7 @@ export async function main() {
   };
   const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
-  const conversionId = uuid();
+  const conversionId = randomUUID();
 
   const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
