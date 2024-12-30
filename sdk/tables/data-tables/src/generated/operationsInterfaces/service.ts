@@ -14,7 +14,7 @@ import {
   ServiceGetPropertiesResponse,
   ServiceGetStatisticsOptionalParams,
   ServiceGetStatisticsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Service. */
 export interface Service {

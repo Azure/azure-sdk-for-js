@@ -9,10 +9,13 @@ import customerConfig from "../../common/customerConfig";
 
 const playwrightServiceGlobalTeardownWrapper = async (config: FullConfig): Promise<void> => {
   const rootDir = config.configFile ? dirname(config.configFile!) : process.cwd();
-  const customerGlobalTeardownFunc = await loadCustomerGlobalFunction(
-    rootDir,
-    customerConfig.globalTeardown,
-  );
+  let customerGlobalTeardownFunc: any = null;
+  if (customerConfig.globalTeardown && typeof customerConfig.globalTeardown === "string") {
+    customerGlobalTeardownFunc = await loadCustomerGlobalFunction(
+      rootDir,
+      customerConfig.globalTeardown,
+    );
+  }
 
   playwrightServiceEntra.globalTeardown();
   if (customerGlobalTeardownFunc) {

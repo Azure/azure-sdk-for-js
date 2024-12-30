@@ -9,7 +9,7 @@ import type { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging.js";
 import { mapScopesToResource } from "./utils.js";
 import { tracingClient } from "../../util/tracing.js";
-import { IdentityClient } from "../../client/identityClient.js";
+import type { IdentityClient } from "../../client/identityClient.js";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);

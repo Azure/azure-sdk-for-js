@@ -6,9 +6,9 @@ import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
-import { GeneratedClient } from "./generated/generatedClient";
-import { logger } from "./logger";
+import { SDK_VERSION } from "./constants.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import { logger } from "./logger.js";
 import type {
   DetectLanguageInput,
   JobManifestTasks as GeneratedActions,
@@ -20,22 +20,22 @@ import type {
   EntitiesRecognitionPiiOptionalParams as GeneratedRecognizePiiEntitiesOptions,
   PiiCategory,
   TextDocumentInput,
-} from "./generated/models";
-import type { DetectLanguageResultArray } from "./detectLanguageResultArray";
-import { makeDetectLanguageResultArray } from "./detectLanguageResultArray";
-import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
-import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
-import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
-import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
-import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
-import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
-import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
-import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
-import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
-import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+} from "./generated/models/index.js";
+import type { DetectLanguageResultArray } from "./detectLanguageResultArray.js";
+import { makeDetectLanguageResultArray } from "./detectLanguageResultArray.js";
+import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
 import type { TracingClient } from "@azure/core-tracing";
 import { createTracingClient } from "@azure/core-tracing";
-import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
 import {
   StringIndexType,
   addParamsToTask,
@@ -45,25 +45,25 @@ import {
   setStrEncodingParam,
   setStrEncodingParamValue,
   throwError,
-} from "./util";
+} from "./util.js";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   BeginAnalyzeHealthcarePoller,
   PollerLikeWithCancellation,
-} from "./lro/health/poller";
+} from "./lro/health/poller.js";
 import {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
-} from "./lro/health/operation";
-import type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
+} from "./lro/health/operation.js";
+import type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
+import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller.js";
 import {
   AnalyzeActionsOperationMetadata,
   AnalyzeActionsOperationState,
   BeginAnalyzeActionsOptions,
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
-import type { TextAnalyticsAction } from "./textAnalyticsAction";
+} from "./lro/analyze/operation.js";
+import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller.js";
+import type { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
 export {
   BeginAnalyzeActionsOptions,

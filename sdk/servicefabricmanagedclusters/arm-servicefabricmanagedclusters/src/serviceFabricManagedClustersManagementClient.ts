@@ -137,7 +137,7 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-09-01-preview";
     this.applicationTypes = new ApplicationTypesImpl(this);
     this.applicationTypeVersions = new ApplicationTypeVersionsImpl(this);
     this.applications = new ApplicationsImpl(this);

@@ -5,12 +5,11 @@
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2020"],
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
     "pretty": true,
     "removeComments": true,
     "strict": true,
@@ -18,8 +17,16 @@
     "types": ["node"],
     "sourceMap": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "."
   },
-  "include": ["src", "tests"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "tests/**/*.ts",
+    "tests/**/*.mts",
+    "tests/**/*.cts"
+  ]
 }

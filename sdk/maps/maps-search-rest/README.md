@@ -8,9 +8,9 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/maps-search)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/maps-search?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/maps-search?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/samples)
-- [Product Information](https://docs.microsoft.com/rest/api/maps/search)
+- [Product Information](https://learn.microsoft.com/rest/api/maps/search)
 
 | Package Version | Service Version |
 | --------------- | --------------- |
@@ -27,9 +27,9 @@ Key links:
 ### Prerequisites
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-- An [Azure Maps account](https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via the [Azure Portal](https://portal.azure.com), the [Azure PowerShell](https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount), or the [Azure CLI](https://docs.microsoft.com/cli/azure).
+- An [Azure Maps account](https://learn.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via the [Azure Portal](https://portal.azure.com), the [Azure PowerShell](https://learn.microsoft.com/powershell/module/az.maps/new-azmapsaccount), or the [Azure CLI](https://learn.microsoft.com/cli/azure).
 
-If you use Azure CLI, replace `<resource-group-name>` and `<map-account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
+If you use Azure CLI, replace `<resource-group-name>` and `<map-account-name>` of your choice, and select a proper [pricing tier](https://learn.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://learn.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
 
 ```bash
 az maps account create --resource-group <resource-group-name> --name <map-account-name> --sku <sku-name>
@@ -55,12 +55,12 @@ You can authenticate with Microsoft Entra ID using the [Azure Identity library](
 npm install @azure/identity
 ```
 
-You will also need to register a new Microsoft Entra ID application and grant access to Azure Maps by assigning the suitable role to your service principal. Please refer to the [Manage authentication](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) page.
+You will also need to register a new Microsoft Entra ID application and grant access to Azure Maps by assigning the suitable role to your service principal. Please refer to the [Manage authentication](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication) page.
 
 Set the values of the client ID, tenant ID, and client secret of the Microsoft Entra ID application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
-The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
+The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
 const MapsSearch = require("@azure-rest/maps-search").default;

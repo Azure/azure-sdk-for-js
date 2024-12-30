@@ -4,7 +4,7 @@
 import type { AuthenticationResult } from "@azure/msal-node";
 import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
 import { PlaybackTenantId } from "../msalTestUtils.js";
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
 import { vi } from "vitest";
 
 export type MsalTestCleanup = () => Promise<void>;
@@ -102,6 +102,13 @@ export async function msalNodeTestSetup(
     // Playback sanitizers
     await recorder.addSanitizers(
       {
+        uriSanitizers: [
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
+          },
+        ],
         bodySanitizers: [
           {
             regex: true,

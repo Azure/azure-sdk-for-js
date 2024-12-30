@@ -16,10 +16,11 @@ export const commandInfo = makeCommandInfo(
       default: true,
     },
     "test-proxy-debug": {
-      description: "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
       kind: "boolean",
-      default: false
-    }
+      default: false,
+    },
   },
 );
 

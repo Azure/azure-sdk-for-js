@@ -25,6 +25,11 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to use browser to run tests",
     },
+    esm: {
+      kind: "boolean",
+      default: false,
+      description: "whether to use esm to run tests",
+    },
     "relay-server": {
       shortName: "rs",
       description:
@@ -33,10 +38,11 @@ export const commandInfo = makeCommandInfo(
       default: true,
     },
     "test-proxy-debug": {
-      description: "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
       kind: "boolean",
-      default: false
-    }
+      default: false,
+    },
   },
 );
 
@@ -63,12 +69,11 @@ export default leafCommand(commandInfo, async (options) => {
 
   let args = "";
   // Only set if we didn't provide a config file path
-  if (
-    options["browser"] &&
-    updatedArgs?.indexOf("-c") === -1 &&
-    updatedArgs?.indexOf("--config") === -1
-  ) {
+  const providedConfig = updatedArgs?.find((arg) => arg === "-c" || arg === "--config");
+  if (options["browser"] && !providedConfig) {
     args = "-c vitest.browser.config.ts";
+  } else if (options["esm"] && !providedConfig) {
+    args = "-c vitest.esm.config.ts";
   }
 
   const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";

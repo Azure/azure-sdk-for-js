@@ -189,8 +189,7 @@ describe("AzurePowerShellCredential", function () {
       Type: "Bearer",
     };
 
-    const stub = vi
-      .spyOn(processUtils, "execFile")
+    vi.spyOn(processUtils, "execFile")
       .mockResolvedValueOnce("") // The first call checks that the command is available.
       .mockResolvedValueOnce(JSON.stringify(tokenResponse));
 

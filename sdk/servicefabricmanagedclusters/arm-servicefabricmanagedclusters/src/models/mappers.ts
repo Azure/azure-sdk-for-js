@@ -3585,10 +3585,10 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      customFqdn: {
-        serializedName: "properties.customFqdn",
+      allocatedOutboundPorts: {
+        serializedName: "properties.allocatedOutboundPorts",
         type: {
-          name: "String",
+          name: "Number",
         },
       },
     },
@@ -4402,6 +4402,27 @@ export const NodeTypesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NodeTypesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesUpdateHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",

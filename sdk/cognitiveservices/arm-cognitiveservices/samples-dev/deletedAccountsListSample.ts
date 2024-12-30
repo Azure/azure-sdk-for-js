@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a subscription.
  *
  * @summary Returns all the resources of a particular type belonging to a subscription.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListDeletedAccountsBySubscription.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListDeletedAccountsBySubscription.json
  */
 async function listDeletedAccountsBySubscription() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listDeletedAccountsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.deletedAccounts.list()) {

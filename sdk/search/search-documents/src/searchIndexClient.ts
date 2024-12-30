@@ -9,14 +9,14 @@ import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult } from "./generated/service/models";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
-import { logger } from "./logger";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { KnownSearchAudience } from "./searchAudience";
-import type { SearchClientOptions as GetSearchClientOptions } from "./searchClient";
-import { SearchClient } from "./searchClient";
+import type { AnalyzeResult } from "./generated/service/models/index.js";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
+import { logger } from "./logger.js";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
+import { KnownSearchAudience } from "./searchAudience.js";
+import type { SearchClientOptions as GetSearchClientOptions } from "./searchClient.js";
+import { SearchClient } from "./searchClient.js";
 import type {
   AliasIterator,
   AnalyzeTextOptions,
@@ -44,9 +44,9 @@ import type {
   SearchIndexStatistics,
   SearchServiceStatistics,
   SynonymMap,
-} from "./serviceModels";
-import * as utils from "./serviceUtils";
-import { createSpan } from "./tracing";
+} from "./serviceModels.js";
+import * as utils from "./serviceUtils.js";
+import { createSpan } from "./tracing.js";
 
 /**
  * Client options used to configure Cognitive Search API requests.

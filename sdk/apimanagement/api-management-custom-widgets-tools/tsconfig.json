@@ -1,17 +1,10 @@
 {
-  "extends": "../../../tsconfig",
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
   "compilerOptions": {
-    "lib": ["dom"],
-    "resolveJsonModule": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.cts",
-    "src/**/*.mts",
-    "test/**/*.ts",
-    "test/**/*.cts",
-    "test/**/*.mts"
-  ]
+    "esModuleInterop": true
+  }
 }

@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable eqeqeq */
 import { AmqpMessageHeader } from "./messageHeader.js";
 import { AmqpMessageProperties } from "./messageProperties.js";
 import type { Message as RheaMessage } from "rhea-promise";

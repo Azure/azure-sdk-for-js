@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified commitmentPlan associated with the Cognitive Services account.
  *
  * @summary Deletes the specified commitmentPlan associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/DeleteCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteCommitmentPlan.json
  */
 async function deleteCommitmentPlan() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function deleteCommitmentPlan() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.commitmentPlans.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }

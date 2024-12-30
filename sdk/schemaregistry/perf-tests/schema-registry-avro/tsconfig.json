@@ -1,11 +1,21 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
-    "declarationDir": "./typings/latest",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-schema-registry-avro": ["./src/index"]
+    }
   },
   "compileOnSave": true,
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "aex/**/*.ts",
+    "aex/**/*.mts",
+    "aex/**/*.cts"
+  ]
 }
