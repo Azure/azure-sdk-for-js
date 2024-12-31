@@ -10,16 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AutomationClient } from "../src/automationClient";
-import { RunbookCreateOrUpdateParameters } from "../src";
-
-
+import { AutomationClient } from "../src/automationClient.js";
+import { RunbookCreateOrUpdateParameters } from "../src/index.js";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -51,8 +47,8 @@ describe("automation test", () => {
   let runbookContent: string;
   let runbookParameters: RunbookCreateOrUpdateParameters;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -99,18 +95,15 @@ describe("automation test", () => {
   });
 
   it("RunbookDraft get test", async function () {
-    const res = await client.runbookDraftOperations.getContent(resourceGroup, automationAccountName, runbookName)
     // console.log(res)
 
   });
 
   it.skip("RunbookDraft Replace test", async function () {
-    const res = await client.runbookDraftOperations.beginReplaceContentAndWait(resourceGroup, automationAccountName, runbookName, runbookContent, testPollingOptions)
 
   });
 
   it("Runbook delete test", async function () {
-    const res = await client.runbookOperations.delete(resourceGroup, automationAccountName, runbookName)
     const resArray = new Array();
     for await (let item of client.runbookOperations.listByAutomationAccount(resourceGroup, automationAccountName)) {
       resArray.push(item);
@@ -119,7 +112,6 @@ describe("automation test", () => {
   });
 
   it("automation delete test", async function () {
-    const res = await client.automationAccountOperations.delete(resourceGroup, automationAccountName)
     const resArray = new Array();
     for await (let item of client.automationAccountOperations.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

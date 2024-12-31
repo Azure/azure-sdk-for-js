@@ -11,7 +11,7 @@ import {
   SoftwareUpdateConfigurationMachineRunsGetByIdResponse,
   SoftwareUpdateConfigurationMachineRunsListOptionalParams,
   SoftwareUpdateConfigurationMachineRunsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SoftwareUpdateConfigurationMachineRuns. */
 export interface SoftwareUpdateConfigurationMachineRuns {
