@@ -289,11 +289,11 @@ export class InternalTableTransaction {
       options,
       async (updatedOptions) => {
         const request = createPipelineRequest({
+          ...updatedOptions,
           url: this.url,
           method: "POST",
           body,
           headers: createHttpHeaders(headers),
-          tracingOptions: updatedOptions.tracingOptions,
           allowInsecureConnection: this.allowInsecureConnection,
         });
 
