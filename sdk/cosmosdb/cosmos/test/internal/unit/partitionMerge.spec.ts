@@ -123,12 +123,12 @@ const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 describe("Partition Merge", function () {
   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
-    "0",
+    "parent1",
     "",
     "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
   );
   const mockPartitionKeyRange2 = createMockPartitionKeyRange(
-    "1",
+    "parent2",
     "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
     "FF",
   );
@@ -191,14 +191,22 @@ describe("Partition Merge", function () {
     });
   });
 
-  it("_repairExecutionContext function should be called if partition is gone due to merge", async function () {
+  it("Correct parent epk ranges are picked up in the newly created child document producers and _repairExecutionContext function should be called if partition is gone due to merge", async function () {
     // Stub the current function of the first document producer to throw a Gone error
-    const docProd1 = context["orderByPQ"].peek();
-    sinon.stub(docProd1, "current").rejects({
+    const parentDocProd1 = context["orderByPQ"].peek();
+    sinon.stub(parentDocProd1, "current").rejects({
       code: StatusCodes.Gone,
       substatus: SubStatusCodes.PartitionKeyRangeGone,
       message: "Partition key range is gone",
     });
+
+    const parentDocumentProducer1StartEpk = parentDocProd1.startEpk;
+    const parentDocumentProducer1EndEpk = parentDocProd1.endEpk;
+
+    // Mocking the _getReplacementPartitionKeyRanges function to return a single partition key range
+    const getReplacementPartitionKeyRangesStub = sinon
+      .stub(context as any, "_getReplacementPartitionKeyRanges")
+      .resolves([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]);
 
     // Creating a spy on the _repairExecutionContext function
     const repairSpy = sinon.spy(context as any, "_repairExecutionContext");
@@ -214,5 +222,49 @@ describe("Partition Merge", function () {
     // Assert that the _repairExecutionContext function was called once
     assert(repairSpy.calledOnce);
     repairSpy.restore();
+
+    // Assert that the priority queue has 2 document producers. One parent and one newly created child
+    assert.equal(context["orderByPQ"].size(), 2);
+
+    // Assert that the newly created document producer has the correct start and end EPKs from Parent and populateEpkRangeHeaders is true
+    context["orderByPQ"].forEach((docProd) => {
+      if (docProd.targetPartitionKeyRange.id === "child1") {
+        assert.equal(docProd.startEpk, parentDocumentProducer1StartEpk);
+        assert.equal(docProd.endEpk, parentDocumentProducer1EndEpk);
+        assert.equal(docProd.populateEpkRangeHeaders, true);
+      }
+    });
+
+    // Removing the child document producer from the priority queue
+    context["orderByPQ"].deq();
+
+    // Assert that the priority queue has 1 document producer
+    assert.equal(context["orderByPQ"].size(), 1);
+
+    const parentDocProd2 = context["orderByPQ"].peek();
+
+    sinon.stub(parentDocProd2, "current").rejects({
+      code: StatusCodes.Gone,
+      substatus: SubStatusCodes.PartitionKeyRangeGone,
+      message: "Partition key range is gone",
+    });
+
+    const parentDocumentProducer2StartEpk = parentDocProd2.startEpk;
+    const parentDocumentProducer2EndEpk = parentDocProd2.endEpk;
+
+    // Restoring and mocking again the _getReplacementPartitionKeyRanges function
+    getReplacementPartitionKeyRangesStub.restore();
+    sinon
+      .stub(context as any, "_getReplacementPartitionKeyRanges")
+      .resolves([createMockPartitionKeyRange("child2", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "FF")]);
+
+    // Assert that the newly created document producer has the correct start and end EPKs from Parent and populateEpkRangeHeaders is true
+    context["orderByPQ"].forEach((docProd) => {
+      if (docProd.targetPartitionKeyRange.id === "child2") {
+        assert.equal(docProd.startEpk, parentDocumentProducer2StartEpk);
+        assert.equal(docProd.endEpk, parentDocumentProducer2EndEpk);
+        assert.equal(docProd.populateEpkRangeHeaders, true);
+      }
+    });
   });
 });
