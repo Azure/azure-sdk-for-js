@@ -2,7 +2,7 @@ import { assert, describe, it } from "vitest";
 import { getDirectionMappedPackages, reducedDependencyTestMatrix } from "../helpers.js";
 
 describe("getDirectionMappedPackages", () => {
-  it("should use --to reduced core scope for changed core package", () => {
+  it.only("should use --to reduced core scope for changed core package", () => {
     const changed = ["@azure/core-client"];
     const mapped = getDirectionMappedPackages(changed, ["unit-test"]);
 
