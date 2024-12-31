@@ -1,75 +1,75 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ClustersGet200Response,
-  ClustersGetDefaultResponse,
-  ClustersCreateOrUpdate200Response,
-  ClustersCreateOrUpdate202Response,
-  ClustersCreateOrUpdateDefaultResponse,
-  ClustersUpdate200Response,
-  ClustersUpdate202Response,
-  ClustersUpdateDefaultResponse,
-  ClustersDelete200Response,
-  ClustersDelete204Response,
-  ClustersDeleteDefaultResponse,
-  ClustersListByResourceGroup200Response,
-  ClustersListByResourceGroupDefaultResponse,
-  ClustersList200Response,
-  ClustersListDefaultResponse,
-  ClustersListUpgradableVersions200Response,
-  ClustersListUpgradableVersionsDefaultResponse,
-  ClusterVersionsGet200Response,
-  ClusterVersionsGetDefaultResponse,
-  ClusterVersionsGetByEnvironment200Response,
-  ClusterVersionsGetByEnvironmentDefaultResponse,
-  ClusterVersionsList200Response,
-  ClusterVersionsListDefaultResponse,
-  ClusterVersionsListByEnvironment200Response,
-  ClusterVersionsListByEnvironmentDefaultResponse,
-  OperationsList200Response,
-  OperationsListDefaultResponse,
-  ApplicationTypesGet200Response,
-  ApplicationTypesGetDefaultResponse,
-  ApplicationTypesCreateOrUpdate200Response,
-  ApplicationTypesCreateOrUpdateDefaultResponse,
-  ApplicationTypesDelete202Response,
-  ApplicationTypesDelete204Response,
-  ApplicationTypesDeleteDefaultResponse,
-  ApplicationTypesList200Response,
-  ApplicationTypesListDefaultResponse,
-  ApplicationTypeVersionsGet200Response,
-  ApplicationTypeVersionsGetDefaultResponse,
+import type {
   ApplicationTypeVersionsCreateOrUpdate202Response,
-  ApplicationTypeVersionsCreateOrUpdateDefaultResponse,
+  ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
   ApplicationTypeVersionsDelete202Response,
   ApplicationTypeVersionsDelete204Response,
-  ApplicationTypeVersionsDeleteDefaultResponse,
+  ApplicationTypeVersionsDeletedefaultResponse,
+  ApplicationTypeVersionsGet200Response,
+  ApplicationTypeVersionsGetdefaultResponse,
   ApplicationTypeVersionsList200Response,
-  ApplicationTypeVersionsListDefaultResponse,
-  ApplicationsGet200Response,
-  ApplicationsGetDefaultResponse,
+  ApplicationTypeVersionsListdefaultResponse,
+  ApplicationTypesCreateOrUpdate200Response,
+  ApplicationTypesCreateOrUpdatedefaultResponse,
+  ApplicationTypesDelete202Response,
+  ApplicationTypesDelete204Response,
+  ApplicationTypesDeletedefaultResponse,
+  ApplicationTypesGet200Response,
+  ApplicationTypesGetdefaultResponse,
+  ApplicationTypesList200Response,
+  ApplicationTypesListdefaultResponse,
   ApplicationsCreateOrUpdate202Response,
-  ApplicationsCreateOrUpdateDefaultResponse,
-  ApplicationsUpdate202Response,
-  ApplicationsUpdateDefaultResponse,
+  ApplicationsCreateOrUpdatedefaultResponse,
   ApplicationsDelete202Response,
   ApplicationsDelete204Response,
-  ApplicationsDeleteDefaultResponse,
+  ApplicationsDeletedefaultResponse,
+  ApplicationsGet200Response,
+  ApplicationsGetdefaultResponse,
   ApplicationsList200Response,
-  ApplicationsListDefaultResponse,
-  ServicesGet200Response,
-  ServicesGetDefaultResponse,
+  ApplicationsListdefaultResponse,
+  ApplicationsUpdate202Response,
+  ApplicationsUpdatedefaultResponse,
+  ClusterVersionsGet200Response,
+  ClusterVersionsGetByEnvironment200Response,
+  ClusterVersionsGetByEnvironmentdefaultResponse,
+  ClusterVersionsGetdefaultResponse,
+  ClusterVersionsList200Response,
+  ClusterVersionsListByEnvironment200Response,
+  ClusterVersionsListByEnvironmentdefaultResponse,
+  ClusterVersionsListdefaultResponse,
+  ClustersCreateOrUpdate200Response,
+  ClustersCreateOrUpdate202Response,
+  ClustersCreateOrUpdatedefaultResponse,
+  ClustersDelete200Response,
+  ClustersDelete204Response,
+  ClustersDeletedefaultResponse,
+  ClustersGet200Response,
+  ClustersGetdefaultResponse,
+  ClustersList200Response,
+  ClustersListByResourceGroup200Response,
+  ClustersListByResourceGroupdefaultResponse,
+  ClustersListUpgradableVersions200Response,
+  ClustersListUpgradableVersionsdefaultResponse,
+  ClustersListdefaultResponse,
+  ClustersUpdate200Response,
+  ClustersUpdate202Response,
+  ClustersUpdatedefaultResponse,
+  OperationsList200Response,
+  OperationsListdefaultResponse,
   ServicesCreateOrUpdate202Response,
-  ServicesCreateOrUpdateDefaultResponse,
-  ServicesUpdate202Response,
-  ServicesUpdateDefaultResponse,
+  ServicesCreateOrUpdatedefaultResponse,
   ServicesDelete202Response,
   ServicesDelete204Response,
-  ServicesDeleteDefaultResponse,
+  ServicesDeletedefaultResponse,
+  ServicesGet200Response,
+  ServicesGetdefaultResponse,
   ServicesList200Response,
-  ServicesListDefaultResponse,
-} from "./responses.js";
+  ServicesListdefaultResponse,
+  ServicesUpdate202Response,
+  ServicesUpdatedefaultResponse,
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}":
@@ -133,286 +133,275 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ClustersGet200Response | ClustersGetDefaultResponse,
-): response is ClustersGetDefaultResponse;
+  response: ClustersGet200Response | ClustersGetdefaultResponse,
+): response is ClustersGetdefaultResponse;
 export function isUnexpected(
   response:
     | ClustersCreateOrUpdate200Response
     | ClustersCreateOrUpdate202Response
-    | ClustersCreateOrUpdateDefaultResponse,
-): response is ClustersCreateOrUpdateDefaultResponse;
+    | ClustersCreateOrUpdatedefaultResponse,
+): response is ClustersCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdateDefaultResponse,
-): response is ClustersUpdateDefaultResponse;
+  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse,
+): response is ClustersUpdatedefaultResponse;
 export function isUnexpected(
-  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeleteDefaultResponse,
-): response is ClustersDeleteDefaultResponse;
+  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse,
+): response is ClustersDeletedefaultResponse;
 export function isUnexpected(
-  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupDefaultResponse,
-): response is ClustersListByResourceGroupDefaultResponse;
+  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse,
+): response is ClustersListByResourceGroupdefaultResponse;
 export function isUnexpected(
-  response: ClustersList200Response | ClustersListDefaultResponse,
-): response is ClustersListDefaultResponse;
+  response: ClustersList200Response | ClustersListdefaultResponse,
+): response is ClustersListdefaultResponse;
 export function isUnexpected(
   response:
     | ClustersListUpgradableVersions200Response
-    | ClustersListUpgradableVersionsDefaultResponse,
-): response is ClustersListUpgradableVersionsDefaultResponse;
+    | ClustersListUpgradableVersionsdefaultResponse,
+): response is ClustersListUpgradableVersionsdefaultResponse;
 export function isUnexpected(
-  response: ClusterVersionsGet200Response | ClusterVersionsGetDefaultResponse,
-): response is ClusterVersionsGetDefaultResponse;
+  response: ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse,
+): response is ClusterVersionsGetdefaultResponse;
 export function isUnexpected(
   response:
     | ClusterVersionsGetByEnvironment200Response
-    | ClusterVersionsGetByEnvironmentDefaultResponse,
-): response is ClusterVersionsGetByEnvironmentDefaultResponse;
+    | ClusterVersionsGetByEnvironmentdefaultResponse,
+): response is ClusterVersionsGetByEnvironmentdefaultResponse;
 export function isUnexpected(
-  response: ClusterVersionsList200Response | ClusterVersionsListDefaultResponse,
-): response is ClusterVersionsListDefaultResponse;
+  response: ClusterVersionsList200Response | ClusterVersionsListdefaultResponse,
+): response is ClusterVersionsListdefaultResponse;
 export function isUnexpected(
   response:
     | ClusterVersionsListByEnvironment200Response
-    | ClusterVersionsListByEnvironmentDefaultResponse,
-): response is ClusterVersionsListByEnvironmentDefaultResponse;
+    | ClusterVersionsListByEnvironmentdefaultResponse,
+): response is ClusterVersionsListByEnvironmentdefaultResponse;
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListDefaultResponse,
-): response is OperationsListDefaultResponse;
+  response: OperationsList200Response | OperationsListdefaultResponse,
+): response is OperationsListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypesGet200Response | ApplicationTypesGetDefaultResponse,
-): response is ApplicationTypesGetDefaultResponse;
+  response: ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse,
+): response is ApplicationTypesGetdefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypesCreateOrUpdate200Response
-    | ApplicationTypesCreateOrUpdateDefaultResponse,
-): response is ApplicationTypesCreateOrUpdateDefaultResponse;
+    | ApplicationTypesCreateOrUpdatedefaultResponse,
+): response is ApplicationTypesCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypesDelete202Response
     | ApplicationTypesDelete204Response
-    | ApplicationTypesDeleteDefaultResponse,
-): response is ApplicationTypesDeleteDefaultResponse;
+    | ApplicationTypesDeletedefaultResponse,
+): response is ApplicationTypesDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypesList200Response | ApplicationTypesListDefaultResponse,
-): response is ApplicationTypesListDefaultResponse;
+  response: ApplicationTypesList200Response | ApplicationTypesListdefaultResponse,
+): response is ApplicationTypesListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetDefaultResponse,
-): response is ApplicationTypeVersionsGetDefaultResponse;
+  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse,
+): response is ApplicationTypeVersionsGetdefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypeVersionsCreateOrUpdate202Response
-    | ApplicationTypeVersionsCreateOrUpdateDefaultResponse,
-): response is ApplicationTypeVersionsCreateOrUpdateDefaultResponse;
+    | ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
+): response is ApplicationTypeVersionsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypeVersionsDelete202Response
     | ApplicationTypeVersionsDelete204Response
-    | ApplicationTypeVersionsDeleteDefaultResponse,
-): response is ApplicationTypeVersionsDeleteDefaultResponse;
+    | ApplicationTypeVersionsDeletedefaultResponse,
+): response is ApplicationTypeVersionsDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListDefaultResponse,
-): response is ApplicationTypeVersionsListDefaultResponse;
+  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse,
+): response is ApplicationTypeVersionsListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationsGet200Response | ApplicationsGetDefaultResponse,
-): response is ApplicationsGetDefaultResponse;
+  response: ApplicationsGet200Response | ApplicationsGetdefaultResponse,
+): response is ApplicationsGetdefaultResponse;
 export function isUnexpected(
-  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdateDefaultResponse,
-): response is ApplicationsCreateOrUpdateDefaultResponse;
+  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse,
+): response is ApplicationsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ApplicationsUpdate202Response | ApplicationsUpdateDefaultResponse,
-): response is ApplicationsUpdateDefaultResponse;
+  response: ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse,
+): response is ApplicationsUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationsDelete202Response
     | ApplicationsDelete204Response
-    | ApplicationsDeleteDefaultResponse,
-): response is ApplicationsDeleteDefaultResponse;
+    | ApplicationsDeletedefaultResponse,
+): response is ApplicationsDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationsList200Response | ApplicationsListDefaultResponse,
-): response is ApplicationsListDefaultResponse;
+  response: ApplicationsList200Response | ApplicationsListdefaultResponse,
+): response is ApplicationsListdefaultResponse;
 export function isUnexpected(
-  response: ServicesGet200Response | ServicesGetDefaultResponse,
-): response is ServicesGetDefaultResponse;
+  response: ServicesGet200Response | ServicesGetdefaultResponse,
+): response is ServicesGetdefaultResponse;
 export function isUnexpected(
-  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdateDefaultResponse,
-): response is ServicesCreateOrUpdateDefaultResponse;
+  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse,
+): response is ServicesCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ServicesUpdate202Response | ServicesUpdateDefaultResponse,
-): response is ServicesUpdateDefaultResponse;
+  response: ServicesUpdate202Response | ServicesUpdatedefaultResponse,
+): response is ServicesUpdatedefaultResponse;
 export function isUnexpected(
-  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeleteDefaultResponse,
-): response is ServicesDeleteDefaultResponse;
+  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse,
+): response is ServicesDeletedefaultResponse;
 export function isUnexpected(
-  response: ServicesList200Response | ServicesListDefaultResponse,
-): response is ServicesListDefaultResponse;
+  response: ServicesList200Response | ServicesListdefaultResponse,
+): response is ServicesListdefaultResponse;
 export function isUnexpected(
   response:
     | ClustersGet200Response
-    | ClustersGetDefaultResponse
+    | ClustersGetdefaultResponse
     | ClustersCreateOrUpdate200Response
     | ClustersCreateOrUpdate202Response
-    | ClustersCreateOrUpdateDefaultResponse
+    | ClustersCreateOrUpdatedefaultResponse
     | ClustersUpdate200Response
     | ClustersUpdate202Response
-    | ClustersUpdateDefaultResponse
+    | ClustersUpdatedefaultResponse
     | ClustersDelete200Response
     | ClustersDelete204Response
-    | ClustersDeleteDefaultResponse
+    | ClustersDeletedefaultResponse
     | ClustersListByResourceGroup200Response
-    | ClustersListByResourceGroupDefaultResponse
+    | ClustersListByResourceGroupdefaultResponse
     | ClustersList200Response
-    | ClustersListDefaultResponse
+    | ClustersListdefaultResponse
     | ClustersListUpgradableVersions200Response
-    | ClustersListUpgradableVersionsDefaultResponse
+    | ClustersListUpgradableVersionsdefaultResponse
     | ClusterVersionsGet200Response
-    | ClusterVersionsGetDefaultResponse
+    | ClusterVersionsGetdefaultResponse
     | ClusterVersionsGetByEnvironment200Response
-    | ClusterVersionsGetByEnvironmentDefaultResponse
+    | ClusterVersionsGetByEnvironmentdefaultResponse
     | ClusterVersionsList200Response
-    | ClusterVersionsListDefaultResponse
+    | ClusterVersionsListdefaultResponse
     | ClusterVersionsListByEnvironment200Response
-    | ClusterVersionsListByEnvironmentDefaultResponse
+    | ClusterVersionsListByEnvironmentdefaultResponse
     | OperationsList200Response
-    | OperationsListDefaultResponse
+    | OperationsListdefaultResponse
     | ApplicationTypesGet200Response
-    | ApplicationTypesGetDefaultResponse
+    | ApplicationTypesGetdefaultResponse
     | ApplicationTypesCreateOrUpdate200Response
-    | ApplicationTypesCreateOrUpdateDefaultResponse
+    | ApplicationTypesCreateOrUpdatedefaultResponse
     | ApplicationTypesDelete202Response
     | ApplicationTypesDelete204Response
-    | ApplicationTypesDeleteDefaultResponse
+    | ApplicationTypesDeletedefaultResponse
     | ApplicationTypesList200Response
-    | ApplicationTypesListDefaultResponse
+    | ApplicationTypesListdefaultResponse
     | ApplicationTypeVersionsGet200Response
-    | ApplicationTypeVersionsGetDefaultResponse
+    | ApplicationTypeVersionsGetdefaultResponse
     | ApplicationTypeVersionsCreateOrUpdate202Response
-    | ApplicationTypeVersionsCreateOrUpdateDefaultResponse
+    | ApplicationTypeVersionsCreateOrUpdatedefaultResponse
     | ApplicationTypeVersionsDelete202Response
     | ApplicationTypeVersionsDelete204Response
-    | ApplicationTypeVersionsDeleteDefaultResponse
+    | ApplicationTypeVersionsDeletedefaultResponse
     | ApplicationTypeVersionsList200Response
-    | ApplicationTypeVersionsListDefaultResponse
+    | ApplicationTypeVersionsListdefaultResponse
     | ApplicationsGet200Response
-    | ApplicationsGetDefaultResponse
+    | ApplicationsGetdefaultResponse
     | ApplicationsCreateOrUpdate202Response
-    | ApplicationsCreateOrUpdateDefaultResponse
+    | ApplicationsCreateOrUpdatedefaultResponse
     | ApplicationsUpdate202Response
-    | ApplicationsUpdateDefaultResponse
+    | ApplicationsUpdatedefaultResponse
     | ApplicationsDelete202Response
     | ApplicationsDelete204Response
-    | ApplicationsDeleteDefaultResponse
+    | ApplicationsDeletedefaultResponse
     | ApplicationsList200Response
-    | ApplicationsListDefaultResponse
+    | ApplicationsListdefaultResponse
     | ServicesGet200Response
-    | ServicesGetDefaultResponse
+    | ServicesGetdefaultResponse
     | ServicesCreateOrUpdate202Response
-    | ServicesCreateOrUpdateDefaultResponse
+    | ServicesCreateOrUpdatedefaultResponse
     | ServicesUpdate202Response
-    | ServicesUpdateDefaultResponse
+    | ServicesUpdatedefaultResponse
     | ServicesDelete202Response
     | ServicesDelete204Response
-    | ServicesDeleteDefaultResponse
+    | ServicesDeletedefaultResponse
     | ServicesList200Response
-    | ServicesListDefaultResponse,
+    | ServicesListdefaultResponse,
 ): response is
-  | ClustersGetDefaultResponse
-  | ClustersCreateOrUpdateDefaultResponse
-  | ClustersUpdateDefaultResponse
-  | ClustersDeleteDefaultResponse
-  | ClustersListByResourceGroupDefaultResponse
-  | ClustersListDefaultResponse
-  | ClustersListUpgradableVersionsDefaultResponse
-  | ClusterVersionsGetDefaultResponse
-  | ClusterVersionsGetByEnvironmentDefaultResponse
-  | ClusterVersionsListDefaultResponse
-  | ClusterVersionsListByEnvironmentDefaultResponse
-  | OperationsListDefaultResponse
-  | ApplicationTypesGetDefaultResponse
-  | ApplicationTypesCreateOrUpdateDefaultResponse
-  | ApplicationTypesDeleteDefaultResponse
-  | ApplicationTypesListDefaultResponse
-  | ApplicationTypeVersionsGetDefaultResponse
-  | ApplicationTypeVersionsCreateOrUpdateDefaultResponse
-  | ApplicationTypeVersionsDeleteDefaultResponse
-  | ApplicationTypeVersionsListDefaultResponse
-  | ApplicationsGetDefaultResponse
-  | ApplicationsCreateOrUpdateDefaultResponse
-  | ApplicationsUpdateDefaultResponse
-  | ApplicationsDeleteDefaultResponse
-  | ApplicationsListDefaultResponse
-  | ServicesGetDefaultResponse
-  | ServicesCreateOrUpdateDefaultResponse
-  | ServicesUpdateDefaultResponse
-  | ServicesDeleteDefaultResponse
-  | ServicesListDefaultResponse {
+  | ClustersGetdefaultResponse
+  | ClustersCreateOrUpdatedefaultResponse
+  | ClustersUpdatedefaultResponse
+  | ClustersDeletedefaultResponse
+  | ClustersListByResourceGroupdefaultResponse
+  | ClustersListdefaultResponse
+  | ClustersListUpgradableVersionsdefaultResponse
+  | ClusterVersionsGetdefaultResponse
+  | ClusterVersionsGetByEnvironmentdefaultResponse
+  | ClusterVersionsListdefaultResponse
+  | ClusterVersionsListByEnvironmentdefaultResponse
+  | OperationsListdefaultResponse
+  | ApplicationTypesGetdefaultResponse
+  | ApplicationTypesCreateOrUpdatedefaultResponse
+  | ApplicationTypesDeletedefaultResponse
+  | ApplicationTypesListdefaultResponse
+  | ApplicationTypeVersionsGetdefaultResponse
+  | ApplicationTypeVersionsCreateOrUpdatedefaultResponse
+  | ApplicationTypeVersionsDeletedefaultResponse
+  | ApplicationTypeVersionsListdefaultResponse
+  | ApplicationsGetdefaultResponse
+  | ApplicationsCreateOrUpdatedefaultResponse
+  | ApplicationsUpdatedefaultResponse
+  | ApplicationsDeletedefaultResponse
+  | ApplicationsListdefaultResponse
+  | ServicesGetdefaultResponse
+  | ServicesCreateOrUpdatedefaultResponse
+  | ServicesUpdatedefaultResponse
+  | ServicesDeletedefaultResponse
+  | ServicesListdefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = getParametrizedPathSuccess(method, url.pathname);
+    pathDetails = geParametrizedPathSuccess(url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function getParametrizedPathSuccess(method: string, path: string): string[] {
+function geParametrizedPathSuccess(path: string): string[] {
   const pathParts = path.split("/");
-
-  // Traverse list to match the longest candidate
-  // matchedLen: the length of candidate path
-  // matchedValue: the matched status code array
-  let matchedLen = -1,
-    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
-    if (!key.startsWith(method)) {
-      continue;
-    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // track if we have found a match to return the values found.
-    let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
-        const start = candidateParts[i]!.indexOf("}") + 1,
-          end = candidateParts[i]?.length;
-        // If the current part of the candidate is a "template" part
-        // Try to use the suffix of pattern to match the path
-        // {guid} ==> $
-        // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+    // If the candidate and actual paths don't match in size
+    // we move on to the next candidate path
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
+      // track if we have found a match to return the values found.
+      let found = true;
+      for (let i = 0; i < candidateParts.length; i++) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
+          // If the current part of the candidate is a "template" part
+          // it is a match with the actual path part on hand
+          // skip as the parameterized part can match anything
+          continue;
+        }
 
-        if (!isMatched) {
+        // If the candidate part is not a template and
+        // the parts don't match mark the candidate as not found
+        // to move on with the next candidate path.
+        if (candidateParts[i] !== pathParts[i]) {
           found = false;
           break;
         }
-        continue;
       }
 
-      // If the candidate part is not a template and
-      // the parts don't match mark the candidate as not found
-      // to move on with the next candidate path.
-      if (candidateParts[i] !== pathParts[j]) {
-        found = false;
-        break;
+      // We finished evaluating the current candidate parts
+      // if all parts matched we return the success values form
+      // the path mapping.
+      if (found) {
+        return value;
       }
-    }
-
-    // We finished evaluating the current candidate parts
-    // Update the matched value if and only if we found the longer pattern
-    if (found && candidatePath.length > matchedLen) {
-      matchedLen = candidatePath.length;
-      matchedValue = value;
     }
   }
 
-  return matchedValue;
+  // No match was found, return an empty array.
+  return [];
+}
+
+function hasParametrizedPath(path: string): boolean {
+  return path.includes("/{");
 }
 
 function getPathFromMapKey(mapKey: string): string {

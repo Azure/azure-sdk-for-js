@@ -66,10 +66,10 @@ async function patchACluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName,
+      clusterName
     )
     .patch(parameters);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

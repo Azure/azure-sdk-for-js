@@ -1,133 +1,133 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ClustersGetParameters,
+import type {
+  ApplicationTypeVersionsCreateOrUpdateParameters,
+  ApplicationTypeVersionsDeleteParameters,
+  ApplicationTypeVersionsGetParameters,
+  ApplicationTypeVersionsListParameters,
+  ApplicationTypesCreateOrUpdateParameters,
+  ApplicationTypesDeleteParameters,
+  ApplicationTypesGetParameters,
+  ApplicationTypesListParameters,
+  ApplicationsCreateOrUpdateParameters,
+  ApplicationsDeleteParameters,
+  ApplicationsGetParameters,
+  ApplicationsListParameters,
+  ApplicationsUpdateParameters,
+  ClusterVersionsGetByEnvironmentParameters,
+  ClusterVersionsGetParameters,
+  ClusterVersionsListByEnvironmentParameters,
+  ClusterVersionsListParameters,
   ClustersCreateOrUpdateParameters,
-  ClustersUpdateParameters,
   ClustersDeleteParameters,
+  ClustersGetParameters,
   ClustersListByResourceGroupParameters,
   ClustersListParameters,
   ClustersListUpgradableVersionsParameters,
-  ClusterVersionsGetParameters,
-  ClusterVersionsGetByEnvironmentParameters,
-  ClusterVersionsListParameters,
-  ClusterVersionsListByEnvironmentParameters,
+  ClustersUpdateParameters,
   OperationsListParameters,
-  ApplicationTypesGetParameters,
-  ApplicationTypesCreateOrUpdateParameters,
-  ApplicationTypesDeleteParameters,
-  ApplicationTypesListParameters,
-  ApplicationTypeVersionsGetParameters,
-  ApplicationTypeVersionsCreateOrUpdateParameters,
-  ApplicationTypeVersionsDeleteParameters,
-  ApplicationTypeVersionsListParameters,
-  ApplicationsGetParameters,
-  ApplicationsCreateOrUpdateParameters,
-  ApplicationsUpdateParameters,
-  ApplicationsDeleteParameters,
-  ApplicationsListParameters,
-  ServicesGetParameters,
   ServicesCreateOrUpdateParameters,
-  ServicesUpdateParameters,
   ServicesDeleteParameters,
+  ServicesGetParameters,
   ServicesListParameters,
-} from "./parameters.js";
-import {
-  ClustersGet200Response,
-  ClustersGetDefaultResponse,
-  ClustersCreateOrUpdate200Response,
-  ClustersCreateOrUpdate202Response,
-  ClustersCreateOrUpdateDefaultResponse,
-  ClustersUpdate200Response,
-  ClustersUpdate202Response,
-  ClustersUpdateDefaultResponse,
-  ClustersDelete200Response,
-  ClustersDelete204Response,
-  ClustersDeleteDefaultResponse,
-  ClustersListByResourceGroup200Response,
-  ClustersListByResourceGroupDefaultResponse,
-  ClustersList200Response,
-  ClustersListDefaultResponse,
-  ClustersListUpgradableVersions200Response,
-  ClustersListUpgradableVersionsDefaultResponse,
-  ClusterVersionsGet200Response,
-  ClusterVersionsGetDefaultResponse,
-  ClusterVersionsGetByEnvironment200Response,
-  ClusterVersionsGetByEnvironmentDefaultResponse,
-  ClusterVersionsList200Response,
-  ClusterVersionsListDefaultResponse,
-  ClusterVersionsListByEnvironment200Response,
-  ClusterVersionsListByEnvironmentDefaultResponse,
-  OperationsList200Response,
-  OperationsListDefaultResponse,
-  ApplicationTypesGet200Response,
-  ApplicationTypesGetDefaultResponse,
-  ApplicationTypesCreateOrUpdate200Response,
-  ApplicationTypesCreateOrUpdateDefaultResponse,
-  ApplicationTypesDelete202Response,
-  ApplicationTypesDelete204Response,
-  ApplicationTypesDeleteDefaultResponse,
-  ApplicationTypesList200Response,
-  ApplicationTypesListDefaultResponse,
-  ApplicationTypeVersionsGet200Response,
-  ApplicationTypeVersionsGetDefaultResponse,
+  ServicesUpdateParameters,
+} from "./parameters";
+import type {
   ApplicationTypeVersionsCreateOrUpdate202Response,
-  ApplicationTypeVersionsCreateOrUpdateDefaultResponse,
+  ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
   ApplicationTypeVersionsDelete202Response,
   ApplicationTypeVersionsDelete204Response,
-  ApplicationTypeVersionsDeleteDefaultResponse,
+  ApplicationTypeVersionsDeletedefaultResponse,
+  ApplicationTypeVersionsGet200Response,
+  ApplicationTypeVersionsGetdefaultResponse,
   ApplicationTypeVersionsList200Response,
-  ApplicationTypeVersionsListDefaultResponse,
-  ApplicationsGet200Response,
-  ApplicationsGetDefaultResponse,
+  ApplicationTypeVersionsListdefaultResponse,
+  ApplicationTypesCreateOrUpdate200Response,
+  ApplicationTypesCreateOrUpdatedefaultResponse,
+  ApplicationTypesDelete202Response,
+  ApplicationTypesDelete204Response,
+  ApplicationTypesDeletedefaultResponse,
+  ApplicationTypesGet200Response,
+  ApplicationTypesGetdefaultResponse,
+  ApplicationTypesList200Response,
+  ApplicationTypesListdefaultResponse,
   ApplicationsCreateOrUpdate202Response,
-  ApplicationsCreateOrUpdateDefaultResponse,
-  ApplicationsUpdate202Response,
-  ApplicationsUpdateDefaultResponse,
+  ApplicationsCreateOrUpdatedefaultResponse,
   ApplicationsDelete202Response,
   ApplicationsDelete204Response,
-  ApplicationsDeleteDefaultResponse,
+  ApplicationsDeletedefaultResponse,
+  ApplicationsGet200Response,
+  ApplicationsGetdefaultResponse,
   ApplicationsList200Response,
-  ApplicationsListDefaultResponse,
-  ServicesGet200Response,
-  ServicesGetDefaultResponse,
+  ApplicationsListdefaultResponse,
+  ApplicationsUpdate202Response,
+  ApplicationsUpdatedefaultResponse,
+  ClusterVersionsGet200Response,
+  ClusterVersionsGetByEnvironment200Response,
+  ClusterVersionsGetByEnvironmentdefaultResponse,
+  ClusterVersionsGetdefaultResponse,
+  ClusterVersionsList200Response,
+  ClusterVersionsListByEnvironment200Response,
+  ClusterVersionsListByEnvironmentdefaultResponse,
+  ClusterVersionsListdefaultResponse,
+  ClustersCreateOrUpdate200Response,
+  ClustersCreateOrUpdate202Response,
+  ClustersCreateOrUpdatedefaultResponse,
+  ClustersDelete200Response,
+  ClustersDelete204Response,
+  ClustersDeletedefaultResponse,
+  ClustersGet200Response,
+  ClustersGetdefaultResponse,
+  ClustersList200Response,
+  ClustersListByResourceGroup200Response,
+  ClustersListByResourceGroupdefaultResponse,
+  ClustersListUpgradableVersions200Response,
+  ClustersListUpgradableVersionsdefaultResponse,
+  ClustersListdefaultResponse,
+  ClustersUpdate200Response,
+  ClustersUpdate202Response,
+  ClustersUpdatedefaultResponse,
+  OperationsList200Response,
+  OperationsListdefaultResponse,
   ServicesCreateOrUpdate202Response,
-  ServicesCreateOrUpdateDefaultResponse,
-  ServicesUpdate202Response,
-  ServicesUpdateDefaultResponse,
+  ServicesCreateOrUpdatedefaultResponse,
   ServicesDelete202Response,
   ServicesDelete204Response,
-  ServicesDeleteDefaultResponse,
+  ServicesDeletedefaultResponse,
+  ServicesGet200Response,
+  ServicesGetdefaultResponse,
   ServicesList200Response,
-  ServicesListDefaultResponse,
-} from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+  ServicesListdefaultResponse,
+  ServicesUpdate202Response,
+  ServicesUpdatedefaultResponse,
+} from "./responses";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ClustersGet {
   /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */
   get(
     options?: ClustersGetParameters,
-  ): StreamableMethod<ClustersGet200Response | ClustersGetDefaultResponse>;
+  ): StreamableMethod<ClustersGet200Response | ClustersGetdefaultResponse>;
   /** Create or update a Service Fabric cluster resource with the specified name. */
   put(
     options: ClustersCreateOrUpdateParameters,
   ): StreamableMethod<
     | ClustersCreateOrUpdate200Response
     | ClustersCreateOrUpdate202Response
-    | ClustersCreateOrUpdateDefaultResponse
+    | ClustersCreateOrUpdatedefaultResponse
   >;
   /** Update the configuration of a Service Fabric cluster resource with the specified name. */
   patch(
     options: ClustersUpdateParameters,
   ): StreamableMethod<
-    ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdateDefaultResponse
+    ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse
   >;
   /** Delete a Service Fabric cluster resource with the specified name. */
   delete(
     options?: ClustersDeleteParameters,
   ): StreamableMethod<
-    ClustersDelete200Response | ClustersDelete204Response | ClustersDeleteDefaultResponse
+    ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse
   >;
 }
 
@@ -136,7 +136,7 @@ export interface ClustersListByResourceGroup {
   get(
     options?: ClustersListByResourceGroupParameters,
   ): StreamableMethod<
-    ClustersListByResourceGroup200Response | ClustersListByResourceGroupDefaultResponse
+    ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse
   >;
 }
 
@@ -144,7 +144,7 @@ export interface ClustersList {
   /** Gets all Service Fabric cluster resources created or in the process of being created in the subscription. */
   get(
     options?: ClustersListParameters,
-  ): StreamableMethod<ClustersList200Response | ClustersListDefaultResponse>;
+  ): StreamableMethod<ClustersList200Response | ClustersListdefaultResponse>;
 }
 
 export interface ClustersListUpgradableVersions {
@@ -152,7 +152,7 @@ export interface ClustersListUpgradableVersions {
   post(
     options?: ClustersListUpgradableVersionsParameters,
   ): StreamableMethod<
-    ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsDefaultResponse
+    ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsdefaultResponse
   >;
 }
 
@@ -160,7 +160,7 @@ export interface ClusterVersionsGet {
   /** Gets information about an available Service Fabric cluster code version. */
   get(
     options?: ClusterVersionsGetParameters,
-  ): StreamableMethod<ClusterVersionsGet200Response | ClusterVersionsGetDefaultResponse>;
+  ): StreamableMethod<ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse>;
 }
 
 export interface ClusterVersionsGetByEnvironment {
@@ -168,7 +168,7 @@ export interface ClusterVersionsGetByEnvironment {
   get(
     options?: ClusterVersionsGetByEnvironmentParameters,
   ): StreamableMethod<
-    ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentDefaultResponse
+    ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentdefaultResponse
   >;
 }
 
@@ -176,7 +176,7 @@ export interface ClusterVersionsList {
   /** Gets all available code versions for Service Fabric cluster resources by location. */
   get(
     options?: ClusterVersionsListParameters,
-  ): StreamableMethod<ClusterVersionsList200Response | ClusterVersionsListDefaultResponse>;
+  ): StreamableMethod<ClusterVersionsList200Response | ClusterVersionsListdefaultResponse>;
 }
 
 export interface ClusterVersionsListByEnvironment {
@@ -184,7 +184,7 @@ export interface ClusterVersionsListByEnvironment {
   get(
     options?: ClusterVersionsListByEnvironmentParameters,
   ): StreamableMethod<
-    ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentDefaultResponse
+    ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentdefaultResponse
   >;
 }
 
@@ -192,19 +192,19 @@ export interface OperationsList {
   /** Get the list of available Service Fabric resource provider API operations. */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
+  ): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
 }
 
 export interface ApplicationTypesGet {
   /** Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric cluster resource. */
   get(
     options?: ApplicationTypesGetParameters,
-  ): StreamableMethod<ApplicationTypesGet200Response | ApplicationTypesGetDefaultResponse>;
+  ): StreamableMethod<ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse>;
   /** Create or update a Service Fabric application type name resource with the specified name. */
   put(
     options: ApplicationTypesCreateOrUpdateParameters,
   ): StreamableMethod<
-    ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdateDefaultResponse
+    ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdatedefaultResponse
   >;
   /** Delete a Service Fabric application type name resource with the specified name. */
   delete(
@@ -212,7 +212,7 @@ export interface ApplicationTypesGet {
   ): StreamableMethod<
     | ApplicationTypesDelete202Response
     | ApplicationTypesDelete204Response
-    | ApplicationTypesDeleteDefaultResponse
+    | ApplicationTypesDeletedefaultResponse
   >;
 }
 
@@ -220,7 +220,7 @@ export interface ApplicationTypesList {
   /** Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource. */
   get(
     options?: ApplicationTypesListParameters,
-  ): StreamableMethod<ApplicationTypesList200Response | ApplicationTypesListDefaultResponse>;
+  ): StreamableMethod<ApplicationTypesList200Response | ApplicationTypesListdefaultResponse>;
 }
 
 export interface ApplicationTypeVersionsGet {
@@ -228,14 +228,14 @@ export interface ApplicationTypeVersionsGet {
   get(
     options?: ApplicationTypeVersionsGetParameters,
   ): StreamableMethod<
-    ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetDefaultResponse
+    ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse
   >;
   /** Create or update a Service Fabric application type version resource with the specified name. */
   put(
     options: ApplicationTypeVersionsCreateOrUpdateParameters,
   ): StreamableMethod<
     | ApplicationTypeVersionsCreateOrUpdate202Response
-    | ApplicationTypeVersionsCreateOrUpdateDefaultResponse
+    | ApplicationTypeVersionsCreateOrUpdatedefaultResponse
   >;
   /** Delete a Service Fabric application type version resource with the specified name. */
   delete(
@@ -243,7 +243,7 @@ export interface ApplicationTypeVersionsGet {
   ): StreamableMethod<
     | ApplicationTypeVersionsDelete202Response
     | ApplicationTypeVersionsDelete204Response
-    | ApplicationTypeVersionsDeleteDefaultResponse
+    | ApplicationTypeVersionsDeletedefaultResponse
   >;
 }
 
@@ -252,7 +252,7 @@ export interface ApplicationTypeVersionsList {
   get(
     options?: ApplicationTypeVersionsListParameters,
   ): StreamableMethod<
-    ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListDefaultResponse
+    ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse
   >;
 }
 
@@ -260,24 +260,24 @@ export interface ApplicationsGet {
   /** Get a Service Fabric application resource created or in the process of being created in the Service Fabric cluster resource. */
   get(
     options?: ApplicationsGetParameters,
-  ): StreamableMethod<ApplicationsGet200Response | ApplicationsGetDefaultResponse>;
+  ): StreamableMethod<ApplicationsGet200Response | ApplicationsGetdefaultResponse>;
   /** Create or update a Service Fabric application resource with the specified name. */
   put(
     options: ApplicationsCreateOrUpdateParameters,
   ): StreamableMethod<
-    ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdateDefaultResponse
+    ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse
   >;
   /** Update a Service Fabric application resource with the specified name. */
   patch(
     options: ApplicationsUpdateParameters,
-  ): StreamableMethod<ApplicationsUpdate202Response | ApplicationsUpdateDefaultResponse>;
+  ): StreamableMethod<ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse>;
   /** Delete a Service Fabric application resource with the specified name. */
   delete(
     options?: ApplicationsDeleteParameters,
   ): StreamableMethod<
     | ApplicationsDelete202Response
     | ApplicationsDelete204Response
-    | ApplicationsDeleteDefaultResponse
+    | ApplicationsDeletedefaultResponse
   >;
 }
 
@@ -285,27 +285,27 @@ export interface ApplicationsList {
   /** Gets all application resources created or in the process of being created in the Service Fabric cluster resource. */
   get(
     options?: ApplicationsListParameters,
-  ): StreamableMethod<ApplicationsList200Response | ApplicationsListDefaultResponse>;
+  ): StreamableMethod<ApplicationsList200Response | ApplicationsListdefaultResponse>;
 }
 
 export interface ServicesGet {
   /** Get a Service Fabric service resource created or in the process of being created in the Service Fabric application resource. */
   get(
     options?: ServicesGetParameters,
-  ): StreamableMethod<ServicesGet200Response | ServicesGetDefaultResponse>;
+  ): StreamableMethod<ServicesGet200Response | ServicesGetdefaultResponse>;
   /** Create or update a Service Fabric service resource with the specified name. */
   put(
     options: ServicesCreateOrUpdateParameters,
-  ): StreamableMethod<ServicesCreateOrUpdate202Response | ServicesCreateOrUpdateDefaultResponse>;
+  ): StreamableMethod<ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse>;
   /** Update a Service Fabric service resource with the specified name. */
   patch(
     options: ServicesUpdateParameters,
-  ): StreamableMethod<ServicesUpdate202Response | ServicesUpdateDefaultResponse>;
+  ): StreamableMethod<ServicesUpdate202Response | ServicesUpdatedefaultResponse>;
   /** Delete a Service Fabric service resource with the specified name. */
   delete(
     options?: ServicesDeleteParameters,
   ): StreamableMethod<
-    ServicesDelete202Response | ServicesDelete204Response | ServicesDeleteDefaultResponse
+    ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse
   >;
 }
 
@@ -313,7 +313,7 @@ export interface ServicesList {
   /** Gets all service resources created or in the process of being created in the Service Fabric application resource. */
   get(
     options?: ServicesListParameters,
-  ): StreamableMethod<ServicesList200Response | ServicesListDefaultResponse>;
+  ): StreamableMethod<ServicesList200Response | ServicesListdefaultResponse>;
 }
 
 export interface Routes {

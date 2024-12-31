@@ -22,13 +22,11 @@ async function listClusterByResourceGroup() {
   const resourceGroupName = "resRg";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get();
+  const result = await client.path(
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
+    subscriptionId,
+    resourceGroupName
+  ).get();
   console.log(result);
 }
 

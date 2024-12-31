@@ -23,14 +23,12 @@ async function getAListOfApplicationTypeNameResources() {
   const clusterName = "myCluster";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
-      subscriptionId,
-      resourceGroupName,
-      clusterName,
-    )
-    .get();
+  const result = await client.path(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
+    subscriptionId,
+    resourceGroupName,
+    clusterName
+  ).get();
   console.log(result);
 }
 

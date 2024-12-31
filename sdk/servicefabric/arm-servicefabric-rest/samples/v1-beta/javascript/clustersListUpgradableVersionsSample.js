@@ -28,7 +28,7 @@ async function getMinimumAndMaximumCodeVersions() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
       subscriptionId,
       resourceGroupName,
-      clusterName,
+      clusterName
     )
     .post();
   console.log(result);
@@ -58,7 +58,7 @@ async function getUpgradePath() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
       subscriptionId,
       resourceGroupName,
-      clusterName,
+      clusterName
     )
     .post(options);
   console.log(result);

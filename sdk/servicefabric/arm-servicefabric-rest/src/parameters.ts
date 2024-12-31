@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
-  Cluster,
-  ClusterUpdateParameters,
-  UpgradableVersionsDescription,
-  ApplicationTypeResource,
-  ApplicationTypeVersionResource,
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ApplicationResource,
   ApplicationResourceUpdate,
+  ApplicationTypeResource,
+  ApplicationTypeVersionResource,
+  Cluster,
+  ClusterUpdateParameters,
   ServiceResource,
   ServiceResourceUpdate,
-} from "./models.js";
+  UpgradableVersionsDescription,
+} from "./models";
 
 export type ClustersGetParameters = RequestParameters;
 
