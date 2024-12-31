@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- refresh sdk with latest codegen
+- Refresh sdk with latest codegen
 
 ## 1.0.0-beta.1 (2022-07-15)
 
