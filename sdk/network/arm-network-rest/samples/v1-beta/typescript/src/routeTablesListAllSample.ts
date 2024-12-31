@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteTablesListAllParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all route tables in a subscription.
@@ -21,10 +23,13 @@ async function listAllRouteTables() {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const options: RouteTablesListAllParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables",
+      subscriptionId
+    )
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];

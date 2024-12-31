@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancerProbesListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all the load balancer probes.
@@ -23,14 +25,14 @@ async function loadBalancerProbeList() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb";
   const options: LoadBalancerProbesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName,
+      loadBalancerName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewayPrivateLinkResourcesListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all private link resources on an application gateway.
@@ -23,14 +25,14 @@ async function listsAllPrivateLinkResourcesOnApplicationGateway() {
   const resourceGroupName = "rg1";
   const applicationGatewayName = "appgw";
   const options: ApplicationGatewayPrivateLinkResourcesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
       subscriptionId,
       resourceGroupName,
-      applicationGatewayName,
+      applicationGatewayName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

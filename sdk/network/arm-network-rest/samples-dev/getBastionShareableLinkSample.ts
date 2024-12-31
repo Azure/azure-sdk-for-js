@@ -8,7 +8,9 @@ import createNetworkManagementClient, {
   paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return the Bastion Shareable Links for all the VMs specified in the request.

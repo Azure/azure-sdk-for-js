@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkWatchersListAvailableProvidersParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to NOTE: This feature is currently in preview and still being tested for stability. Lists all available internet service providers for a specified Azure region.
@@ -27,16 +29,16 @@ async function getAvailableProvidersList() {
       azureLocations: ["West US"],
       city: "seattle",
       country: "United States",
-      state: "washington",
+      state: "washington"
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName,
+      networkWatcherName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

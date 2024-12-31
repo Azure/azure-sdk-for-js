@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  IpAllocationsUpdateTagsParameters,
+  IpAllocationsUpdateTagsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a IpAllocation tags.
@@ -23,14 +25,14 @@ async function updateVirtualNetworkTags() {
   const ipAllocationName = "test-ipallocation";
   const options: IpAllocationsUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       subscriptionId,
       resourceGroupName,
-      ipAllocationName,
+      ipAllocationName
     )
     .patch(options);
   console.log(result);

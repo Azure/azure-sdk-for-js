@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  HubVirtualNetworkConnectionsGetParameters,
+  HubVirtualNetworkConnectionsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a HubVirtualNetworkConnection.
@@ -23,7 +25,7 @@ async function hubVirtualNetworkConnectionGet() {
   const virtualHubName = "virtualHub1";
   const connectionName = "connection1";
   const options: HubVirtualNetworkConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +33,7 @@ async function hubVirtualNetworkConnectionGet() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName,
+      connectionName
     )
     .get(options);
   console.log(result);

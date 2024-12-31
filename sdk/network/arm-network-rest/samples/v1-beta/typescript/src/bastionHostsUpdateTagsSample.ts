@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   BastionHostsUpdateTagsParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates Tags for BastionHost resource
@@ -24,17 +26,17 @@ async function patchBastionHost() {
   const bastionHostName = "bastionhosttenant";
   const options: BastionHostsUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       subscriptionId,
       resourceGroupName,
-      bastionHostName,
+      bastionHostName
     )
     .patch(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

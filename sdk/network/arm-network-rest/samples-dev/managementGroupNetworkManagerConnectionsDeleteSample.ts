@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   ManagementGroupNetworkManagerConnectionsDeleteParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete specified pending connection created by this management group.

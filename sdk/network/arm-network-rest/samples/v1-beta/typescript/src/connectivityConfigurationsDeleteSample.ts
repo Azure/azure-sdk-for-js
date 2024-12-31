@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConnectivityConfigurationsDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
@@ -24,7 +26,7 @@ async function connectivityConfigurationsDelete() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestConnectivityConfig";
   const options: ConnectivityConfigurationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01", force: false },
+    queryParameters: { "api-version": "2022-05-01", force: false }
   };
   const initialResponse = await client
     .path(
@@ -32,10 +34,10 @@ async function connectivityConfigurationsDelete() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName,
+      configurationName
     )
     .delete(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

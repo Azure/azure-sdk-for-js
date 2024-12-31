@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkPeeringsListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
@@ -23,14 +25,14 @@ async function listPeerings() {
   const resourceGroupName = "peerTest";
   const virtualNetworkName = "vnet1";
   const options: VirtualNetworkPeeringsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName,
+      virtualNetworkName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -55,14 +57,14 @@ async function listPeeringsWithRemoteVirtualNetworkEncryption() {
   const resourceGroupName = "peerTest";
   const virtualNetworkName = "vnet1";
   const options: VirtualNetworkPeeringsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName,
+      virtualNetworkName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

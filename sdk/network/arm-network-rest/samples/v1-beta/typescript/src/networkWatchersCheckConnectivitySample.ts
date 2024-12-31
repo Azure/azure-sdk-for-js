@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkWatchersCheckConnectivityParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
@@ -28,17 +30,17 @@ async function checkConnectivity() {
       preferredIPVersion: "IPv4",
       source: {
         resourceId:
-          "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
-      },
+          "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName,
+      networkWatcherName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

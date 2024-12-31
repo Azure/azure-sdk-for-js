@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ListNetworkManagerEffectiveSecurityAdminRulesParameters,
+  ListNetworkManagerEffectiveSecurityAdminRulesParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all effective security admin rules applied on a virtual network.
@@ -23,14 +25,14 @@ async function listEffectiveSecurityAdminRules() {
   const virtualNetworkName = "testVirtualNetwork";
   const options: ListNetworkManagerEffectiveSecurityAdminRulesParameters = {
     body: { skipToken: "FakeSkipTokenCode" },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName,
+      virtualNetworkName
     )
     .post(options);
   console.log(result);

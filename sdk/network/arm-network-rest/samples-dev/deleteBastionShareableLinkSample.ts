@@ -8,7 +8,9 @@ import createNetworkManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the Bastion Shareable Links for all the VMs specified in the request.
@@ -47,7 +49,7 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
       bastionHostName,
     )
     .post(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

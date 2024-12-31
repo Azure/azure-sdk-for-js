@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworkGatewayNatRulesGetParameters,
+  VirtualNetworkGatewayNatRulesGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a nat rule.
@@ -23,7 +25,7 @@ async function virtualNetworkGatewayNatRuleGet() {
   const virtualNetworkGatewayName = "gateway1";
   const natRuleName = "natRule1";
   const options: VirtualNetworkGatewayNatRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +33,7 @@ async function virtualNetworkGatewayNatRuleGet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName,
+      natRuleName
     )
     .get(options);
   console.log(result);

@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   UsagesListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List network usages for a subscription.
@@ -22,13 +24,13 @@ async function listUsages() {
   const subscriptionId = "";
   const location = "westus";
   const options: UsagesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
       subscriptionId,
-      location,
+      location
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -52,13 +54,13 @@ async function listUsagesSpacedLocation() {
   const subscriptionId = "";
   const location = "West US";
   const options: UsagesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
       subscriptionId,
-      location,
+      location
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteCircuitPeeringsGetParameters,
+  ExpressRouteCircuitPeeringsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified peering for the express route circuit.
@@ -23,7 +25,7 @@ async function getExpressRouteCircuitPeering() {
   const circuitName = "circuitName";
   const peeringName = "MicrosoftPeering";
   const options: ExpressRouteCircuitPeeringsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +33,7 @@ async function getExpressRouteCircuitPeering() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName,
+      peeringName
     )
     .get(options);
   console.log(result);

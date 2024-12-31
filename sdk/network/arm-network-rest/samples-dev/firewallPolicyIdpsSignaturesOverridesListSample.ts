@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   FirewallPolicyIdpsSignaturesOverridesListParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns all signatures overrides objects for a specific policy as a list containing a single value.

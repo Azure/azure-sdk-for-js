@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RoutesListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all routes in a route table.
@@ -23,14 +25,14 @@ async function listRoutes() {
   const resourceGroupName = "rg1";
   const routeTableName = "testrt";
   const options: RoutesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
       subscriptionId,
       resourceGroupName,
-      routeTableName,
+      routeTableName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

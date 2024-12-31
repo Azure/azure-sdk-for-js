@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   SecurityPartnerProvidersUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates tags of a Security Partner Provider resource.

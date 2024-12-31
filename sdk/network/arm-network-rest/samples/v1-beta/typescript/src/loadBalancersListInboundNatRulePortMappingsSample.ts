@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancersListInboundNatRulePortMappingsParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List of inbound NAT rule port mappings.
@@ -25,7 +27,7 @@ async function queryInboundNatRulePortMapping() {
   const backendPoolName = "bp1";
   const options: LoadBalancersListInboundNatRulePortMappingsParameters = {
     body: { ipAddress: "10.0.0.4" },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -33,7 +35,7 @@ async function queryInboundNatRulePortMapping() {
       subscriptionId,
       groupName,
       loadBalancerName,
-      backendPoolName,
+      backendPoolName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

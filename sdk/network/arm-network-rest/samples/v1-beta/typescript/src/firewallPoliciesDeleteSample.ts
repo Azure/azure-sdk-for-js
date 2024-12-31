@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   FirewallPoliciesDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified Firewall Policy.
@@ -23,14 +25,14 @@ async function deleteFirewallPolicy() {
   const resourceGroupName = "rg1";
   const firewallPolicyName = "firewallPolicy";
   const options: FirewallPoliciesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName,
+      firewallPolicyName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

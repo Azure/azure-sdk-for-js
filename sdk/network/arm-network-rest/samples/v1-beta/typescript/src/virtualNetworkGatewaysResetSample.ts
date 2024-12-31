@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysResetParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Resets the primary of the virtual network gateway in the specified resource group.
@@ -23,14 +25,14 @@ async function resetVirtualNetworkGateway() {
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const options: VirtualNetworkGatewaysResetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName,
+      virtualNetworkGatewayName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

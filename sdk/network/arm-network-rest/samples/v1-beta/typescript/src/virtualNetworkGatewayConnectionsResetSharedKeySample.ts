@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsResetSharedKeyParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
@@ -24,14 +26,14 @@ async function resetVirtualNetworkGatewayConnectionSharedKey() {
   const virtualNetworkGatewayConnectionName = "conn1";
   const options: VirtualNetworkGatewayConnectionsResetSharedKeyParameters = {
     body: { keyLength: 128 },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName,
+      virtualNetworkGatewayConnectionName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

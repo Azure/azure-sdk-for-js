@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewayPrivateEndpointConnectionsUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates the specified private endpoint connection on application gateway.
@@ -28,15 +30,16 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
       name: "connection1",
       properties: {
         privateEndpoint: {
-          id: "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+          id:
+            "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"
         },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
-          status: "Approved",
-        },
-      },
+          status: "Approved"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -44,10 +47,10 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
       subscriptionId,
       resourceGroupName,
       applicationGatewayName,
-      connectionName,
+      connectionName
     )
     .put(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

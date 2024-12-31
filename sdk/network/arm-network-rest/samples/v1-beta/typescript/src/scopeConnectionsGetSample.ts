@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ScopeConnectionsGetParameters,
+  ScopeConnectionsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get specified scope connection created by this Network Manager.
@@ -23,7 +25,7 @@ async function getNetworkManagerScopeConnection() {
   const networkManagerName = "testNetworkManager";
   const scopeConnectionName = "TestScopeConnection";
   const options: ScopeConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +33,7 @@ async function getNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName,
+      scopeConnectionName
     )
     .get(options);
   console.log(result);

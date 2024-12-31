@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubIpConfigurationCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
@@ -27,11 +29,12 @@ async function virtualHubIPConfigurationPut() {
     body: {
       properties: {
         subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
+          id:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -39,7 +42,7 @@ async function virtualHubIPConfigurationPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      ipConfigName,
+      ipConfigName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

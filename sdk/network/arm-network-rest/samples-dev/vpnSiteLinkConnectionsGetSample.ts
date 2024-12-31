@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   VpnSiteLinkConnectionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a vpn site link connection.

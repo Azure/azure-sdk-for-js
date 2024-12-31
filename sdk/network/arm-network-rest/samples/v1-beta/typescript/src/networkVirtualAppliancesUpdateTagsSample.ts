@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkVirtualAppliancesUpdateTagsParameters,
+  NetworkVirtualAppliancesUpdateTagsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a Network Virtual Appliance.
@@ -23,14 +25,14 @@ async function updateNetworkVirtualAppliance() {
   const networkVirtualApplianceName = "nva";
   const options: NetworkVirtualAppliancesUpdateTagsParameters = {
     body: { tags: { key1: "value1", key2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName,
+      networkVirtualApplianceName
     )
     .patch(options);
   console.log(result);

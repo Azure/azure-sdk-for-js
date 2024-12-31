@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NatRulesDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a nat rule.
@@ -24,7 +26,7 @@ async function natRuleDelete() {
   const gatewayName = "gateway1";
   const natRuleName = "natRule1";
   const options: NatRulesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function natRuleDelete() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      natRuleName,
+      natRuleName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

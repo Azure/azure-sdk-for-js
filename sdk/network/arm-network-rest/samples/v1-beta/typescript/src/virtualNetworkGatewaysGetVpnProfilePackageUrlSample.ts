@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysGetVpnProfilePackageUrlParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
@@ -23,14 +25,14 @@ async function getVirtualNetworkGatewayVpnProfilePackageUrl() {
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const options: VirtualNetworkGatewaysGetVpnProfilePackageUrlParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName,
+      virtualNetworkGatewayName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

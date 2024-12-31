@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RoutesDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified route from a route table.
@@ -24,7 +26,7 @@ async function deleteRoute() {
   const routeTableName = "testrt";
   const routeName = "route1";
   const options: RoutesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function deleteRoute() {
       subscriptionId,
       resourceGroupName,
       routeTableName,
-      routeName,
+      routeName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

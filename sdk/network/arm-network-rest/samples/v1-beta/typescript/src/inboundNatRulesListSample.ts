@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   InboundNatRulesListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all the inbound NAT rules in a load balancer.
@@ -23,14 +25,14 @@ async function inboundNatRuleList() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb1";
   const options: InboundNatRulesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName,
+      loadBalancerName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

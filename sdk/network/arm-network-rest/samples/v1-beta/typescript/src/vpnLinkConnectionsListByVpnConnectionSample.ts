@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnLinkConnectionsListByVpnConnectionParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
@@ -24,7 +26,7 @@ async function vpnSiteLinkConnectionList() {
   const gatewayName = "gateway1";
   const connectionName = "vpnConnection1";
   const options: VpnLinkConnectionsListByVpnConnectionParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function vpnSiteLinkConnectionList() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName,
+      connectionName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

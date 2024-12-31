@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ServiceEndpointPoliciesGetParameters,
+  ServiceEndpointPoliciesGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified service Endpoint Policies in a specified resource group.
@@ -22,14 +24,14 @@ async function getServiceEndPointPolicy() {
   const resourceGroupName = "rg1";
   const serviceEndpointPolicyName = "testServiceEndpointPolicy";
   const options: ServiceEndpointPoliciesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName,
+      serviceEndpointPolicyName
     )
     .get(options);
   console.log(result);

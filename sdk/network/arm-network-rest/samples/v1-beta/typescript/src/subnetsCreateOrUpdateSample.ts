@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   SubnetsCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
@@ -25,7 +27,7 @@ async function createSubnet() {
   const subnetName = "subnet1";
   const options: SubnetsCreateOrUpdateParameters = {
     body: { properties: { addressPrefix: "10.0.0.0/16" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -33,7 +35,7 @@ async function createSubnet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName,
+      subnetName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -57,7 +59,7 @@ async function createSubnetWithADelegation() {
   const subnetName = "subnet1";
   const options: SubnetsCreateOrUpdateParameters = {
     body: { properties: { addressPrefix: "10.0.0.0/16" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -65,7 +67,7 @@ async function createSubnetWithADelegation() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName,
+      subnetName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -91,10 +93,10 @@ async function createSubnetWithServiceEndpoints() {
     body: {
       properties: {
         addressPrefix: "10.0.0.0/16",
-        serviceEndpoints: [{ service: "Microsoft.Storage" }],
-      },
+        serviceEndpoints: [{ service: "Microsoft.Storage" }]
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -102,7 +104,7 @@ async function createSubnetWithServiceEndpoints() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName,
+      subnetName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

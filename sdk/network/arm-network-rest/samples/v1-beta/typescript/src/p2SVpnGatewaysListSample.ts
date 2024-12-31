@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   P2SVpnGatewaysListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the P2SVpnGateways in a subscription.
@@ -21,12 +23,12 @@ async function p2SVpnGatewayListBySubscription() {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const options: P2SVpnGatewaysListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways",
-      subscriptionId,
+      subscriptionId
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

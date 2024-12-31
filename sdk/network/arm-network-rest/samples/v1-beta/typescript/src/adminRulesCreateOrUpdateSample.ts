@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  AdminRulesCreateOrUpdateParameters,
+  AdminRulesCreateOrUpdateParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an admin rule.
@@ -26,7 +28,7 @@ async function createADefaultAdminRule() {
   const ruleName = "SampleDefaultAdminRule";
   const options: AdminRulesCreateOrUpdateParameters = {
     body: { kind: "Default", properties: { flag: "AllowVnetInbound" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -36,7 +38,7 @@ async function createADefaultAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName,
+      ruleName
     )
     .put(options);
   console.log(result);
@@ -69,11 +71,13 @@ async function createAnAdminRule() {
         direction: "Inbound",
         priority: 1,
         sourcePortRanges: ["0-65535"],
-        sources: [{ addressPrefix: "Internet", addressPrefixType: "ServiceTag" }],
-        protocol: "Tcp",
-      },
+        sources: [
+          { addressPrefix: "Internet", addressPrefixType: "ServiceTag" }
+        ],
+        protocol: "Tcp"
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -83,7 +87,7 @@ async function createAnAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName,
+      ruleName
     )
     .put(options);
   console.log(result);

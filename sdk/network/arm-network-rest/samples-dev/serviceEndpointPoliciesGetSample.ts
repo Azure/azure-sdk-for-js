@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   ServiceEndpointPoliciesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified service Endpoint Policies in a specified resource group.

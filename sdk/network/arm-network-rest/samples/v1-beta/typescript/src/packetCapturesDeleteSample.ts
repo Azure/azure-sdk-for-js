@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PacketCapturesDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified packet capture session.
@@ -24,7 +26,7 @@ async function deletePacketCapture() {
   const networkWatcherName = "nw1";
   const packetCaptureName = "pc1";
   const options: PacketCapturesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function deletePacketCapture() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      packetCaptureName,
+      packetCaptureName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -3,9 +3,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, { VipSwapGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, {
+  VipSwapGetParameters
+} from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
@@ -21,7 +25,7 @@ async function getSwapResource() {
   const resourceName = "testCloudService";
   const singletonResource = "swap";
   const options: VipSwapGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -29,7 +33,7 @@ async function getSwapResource() {
       subscriptionId,
       groupName,
       resourceName,
-      singletonResource,
+      singletonResource
     )
     .get(options);
   console.log(result);

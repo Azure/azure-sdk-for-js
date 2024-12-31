@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCrossConnectionPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a peering in the specified ExpressRouteCrossConnection.
@@ -28,15 +30,15 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
       properties: {
         ipv6PeeringConfig: {
           primaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::/126",
-          secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126",
+          secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126"
         },
         peerASN: 200,
         primaryPeerAddressPrefix: "192.168.16.252/30",
         secondaryPeerAddressPrefix: "192.168.18.252/30",
-        vlanId: 200,
-      },
+        vlanId: 200
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -44,7 +46,7 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
       subscriptionId,
       resourceGroupName,
       crossConnectionName,
-      peeringName,
+      peeringName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

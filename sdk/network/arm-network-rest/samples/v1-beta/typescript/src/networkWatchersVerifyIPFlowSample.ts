@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkWatchersVerifyIPFlowParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Verify IP flow from the specified VM to a location given the currently configured NSG rules.
@@ -31,16 +33,16 @@ async function ipFlowVerify() {
       remotePort: "80",
       targetResourceId:
         "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
-      protocol: "TCP",
+      protocol: "TCP"
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName,
+      networkWatcherName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

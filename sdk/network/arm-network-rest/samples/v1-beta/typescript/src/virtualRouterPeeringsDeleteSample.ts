@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualRouterPeeringsDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified peering from a Virtual Router.
@@ -24,7 +26,7 @@ async function deleteVirtualRouterPeering() {
   const virtualRouterName = "virtualRouter";
   const peeringName = "peering1";
   const options: VirtualRouterPeeringsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function deleteVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName,
+      peeringName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

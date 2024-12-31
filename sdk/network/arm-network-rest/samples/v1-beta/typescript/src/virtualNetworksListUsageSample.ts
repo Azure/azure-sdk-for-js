@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworksListUsageParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists usage stats.
@@ -23,14 +25,14 @@ async function vnetGetUsage() {
   const resourceGroupName = "rg1";
   const virtualNetworkName = "vnetName";
   const options: VirtualNetworksListUsageParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName,
+      virtualNetworkName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

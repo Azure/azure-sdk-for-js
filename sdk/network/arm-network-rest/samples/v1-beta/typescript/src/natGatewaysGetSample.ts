@@ -3,9 +3,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, { NatGatewaysGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, {
+  NatGatewaysGetParameters
+} from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified nat gateway in a specified resource group.
@@ -20,14 +24,14 @@ async function getNatGateway() {
   const resourceGroupName = "rg1";
   const natGatewayName = "test-natGateway";
   const options: NatGatewaysGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       subscriptionId,
       resourceGroupName,
-      natGatewayName,
+      natGatewayName
     )
     .get(options);
   console.log(result);

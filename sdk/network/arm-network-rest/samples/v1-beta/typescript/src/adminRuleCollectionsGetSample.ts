@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  AdminRuleCollectionsGetParameters,
+  AdminRuleCollectionsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a network manager security admin configuration rule collection.
@@ -24,7 +26,7 @@ async function getsSecurityAdminRuleCollection() {
   const configurationName = "myTestSecurityConfig";
   const ruleCollectionName = "testRuleCollection";
   const options: AdminRuleCollectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -33,7 +35,7 @@ async function getsSecurityAdminRuleCollection() {
       resourceGroupName,
       networkManagerName,
       configurationName,
-      ruleCollectionName,
+      ruleCollectionName
     )
     .get(options);
   console.log(result);

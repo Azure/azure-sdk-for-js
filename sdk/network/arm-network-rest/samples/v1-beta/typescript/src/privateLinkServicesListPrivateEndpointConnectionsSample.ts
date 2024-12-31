@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateLinkServicesListPrivateEndpointConnectionsParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all private end point connections for a specific private link service.
@@ -23,14 +25,14 @@ async function listPrivateLinkServiceInResourceGroup() {
   const resourceGroupName = "rg1";
   const serviceName = "testPls";
   const options: PrivateLinkServicesListPrivateEndpointConnectionsParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections",
       subscriptionId,
       resourceGroupName,
-      serviceName,
+      serviceName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

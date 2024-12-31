@@ -3,9 +3,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, { SubnetsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, {
+  SubnetsGetParameters
+} from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
@@ -21,7 +25,7 @@ async function getSubnet() {
   const virtualNetworkName = "vnetname";
   const subnetName = "subnet1";
   const options: SubnetsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -29,7 +33,7 @@ async function getSubnet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName,
+      subnetName
     )
     .get(options);
   console.log(result);
@@ -50,7 +54,7 @@ async function getSubnetWithADelegation() {
   const virtualNetworkName = "vnetname";
   const subnetName = "subnet1";
   const options: SubnetsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -58,7 +62,7 @@ async function getSubnetWithADelegation() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName,
+      subnetName
     )
     .get(options);
   console.log(result);

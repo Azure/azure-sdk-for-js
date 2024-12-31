@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   AvailableResourceGroupDelegationsListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all of the available subnet delegations for this resource group in this region.
@@ -23,14 +25,14 @@ async function getAvailableDelegationsInTheResourceGroup() {
   const resourceGroupName = "rg1";
   const location = "westcentralus";
   const options: AvailableResourceGroupDelegationsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
       subscriptionId,
       resourceGroupName,
-      location,
+      location
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

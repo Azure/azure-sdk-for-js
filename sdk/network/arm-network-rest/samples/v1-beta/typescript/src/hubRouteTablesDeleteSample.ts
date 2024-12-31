@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   HubRouteTablesDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a RouteTable.
@@ -24,7 +26,7 @@ async function routeTableDelete() {
   const virtualHubName = "virtualHub1";
   const routeTableName = "hubRouteTable1";
   const options: HubRouteTablesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function routeTableDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName,
+      routeTableName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

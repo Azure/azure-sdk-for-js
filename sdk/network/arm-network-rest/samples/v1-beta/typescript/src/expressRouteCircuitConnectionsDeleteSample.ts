@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitConnectionsDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified Express Route Circuit Connection from the specified express route circuit.
@@ -25,7 +27,7 @@ async function deleteExpressRouteCircuit() {
   const peeringName = "AzurePrivatePeering";
   const connectionName = "circuitConnectionUSAUS";
   const options: ExpressRouteCircuitConnectionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -34,10 +36,10 @@ async function deleteExpressRouteCircuit() {
       resourceGroupName,
       circuitName,
       peeringName,
-      connectionName,
+      connectionName
     )
     .delete(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

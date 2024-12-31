@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitsDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified express route circuit.
@@ -23,14 +25,14 @@ async function deleteExpressRouteCircuit() {
   const resourceGroupName = "rg1";
   const circuitName = "circuitName";
   const options: ExpressRouteCircuitsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       subscriptionId,
       resourceGroupName,
-      circuitName,
+      circuitName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

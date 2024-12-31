@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   ApplicationGatewaysGetSslPredefinedPolicyParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets Ssl predefined policy with the specified policy name.

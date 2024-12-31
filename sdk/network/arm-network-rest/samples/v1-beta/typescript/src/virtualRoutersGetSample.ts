@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualRoutersGetParameters,
+  VirtualRoutersGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified Virtual Router.
@@ -22,14 +24,14 @@ async function getVirtualRouter() {
   const resourceGroupName = "rg1";
   const virtualRouterName = "virtualRouter";
   const options: VirtualRoutersGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       subscriptionId,
       resourceGroupName,
-      virtualRouterName,
+      virtualRouterName
     )
     .get(options);
   console.log(result);

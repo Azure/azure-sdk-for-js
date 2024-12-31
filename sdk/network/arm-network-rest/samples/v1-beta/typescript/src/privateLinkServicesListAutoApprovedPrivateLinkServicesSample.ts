@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
@@ -22,13 +24,13 @@ async function getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWit
   const subscriptionId = "";
   const location = "regionName";
   const options: PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
       subscriptionId,
-      location,
+      location
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -40,5 +42,5 @@ async function getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWit
 }
 
 getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWithAutoApproved().catch(
-  console.error,
+  console.error
 );

@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsListParameters,
-  paginate,
+  paginate
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
@@ -22,13 +24,13 @@ async function listVirtualNetworkGatewayConnectionsinResourceGroup() {
   const subscriptionId = "";
   const resourceGroupName = "rg1";
   const options: VirtualNetworkGatewayConnectionsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections",
       subscriptionId,
-      resourceGroupName,
+      resourceGroupName
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

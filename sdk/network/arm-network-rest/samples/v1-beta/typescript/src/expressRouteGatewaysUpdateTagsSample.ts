@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteGatewaysUpdateTagsParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates express route gateway tags.
@@ -24,14 +26,14 @@ async function expressRouteGatewayUpdate() {
   const expressRouteGatewayName = "expressRouteGatewayName";
   const options: ExpressRouteGatewaysUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       subscriptionId,
       resourceGroupName,
-      expressRouteGatewayName,
+      expressRouteGatewayName
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

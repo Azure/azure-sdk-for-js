@@ -3,9 +3,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, { RoutesGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, {
+  RoutesGetParameters
+} from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified route from a route table.
@@ -21,7 +25,7 @@ async function getRoute() {
   const routeTableName = "testrt";
   const routeName = "route1";
   const options: RoutesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -29,7 +33,7 @@ async function getRoute() {
       subscriptionId,
       resourceGroupName,
       routeTableName,
-      routeName,
+      routeName
     )
     .get(options);
   console.log(result);

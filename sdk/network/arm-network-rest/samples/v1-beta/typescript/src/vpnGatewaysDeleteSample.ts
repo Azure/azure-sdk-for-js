@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnGatewaysDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a virtual wan vpn gateway.
@@ -23,14 +25,14 @@ async function vpnGatewayDelete() {
   const resourceGroupName = "rg1";
   const gatewayName = "gateway1";
   const options: VpnGatewaysDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName,
+      gatewayName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

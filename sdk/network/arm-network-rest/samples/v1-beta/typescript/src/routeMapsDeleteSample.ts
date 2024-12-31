@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteMapsDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a RouteMap.
@@ -24,7 +26,7 @@ async function routeMapDelete() {
   const virtualHubName = "virtualHub1";
   const routeMapName = "routeMap1";
   const options: RouteMapsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function routeMapDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeMapName,
+      routeMapName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

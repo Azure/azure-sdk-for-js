@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   P2SVpnGatewaysGenerateVpnProfileParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
@@ -24,14 +26,14 @@ async function generateP2SVpnGatewayVpnprofile() {
   const gatewayName = "p2sVpnGateway1";
   const options: P2SVpnGatewaysGenerateVpnProfileParameters = {
     body: { authenticationMethod: "EAPTLS" },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile",
       subscriptionId,
       resourceGroupName,
-      gatewayName,
+      gatewayName
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

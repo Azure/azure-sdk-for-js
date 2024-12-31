@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   ExpressRouteProviderPortsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves detail of a provider port.

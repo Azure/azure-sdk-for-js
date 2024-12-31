@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteConnectionsGetParameters,
+  ExpressRouteConnectionsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified ExpressRouteConnection.
@@ -23,7 +25,7 @@ async function expressRouteConnectionGet() {
   const expressRouteGatewayName = "expressRouteGatewayName";
   const connectionName = "connectionName";
   const options: ExpressRouteConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +33,7 @@ async function expressRouteConnectionGet() {
       subscriptionId,
       resourceGroupName,
       expressRouteGatewayName,
-      connectionName,
+      connectionName
     )
     .get(options);
   console.log(result);

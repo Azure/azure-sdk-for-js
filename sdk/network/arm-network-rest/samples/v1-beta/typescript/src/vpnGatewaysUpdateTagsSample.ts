@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnGatewaysUpdateTagsParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates virtual wan vpn gateway tags.
@@ -24,14 +26,14 @@ async function vpnGatewayUpdate() {
   const gatewayName = "gateway1";
   const options: VpnGatewaysUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName,
+      gatewayName
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

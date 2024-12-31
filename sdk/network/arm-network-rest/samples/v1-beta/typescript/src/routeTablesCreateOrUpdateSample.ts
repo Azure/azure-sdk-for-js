@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteTablesCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
@@ -24,14 +26,14 @@ async function createRouteTable() {
   const routeTableName = "testrt";
   const options: RouteTablesCreateOrUpdateParameters = {
     body: { location: "westus" },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName,
+      routeTableName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -62,20 +64,20 @@ async function createRouteTableWithRoute() {
             name: "route1",
             properties: {
               addressPrefix: "10.0.3.0/24",
-              nextHopType: "VirtualNetworkGateway",
-            },
-          },
-        ],
-      },
+              nextHopType: "VirtualNetworkGateway"
+            }
+          }
+        ]
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName,
+      routeTableName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworksUpdateTagsParameters,
+  VirtualNetworksUpdateTagsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a virtual network tags.
@@ -23,14 +25,14 @@ async function updateVirtualNetworkTags() {
   const virtualNetworkName = "test-vnet";
   const options: VirtualNetworksUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName,
+      virtualNetworkName
     )
     .patch(options);
   console.log(result);

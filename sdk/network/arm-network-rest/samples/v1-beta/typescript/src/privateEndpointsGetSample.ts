@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateEndpointsGetParameters,
+  PrivateEndpointsGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
@@ -22,14 +24,14 @@ async function getPrivateEndpoint() {
   const resourceGroupName = "rg1";
   const privateEndpointName = "testPe";
   const options: PrivateEndpointsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .get(options);
   console.log(result);
@@ -49,14 +51,14 @@ async function getPrivateEndpointWithApplicationSecurityGroups() {
   const resourceGroupName = "rg1";
   const privateEndpointName = "testPe";
   const options: PrivateEndpointsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .get(options);
   console.log(result);
@@ -76,14 +78,14 @@ async function getPrivateEndpointWithManualApprovalConnection() {
   const resourceGroupName = "rg1";
   const privateEndpointName = "testPe";
   const options: PrivateEndpointsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .get(options);
   console.log(result);

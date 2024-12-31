@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateEndpointsCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
@@ -33,9 +35,9 @@ async function createPrivateEndpoint() {
             properties: {
               groupId: "file",
               memberName: "file",
-              privateIPAddress: "192.168.0.6",
-            },
-          },
+              privateIPAddress: "192.168.0.6"
+            }
+          }
         ],
         privateLinkServiceConnections: [
           {
@@ -43,23 +45,24 @@ async function createPrivateEndpoint() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please approve my connection.",
-            },
-          },
+              requestMessage: "Please approve my connection."
+            }
+          }
         ],
         subnet: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
-        },
-      },
+          id:
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -86,8 +89,9 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
       properties: {
         applicationSecurityGroups: [
           {
-            id: "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
-          },
+            id:
+              "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
+          }
         ],
         privateLinkServiceConnections: [
           {
@@ -95,23 +99,24 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please approve my connection.",
-            },
-          },
+              requestMessage: "Please approve my connection."
+            }
+          }
         ],
         subnet: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
-        },
-      },
+          id:
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -143,9 +148,9 @@ async function createPrivateEndpointWithManualApprovalConnection() {
             properties: {
               groupId: "file",
               memberName: "file",
-              privateIPAddress: "192.168.0.5",
-            },
-          },
+              privateIPAddress: "192.168.0.5"
+            }
+          }
         ],
         manualPrivateLinkServiceConnections: [
           {
@@ -153,23 +158,24 @@ async function createPrivateEndpointWithManualApprovalConnection() {
               groupIds: ["groupIdFromResource"],
               privateLinkServiceId:
                 "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-              requestMessage: "Please manually approve my connection.",
-            },
-          },
+              requestMessage: "Please manually approve my connection."
+            }
+          }
         ],
         subnet: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
-        },
-      },
+          id:
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName,
+      privateEndpointName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

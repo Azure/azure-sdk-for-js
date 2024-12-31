@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConnectionMonitorsQueryParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Query a snapshot of the most recent connection states.
@@ -24,7 +26,7 @@ async function queryConnectionMonitor() {
   const networkWatcherName = "nw1";
   const connectionMonitorName = "cm1";
   const options: ConnectionMonitorsQueryParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,10 +34,10 @@ async function queryConnectionMonitor() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName,
+      connectionMonitorName
     )
     .post(options);
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

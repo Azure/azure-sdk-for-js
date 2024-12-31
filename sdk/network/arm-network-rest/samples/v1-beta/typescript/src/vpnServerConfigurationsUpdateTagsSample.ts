@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VpnServerConfigurationsUpdateTagsParameters,
+  VpnServerConfigurationsUpdateTagsParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates VpnServerConfiguration tags.
@@ -23,14 +25,14 @@ async function vpnServerConfigurationUpdate() {
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const options: VpnServerConfigurationsUpdateTagsParameters = {
     body: { tags: { key1: "value1", key2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName,
+      vpnServerConfigurationName
     )
     .patch(options);
   console.log(result);

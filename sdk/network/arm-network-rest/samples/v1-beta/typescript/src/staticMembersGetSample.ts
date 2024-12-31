@@ -3,9 +3,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, { StaticMembersGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, {
+  StaticMembersGetParameters
+} from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified static member.
@@ -22,7 +26,7 @@ async function staticMembersGet() {
   const networkGroupName = "testNetworkGroup";
   const staticMemberName = "testStaticMember";
   const options: StaticMembersGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -31,7 +35,7 @@ async function staticMembersGet() {
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      staticMemberName,
+      staticMemberName
     )
     .get(options);
   console.log(result);

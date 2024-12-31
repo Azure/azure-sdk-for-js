@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  DscpConfigurationGetParameters,
+  DscpConfigurationGetParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a DSCP Configuration.
@@ -22,14 +24,14 @@ async function getDscpConfiguration() {
   const resourceGroupName = "rg1";
   const dscpConfigurationName = "mydscpConfig";
   const options: DscpConfigurationGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      dscpConfigurationName,
+      dscpConfigurationName
     )
     .get(options);
   console.log(result);

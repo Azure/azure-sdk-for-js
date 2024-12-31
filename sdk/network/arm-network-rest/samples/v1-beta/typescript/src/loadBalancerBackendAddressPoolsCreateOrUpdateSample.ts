@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancerBackendAddressPoolsCreateOrUpdateParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a load balancer backend address pool.
@@ -32,23 +34,25 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
             properties: {
               ipAddress: "10.0.0.4",
               virtualNetwork: {
-                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
-              },
-            },
+                id:
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+              }
+            }
           },
           {
             name: "address2",
             properties: {
               ipAddress: "10.0.0.5",
               virtualNetwork: {
-                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
-              },
-            },
-          },
-        ],
-      },
+                id:
+                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+              }
+            }
+          }
+        ]
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -56,7 +60,7 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName,
+      backendAddressPoolName
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,5 +69,5 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
 }
 
 updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress().catch(
-  console.error,
+  console.error
 );

@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateLinkServicesUpdatePrivateEndpointConnectionParameters,
+  PrivateLinkServicesUpdatePrivateEndpointConnectionParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
@@ -27,15 +29,16 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
       name: "testPlePeConnection",
       properties: {
         privateEndpoint: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+          id:
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"
         },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
-          status: "Approved",
-        },
-      },
+          status: "Approved"
+        }
+      }
     },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
@@ -43,10 +46,12 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName,
+      peConnectionName
     )
     .put(options);
   console.log(result);
 }
 
-approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(console.error);
+approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(
+  console.error
+);

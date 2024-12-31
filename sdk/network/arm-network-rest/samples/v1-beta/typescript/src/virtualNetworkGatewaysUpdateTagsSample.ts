@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysUpdateTagsParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a virtual network gateway tags.
@@ -24,14 +26,14 @@ async function updateVirtualNetworkGatewayTags() {
   const virtualNetworkGatewayName = "vpngw";
   const options: VirtualNetworkGatewaysUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName,
+      virtualNetworkGatewayName
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

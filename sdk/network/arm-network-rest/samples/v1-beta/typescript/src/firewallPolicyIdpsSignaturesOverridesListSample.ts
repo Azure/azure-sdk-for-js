@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  FirewallPolicyIdpsSignaturesOverridesListParameters,
+  FirewallPolicyIdpsSignaturesOverridesListParameters
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns all signatures overrides objects for a specific policy as a list containing a single value.
@@ -22,14 +24,14 @@ async function getSignatureOverrides() {
   const resourceGroupName = "rg1";
   const firewallPolicyName = "firewallPolicy";
   const options: FirewallPolicyIdpsSignaturesOverridesListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName,
+      firewallPolicyName
     )
     .get(options);
   console.log(result);

@@ -7,7 +7,9 @@ import createNetworkManagementClient, {
   NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the specified network interface in a virtual machine scale set.

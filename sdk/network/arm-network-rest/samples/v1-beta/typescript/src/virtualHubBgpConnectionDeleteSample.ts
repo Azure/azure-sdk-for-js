@@ -5,10 +5,12 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubBgpConnectionDeleteParameters,
-  getLongRunningPoller,
+  getLongRunningPoller
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a VirtualHubBgpConnection.
@@ -24,7 +26,7 @@ async function virtualHubRouteTableV2Delete() {
   const virtualHubName = "hub1";
   const connectionName = "conn1";
   const options: VirtualHubBgpConnectionDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
+    queryParameters: { "api-version": "2022-05-01" }
   };
   const initialResponse = await client
     .path(
@@ -32,7 +34,7 @@ async function virtualHubRouteTableV2Delete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName,
+      connectionName
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
