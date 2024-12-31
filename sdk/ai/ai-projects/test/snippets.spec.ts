@@ -2,52 +2,71 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations} from "../../../src/index.js";
-import { AIProjectsClient } from "../../../src/index.js";
-import { createProjectsClient } from "../utils/createClient.js";
+import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
+import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 
 describe("snippets", function () {
-  let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations;
+  let client: AIProjectsClient;
 
   beforeEach(async function (context: VitestTestContext) {
-    projectsClient = createProjectsClient();
-    agents = projectsClient.agents;
+    client = createProjectsClient();
   });
 
   it("setup", async function () {
-    const connectionString = "<connectionString>";
-    
+    const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
     const client = AIProjectsClient.fromConnectionString(
       connectionString,
       new DefaultAzureCredential(),
     );
+
   });
   
   it("listConnections", async function () {
-    
+    const connections = await client.connections.listConnections();
+    for (const connection of connections) {
+      console.log(connection);
+    }
   });
 
   it("filterConnections", async function () {
-    
+    const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
+    for (const connection of connections) {
+      console.log(connection);
+    }
   });
 
-  it("getConnections", async function () {
-    
+  it("getConnection", async function () {
+    const connection = await client.connections.getConnection("connectionName");
+    console.log(connection);
   });
 
-  it("getConnectionsWithSecrets", async function () {
-    
+  it("getConnectionWithSecrets", async function () {
+    const connection = await client.connections.getConnectionWithSecrets("connectionName");
+    console.log(connection);
   });
 
   it("createAgent", async function () {
-    
+    const agent = await client.agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful assistant",
+    });
   });
 
   it("toolSet", async function () {
-    
+    const toolSet = new ToolSet();
+    toolSet.addFileSearchTool([vectorStore.id]);
+    toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+
+    // Create agent with tool set
+    const agent = await client.agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: toolSet.toolDefinitions,
+      toolResources: toolSet.toolResources,
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
   it("fileSearch", async function () {
@@ -98,7 +117,7 @@ describe("snippets", function () {
     
   });
 
-  it("createRunStreaming", async function () {
+  it("createRunStream", async function () {
     
   });
 
