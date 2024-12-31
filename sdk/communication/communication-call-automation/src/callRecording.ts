@@ -53,7 +53,7 @@ export class CallRecording {
    */
   public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator,
+      callLocator: options.callLocator ? options.callLocator : undefined,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
@@ -81,13 +81,23 @@ export class CallRecording {
         );
       });
     }
-
-    if (options.callLocator.kind === "groupCallLocator") {
-      startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
-    } else {
-      startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
+    if (options.callLocator) {
+      if (options.callLocator.kind === "groupCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "groupCallLocator",
+        };
+      } else if (options.callLocator.kind === "roomCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          roomId: options.callLocator.id,
+          kind: "roomCallLocator",
+        };
+      } else {
+        startCallRecordingRequest.callLocator = {
+          serverCallId: options.callLocator.id,
+          kind: "serverCallLocator",
+        };
+      }
     }
 
     const optionsInternal = {
