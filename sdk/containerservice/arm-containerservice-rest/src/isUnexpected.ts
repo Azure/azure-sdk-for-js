@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   OperationsList200Response,
   OperationsListDefaultResponse,
   ManagedClustersGetOSOptions200Response,

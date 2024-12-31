@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   OperationsListParameters,
   ManagedClustersGetOSOptionsParameters,
   ManagedClustersListParameters,
@@ -59,7 +59,7 @@ import {
   TrustedAccessRoleBindingsCreateOrUpdateParameters,
   TrustedAccessRoleBindingsDeleteParameters,
 } from "./parameters.js";
-import {
+import type {
   OperationsList200Response,
   OperationsListDefaultResponse,
   ManagedClustersGetOSOptions200Response,
@@ -192,7 +192,7 @@ import {
   TrustedAccessRoleBindingsDelete204Response,
   TrustedAccessRoleBindingsDeleteDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface OperationsList {
   /** Gets a list of operations. */
