@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";

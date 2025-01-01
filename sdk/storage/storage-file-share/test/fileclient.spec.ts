@@ -3,8 +3,6 @@
 
 import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure-tools/test-utils";
-
 import type {
   FileStartCopyOptions,
   ShareClient,
@@ -25,6 +23,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileClient", () => {
   let shareName: string;

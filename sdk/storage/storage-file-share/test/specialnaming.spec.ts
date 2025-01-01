@@ -4,9 +4,9 @@
 import type { ShareClient } from "../src/index.js";
 import { ShareDirectoryClient, ShareFileClient } from "../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
-import { assert } from "chai";
 import { appendToURLPath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {
   let shareName: string;

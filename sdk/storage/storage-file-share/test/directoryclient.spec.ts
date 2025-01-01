@@ -7,8 +7,9 @@ import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { DirectoryCreateResponse } from "../src/generated/src/models/index.js";
 import { truncatedISO8061Date } from "../src/utils/utils.common.js";
-import { assert, getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DirectoryClient", () => {
   let shareName: string;

@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   configureStorageClient,
   getBSU,
@@ -15,6 +13,7 @@ import {
 import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
 import { ShareServiceClient, newPipeline } from "../../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;

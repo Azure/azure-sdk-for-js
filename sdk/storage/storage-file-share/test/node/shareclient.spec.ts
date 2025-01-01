@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { Recorder } from "@azure-tools/test-recorder";
 
 import {
@@ -19,6 +16,7 @@ import {
 import type { ShareServiceClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src/index.js";
 import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;
