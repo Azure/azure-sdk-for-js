@@ -1281,7 +1281,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webapplicationfirewallpolicieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/network/arm-network-rest/samples/v1-beta/typescript/src/webApplicationFirewallPoliciesListSample.ts
 [webcategoriesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/network/arm-network-rest/samples/v1-beta/typescript/src/webCategoriesGetSample.ts
 [webcategorieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/network/arm-network-rest/samples/v1-beta/typescript/src/webCategoriesListBySubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

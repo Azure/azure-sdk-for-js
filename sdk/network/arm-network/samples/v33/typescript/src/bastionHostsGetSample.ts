@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Bastion Host.
  *
  * @summary Gets the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGet.json
  */
 async function getBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -37,12 +37,12 @@ async function getBastionHost() {
  * This sample demonstrates how to Gets the specified Bastion Host.
  *
  * @summary Gets the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostGetWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGetWithPrivateOnly.json
  */
-async function getBastionHostWithZones() {
+async function getBastionHostWithPrivateOnly() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const bastionHostName = "bastionhosttenant'";
+  const bastionHostName = "bastionhosttenant";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.bastionHosts.get(
@@ -56,7 +56,26 @@ async function getBastionHostWithZones() {
  * This sample demonstrates how to Gets the specified Bastion Host.
  *
  * @summary Gets the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostDeveloperGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGetWithZones.json
+ */
+async function getBastionHostWithZones() {
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
+  const bastionHostName = "bastionhosttenant";
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.bastionHosts.get(
+    resourceGroupName,
+    bastionHostName,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets the specified Bastion Host.
+ *
+ * @summary Gets the specified Bastion Host.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostDeveloperGet.json
  */
 async function getDeveloperBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -73,6 +92,7 @@ async function getDeveloperBastionHost() {
 
 async function main() {
   getBastionHost();
+  getBastionHostWithPrivateOnly();
   getBastionHostWithZones();
   getDeveloperBastionHost();
 }

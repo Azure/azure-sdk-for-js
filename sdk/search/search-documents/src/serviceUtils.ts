@@ -555,7 +555,7 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       return vectorizer;
     },
   };
-  const defaultDeserializer = () => {
+  const defaultDeserializer = (): any => {
     logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
     return generatedVectorizer as any;
   };

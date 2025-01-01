@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  GatewayHostnameConfigurationContract,
-  ApiManagementClient
+    ApiManagementClient,
+    GatewayHostnameConfigurationContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates of updates hostname configuration for a Gateway.
@@ -24,36 +22,36 @@ dotenv.config();
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGatewayHostnameConfiguration.json
  */
 async function apiManagementCreateGatewayHostnameConfiguration() {
-  const subscriptionId =
-    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "apimService1";
-  const gatewayId = "gw1";
-  const hcId = "default";
-  const parameters: GatewayHostnameConfigurationContract = {
-    certificateId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/cert1",
-    hostname: "*",
-    http2Enabled: true,
-    negotiateClientCertificate: false,
-    tls10Enabled: false,
-    tls11Enabled: false
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.gatewayHostnameConfiguration.createOrUpdate(
-    resourceGroupName,
-    serviceName,
-    gatewayId,
-    hcId,
-    parameters
-  );
-  console.log(result);
+    const subscriptionId =
+        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+    const resourceGroupName =
+        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+    const serviceName = "apimService1";
+    const gatewayId = "gw1";
+    const hcId = "default";
+    const parameters: GatewayHostnameConfigurationContract = {
+        certificateId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/cert1",
+        hostname: "*",
+        http2Enabled: true,
+        negotiateClientCertificate: false,
+        tls10Enabled: false,
+        tls11Enabled: false
+    };
+    const credential = new DefaultAzureCredential();
+    const client = new ApiManagementClient(credential, subscriptionId);
+    const result = await client.gatewayHostnameConfiguration.createOrUpdate(
+        resourceGroupName,
+        serviceName,
+        gatewayId,
+        hcId,
+        parameters
+    );
+    console.log(result);
 }
 
 async function main() {
-  apiManagementCreateGatewayHostnameConfiguration();
+    apiManagementCreateGatewayHostnameConfiguration();
 }
 
 main().catch(console.error);

@@ -252,9 +252,8 @@ export async function createRandomLocalFile(
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    // @ts-expect-error - TS doesn't like the Buffer type here
     function randomValueHex(blockIndex: number): string | Buffer<ArrayBufferLike> {
-      if (blockSizeOrContent instanceof Buffer) {
+      if (typeof blockSizeOrContent !== "number") {
         return blockSizeOrContent;
       }
 
