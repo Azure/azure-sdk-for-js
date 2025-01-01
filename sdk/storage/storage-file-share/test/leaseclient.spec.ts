@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils";
+import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src";
-import type { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src/index.js";
 import { isNode } from "@azure/core-util";
 
 // for file
@@ -22,8 +21,8 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -419,8 +418,8 @@ describe("LeaseClient with ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -716,7 +715,7 @@ describe("LeaseClient with ShareClient", () => {
 
   it("setAccessPolicy", async function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
     await recorder.addSanitizers(
       {

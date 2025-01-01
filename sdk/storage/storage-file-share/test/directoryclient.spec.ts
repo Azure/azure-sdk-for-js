@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import type { ShareClient } from "../src";
-import { ShareDirectoryClient, FileSystemAttributes } from "../src";
+import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import type { ShareClient } from "../src/index.js";
+import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "../src/generated/src/models";
-import { truncatedISO8061Date } from "../src/utils/utils.common";
+import type { DirectoryCreateResponse } from "../src/generated/src/models/index.js";
+import { truncatedISO8061Date } from "../src/utils/utils.common.js";
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
-import type { Context } from "mocha";
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -30,8 +29,8 @@ describe("DirectoryClient", () => {
   const filePermissionInBinaryFormat =
     "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -498,10 +497,10 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listFilesAndDirectories - with invalid char", async function (this: Context) {
+  it("listFilesAndDirectories - with invalid char", async function (ctx) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
-      this.skip();
+      ctx.skip();
     }
     const subDirClients = [];
     const subDirNames = [];
@@ -1084,10 +1083,10 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listHandles for directory with Invalid Char should work", async function (this: Context) {
+  it("listHandles for directory with Invalid Char should work", async function (ctx) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
-      this.skip();
+      ctx.skip();
     }
 
     const dirNameWithInvalidChar = recorder.variable("dir2", getUniqueName("dir2\uFFFE"));
@@ -1592,8 +1591,8 @@ describe("DirectoryClient - OAuth", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -1613,7 +1612,7 @@ describe("DirectoryClient - OAuth", () => {
         shareName,
       );
     } catch (err) {
-      this.skip();
+      ctx.skip();
     }
 
     dirName = recorder.variable("dir", getUniqueName("dir"));
@@ -1899,8 +1898,8 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2142,8 +2141,8 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let recorder: Recorder;
   let defaultDirCreateResp: DirectoryCreateResponse;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2415,8 +2414,8 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {

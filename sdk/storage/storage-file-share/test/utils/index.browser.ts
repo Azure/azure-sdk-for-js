@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
-import type { ShareClientConfig, ShareClientOptions } from "../../src/models";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential.js";
+import { newPipeline } from "../../src/Pipeline.js";
+import type { ShareClientConfig, ShareClientOptions } from "../../src/models.js";
+import { ShareServiceClient } from "../../src/ShareServiceClient.js";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericBSU(
   recorder: Recorder,

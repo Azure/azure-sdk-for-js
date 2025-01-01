@@ -3,7 +3,6 @@
 
 import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
 import type {
@@ -11,12 +10,12 @@ import type {
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
-} from "../src";
-import { ShareFileClient } from "../src";
-import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import type { DirectoryCreateResponse } from "../src/generated/src/models";
-import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { truncatedISO8061Date } from "../src/utils/utils.common";
+} from "../src/index.js";
+import { ShareFileClient } from "../src/index.js";
+import { FileSystemAttributes } from "../src/FileSystemAttributes.js";
+import type { DirectoryCreateResponse } from "../src/generated/src/models/index.js";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants.js";
+import { truncatedISO8061Date } from "../src/utils/utils.common.js";
 import {
   bodyToString,
   compareBodyWithUint8Array,
@@ -25,7 +24,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 
 describe("FileClient", () => {
   let shareName: string;
@@ -53,8 +52,8 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -79,7 +78,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     if (shareClient) {
       await shareClient.delete({ deleteSnapshots: "include" });
     }
@@ -557,7 +556,7 @@ describe("FileClient", () => {
 
   it("startCopyFromURL", async function () {
     if (!isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
@@ -830,7 +829,7 @@ describe("FileClient", () => {
 
   it("uploadRange with progress event", async function () {
     if (!isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(10);
     let progressUpdated = false;
@@ -927,10 +926,10 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function (this: Context) {
+  it("getRangeListDiff", async function (ctx) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -951,10 +950,10 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function (this: Context) {
+  it("getRangeListDiff with share snapshot", async function (ctx) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -982,10 +981,10 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with rename", async function (this: Context) {
+  it("getRangeListDiff with rename", async function (ctx) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -1019,10 +1018,10 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot and rename", async function (this: Context) {
+  it("getRangeListDiff with share snapshot and rename", async function (ctx) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -1112,7 +1111,7 @@ describe("FileClient", () => {
     if (!isNode || !isLiveMode()) {
       // because this test is using a blob response, there won't be
       // anything to abort by the time onProgress gets called.
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(128 * 1024 * 1024);
 
@@ -1177,10 +1176,10 @@ describe("FileClient", () => {
     );
   });
 
-  it("listHandles for file with Invalid Char should work", async function (this: Context) {
+  it("listHandles for file with Invalid Char should work", async function (ctx) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
-      this.skip();
+      ctx.skip();
     }
     const fileNameWithInvalidChar = recorder.variable("file", getUniqueName("file\uFFFE"));
 
@@ -1822,8 +1821,8 @@ describe("FileClient - OAuth", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -1838,7 +1837,7 @@ describe("FileClient - OAuth", () => {
     try {
       serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
     } catch (err) {
-      this.skip();
+      ctx.skip();
     }
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -1854,8 +1853,8 @@ describe("FileClient - OAuth", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await shareClientWithKeyCredential.delete({ deleteSnapshots: "include" });
       await recorder.stop();
     }
@@ -2035,7 +2034,7 @@ describe("FileClient - OAuth", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("getRangeListDiff with share snapshot", async function (this: Context) {
+  it("getRangeListDiff with share snapshot", async function () {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2135,8 +2134,8 @@ describe("FileClient - AllowTrailingDots - True", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2165,8 +2164,8 @@ describe("FileClient - AllowTrailingDots - True", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
     }
@@ -2368,7 +2367,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function (this: Context) {
+  it("getRangeListDiff", async function () {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2388,7 +2387,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function (this: Context) {
+  it("getRangeListDiff with share snapshot", async function () {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2511,8 +2510,8 @@ describe("FileClient - AllowTrailingDots - False", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2541,8 +2540,8 @@ describe("FileClient - AllowTrailingDots - False", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
     }
@@ -2744,7 +2743,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function (this: Context) {
+  it("getRangeListDiff", async function () {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2764,7 +2763,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function (this: Context) {
+  it("getRangeListDiff with share snapshot", async function () {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2891,8 +2890,8 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2918,8 +2917,8 @@ describe("FileClient - AllowTrailingDots - Default", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
     }

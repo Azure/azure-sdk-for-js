@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as buffer from "buffer";
-import * as fs from "fs";
-import * as path from "path";
+import * as buffer from "node:buffer";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 import {
   createRandomLocalFile,
@@ -12,12 +12,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+} from "../utils/index.js";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("Highlevel Node.js only", () => {
   let shareName: string;
@@ -35,8 +34,8 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getBSU(recorder);
@@ -50,7 +49,7 @@ describe("Highlevel Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     if (shareClient) {
       await shareClient.delete();
     }
@@ -74,7 +73,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should success for large data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileLarge, {
       concurrency: 20,
@@ -97,7 +96,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should success for small data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       concurrency: 20,
@@ -120,7 +119,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should abort for large data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
 
@@ -138,7 +137,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should abort for small data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
 
@@ -156,7 +155,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should update progress for large data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -180,7 +179,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should update progress for small data", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -204,7 +203,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadStream should success", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
@@ -226,7 +225,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadStream should abort", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortSignal.timeout(1);
@@ -243,7 +242,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadStream should update progress event", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
@@ -287,7 +286,7 @@ describe("Highlevel Node.js only", () => {
 
   it("downloadToBuffer should success", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
@@ -304,7 +303,7 @@ describe("Highlevel Node.js only", () => {
 
   it("downloadToBuffer should succeed - without passing the buffer", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
@@ -376,7 +375,7 @@ describe("Highlevel Node.js only", () => {
 
   it("downloadToBuffer should abort", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
@@ -396,7 +395,7 @@ describe("Highlevel Node.js only", () => {
 
   it("downloadToBuffer should update progress event", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileSmall);
     await fileClient.uploadStream(rs, tempFileSmallLength, 4 * 1024 * 1024, 10);
@@ -422,7 +421,7 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should success when internal stream unexpected ends at the stream end", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
@@ -457,7 +456,7 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should download full data successfully when internal stream unexpected ends", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
@@ -493,7 +492,7 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should download partial data when internal stream unexpected ends", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
@@ -531,7 +530,7 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should download data failed when exceeding max stream retry requests", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
@@ -568,7 +567,7 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should abort after retries", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
@@ -609,7 +608,7 @@ describe("Highlevel Node.js only", () => {
 
   it("downloadToFile should success", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile.",

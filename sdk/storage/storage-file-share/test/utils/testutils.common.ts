@@ -4,7 +4,7 @@
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];

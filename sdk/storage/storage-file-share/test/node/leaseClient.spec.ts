@@ -8,10 +8,9 @@ import {
   getUniqueName,
   getTokenBSUWithDefaultCredential,
   bodyToString,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import type { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 
 // for file
 describe("LeaseClient Node.js only - OAuth", () => {
@@ -27,8 +26,8 @@ describe("LeaseClient Node.js only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -154,8 +153,8 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {

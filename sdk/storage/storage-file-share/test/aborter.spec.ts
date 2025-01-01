@@ -3,10 +3,9 @@
 
 import { assert } from "chai";
 
-import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils";
+import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient } from "../src";
-import type { Context } from "mocha";
+import type { ShareClient } from "../src/index.js";
 
 describe("Aborter", () => {
   let shareName: string;
@@ -14,8 +13,8 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getBSU(recorder);

@@ -7,9 +7,9 @@
  */
 
 import * as coreHttpCompat from "@azure/core-http-compat";
-import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations";
-import { Service, Share, Directory, File } from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations/index.js";
+import { Service, Share, Directory, File } from "./operationsInterfaces/index.js";
+import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;

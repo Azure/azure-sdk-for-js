@@ -10,12 +10,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ShareItem, ShareServiceClient } from "../src";
-import { ShareClient } from "../src";
+} from "./utils/index.js";
+import type { ShareItem, ShareServiceClient } from "../src/index.js";
+import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { configureStorageClient } from "./utils";
+import { configureStorageClient } from "./utils/index.js";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
@@ -24,8 +23,8 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     serviceClient = getBSU(recorder);
@@ -332,15 +331,15 @@ describe("ShareClient - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
     try {
       serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
     } catch (err) {
-      this.skip();
+      ctx.skip();
     }
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -407,8 +406,8 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     serviceClient = getBSU(recorder);
@@ -735,15 +734,15 @@ describe("ShareClient Provisioned", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     try {
       serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
     } catch (error: any) {
       console.log(error);
-      this.skip();
+      ctx.skip();
     }
   });
 
@@ -752,7 +751,7 @@ describe("ShareClient Provisioned", () => {
   });
 
   // Skipped for now as it needs be enabled on the account.
-  it("Create share with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+  it("Create share with Provisioned Max Iops and Bandwidth", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -769,7 +768,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("setProperties with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+  it("setProperties with Provisioned Max Iops and Bandwidth", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -821,7 +820,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("Restore share", async function (this: Context) {
+  it("Restore share", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -862,15 +861,15 @@ describe("ShareClient Premium", () => {
   let serviceClient: ShareServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
       console.log(error);
-      this.skip();
+      ctx.skip();
     }
   });
 

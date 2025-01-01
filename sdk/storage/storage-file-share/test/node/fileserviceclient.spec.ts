@@ -11,17 +11,16 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { StorageSharedKeyCredential, ShareItem } from "../../src";
-import { ShareServiceClient, newPipeline } from "../../src";
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
+import { ShareServiceClient, newPipeline } from "../../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
@@ -106,8 +105,8 @@ describe("FileServiceClient Node.js only", () => {
 describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
@@ -260,8 +259,8 @@ describe("FileServiceClient Premium Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     try {
@@ -270,7 +269,7 @@ describe("FileServiceClient Premium Node.js only", () => {
       });
     } catch (error: any) {
       console.log(error);
-      this.skip();
+      ctx.skip();
     }
   });
 
@@ -279,7 +278,7 @@ describe("FileServiceClient Premium Node.js only", () => {
   });
 
   // STG95 will enable it when it's enabled on service
-  it.skip("Paid Bursting", async function (this: Context) {
+  it.skip("Paid Bursting", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 

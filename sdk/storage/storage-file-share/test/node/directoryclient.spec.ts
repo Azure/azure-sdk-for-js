@@ -10,11 +10,10 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { StorageSharedKeyCredential, ShareClient } from "../../src";
-import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src";
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
+import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DirectoryClient Node.js only", () => {
@@ -25,8 +24,8 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     const serviceClient = getBSU(recorder);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
