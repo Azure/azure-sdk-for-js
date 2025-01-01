@@ -13,7 +13,7 @@ import {
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type { ShareItem, ShareRootSquash } from "../src/index.js";
 import { ShareServiceClient } from "../src/index.js";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient", () => {
