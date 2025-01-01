@@ -228,6 +228,7 @@ async function main() {
     id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
     if(redis){
       await redis.auth(extractUsernameFromToken(accessToken), accessTokenCache.token);
+      redis.options.password = accessTokenCache.token;
     }
   }
 
