@@ -13,7 +13,11 @@ import {
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
 } from "../utils/index.js";
-import type { ShareServiceClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src/index.js";
+import type {
+  ShareServiceClient,
+  SignedIdentifier,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
 import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

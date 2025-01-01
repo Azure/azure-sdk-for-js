@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 import { Recorder } from "@azure-tools/test-recorder";
 
 import type { ShareClient } from "../../src/index.js";

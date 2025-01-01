@@ -26,7 +26,7 @@ import {
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("FileClient", () => {
   let shareName: string;
@@ -1232,8 +1232,8 @@ describe("FileClient", () => {
 
   it("create with tracing", async function () {
     await expect(async (options) => {
-    await fileClient.create(content.length, options);
-}).toSupportTracing(["ShareFileClient-create"]);
+      await fileClient.create(content.length, options);
+    }).toSupportTracing(["ShareFileClient-create"]);
   });
 
   // STG81

@@ -8,7 +8,11 @@ import * as zlib from "zlib";
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
-import type { ShareClient, ShareDirectoryClient, StorageSharedKeyCredential } from "../../src/index.js";
+import type {
+  ShareClient,
+  ShareDirectoryClient,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,

@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import {
+  getBSU,
+  getTokenBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import type { ShareClient } from "../src/index.js";
 import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
@@ -12,7 +18,7 @@ import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -1029,33 +1035,41 @@ describe("DirectoryClient", () => {
 
   it("createFile and deleteFile with tracing", async () => {
     await expect(async (options) => {
-    const directoryName = recorder.variable("directory", getUniqueName("directory"));
-    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, options);
-    const fileName = recorder.variable("file", getUniqueName("file"));
-    const metadata = { key: "value" };
-    const { fileClient } = await subDirClient.createFile(fileName, 256, {
+      const directoryName = recorder.variable("directory", getUniqueName("directory"));
+      const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
+        directoryName,
+        options,
+      );
+      const fileName = recorder.variable("file", getUniqueName("file"));
+      const metadata = { key: "value" };
+      const { fileClient } = await subDirClient.createFile(fileName, 256, {
         metadata,
         ...options,
-    });
-    const result = await fileClient.getProperties(options);
-    assert.deepEqual(result.metadata, metadata);
-    await subDirClient.deleteFile(fileName, options);
-    try {
+      });
+      const result = await fileClient.getProperties(options);
+      assert.deepEqual(result.metadata, metadata);
+      await subDirClient.deleteFile(fileName, options);
+      try {
         await fileClient.getProperties(options);
-        assert.fail("Expecting an error in getting properties from a deleted block blob but didn't get one.");
-    }
-    catch (error: any) {
+        assert.fail(
+          "Expecting an error in getting properties from a deleted block blob but didn't get one.",
+        );
+      } catch (error: any) {
         assert.ok((error.statusCode as number) === 404);
-        assert.equal(error.details.errorCode, "ResourceNotFound", "Error does not contain details property");
-    }
-    await subDirClient.delete(options);
-}).toSupportTracing([
-    "ShareDirectoryClient-createSubdirectory",
-    "ShareDirectoryClient-createFile",
-    "ShareFileClient-getProperties",
-    "ShareDirectoryClient-deleteFile",
-    "ShareDirectoryClient-delete",
-]);
+        assert.equal(
+          error.details.errorCode,
+          "ResourceNotFound",
+          "Error does not contain details property",
+        );
+      }
+      await subDirClient.delete(options);
+    }).toSupportTracing([
+      "ShareDirectoryClient-createSubdirectory",
+      "ShareDirectoryClient-createFile",
+      "ShareFileClient-getProperties",
+      "ShareDirectoryClient-deleteFile",
+      "ShareDirectoryClient-delete",
+    ]);
   });
 
   it("listHandles should work", async () => {
