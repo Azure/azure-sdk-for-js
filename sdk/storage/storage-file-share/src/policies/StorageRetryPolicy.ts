@@ -11,9 +11,8 @@ import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "../../../storage-blob/src/policies/RequestPolicy.js";
+import { BaseRequestPolicy } from "@azure/storage-blob";
 import type { RestError } from "@azure/core-rest-pipeline";
-
 import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { URLConstants } from "../utils/constants.js";
 import { delay, setURLParameter } from "../utils/utils.common.js";
@@ -269,7 +268,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param attempt -
    * @param abortSignal -
    */
-  private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
+  private async delay(
+    isPrimaryRetry: boolean,
+    attempt: number,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {

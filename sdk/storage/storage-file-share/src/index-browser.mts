@@ -4,8 +4,15 @@
 import { RestError } from "@azure/core-rest-pipeline";
 
 export * from "./Clients.js";
-export * from "../../storage-blob/src/credentials/AnonymousCredential.js";
-export * from "../../storage-blob/src/credentials/Credential.js";
+export {
+  AnonymousCredential,
+  AnonymousCredentialPolicy,
+  BaseRequestPolicy,
+  Credential,
+  CredentialPolicy,
+  CredentialPolicyCreator,
+  StorageBrowserPolicyFactory,
+} from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
 export { Range } from "./Range.js";
 export {
@@ -27,11 +34,7 @@ export {
   StoragePipelineOptions,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy.js";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy.js";
-export * from "../../storage-blob/src/policies/CredentialPolicy.js";
 export * from "./StorageRetryPolicyFactory.js";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
 export * from "./ShareServiceClient.js";
 export { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";

@@ -168,7 +168,7 @@ import {
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node.js";
+} from "./utils/utils.js";
 import type {
   FileSetHttpHeadersHeaders,
   StorageClient as StorageClientContext,

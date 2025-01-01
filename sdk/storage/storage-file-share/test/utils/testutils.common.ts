@@ -18,7 +18,12 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): {
+  regex: boolean;
+  target: string;
+  groupForReplace: string;
+  value: string;
+} {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,
