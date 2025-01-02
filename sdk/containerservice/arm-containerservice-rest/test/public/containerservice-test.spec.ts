@@ -30,8 +30,8 @@ describe("My test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
     secret = env.AZURE_CLIENT_SECRET || "";
