@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   FileSystemListPathsResponse,

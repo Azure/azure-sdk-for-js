@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isNodeLike } from "@azure/core-util";
 import type {
   DataLakeServiceProperties,
