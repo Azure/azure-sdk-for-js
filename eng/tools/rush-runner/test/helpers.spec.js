@@ -1,5 +1,5 @@
 import { assert, describe, it } from "vitest";
-import { getDirectionMappedPackages, reducedDependencyTestMatrix } from "../helpers.js";
+import { getDirectionMappedPackages, reducedDependencyTestMatrix } from "../src/helpers.js";
 
 describe("getDirectionMappedPackages", () => {
   it("should use --to reduced core scope for changed core package", () => {
