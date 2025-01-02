@@ -82,7 +82,7 @@ The class factory method `fromConnectionString` is used to construct the client.
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
+const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
 const client = AIProjectsClient.fromConnectionString(
   connectionString,
   new DefaultAzureCredential(),
@@ -101,6 +101,7 @@ Below are code examples of the connection operations. Full samples can be found 
 To list the properties of all the connections in the Azure AI Foundry project:
 
 ```js snippet:listConnections
+// Begin snippet
 const connections = await client.connections.listConnections();
 for (const connection of connections) {
   console.log(connection);
@@ -111,6 +112,7 @@ for (const connection of connections) {
 To list the properties of connections of a certain type (here Azure OpenAI):
 
 ```js snippet:filterConnections
+// Begin snippet
 const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
 for (const connection of connections) {
   console.log(connection);
@@ -121,12 +123,14 @@ for (const connection of connections) {
 To get the connection properties of a connection named `connectionName`:
 
 ```js snippet:getConnection
+// Begin snippet
 const connection = await client.connections.getConnection("connectionName");
 ```
 
 To get the connection properties with its authentication credentials:
 
 ```js snippet:getConnectionWithSecrets
+// Begin snippet
 const connection = await client.connections.getConnectionWithSecrets("connectionName");
 ```
 
@@ -141,9 +145,12 @@ Agents are actively being developed. A sign-up form for private preview is comin
 Here is an example of how to create an Agent:
 
 ```js snippet:createAgent
+// Begin snippet
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful assistant",
+});
+// End snippet
 ```
 
 To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
@@ -153,16 +160,28 @@ You can use `ToolSet` to do this:
 ```js snippet:toolSet
 import { ToolSet } from "@azure/ai-projects";
 
+const filePath1 = path.resolve("./data/nifty500QuarterlyResults.csv");
+const fileStream1 = fs.createReadStream(filePath1);
+const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants");
+const filePath2 = path.resolve("./data/sampleFileForUpload.txt");
+const fileStream2 = fs.createReadStream(filePath2);
+const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants");
+const vectorStore = await client.agents.createVectorStore({ fileIds: [fileSearchFile.id] });
+// Begin snippet
 const toolSet = new ToolSet();
 toolSet.addFileSearchTool([vectorStore.id]);
 toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-// Create agent with tool set
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
   tools: toolSet.toolDefinitions,
   toolResources: toolSet.toolResources,
 });
+console.log(`Created agent, agent ID: ${agent.id}`);
+// End snippet
+await client.agents.deleteAgent(agent.id);
+await client.agents.deleteVectorStore(vectorStore.id);
+await client.agents.deleteFile(codeInterpreterFile.id);
 ```
 
 #### Create Agent with File Search

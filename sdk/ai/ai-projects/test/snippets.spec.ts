@@ -6,6 +6,8 @@ import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
+import * as fs from "fs";
+import path from "node:path";
 
 describe("snippets", function () {
   let client: AIProjectsClient;
@@ -15,51 +17,72 @@ describe("snippets", function () {
   });
 
   it("setup", async function () {
-    const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
+    const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
+    // @ts-ignore
     const client = AIProjectsClient.fromConnectionString(
       connectionString,
       new DefaultAzureCredential(),
     );
-
   });
   
   it("listConnections", async function () {
+    // Begin snippet
     const connections = await client.connections.listConnections();
     for (const connection of connections) {
       console.log(connection);
     }
+    // End snippet
   });
 
   it("filterConnections", async function () {
+    // Begin snippet
     const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
     for (const connection of connections) {
       console.log(connection);
     }
+    // End snippet
   });
 
   it("getConnection", async function () {
+    // Begin snippet
     const connection = await client.connections.getConnection("connectionName");
     console.log(connection);
+    // End snippet
   });
 
   it("getConnectionWithSecrets", async function () {
+    // Begin snippet
     const connection = await client.connections.getConnectionWithSecrets("connectionName");
     console.log(connection);
+    // End snippet
   });
 
   it("createAgent", async function () {
+    // Begin snippet
     const agent = await client.agents.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful assistant",
     });
+    // End snippet
+    await client.agents.deleteAgent(agent.id);
   });
 
   it("toolSet", async function () {
+    const filePath1 = path.resolve("./data/nifty500QuarterlyResults.csv");
+    const fileStream1 = fs.createReadStream(filePath1);
+    const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants");
+
+    const filePath2 = path.resolve("./data/sampleFileForUpload.txt");
+    const fileStream2 = fs.createReadStream(filePath2);
+    const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants");
+  
+    const vectorStore = await client.agents.createVectorStore({ fileIds: [fileSearchFile.id]});
+
+    // Begin snippet
     const toolSet = new ToolSet();
     toolSet.addFileSearchTool([vectorStore.id]);
     toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
-    // Create agent with tool set
     const agent = await client.agents.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
@@ -67,6 +90,12 @@ describe("snippets", function () {
       toolResources: toolSet.toolResources,
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
+    // End snippet
+
+    await client.agents.deleteAgent(agent.id);
+    await client.agents.deleteVectorStore(vectorStore.id);
+    await client.agents.deleteFile(codeInterpreterFile.id);
+    await client.agents.deleteFile(fileSearchFile.id); 
   });
 
   it("fileSearch", async function () {
