@@ -4,6 +4,7 @@
 import type { JwtPayload, VersionInfo } from "../common/types";
 import {
   API_VERSION,
+  Constants,
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
@@ -101,6 +102,25 @@ export const validateMptPAT = (
   } catch (err) {
     coreLogger.error(err);
     exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
+  }
+};
+const isTokenExpiringSoon = (expirationTime: number, currentTime: number): boolean => {
+  return expirationTime * 1000 - currentTime <= Constants.sevenDaysInMs;
+};
+
+const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void => {
+  const daysToExpiration = Math.ceil((expirationTime * 1000 - currentTime) / Constants.oneDayInMs);
+  const expirationDate = new Date(expirationTime * 1000).toLocaleDateString();
+  const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+  console.warn(expirationWarning);
+};
+
+export const warnIfAccessTokenCloseToExpiry = (): void => {
+  const accessToken = getAccessToken();
+  const claims = parseJwt<JwtPayload>(accessToken!);
+  const currentTime = Date.now();
+  if (isTokenExpiringSoon(claims.exp!, currentTime)) {
+    warnAboutTokenExpiry(claims.exp!, currentTime);
   }
 };
 
