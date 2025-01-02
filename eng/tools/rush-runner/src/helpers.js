@@ -6,6 +6,8 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { getBaseDir } from "./env.js";
+
 /** @type {Record<"core"|"test-utils"|"identity", string[]>} */
 export const reducedDependencyTestMatrix = {
   core: [
@@ -119,17 +121,17 @@ const getPackageJSONs = (searchDir) => {
 /**
  * Returns package names and package dirs arrays
  *
- * @param {string} baseDir -
  * @param {string[]} serviceDirs -
  * @param {string} artifactNames -
  */
-export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
+export const getServicePackages = (serviceDirs, artifactNames) => {
+  
   const packageNames = [];
   const packageDirs = [];
   let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
-    const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
+    const searchDir = path.resolve(path.join(getBaseDir(), "sdk", serviceDir));
     const packageJSONs = getPackageJSONs(searchDir);
     for (const filePath of packageJSONs) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
