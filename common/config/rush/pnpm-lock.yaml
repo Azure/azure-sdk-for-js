@@ -3671,7 +3671,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-8d9pUlsrqnMMWz0E4QoFwVxL3sRQMbBuu8Uu6d3FuLydP3R3dBkpy9qrvK66eePFAAa//qQz917Rd2EYjsY6Ig==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-J2IVP21UPSmueIGvagyCzq/6p0HoPHi50K4NhhG8BONUT78YgqeK4mjZFjLUqQwXI9FG6dfEYxtB6Q++c8yspw==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -16877,6 +16877,7 @@ snapshots:
       playwright: 1.49.1
       priorityqueuejs: 2.0.0
       semaphore: 1.1.0
+      source-map-support: 0.5.21
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
