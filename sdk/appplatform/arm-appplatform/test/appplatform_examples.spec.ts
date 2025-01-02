@@ -92,7 +92,7 @@ describe("AppPlatform test", () => {
         }
       }
     }, testPollingOptions);
-    assert.equal(res.name, serviceName);
+    assert.equal(res.name, appName);
   });
 
   it("services get test", async function () {

@@ -34,13 +34,11 @@ export const testPollingOptions = {
 
 describe("appcomplianceautomation test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
   let client: AppComplianceAutomationToolForMicrosoft365;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AppComplianceAutomationToolForMicrosoft365(credential, recorder.configureClientOptions({}));

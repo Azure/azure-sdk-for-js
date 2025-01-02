@@ -100,7 +100,7 @@ describe("AppConfiguration test", () => {
 
   it("configurationStores delete test", async function () {
     const resArray = new Array();
-    const res = await client.configurationStores.beginDeleteAndWait(resourceGroup, resourcename);
+    await client.configurationStores.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.configurationStores.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
