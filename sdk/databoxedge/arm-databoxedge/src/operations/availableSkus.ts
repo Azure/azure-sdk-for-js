@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AvailableSkus } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AvailableSkus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import {
   DataBoxEdgeSku,
   AvailableSkusListNextOptionalParams,
   AvailableSkusListOptionalParams,
   AvailableSkusListResponse,
   AvailableSkusListNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableSkus operations. */

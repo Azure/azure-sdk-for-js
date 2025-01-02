@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConfigurationProfileHCIAssignments } from "../operationsInterfaces/index.js";
+import { ConfigurationProfileHCIAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AutomanageClient } from "../automanageClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AutomanageClient } from "../automanageClient";
 import {
   ConfigurationProfileAssignment,
   ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams,
@@ -18,7 +18,7 @@ import {
   ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ConfigurationProfileHCIAssignmentsGetResponse,
   ConfigurationProfileHCIAssignmentsDeleteOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ConfigurationProfileHCIAssignments operations. */
 export class ConfigurationProfileHCIAssignmentsImpl

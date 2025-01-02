@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { RoleAssignments } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleAssignment,
   RoleAssignmentsListForResourceNextOptionalParams,
@@ -44,7 +44,7 @@ import {
   RoleAssignmentsListForResourceGroupNextResponse,
   RoleAssignmentsListNextResponse,
   RoleAssignmentsListForScopeNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleAssignments operations. */

@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ConfigurationProfilesVersions } from "../operationsInterfaces/index.js";
+import { ConfigurationProfilesVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AutomanageClient } from "../automanageClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AutomanageClient } from "../automanageClient";
 import {
   ConfigurationProfile,
   ConfigurationProfilesVersionsListChildResourcesOptionalParams,
@@ -21,7 +21,7 @@ import {
   ConfigurationProfilesVersionsGetOptionalParams,
   ConfigurationProfilesVersionsGetResponse,
   ConfigurationProfilesVersionsDeleteOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigurationProfilesVersions operations. */

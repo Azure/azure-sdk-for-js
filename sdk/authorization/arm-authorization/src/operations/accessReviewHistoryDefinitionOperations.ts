@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AccessReviewHistoryDefinitionOperations } from "../operationsInterfaces/index.js";
+import { AccessReviewHistoryDefinitionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   AccessReviewHistoryDefinitionProperties,
   AccessReviewHistoryDefinitionCreateOptionalParams,
   AccessReviewHistoryDefinitionCreateResponse,
   AccessReviewHistoryDefinitionDeleteByIdOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing AccessReviewHistoryDefinitionOperations operations. */
 export class AccessReviewHistoryDefinitionOperationsImpl

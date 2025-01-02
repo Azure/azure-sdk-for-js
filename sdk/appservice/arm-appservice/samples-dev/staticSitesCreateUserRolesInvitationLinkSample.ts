@@ -13,7 +13,9 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Creates an invitation link for a user with the role

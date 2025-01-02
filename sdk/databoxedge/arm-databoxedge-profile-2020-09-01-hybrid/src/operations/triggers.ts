@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Triggers } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Triggers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import { LroImpl } from "../lroImpl";
 import {
   TriggerUnion,
   TriggersListByDataBoxEdgeDeviceNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   TriggersCreateOrUpdateResponse,
   TriggersDeleteOptionalParams,
   TriggersListByDataBoxEdgeDeviceNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Triggers operations. */

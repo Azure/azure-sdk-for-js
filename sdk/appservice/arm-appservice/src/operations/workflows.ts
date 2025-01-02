@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Workflows } from "../operationsInterfaces/index.js";
+import { Workflows } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { WebSiteManagementClient } from "../webSiteManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   RegenerateActionParameter,
   WorkflowsRegenerateAccessKeyOptionalParams,
   Workflow,
   WorkflowsValidateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Workflows operations. */
 export class WorkflowsImpl implements Workflows {

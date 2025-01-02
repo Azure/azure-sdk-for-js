@@ -16,7 +16,7 @@ import {
   AuthorizationsCreateOrUpdateOptionalParams,
   AuthorizationsCreateOrUpdateResponse,
   AuthorizationsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Authorizations. */

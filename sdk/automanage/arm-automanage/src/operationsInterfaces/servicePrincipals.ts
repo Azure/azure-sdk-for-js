@@ -12,7 +12,7 @@ import {
   ServicePrincipalsListBySubscriptionOptionalParams,
   ServicePrincipalsGetOptionalParams,
   ServicePrincipalsGetResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServicePrincipals. */

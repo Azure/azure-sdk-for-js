@@ -13,7 +13,7 @@ import {
   AlertIncidentsGetOptionalParams,
   AlertIncidentsGetResponse,
   AlertIncidentsRemediateOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AlertIncidents. */

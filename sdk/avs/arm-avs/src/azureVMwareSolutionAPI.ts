@@ -32,7 +32,7 @@ import {
   ScriptPackagesImpl,
   ScriptCmdletsImpl,
   WorkloadNetworksImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Operations,
   Locations,
@@ -51,8 +51,8 @@ import {
   ScriptPackages,
   ScriptCmdlets,
   WorkloadNetworks,
-} from "./operationsInterfaces/index.js";
-import { AzureVMwareSolutionAPIOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { AzureVMwareSolutionAPIOptionalParams } from "./models";
 
 export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
   $host: string;

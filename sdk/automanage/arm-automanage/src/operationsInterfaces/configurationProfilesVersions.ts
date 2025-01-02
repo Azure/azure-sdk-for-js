@@ -15,7 +15,7 @@ import {
   ConfigurationProfilesVersionsGetOptionalParams,
   ConfigurationProfilesVersionsGetResponse,
   ConfigurationProfilesVersionsDeleteOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationProfilesVersions. */

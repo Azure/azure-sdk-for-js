@@ -13,7 +13,9 @@ import {
   DataBoxEdgeManagementClient
 } from "@azure/arm-databoxedge-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a trigger.

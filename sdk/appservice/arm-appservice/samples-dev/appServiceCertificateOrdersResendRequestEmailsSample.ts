@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { NameIdentifier, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order

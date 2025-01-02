@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { PlacementPolicies } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { PlacementPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   PlacementPolicy,
   PlacementPoliciesListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   PlacementPoliciesUpdateResponse,
   PlacementPoliciesDeleteOptionalParams,
   PlacementPoliciesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PlacementPolicies operations. */

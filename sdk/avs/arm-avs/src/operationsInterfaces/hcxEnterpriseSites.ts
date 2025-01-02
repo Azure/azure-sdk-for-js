@@ -15,7 +15,7 @@ import {
   HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   HcxEnterpriseSitesCreateOrUpdateResponse,
   HcxEnterpriseSitesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HcxEnterpriseSites. */

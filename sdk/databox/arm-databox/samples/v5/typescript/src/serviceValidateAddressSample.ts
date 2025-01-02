@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { ValidateAddress, DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.

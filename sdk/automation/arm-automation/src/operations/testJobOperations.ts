@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TestJobOperations } from "../operationsInterfaces/index.js";
+import { TestJobOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AutomationClient } from "../automationClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AutomationClient } from "../automationClient";
 import {
   TestJobCreateParameters,
   TestJobCreateOptionalParams,
@@ -20,7 +20,7 @@ import {
   TestJobResumeOptionalParams,
   TestJobStopOptionalParams,
   TestJobSuspendOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing TestJobOperations operations. */
 export class TestJobOperationsImpl implements TestJobOperations {

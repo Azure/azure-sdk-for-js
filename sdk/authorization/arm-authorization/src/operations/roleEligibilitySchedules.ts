@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { RoleEligibilitySchedules } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { RoleEligibilitySchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleEligibilitySchedule,
   RoleEligibilitySchedulesListForScopeNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   RoleEligibilitySchedulesGetOptionalParams,
   RoleEligibilitySchedulesGetResponse,
   RoleEligibilitySchedulesListForScopeNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleEligibilitySchedules operations. */

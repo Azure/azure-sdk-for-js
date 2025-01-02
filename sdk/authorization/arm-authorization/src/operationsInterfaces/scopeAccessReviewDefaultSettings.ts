@@ -12,7 +12,7 @@ import {
   AccessReviewScheduleSettings,
   ScopeAccessReviewDefaultSettingsPutOptionalParams,
   ScopeAccessReviewDefaultSettingsPutResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ScopeAccessReviewDefaultSettings. */
 export interface ScopeAccessReviewDefaultSettings {

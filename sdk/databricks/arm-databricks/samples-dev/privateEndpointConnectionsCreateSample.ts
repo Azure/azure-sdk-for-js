@@ -13,7 +13,9 @@ import {
   AzureDatabricksManagementClient
 } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update the status of a private endpoint connection with the specified name

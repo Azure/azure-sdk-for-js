@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about the availability of updates based on the last scan of the device. It also gets information about any ongoing download or install jobs on the device.

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ScriptExecutions } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ScriptExecutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   ScriptExecution,
   ScriptExecutionsListNextOptionalParams,
@@ -32,7 +32,7 @@ import {
   ScriptExecutionsGetExecutionLogsOptionalParams,
   ScriptExecutionsGetExecutionLogsResponse,
   ScriptExecutionsListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScriptExecutions operations. */

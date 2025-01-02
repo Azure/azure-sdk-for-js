@@ -63,7 +63,7 @@ import {
   AppServicePlansUpdateVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteResponse,
   AppServicePlansRebootWorkerOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AppServicePlans. */

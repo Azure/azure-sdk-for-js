@@ -18,7 +18,7 @@ import {
   ADCCatalogsDeleteOptionalParams,
   ADCCatalogsUpdateOptionalParams,
   ADCCatalogsUpdateResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ADCCatalogs. */
 export interface ADCCatalogs {

@@ -15,7 +15,7 @@ import {
   SoftwareUpdateConfigurationsDeleteOptionalParams,
   SoftwareUpdateConfigurationsListOptionalParams,
   SoftwareUpdateConfigurationsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a SoftwareUpdateConfigurations. */
 export interface SoftwareUpdateConfigurations {

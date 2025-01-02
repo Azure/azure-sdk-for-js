@@ -13,7 +13,9 @@ import {
   AstroManagementClient,
 } from "@azure/arm-astro";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update a OrganizationResource

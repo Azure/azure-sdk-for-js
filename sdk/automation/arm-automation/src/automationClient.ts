@@ -55,7 +55,7 @@ import {
   HybridRunbookWorkersImpl,
   DeletedAutomationAccountsImpl,
   HybridRunbookWorkerGroupOperationsImpl
-} from "./operations/index.js";
+} from "./operations";
 import {
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -102,15 +102,15 @@ import {
   HybridRunbookWorkers,
   DeletedAutomationAccounts,
   HybridRunbookWorkerGroupOperations
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   AutomationClientOptionalParams,
   GraphicalRunbookContent,
   ConvertGraphRunbookContentOptionalParams,
   ConvertGraphRunbookContentResponse
-} from "./models/index.js";
+} from "./models";
 
 export class AutomationClient extends coreClient.ServiceClient {
   $host: string;

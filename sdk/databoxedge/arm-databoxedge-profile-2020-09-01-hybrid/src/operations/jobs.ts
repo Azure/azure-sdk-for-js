@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Jobs } from "../operationsInterfaces/index.js";
+import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { JobsGetOptionalParams, JobsGetResponse } from "../models/index.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
+import { JobsGetOptionalParams, JobsGetResponse } from "../models";
 
 /** Class containing Jobs operations. */
 export class JobsImpl implements Jobs {

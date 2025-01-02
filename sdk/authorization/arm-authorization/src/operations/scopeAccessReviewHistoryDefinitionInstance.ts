@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ScopeAccessReviewHistoryDefinitionInstance } from "../operationsInterfaces/index.js";
+import { ScopeAccessReviewHistoryDefinitionInstance } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ScopeAccessReviewHistoryDefinitionInstance operations. */
 export class ScopeAccessReviewHistoryDefinitionInstanceImpl

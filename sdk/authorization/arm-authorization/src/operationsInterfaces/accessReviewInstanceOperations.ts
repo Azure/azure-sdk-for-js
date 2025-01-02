@@ -12,7 +12,7 @@ import {
   AccessReviewInstanceApplyDecisionsOptionalParams,
   AccessReviewInstanceSendRemindersOptionalParams,
   AccessReviewInstanceAcceptRecommendationsOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a AccessReviewInstanceOperations. */
 export interface AccessReviewInstanceOperations {

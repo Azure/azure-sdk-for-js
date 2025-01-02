@@ -13,7 +13,9 @@ import {
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates the properties of an existing job.

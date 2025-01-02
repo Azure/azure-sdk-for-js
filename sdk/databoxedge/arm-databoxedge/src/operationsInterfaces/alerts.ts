@@ -12,7 +12,7 @@ import {
   AlertsListByDataBoxEdgeDeviceOptionalParams,
   AlertsGetOptionalParams,
   AlertsGetResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Alerts. */

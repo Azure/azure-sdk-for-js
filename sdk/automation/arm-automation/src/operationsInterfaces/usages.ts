@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usage, UsagesListByAutomationAccountOptionalParams } from "../models/index.js";
+import { Usage, UsagesListByAutomationAccountOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */

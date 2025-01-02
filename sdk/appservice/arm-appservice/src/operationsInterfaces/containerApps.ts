@@ -19,7 +19,7 @@ import {
   ContainerAppsDeleteOptionalParams,
   ContainerAppsListSecretsOptionalParams,
   ContainerAppsListSecretsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerApps. */

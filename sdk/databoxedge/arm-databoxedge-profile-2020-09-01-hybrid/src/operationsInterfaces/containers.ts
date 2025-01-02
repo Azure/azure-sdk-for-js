@@ -17,7 +17,7 @@ import {
   ContainersCreateOrUpdateResponse,
   ContainersDeleteOptionalParams,
   ContainersRefreshOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Containers. */

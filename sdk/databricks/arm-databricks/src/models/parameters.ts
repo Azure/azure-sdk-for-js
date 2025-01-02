@@ -18,7 +18,7 @@ import {
   VirtualNetworkPeering as VirtualNetworkPeeringMapper,
   AccessConnector as AccessConnectorMapper,
   AccessConnectorUpdate as AccessConnectorUpdateMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

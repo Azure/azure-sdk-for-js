@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GlobalAdministratorElevateAccessOptionalParams } from "../models/index.js";
+import { GlobalAdministratorElevateAccessOptionalParams } from "../models";
 
 /** Interface representing a GlobalAdministrator. */
 export interface GlobalAdministrator {

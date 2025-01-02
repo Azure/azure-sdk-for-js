@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Operations } from "../operationsInterfaces/index.js";
+import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AttestationManagementClient } from "../attestationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AttestationManagementClient } from "../attestationManagementClient";
 import {
   OperationsListOptionalParams,
   OperationsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {

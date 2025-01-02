@@ -13,7 +13,9 @@ import {
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This API provides configuration details specific to given region/location at Subscription level.

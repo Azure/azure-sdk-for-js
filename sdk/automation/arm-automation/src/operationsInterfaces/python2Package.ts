@@ -19,7 +19,7 @@ import {
   PythonPackageUpdateParameters,
   Python2PackageUpdateOptionalParams,
   Python2PackageUpdateResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Python2Package. */

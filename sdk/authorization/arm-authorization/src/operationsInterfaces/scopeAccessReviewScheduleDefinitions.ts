@@ -17,7 +17,7 @@ import {
   ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse,
   ScopeAccessReviewScheduleDefinitionsStopOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeAccessReviewScheduleDefinitions. */

@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { JobResource, DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.

@@ -6,8 +6,8 @@ import type { Container, CosmosClient } from "../../../../src";
 import {
   getTestContainer,
   removeAllDatabases,
-  getDefaultClient,
-  getDefaultComputeGatewayClient,
+  defaultClient,
+  defaultComputeGatewayClient,
 } from "../../common/TestHelpers";
 
 interface ItemPayload {
@@ -36,9 +36,7 @@ const executeTestCase = async function (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
 ) {
-  const client: CosmosClient = useComputeGateway
-    ? getDefaultComputeGatewayClient()
-    : getDefaultClient();
+  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],

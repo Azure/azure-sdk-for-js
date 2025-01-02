@@ -19,7 +19,7 @@ import {
   ConfigurationProfileUpdate,
   ConfigurationProfilesUpdateOptionalParams,
   ConfigurationProfilesUpdateResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationProfiles. */

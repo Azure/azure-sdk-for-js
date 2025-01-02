@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Organizations } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Organizations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AstroManagementClient } from "../astroManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AstroManagementClient } from "../astroManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   OrganizationResource,
   OrganizationsListBySubscriptionNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   OrganizationsDeleteResponse,
   OrganizationsListBySubscriptionNextResponse,
   OrganizationsListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Organizations operations. */

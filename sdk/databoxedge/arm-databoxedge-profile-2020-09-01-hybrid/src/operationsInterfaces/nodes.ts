@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Node, NodesListByDataBoxEdgeDeviceOptionalParams } from "../models/index.js";
+import { Node, NodesListByDataBoxEdgeDeviceOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Nodes. */

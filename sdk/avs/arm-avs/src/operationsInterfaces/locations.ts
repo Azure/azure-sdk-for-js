@@ -11,7 +11,7 @@ import {
   LocationsCheckQuotaAvailabilityResponse,
   LocationsCheckTrialAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Locations. */
 export interface Locations {

@@ -14,7 +14,7 @@ import {
   WorkflowRunActionsListExpressionTracesOptionalParams,
   WorkflowRunActionsGetOptionalParams,
   WorkflowRunActionsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRunActions. */

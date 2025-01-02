@@ -12,7 +12,7 @@ import {
   CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CertificateOrdersDiagnostics. */

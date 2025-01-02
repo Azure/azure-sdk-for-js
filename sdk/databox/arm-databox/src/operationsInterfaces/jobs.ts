@@ -29,7 +29,7 @@ import {
   JobsBookShipmentPickUpResponse,
   CancellationReason,
   JobsCancelOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */
