@@ -73,7 +73,7 @@
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
-    "test": "npm run integration-test",
+    "test": "npm run unit-test",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
