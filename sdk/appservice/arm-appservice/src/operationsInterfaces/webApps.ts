@@ -738,7 +738,7 @@ import {
   WebAppsGetWorkflowResponse,
   WebAppsListWorkflowsConnectionsOptionalParams,
   WebAppsListWorkflowsConnectionsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebApps. */

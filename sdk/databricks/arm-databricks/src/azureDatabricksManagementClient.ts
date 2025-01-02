@@ -17,7 +17,7 @@ import {
   OutboundNetworkDependenciesEndpointsImpl,
   VNetPeeringImpl,
   AccessConnectorsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Workspaces,
   Operations,
@@ -26,8 +26,8 @@ import {
   OutboundNetworkDependenciesEndpoints,
   VNetPeering,
   AccessConnectors
-} from "./operationsInterfaces";
-import { AzureDatabricksManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureDatabricksManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
   $host: string;
