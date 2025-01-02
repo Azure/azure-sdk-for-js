@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { BlobLeaseClient } from "@azure/storage-blob";
 
-import type { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
-import { tracingClient } from "./utils/tracing";
+import type { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models.js";
+import { tracingClient } from "./utils/tracing.js";
 
 export class DataLakeLeaseClient {
   public get leaseId(): string {

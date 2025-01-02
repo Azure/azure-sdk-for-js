@@ -4,7 +4,6 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { Context } from "mocha";
 
 import {
   SimpleTokenCredential,
@@ -13,12 +12,12 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { DataLakeServiceClient } from "../../src";
-import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
-import type { PublicAccessType } from "../../src/models";
-import { getDataLakeServiceAccountAudience } from "../../src/models";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+} from "../utils/index.js";
+import type { DataLakeServiceClient } from "../../src/index.js";
+import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src/index.js";
+import type { PublicAccessType } from "../../src/models.js";
+import { getDataLakeServiceAccountAudience } from "../../src/models.js";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
@@ -27,8 +26,8 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let serviceClient: DataLakeServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);

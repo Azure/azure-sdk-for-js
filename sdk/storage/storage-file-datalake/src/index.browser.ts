@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./DataLakeServiceClient";
-export * from "./DataLakeFileSystemClient";
-export * from "./clients";
-export * from "./DataLakeLeaseClient";
-export * from "./models";
-export * from "./utils/DataLakeAclChangeFailedError";
+export * from "./DataLakeServiceClient.js";
+export * from "./DataLakeFileSystemClient.js";
+export * from "./clients.js";
+export * from "./DataLakeLeaseClient.js";
+export * from "./models.js";
+export * from "./utils/DataLakeAclChangeFailedError.js";
 export {
   Pipeline,
   PipelineLike,
@@ -24,7 +24,7 @@ export {
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
-} from "./Pipeline";
+} from "./Pipeline.js";
 export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
@@ -39,7 +39,7 @@ export {
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
-export { CommonOptions } from "./StorageClient";
-export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
+export { CommonOptions } from "./StorageClient.js";
+export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
-export { logger } from "./log";
+export { logger } from "./log.js";

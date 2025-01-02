@@ -7,7 +7,7 @@ import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
 
 describe("Utility Helpers", () => {
   const accountName = "myaccount";

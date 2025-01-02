@@ -17,7 +17,7 @@ import {
   toPublicAccessType,
   toRolePermissions,
   toRolePermissionsString,
-} from "../src/transforms";
+} from "../src/transforms.js";
 
 describe("transforms", () => {
   it("toBlobEndpointUrl", () => {

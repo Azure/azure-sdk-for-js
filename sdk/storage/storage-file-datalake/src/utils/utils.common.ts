@@ -9,7 +9,7 @@ import type {
   FileSystemEncryptionScope,
   PathAccessControlItem,
   PathPermissions,
-} from "../models";
+} from "../models.js";
 
 import {
   DevelopmentConnectionString,
@@ -17,10 +17,10 @@ import {
   HeaderConstants,
   PathStylePorts,
   UrlConstants,
-} from "./constants";
+} from "./constants.js";
 import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
-import { toAcl, toPermissions } from "../transforms";
+import { toAcl, toPermissions } from "../transforms.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

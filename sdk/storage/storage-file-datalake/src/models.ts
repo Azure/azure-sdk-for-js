@@ -13,7 +13,7 @@ import type {
   ContainerUndeleteResponse,
   WithResponse,
 } from "@azure/storage-blob";
-import type { DataLakePathClient } from "./clients";
+import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 /**
@@ -51,13 +51,13 @@ import type {
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
-} from "./generated/src/models";
-import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
-import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
-import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
-import type { SasIPRange } from "./sas/SasIPRange";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { CommonOptions } from "./StorageClient";
+} from "./generated/src/models/index.js";
+import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions.js";
+import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions.js";
+import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { CommonOptions } from "./StorageClient.js";
 
 export {
   LeaseAccessConditions,
@@ -93,7 +93,7 @@ export {
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
 export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;

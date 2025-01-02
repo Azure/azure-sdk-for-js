@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./DataLakeServiceClient";
-export * from "./DataLakeFileSystemClient";
-export * from "./clients";
-export * from "./DataLakeLeaseClient";
-export * from "./sas/AccountSASPermissions";
-export * from "./sas/AccountSASResourceTypes";
-export * from "./sas/AccountSASServices";
+export * from "./DataLakeServiceClient.js";
+export * from "./DataLakeFileSystemClient.js";
+export * from "./clients.js";
+export * from "./DataLakeLeaseClient.js";
+export * from "./sas/AccountSASPermissions.js";
+export * from "./sas/AccountSASResourceTypes.js";
+export * from "./sas/AccountSASServices.js";
 export {
   AccountSASSignatureValues,
   generateAccountSASQueryParameters,
-} from "./sas/AccountSASSignatureValues";
-export * from "./sas/DataLakeSASPermissions";
+} from "./sas/AccountSASSignatureValues.js";
+export * from "./sas/DataLakeSASPermissions.js";
 export {
   DataLakeSASSignatureValues,
   generateDataLakeSASQueryParameters,
-} from "./sas/DataLakeSASSignatureValues";
-export * from "./sas/FileSystemSASPermissions";
-export * from "./sas/SASQueryParameters";
-export * from "./models";
-export * from "./utils/DataLakeAclChangeFailedError";
+} from "./sas/DataLakeSASSignatureValues.js";
+export * from "./sas/FileSystemSASPermissions.js";
+export * from "./sas/SASQueryParameters.js";
+export * from "./models.js";
+export * from "./utils/DataLakeAclChangeFailedError.js";
 export {
   Pipeline,
   PipelineLike,
@@ -37,7 +37,7 @@ export {
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
-} from "./Pipeline";
+} from "./Pipeline.js";
 export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
@@ -55,10 +55,10 @@ export {
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
-export { CommonOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient.js";
 
-export { SasIPRange } from "./sas/SasIPRange";
-export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
+export { SasIPRange } from "./sas/SasIPRange.js";
+export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
-export { logger } from "./log";
-export * from "./sas/DirectorySASPermissions";
+export { logger } from "./log.js";
+export * from "./sas/DirectorySASPermissions.js";
