@@ -140,6 +140,58 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   public hasMoreResults(): boolean {
     if (this.priorityQueueBufferSize === 0) return false;
-    return this.executionContext.hasMoreResults() || this.finalResultArray.length > 0;
+    return this.executionContext.hasMoreResults();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    if (this.isCompleted) {
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
+    }
+    let resHeaders = getInitialHeader();
+
+    // If there are more results in backend, keep filling map.
+    if (this.executionContext.hasMoreResults()) {
+      // Grab the next result
+      const response = await this.executionContext.fetchMore(
+        diagnosticNode,
+      );
+      if (response === undefined || response.result === undefined) {
+        return { result: undefined, headers: response.headers };
+      }
+      resHeaders = response.headers;
+      response.result.forEach(async (item: any) => {
+        if (item !== undefined) {
+          const key = await hashObject(item?.payload);
+          this.aggregateMap.set(key, item);
+        }
+      });
+      
+
+      // return [] to signal that there are more results to fetch.
+      if (this.executionContext.hasMoreResults()) {
+        return {
+          result: [],
+          headers: resHeaders,
+        };
+      }
+    }
+
+    // If all results are fetched from backend, prepare final results
+    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
+      this.isCompleted = true;
+      await this.buildFinalResultArray();
+      return {
+        result: this.finalResultArray,
+        headers: resHeaders,
+      };
+    }
+    // Signal that there are no more results.
+    return {
+      result: undefined,
+      headers: resHeaders,
+    };
   }
 }

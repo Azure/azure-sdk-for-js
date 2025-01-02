@@ -37,4 +37,24 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   public hasMoreResults(): boolean {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
   }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    const aggregateHeaders = getInitialHeader();
+    const buffer: any[] = [];
+    const response = await this.executionContext.fetchMore(diagnosticNode);
+    mergeHeaders(aggregateHeaders, response.headers);
+    if (response === undefined || response.result === undefined) {
+      return { result: undefined, headers: response.headers };
+    }
+    
+    response.result.forEach((item:any) => {
+      if (this.offset > 0) {
+        this.offset--;
+      } else if (this.limit > 0) {
+        buffer.push(item);
+        this.limit--;
+      }
+    });
+    return { result: buffer, headers: aggregateHeaders };
+  }
 }

@@ -9,70 +9,68 @@ import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
 import { createTestClientContext } from "./parallelQueryExecutionContextBase.spec";
 
-describe("PipelineQueryExecutionContext", function() { 
-  
-  describe("fetchMore", function() {
+describe("PipelineQueryExecutionContext", function () {
+  describe("fetchMore", function () {
     const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
-  const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
-  const queryInfo: QueryInfo = {
-    distinctType: 'None',
-  top: null,
-  offset: null,
-  limit: null,
-    orderBy: ["Ascending"],
-    rewrittenQuery: "SELECT * FROM c",
-    groupByExpressions: [],
-  aggregates: [],
-  groupByAliasToAggregateType: {},
-  hasNonStreamingOrderBy: false,
-  hasSelectValue: false
-  };
-  const partitionedQueryExecutionInfo = {
-    queryRanges: [
-      {
-        min: "00",
-        max: "AA",
-        isMinInclusive: true, // Whether the minimum value is inclusive
-        isMaxInclusive: false,
-      },
-      {
-        min: "AA",
-        max: "BB",
-        isMinInclusive: true, // Whether the minimum value is inclusive
-        isMaxInclusive: false,
-      },
-      {
-        min: "BB",
-        max: "FF",
-        isMinInclusive: true, // Whether the minimum value is inclusive
-        isMaxInclusive: false,
-      },
-    ],
-    queryInfo: queryInfo,
-    partitionedQueryExecutionInfoVersion: 1,
-  };
-  const correlatedActivityId = "sample-activity-id"; // Example correlated activity ID
-  // Mock dependencies for ClientContext
-  const cosmosClientOptions = {
-    endpoint: "https://your-cosmos-db.documents.azure.com:443/",
-    key: "your-cosmos-db-key",
-    userAgentSuffix: "MockClient",
-  };
+    const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
+    const queryInfo: QueryInfo = {
+      distinctType: "None",
+      top: null,
+      offset: null,
+      limit: null,
+      orderBy: ["Ascending"],
+      rewrittenQuery: "SELECT * FROM c",
+      groupByExpressions: [],
+      aggregates: [],
+      groupByAliasToAggregateType: {},
+      hasNonStreamingOrderBy: false,
+      hasSelectValue: false,
+    };
+    const partitionedQueryExecutionInfo = {
+      queryRanges: [
+        {
+          min: "00",
+          max: "AA",
+          isMinInclusive: true, // Whether the minimum value is inclusive
+          isMaxInclusive: false,
+        },
+        {
+          min: "AA",
+          max: "BB",
+          isMinInclusive: true, // Whether the minimum value is inclusive
+          isMaxInclusive: false,
+        },
+        {
+          min: "BB",
+          max: "FF",
+          isMinInclusive: true, // Whether the minimum value is inclusive
+          isMaxInclusive: false,
+        },
+      ],
+      queryInfo: queryInfo,
+      partitionedQueryExecutionInfoVersion: 1,
+    };
+    const correlatedActivityId = "sample-activity-id"; // Example correlated activity ID
+    // Mock dependencies for ClientContext
+    const cosmosClientOptions = {
+      endpoint: "https://your-cosmos-db.documents.azure.com:443/",
+      key: "your-cosmos-db-key",
+      userAgentSuffix: "MockClient",
+    };
 
-  const diagnosticLevel = CosmosDbDiagnosticLevel.info;
-  
-  const createMockDocument = (id: string, name: string, value: string) => ({
-    id,
-    _rid: "sample-rid-2",
-    _ts: Date.now(),
-    _self: "/dbs/sample-db/colls/sample-collection/docs/sample-id-2",
-    _etag: "sample-etag-2",
-    name: name,
-    value: value,
-  });
+    const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
-  
-    it("should fetch more", async function() {
+    const createMockDocument = (id: string, name: string, value: string) => ({
+      id,
+      _rid: "sample-rid-2",
+      _ts: Date.now(),
+      _self: "/dbs/sample-db/colls/sample-collection/docs/sample-id-2",
+      _etag: "sample-etag-2",
+      name: name,
+      value: value,
+    });
+
+    it("should fetch more", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -82,28 +80,28 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        false
+        false,
       );
       // Mock the endpoint's fetchMore method to return 3 documents in every call
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
           return {
             result: [
               createMockDocument("1", "doc1", "value1"),
               createMockDocument("2", "doc2", "value2"),
-              createMockDocument("3", "doc3", "value3")
+              createMockDocument("3", "doc3", "value3"),
             ],
             headers: {},
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         },
         nextItem: async () => null,
-        hasMoreResults: () => false
+        hasMoreResults: () => false,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
       const result = response.result;
-      
+
       // Verify the result
       assert.strictEqual(result.length, 10);
       assert.strictEqual(result[0].id, "1");
@@ -111,8 +109,7 @@ describe("PipelineQueryExecutionContext", function() {
       assert.strictEqual(result[2].id, "3");
     });
 
-    it("should fetch more when empty resutls in begining", async function() {
-
+    it("should fetch more when empty resutls in begining", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -122,31 +119,31 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        false
+        false,
       );
       let i = 0;
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
-          if(i < 3) {
+          if (i < 3) {
             i++;
             return {
               result: [],
               headers: {},
-              diagnostics: getEmptyCosmosDiagnostics()
+              diagnostics: getEmptyCosmosDiagnostics(),
             };
           }
           return {
             result: [
               createMockDocument("1", "doc1", "value1"),
               createMockDocument("2", "doc2", "value2"),
-              createMockDocument("3", "doc3", "value3")
+              createMockDocument("3", "doc3", "value3"),
             ],
             headers: {},
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         },
         nextItem: async () => null,
-        hasMoreResults: () => true
+        hasMoreResults: () => true,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
@@ -155,7 +152,7 @@ describe("PipelineQueryExecutionContext", function() {
       assert.strictEqual(result.length, 10);
     });
 
-    it("should return 3 response when backend returns undefined after that", async function() {
+    it("should return 3 response when backend returns undefined after that", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -165,31 +162,31 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        false
+        false,
       );
       let i = 0;
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
-          if(i < 1) {
+          if (i < 1) {
             i++;
             return {
               result: [
                 createMockDocument("1", "doc1", "value1"),
                 createMockDocument("2", "doc2", "value2"),
-                createMockDocument("3", "doc3", "value3")
+                createMockDocument("3", "doc3", "value3"),
               ],
               headers: {},
-              diagnostics: getEmptyCosmosDiagnostics()
+              diagnostics: getEmptyCosmosDiagnostics(),
             };
           }
           return {
             result: undefined,
             headers: {},
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         },
         nextItem: async () => null,
-        hasMoreResults: () => true
+        hasMoreResults: () => true,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
@@ -197,8 +194,7 @@ describe("PipelineQueryExecutionContext", function() {
       assert.strictEqual(result.length, 3);
     });
 
-    it("should return undefined when backend returns undefined", async function() {
-
+    it("should return undefined when backend returns undefined", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -208,18 +204,18 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        false
+        false,
       );
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
           return {
             result: undefined,
             headers: {},
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         },
         nextItem: async () => null,
-        hasMoreResults: () => false
+        hasMoreResults: () => false,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
@@ -227,8 +223,7 @@ describe("PipelineQueryExecutionContext", function() {
       assert.strictEqual(result, undefined);
     });
 
-    it("should stop on empty array when backend returns empty array and enableQueryControl is true", async function() {
-
+    it("should stop on empty array when backend returns empty array and enableQueryControl is true", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1, enableQueryControl: true };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -238,31 +233,31 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        true
+        true,
       );
       let i = 0;
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
-          if(i < 1) {
+          if (i < 1) {
             i++;
             return {
               result: [],
               headers: {},
-              diagnostics: getEmptyCosmosDiagnostics()
+              diagnostics: getEmptyCosmosDiagnostics(),
             };
           }
           return {
             result: [
               createMockDocument("1", "doc1", "value1"),
               createMockDocument("2", "doc2", "value2"),
-              createMockDocument("3", "doc3", "value3")
+              createMockDocument("3", "doc3", "value3"),
             ],
             headers: {},
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         },
         nextItem: async () => null,
-        hasMoreResults: () => true
+        hasMoreResults: () => true,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
@@ -274,8 +269,7 @@ describe("PipelineQueryExecutionContext", function() {
       assert.strictEqual(result2.length, 3);
     });
 
-    it("enableQueryCOntrol is true and returned data is greater than maxItemCount", async function() {
-
+    it("enableQueryCOntrol is true and returned data is greater than maxItemCount", async function () {
       const options = { maxItemCount: 2, maxDegreeOfParallelism: 1, enableQueryControl: true };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -285,29 +279,27 @@ describe("PipelineQueryExecutionContext", function() {
         options,
         partitionedQueryExecutionInfo,
         correlatedActivityId,
-        true
+        true,
       );
-      context['endpoint'] = {
+      context["endpoint"] = {
         fetchMore: async (diagnosticNode: any) => {
-            return {
-              result: [
-                createMockDocument("1", "doc1", "value1"),
-                createMockDocument("2", "doc2", "value2"),
-                createMockDocument("3", "doc3", "value3")
-              ],
-              headers: {},
-              diagnostics: getEmptyCosmosDiagnostics()
-            };
+          return {
+            result: [
+              createMockDocument("1", "doc1", "value1"),
+              createMockDocument("2", "doc2", "value2"),
+              createMockDocument("3", "doc3", "value3"),
+            ],
+            headers: {},
+            diagnostics: getEmptyCosmosDiagnostics(),
+          };
         },
         nextItem: async () => null,
-        hasMoreResults: () => true
+        hasMoreResults: () => true,
       };
 
       const response = await context.fetchMore(createDummyDiagnosticNode());
       const result = response.result;
       assert.strictEqual(result.length, 2);
     });
-
   });
-
 });

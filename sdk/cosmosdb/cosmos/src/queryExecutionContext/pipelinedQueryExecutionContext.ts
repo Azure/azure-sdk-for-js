@@ -171,16 +171,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
-    return (this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults());
+    console.log("Pipeline QEC hasMoreResults",this.fetchBuffer.length, this.endpoint.hasMoreResults());
+    return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    console.log("Pipeline QEC fetchMore");
     this.fetchMoreRespHeaders = getInitialHeader();
-    if (this.nonStreamingOrderBy) {
-      return this._nonStreamingFetchMoreImplementation(diagnosticNode);
-    } else {
-      return this._fetchMoreImplementation(diagnosticNode);
-    }
+    return this._fetchMoreImplementation(diagnosticNode);
   }
 
   private async _fetchMoreImplementation(
@@ -194,14 +192,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-          if(response === undefined || response.result === undefined ) {
-            if (this.fetchBuffer.length > 0) {
-          const temp = this.fetchBuffer;
-          this.fetchBuffer = [];
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        } else {
+        if (response === undefined || response.result === undefined) {
+          if (this.fetchBuffer.length > 0) {
+            const temp = this.fetchBuffer;
+            this.fetchBuffer = [];
+            return { result: temp, headers: this.fetchMoreRespHeaders };
+          } else {
             return { result: undefined, headers: this.fetchMoreRespHeaders };
-        }
+          }
         }
         this.fetchBuffer.push(...response.result);
 
@@ -210,57 +208,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             const temp = this.fetchBuffer.slice(0, this.pageSize);
             this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
             return { result: temp, headers: this.fetchMoreRespHeaders };
-          }else{
+          } else {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
             return { result: temp, headers: this.fetchMoreRespHeaders };
           }
         }
         return this._fetchMoreImplementation(diagnosticNode);
-      }
-    } catch (err: any) {
-      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
-      err.headers = this.fetchMoreRespHeaders;
-      if (err) {
-        throw err;
-      }
-    }
-  }
-
-  private async _nonStreamingFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
-      mergeHeaders(this.fetchMoreRespHeaders, headers);
-      if (item === undefined) {
-        // no more results
-        if (this.fetchBuffer.length === 0) {
-          return {
-            result: undefined,
-            headers: this.fetchMoreRespHeaders,
-          };
-        } else {
-          // Just give what we have
-          const temp = this.fetchBuffer;
-          this.fetchBuffer = [];
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        }
-      } else {
-        // append the result
-        if (typeof item !== "object") {
-          this.fetchBuffer.push(item);
-        } else if (Object.keys(item).length !== 0) {
-          this.fetchBuffer.push(item);
-        }
-        if (this.fetchBuffer.length >= this.pageSize) {
-          // fetched enough results
-          const temp = this.fetchBuffer.slice(0, this.pageSize);
-          this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        } else {
-          return this._nonStreamingFetchMoreImplementation(diagnosticNode);
-        }
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
