@@ -54,6 +54,7 @@ const parseArgs = () => {
   return { baseDir, action, services, flags, artifactNames };
 };
 
+
 /**
  * Helper function to spawn NodeJS programs
  *
@@ -66,17 +67,6 @@ const spawnNode = (cwd, ...args) => {
   console.log(`\n\nNode process exited with code ${proc.status} `);
 
   return proc.status ?? 1;
-};
-
-/**
- * flatMap
- *
- * @param {string[]} arr - string array
- * @param {(a: string) => string[]} f - function
- */
-const flatMap = (arr, f) => {
-  const result = arr.map(f);
-  return [].concat(...result);
 };
 
 const { baseDir, action, services: serviceDirs, flags: rushParams, artifactNames } = parseArgs();
@@ -93,7 +83,7 @@ console.log(`Packages eligible to run rush task: ${packageNames}`);
  * @param {string[]} packages - the names of the packages to run the action on
  */
 function rushRunAll(direction, packages) {
-  const params = flatMap(packages, (p) => [direction, p]);
+  const params = packages.flatMap((p) => [direction, p]);
   return spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
