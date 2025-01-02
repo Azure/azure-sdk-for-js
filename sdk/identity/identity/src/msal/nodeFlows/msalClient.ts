@@ -418,9 +418,7 @@ export function createMsalClient(
     options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
-      state.logger.getToken.info(
-        "No cached account found in local state.",
-      );
+      state.logger.getToken.info("No cached account found in local state.");
       throw new AuthenticationRequiredError({ scopes });
     }
 
@@ -449,7 +447,7 @@ export function createMsalClient(
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);   
+    return app.acquireTokenSilent(silentRequest);
   }
 
   /**
