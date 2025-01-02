@@ -61,3 +61,7 @@ test/**/*.js.map
 test/**/*.d.ts
 tsconfig.tsbuildinfo
 .env
+
+# Testing
+test-results.xml
+test-results-int.xml
