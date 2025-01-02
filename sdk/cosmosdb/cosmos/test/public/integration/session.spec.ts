@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext, Container, PluginConfig } from "../../src/index.js";
-import { PluginOn } from "../../src/index.js";
-import { OperationType, ResourceType } from "../../src/common/index.js";
-import { ConsistencyLevel } from "../../src/index.js";
-import { CosmosClient } from "../../src/index.js";
-import type { SessionContainer } from "../../src/session/sessionContainer.js";
-import { endpoint } from "../public/common/_testConfig.js";
-import { masterKey } from "../public/common/_fakeTestSecrets.js";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers.js";
-import type { RequestContext } from "../../src/index.js";
-import type { Response } from "../../src/request/Response.js";
+import type { ClientContext, Container, PluginConfig } from "../../../src/index.js";
+import { PluginOn } from "../../../src/index.js";
+import { OperationType, ResourceType } from "../../../src/common/index.js";
+import { ConsistencyLevel } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { SessionContainer } from "../../../src/session/sessionContainer.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import {
+  addEntropy,
+  getTestDatabase,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers.js";
+import type { RequestContext } from "../../../src/index.js";
+import type { Response } from "../../../src/request/Response.js";
 import { describe, it, assert, expect, beforeEach } from "vitest";
 
 describe("New session token", () => {
@@ -21,7 +25,11 @@ describe("New session token", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, diagNode, next) => {
+        plugin: async (
+          context: RequestContext,
+          diagNode: any,
+          next: (context: RequestContext) => Promise<Response<any>>,
+        ) => {
           expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           rqContext = context;
           response = await next(context);
@@ -85,7 +93,11 @@ describe("Integrated Cache Staleness", async () => {
     plugins: [
       {
         on: "request",
-        plugin: async (context, diagNode, next) => {
+        plugin: async (
+          context: RequestContext,
+          diagNode: any,
+          next: (context: RequestContext) => Promise<Response<any>>,
+        ) => {
           expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           if (
             context.resourceType === ResourceType.item &&
@@ -219,7 +231,11 @@ describe.skip("Session Token", () => {
       plugins: [
         {
           on: "request",
-          plugin: async (context, diagNode, next) => {
+          plugin: async (
+            context: RequestContext,
+            diagNode: any,
+            next: (context: RequestContext) => Promise<Response<any>>,
+          ) => {
             expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
             // Simulate a "Session Not Found" error by manually making the client session token *way* ahead of any available session on the server
             // This is just a way to simulate the error. Getting this to happen in practice is difficult and only usually occurs cross region where there is significant replication lag

@@ -9,7 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["test/internal/unit/**/*.spec.ts"],
-      exclude: ["test/internal/session.spec.ts", "test/public/**/*.spec.ts"],
+      exclude: ["test/public/**/*.spec.ts"],
     },
   }),
 );

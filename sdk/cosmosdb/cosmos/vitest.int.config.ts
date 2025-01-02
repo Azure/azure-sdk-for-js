@@ -8,7 +8,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["test/internal/unit/**/*.spec.ts", "test/public/**/*.spec.ts"],
+      include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
     },
   }),
 );

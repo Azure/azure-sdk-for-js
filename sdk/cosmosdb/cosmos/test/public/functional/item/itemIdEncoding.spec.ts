@@ -5,8 +5,8 @@ import type { Container, CosmosClient } from "../../../../src/index.js";
 import {
   getTestContainer,
   removeAllDatabases,
-  defaultClient,
-  defaultComputeGatewayClient,
+  getDefaultClient,
+  getDefaultComputeGatewayClient,
 } from "../../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
@@ -36,7 +36,9 @@ const executeTestCase = async (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
 ): Promise<void> => {
-  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient() : defaultClient();
+  const client: CosmosClient = useComputeGateway
+    ? getDefaultComputeGatewayClient()
+    : getDefaultClient();
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],
