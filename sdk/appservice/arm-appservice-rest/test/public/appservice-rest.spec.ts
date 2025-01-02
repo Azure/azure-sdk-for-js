@@ -20,8 +20,8 @@ describe("Web test", () => {
   let appservicePlanName: string;
   let name: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
     subscriptionId = env.SUBSCRIPTION_ID ?? "";
     resourceGroup = env.RESOURCE_GROUP ?? "";
