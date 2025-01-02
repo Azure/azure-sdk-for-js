@@ -39,9 +39,6 @@ describe("baremetalinfrastructure test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: BareMetalInfrastructureClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -53,10 +50,6 @@ describe("baremetalinfrastructure test", () => {
       // endpoint: "https://eastus2euap.management.azure.com/",
       // credentialScopes: "https://management.azure.com/.default"
     }));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {

@@ -84,6 +84,31 @@ describe("Batch test", () => {
   });
 
   async function storageAccounts_beginCreateAndWait() {
+    const parameter: StorageAccountCreateParameters = {
+      sku: {
+        name: "Standard_GRS",
+      },
+      kind: "StorageV2",
+      location: "westeurope",
+      encryption: {
+        services: {
+          file: {
+            keyType: "Account",
+            enabled: true
+          },
+          blob: {
+            keyType: "Account",
+            enabled: true
+          },
+        },
+        keySource: "Microsoft.Storage",
+      },
+      tags: {
+        key1: "value1",
+        key2: "value2",
+      }
+    }
+    await storage_client.storageAccounts.beginCreateAndWait(resourceGroup, storageaccountName, parameter, testPollingOptions);
   };
 
   it("batchAccountOperations create test", async function () {
@@ -272,6 +297,7 @@ describe("Batch test", () => {
   });
 
   it("poolOperations delete test", async function () {
+    await client.poolOperations.beginDeleteAndWait(resourceGroup, accountName, poolName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.poolOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
@@ -280,6 +306,7 @@ describe("Batch test", () => {
   });
 
   it("certificateOperations delete test", async function () {
+    await client.certificateOperations.beginDeleteAndWait(resourceGroup, accountName, certificateName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.certificateOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
@@ -288,6 +315,7 @@ describe("Batch test", () => {
   });
 
   it("applicationOperations delete test", async function () {
+    await client.applicationOperations.delete(resourceGroup, accountName, applicationName);
     const resArray = new Array();
     for await (let item of client.applicationOperations.list(resourceGroup, accountName)) {
       resArray.push(item);
@@ -296,10 +324,12 @@ describe("Batch test", () => {
   });
 
   it("batchAccountOperations delete test", async function () {
+    await client.batchAccountOperations.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.batchAccountOperations.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+    await storage_client.storageAccounts.delete(resourceGroup, storageaccountName);
   });
 });
