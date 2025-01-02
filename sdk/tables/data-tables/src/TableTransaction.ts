@@ -274,7 +274,9 @@ export class InternalTableTransaction {
    * Submits the operations in the transaction
    * @param options - Options for the request.
    */
-  public async submitTransaction(options: OperationOptions = {}): Promise<TableTransactionResponse> {
+  public async submitTransaction(
+    options: OperationOptions = {},
+  ): Promise<TableTransactionResponse> {
     await Promise.all(this.state.pendingOperations);
     const body = getTransactionHttpRequestBody(
       this.state.bodyParts,

@@ -855,8 +855,11 @@ export class TableClient {
    * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    * @param options - Options for the request.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async submitTransaction(actions: TransactionAction[], options: OperationOptions = {}): Promise<TableTransactionResponse> {
+  public async submitTransaction(
+    actions: TransactionAction[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: OperationOptions = {},
+  ): Promise<TableTransactionResponse> {
     const partitionKey = actions[0][1].partitionKey;
     const transactionId = Uuid.generateUuid();
     const changesetId = Uuid.generateUuid();
