@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { useFakeTimers } from "sinon";
-
 import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
@@ -19,6 +17,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;

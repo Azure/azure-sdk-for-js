@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
 } from "../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const accountName = "myaccount";

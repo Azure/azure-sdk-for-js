@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { join } from "node:path";
 
 import * as fs from "node:fs";
@@ -35,6 +34,7 @@ import {
 } from "../utils/index.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;

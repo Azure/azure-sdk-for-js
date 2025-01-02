@@ -3,8 +3,6 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
 import {
   SimpleTokenCredential,
   configureStorageClient,
@@ -19,6 +17,7 @@ import type { PublicAccessType } from "../../src/models.js";
 import { getDataLakeServiceAccountAudience } from "../../src/models.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemName: string;

@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
 import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../src/index.js";
 import {
   recorderEnvSetup,
@@ -13,6 +11,7 @@ import {
   SimpleTokenCredential,
 } from "../utils/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;

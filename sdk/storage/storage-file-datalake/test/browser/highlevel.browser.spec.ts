@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
 import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
 import {
@@ -13,6 +12,7 @@ import {
   arrayBufferEqual,
 } from "../utils/index.browser.js";
 import { MB } from "../../src/utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;
