@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AccessReviewScheduleDefinition,
   AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessReviewScheduleDefinitionsAssignedForMyApproval. */

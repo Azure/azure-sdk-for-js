@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NameIdentifier, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Check if a domain is available for registration.

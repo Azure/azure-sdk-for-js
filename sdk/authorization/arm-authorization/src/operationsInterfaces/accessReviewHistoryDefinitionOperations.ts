@@ -11,7 +11,7 @@ import {
   AccessReviewHistoryDefinitionCreateOptionalParams,
   AccessReviewHistoryDefinitionCreateResponse,
   AccessReviewHistoryDefinitionDeleteByIdOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AccessReviewHistoryDefinitionOperations. */
 export interface AccessReviewHistoryDefinitionOperations {
