@@ -105,9 +105,15 @@ describe("AppContainer test", () => {
   });
 
   it("containerapp list Secrets test", async function () {
+    const res = await client.containerApps.listSecrets(
+      resourceGroup,
+      containerAppName
+    );
+    assert.notEqual(res.length, 0)
   });
 
   it("containerapp delete test", async function () {
+    await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -116,6 +122,7 @@ describe("AppContainer test", () => {
   })
 
   it("managedEnvironments delete test", async function () {
+    await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

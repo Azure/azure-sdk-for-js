@@ -62,9 +62,37 @@ describe("AppPlatform test", () => {
   });
 
   it("services create test", async function () {
+    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, serviceName, {
+      sku: {
+        name: "B0",
+        tier: "Basic"
+      },
+      tags: {
+        key1: "value1"
+      },
+      location: location
+    }, testPollingOptions);
+    assert.equal(res.name, serviceName);
   });
 
   it("apps create test", async function () {
+    const res = await client.apps.beginCreateOrUpdateAndWait(resourceGroup, serviceName, appName, {
+      properties: {
+        public: true,
+        // activeDeploymentName: "mydeployment1",
+        fqdn: "myapp.mydomain.com",
+        httpsOnly: false,
+        temporaryDisk: {
+          sizeInGB: 2,
+          mountPath: "/mytemporarydisk"
+        },
+        persistentDisk: {
+          sizeInGB: 1,
+          mountPath: "/mypersistentdisk"
+        }
+      }
+    }, testPollingOptions);
+    assert.equal(res.name, serviceName);
   });
 
   it("services get test", async function () {
@@ -94,6 +122,7 @@ describe("AppPlatform test", () => {
   });
 
   it("apps delete test", async function () {
+    await client.apps.beginDeleteAndWait(resourceGroup, serviceName, appName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.apps.list(resourceGroup, serviceName)) {
       resArray.push(item);
@@ -102,6 +131,7 @@ describe("AppPlatform test", () => {
   });
 
   it("services delete test", async function () {
+    await client.services.beginDeleteAndWait(resourceGroup, serviceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.services.list(resourceGroup)) {
       resArray.push(item);

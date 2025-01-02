@@ -36,9 +36,6 @@ describe("appcomplianceautomation test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AppComplianceAutomationToolForMicrosoft365;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -47,10 +44,6 @@ describe("appcomplianceautomation test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AppComplianceAutomationToolForMicrosoft365(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
