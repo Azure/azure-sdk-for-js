@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Image, ComputeManagementClient } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -26,26 +26,11 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        diskEncryptionSet: {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -62,24 +47,11 @@ async function createAVirtualMachineImageFromABlob() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        osState: "Generalized",
-        osType: "Linux",
-      },
-      zoneResilient: true,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -96,27 +68,11 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        diskEncryptionSet: {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-        snapshot: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
-        },
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -133,25 +89,11 @@ async function createAVirtualMachineImageFromAManagedDisk() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        managedDisk: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-      zoneResilient: true,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -168,27 +110,11 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        diskEncryptionSet: {
-          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
-        },
-        managedDisk: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -205,25 +131,11 @@ async function createAVirtualMachineImageFromASnapshot() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      osDisk: {
-        osState: "Generalized",
-        osType: "Linux",
-        snapshot: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
-        },
-      },
-      zoneResilient: false,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -240,18 +152,11 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    sourceVirtualMachine: {
-      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -268,31 +173,11 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      dataDisks: [
-        {
-          blobUri:
-            "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
-          lun: 1,
-        },
-      ],
-      osDisk: {
-        blobUri:
-          "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        osState: "Generalized",
-        osType: "Linux",
-      },
-      zoneResilient: false,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -309,33 +194,11 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      dataDisks: [
-        {
-          lun: 1,
-          managedDisk: {
-            id: "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2",
-          },
-        },
-      ],
-      osDisk: {
-        managedDisk: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
-        },
-        osState: "Generalized",
-        osType: "Linux",
-      },
-      zoneResilient: false,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }
@@ -352,33 +215,11 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
-  const parameters: Image = {
-    location: "West US",
-    storageProfile: {
-      dataDisks: [
-        {
-          lun: 1,
-          snapshot: {
-            id: "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2",
-          },
-        },
-      ],
-      osDisk: {
-        osState: "Generalized",
-        osType: "Linux",
-        snapshot: {
-          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
-        },
-      },
-      zoneResilient: true,
-    },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters,
   );
   console.log(result);
 }

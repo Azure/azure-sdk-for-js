@@ -6,19 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { VirtualMachineSizes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
-  VirtualMachineSize,
   VirtualMachineSizesListOptionalParams,
   VirtualMachineSizesListResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineSizes operations. */
 export class VirtualMachineSizesImpl implements VirtualMachineSizes {
   private readonly client: ComputeManagementClient;
@@ -34,56 +31,10 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
   /**
    * This API is deprecated. Use [Resources
    * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  public list(
-    location: string,
-    options?: VirtualMachineSizesListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineSize> {
-    const iter = this.listPagingAll(location, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(location, options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    location: string,
-    options?: VirtualMachineSizesListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: VirtualMachineSizesListResponse;
-    result = await this._list(location, options);
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    location: string,
-    options?: VirtualMachineSizesListOptionalParams,
-  ): AsyncIterableIterator<VirtualMachineSize> {
-    for await (const page of this.listPagingPage(location, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * This API is deprecated. Use [Resources
-   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param options The options parameters.
-   */
-  private _list(
+  list(
     location: string,
     options?: VirtualMachineSizesListOptionalParams,
   ): Promise<VirtualMachineSizesListResponse> {
@@ -104,14 +55,14 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -29,15 +29,12 @@ async function getAvailableDedicatedHostSizes() {
   const hostName = "myHost";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.dedicatedHosts.listAvailableSizes(
+  const result = await client.dedicatedHosts.listAvailableSizes(
     resourceGroupName,
     hostGroupName,
     hostName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

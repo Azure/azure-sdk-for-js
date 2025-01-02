@@ -18,9 +18,12 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
-  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse,
+  VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
+  VirtualMachineScaleSetRollingUpgradesCancelResponse,
   VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestResponse,
 } from "../models";
@@ -40,176 +43,10 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
   }
 
   /**
-   * Cancels the current virtual machine scale set rolling upgrade.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param options The options parameters.
-   */
-  async beginCancel(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, options },
-      spec: cancelOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Cancels the current virtual machine scale set rolling upgrade.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param options The options parameters.
-   */
-  async beginCancelAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginCancel(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
-   * Platform Image OS version. Instances which are already running the latest available OS version are
-   * not affected.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param options The options parameters.
-   */
-  async beginStartOSUpgrade(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vmScaleSetName, options },
-      spec: startOSUpgradeOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
-   * Platform Image OS version. Instances which are already running the latest available OS version are
-   * not affected.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param options The options parameters.
-   */
-  async beginStartOSUpgradeAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginStartOSUpgrade(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
    * latest available extension version. Instances which are already running the latest extension
    * versions are not affected.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -217,11 +54,16 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse>,
+      VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -261,9 +103,13 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       args: { resourceGroupName, vmScaleSetName, options },
       spec: startExtensionUpgradeOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse,
+      OperationState<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -273,7 +119,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
    * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
    * latest available extension version. Instances which are already running the latest extension
    * versions are not affected.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -281,7 +127,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
-  ): Promise<void> {
+  ): Promise<VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeResponse> {
     const poller = await this.beginStartExtensionUpgrade(
       resourceGroupName,
       vmScaleSetName,
@@ -291,8 +137,192 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
   }
 
   /**
+   * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
+   * Platform Image OS version. Instances which are already running the latest available OS version are
+   * not affected.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginStartOSUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse>,
+      VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: startOSUpgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse,
+      OperationState<VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
+   * Platform Image OS version. Instances which are already running the latest available OS version are
+   * not affected.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginStartOSUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
+  ): Promise<VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse> {
+    const poller = await this.beginStartOSUpgrade(
+      resourceGroupName,
+      vmScaleSetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Cancels the current virtual machine scale set rolling upgrade.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginCancel(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetRollingUpgradesCancelResponse>,
+      VirtualMachineScaleSetRollingUpgradesCancelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachineScaleSetRollingUpgradesCancelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetRollingUpgradesCancelResponse,
+      OperationState<VirtualMachineScaleSetRollingUpgradesCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancels the current virtual machine scale set rolling upgrade.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginCancelAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
+  ): Promise<VirtualMachineScaleSetRollingUpgradesCancelResponse> {
+    const poller = await this.beginCancel(
+      resourceGroupName,
+      vmScaleSetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets the status of the latest virtual machine scale set rolling upgrade.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
@@ -310,14 +340,26 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel",
+const startExtensionUpgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -336,10 +378,22 @@ const startOSUpgradeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -354,14 +408,22 @@ const startOSUpgradeOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const startExtensionUpgradeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade",
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachineScaleSetRollingUpgradesCancelHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachineScaleSetRollingUpgradesCancelHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachineScaleSetRollingUpgradesCancelHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachineScaleSetRollingUpgradesCancelHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },

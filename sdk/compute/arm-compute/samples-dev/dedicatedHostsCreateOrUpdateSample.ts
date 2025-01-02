@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DedicatedHost, ComputeManagementClient } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,19 +27,12 @@ async function createOrUpdateADedicatedHost() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const hostName = "myDedicatedHost";
-  const parameters: DedicatedHost = {
-    location: "westus",
-    platformFaultDomain: 1,
-    sku: { name: "DSv3-Type1" },
-    tags: { department: "HR" },
-  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHosts.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hostGroupName,
     hostName,
-    parameters,
   );
   console.log(result);
 }

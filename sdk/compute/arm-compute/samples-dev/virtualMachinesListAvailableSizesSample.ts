@@ -28,14 +28,11 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
   const vmName = "myVmName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.virtualMachines.listAvailableSizes(
+  const result = await client.virtualMachines.listAvailableSizes(
     resourceGroupName,
     vmName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {
