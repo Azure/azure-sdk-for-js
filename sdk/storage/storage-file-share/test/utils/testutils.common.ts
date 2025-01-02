@@ -73,6 +73,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     },
     uriSanitizers,
   },
+  removeCentralSanitizers: ["AZSDK4001"],
 };
 
 export function getUniqueName(prefix: string): string {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-
 import type { ShareClient } from "../../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
@@ -13,7 +12,7 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -23,7 +22,7 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });

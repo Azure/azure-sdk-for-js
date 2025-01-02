@@ -23,8 +23,9 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -556,7 +557,7 @@ describe("FileClient", () => {
     assert.ok(await fileClient.exists());
   });
 
-  it("startCopyFromURL", async () => {
+  it("startCopyFromURL", async (ctx) => {
     if (!isNode && !isLiveMode()) {
       ctx.skip();
     }
@@ -829,7 +830,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with progress event", async () => {
+  it("uploadRange with progress event", async (ctx) => {
     if (!isNode && !isLiveMode()) {
       ctx.skip();
     }
@@ -1109,7 +1110,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 2), "He");
   });
 
-  it("download should update progress and abort successfully", async () => {
+  it("download should update progress and abort successfully", async (ctx) => {
     if (!isNode || !isLiveMode()) {
       // because this test is using a blob response, there won't be
       // anything to abort by the time onProgress gets called.
@@ -1231,7 +1232,7 @@ describe("FileClient", () => {
   });
 
   it("create with tracing", async () => {
-    await expect(async (options) => {
+    await expect(async (options: OperationOptions) => {
       await fileClient.create(content.length, options);
     }).toSupportTracing(["ShareFileClient-create"]);
   });

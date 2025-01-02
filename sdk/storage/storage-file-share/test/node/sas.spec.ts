@@ -10,8 +10,8 @@ import {
   ShareFileClient,
   ShareServiceClient,
 } from "../../src/index.js";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential.js";
-import type { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { FileSASPermissions } from "../../src/FileSASPermissions.js";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues.js";
 import { newPipeline } from "../../src/Pipeline.js";
@@ -30,7 +30,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -45,7 +45,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     serviceClient = getBSU(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

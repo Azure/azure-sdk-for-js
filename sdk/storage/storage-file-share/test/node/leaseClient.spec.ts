@@ -25,7 +25,7 @@ describe("LeaseClient Node.js only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -53,7 +53,7 @@ describe("LeaseClient Node.js only - OAuth", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -152,7 +152,7 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -172,7 +172,7 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });

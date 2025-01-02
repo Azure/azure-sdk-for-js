@@ -67,9 +67,9 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
+    assert(true);
   });
 
   it("create with all parameters configured", async () => {
@@ -96,9 +96,9 @@ describe("ShareClient", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
+    assert(true);
   });
 
   it("deleteIfExists", async () => {
@@ -450,9 +450,9 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
+    assert(true);
   });
 
   it("create with all parameters configured", async () => {
@@ -479,9 +479,9 @@ describe("ShareClient", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
+    assert(true);
   });
 
   it("deleteIfExists", async () => {

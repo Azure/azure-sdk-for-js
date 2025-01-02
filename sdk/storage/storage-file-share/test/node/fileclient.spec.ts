@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -50,7 +52,7 @@ describe("FileClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     const serviceClient = getBSU(recorder);
@@ -79,7 +81,7 @@ describe("FileClient Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (shareClient) {
       await shareClient.delete();
     }
@@ -138,7 +140,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("uploadData - large Buffer as data", async function () {
+  it("uploadData - large Buffer as data", async (ctx) => {
     if (isNode && !isLiveMode()) {
       ctx.skip();
     }
@@ -311,7 +313,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - destination OAuth", async function (ctx) {
+  it("uploadRangeFromURL - destination OAuth", async (ctx) => {
     // Pipeline config doesn't support well for file OAuth, disable live test for now.
     // Should add this back after pipeline config is enabled.
     if (isLiveMode()) {
@@ -405,7 +407,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - source bearer token", async function () {
+  it("uploadRangeFromURL - source bearer token", async () => {
     const blobServiceClient = getBlobServiceClient(recorder);
     const containerClient = blobServiceClient.getContainerClient(
       recorder.variable("container", getUniqueName("container")),
@@ -448,7 +450,7 @@ describe("FileClient Node.js only", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip test case for now.
-  it.skip("uploadRangeFromURL - should fail with copy source error message", async function () {
+  it.skip("uploadRangeFromURL - should fail with copy source error message", async () => {
     await fileClient.create(1024);
 
     const fileContent = "a".repeat(512) + "b".repeat(512);
@@ -487,7 +489,7 @@ describe("FileClient Node.js only", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip the test case for now.
-  it.skip("startCopyFromURL - should fail with copy source error message", async function () {
+  it.skip("startCopyFromURL - should fail with copy source error message", async () => {
     await fileClient.create(1024);
 
     // Get a SAS for fileURL
@@ -522,7 +524,7 @@ describe("FileClient Node.js only", () => {
     }
   });
 
-  it("should not decompress during downloading", async function () {
+  it("should not decompress during downloading", async (ctx) => {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {
       ctx.skip();

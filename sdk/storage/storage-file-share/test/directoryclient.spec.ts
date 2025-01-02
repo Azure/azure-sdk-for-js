@@ -382,9 +382,9 @@ describe("DirectoryClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
+    assert(true);
   });
 
   it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
@@ -1665,9 +1665,9 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.date);
   });
 
-  it("create", (done) => {
+  it("create", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
+    assert(true);
   });
 
   it("createIfNotExists", async () => {
@@ -1760,9 +1760,9 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
+    assert(true);
   });
 
   it("listFilesAndDirectories", async () => {

@@ -27,7 +27,7 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     const serviceClient = getBSU(recorder);
@@ -41,7 +41,7 @@ describe("DirectoryClient Node.js only", () => {
     await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await dirClient.delete();
     await shareClient.delete();
     await recorder.stop();

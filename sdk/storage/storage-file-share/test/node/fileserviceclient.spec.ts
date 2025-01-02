@@ -18,13 +18,13 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -104,13 +104,13 @@ describe("FileServiceClient Node.js only", () => {
 describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -137,7 +137,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     }
   });
 
-  it("Undelete should work", async function () {
+  it("Undelete should work", async () => {
     const serviceClient = getSoftDeleteBSUWithDefaultCredential(recorder, "", {
       fileRequestIntent: "backup",
     });
@@ -258,7 +258,7 @@ describe("FileServiceClient Premium Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -272,12 +272,12 @@ describe("FileServiceClient Premium Node.js only", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   // STG95 will enable it when it's enabled on service
-  it.skip("Paid Bursting", async function () {
+  it.skip("Paid Bursting", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 

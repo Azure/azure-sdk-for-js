@@ -33,7 +33,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -48,14 +48,14 @@ describe("Highlevel Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (shareClient) {
       await shareClient.delete();
     }
     await recorder.stop();
   });
 
-  before(async function () {
+  before(async () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -65,12 +65,12 @@ describe("Highlevel Node.js only", () => {
     tempFileSmallLength = 15 * 1024 * 1024;
   });
 
-  after(async function () {
+  after(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
 
-  it("uploadFile should success for large data", async function () {
+  it("uploadFile should success for large data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -93,7 +93,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should success for small data", async function () {
+  it("uploadFile should success for small data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -116,7 +116,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("uploadFile should abort for large data", async function () {
+  it("uploadFile should abort for large data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -134,7 +134,7 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should abort for small data", async function () {
+  it("uploadFile should abort for small data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -152,7 +152,7 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should update progress for large data", async function () {
+  it("uploadFile should update progress for large data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -176,7 +176,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should update progress for small data", async function () {
+  it("uploadFile should update progress for small data", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -200,7 +200,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadStream should success", async function () {
+  it("uploadStream should success", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -222,7 +222,7 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream should abort", async function () {
+  it("uploadStream should abort", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -239,7 +239,7 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadStream should update progress event", async function () {
+  it("uploadStream should update progress event", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -255,7 +255,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadData should work with Buffer, ArrayBuffer and ArrayBufferView", async function () {
+  it("uploadData should work with Buffer, ArrayBuffer and ArrayBufferView", async () => {
     const byteLength = 10;
     const arrayBuf = new ArrayBuffer(byteLength);
     const uint8Array = new Uint8Array(arrayBuf);
@@ -283,7 +283,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(res3.equals(buf));
   });
 
-  it("downloadToBuffer should success", async function () {
+  it("downloadToBuffer should success", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -300,7 +300,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should succeed - without passing the buffer", async function () {
+  it("downloadToBuffer should succeed - without passing the buffer", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -316,7 +316,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async function () {
+  it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
     let error;
     try {
       // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
@@ -331,7 +331,7 @@ describe("Highlevel Node.js only", () => {
     );
   });
 
-  it("fileClient.downloadToBuffer should success when downloading a range inside file", async function () {
+  it("fileClient.downloadToBuffer should success when downloading a range inside file", async () => {
     await fileClient.create(8);
     await fileClient.uploadRange("aaaabbbb", 0, 8);
 
@@ -372,7 +372,7 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
-  it("downloadToBuffer should abort", async function () {
+  it("downloadToBuffer should abort", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -392,7 +392,7 @@ describe("Highlevel Node.js only", () => {
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should update progress event", async function () {
+  it("downloadToBuffer should update progress event", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -418,7 +418,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("fileClient.download should success when internal stream unexpected ends at the stream end", async function () {
+  it("fileClient.download should success when internal stream unexpected ends at the stream end", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -453,7 +453,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("fileClient.download should download full data successfully when internal stream unexpected ends", async function () {
+  it("fileClient.download should download full data successfully when internal stream unexpected ends", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -489,7 +489,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("fileClient.download should download partial data when internal stream unexpected ends", async function () {
+  it("fileClient.download should download partial data when internal stream unexpected ends", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -527,7 +527,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData.slice(1, partialSize + 1)));
   });
 
-  it("fileClient.download should download data failed when exceeding max stream retry requests", async function () {
+  it("fileClient.download should download data failed when exceeding max stream retry requests", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -564,7 +564,7 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(downloadedFile);
   });
 
-  it("fileClient.download should abort after retries", async function () {
+  it("fileClient.download should abort after retries", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -605,7 +605,7 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(downloadedFile);
   });
 
-  it("downloadToFile should success", async function () {
+  it("downloadToFile should success", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
