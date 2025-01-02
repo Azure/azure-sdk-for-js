@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AppServicePlans } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AppServicePlans } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebSiteManagementClient } from "../webSiteManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebSiteManagementClient } from "../webSiteManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   AppServicePlan,
   AppServicePlansListNextOptionalParams,
@@ -94,7 +94,7 @@ import {
   AppServicePlansListMetricsNextResponse,
   AppServicePlansListWebAppsNextResponse,
   AppServicePlansListUsagesNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AppServicePlans operations. */

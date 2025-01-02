@@ -17,7 +17,6 @@ const ruleList = [
   "ts-apiextractor-json-types",
   "ts-apisurface-standardized-verbs",
   "ts-apisurface-supportcancellation",
-  "ts-config-include",
   "ts-doc-internal",
   "ts-doc-internal-private-member",
   "ts-error-handling",

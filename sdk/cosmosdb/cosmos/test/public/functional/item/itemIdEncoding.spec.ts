@@ -36,7 +36,7 @@ const executeTestCase = async (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
 ): Promise<void> => {
-  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
+  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient() : defaultClient();
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],
