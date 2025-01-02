@@ -16,7 +16,7 @@ import {
   MonitoringConfigCreateOrUpdateOptionalParams,
   MonitoringConfigCreateOrUpdateResponse,
   MonitoringConfigDeleteOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MonitoringConfig. */

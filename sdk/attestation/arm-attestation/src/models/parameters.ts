@@ -15,7 +15,7 @@ import {
   AttestationServiceCreationParams as AttestationServiceCreationParamsMapper,
   AttestationServicePatchParams as AttestationServicePatchParamsMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -10,11 +10,13 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
+  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { DataBoxManagementClient } from "../src/dataBoxManagementClient.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { assert } from "chai";
+import { Context } from "mocha";
+import { DataBoxManagementClient } from "../src/dataBoxManagementClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -43,8 +45,8 @@ describe("DataBox test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used

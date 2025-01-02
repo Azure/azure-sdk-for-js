@@ -12,7 +12,7 @@ import {
   AccessReviewHistoryDefinitionsListOptionalParams,
   AccessReviewHistoryDefinitionsGetByIdOptionalParams,
   AccessReviewHistoryDefinitionsGetByIdResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessReviewHistoryDefinitions. */

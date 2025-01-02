@@ -53,7 +53,7 @@ import {
   HybridRunbookWorkerCreateParameters as HybridRunbookWorkerCreateParametersMapper,
   HybridRunbookWorkerMoveParameters as HybridRunbookWorkerMoveParametersMapper,
   HybridRunbookWorkerGroupCreateOrUpdateParameters as HybridRunbookWorkerGroupCreateOrUpdateParametersMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

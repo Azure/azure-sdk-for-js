@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SoftwareUpdateConfigurationMachineRuns } from "../operationsInterfaces/index.js";
+import { SoftwareUpdateConfigurationMachineRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AutomationClient } from "../automationClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AutomationClient } from "../automationClient";
 import {
   SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams,
   SoftwareUpdateConfigurationMachineRunsGetByIdResponse,
   SoftwareUpdateConfigurationMachineRunsListOptionalParams,
   SoftwareUpdateConfigurationMachineRunsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing SoftwareUpdateConfigurationMachineRuns operations. */
 export class SoftwareUpdateConfigurationMachineRunsImpl

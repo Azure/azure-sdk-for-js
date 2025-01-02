@@ -12,7 +12,7 @@ import {
   ScriptPackagesListOptionalParams,
   ScriptPackagesGetOptionalParams,
   ScriptPackagesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptPackages. */

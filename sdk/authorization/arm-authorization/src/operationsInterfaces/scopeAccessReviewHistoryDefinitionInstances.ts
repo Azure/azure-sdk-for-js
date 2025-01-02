@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AccessReviewHistoryInstance,
   ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeAccessReviewHistoryDefinitionInstances. */

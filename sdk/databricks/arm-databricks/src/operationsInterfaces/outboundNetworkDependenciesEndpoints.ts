@@ -9,7 +9,7 @@
 import {
   OutboundNetworkDependenciesEndpointsListOptionalParams,
   OutboundNetworkDependenciesEndpointsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a OutboundNetworkDependenciesEndpoints. */
 export interface OutboundNetworkDependenciesEndpoints {

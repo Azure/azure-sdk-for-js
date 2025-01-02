@@ -15,7 +15,7 @@ import {
   AnalysisServicesServer as AnalysisServicesServerMapper,
   AnalysisServicesServerUpdateParameters as AnalysisServicesServerUpdateParametersMapper,
   CheckServerNameAvailabilityParameters as CheckServerNameAvailabilityParametersMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

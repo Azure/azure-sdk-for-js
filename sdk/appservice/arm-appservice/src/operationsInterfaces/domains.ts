@@ -39,7 +39,7 @@ import {
   DomainsRenewOptionalParams,
   DomainsTransferOutOptionalParams,
   DomainsTransferOutResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Domains. */

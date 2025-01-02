@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OutboundNetworkDependenciesEndpoints } from "../operationsInterfaces/index.js";
+import { OutboundNetworkDependenciesEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
 import {
   OutboundNetworkDependenciesEndpointsListOptionalParams,
   OutboundNetworkDependenciesEndpointsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing OutboundNetworkDependenciesEndpoints operations. */
 export class OutboundNetworkDependenciesEndpointsImpl

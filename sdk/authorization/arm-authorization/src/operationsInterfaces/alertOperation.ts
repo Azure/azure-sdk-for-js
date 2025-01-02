@@ -9,7 +9,7 @@
 import {
   AlertOperationGetOptionalParams,
   AlertOperationGetResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a AlertOperation. */
 export interface AlertOperation {

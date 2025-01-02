@@ -22,7 +22,7 @@ import {
   ValidateAddress as ValidateAddressMapper,
   ValidationRequest as ValidationRequestMapper,
   RegionConfigurationRequest as RegionConfigurationRequestMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { DomainRegistrationProvider } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { DomainRegistrationProvider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { WebSiteManagementClient } from "../webSiteManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   CsmOperationDescription,
   DomainRegistrationProviderListOperationsNextOptionalParams,
   DomainRegistrationProviderListOperationsOptionalParams,
   DomainRegistrationProviderListOperationsResponse,
   DomainRegistrationProviderListOperationsNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DomainRegistrationProvider operations. */

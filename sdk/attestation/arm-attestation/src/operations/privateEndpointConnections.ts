@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
+import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AttestationManagementClient } from "../attestationManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AttestationManagementClient } from "../attestationManagementClient";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -21,7 +21,7 @@ import {
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */

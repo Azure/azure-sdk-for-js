@@ -154,43 +154,50 @@ const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.j
 let exitCode = 0;
 if (serviceDirs.length === 0) {
   exitCode = spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
+  if (exitCode) {
+    process.exit(exitCode);
+  }
 } else {
   switch (actionComponents[0]) {
     case "build":
-      exitCode = rushRunAllWithDirection(packagesWithDirection);
+      rushRunAllWithDirection(packagesWithDirection);
       break;
 
     case "test":
     case "unit-test":
     case "integration-test":
-      let rushCommandFlag = "--impacted-by";
+      var rushCommandFlag = "--impacted-by";
 
       if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
         // If a service is configured to have reduced test matrix then run rush test only for those projects
         rushCommandFlag = "--only";
       }
 
-      exitCode = rushRunAll(rushCommandFlag, packageNames);
+      rushRunAll(rushCommandFlag, packageNames);
       break;
 
     case "lint":
       for (const packageDir of packageDirs) {
-        exitCode = spawnNode(packageDir, rushx_runner_path, action);
+        const code = spawnNode(packageDir, rushx_runner_path, action);
+        if (code) {
+          exitCode = code;
+        }
       }
       break;
     case "check-format":
       for (const packageDir of packageDirs) {
-        exitCode = spawnNode(packageDir, rushx_runner_path, action);
-        if (exitCode !== 0) {
+        const code = spawnNode(packageDir, rushx_runner_path, action);
+        if (code !== 0) {
           console.log(
             `\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
           );
+          exitCode = code;
         }
       }
       break;
 
     default:
-      exitCode = rushRunAll("--to", packageNames);
+      rushRunAll("--to", packageNames);
       break;
   }
 }

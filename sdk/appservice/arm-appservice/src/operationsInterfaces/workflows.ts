@@ -11,7 +11,7 @@ import {
   WorkflowsRegenerateAccessKeyOptionalParams,
   Workflow,
   WorkflowsValidateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Workflows. */
 export interface Workflows {

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
 import {
   GroupIdInformation,
   PrivateLinkResourcesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse,
   PrivateLinkResourcesListNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */

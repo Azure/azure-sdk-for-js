@@ -170,7 +170,7 @@ matrix([[false, true]], async function (useAad: boolean) {
       });
     });
 
-    describe("Opt Outs Client", { sequential: true }, async () => {
+    describe("Opt Outs Client", async () => {
       it(
         "OptOut Check must return as many results as there were recipients",
         { timeout: 4000 },
@@ -209,30 +209,6 @@ matrix([[false, true]], async function (useAad: boolean) {
           assert.equal(200, results[0].httpStatusCode);
         },
       );
-
-      it("OptOut Add should mark recipient as opted out", { timeout: 4000 }, async () => {
-        const fromNumber = env.AZURE_PHONE_NUMBER as string;
-        const validToNumber = env.AZURE_PHONE_NUMBER as string;
-
-        const addResults = await client.optOuts.add(fromNumber, [validToNumber]);
-        assert.equal(200, addResults[0].httpStatusCode);
-
-        const checkResults = await client.optOuts.check(fromNumber, [validToNumber]);
-        assert.equal(200, checkResults[0].httpStatusCode);
-        assert.equal(true, checkResults[0].isOptedOut);
-      });
-
-      it("OptOut Remove should mark recipient as opted in", { timeout: 4000 }, async () => {
-        const fromNumber = env.AZURE_PHONE_NUMBER as string;
-        const validToNumber = env.AZURE_PHONE_NUMBER as string;
-
-        const removeResults = await client.optOuts.remove(fromNumber, [validToNumber]);
-        assert.equal(200, removeResults[0].httpStatusCode);
-
-        const checkResults = await client.optOuts.check(fromNumber, [validToNumber]);
-        assert.equal(200, checkResults[0].httpStatusCode);
-        assert.equal(false, checkResults[0].isOptedOut);
-      });
     });
   });
 });

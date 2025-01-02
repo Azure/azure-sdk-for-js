@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the Automanage AAD first party Application Service Principal details for the subscription id.

@@ -14,7 +14,7 @@ import {
 import {
   RoleDefinition as RoleDefinitionMapper,
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

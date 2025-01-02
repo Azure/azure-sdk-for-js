@@ -16,7 +16,7 @@ import {
   VNetPeeringDeleteOptionalParams,
   VNetPeeringCreateOrUpdateOptionalParams,
   VNetPeeringCreateOrUpdateResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VNetPeering. */

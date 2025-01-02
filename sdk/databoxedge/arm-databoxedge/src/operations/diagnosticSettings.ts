@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DiagnosticSettings } from "../operationsInterfaces/index.js";
+import { DiagnosticSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import { LroImpl } from "../lroImpl";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
@@ -24,7 +24,7 @@ import {
   DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing DiagnosticSettings operations. */
 export class DiagnosticSettingsImpl implements DiagnosticSettings {

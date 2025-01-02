@@ -15,7 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper.js";
+import { setContinuationToken } from "./pagingHelper";
 import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
@@ -47,7 +47,7 @@ import {
   WorkflowTriggersImpl,
   WorkflowTriggerHistoriesImpl,
   WorkflowVersionsImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
@@ -79,9 +79,9 @@ import {
   WorkflowTriggers,
   WorkflowTriggerHistories,
   WorkflowVersions,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   WebSiteManagementClientOptionalParams,
   SourceControl,
@@ -145,7 +145,7 @@ import {
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
   ListPremierAddOnOffersNextResponse,
-} from "./models/index.js";
+} from "./models";
 
 /// <reference lib="esnext.asynciterable" />
 export class WebSiteManagementClient extends coreClient.ServiceClient {

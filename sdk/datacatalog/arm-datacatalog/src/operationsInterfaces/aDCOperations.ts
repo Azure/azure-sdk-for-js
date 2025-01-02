@@ -9,7 +9,7 @@
 import {
   ADCOperationsListOptionalParams,
   ADCOperationsListResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ADCOperations. */
 export interface ADCOperations {

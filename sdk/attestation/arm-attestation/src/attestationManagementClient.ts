@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   AttestationProvidersImpl,
   PrivateEndpointConnectionsImpl
-} from "./operations/index.js";
+} from "./operations";
 import {
   Operations,
   AttestationProviders,
   PrivateEndpointConnections
-} from "./operationsInterfaces/index.js";
-import { AttestationManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { AttestationManagementClientOptionalParams } from "./models";
 
 export class AttestationManagementClient extends coreClient.ServiceClient {
   $host: string;

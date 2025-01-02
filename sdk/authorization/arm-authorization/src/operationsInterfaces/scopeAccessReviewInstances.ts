@@ -15,7 +15,7 @@ import {
   AccessReviewInstanceProperties,
   ScopeAccessReviewInstancesCreateOptionalParams,
   ScopeAccessReviewInstancesCreateResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeAccessReviewInstances. */

@@ -17,7 +17,7 @@ import {
   AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse,
   AccessReviewScheduleDefinitionsStopOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessReviewScheduleDefinitions. */

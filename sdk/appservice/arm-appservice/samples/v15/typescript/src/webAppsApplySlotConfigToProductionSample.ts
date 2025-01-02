@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import { CsmSlotEntity, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Applies the configuration settings from the target slot onto the current slot.

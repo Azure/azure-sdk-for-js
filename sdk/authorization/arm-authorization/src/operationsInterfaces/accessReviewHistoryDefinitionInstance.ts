@@ -9,7 +9,7 @@
 import {
   AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
   AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a AccessReviewHistoryDefinitionInstance. */
 export interface AccessReviewHistoryDefinitionInstance {

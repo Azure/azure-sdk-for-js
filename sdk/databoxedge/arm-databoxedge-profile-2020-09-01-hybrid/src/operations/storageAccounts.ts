@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { StorageAccounts } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { StorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import { LroImpl } from "../lroImpl";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   StorageAccountsCreateOrUpdateResponse,
   StorageAccountsDeleteOptionalParams,
   StorageAccountsListByDataBoxEdgeDeviceNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageAccounts operations. */

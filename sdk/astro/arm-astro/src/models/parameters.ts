@@ -14,7 +14,7 @@ import {
 import {
   OrganizationResource as OrganizationResourceMapper,
   OrganizationResourceUpdate as OrganizationResourceUpdateMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

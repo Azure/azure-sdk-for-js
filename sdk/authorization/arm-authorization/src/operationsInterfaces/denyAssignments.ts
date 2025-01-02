@@ -17,7 +17,7 @@ import {
   DenyAssignmentsGetResponse,
   DenyAssignmentsGetByIdOptionalParams,
   DenyAssignmentsGetByIdResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DenyAssignments. */

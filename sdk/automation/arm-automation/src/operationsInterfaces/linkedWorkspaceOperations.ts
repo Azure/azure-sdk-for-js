@@ -9,7 +9,7 @@
 import {
   LinkedWorkspaceGetOptionalParams,
   LinkedWorkspaceGetResponse
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a LinkedWorkspaceOperations. */
 export interface LinkedWorkspaceOperations {

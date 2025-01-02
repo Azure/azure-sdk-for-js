@@ -11,7 +11,7 @@ import {
   ScopeAccessReviewHistoryDefinitionCreateOptionalParams,
   ScopeAccessReviewHistoryDefinitionCreateResponse,
   ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinition. */
 export interface ScopeAccessReviewHistoryDefinition {

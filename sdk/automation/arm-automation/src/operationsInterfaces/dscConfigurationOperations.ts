@@ -22,7 +22,7 @@ import {
   DscConfigurationUpdateResponse,
   DscConfigurationGetContentOptionalParams,
   DscConfigurationGetContentResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DscConfigurationOperations. */

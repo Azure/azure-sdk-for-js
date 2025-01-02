@@ -59,7 +59,7 @@ import {
   AppServicePlan as AppServicePlanMapper,
   AppServicePlanPatchResource as AppServicePlanPatchResourceMapper,
   VnetRoute as VnetRouteMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

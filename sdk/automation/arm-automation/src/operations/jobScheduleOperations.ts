@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { JobScheduleOperations } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { JobScheduleOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AutomationClient } from "../automationClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AutomationClient } from "../automationClient";
 import {
   JobSchedule,
   JobScheduleListByAutomationAccountNextOptionalParams,
@@ -25,7 +25,7 @@ import {
   JobScheduleCreateOptionalParams,
   JobScheduleCreateResponse,
   JobScheduleListByAutomationAccountNextResponse
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing JobScheduleOperations operations. */

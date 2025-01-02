@@ -56,7 +56,7 @@ import {
   AlertDefinitionsImpl,
   AlertIncidentsImpl,
   AlertOperationImpl
-} from "./operations/index.js";
+} from "./operations";
 import {
   ClassicAdministrators,
   GlobalAdministrator,
@@ -104,8 +104,8 @@ import {
   AlertDefinitions,
   AlertIncidents,
   AlertOperation
-} from "./operationsInterfaces/index.js";
-import { AuthorizationManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { AuthorizationManagementClientOptionalParams } from "./models";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;

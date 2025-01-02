@@ -26,7 +26,7 @@ import {
   RoleManagementPolicyAssignment as RoleManagementPolicyAssignmentMapper,
   Alert as AlertMapper,
   AlertConfiguration as AlertConfigurationMapper
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

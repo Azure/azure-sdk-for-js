@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { WorkflowRunActionScopeRepetitions } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { WorkflowRunActionScopeRepetitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { WebSiteManagementClient } from "../webSiteManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionScopeRepetitionsListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   WorkflowRunActionScopeRepetitionsGetOptionalParams,
   WorkflowRunActionScopeRepetitionsGetResponse,
   WorkflowRunActionScopeRepetitionsListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionScopeRepetitions operations. */

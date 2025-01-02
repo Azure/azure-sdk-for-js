@@ -16,7 +16,7 @@ import {
   DscNodeConfigurationGetResponse,
   DscNodeConfigurationCreateOrUpdateParameters,
   DscNodeConfigurationCreateOrUpdateOptionalParams
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DscNodeConfigurationOperations. */

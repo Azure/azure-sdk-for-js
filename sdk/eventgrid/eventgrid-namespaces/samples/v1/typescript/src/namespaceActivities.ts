@@ -5,10 +5,18 @@
  * @summary Publish and Receive events to Event Grid.
  */
 
-import type { CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";
-import { EventGridSenderClient, EventGridReceiverClient } from "@azure/eventgrid-namespaces";
+import {
+  EventGridSenderClient,
+  EventGridReceiverClient,
+  CloudEvent,
+  ReceiveResult,
+} from "@azure/eventgrid-namespaces";
 import { AzureKeyCredential } from "@azure/core-auth";
-import "dotenv/config";
+
+import * as dotenv from "dotenv";
+
+// Load the .env file if it exists
+dotenv.config();
 
 const endpoint = process.env["EVENT_GRID_NAMESPACES_ENDPOINT"] ?? "https://endpoint";
 const key = process.env["EVENT_GRID_NAMESPACES_KEY"] ?? "api_key";
