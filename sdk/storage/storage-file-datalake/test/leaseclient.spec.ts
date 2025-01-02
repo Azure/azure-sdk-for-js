@@ -2,8 +2,17 @@
 // Licensed under the MIT License.
 
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import type {
+  DataLakeFileClient,
+  DataLakeDirectoryClient,
+  DataLakeFileSystemClient,
+} from "../src/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {

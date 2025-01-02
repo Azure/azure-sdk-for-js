@@ -20,7 +20,7 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -914,9 +914,9 @@ describe("DataLakePathClient", () => {
 
   it("read with default parameters and tracing", async () => {
     await expect(async (options) => {
-    const result = await fileClient.read(undefined, undefined, options);
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-}).toSupportTracing(["DataLakeFileClient-read"]);
+      const result = await fileClient.read(undefined, undefined, options);
+      assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    }).toSupportTracing(["DataLakeFileClient-read"]);
   });
 
   it("verify fileName and fileSystemName passed to the client", async () => {

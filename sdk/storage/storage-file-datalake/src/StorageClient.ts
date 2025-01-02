@@ -8,7 +8,12 @@ import type { AnonymousCredential } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms.js";
-import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common.js";
+import {
+  escapeURLPath,
+  getAccountNameFromUrl,
+  getURLScheme,
+  iEqual,
+} from "./utils/utils.common.js";
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";

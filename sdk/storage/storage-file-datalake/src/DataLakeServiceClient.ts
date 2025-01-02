@@ -398,7 +398,6 @@ export class DataLakeServiceClient extends StorageClient {
     ).stringToSign;
   }
 
-
   /**
    * Restore a previously deleted File System.
    * This API is only functional if Container Soft Delete is enabled for the storage account.

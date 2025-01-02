@@ -8,7 +8,11 @@ import type {
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
 } from "../src/index.js";
-import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src/index.js";
+import {
+  DataLakeFileSystemClient,
+  DataLakeFileClient,
+  DataLakeDirectoryClient,
+} from "../src/index.js";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -20,7 +24,7 @@ import {
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -58,13 +62,13 @@ describe("DataLakeFileSystemClient", () => {
 
   it("setMetadata with tracing", async () => {
     await expect(async (options) => {
-    const metadata = {
+      const metadata = {
         key0: "val0",
         keya: "vala",
         keyb: "valb",
-    };
-    await fileSystemClient.setMetadata(metadata, options);
-}).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
+      };
+      await fileSystemClient.setMetadata(metadata, options);
+    }).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
   });
 
   it("getProperties", async () => {

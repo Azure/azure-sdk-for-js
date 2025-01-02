@@ -3,7 +3,12 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils/index.js";
 import {
   blobToString,
   bodyToString,

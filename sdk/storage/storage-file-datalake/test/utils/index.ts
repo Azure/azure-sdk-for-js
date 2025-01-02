@@ -12,7 +12,11 @@ import * as path from "node:path";
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
 import type { StoragePipelineOptions } from "../../src/index.js";
 import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
-import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common.js";
+import {
+  getUniqueName,
+  SimpleTokenCredential,
+  configureStorageClient,
+} from "./testutils.common.js";
 import type { DataLakeSASSignatureValues } from "../../src/index.js";
 import {
   AccountSASPermissions,
