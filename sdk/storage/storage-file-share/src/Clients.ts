@@ -7,7 +7,7 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   CopyFileSmbInfo,
@@ -128,9 +128,7 @@ import {
   removeEmptyString,
   asSharePermission,
 } from "./utils/utils.common.js";
-import { Credential } from "../../storage-blob/src/credentials/Credential.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { AnonymousCredential, Credential, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { tracingClient } from "./utils/tracing.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
@@ -730,7 +728,7 @@ export class ShareClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3834,7 +3832,7 @@ export class ShareFileClient extends StorageClient {
         await this.context.download({
           ...updatedOptions,
           requestOptions: {
-            onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
           },
           range: downloadFullFile ? undefined : rangeToString({ offset, count }),
           ...this.shareClientConfig,
@@ -3842,7 +3840,7 @@ export class ShareFileClient extends StorageClient {
       );
 
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeLike) {
         return res;
       }
 
@@ -4434,7 +4432,7 @@ export class ShareFileClient extends StorageClient {
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;

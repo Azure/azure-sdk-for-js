@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
+import { createWriteStream } from "node:fs";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -18,7 +18,7 @@ export async function readStreamToLocalFileWithLogs(
   file: string,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    const ws = fs.createWriteStream(file);
+    const ws = createWriteStream(file);
 
     // Set STREAM_DEBUG env var to log stream events while running tests
     if (process.env.STREAM_DEBUG) {

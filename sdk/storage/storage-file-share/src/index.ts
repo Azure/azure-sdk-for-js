@@ -17,9 +17,17 @@ export {
 } from "./FileSASSignatureValues.js";
 export * from "./Clients.js";
 export * from "./ShareSASPermissions.js";
-export * from "../../storage-blob/src/credentials/AnonymousCredential.js";
-export * from "../../storage-blob/src/credentials/Credential.js";
-export * from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+export {
+  AnonymousCredential,
+  AnonymousCredentialPolicy,
+  BaseRequestPolicy,
+  Credential,
+  CredentialPolicy,
+  CredentialPolicyCreator,
+  StorageBrowserPolicyFactory,
+  StorageSharedKeyCredential,
+  StorageSharedKeyCredentialPolicy,
+} from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
 export { Range } from "./Range.js";
 export {
@@ -39,7 +47,6 @@ export {
   getFileServiceAccountAudience,
 } from "./models.js";
 export * from "./FileSystemAttributes.js";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy.js";
 export {
   Pipeline,
   PipelineLike,
@@ -58,11 +65,7 @@ export {
   StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy.js";
-export * from "../../storage-blob/src/policies/CredentialPolicy.js";
 export * from "./StorageRetryPolicyFactory.js";
-export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy.js";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
 export * from "./ShareServiceClient.js";
 export * from "./SASQueryParameters.js";
 export { CommonOptions } from "./StorageClient.js";

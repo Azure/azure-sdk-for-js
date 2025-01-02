@@ -3,3 +3,4 @@
 
 export { OutgoingHandler, BufferScheduler } from "./BufferScheduler.js";
 export * from "./constants.js";
+export * from "./utils/cache.js";

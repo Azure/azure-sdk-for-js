@@ -54,7 +54,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -80,14 +80,14 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (shareClient) {
       await shareClient.delete({ deleteSnapshots: "include" });
     }
     await recorder.stop();
   });
 
-  it("create with default parameters", async function () {
+  it("create with default parameters", async () => {
     const cResp = await fileClient.create(content.length);
     assert.equal(cResp.errorCode, undefined);
     assert.equal(cResp.fileAttributes!, "Archive");
@@ -105,7 +105,7 @@ describe("FileClient", () => {
     );
   });
 
-  it("create with all parameters configured setting filePermissionKey", async function () {
+  it("create with all parameters configured setting filePermissionKey", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
 
     const options = {
@@ -174,7 +174,7 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  it("create with sddl permission format", async function () {
+  it("create with sddl permission format", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!,
       {
@@ -196,7 +196,7 @@ describe("FileClient", () => {
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
   });
 
-  it("create with binary permission format", async function () {
+  it("create with binary permission format", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!,
       {
@@ -218,7 +218,7 @@ describe("FileClient", () => {
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
   });
 
-  it("create largest file", async function () {
+  it("create largest file", async () => {
     const fileSize = FILE_MAX_SIZE_BYTES;
     const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
@@ -304,7 +304,7 @@ describe("FileClient", () => {
     await dirClientShouldInRootDir.delete();
   });
 
-  it("setProperties with default parameters", async function () {
+  it("setProperties with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -327,7 +327,7 @@ describe("FileClient", () => {
     assert.ok(!result.contentDisposition);
   });
 
-  it("setProperties with all parameters configured setting filePermission", async function () {
+  it("setProperties with all parameters configured setting filePermission", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!,
     );
@@ -376,7 +376,7 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("setMetadata with new metadata set", async function () {
+  it("setMetadata with new metadata set", async () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
@@ -387,7 +387,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("setMetadata with cleaning up metadata", async function () {
+  it("setMetadata with cleaning up metadata", async () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
@@ -402,7 +402,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result2.metadata, {});
   });
 
-  it("setHTTPHeaders with default parameters", async function () {
+  it("setHTTPHeaders with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
@@ -417,7 +417,7 @@ describe("FileClient", () => {
     assert.ok(!result.contentDisposition);
   });
 
-  it("setHTTPHeaders with all parameters set", async function () {
+  it("setHTTPHeaders with all parameters set", async () => {
     await fileClient.create(content.length);
     const headers = {
       fileCacheControl: "fileCacheControl",
@@ -439,7 +439,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
   });
 
-  it("setHTTPHeaders with permissions", async function () {
+  it("setHTTPHeaders with permissions", async () => {
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
     await fileClient.create(content.length);
@@ -455,7 +455,7 @@ describe("FileClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("setHTTPHeaders with sddl permissions", async function () {
+  it("setHTTPHeaders with sddl permissions", async () => {
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
     await fileClient.create(content.length);
@@ -472,7 +472,7 @@ describe("FileClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("setHTTPHeaders with binary permissions", async function () {
+  it("setHTTPHeaders with binary permissions", async () => {
     await fileClient.create(content.length);
     await fileClient.setHttpHeaders(
       {},
@@ -487,7 +487,7 @@ describe("FileClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("startCopy - with sddl file permission", async function () {
+  it("startCopy - with sddl file permission", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -506,7 +506,7 @@ describe("FileClient", () => {
     assert.ok(properties.filePermissionKey);
   });
 
-  it("startCopy - with binary file permission", async function () {
+  it("startCopy - with binary file permission", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -525,12 +525,12 @@ describe("FileClient", () => {
     assert.ok(properties.filePermissionKey);
   });
 
-  it("delete", async function () {
+  it("delete", async () => {
     await fileClient.create(content.length);
     await fileClient.delete();
   });
 
-  it("deleteIfExists", async function () {
+  it("deleteIfExists", async () => {
     const res = await fileClient.deleteIfExists();
     assert.ok(!res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
@@ -540,7 +540,7 @@ describe("FileClient", () => {
     assert.ok(res2.succeeded);
   });
 
-  it("deleteIfExists when parent not exists", async function () {
+  it("deleteIfExists when parent not exists", async () => {
     const newDirectoryClient = shareClient.getDirectoryClient(
       recorder.variable("newdir", getUniqueName("newdir")),
     );
@@ -550,13 +550,13 @@ describe("FileClient", () => {
     assert.equal(res.errorCode, "ParentNotFound");
   });
 
-  it("exists", async function () {
+  it("exists", async () => {
     assert.ok(!(await fileClient.exists()));
     await fileClient.create(content.length);
     assert.ok(await fileClient.exists());
   });
 
-  it("startCopyFromURL", async function () {
+  it("startCopyFromURL", async () => {
     if (!isNode && !isLiveMode()) {
       ctx.skip();
     }
@@ -592,7 +592,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("startCopyFromURL ignore readonly", async function () {
+  it("startCopyFromURL ignore readonly", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -620,7 +620,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
   });
 
-  it("startCopyFromURL with smb options", async function () {
+  it("startCopyFromURL with smb options", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -662,7 +662,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(targetProperties.fileChangeOn, fileChangeDate);
   });
 
-  it("startCopyFromURL with smb options: filePermissionKey", async function () {
+  it("startCopyFromURL with smb options: filePermissionKey", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -702,7 +702,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
   });
 
-  it("abortCopyFromURL should failed for a completed copy operation", async function () {
+  it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -721,7 +721,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("resize", async function () {
+  it("resize", async () => {
     await fileClient.create(content.length);
     const properties = await fileClient.getProperties();
     assert.deepStrictEqual(properties.contentLength, content.length);
@@ -731,7 +731,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
   });
 
-  it("resize with all parameters", async function () {
+  it("resize with all parameters", async () => {
     await fileClient.create(content.length);
     const properties = await fileClient.getProperties();
     assert.deepStrictEqual(properties.contentLength, content.length);
@@ -773,14 +773,14 @@ describe("FileClient", () => {
     );
   });
 
-  it("uploadData", async function () {
+  it("uploadData", async () => {
     await fileClient.create(10);
     await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
     const response = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(response), content);
   });
 
-  it("uploadData should work with ArrayBuffer and ArrayBufferView", async function () {
+  it("uploadData should work with ArrayBuffer and ArrayBufferView", async () => {
     const byteLength = 10;
     const arrayBuf = new ArrayBuffer(byteLength);
     const uint8Array = new Uint8Array(arrayBuf);
@@ -808,7 +808,7 @@ describe("FileClient", () => {
     );
   });
 
-  it("uploadRange", async function () {
+  it("uploadRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
     await fileClient.uploadRange("World", 5, 5);
@@ -816,7 +816,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with content MD5", async function () {
+  it("uploadRange with content MD5", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([
@@ -829,7 +829,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with progress event", async function () {
+  it("uploadRange with progress event", async () => {
     if (!isNode && !isLiveMode()) {
       ctx.skip();
     }
@@ -848,7 +848,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response), "HelloWorld");
   });
 
-  it("uploadRange with lastWriteTime", async function () {
+  it("uploadRange with lastWriteTime", async () => {
     const createResult = await fileClient.create(10);
 
     const uploadRangeResult = await fileClient.uploadRange("Hello", 0, 5, {
@@ -867,7 +867,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("clearRange", async function () {
+  it("clearRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
     await fileClient.uploadRange("World", 5, 5);
@@ -877,7 +877,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
-  it("clearRange with lastWriteTime", async function () {
+  it("clearRange with lastWriteTime", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
     const uploadRangeResult = await fileClient.uploadRange("World", 5, 5);
@@ -899,7 +899,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(downloadResult2, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
-  it("getRangeList", async function () {
+  it("getRangeList", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
     await fileClient.uploadRange("World", 5, 5);
@@ -910,7 +910,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("getRangeList with share snapshot", async function () {
+  it("getRangeList with share snapshot", async () => {
     await fileClient.create(513); // 512-byte aligned
     await fileClient.uploadRange("Hello", 0, 5);
     await fileClient.uploadRange("World", 5, 5);
@@ -928,7 +928,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function (ctx) {
+  it("getRangeListDiff", async (ctx) => {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       ctx.skip();
@@ -952,7 +952,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function (ctx) {
+  it("getRangeListDiff with share snapshot", async (ctx) => {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       ctx.skip();
@@ -983,7 +983,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with rename", async function (ctx) {
+  it("getRangeListDiff with rename", async (ctx) => {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       ctx.skip();
@@ -1020,7 +1020,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot and rename", async function (ctx) {
+  it("getRangeListDiff with share snapshot and rename", async (ctx) => {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       ctx.skip();
@@ -1064,14 +1064,14 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("download with with default parameters", async function () {
+  it("download with with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
-  it("download should not have aborted error after download finishes", async function () {
+  it("download should not have aborted error after download finishes", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
 
@@ -1081,7 +1081,7 @@ describe("FileClient", () => {
     aborter.abort();
   });
 
-  it("download all parameters set", async function () {
+  it("download all parameters set", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, 1, {
@@ -1090,7 +1090,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
 
-  it("download with progress report", async function () {
+  it("download with progress report", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
@@ -1101,7 +1101,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result), content);
   });
 
-  it("download partial content", async function () {
+  it("download partial content", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("HelloWorld", 0, 10);
 
@@ -1109,7 +1109,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 2), "He");
   });
 
-  it("download should update progress and abort successfully", async function () {
+  it("download should update progress and abort successfully", async () => {
     if (!isNode || !isLiveMode()) {
       // because this test is using a blob response, there won't be
       // anything to abort by the time onProgress gets called.
@@ -1150,7 +1150,7 @@ describe("FileClient", () => {
     assert.ok(eventTriggered);
   });
 
-  it("listHandles should work", async function () {
+  it("listHandles should work", async () => {
     await fileClient.create(10);
 
     const result = (await fileClient.listHandles().byPage().next()).value;
@@ -1166,7 +1166,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("forceCloseAllHandles should work", async function () {
+  it("forceCloseAllHandles should work", async () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle - Has to be tested locally
@@ -1178,7 +1178,7 @@ describe("FileClient", () => {
     );
   });
 
-  it("listHandles for file with Invalid Char should work", async function (ctx) {
+  it("listHandles for file with Invalid Char should work", async (ctx) => {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       ctx.skip();
@@ -1203,7 +1203,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("forceCloseHandle should work", async function () {
+  it("forceCloseHandle should work", async () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle
@@ -1215,11 +1215,11 @@ describe("FileClient", () => {
     }
   });
 
-  it("forceCloseHandle could return closeFailureCount", async function () {
+  it("forceCloseHandle could return closeFailureCount", async () => {
     await fileClient.create(10);
   });
 
-  it("forceCloseAllHandles return correct closeFailureCount", async function () {
+  it("forceCloseAllHandles return correct closeFailureCount", async () => {
     await fileClient.create(10);
 
     const closeAllResp = await fileClient.forceCloseAllHandles();
@@ -1230,14 +1230,14 @@ describe("FileClient", () => {
     );
   });
 
-  it("create with tracing", async function () {
+  it("create with tracing", async () => {
     await expect(async (options) => {
       await fileClient.create(content.length, options);
     }).toSupportTracing(["ShareFileClient-create"]);
   });
 
   // STG81
-  it("rename", async function () {
+  it("rename", async () => {
     await fileClient.create(1024);
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const result = await fileClient.rename(destFileName);
@@ -1256,7 +1256,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename with metadata", async function () {
+  it("rename with metadata", async () => {
     await fileClient.create(1024);
 
     const metadata = {
@@ -1283,7 +1283,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename to under a different directory", async function () {
+  it("rename to under a different directory", async () => {
     const sourceParentDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
     const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);
     await sourceParentDir.create();
@@ -1316,7 +1316,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - replaceIfExists = true ", async function () {
+  it("rename - replaceIfExists = true ", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1344,7 +1344,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - replaceIfExists = false", async function () {
+  it("rename - replaceIfExists = false", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1368,7 +1368,7 @@ describe("FileClient", () => {
     assert.ok(properties.contentLength === 2048, "The origin file should still exist");
   });
 
-  it("rename - ignoreReadOnly = true", async function () {
+  it("rename - ignoreReadOnly = true", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1395,7 +1395,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - ignoreReadOnly = false", async function () {
+  it("rename - ignoreReadOnly = false", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1424,7 +1424,7 @@ describe("FileClient", () => {
     assert.ok(properties.contentLength === 2048, "The origin file should still exist");
   });
 
-  it("rename - destination leased", async function () {
+  it("rename - destination leased", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1455,7 +1455,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - destination leased - no lease access condition", async function () {
+  it("rename - destination leased - no lease access condition", async () => {
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1486,7 +1486,7 @@ describe("FileClient", () => {
     assert.ok(properties.contentLength === 2048, "The origin file should still exist");
   });
 
-  it("rename - source leased", async function () {
+  it("rename - source leased", async () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -1526,7 +1526,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - source leased - no lease access condition", async function () {
+  it("rename - source leased - no lease access condition", async () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -1557,7 +1557,7 @@ describe("FileClient", () => {
     await sourceFileClient.getProperties();
   });
 
-  it("rename - Non-ASCII source and destination", async function () {
+  it("rename - Non-ASCII source and destination", async () => {
     const destName = "汉字. dest ~!@#$%^&()_+`1234567890-={}[];','";
     const destFileName = recorder.variable(destName, getUniqueName(destName));
 
@@ -1582,7 +1582,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - with file permission", async function () {
+  it("rename - with file permission", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
@@ -1611,7 +1611,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - with binary file permission", async function () {
+  it("rename - with binary file permission", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
 
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
@@ -1639,7 +1639,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - SMB properties", async function () {
+  it("rename - SMB properties", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
@@ -1702,7 +1702,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("rename - Content type", async function () {
+  it("rename - Content type", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
 
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
@@ -1737,7 +1737,7 @@ describe("ShareFileClient - Verify Name Properties", () => {
   const fileName = "1.txt";
   const shareName = "shareName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareFileClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
     assert.equal(
@@ -1757,29 +1757,29 @@ describe("ShareFileClient - Verify Name Properties", () => {
     );
   }
 
-  it("verify endpoint from the portal", async function () {
+  it("verify endpoint from the portal", async () => {
     verifyNameProperties(
       `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`,
     );
   });
 
-  it("verify IPv4 host address as Endpoint", async function () {
+  it("verify IPv4 host address as Endpoint", async () => {
     verifyNameProperties(
       `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`,
     );
   });
 
-  it("verify IPv6 host address as Endpoint", async function () {
+  it("verify IPv6 host address as Endpoint", async () => {
     verifyNameProperties(
       `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`,
     );
   });
 
-  it("verify endpoint without dots", async function () {
+  it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
   });
 
-  it("verify custom endpoint without valid accountName", async function () {
+  it("verify custom endpoint without valid accountName", async () => {
     const newClient = new ShareFileClient(
       `https://customdomain.com/${shareName}/${dirName}/${fileName}`,
     );
@@ -1820,7 +1820,7 @@ describe("FileClient - OAuth", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -1852,7 +1852,7 @@ describe("FileClient - OAuth", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await shareClientWithKeyCredential.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -1877,7 +1877,7 @@ describe("FileClient - OAuth", () => {
     );
   });
 
-  it("setProperties", async function () {
+  it("setProperties", async () => {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -2033,7 +2033,7 @@ describe("FileClient - OAuth", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("getRangeListDiff with share snapshot", async function () {
+  it("getRangeListDiff with share snapshot", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2133,7 +2133,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -2163,7 +2163,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -2184,7 +2184,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.ok(foundFile, "The file with trailing dot should have been created.");
   });
 
-  it("setProperties with default parameters", async function () {
+  it("setProperties with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -2366,7 +2366,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function () {
+  it("getRangeListDiff", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2386,7 +2386,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function () {
+  it("getRangeListDiff with share snapshot", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2509,7 +2509,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -2539,7 +2539,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -2560,7 +2560,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.ok(foundFile, "The file with trailing dot should have been created.");
   });
 
-  it("setProperties with default parameters", async function () {
+  it("setProperties with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -2742,7 +2742,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function () {
+  it("getRangeListDiff", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2762,7 +2762,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function () {
+  it("getRangeListDiff with share snapshot", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2889,7 +2889,7 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -2916,7 +2916,7 @@ describe("FileClient - AllowTrailingDots - Default", () => {
     fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();

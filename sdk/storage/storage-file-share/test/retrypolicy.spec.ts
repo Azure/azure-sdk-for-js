@@ -16,7 +16,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
@@ -26,14 +26,14 @@ describe("RetryPolicy", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await shareClient.delete();
     await recorder.stop();
   });
 
-  it("Retry Policy should work when first request fails with 500", async function () {
+  it("Retry Policy should work when first request fails with 500", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
@@ -61,7 +61,7 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should abort when abort event trigger during retry interval", async function () {
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
@@ -96,7 +96,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async function () {
+  it("Retry Policy should failed when requests always fail with 500", async () => {
     const injector = injectorPolicy(() => {
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
@@ -123,7 +123,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async function () {
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {

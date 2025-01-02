@@ -39,7 +39,7 @@ describe("DirectoryClient", () => {
   const filePermissionInBinaryFormat =
     "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -70,7 +70,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -129,9 +129,9 @@ describe("DirectoryClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
+    assert(true);
   });
 
   it("create with all parameters configured setting filePermissionKey", async () => {
@@ -371,7 +371,7 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("setProperties with binary permissions", async function () {
+  it("setProperties with binary permissions", async () => {
     await dirClient.setProperties({
       filePermissionFormat: "Binary",
       filePermission: filePermissionInBinaryFormat,
@@ -507,7 +507,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listFilesAndDirectories - with invalid char", async function (ctx) {
+  it("listFilesAndDirectories - with invalid char", async (ctx) => {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       ctx.skip();
@@ -1089,7 +1089,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listHandles for directory with Invalid Char should work", async function (ctx) {
+  it("listHandles for directory with Invalid Char should work", async (ctx) => {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       ctx.skip();
@@ -1517,7 +1517,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   const dirPath = "dir1/dir2";
   const baseName = "baseName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareDirectoryClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
     assert.equal(
@@ -1597,7 +1597,7 @@ describe("DirectoryClient - OAuth", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -1635,7 +1635,7 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClientWithKeyCredential.delete();
     await recorder.stop();
   });
@@ -1904,7 +1904,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -1930,7 +1930,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
     defaultDirCreateResp = await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -2147,7 +2147,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let recorder: Recorder;
   let defaultDirCreateResp: DirectoryCreateResponse;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -2173,7 +2173,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
     defaultDirCreateResp = await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -2420,7 +2420,7 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -2443,7 +2443,7 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
     await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });

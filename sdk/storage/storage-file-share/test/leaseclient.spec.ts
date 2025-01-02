@@ -31,7 +31,7 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -57,7 +57,7 @@ describe("LeaseClient", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -428,7 +428,7 @@ describe("LeaseClient with ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
@@ -446,7 +446,7 @@ describe("LeaseClient with ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -723,7 +723,7 @@ describe("LeaseClient with ShareClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it("setAccessPolicy", async function () {
+  it("setAccessPolicy", async () => {
     if (!isNode) {
       ctx.skip();
     }

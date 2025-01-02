@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { HttpClient } from '@azure/core-rest-pipeline';
 import { Readable } from 'node:stream';
 
 // @public
@@ -11,6 +12,9 @@ export class BufferScheduler {
     constructor(readable: Readable, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
+
+// @public (undocumented)
+export function getCachedDefaultHttpClient(): HttpClient;
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;

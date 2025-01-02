@@ -103,7 +103,7 @@ function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature",
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -400,14 +400,14 @@ export async function delay(
     /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
-    const abortHandler = () => {
+    const abortHandler = (): void => {
       if (timeout !== undefined) {
         clearTimeout(timeout);
       }
       reject(abortError);
     };
 
-    const resolveHandler = () => {
+    const resolveHandler = (): void => {
       if (aborter !== undefined) {
         aborter.removeEventListener("abort", abortHandler);
       }

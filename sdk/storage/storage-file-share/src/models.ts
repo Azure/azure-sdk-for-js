@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { FileSystemAttributes } from "./FileSystemAttributes.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
 import { logger } from "./log.js";

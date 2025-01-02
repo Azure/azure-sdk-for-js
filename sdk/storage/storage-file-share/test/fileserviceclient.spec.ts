@@ -19,13 +19,13 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -397,7 +397,7 @@ describe("FileServiceClient - soft delete", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -409,11 +409,11 @@ describe("FileServiceClient - soft delete", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("ListShares with deleted share", async function () {
+  it("ListShares with deleted share", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -431,7 +431,7 @@ describe("FileServiceClient - soft delete", () => {
     assert.ok(found);
   });
 
-  it("Undelete share positive", async function () {
+  it("Undelete share positive", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -466,7 +466,7 @@ describe("FileServiceClient - soft delete", () => {
     await restoredShareClient.delete();
   });
 
-  it("Undelete share negative", async function () {
+  it("Undelete share negative", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -485,7 +485,7 @@ describe("FileServiceClient Premium", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -497,12 +497,12 @@ describe("FileServiceClient Premium", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   // Skipped for now as it needs be enabled on the account.
-  it.skip("SMB Multichannel", async function () {
+  it.skip("SMB Multichannel", async () => {
     await serviceClient.setProperties({
       protocol: { smb: { multichannel: { enabled: true } } },
     });
@@ -510,7 +510,7 @@ describe("FileServiceClient Premium", () => {
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 
-  it.skip("Share Enable Protocol & Share Squash Root", async function () {
+  it.skip("Share Enable Protocol & Share Squash Root", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -555,7 +555,7 @@ describe("FileServiceClient Premium", () => {
   });
 
   // Skip this case until the feature is enabled in production.
-  it.skip("Premium Share getProperties", async function () {
+  it.skip("Premium Share getProperties", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 

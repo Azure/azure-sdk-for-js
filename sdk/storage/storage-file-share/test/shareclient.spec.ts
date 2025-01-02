@@ -22,7 +22,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -32,7 +32,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -286,7 +286,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   const accountName = "myaccount";
   const shareName = "shareName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareClient(url);
     assert.equal(
       newClient.accountName,
@@ -330,7 +330,7 @@ describe("ShareClient - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -346,7 +346,7 @@ describe("ShareClient - OAuth", () => {
     await shareClientWithKeyCredential.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (shareClientWithKeyCredential) {
       await shareClientWithKeyCredential.delete();
     }
@@ -405,7 +405,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -415,7 +415,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -693,7 +693,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   const accountName = "myaccount";
   const shareName = "shareName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareClient(url);
     assert.equal(
       newClient.accountName,
@@ -733,7 +733,7 @@ describe("ShareClient Provisioned", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -745,12 +745,12 @@ describe("ShareClient Provisioned", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   // Skipped for now as it needs be enabled on the account.
-  it("Create share with Provisioned Max Iops and Bandwidth", async function () {
+  it("Create share with Provisioned Max Iops and Bandwidth", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -767,7 +767,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("setProperties with Provisioned Max Iops and Bandwidth", async function () {
+  it("setProperties with Provisioned Max Iops and Bandwidth", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -819,7 +819,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("Restore share", async function () {
+  it("Restore share", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -860,7 +860,7 @@ describe("ShareClient Premium", () => {
   let serviceClient: ShareServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -872,7 +872,7 @@ describe("ShareClient Premium", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
