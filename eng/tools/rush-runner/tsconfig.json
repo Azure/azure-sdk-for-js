@@ -3,7 +3,8 @@
     "allowJs": true,
     "noEmit": true,
     "target": "Es2021",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "ES2022"
   },
   "include": ["index.js", "src/**/*.js", "test/**/*.js"]
 }

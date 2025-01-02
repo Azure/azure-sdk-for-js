@@ -145,3 +145,18 @@ export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   }
   return {packageNames, packageDirs};
 };
+
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ *
+ * @param {string} absolutePath absolute path to a package
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+export function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1
+    ? absolutePath
+    : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
