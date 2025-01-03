@@ -107,7 +107,7 @@ const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOpt
 ```
 
 The same approach can be used for authorizing an Entra user with a Teams license to use Teams Phone Extensibility features through your Azure Communication Services resource.
-This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope.
+This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope and having the @azure/identity package installed.
 
 ```typescript 
 const options: InteractiveBrowserCredentialInBrowserOptions = {
