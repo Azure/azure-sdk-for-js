@@ -78,8 +78,11 @@ export function parseServiceBusConnectionString(
     );
   }
 
-  const fullyQualifiedNamespace = parsedResult.Endpoint.includes("0:0:0:0:0:0:0:1") ? "0:0:0:0:0:0:0:1" :
-    parsedResult.Endpoint.includes("::1") ? "::1" : (parsedResult.Endpoint.match(".*://([^/:]*)") || [])[1]
+  const fullyQualifiedNamespace = parsedResult.Endpoint.includes("0:0:0:0:0:0:0:1")
+    ? "0:0:0:0:0:0:0:1"
+    : parsedResult.Endpoint.includes("::1")
+      ? "::1"
+      : (parsedResult.Endpoint.match(".*://([^/:]*)") || [])[1];
 
   const output: ServiceBusConnectionStringProperties = {
     fullyQualifiedNamespace,
