@@ -69,6 +69,9 @@ parameters:
   - name: UseFederatedAuth
     type: boolean
     default: true
+  - name: PersistOidcToken
+    type: boolean
+    default: false
 
 
 extends:
@@ -89,6 +92,7 @@ extends:
           SupportedClouds: ${{ parameters.SupportedClouds }}
           UnsupportedClouds: ${{ parameters.UnsupportedClouds }}
           UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+          PersistOidcToken: ${{ parameters.PersistOidcToken }}
           PreSteps:
             - ${{ parameters.PreSteps }}
           PostSteps:
