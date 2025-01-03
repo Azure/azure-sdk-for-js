@@ -35,7 +35,7 @@ async function createClassificationPolicy() {
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 100,
   };
 
@@ -86,7 +86,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression-rule",
+          kind: "expression",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },
@@ -127,7 +127,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "static-rule",
+          kind: "static",
           value: { default: 2 },
         },
       },

@@ -25,7 +25,7 @@ async function main() {
 
   // body of the request
   const verificationRequest = {
-    identity: "+1123456789",
+    identity: "+11234567890",
     channel: "sms",
   };
 

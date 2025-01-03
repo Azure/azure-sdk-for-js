@@ -36,7 +36,7 @@ async function updateClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression-rule",
+          kind: "expression",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },

@@ -15,7 +15,7 @@ async function createExceptionPolicy() {
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 10,
   };
 
