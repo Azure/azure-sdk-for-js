@@ -7,7 +7,6 @@
  */
 
 import {
-  env,
   Recorder,
   RecorderStartOptions,
   isPlaybackMode,
