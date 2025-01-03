@@ -95,6 +95,7 @@ describe("CognitiveServices test", () => {
 
   it("accounts delete test", async function () {
     const resArray = new Array();
+    await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

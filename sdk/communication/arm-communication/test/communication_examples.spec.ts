@@ -81,6 +81,7 @@ describe("CommunicationService test", () => {
 
   it("communicationService delete test", async function () {
     const resArray = new Array();
+    await client.communicationServices.beginDeleteAndWait(resourceGroup, communicationServiceName, testPollingOptions);
     for await (let item of client.communicationServices.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

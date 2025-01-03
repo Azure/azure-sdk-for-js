@@ -97,6 +97,21 @@ describe("Chaos test", () => {
   });
 
   it("target create test", async function () {
+    const res = await client.targets.createOrUpdate(
+      resourceGroup,
+      parentProviderNamespace,
+      parentResourceType,
+      cosmosdbName,
+      targetName,
+      {
+        location,
+        properties: {
+          identities: [
+            { type: "CertificateSubjectIssuer", subject: "CN=example.subject" }
+          ]
+        }
+      }
+    );
   });
 
   it("experiment create test", async function () {
@@ -180,6 +195,7 @@ describe("Chaos test", () => {
 
   it("experiment delete test", async function () {
     const resArray = new Array();
+    const res = await client.experiments.beginDeleteAndWait(resourceGroup, experimentName, testPollingOptions)
     for await (let item of client.experiments.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -188,6 +204,11 @@ describe("Chaos test", () => {
 
   it("target delete test", async function () {
     const resArray = new Array();
+    const res = await client.targets.delete(resourceGroup,
+      parentProviderNamespace,
+      parentResourceType,
+      cosmosdbName,
+      targetName)
     for await (let item of client.targets.list(resourceGroup,
       parentProviderNamespace,
       parentResourceType,
@@ -199,6 +220,7 @@ describe("Chaos test", () => {
 
   it("chaos dependence delete test", async function () {
     const resArray = new Array();
+    const res = await cos_client.databaseAccounts.beginDeleteAndWait(resourceGroup, cosmosdbName, testPollingOptions)
     for await (let item of cos_client.databaseAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
