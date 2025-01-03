@@ -17,7 +17,7 @@ import {
   ExternalCloudProviderType,
   AlertsListExternalOptionalParams,
   AlertsListExternalResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Alerts. */
 export interface Alerts {

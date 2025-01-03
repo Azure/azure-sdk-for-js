@@ -12,7 +12,7 @@ import {
   GenerateReservationDetailsReportByBillingAccountIdResponse,
   GenerateReservationDetailsReportByBillingProfileIdOptionalParams,
   GenerateReservationDetailsReportByBillingProfileIdResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GenerateReservationDetailsReport. */
 export interface GenerateReservationDetailsReport {

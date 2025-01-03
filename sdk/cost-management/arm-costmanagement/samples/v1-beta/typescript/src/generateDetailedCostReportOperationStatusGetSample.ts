@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the status of the specified operation. This link is provided in the GenerateDetailedCostReport creation request response header.
