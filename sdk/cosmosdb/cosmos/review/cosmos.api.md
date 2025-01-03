@@ -7,7 +7,6 @@
 import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -59,8 +58,6 @@ export type BulkPatchOperation = OperationBase & {
 
 // @public
 export class ChangeFeedIterator<T> {
-    // @internal
-    constructor(clientContext: ClientContext, resourceId: string, resourceLink: string, partitionKey: PartitionKey, changeFeedOptions: ChangeFeedOptions);
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
     getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>>;
     get hasMoreResults(): boolean;
@@ -76,14 +73,6 @@ export interface ChangeFeedIteratorOptions {
 
 // @public
 export class ChangeFeedIteratorResponse<T> {
-    // @internal
-    constructor(
-    result: T,
-    count: number,
-    statusCode: number,
-    headers: CosmosHeaders,
-    diagnostics: CosmosDiagnostics,
-    subStatusCode?: number);
     get activityId(): string;
     get continuationToken(): string;
     readonly count: number;
@@ -129,11 +118,6 @@ export interface ChangeFeedPullModelIterator<T> {
 
 // @public
 export class ChangeFeedResponse<T> {
-    // @internal
-    constructor(
-    result: T,
-    count: number,
-    statusCode: number, headers: CosmosHeaders, diagnostics: CosmosDiagnostics);
     get activityId(): string;
     get continuation(): string;
     readonly count: number;
@@ -149,11 +133,7 @@ export class ChangeFeedResponse<T> {
 
 // @public (undocumented)
 export class ChangeFeedRetentionTimeSpan {
-    // @internal
-    constructor(minutes: number);
     static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
-    // @internal (undocumented)
-    getRetentionInMinutes(): number;
 }
 
 // @public
@@ -737,8 +717,6 @@ export interface CosmosClientOptions {
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
-    // @internal (undocumented)
-    plugins?: PluginConfig[];
     resourceTokens?: {
         [resourcePath: string]: string;
     };
@@ -758,8 +736,6 @@ export enum CosmosDbDiagnosticLevel {
 
 // @public
 export class CosmosDiagnostics {
-    // @internal
-    constructor(clientSideRequestStatistics: ClientSideRequestStatistics, diagnosticNode?: DiagnosticNode, clientConfig?: ClientConfigDiagnostic);
     // (undocumented)
     readonly clientConfig?: ClientConfigDiagnostic;
     // (undocumented)
@@ -962,14 +938,6 @@ export interface DiagnosticNode {
 
 // @public
 export class DiagnosticNodeInternal implements DiagnosticNode {
-    // Warning: (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
-    //
-    // @internal
-    constructor(diagnosticLevel: CosmosDbDiagnosticLevel, type: DiagnosticNodeType, parent: DiagnosticNodeInternal, data?: Partial<DiagnosticDataValue>, startTimeUTCInMs?: number, ctx?: CosmosDiagnosticContext);
-    // @internal
-    addChildNode(child: DiagnosticNodeInternal, level: CosmosDbDiagnosticLevel, metadataType?: MetadataLookUpType): DiagnosticNodeInternal;
-    // @internal (undocumented)
-    addData(data: Partial<DiagnosticDataValue>, msg?: string, level?: CosmosDbDiagnosticLevel): void;
     // (undocumented)
     children: DiagnosticNodeInternal[];
     // (undocumented)
@@ -980,28 +948,12 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     durationInMs: number;
     // (undocumented)
     id: string;
-    // @internal (undocumented)
-    initializeChildNode(type: DiagnosticNodeType, level: CosmosDbDiagnosticLevel, data?: Partial<DiagnosticDataValue>): DiagnosticNodeInternal;
     // (undocumented)
     nodeType: DiagnosticNodeType;
     // (undocumented)
     parent: DiagnosticNodeInternal;
-    // @internal (undocumented)
-    recordEndpointResolution(location: string): void;
-    // @internal (undocumented)
-    recordFailedNetworkCall(startTimeUTCInMs: number, requestContext: RequestContext, retryAttemptNumber: number, statusCode: number, substatusCode: number, responseHeaders: CosmosHeaders_2): void;
-    // @internal (undocumented)
-    recordQueryResult(resources: unknown, level: CosmosDbDiagnosticLevel): void;
-    // @internal (undocumented)
-    recordSuccessfulNetworkCall(startTimeUTCInMs: number, requestContext: RequestContext, pipelineResponse: PipelineResponse, substatus: number, url: string): void;
     // (undocumented)
     startTimeUTCInMs: number;
-    // @internal
-    toDiagnostic(clientConfigDiagnostic: ClientConfigDiagnostic): CosmosDiagnostics;
-    // @internal
-    toDiagnosticNode(): DiagnosticNode;
-    // @internal
-    updateTimestamp(endTimeUTCInMs?: number): void;
 }
 
 // @public (undocumented)
@@ -1109,18 +1061,12 @@ export interface FeedOptions extends SharedOptions {
     partitionKey?: PartitionKey;
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
-    // @internal
-    useAllVersionsAndDeletesFeed?: boolean;
     useIncrementalFeed?: boolean;
-    // @internal
-    useLatestVersionFeed?: boolean;
     vectorSearchBufferSize?: number;
 }
 
 // @public
 export abstract class FeedRange {
-    // @internal
-    protected constructor(minInclusive: string, maxExclusive: string);
     readonly maxExclusive: string;
     readonly minInclusive: string;
 }
@@ -1167,16 +1113,6 @@ export interface FullTextPolicy {
     fullTextPaths: FullTextPath[];
 }
 
-// Warning: (ae-internal-missing-underscore) The name "FullTextStatistics" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface FullTextStatistics {
-    // (undocumented)
-    hitCounts: number[];
-    // (undocumented)
-    totalWordCount: number;
-}
-
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
@@ -1200,8 +1136,6 @@ export enum GeospatialType {
 
 // @public
 export class GlobalEndpointManager {
-    // @internal
-    constructor(options: CosmosClientOptions, readDatabaseAccount: (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
@@ -1220,16 +1154,6 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "GlobalStatistics" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface GlobalStatistics {
-    // (undocumented)
-    documentCount: number;
-    // (undocumented)
-    fullTextStatistics: FullTextStatistics[];
 }
 
 // @public (undocumented)

@@ -10,7 +10,7 @@ import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 import type { PatchOperation } from "@azure/cosmos";
 import { CosmosClient, PriorityLevel } from "@azure/cosmos";
-import Families from "./Data/Families.json" assert { type: "json" };
+import Families from "./Data/Families.json" with { type: "json" };
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

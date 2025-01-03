@@ -2,7 +2,10 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/cosmos": ["./dist/esm"]
-    }
+      "@azure/cosmos": [
+        "./dist/esm"
+      ]
+    },
+    "resolveJsonModule": true
   }
 }

@@ -9,6 +9,7 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
     "newLine": "LF",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "stripInternal": true
   }
 }
