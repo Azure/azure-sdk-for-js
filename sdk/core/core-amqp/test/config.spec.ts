@@ -91,7 +91,68 @@ describe("ConnectionConfig", function () {
         "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
       assert.equal(config.endpoint, "sb://localhost:6765/");
-      assert.equal(config.host, "localhost:6765");
+      assert.equal(config.host, "localhost");
+      assert.equal(config.port, 6765);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for 127.0.0.1", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://127.0.0.1:6765/");
+      assert.equal(config.host, "127.0.0.1");
+      assert.equal(config.port, 6765);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for 127.0.0.1", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://127.0.0.1:6765/");
+      assert.equal(config.host, "127.0.0.1");
+      assert.equal(config.port, 6765);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for ::1", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://::1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://::1/");
+      assert.equal(config.host, "::1");
+      assert.isUndefined(config.port);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for ::1 with port", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://::1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://::1:6765/");
+      assert.equal(config.host, "::1");
+      assert.equal(config.port, 6765);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for 0:0:0:0:0:0:0:1", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://0:0:0:0:0:0:0:1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://0:0:0:0:0:0:0:1/");
+      assert.equal(config.host, "0:0:0:0:0:0:0:1");
+      assert.isUndefined(config.port);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for 0:0:0:0:0:0:0:1 with port", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=sb://0:0:0:0:0:0:0:1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://0:0:0:0:0:0:0:1:6765/");
+      assert.equal(config.host, "0:0:0:0:0:0:0:1");
+      assert.equal(config.port, 6765);
       assert.isTrue(config.useDevelopmentEmulator);
     });
 
@@ -227,8 +288,9 @@ describe("ConnectionConfig", function () {
           "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "localhost:6765/",
-          host: "sb://localhost:6765/",
+          endpoint: "sb://localhost:6765/",
+          host: "localhost",
+          port: 6765,
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -241,8 +303,9 @@ describe("ConnectionConfig", function () {
           "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "127.0.0.1:6765/",
-          host: "sb://127.0.0.1:6765",
+          endpoint: "sb://127.0.0.1:6765/",
+          host: "127.0.0.1",
+          port: 6765,
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -255,8 +318,23 @@ describe("ConnectionConfig", function () {
           "Endpoint=sb://0:0:0:0:0:0:0:1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "0:0:0:0:0:0:0:1/",
-          host: "sb://0:0:0:0:0:0:0:1",
+          endpoint: "sb://0:0:0:0:0:0:0:1/",
+          host: "0:0:0:0:0:0:0:1",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Accepts 0:0:0:0:0:0:0:1 with port", async function () {
+        const connectionString =
+          "Endpoint=sb://0:0:0:0:0:0:0:1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "sb://0:0:0:0:0:0:0:1/",
+          host: "0:0:0:0:0:0:0:1",
+          port: 6765,
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -269,8 +347,23 @@ describe("ConnectionConfig", function () {
           "Endpoint=sb://::1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
-          endpoint: "::1/",
-          host: "sb://::1",
+          endpoint: "sb://::1/",
+          host: "::1",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Accepts ::1 with port", async function () {
+        const connectionString =
+          "Endpoint=sb://::1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "sb://::1/",
+          host: "::1",
+          port: 6765,
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -284,7 +377,8 @@ describe("ConnectionConfig", function () {
         const config: ConnectionConfig = {
           connectionString,
           endpoint: "localhost:6765/",
-          host: "localhost:6765/",
+          host: "localhost",
+          port: 6765,
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -304,6 +398,103 @@ describe("ConnectionConfig", function () {
           useDevelopmentEmulator: true,
         };
         ConnectionConfig.validate(config);
+      });
+
+      it("Accepts non-local host with a port", async function () {
+        const connectionString =
+          "Endpoint=sb://hostname.servicebus.windows.net:6575/;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "sb://hostname.servicebus.windows.net/",
+          host: "hostname.servicebus.windows.net",
+          port: 6575,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+    });
+
+    describe("Port Validation", function () {
+      it("accepts port 0", async function () {
+        // Min valid port number.
+        const connectionString = "Endpoint=sb://localhost:0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 0,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("accepts port 65535", async function () {
+        // Max valid port number.
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 65535,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("rejects port -1", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: -1,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port 65536", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: 65536,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port NaN", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: Number.NaN,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
+      });
+
+      it("rejects port Infinity", async function () {
+        const connectionString = "Endpoint=sb://localhost;Port=0";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost/",
+          host: "sb://localhost/",
+          port: Number.POSITIVE_INFINITY,
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+        };
+        assert.throw(() => ConnectionConfig.validate(config), /Invalid 'port'/);
       });
     });
   });
