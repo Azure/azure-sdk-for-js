@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to list files that were completed by a job.
+ * @summary This sample demonstrates how to create a job which will deidentify all files within a specific folder of a blob storage container.
  */
 
 const createClient = require("@azure-rest/azure-health-deidentification").default,
-  { isUnexpected, paginate } = require("@azure-rest/azure-health-deidentification");
+  { isUnexpected } = require("@azure-rest/azure-health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -22,28 +22,17 @@ async function main() {
   const jobName = "exampleJob";
 
   const job = {
-    dataType: "Plaintext",
     operation: "Surrogate",
     sourceLocation: { location, prefix: inputPrefix },
     targetLocation: { location, prefix: OUTPUT_FOLDER },
   };
-
-  await client.path("/jobs/{name}", jobName).put({ body: job });
-
-  const response = await client.path("/jobs/{name}/documents", jobName).get();
+  const response = await client.path("/jobs/{name}", jobName).put({ body: job });
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  const items = [];
-  const iter = paginate(client, response);
-
-  for await (const item of iter) {
-    items.push(item);
-  }
-
-  console.log(items); // items will contain all the completed files
+  console.log(response.body);
 }
 
 main().catch((err) => {
