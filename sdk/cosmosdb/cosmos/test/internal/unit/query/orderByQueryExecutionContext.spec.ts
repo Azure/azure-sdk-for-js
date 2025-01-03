@@ -90,112 +90,112 @@ describe("OrderByQueryExecutionContext", function () {
     _etag: '"0x8D9F8B2B2C1A9F0"', // ETag for concurrency control
   });
 
-  it("should buffer empty result when maxdegree of parallism 2", async function () {
-    const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+  // it("should buffer empty result when maxdegree of parallism 2", async function () {
+  //   const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
 
-    const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-    const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
-    const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
-    const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
+  //   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
+  //   const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
+  //   const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
+  //   const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = sinon.stub().resolves({
-      resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-      headers: { "x-ms-request-charge": "1.23" },
-      code: 200,
-    });
+  //   const fetchAllInternalStub = sinon.stub().resolves({
+  //     resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+  //     headers: { "x-ms-request-charge": "1.23" },
+  //     code: 200,
+  //   });
 
-    sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
-      fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-    } as unknown as QueryIterator<PartitionKeyRange>);
+  //   sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+  //     fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  //   } as unknown as QueryIterator<PartitionKeyRange>);
 
-    // Define a mock document (resource) returned from queryFeed
-    const mockDocument1 = createMockDocument(
-      "1",
-      "Sample Document 1",
-      "This is the first sample document",
-    );
-    const mockDocument2 = createMockDocument(
-      "2",
-      "Sample Document 2",
-      "This is the second sample document",
-    );
-    // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").resolves({
-      result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-      headers: {
-        "x-ms-request-charge": "3.5", // Example RU charge
-        "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-      },
-      code: 200, // Optional status code
-    });
-    const context = new OrderByQueryExecutionContext(
-      clientContext,
-      collectionLink,
-      query,
-      {},
-      partitionedQueryExecutionInfo,
-      correlatedActivityId,
-    );
-    context["options"] = options;
+  //   // Define a mock document (resource) returned from queryFeed
+  //   const mockDocument1 = createMockDocument(
+  //     "1",
+  //     "Sample Document 1",
+  //     "This is the first sample document",
+  //   );
+  //   const mockDocument2 = createMockDocument(
+  //     "2",
+  //     "Sample Document 2",
+  //     "This is the second sample document",
+  //   );
+  //   // Define a stub for queryFeed in clientContext
+  //   sinon.stub(clientContext, "queryFeed").resolves({
+  //     result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+  //     headers: {
+  //       "x-ms-request-charge": "3.5", // Example RU charge
+  //       "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+  //     },
+  //     code: 200, // Optional status code
+  //   });
+  //   const context = new OrderByQueryExecutionContext(
+  //     clientContext,
+  //     collectionLink,
+  //     query,
+  //     {},
+  //     partitionedQueryExecutionInfo,
+  //     correlatedActivityId,
+  //   );
+  //   context["options"] = options;
 
-    await context.bufferMore();
+  //   await context.bufferMore();
 
-    assert.equal(context["buffer"].length, 0);
-  });
+  //   assert.equal(context["buffer"].length, 0);
+  // });
 
-  it("should buffer result when buffermore called twice", async function () {
-    const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+  // it("should buffer result when buffermore called twice", async function () {
+  //   const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
 
-    const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-    const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
-    const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
-    const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
+  //   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
+  //   const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
+  //   const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
+  //   const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = sinon.stub().resolves({
-      resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-      headers: { "x-ms-request-charge": "1.23" },
-      code: 200,
-    });
+  //   const fetchAllInternalStub = sinon.stub().resolves({
+  //     resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+  //     headers: { "x-ms-request-charge": "1.23" },
+  //     code: 200,
+  //   });
 
-    sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
-      fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-    } as unknown as QueryIterator<PartitionKeyRange>);
+  //   sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+  //     fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  //   } as unknown as QueryIterator<PartitionKeyRange>);
 
-    // Define a mock document (resource) returned from queryFeed
-    const mockDocument1 = createMockDocument(
-      "1",
-      "Sample Document 1",
-      "This is the first sample document",
-    );
-    const mockDocument2 = createMockDocument(
-      "2",
-      "Sample Document 2",
-      "This is the second sample document",
-    );
-    // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").resolves({
-      result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-      headers: {
-        "x-ms-request-charge": "3.5", // Example RU charge
-        "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-      },
-      code: 200, // Optional status code
-    });
-    const context = new OrderByQueryExecutionContext(
-      clientContext,
-      collectionLink,
-      query,
-      {},
-      partitionedQueryExecutionInfo,
-      correlatedActivityId,
-    );
-    context["options"] = options;
+  //   // Define a mock document (resource) returned from queryFeed
+  //   const mockDocument1 = createMockDocument(
+  //     "1",
+  //     "Sample Document 1",
+  //     "This is the first sample document",
+  //   );
+  //   const mockDocument2 = createMockDocument(
+  //     "2",
+  //     "Sample Document 2",
+  //     "This is the second sample document",
+  //   );
+  //   // Define a stub for queryFeed in clientContext
+  //   sinon.stub(clientContext, "queryFeed").resolves({
+  //     result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+  //     headers: {
+  //       "x-ms-request-charge": "3.5", // Example RU charge
+  //       "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+  //     },
+  //     code: 200, // Optional status code
+  //   });
+  //   const context = new OrderByQueryExecutionContext(
+  //     clientContext,
+  //     collectionLink,
+  //     query,
+  //     {},
+  //     partitionedQueryExecutionInfo,
+  //     correlatedActivityId,
+  //   );
+  //   context["options"] = options;
 
-    await context.bufferMore();
-    await context.bufferMore();
+  //   await context.bufferMore();
+  //   await context.bufferMore();
 
-    assert.equal(context["buffer"].length, 4);
-  });
+  //   assert.equal(context["buffer"].length, 4);
+  // });
 
   // TODO: figure out how to simulate hasmore results as false
   it("should return result when fetchMore called", async function () {

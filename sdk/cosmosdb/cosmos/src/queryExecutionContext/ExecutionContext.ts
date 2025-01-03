@@ -8,5 +8,4 @@ export interface ExecutionContext {
   nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
   fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>; // TODO: code smell
-  bufferMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<void>; // TODO: code smell
 }

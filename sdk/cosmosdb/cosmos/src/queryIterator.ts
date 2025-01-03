@@ -202,7 +202,6 @@ export class QueryIterator<T> {
         }
       }
 
-      console.log("queryiterator fetchNext response", response);
       return new FeedResponse<T>(
         response.result,
         response.headers,
@@ -243,7 +242,6 @@ export class QueryIterator<T> {
       await this.init(diagnosticNode);
     }
     while (this.queryExecutionContext.hasMoreResults()) {
-      console.log("queryiterator toArrayImplementation while loop");
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);

@@ -134,25 +134,22 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
       const response = await this.executionContext.fetchMore(diagnosticNode);
-      if (response === undefined || response.result === undefined) {
-        return { result: undefined, headers: resHeaders };
-      }
-      resHeaders = response.headers;
-      response.result.forEach((item: any) => {
+      if (response !== undefined || response.result !== undefined) {
+        resHeaders = response.headers;
+      for (const item of response.result) {
         if (item !== undefined) {
           this.nonStreamingOrderByPQ.enqueue(item);
         }
-      });
-      
-
-      // If the backend has more results to fetch, return [] to signal that there are more results to fetch.
+      }
+      }
+    }
+    // If the backend has more results to fetch, return [] to signal that there are more results to fetch.
       if (this.executionContext.hasMoreResults()) {
         return {
           result: [],
           headers: resHeaders,
         };
       }
-    }
 
     // If all results are fetched from backend, prepare final results
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
@@ -170,10 +167,10 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         this.nonStreamingOrderByPQ.dequeue();
         this.offset--;
       }
-    }
-    // If pq is not empty, return the result from pq.
+
+       // If pq is not empty, return the result from pq.
     if (!this.nonStreamingOrderByPQ.isEmpty()) {
-      let buffer: any[] = [];
+      const buffer: any[] = [];
       if (this.emitRawOrderByPayload) {
         while (!this.nonStreamingOrderByPQ.isEmpty()) {
           buffer.push(this.nonStreamingOrderByPQ.dequeue());
@@ -188,13 +185,14 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         headers: resHeaders,
       };
     }
+
+    }
+   
     // If pq is empty, return undefined to signal that there are no more results.
     return {
       result: undefined,
       headers: resHeaders,
     };
-
-
 
   }
 }

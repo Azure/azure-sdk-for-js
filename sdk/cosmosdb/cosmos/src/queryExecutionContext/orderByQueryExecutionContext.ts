@@ -60,7 +60,7 @@ export class OrderByQueryExecutionContext
     return this.orderByComparator.compare(docProd1, docProd2);
   }
 
-  public async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     await this.bufferDocumentProducers(diagnosticNode);
     await this.fillBufferFromBufferQueue(true);
   }

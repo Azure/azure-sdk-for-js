@@ -169,7 +169,6 @@ export class DocumentProducer {
     try {
       const { result: resources, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
-      console.log("resources", resources);
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -266,8 +265,8 @@ export class DocumentProducer {
     if (this.allFetched) {
       return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
     }
-    let resources: any[] = [];
-    let resHeaders: CosmosHeaders = getInitialHeader();
+    const resources: any[] = [];
+    const resHeaders: CosmosHeaders = getInitialHeader();
     try {
       while (this.fetchResults.length > 0) {
         const { result, headers } = await this.current();

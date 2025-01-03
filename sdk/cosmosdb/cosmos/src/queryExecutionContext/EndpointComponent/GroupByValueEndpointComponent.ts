@@ -121,17 +121,19 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         headers: getInitialHeader(),
       };
     }
-
     const aggregateHeaders = getInitialHeader();
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
     if (response === undefined || response.result === undefined) {
+      if( this.aggregators.size > 0) {
+        return this.generateAggregateResponse(aggregateHeaders);
+      }
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    response.result.forEach(async (item: GroupByResult) => {
+    for (const item of response.result) {
       if (item) {
         let grouping: string = emptyGroup;
         let payload: any = item;
@@ -160,7 +162,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
           this.aggregators.get(grouping).aggregate(payload);
         }
       }
-    });
+    }
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
@@ -174,14 +176,18 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return { result: [], headers: aggregateHeaders };
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
-      for (const aggregator of this.aggregators.values()) {
-        this.aggregateResultArray.push(aggregator.getResult());
-      }
-      this.completed = true;
-      return {
-        result: this.aggregateResultArray,
-        headers: aggregateHeaders,
-      };
+      return this.generateAggregateResponse(aggregateHeaders);
     }
+  }
+
+  private generateAggregateResponse(aggregateHeaders: CosmosHeaders) {
+    for (const aggregator of this.aggregators.values()) {
+      this.aggregateResultArray.push(aggregator.getResult());
+    }
+    this.completed = true;
+    return {
+      result: this.aggregateResultArray,
+      headers: aggregateHeaders,
+    };
   }
 }

@@ -34,7 +34,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     if (response === undefined || response.result === undefined) {
       return { result: undefined, headers: response.headers };
     }
-    response.result.forEach(async (item: any) => {
+    for (const item of response.result) {
       if (item) {
         const hashedResult = await hashObject(item);
         if (!this.hashedResults.has(hashedResult)) {
@@ -42,7 +42,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
           this.hashedResults.add(hashedResult);
         }
       }
-    });
+    }
     return { result: buffer, headers: response.headers };
   }
 }

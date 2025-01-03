@@ -159,16 +159,22 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         diagnosticNode,
       );
       if (response === undefined || response.result === undefined) {
+        if( this.aggregateMap.size() > 0) {
+          await this.buildFinalResultArray();
+          return {
+            result: this.finalResultArray,
+            headers: response.headers,
+          };
+        }
         return { result: undefined, headers: response.headers };
       }
       resHeaders = response.headers;
-      response.result.forEach(async (item: any) => {
-        if (item !== undefined) {
+      for (const item of response.result) {
+        if (item) {
           const key = await hashObject(item?.payload);
           this.aggregateMap.set(key, item);
         }
-      });
-      
+      }
 
       // return [] to signal that there are more results to fetch.
       if (this.executionContext.hasMoreResults()) {
@@ -177,6 +183,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
           headers: resHeaders,
         };
       }
+
     }
 
     // If all results are fetched from backend, prepare final results

@@ -134,7 +134,7 @@ describe("parallelQueryExecutionContextBase", function () {
       context["options"] = options;
 
       // Call bufferDocumentProducers
-      await context.bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers();
 
       assert.equal(context["bufferedDocumentProducersQueue"].size(), 2);
       assert.equal(
@@ -185,7 +185,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
-        await context.bufferDocumentProducers();
+        await (context as any).bufferDocumentProducers();
       } catch (err) {
         assert.equal(context["err"].code, 404);
         assert.equal(releaseSpy.callCount, 2);
@@ -231,7 +231,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
-        await context.bufferDocumentProducers();
+        await (context as any).bufferDocumentProducers();
       } catch (err) {
         console.log("error thrown from should propagate:",err);
         assert.equal(err.code, 404);
@@ -282,7 +282,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const repairSpy = sinon.spy(context as any, "_repairExecutionContext");
 
       // Call bufferDocumentProducers
-      await context.bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers();
 
       assert.equal(repairSpy.callCount, 1);
     });
@@ -364,10 +364,10 @@ describe("parallelQueryExecutionContextBase", function () {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      await context.bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers();
 
       // Call fillBufferFromBufferQueue
-      await context.fillBufferFromBufferQueue();
+      await (context as any).fillBufferFromBufferQueue();
 
       assert.equal(context["buffer"].length, 2);
     });
@@ -399,7 +399,7 @@ describe("parallelQueryExecutionContextBase", function () {
     });
 
     it("should return an empty array if buffer is empty", async function () {
-      const result = await context.drainBufferedItems();
+      const result = await (context as any).drainBufferedItems();
       assert.deepEqual(result.result, []);
       assert.exists(result.headers);
     });
@@ -417,7 +417,7 @@ describe("parallelQueryExecutionContextBase", function () {
       );
       context["buffer"] = [mockDocument1, mockDocument2];
 
-      const result = await context.drainBufferedItems();
+      const result = await (context as any).drainBufferedItems();
 
       assert.deepEqual(result.result, [mockDocument1, mockDocument2]);
       assert.exists(result.headers);
@@ -434,7 +434,7 @@ describe("parallelQueryExecutionContextBase", function () {
       };
 
       try {
-        await context.drainBufferedItems();
+        await (context as any).drainBufferedItems();
       } catch (err) {
         assert.equal(context["err"].code, 404);
         assert.equal(context["buffer"].length, 0);
@@ -453,7 +453,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
 
       try {
-        await context.drainBufferedItems();
+        await (context as any).drainBufferedItems();
       } catch (err) {
         assert.equal(context["err"].code, 404);
         assert.equal(releaseSpy.callCount, 2);

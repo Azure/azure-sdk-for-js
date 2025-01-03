@@ -47,14 +47,14 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: response.headers };
     }
     
-    response.result.forEach((item:any) => {
+   for (const item of response.result) {
       if (this.offset > 0) {
         this.offset--;
       } else if (this.limit > 0) {
         buffer.push(item);
         this.limit--;
       }
-    });
+    }
     return { result: buffer, headers: aggregateHeaders };
   }
 }

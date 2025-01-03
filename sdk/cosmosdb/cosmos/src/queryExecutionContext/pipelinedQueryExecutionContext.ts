@@ -171,19 +171,17 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
-    console.log("Pipeline QEC hasMoreResults",this.fetchBuffer.length, this.endpoint.hasMoreResults());
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    console.log("Pipeline QEC fetchMore");
     this.fetchMoreRespHeaders = getInitialHeader();
     return this._fetchMoreImplementation(diagnosticNode);
   }
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
+  ): Promise<Response<any>> {    
     try {
       if (this.fetchBuffer.length >= this.pageSize) {
         const temp = this.fetchBuffer.slice(0, this.pageSize);

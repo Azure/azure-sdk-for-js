@@ -49,14 +49,14 @@ export class OrderByEndpointComponent implements ExecutionContext {
     if(response === undefined || response.result === undefined) {
       return {result: undefined, headers: response.headers};
     }
-    response.result.forEach((item: any) => {
+    for (const item of response.result) {
       if(this.emitRawOrderByPayload) {
         buffer.push(item);
       }else {
         buffer.push(item.payload);
       }
-    });
-    return {result: buffer, headers: response.headers};
+    }
 
+    return {result: buffer, headers: response.headers};
     }
   }

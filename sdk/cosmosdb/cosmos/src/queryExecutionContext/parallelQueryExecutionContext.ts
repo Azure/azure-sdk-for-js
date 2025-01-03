@@ -31,7 +31,7 @@ export class ParallelQueryExecutionContext
     return docProd1.generation - docProd2.generation;
   }
 
-  public async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     // TODO: need to upadte headers from here, so make sure it returns it
     await this.bufferDocumentProducers(diagnosticNode);
     await this.fillBufferFromBufferQueue();
