@@ -490,7 +490,8 @@ describe("LogsQueryClient live tests", function () {
         }
 
         loggerForTest.verbose(
-          `[Attempt: ${i}/${args.maxTries}, elapsed: ${Date.now() - startTime
+          `[Attempt: ${i}/${args.maxTries}, elapsed: ${
+            Date.now() - startTime
           } ms] No rows, will poll again.`,
         );
 
