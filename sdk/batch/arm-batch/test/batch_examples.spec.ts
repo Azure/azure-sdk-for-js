@@ -15,7 +15,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { BatchManagementClient } from "../src/batchManagementClient.js";
 import { fakeTestPasswordPlaceholder, fakeTestCertData } from "./fakeTestSecrets.js";
-import { StorageManagementClient } from "@azure/arm-storage";
+import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
