@@ -241,7 +241,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-[apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
+[apiref]: ${info.apiRefLink ?? `https://learn.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
