@@ -7,8 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { Paged } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import type { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -177,7 +179,14 @@ export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
+    readonly evaluations: EvaluationsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
+    // (undocumented)
+    readonly scope: {
+        "subscription_id": string;
+        "resource_group_name": string;
+        "project_name": string;
+    };
     readonly telemetry: TelemetryOperations;
 }
 
@@ -422,6 +431,56 @@ export enum DoneEvent {
 // @public
 export enum ErrorEvent {
     Error = "error"
+}
+
+// @public
+export interface EvaluationOutput {
+    // Warning: (ae-forgotten-export) The symbol "InputDataOutput" needs to be exported by the entry point index.d.ts
+    data: InputDataOutput;
+    description?: string;
+    displayName?: string;
+    // Warning: (ae-forgotten-export) The symbol "EvaluatorConfigurationOutput" needs to be exported by the entry point index.d.ts
+    evaluators: Record<string, EvaluatorConfigurationOutput>;
+    readonly id: string;
+    properties?: Record<string, string>;
+    readonly status?: string;
+    // Warning: (ae-forgotten-export) The symbol "SystemDataOutput" needs to be exported by the entry point index.d.ts
+    readonly systemData?: SystemDataOutput;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EvaluationScheduleOutput {
+    // Warning: (ae-forgotten-export) The symbol "ApplicationInsightsConfigurationOutput" needs to be exported by the entry point index.d.ts
+    data: ApplicationInsightsConfigurationOutput;
+    description?: string;
+    evaluators: Record<string, EvaluatorConfigurationOutput>;
+    readonly isEnabled?: string;
+    readonly name: string;
+    properties?: Record<string, string>;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemDataOutput;
+    tags?: Record<string, string>;
+    // Warning: (ae-forgotten-export) The symbol "TriggerOutput" needs to be exported by the entry point index.d.ts
+    trigger: TriggerOutput;
+}
+
+// @public (undocumented)
+export interface EvaluationsOperations {
+    // Warning: (ae-forgotten-export) The symbol "Evaluation" needs to be exported by the entry point index.d.ts
+    createEvaluation: (evaluation: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+    // Warning: (ae-forgotten-export) The symbol "EvaluationSchedule" needs to be exported by the entry point index.d.ts
+    createOrReplaceSchedule: (scheduleName: string, resource: EvaluationSchedule, requestParams?: OptionalRequestParameters) => Promise<EvaluationScheduleOutput>;
+    disableSchedule: (scheduleName: string, requestParams?: OptionalRequestParameters) => Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "OptionalRequestParameters" needs to be exported by the entry point index.d.ts
+    getEvaluation: (evaluationId: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+    getSchedule: (evaluationName: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationScheduleOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ListQueryParamProperties" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PagedEvaluationOutput" needs to be exported by the entry point index.d.ts
+    listEvaluations: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationOutput>;
+    // Warning: (ae-forgotten-export) The symbol "PagedEvaluationScheduleOutput" needs to be exported by the entry point index.d.ts
+    listSchedules: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationScheduleOutput>;
+    updateEvaluation: (evaluationId: string, resource: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
 }
 
 // @public
