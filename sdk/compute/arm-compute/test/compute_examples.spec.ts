@@ -75,7 +75,7 @@ describe("Compute test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
       resourceGroupName,
       network_name,
       parameter,

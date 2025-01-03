@@ -7,7 +7,6 @@
  */
 
 import {
-  env,
   Recorder,
   RecorderStartOptions,
   isPlaybackMode,
@@ -37,13 +36,11 @@ export const testPollingOptions = {
 
 describe("Confluent test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
   let client: ConfluentManagementClient;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ConfluentManagementClient(credential, recorder.configureClientOptions({}));
