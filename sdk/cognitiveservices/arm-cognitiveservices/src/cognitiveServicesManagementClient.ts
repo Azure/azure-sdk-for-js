@@ -35,7 +35,7 @@ import {
   RaiContentFiltersImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
   DefenderForAISettingsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Accounts,
   DeletedAccounts,
@@ -57,9 +57,9 @@ import {
   RaiContentFilters,
   NetworkSecurityPerimeterConfigurations,
   DefenderForAISettings,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   CognitiveServicesManagementClientOptionalParams,
   CheckSkuAvailabilityOptionalParams,
@@ -68,7 +68,7 @@ import {
   CheckDomainAvailabilityResponse,
   CalculateModelCapacityOptionalParams,
   CalculateModelCapacityResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class CognitiveServicesManagementClient extends coreClient.ServiceClient {
   $host: string;

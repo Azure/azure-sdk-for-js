@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the status of a long running azure asynchronous operation.

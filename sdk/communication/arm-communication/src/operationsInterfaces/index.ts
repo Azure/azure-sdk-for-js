@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./communicationServices";
-export * from "./domains";
-export * from "./emailServices";
-export * from "./senderUsernames";
+export * from "./operations.js";
+export * from "./communicationServices.js";
+export * from "./domains.js";
+export * from "./emailServices.js";
+export * from "./senderUsernames.js";

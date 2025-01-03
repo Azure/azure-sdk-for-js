@@ -10,10 +10,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient";
-import { Deployment } from "../src/models";
+import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
+import { Deployment } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -43,8 +42,8 @@ describe.skip("CognitiveServices OpenAI test", () => {
   let accountName: string;
   let deploymentName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
