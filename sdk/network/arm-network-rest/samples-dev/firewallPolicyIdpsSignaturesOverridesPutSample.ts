@@ -7,9 +7,7 @@ import createNetworkManagementClient, {
   FirewallPolicyIdpsSignaturesOverridesPutParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS

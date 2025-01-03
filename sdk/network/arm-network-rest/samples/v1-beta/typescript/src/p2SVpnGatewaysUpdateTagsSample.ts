@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   P2SVpnGatewaysUpdateTagsParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates virtual wan p2s vpn gateway tags.
@@ -26,14 +24,14 @@ async function p2SVpnGatewayUpdate() {
   const gatewayName = "p2sVpnGateway1";
   const options: P2SVpnGatewaysUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

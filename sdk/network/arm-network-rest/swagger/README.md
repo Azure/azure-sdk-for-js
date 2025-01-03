@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: arm
 package-name: "@azure-rest/arm-network"
 title: NetworkManagementClient
 description: Network Management Rest Client
@@ -21,5 +23,5 @@ add-credentials: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1.20220727.1"
+  "@autorest/typescript": "latest"
 ```

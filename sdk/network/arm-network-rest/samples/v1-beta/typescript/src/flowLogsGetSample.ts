@@ -3,13 +3,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  FlowLogsGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { FlowLogsGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a flow log resource by name.
@@ -25,7 +21,7 @@ async function getFlowLog() {
   const networkWatcherName = "nw1";
   const flowLogName = "flowLog1";
   const options: FlowLogsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +29,7 @@ async function getFlowLog() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      flowLogName
+      flowLogName,
     )
     .get(options);
   console.log(result);

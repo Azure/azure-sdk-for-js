@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
@@ -40,7 +40,7 @@ async function virtualNetworkGatewayNatRulePut() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName
+      natRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
@@ -112,7 +112,7 @@ async function vpnServerConfigurationCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName
+      vpnServerConfigurationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

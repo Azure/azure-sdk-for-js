@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NatGatewaysListAllParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Nat Gateways in a subscription.
@@ -23,13 +21,10 @@ async function listAllNatGateways() {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const options: NatGatewaysListAllParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
-      subscriptionId
-    )
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways", subscriptionId)
     .get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
