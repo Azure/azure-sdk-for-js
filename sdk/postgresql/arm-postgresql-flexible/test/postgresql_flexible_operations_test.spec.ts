@@ -10,13 +10,10 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient";
+import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,8 +42,8 @@ describe("PostgreSQLFlexible test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -63,6 +60,5 @@ describe("PostgreSQLFlexible test", () => {
   });
 
   it.skip("operation list test", async function () {
-    const result = await client.operations.list();
   });
 })

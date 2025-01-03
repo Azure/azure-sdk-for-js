@@ -38,7 +38,7 @@ import {
   ServerThreatProtectionSettingsImpl,
   VirtualEndpointsImpl,
   VirtualNetworkSubnetUsageImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Administrators,
   Backups,
@@ -63,15 +63,15 @@ import {
   ServerThreatProtectionSettings,
   VirtualEndpoints,
   VirtualNetworkSubnetUsage,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   PostgreSQLManagementFlexibleServerClientOptionalParams,
   MigrationNameAvailabilityResource,
   CheckMigrationNameAvailabilityOptionalParams,
   CheckMigrationNameAvailabilityResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
