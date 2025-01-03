@@ -12,19 +12,23 @@ import {
   isSuperSet,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, assert } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
-} from "../src";
-import { ContainerClient, BlockBlobTier } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import type { Context } from "mocha";
-import type { Tags } from "../src/models";
+} from "../src/index.js";
+import { ContainerClient, BlockBlobTier } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import type { Tags } from "../src/models.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -33,8 +37,8 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -110,11 +114,6 @@ describe("ContainerClient", () => {
     assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
-  it("create with default parameters", (done) => {
-    // create() with default parameters has been tested in beforeEach
-    done();
-  });
-
   it("create with all parameters configured", async function () {
     const cClient = blobServiceClient.getContainerClient(
       recorder.variable(containerName, getUniqueName(containerName)),
@@ -125,11 +124,6 @@ describe("ContainerClient", () => {
     const result = await cClient.getProperties();
     assert.deepEqual(result.blobPublicAccess, access);
     assert.deepEqual(result.metadata, metadata);
-  });
-
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listBlobsFlat with default parameters", async function () {
@@ -836,7 +830,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
+  it("uploadBlockBlob and deleteBlob with tracing", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const blobHeaders: BlobHTTPHeaders = {
       blobCacheControl: "blobCacheControl",
@@ -847,20 +841,17 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     let blockBlobClient: BlockBlobClient | undefined;
-    await assert.supportsTracing(
-      async function (options) {
-        const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-          blobHTTPHeaders: blobHeaders,
-          metadata: {
-            keya: "vala",
-            keyb: "valb",
-          },
-          tracingOptions: options.tracingOptions,
-        });
-        blockBlobClient = result.blockBlobClient;
-      },
-      ["ContainerClient-uploadBlockBlob"],
-    );
+    await expect(async function (options: OperationOptions) {
+      const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+        blobHTTPHeaders: blobHeaders,
+        metadata: {
+          keya: "vala",
+          keyb: "valb",
+        },
+        tracingOptions: options.tracingOptions,
+      });
+      blockBlobClient = result.blockBlobClient;
+    }).toSupportTracing(["ContainerClient-uploadBlockBlob"]);
 
     await containerClient.deleteBlob(blobName);
     try {

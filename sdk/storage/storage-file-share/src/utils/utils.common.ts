@@ -9,16 +9,16 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import type {
   DirectoryItem,
   FileItem,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
-} from "../generatedModels";
-import type { HttpAuthorization } from "../models";
-import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
+} from "../generatedModels.js";
+import type { HttpAuthorization } from "../models.js";
+import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNode } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
@@ -103,7 +103,7 @@ function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature",
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -400,14 +400,14 @@ export async function delay(
     /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
-    const abortHandler = () => {
+    const abortHandler = (): void => {
       if (timeout !== undefined) {
         clearTimeout(timeout);
       }
       reject(abortError);
     };
 
-    const resolveHandler = () => {
+    const resolveHandler = (): void => {
       if (aborter !== undefined) {
         aborter.removeEventListener("abort", abortHandler);
       }

@@ -4,7 +4,7 @@
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
@@ -18,7 +18,12 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): {
+  regex: boolean;
+  target: string;
+  groupForReplace: string;
+  value: string;
+} {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,
@@ -68,6 +73,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     },
     uriSanitizers,
   },
+  removeCentralSanitizers: ["AZSDK4001"],
 };
 
 export function getUniqueName(prefix: string): string {

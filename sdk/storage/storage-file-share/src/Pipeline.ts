@@ -34,25 +34,27 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
-import type { StorageRetryOptions } from "./StorageRetryPolicyFactory";
-import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import type { Credential } from "../../storage-blob/src/credentials/Credential";
+import { logger } from "./log.js";
+import type { StorageRetryOptions } from "./StorageRetryPolicyFactory.js";
+import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory.js";
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageBrowserPolicyFactory,
+  StorageSharedKeyCredential,
+  storageBrowserPolicy,
+  storageCorrectContentLengthPolicy,
+  storageSharedKeyCredentialPolicy,
+} from "@azure/storage-blob";
+import type { Credential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters,
   SDK_VERSION,
-} from "./utils/constants";
-import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
-import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
-import type { ShareTokenIntent } from "./generatedModels";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
+} from "./utils/constants.js";
+import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
+import type { ShareTokenIntent } from "./generatedModels.js";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

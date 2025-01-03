@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventEmitter } from "events";
-import type { Readable } from "stream";
+import type { Readable } from "node:stream";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.

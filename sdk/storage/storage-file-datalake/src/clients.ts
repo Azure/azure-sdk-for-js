@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import type { Readable } from "stream";
-
-import { BufferScheduler } from "../../storage-common/src";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { PathOperationsImpl as Path } from "./generated/src/operations";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { Readable } from "node:stream";
+import { BufferScheduler } from "@azure/storage-common";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
+import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -70,13 +70,13 @@ import type {
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
   UserDelegationKey,
-} from "./models";
-import type { PathSetAccessControlRecursiveMode } from "./models.internal";
+} from "./models.js";
+import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
-} from "./sas/DataLakeSASSignatureValues";
-import { StorageClient } from "./StorageClient";
+} from "./sas/DataLakeSASSignatureValues.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   toAccessControlChangeFailureArray,
   toAcl,
@@ -85,8 +85,8 @@ import {
   toPermissions,
   toPermissionsString,
   toProperties,
-} from "./transforms";
-import { Batch } from "./utils/Batch";
+} from "./transforms.js";
+import { Batch } from "./utils/Batch.js";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -95,9 +95,9 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "./utils/constants";
-import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -107,8 +107,8 @@ import {
   ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
-} from "./utils/utils.common";
-import { fsCreateReadStream, fsStat } from "./utils/utils.node";
+} from "./utils/utils.common.js";
+import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
   PathAppendDataHeaders,
   PathCreateHeaders,
@@ -117,7 +117,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -1334,7 +1334,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse,
       ) as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1470,7 +1470,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -1487,7 +1487,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as Blob]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1884,7 +1884,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;

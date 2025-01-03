@@ -7,7 +7,7 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   CopyFileSmbInfo,
@@ -92,15 +92,15 @@ import type {
   FileAbortCopyHeaders,
   FileListHandlesHeaders,
   RawFileDownloadResponse,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type {
   FileRenameHeaders,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
-} from "./generated/src/models";
-import type { Share, Directory, File } from "./generated/src/operationsInterfaces";
-import type { Pipeline, PipelineLike } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+} from "./generated/src/models/index.js";
+import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
+import type { Pipeline, PipelineLike } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -109,8 +109,8 @@ import {
   URLConstants,
   FileAttributesPreserve,
   FileAttributesNone,
-} from "./utils/constants";
-import type { WithResponse } from "./utils/utils.common";
+} from "./utils/constants.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   setURLParameter,
@@ -127,18 +127,16 @@ import {
   assertResponse,
   removeEmptyString,
   asSharePermission,
-} from "./utils/utils.common";
-import { Credential } from "../../storage-blob/src/credentials/Credential";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
+} from "./utils/utils.common.js";
+import { AnonymousCredential, Credential, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileSystemAttributes } from "./FileSystemAttributes";
-import { FileDownloadResponse } from "./FileDownloadResponse";
-import type { Range } from "./Range";
-import { rangeToString } from "./Range";
+import { FileSystemAttributes } from "./FileSystemAttributes.js";
+import { FileDownloadResponse } from "./FileDownloadResponse.js";
+import type { Range } from "./Range.js";
+import { rangeToString } from "./Range.js";
 import type {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
@@ -149,7 +147,7 @@ import type {
   HttpAuthorization,
   ShareClientOptions,
   ShareClientConfig,
-} from "./models";
+} from "./models.js";
 import {
   fileAttributesToString,
   fileCreationTimeToString,
@@ -159,32 +157,32 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   fileChangeTimeToString,
-} from "./models";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import type { Readable } from "stream";
+} from "./models.js";
+import { Batch } from "./utils/Batch.js";
+import { BufferScheduler } from "./utils/BufferScheduler.js";
+import type { Readable } from "node:stream";
 import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node";
+} from "./utils/utils.js";
 import type {
   FileSetHttpHeadersHeaders,
   StorageClient as StorageClientContext,
-} from "./generated/src/";
+} from "./generated/src/index.js";
 import { randomUUID } from "@azure/core-util";
 import {
   generateFileSASQueryParameters,
   generateFileSASQueryParametersInternal,
-} from "./FileSASSignatureValues";
-import type { ShareSASPermissions } from "./ShareSASPermissions";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
-import type { FileSASPermissions } from "./FileSASPermissions";
-import type { ListFilesIncludeType } from "./generated/src";
+} from "./FileSASSignatureValues.js";
+import type { ShareSASPermissions } from "./ShareSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { FileSASPermissions } from "./FileSASPermissions.js";
+import type { ListFilesIncludeType } from "./generated/src/index.js";
 
-export { ShareClientOptions, ShareClientConfig } from "./models";
+export { ShareClientOptions, ShareClientConfig } from "./models.js";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -730,7 +728,7 @@ export class ShareClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3834,7 +3832,7 @@ export class ShareFileClient extends StorageClient {
         await this.context.download({
           ...updatedOptions,
           requestOptions: {
-            onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
           },
           range: downloadFullFile ? undefined : rangeToString({ offset, count }),
           ...this.shareClientConfig,
@@ -3842,7 +3840,7 @@ export class ShareFileClient extends StorageClient {
       );
 
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeLike) {
         return res;
       }
 
@@ -4434,7 +4432,7 @@ export class ShareFileClient extends StorageClient {
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;

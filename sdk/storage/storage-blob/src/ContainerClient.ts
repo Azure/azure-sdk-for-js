@@ -7,9 +7,9 @@ import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import type { Container } from "./generated/src/operationsInterfaces";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -36,20 +36,20 @@ import type {
   ListBlobsHierarchySegmentResponseModel,
   PublicAccessType,
   SignedIdentifierModel,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type {
   Metadata,
   ObjectReplicationPolicy,
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
-} from "./models";
-import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { tracingClient } from "./utils/tracing";
-import type { WithResponse } from "./utils/utils.common";
+} from "./models.js";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -63,20 +63,20 @@ import {
   parseObjectReplicationRecord,
   toTags,
   truncatedISO8061Date,
-} from "./utils/utils.common";
-import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
+} from "./utils/utils.common.js";
+import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
   generateBlobSASQueryParameters,
   generateBlobSASQueryParametersInternal,
-} from "./sas/BlobSASSignatureValues";
-import { BlobLeaseClient } from "./BlobLeaseClient";
+} from "./sas/BlobSASSignatureValues.js";
+import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type {
   BlobDeleteOptions,
   BlockBlobUploadOptions,
   CommonGenerateSasUrlOptions,
-} from "./Clients";
-import { AppendBlobClient, BlobClient, BlockBlobClient, PageBlobClient } from "./Clients";
-import { BlobBatchClient } from "./BlobBatchClient";
+} from "./Clients.js";
+import { AppendBlobClient, BlobClient, BlockBlobClient, PageBlobClient } from "./Clients.js";
+import { BlobBatchClient } from "./BlobBatchClient.js";
 import type {
   ContainerCreateHeaders,
   ListBlobsIncludeItem,
@@ -88,8 +88,8 @@ import type {
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src";
-import type { UserDelegationKey } from "./BlobServiceClient";
+} from "./generated/src/index.js";
+import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.

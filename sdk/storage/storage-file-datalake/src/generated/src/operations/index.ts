@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./service";
-export * from "./fileSystemOperations";
-export * from "./pathOperations";
+export * from "./service.js";
+export * from "./fileSystemOperations.js";
+export * from "./pathOperations.js";

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as stream from "stream";
-import * as util from "util";
+import fs from "node:fs";
+import stream from "node:stream";
+import util from "node:util";
 const pipeline = util.promisify(stream.pipeline);
 
 /**

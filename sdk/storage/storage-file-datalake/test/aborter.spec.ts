@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import type { DataLakeFileSystemClient } from "../src";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type { DataLakeFileSystemClient } from "../src/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
   let fileSystemName: string;
@@ -14,8 +16,8 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);

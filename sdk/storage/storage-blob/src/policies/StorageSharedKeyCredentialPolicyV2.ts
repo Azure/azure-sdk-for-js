@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHmac } from "crypto";
+import { createHmac } from "node:crypto";
 import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { HeaderConstants } from "../utils/constants";
-import { getURLPath, getURLQueries } from "../utils/utils.common";
-import { compareHeader } from "../utils/SharedKeyComparator";
+import { HeaderConstants } from "../utils/constants.js";
+import { getURLPath, getURLQueries } from "../utils/utils.common.js";
+import { compareHeader } from "../utils/SharedKeyComparator.js";
 
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.

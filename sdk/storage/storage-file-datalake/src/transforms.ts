@@ -8,7 +8,7 @@ import type {
   PublicAccessType as ContainerPublicAccessType,
 } from "@azure/storage-blob";
 
-import type { AclFailedEntry, CpkInfo } from "./generated/src/models";
+import type { AclFailedEntry, CpkInfo } from "./generated/src/models/index.js";
 import type {
   AccessControlChangeError,
   FileSystemItem,
@@ -20,9 +20,9 @@ import type {
   RolePermissions,
   ServiceListContainersSegmentResponse,
   ServiceListFileSystemsSegmentResponse,
-} from "./models";
-import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
-import { base64encode } from "./utils/utils.common";
+} from "./models.js";
+import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
+import { base64encode } from "./utils/utils.common.js";
 
 /**
  * Get a blob endpoint URL from incoming blob or dfs endpoint URLs.

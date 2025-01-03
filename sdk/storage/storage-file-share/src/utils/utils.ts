@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as util from "util";
-import { REQUEST_TIMEOUT } from "./constants";
+import * as fs from "node:fs";
+import * as util from "node:util";
+import { REQUEST_TIMEOUT } from "./constants.js";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -29,7 +29,6 @@ export async function streamToBuffer(
       () => reject(new Error(`The operation cannot be completed in timeout.`)),
       REQUEST_TIMEOUT,
     );
-
     stream.on("readable", () => {
       if (pos >= count) {
         clearTimeout(timeout);
@@ -68,73 +67,6 @@ export async function streamToBuffer(
       clearTimeout(timeout);
       reject(msg);
     });
-  });
-}
-
-/**
- * Reads a readable stream into buffer entirely.
- *
- * @param stream - A Node.js Readable stream
- * @param buffer - Buffer to be filled, length must greater than or equal to offset
- * @param encoding - Encoding of the Readable stream
- * @returns with the count of bytes read.
- * @throws `RangeError` If buffer size is not big enough.
- */
-export async function streamToBuffer2(
-  stream: NodeJS.ReadableStream,
-  buffer: Buffer,
-  encoding?: BufferEncoding,
-): Promise<number> {
-  let pos = 0; // Position in stream
-  const bufferSize = buffer.length;
-
-  return new Promise<number>((resolve, reject) => {
-    stream.on("readable", () => {
-      let chunk = stream.read();
-      if (!chunk) {
-        return;
-      }
-      if (typeof chunk === "string") {
-        chunk = Buffer.from(chunk, encoding);
-      }
-
-      if (pos + chunk.length > bufferSize) {
-        reject(new Error(`Stream exceeds buffer size. Buffer size: ${bufferSize}`));
-        return;
-      }
-
-      buffer.fill(chunk, pos, pos + chunk.length);
-      pos += chunk.length;
-    });
-
-    stream.on("end", () => {
-      resolve(pos);
-    });
-
-    stream.on("error", reject);
-  });
-}
-
-/**
- * Reads a readable stream into a buffer.
- *
- * @param stream - A Node.js Readable stream
- * @param encoding - Encoding of the Readable stream
- * @returns with the count of bytes read.
- */
-export async function streamToBuffer3(
-  readableStream: NodeJS.ReadableStream,
-  encoding?: BufferEncoding,
-): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(typeof data === "string" ? Buffer.from(data, encoding) : data);
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
   });
 }
 

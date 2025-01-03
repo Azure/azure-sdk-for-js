@@ -27,35 +27,35 @@ import type {
   ServiceGetPropertiesResponseInternal,
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
-} from "./generatedModels";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, PipelineLike } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient";
-import { ContainerClient } from "./ContainerClient";
-import type { WithResponse } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
+import { ContainerClient } from "./ContainerClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   toTags,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
-import { tracingClient } from "./utils/tracing";
-import { BlobBatchClient } from "./BlobBatchClient";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
+import { tracingClient } from "./utils/tracing.js";
+import { BlobBatchClient } from "./BlobBatchClient.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
+} from "./sas/AccountSASSignatureValues.js";
+import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type {
   ContainerRenameHeaders,
   ContainerRestoreHeaders,
@@ -67,7 +67,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
