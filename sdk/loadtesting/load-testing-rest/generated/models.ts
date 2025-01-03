@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationState, SimplePollerLike } from "@azure/core-lro";
-import type {
-  LoadTestAdministrationGetTestFile200Response,
-  LoadTestRunCreateOrUpdateTestRun200Response,
-  LoadTestRunCreateOrUpdateTestRun201Response,
-  LoadTestRunGetTestRun200Response,
-  LoadTestAdministrationUploadTestFile201Response,
-} from "./responses.js";
 
 /** Load test model */
 export interface Test {
@@ -43,9 +35,23 @@ export interface PassFailCriteria {
 /** Pass fail metric */
 export interface PassFailMetric {
   /** The client metric on which the criteria should be applied. */
-  clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+  clientMetric?:
+  | "response_time_ms"
+  | "latency"
+  | "error"
+  | "requests"
+  | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
-  aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
+  aggregate?:
+  | "count"
+  | "percentage"
+  | "avg"
+  | "p50"
+  | "p90"
+  | "p95"
+  | "p99"
+  | "min"
+  | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */
@@ -122,11 +128,11 @@ export interface FileInfo {
   expireDateTime?: Date | string;
   /** Validation status of the file */
   validationStatus?:
-    | "NOT_VALIDATED"
-    | "VALIDATION_SUCCESS"
-    | "VALIDATION_FAILURE"
-    | "VALIDATION_INITIATED"
-    | "VALIDATION_NOT_REQUIRED";
+  | "NOT_VALIDATED"
+  | "VALIDATION_SUCCESS"
+  | "VALIDATION_FAILURE"
+  | "VALIDATION_INITIATED"
+  | "VALIDATION_NOT_REQUIRED";
   /** Validation failure error details */
   validationFailureDetails?: string;
 }
@@ -194,10 +200,10 @@ export interface TestRun {
 }
 
 /** Error details if there is any failure in load test run */
-export interface ErrorDetails {}
+export interface ErrorDetails { }
 
 /** Test run statistics. */
-export interface TestRunStatistics {}
+export interface TestRunStatistics { }
 
 /** Collection of test run artifacts */
 export interface TestRunArtifacts {
@@ -249,30 +255,4 @@ export interface TestRunAppComponents {
 export interface TestRunServerMetricConfig {
   /** Azure resource metrics collection {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
   metrics?: Record<string, ResourceMetric>;
-}
-
-/**
- * Describes a poller for NotificationHubJob types.
- */
-export type FileUploadAndValidatePoller = SimplePollerLike<
-  OperationState<LoadTestAdministrationGetTestFile200Response>,
-  LoadTestAdministrationGetTestFile200Response
->;
-
-export type TestRunCompletionPoller = SimplePollerLike<
-  OperationState<LoadTestRunGetTestRun200Response>,
-  LoadTestRunGetTestRun200Response
->;
-
-export type TestRunCreateOrUpdateSuccessResponse =
-  | LoadTestRunCreateOrUpdateTestRun200Response
-  | LoadTestRunCreateOrUpdateTestRun201Response;
-
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
-
-export interface PolledOperationOptions {
-  /**
-   * Time delay between poll requests, in milliseconds.
-   */
-  updateIntervalInMs?: number;
 }

@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 2.0.0 (2024-12-16)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh @azure-rest/load-testing sdk
 
 - Add NOT_VALIDATED to the list of terminal states for the file validation poller.
 
