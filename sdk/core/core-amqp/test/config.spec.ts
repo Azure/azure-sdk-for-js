@@ -88,6 +88,16 @@ describe("ConnectionConfig", function () {
 
     it("Parses the connection string for the development emulator", async function () {
       const config = ConnectionConfig.create(
+        "Endpoint=sb://localhost;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      assert.equal(config.endpoint, "sb://localhost/");
+      assert.equal(config.host, "localhost");
+      assert.isUndefined(config.port);
+      assert.isTrue(config.useDevelopmentEmulator);
+    });
+
+    it("Parses the connection string for the development emulator with port", async function () {
+      const config = ConnectionConfig.create(
         "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
       assert.equal(config.endpoint, "sb://localhost:6765/");
@@ -98,15 +108,15 @@ describe("ConnectionConfig", function () {
 
     it("Parses the connection string for 127.0.0.1", async function () {
       const config = ConnectionConfig.create(
-        "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+        "Endpoint=sb://127.0.0.1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
-      assert.equal(config.endpoint, "sb://127.0.0.1:6765/");
+      assert.equal(config.endpoint, "sb://127.0.0.1/");
       assert.equal(config.host, "127.0.0.1");
-      assert.equal(config.port, 6765);
+      assert.isUndefined(config.port);
       assert.isTrue(config.useDevelopmentEmulator);
     });
 
-    it("Parses the connection string for 127.0.0.1", async function () {
+    it("Parses the connection string for 127.0.0.1 with port", async function () {
       const config = ConnectionConfig.create(
         "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
