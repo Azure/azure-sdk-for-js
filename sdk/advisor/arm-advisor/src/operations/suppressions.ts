@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Suppressions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Suppressions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AdvisorManagementClient } from "../advisorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
   SuppressionContract,
   SuppressionsListNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   SuppressionsCreateOptionalParams,
   SuppressionsCreateResponse,
   SuppressionsDeleteOptionalParams,
-  SuppressionsListNextResponse
-} from "../models";
+  SuppressionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Suppressions operations. */
@@ -45,7 +45,7 @@ export class SuppressionsImpl implements Suppressions {
    * @param options The options parameters.
    */
   public list(
-    options?: SuppressionsListOptionalParams
+    options?: SuppressionsListOptionalParams,
   ): PagedAsyncIterableIterator<SuppressionContract> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class SuppressionsImpl implements Suppressions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SuppressionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SuppressionContract[]> {
     let result: SuppressionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class SuppressionsImpl implements Suppressions {
   }
 
   private async *listPagingAll(
-    options?: SuppressionsListOptionalParams
+    options?: SuppressionsListOptionalParams,
   ): AsyncIterableIterator<SuppressionContract> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -106,11 +106,11 @@ export class SuppressionsImpl implements Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsGetOptionalParams
+    options?: SuppressionsGetOptionalParams,
   ): Promise<SuppressionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, recommendationId, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -130,11 +130,11 @@ export class SuppressionsImpl implements Suppressions {
     recommendationId: string,
     name: string,
     suppressionContract: SuppressionContract,
-    options?: SuppressionsCreateOptionalParams
+    options?: SuppressionsCreateOptionalParams,
   ): Promise<SuppressionsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, recommendationId, name, suppressionContract, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class SuppressionsImpl implements Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsDeleteOptionalParams
+    options?: SuppressionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, recommendationId, name, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -164,9 +164,7 @@ export class SuppressionsImpl implements Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  private _list(
-    options?: SuppressionsListOptionalParams
-  ): Promise<SuppressionsListResponse> {
+  private _list(options?: SuppressionsListOptionalParams): Promise<SuppressionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -177,58 +175,53 @@ export class SuppressionsImpl implements Suppressions {
    */
   private _listNext(
     nextLink: string,
-    options?: SuppressionsListNextOptionalParams
+    options?: SuppressionsListNextOptionalParams,
   ): Promise<SuppressionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionContract
+      bodyMapper: Mappers.SuppressionContract,
     },
     404: {
       bodyMapper: Mappers.ArmErrorResponse,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.name,
     Parameters.resourceUri,
-    Parameters.recommendationId
+    Parameters.recommendationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionContract
+      bodyMapper: Mappers.SuppressionContract,
     },
     404: {
       bodyMapper: Mappers.ArmErrorResponse,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   requestBody: Parameters.suppressionContract,
   queryParameters: [Parameters.apiVersion],
@@ -236,69 +229,59 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.name,
     Parameters.resourceUri,
-    Parameters.recommendationId
+    Parameters.recommendationId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.name,
     Parameters.resourceUri,
-    Parameters.recommendationId
+    Parameters.recommendationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionContractListResult
+      bodyMapper: Mappers.SuppressionContractListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionContractListResult
+      bodyMapper: Mappers.SuppressionContractListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

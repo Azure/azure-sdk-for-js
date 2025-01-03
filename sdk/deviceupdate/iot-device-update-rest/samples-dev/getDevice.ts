@@ -15,7 +15,7 @@ import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main(): Promsie<void> {
+async function main(): Promise<void> {
   console.log("== Get device ==");
   const groupId = process.env["DEVICEUPDATE_DEVICE_GROUP"] || "";
 

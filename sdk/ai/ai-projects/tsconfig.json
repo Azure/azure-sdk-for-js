@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "paths": { "@azure/ai-projects": ["./src/index"] }
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "src/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
+}

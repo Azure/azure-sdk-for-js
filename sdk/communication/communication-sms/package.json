@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-sms",
-  "version": "1.2.0-beta.1",
+  "version": "1.2.0-beta.4",
   "description": "SDK for Azure Communication SMS service which facilitates the sending of SMS messages.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -21,7 +21,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md && dev-tool admin migrate-source && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -82,7 +82,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.48.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.4"
   },
   "//metadata": {
@@ -129,7 +129,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

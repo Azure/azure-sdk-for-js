@@ -159,7 +159,7 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

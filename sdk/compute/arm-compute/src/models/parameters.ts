@@ -79,6 +79,10 @@ import {
   GalleryApplicationVersion as GalleryApplicationVersionMapper,
   GalleryApplicationVersionUpdate as GalleryApplicationVersionUpdateMapper,
   SharingUpdate as SharingUpdateMapper,
+  GalleryInVMAccessControlProfile as GalleryInVMAccessControlProfileMapper,
+  GalleryInVMAccessControlProfileUpdate as GalleryInVMAccessControlProfileUpdateMapper,
+  GalleryInVMAccessControlProfileVersion as GalleryInVMAccessControlProfileVersionMapper,
+  GalleryInVMAccessControlProfileVersionUpdate as GalleryInVMAccessControlProfileVersionUpdateMapper,
   CloudService as CloudServiceMapper,
   CloudServiceUpdate as CloudServiceUpdateMapper,
   RoleInstances as RoleInstancesMapper,
@@ -1169,7 +1173,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-03",
+    defaultValue: "2024-03-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1297,9 +1301,136 @@ export const galleryApplicationVersion1: OperationParameter = {
   mapper: GalleryApplicationVersionUpdateMapper,
 };
 
+export const galleryName1: OperationURLParameter = {
+  parameterPath: "galleryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "galleryName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const artifactType: OperationURLParameter = {
+  parameterPath: "artifactType",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "artifactType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const artifactName: OperationURLParameter = {
+  parameterPath: "artifactName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "artifactName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const sharingUpdate: OperationParameter = {
   parameterPath: "sharingUpdate",
   mapper: SharingUpdateMapper,
+};
+
+export const galleryInVMAccessControlProfile: OperationParameter = {
+  parameterPath: "galleryInVMAccessControlProfile",
+  mapper: GalleryInVMAccessControlProfileMapper,
+};
+
+export const inVMAccessControlProfileName: OperationURLParameter = {
+  parameterPath: "inVMAccessControlProfileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([-._]?[a-zA-Z0-9]+)*$"),
+      MaxLength: 80,
+    },
+    serializedName: "inVMAccessControlProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryInVMAccessControlProfile1: OperationParameter = {
+  parameterPath: "galleryInVMAccessControlProfile",
+  mapper: GalleryInVMAccessControlProfileUpdateMapper,
+};
+
+export const inVMAccessControlProfileName1: OperationURLParameter = {
+  parameterPath: "inVMAccessControlProfileName",
+  mapper: {
+    serializedName: "inVMAccessControlProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryInVMAccessControlProfileVersion: OperationParameter = {
+  parameterPath: "galleryInVMAccessControlProfileVersion",
+  mapper: GalleryInVMAccessControlProfileVersionMapper,
+};
+
+export const inVMAccessControlProfileVersionName: OperationURLParameter = {
+  parameterPath: "inVMAccessControlProfileVersionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]+\\.[0-9]+\\.[0-9]+$"),
+    },
+    serializedName: "inVMAccessControlProfileVersionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryInVMAccessControlProfileVersion1: OperationParameter = {
+  parameterPath: "galleryInVMAccessControlProfileVersion",
+  mapper: GalleryInVMAccessControlProfileVersionUpdateMapper,
+};
+
+export const inVMAccessControlProfileVersionName1: OperationURLParameter = {
+  parameterPath: "inVMAccessControlProfileVersionName",
+  mapper: {
+    serializedName: "inVMAccessControlProfileVersionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const inVMAccessControlProfileName2: OperationURLParameter = {
+  parameterPath: "inVMAccessControlProfileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([-._]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "inVMAccessControlProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const sharedTo: OperationQueryParameter = {

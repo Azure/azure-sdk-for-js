@@ -8,7 +8,7 @@
 
 import { TSESTree, ESLintUtils } from "@typescript-eslint/utils";
 import { SyntaxKind, canHaveModifiers } from "typescript";
-import { createRule } from "../utils";
+import { createRule } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

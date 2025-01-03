@@ -44,7 +44,6 @@ An [MessagingError][messagingerror] contains the following optional fields.
 - **code**: The error code that indicates the type of the error. A description of the errors can be found in the [error condition mapper][error_condition_mapper_docs] docs or the [OASIS AMQP 1.0 spec][amqpspec].
 - **retryable**: Whether or not trying to perform the same operation is possible. The client library applies the configured retry policies when the error is retryable.
 - **info**: Additional information about the error.
-- **name**: The name of the error, defaults to "MessagingError".
 - **address**: Address to where the network connection failed. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 - **errno**: System-provided error number. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 - **port**: The unavailable network connection port. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.

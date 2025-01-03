@@ -111,6 +111,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/javascript/virtualMachinesUpdateSample.js
 [virtualnetworksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/javascript/virtualNetworksGetSample.js
 [virtualnetworkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/javascript/virtualNetworksListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/README.md

@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to List Models.
  *
  * @summary List Models.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListModels.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListLocationModels.json
  */
-async function listModels() {
+async function listLocationModels() {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function listModels() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.models.list(location)) {
@@ -38,7 +38,7 @@ async function listModels() {
 }
 
 async function main() {
-  listModels();
+  listLocationModels();
 }
 
 main().catch(console.error);

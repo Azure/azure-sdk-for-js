@@ -16,7 +16,7 @@ import { CognitiveServicesManagementClient } from "../cognitiveServicesManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -24,12 +24,20 @@ import {
   DeploymentsListNextOptionalParams,
   DeploymentsListOptionalParams,
   DeploymentsListResponse,
+  SkuResource,
+  DeploymentsListSkusNextOptionalParams,
+  DeploymentsListSkusOptionalParams,
+  DeploymentsListSkusResponse,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
+  PatchResourceTagsAndSku,
+  DeploymentsUpdateOptionalParams,
+  DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
-  DeploymentsListNextResponse
+  DeploymentsListNextResponse,
+  DeploymentsListSkusNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +62,7 @@ export class DeploymentsImpl implements Deployments {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<Deployment> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -72,9 +80,9 @@ export class DeploymentsImpl implements Deployments {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +90,7 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     options?: DeploymentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Deployment[]> {
     let result: DeploymentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +106,7 @@ export class DeploymentsImpl implements Deployments {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +118,105 @@ export class DeploymentsImpl implements Deployments {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): AsyncIterableIterator<Deployment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  public listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+  ): PagedAsyncIterableIterator<SkuResource> {
+    const iter = this.listSkusPagingAll(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSkusPagingPage(
+          resourceGroupName,
+          accountName,
+          deploymentName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listSkusPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SkuResource[]> {
+    let result: DeploymentsListSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSkus(
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSkusNext(
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSkusPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+  ): AsyncIterableIterator<SkuResource> {
+    for await (const page of this.listSkusPagingPage(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +231,11 @@ export class DeploymentsImpl implements Deployments {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): Promise<DeploymentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +250,11 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, deploymentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,7 +271,7 @@ export class DeploymentsImpl implements Deployments {
     accountName: string,
     deploymentName: string,
     deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -179,21 +280,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +302,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,8 +311,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -223,9 +323,9 @@ export class DeploymentsImpl implements Deployments {
         accountName,
         deploymentName,
         deployment,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsCreateOrUpdateResponse,
@@ -233,7 +333,7 @@ export class DeploymentsImpl implements Deployments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -252,14 +352,120 @@ export class DeploymentsImpl implements Deployments {
     accountName: string,
     deploymentName: string,
     deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       accountName,
       deploymentName,
       deployment,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DeploymentsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        deployment,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DeploymentsUpdateResponse,
+      OperationState<DeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams,
+  ): Promise<DeploymentsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      deployment,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,25 +481,24 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +507,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,19 +516,19 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, deploymentName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -340,15 +545,34 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  private _listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+  ): Promise<DeploymentsListSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, deploymentName, options },
+      listSkusOperationSpec,
+    );
   }
 
   /**
@@ -362,11 +586,32 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: DeploymentsListNextOptionalParams
+    options?: DeploymentsListNextOptionalParams,
   ): Promise<DeploymentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSkusNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param nextLink The nextLink from the previous successful call to the ListSkus method.
+   * @param options The options parameters.
+   */
+  private _listSkusNext(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    nextLink: string,
+    options?: DeploymentsListSkusNextOptionalParams,
+  ): Promise<DeploymentsListSkusNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, deploymentName, nextLink, options },
+      listSkusNextOperationSpec,
     );
   }
 }
@@ -374,38 +619,15 @@ export class DeploymentsImpl implements Deployments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -413,31 +635,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Deployment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     201: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     202: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     204: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.deployment,
   queryParameters: [Parameters.apiVersion],
@@ -446,15 +688,47 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Deployment,
+    },
+    201: {
+      bodyMapper: Mappers.Deployment,
+    },
+    202: {
+      bodyMapper: Mappers.Deployment,
+    },
+    204: {
+      bodyMapper: Mappers.Deployment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.deployment1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -462,8 +736,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -471,29 +745,73 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentSkuListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSkusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentSkuListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

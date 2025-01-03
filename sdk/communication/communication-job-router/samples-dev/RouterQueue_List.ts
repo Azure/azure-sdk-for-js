@@ -32,8 +32,6 @@ async function listJobQueues(): Promise<void> {
         console.log("Listing router jobQueue with id: " + queue.queue.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

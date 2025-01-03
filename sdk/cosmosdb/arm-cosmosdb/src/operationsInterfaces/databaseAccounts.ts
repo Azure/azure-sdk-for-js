@@ -46,7 +46,7 @@ import {
   DatabaseAccountsRegenerateKeyOptionalParams,
   DatabaseAccountsCheckNameExistsOptionalParams,
   DatabaseAccountsCheckNameExistsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseAccounts. */

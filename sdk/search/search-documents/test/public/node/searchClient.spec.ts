@@ -529,7 +529,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(["1"], resultIds);
     });
 
-    it("search with vector", async () => {
+    it("search with vector", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
         ctx.skip();
@@ -563,7 +563,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("multi-vector search", async () => {
+    it("multi-vector search", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
         ctx.skip();
@@ -603,7 +603,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("oversampling compressed vectors", async () => {
+    it("oversampling compressed vectors", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
         ctx.skip();

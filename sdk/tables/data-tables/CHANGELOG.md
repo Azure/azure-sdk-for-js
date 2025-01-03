@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Fix issue [#28624](https://github.com/Azure/azure-sdk-for-js/issues/28624) where request options were not available when submitting a transaction operation.
 
 ### Other Changes
 
