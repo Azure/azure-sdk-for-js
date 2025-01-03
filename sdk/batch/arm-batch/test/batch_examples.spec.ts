@@ -10,15 +10,13 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { BatchManagementClient } from "../src/batchManagementClient";
-import { fakeTestPasswordPlaceholder, fakeTestCertData } from "./fakeTestSecrets";
+import { BatchManagementClient } from "../src/batchManagementClient.js";
+import { fakeTestPasswordPlaceholder, fakeTestCertData } from "./fakeTestSecrets.js";
 import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -64,8 +62,8 @@ describe("Batch test", () => {
   let certificateName: string;
   let poolName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -110,7 +108,7 @@ describe("Batch test", () => {
         key2: "value2",
       }
     }
-    const res = await storage_client.storageAccounts.beginCreateAndWait(resourceGroup, storageaccountName, parameter, testPollingOptions);
+    await storage_client.storageAccounts.beginCreateAndWait(resourceGroup, storageaccountName, parameter, testPollingOptions);
   };
 
   it("batchAccountOperations create test", async function () {
@@ -299,7 +297,7 @@ describe("Batch test", () => {
   });
 
   it("poolOperations delete test", async function () {
-    const res = await client.poolOperations.beginDeleteAndWait(resourceGroup, accountName, poolName, testPollingOptions);
+    await client.poolOperations.beginDeleteAndWait(resourceGroup, accountName, poolName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.poolOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
@@ -308,7 +306,7 @@ describe("Batch test", () => {
   });
 
   it("certificateOperations delete test", async function () {
-    const res = await client.certificateOperations.beginDeleteAndWait(resourceGroup, accountName, certificateName, testPollingOptions);
+    await client.certificateOperations.beginDeleteAndWait(resourceGroup, accountName, certificateName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.certificateOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
@@ -317,7 +315,7 @@ describe("Batch test", () => {
   });
 
   it("applicationOperations delete test", async function () {
-    const res = await client.applicationOperations.delete(resourceGroup, accountName, applicationName);
+    await client.applicationOperations.delete(resourceGroup, accountName, applicationName);
     const resArray = new Array();
     for await (let item of client.applicationOperations.list(resourceGroup, accountName)) {
       resArray.push(item);
@@ -326,12 +324,12 @@ describe("Batch test", () => {
   });
 
   it("batchAccountOperations delete test", async function () {
-    const res = await client.batchAccountOperations.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
+    await client.batchAccountOperations.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.batchAccountOperations.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-    const res1 = await storage_client.storageAccounts.delete(resourceGroup, storageaccountName);
+    await storage_client.storageAccounts.delete(resourceGroup, storageaccountName);
   });
 });
