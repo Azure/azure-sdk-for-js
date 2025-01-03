@@ -18,7 +18,7 @@ import {
 
 const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
 const ComunicationClientsScopePrefix = "https://communication.azure.com/clients/";
-const TeamsExtensionEndpoint = "/access/teamsPhone/:exchangeTeamsAccessToken";
+const TeamsExtensionEndpoint = "/access/teamsPhone/:exchangeAccessToken";
 const TeamsExtensionApiVersion = "2025-03-02-preview";
 const ComunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
 const ComunicationClientsApiVersion = "2024-04-01-preview";
@@ -60,15 +60,12 @@ export class EntraTokenCredential implements AcsTokenCredential {
   };
   private client: Client;
   private httpClient: HttpClient;
-  private options: EntraCommunicationTokenCredentialOptions;
 
-  constructor(options: EntraCommunicationTokenCredentialOptions) {
+  constructor(private options: EntraCommunicationTokenCredentialOptions) {
     this.client = getClient(options.resourceEndpoint);
     this.httpClient = createDefaultHttpClient();
     this.options = options;
-    this.options.scopes = this.options.scopes
-        ? this.options.scopes
-        : ["https://communication.azure.com/clients/.default"]
+    this.options.scopes = this.options.scopes || ["https://communication.azure.com/clients/.default"];
 
     // immediately fetch the token to pre-warm
     this.isPending = this.getToken();
@@ -167,12 +164,12 @@ export class EntraTokenCredential implements AcsTokenCredential {
   }
 
   private createRequestUri(resourceEndpoint : string) : string {
-    const [endpoint, apiVersion] = this.DetermineEndpointAndApiVersion();
+    const [endpoint, apiVersion] = this.determineEndpointAndApiVersion();
     const requestUri = `${resourceEndpoint}${endpoint}?api-version=${apiVersion}`;
     return requestUri; 
   }
 
-  private DetermineEndpointAndApiVersion() : [string, string] {
+  private determineEndpointAndApiVersion() : [string, string] {
     if (!this.options.scopes || this.options.scopes.length === 0) {
       throw new Error(
         `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
