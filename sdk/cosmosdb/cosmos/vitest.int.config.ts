@@ -11,7 +11,6 @@ export default mergeConfig(
       outputFile: {
         junit: "test-results-int.xml",
       },
-      include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
     },
   }),
 );
