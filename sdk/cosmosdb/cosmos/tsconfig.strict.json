@@ -9,6 +9,7 @@
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
+    "src/bulk/*.ts",
     "src/documents/DatabaseAccount.ts",
     "src/documents/IndexingPolicy.ts",
     "src/plugins/Plugin.ts",
