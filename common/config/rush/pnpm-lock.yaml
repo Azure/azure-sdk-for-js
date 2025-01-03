@@ -961,9 +961,9 @@ importers:
       '@rush-temp/functions-authentication-events':
         specifier: file:./projects/functions-authentication-events.tgz
         version: file:projects/functions-authentication-events.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
-      '@rush-temp/health-deidentification':
-        specifier: file:./projects/health-deidentification.tgz
-        version: file:projects/health-deidentification.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
+      '@rush-temp/azure-health-deidentification':
+        specifier: file:./projects/azure-health-deidentification.tgz
+        version: file:projects/azure-health-deidentification.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/health-insights-cancerprofiling':
         specifier: file:./projects/health-insights-cancerprofiling.tgz
         version: file:projects/health-insights-cancerprofiling.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
@@ -3730,8 +3730,8 @@ packages:
     resolution: {integrity: sha512-eKgDeSHnl+cPQtK93TCkcXj3N01XuH1tb1gHy6l5/6GT1Wt+mtoQmab5di5f5lKw4wboNnRAAqVImmTIp3wB2A==, tarball: file:projects/functions-authentication-events.tgz}
     version: 0.0.0
 
-  '@rush-temp/health-deidentification@file:projects/health-deidentification.tgz':
-    resolution: {integrity: sha512-WvXaEOwkm6B2rGYZa4ck2QXG5vy+hUhdVVMvcKBMQIM3Yj3s9vDOPHkNnhOUSrBr7dl4leufPwkB4XRPk/9lcw==, tarball: file:projects/health-deidentification.tgz}
+  '@rush-temp/azure-health-deidentification@file:projects/azure-health-deidentification.tgz':
+    resolution: {integrity: sha512-WvXaEOwkm6B2rGYZa4ck2QXG5vy+hUhdVVMvcKBMQIM3Yj3s9vDOPHkNnhOUSrBr7dl4leufPwkB4XRPk/9lcw==, tarball: file:projects/azure-health-deidentification.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-cancerprofiling@file:projects/health-insights-cancerprofiling.tgz':
@@ -17475,7 +17475,7 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/health-deidentification@file:projects/health-deidentification.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
+  '@rush-temp/azure-health-deidentification@file:projects/azure-health-deidentification.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
