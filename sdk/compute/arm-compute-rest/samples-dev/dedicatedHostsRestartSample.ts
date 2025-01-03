@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
@@ -37,7 +35,7 @@ async function restartDedicatedHost() {
       hostName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

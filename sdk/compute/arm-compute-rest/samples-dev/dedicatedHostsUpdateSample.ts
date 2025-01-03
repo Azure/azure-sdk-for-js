@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an dedicated host .
@@ -29,20 +27,6 @@ async function dedicatedHostsUpdateMaximumSetGen() {
     body: {
       properties: {
         autoReplaceOnFailure: true,
-        instanceView: {
-          availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
-          },
-          statuses: [
-            {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z"),
-            },
-          ],
-        },
         licenseType: "Windows_Server_Hybrid",
         platformFaultDomain: 1,
       },
@@ -59,7 +43,7 @@ async function dedicatedHostsUpdateMaximumSetGen() {
       hostName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -91,7 +75,7 @@ async function dedicatedHostsUpdateMinimumSetGen() {
       hostName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

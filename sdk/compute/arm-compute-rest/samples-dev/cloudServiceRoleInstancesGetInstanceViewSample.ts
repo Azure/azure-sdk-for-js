@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   CloudServiceRoleInstancesGetInstanceViewParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the run-time state of a role instance in a cloud service.

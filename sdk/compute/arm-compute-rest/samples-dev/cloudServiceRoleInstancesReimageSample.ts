@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
@@ -37,7 +35,7 @@ async function reimageCloudServiceRoleInstance() {
       roleInstanceName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

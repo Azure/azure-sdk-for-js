@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
@@ -37,7 +35,7 @@ async function capacityReservationsDeleteMaximumSetGen() {
       capacityReservationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -68,7 +66,7 @@ async function capacityReservationsDeleteMinimumSetGen() {
       capacityReservationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

@@ -27,7 +27,7 @@ async function getCloudServiceOSFamily() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
       subscriptionId,
       location,
-      osFamilyName
+      osFamilyName,
     )
     .get(options);
   console.log(result);

@@ -33,7 +33,7 @@ async function rotateClusterServiceAccountSigningKeys() {
       resourceName,
     )
     .post();
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);
 }

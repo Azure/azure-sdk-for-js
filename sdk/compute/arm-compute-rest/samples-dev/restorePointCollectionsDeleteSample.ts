@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
@@ -35,7 +33,7 @@ async function restorePointCollectionsDeleteMaximumSetGen() {
       restorePointCollectionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -64,7 +62,7 @@ async function restorePointCollectionsDeleteMinimumSetGen() {
       restorePointCollectionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

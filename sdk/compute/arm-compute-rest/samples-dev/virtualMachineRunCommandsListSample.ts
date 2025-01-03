@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available run commands for a subscription in a location.

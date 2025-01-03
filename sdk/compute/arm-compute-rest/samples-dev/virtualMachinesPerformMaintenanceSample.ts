@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
@@ -35,7 +33,7 @@ async function virtualMachinesPerformMaintenanceMaximumSetGen() {
       vmName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -64,7 +62,7 @@ async function virtualMachinesPerformMaintenanceMinimumSetGen() {
       vmName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

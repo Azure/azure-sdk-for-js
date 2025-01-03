@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
@@ -74,7 +72,7 @@ async function createNewCloudServiceWithMultipleRoles() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -138,7 +136,7 @@ async function createNewCloudServiceWithSingleRole() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -217,7 +215,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -297,7 +295,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

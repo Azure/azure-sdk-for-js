@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   GalleryApplicationsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a gallery Application.
@@ -26,7 +24,7 @@ async function deleteAGalleryApplication() {
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const options: GalleryApplicationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -34,10 +32,10 @@ async function deleteAGalleryApplication() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryApplicationName
+      galleryApplicationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

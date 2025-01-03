@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   VirtualMachinesRetrieveBootDiagnosticsDataParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.

@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DedicatedHostsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an dedicated host .
@@ -29,26 +27,12 @@ async function dedicatedHostsUpdateMaximumSetGen() {
     body: {
       properties: {
         autoReplaceOnFailure: true,
-        instanceView: {
-          availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
-          },
-          statuses: [
-            {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
-          ]
-        },
         licenseType: "Windows_Server_Hybrid",
-        platformFaultDomain: 1
+        platformFaultDomain: 1,
       },
-      tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }
+      tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -56,10 +40,10 @@ async function dedicatedHostsUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -80,7 +64,7 @@ async function dedicatedHostsUpdateMinimumSetGen() {
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: DedicatedHostsUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -88,10 +72,10 @@ async function dedicatedHostsUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

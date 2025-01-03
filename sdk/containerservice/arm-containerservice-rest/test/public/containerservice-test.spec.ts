@@ -3,16 +3,18 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createRecorder } from "./utils/recordedClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type {
   ContainerServiceClient,
   ManagedClusterOutput,
   ManagedClusterUpgradeProfileOutput,
-} from "../../src";
-import ContainerServiceManagementClient, { getLongRunningPoller, paginate } from "../../src";
+} from "../../src/index.js";
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+  paginate,
+} from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -28,8 +30,8 @@ describe("My test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
     secret = env.AZURE_CLIENT_SECRET || "";
@@ -83,7 +85,7 @@ describe("My test", () => {
           location: location,
         },
       });
-    const poller = getLongRunningPoller(client, initalResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initalResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     console.log(result);
     assert.equal(result.status, "200");
@@ -144,7 +146,7 @@ describe("My test", () => {
           tags: { tier: "testing", archv3: "" },
         },
       });
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.equal(res.status, "200");
     assert.equal(
@@ -162,7 +164,7 @@ describe("My test", () => {
         resourceName,
       )
       .delete();
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.isOk(res.status);
     const listInitialResponse = await client

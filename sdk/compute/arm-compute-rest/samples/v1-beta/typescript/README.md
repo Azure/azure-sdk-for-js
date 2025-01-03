@@ -613,7 +613,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinessimulateevictionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-compute-rest/samples/v1-beta/typescript/src/virtualMachinesSimulateEvictionSample.ts
 [virtualmachinesstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-compute-rest/samples/v1-beta/typescript/src/virtualMachinesStartSample.ts
 [virtualmachinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-compute-rest/samples/v1-beta/typescript/src/virtualMachinesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

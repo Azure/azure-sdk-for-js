@@ -76,10 +76,10 @@ async function associateManagedClusterWithCapacityReservationGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -135,10 +135,10 @@ async function createManagedClusterUsingAManagedClusterSnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -210,10 +210,10 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -279,10 +279,10 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -349,10 +349,10 @@ async function createManagedClusterWithCustomCaTrustEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -420,10 +420,10 @@ async function createManagedClusterWithDedicatedHostGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -490,10 +490,10 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -561,10 +561,10 @@ async function createManagedClusterWithFipsEnabledOS() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -637,10 +637,10 @@ async function createManagedClusterWithGpumig() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -713,10 +713,10 @@ async function createManagedClusterWithHttpProxyConfigured() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -785,10 +785,10 @@ async function createManagedClusterWithNodePublicIPPrefix() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -862,10 +862,10 @@ async function createManagedClusterWithOssku() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -933,10 +933,10 @@ async function createManagedClusterWithPpg() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1004,10 +1004,10 @@ async function createManagedClusterWithPodIdentityEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1074,10 +1074,10 @@ async function createManagedClusterWithRunCommandDisabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1139,10 +1139,10 @@ async function createManagedClusterWithSecurityProfileConfigured() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1210,10 +1210,10 @@ async function createManagedClusterWithUltraSsdEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1277,10 +1277,10 @@ async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1346,10 +1346,10 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1419,10 +1419,10 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1493,10 +1493,10 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1564,10 +1564,10 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1635,7 +1635,8 @@ async function createOrUpdateManagedCluster() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       sku: { name: "Basic", tier: "Free" },
@@ -1649,10 +1650,10 @@ async function createOrUpdateManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1711,7 +1712,8 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
 
@@ -1728,10 +1730,10 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1800,10 +1802,10 @@ async function createOrUpdateManagedClusterWithEnableNamespaceResources() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1862,7 +1864,8 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       location: "location1",
@@ -1877,10 +1880,10 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1948,7 +1951,8 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       location: "location1",
@@ -1963,10 +1967,10 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

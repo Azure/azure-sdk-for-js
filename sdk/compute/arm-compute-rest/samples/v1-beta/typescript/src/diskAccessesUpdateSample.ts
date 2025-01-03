@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskAccessesUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk access resource.
@@ -26,17 +24,17 @@ async function updateADiskAccessResource() {
   const diskAccessName = "myDiskAccess";
   const options: DiskAccessesUpdateParameters = {
     body: { tags: { department: "Development", project: "PrivateEndpoints" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
