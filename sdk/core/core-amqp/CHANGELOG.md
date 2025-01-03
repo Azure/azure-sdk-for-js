@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix parsing of connetion string to account to extract port number properly.
+- Fix parsing of connection string to extract port number properly.
 
 ### Other Changes
 
