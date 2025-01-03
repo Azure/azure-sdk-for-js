@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AppPlatformManagementClient } from "../src/appPlatformManagementClient";
+import { AppPlatformManagementClient } from "../src/appPlatformManagementClient.js";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,8 +44,8 @@ describe("AppPlatform test", () => {
   let serviceName: string;
   let appName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -74,6 +72,7 @@ describe("AppPlatform test", () => {
       },
       location: location
     }, testPollingOptions);
+    assert.equal(res.name, serviceName);
   });
 
   it("apps create test", async function () {
@@ -93,6 +92,7 @@ describe("AppPlatform test", () => {
         }
       }
     }, testPollingOptions);
+    assert.equal(res.name, appName);
   });
 
   it("services get test", async function () {
@@ -122,7 +122,7 @@ describe("AppPlatform test", () => {
   });
 
   it("apps delete test", async function () {
-    const res = await client.apps.beginDeleteAndWait(resourceGroup, serviceName, appName, testPollingOptions);
+    await client.apps.beginDeleteAndWait(resourceGroup, serviceName, appName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.apps.list(resourceGroup, serviceName)) {
       resArray.push(item);
@@ -131,7 +131,7 @@ describe("AppPlatform test", () => {
   });
 
   it("services delete test", async function () {
-    const res = await client.services.beginDeleteAndWait(resourceGroup, serviceName, testPollingOptions);
+    await client.services.beginDeleteAndWait(resourceGroup, serviceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.services.list(resourceGroup)) {
       resArray.push(item);
