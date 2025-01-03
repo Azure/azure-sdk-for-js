@@ -39,7 +39,6 @@ describe("Authorization test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AuthorizationManagementClient;
-  let location: string;
   let resourceGroup: string;
   let resourcename: string;
   let roleDefinitionId: string;
