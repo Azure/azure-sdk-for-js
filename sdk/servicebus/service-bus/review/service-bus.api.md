@@ -16,7 +16,7 @@ import { MessagingError } from '@azure/core-amqp';
 import type { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
@@ -497,6 +497,7 @@ export interface ServiceBusReceiver {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
+    listSessions(options?: OperationOptions): PagedAsyncIterableIterator<string>;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
