@@ -24,9 +24,7 @@ import { getCurrentTimestampInMs } from "../utils/time.js";
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
 async function executeRequest(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   diagnosticNode: DiagnosticNodeInternal,
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   requestContext: RequestContext,
 ): Promise<CosmosResponse<any>> {
   return executePlugins(diagnosticNode, requestContext, httpRequest, PluginOn.request);
@@ -36,9 +34,7 @@ async function executeRequest(
  * @hidden
  */
 async function httpRequest(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   requestContext: RequestContext,
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   diagnosticNode: DiagnosticNodeInternal,
 ): Promise<{
   headers: any;
@@ -180,9 +176,7 @@ async function httpRequest(
  * @hidden
  */
 async function request<T>(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   requestContext: RequestContext,
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   diagnosticNode: DiagnosticNodeInternal,
 ): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
