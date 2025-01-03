@@ -4,97 +4,113 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export type AccessControlRestClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
+export interface AccessControlRestClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface CheckAccessDecisionOutput {
     accessDecision?: string;
     actionId?: string;
     roleAssignment?: RoleAssignmentDetailsOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CheckPrincipalAccessRequest {
     actions: Array<RequiredAction>;
     scope: string;
     subject: SubjectInfo;
 }
 
-// @public (undocumented)
+// @public
 export interface CheckPrincipalAccessResponseOutput {
     AccessDecisions?: Array<CheckAccessDecisionOutput>;
 }
 
-// @public (undocumented)
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): AccessControlRestClient;
+// @public
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: AccessControlRestClientOptions): AccessControlRestClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface ErrorAdditionalInfoOutput {
-    info?: Record<string, unknown>;
-    type?: string;
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorContractOutput {
     error?: ErrorResponseOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseOutput {
-    additionalInfo?: Array<ErrorAdditionalInfoOutput>;
-    code?: string;
-    details?: Array<ErrorResponseOutput>;
-    message?: string;
-    target?: string;
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+    readonly code?: string;
+    readonly details?: Array<ErrorResponseOutput>;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse): response is RoleAssignmentsCheckPrincipalAccessdefaultResponse;
+export function isUnexpected(response: RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessDefaultResponse): response is RoleAssignmentsCheckPrincipalAccessDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse): response is RoleAssignmentsListRoleAssignmentsdefaultResponse;
+export function isUnexpected(response: RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsDefaultResponse): response is RoleAssignmentsListRoleAssignmentsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse): response is RoleAssignmentsCreateRoleAssignmentdefaultResponse;
+export function isUnexpected(response: RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentDefaultResponse): response is RoleAssignmentsCreateRoleAssignmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse): response is RoleAssignmentsGetRoleAssignmentByIddefaultResponse;
+export function isUnexpected(response: RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIdDefaultResponse): response is RoleAssignmentsGetRoleAssignmentByIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse): response is RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse;
+export function isUnexpected(response: RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse): response is RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse): response is RoleDefinitionsListRoleDefinitionsdefaultResponse;
+export function isUnexpected(response: RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsDefaultResponse): response is RoleDefinitionsListRoleDefinitionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse): response is RoleDefinitionsGetRoleDefinitionByIddefaultResponse;
+export function isUnexpected(response: RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIdDefaultResponse): response is RoleDefinitionsGetRoleDefinitionByIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse): response is RoleDefinitionsListScopesdefaultResponse;
+export function isUnexpected(response: RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesDefaultResponse): response is RoleDefinitionsListScopesDefaultResponse;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -111,19 +127,19 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
-// @public (undocumented)
+// @public
 export interface RequiredAction {
     id: string;
     isDataAction: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleAssignmentDetailsListOutput {
     count?: number;
     value?: Array<RoleAssignmentDetailsOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleAssignmentDetailsOutput {
     id?: string;
     principalId?: string;
@@ -132,7 +148,7 @@ export interface RoleAssignmentDetailsOutput {
     scope?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleAssignmentRequest {
     principalId: string;
     principalType?: string;
@@ -142,7 +158,7 @@ export interface RoleAssignmentRequest {
 
 // @public (undocumented)
 export interface RoleAssignmentsCheckPrincipalAccess {
-    post(options: RoleAssignmentsCheckPrincipalAccessParameters): StreamableMethod<RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse>;
+    post(options: RoleAssignmentsCheckPrincipalAccessParameters): StreamableMethod<RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessDefaultResponse>;
 }
 
 // @public
@@ -159,7 +175,7 @@ export interface RoleAssignmentsCheckPrincipalAccessBodyParam {
 }
 
 // @public
-export interface RoleAssignmentsCheckPrincipalAccessdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsCheckPrincipalAccessDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -176,9 +192,9 @@ export type RoleAssignmentsCheckPrincipalAccessParameters = RoleAssignmentsCheck
 
 // @public (undocumented)
 export interface RoleAssignmentsCreateRoleAssignment {
-    delete(options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse>;
-    get(options?: RoleAssignmentsGetRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse>;
-    put(options: RoleAssignmentsCreateRoleAssignmentParameters): StreamableMethod<RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse>;
+    delete(options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse>;
+    get(options?: RoleAssignmentsGetRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIdDefaultResponse>;
+    put(options: RoleAssignmentsCreateRoleAssignmentParameters): StreamableMethod<RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentDefaultResponse>;
 }
 
 // @public
@@ -195,7 +211,7 @@ export interface RoleAssignmentsCreateRoleAssignmentBodyParam {
 }
 
 // @public
-export interface RoleAssignmentsCreateRoleAssignmentdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsCreateRoleAssignmentDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -213,21 +229,17 @@ export type RoleAssignmentsCreateRoleAssignmentParameters = RoleAssignmentsCreat
 // @public
 export interface RoleAssignmentsDeleteRoleAssignmentById200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RoleAssignmentsDeleteRoleAssignmentById204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse extends HttpResponse {
+export interface RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -257,7 +269,7 @@ export interface RoleAssignmentsGetRoleAssignmentById200Response extends HttpRes
 }
 
 // @public
-export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse extends HttpResponse {
+export interface RoleAssignmentsGetRoleAssignmentByIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -269,7 +281,7 @@ export type RoleAssignmentsGetRoleAssignmentByIdParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RoleAssignmentsListRoleAssignments {
-    get(options?: RoleAssignmentsListRoleAssignmentsParameters): StreamableMethod<RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse>;
+    get(options?: RoleAssignmentsListRoleAssignmentsParameters): StreamableMethod<RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -288,7 +300,7 @@ export interface RoleAssignmentsListRoleAssignments200Response extends HttpRespo
 }
 
 // @public
-export interface RoleAssignmentsListRoleAssignmentsdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsListRoleAssignmentsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -298,7 +310,7 @@ export interface RoleAssignmentsListRoleAssignmentsdefaultResponse extends HttpR
 // @public (undocumented)
 export interface RoleAssignmentsListRoleAssignmentsHeaderParam {
     // (undocumented)
-    headers: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
+    headers?: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
 }
 
 // @public (undocumented)
@@ -324,7 +336,7 @@ export interface RoleAssignmentsListRoleAssignmentsQueryParamProperties {
 
 // @public (undocumented)
 export interface RoleDefinitionsGetRoleDefinitionById {
-    get(options?: RoleDefinitionsGetRoleDefinitionByIdParameters): StreamableMethod<RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse>;
+    get(options?: RoleDefinitionsGetRoleDefinitionByIdParameters): StreamableMethod<RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIdDefaultResponse>;
 }
 
 // @public
@@ -336,7 +348,7 @@ export interface RoleDefinitionsGetRoleDefinitionById200Response extends HttpRes
 }
 
 // @public
-export interface RoleDefinitionsGetRoleDefinitionByIddefaultResponse extends HttpResponse {
+export interface RoleDefinitionsGetRoleDefinitionByIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -348,7 +360,7 @@ export type RoleDefinitionsGetRoleDefinitionByIdParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RoleDefinitionsListRoleDefinitions {
-    get(options?: RoleDefinitionsListRoleDefinitionsParameters): StreamableMethod<RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse>;
+    get(options?: RoleDefinitionsListRoleDefinitionsParameters): StreamableMethod<RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsDefaultResponse>;
 }
 
 // @public
@@ -360,7 +372,7 @@ export interface RoleDefinitionsListRoleDefinitions200Response extends HttpRespo
 }
 
 // @public
-export interface RoleDefinitionsListRoleDefinitionsdefaultResponse extends HttpResponse {
+export interface RoleDefinitionsListRoleDefinitionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -384,7 +396,7 @@ export interface RoleDefinitionsListRoleDefinitionsQueryParamProperties {
 
 // @public (undocumented)
 export interface RoleDefinitionsListScopes {
-    get(options?: RoleDefinitionsListScopesParameters): StreamableMethod<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
+    get(options?: RoleDefinitionsListScopesParameters): StreamableMethod<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesDefaultResponse>;
 }
 
 // @public
@@ -396,7 +408,7 @@ export interface RoleDefinitionsListScopes200Response extends HttpResponse {
 }
 
 // @public
-export interface RoleDefinitionsListScopesdefaultResponse extends HttpResponse {
+export interface RoleDefinitionsListScopesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorContractOutput;
     // (undocumented)
@@ -416,13 +428,13 @@ export interface Routes {
     (path: "/rbacScopes"): RoleDefinitionsListScopes;
 }
 
-// @public (undocumented)
+// @public
 export interface SubjectInfo {
     groupIds?: Array<string>;
     principalId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SynapseRbacPermissionOutput {
     actions?: Array<string>;
     dataActions?: Array<string>;
@@ -430,7 +442,7 @@ export interface SynapseRbacPermissionOutput {
     notDataActions?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface SynapseRoleDefinitionOutput {
     availabilityStatus?: string;
     description?: string;

@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
+import { tracingClient } from "../tracing.js";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AlphaIds } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AlphaIds } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AlphaIDsClient } from "../alphaIDsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AlphaIDsClient } from "../alphaIDsClient.js";
 import {
   AlphaId,
   AlphaIdsGetAlphaIdsNextOptionalParams,
@@ -28,7 +28,7 @@ import {
   AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
   AlphaIdsGetPreRegisteredAlphaIdCountriesResponse,
   AlphaIdsGetAlphaIdsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AlphaIds operations. */

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConnectionSetting, AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Register a new Auth Connection for a Bot Service

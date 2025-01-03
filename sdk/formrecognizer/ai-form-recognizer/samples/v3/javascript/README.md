@@ -67,7 +67,7 @@ node recognizeCustomForm.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" CUSTOM_MODEL_ID="<custom model id>" node recognizeCustomForm.js
+npx dev-tool run vendored cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" CUSTOM_MODEL_ID="<custom model id>" node recognizeCustomForm.js
 ```
 
 ## Next Steps
@@ -92,7 +92,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iteratormodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/javascript/iteratorModels.js
 [stronglytypingrecognizedform]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/javascript/stronglyTypingRecognizedForm.js
 [deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/javascript/deleteAllModels.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesaccount]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/README.md

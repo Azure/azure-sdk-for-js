@@ -159,7 +159,7 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 // @public
-export type WebPubSubClientProtocol = "default" | "mqtt";
+export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";
 
 // @public (undocumented)
 export interface WebPubSubGroup {

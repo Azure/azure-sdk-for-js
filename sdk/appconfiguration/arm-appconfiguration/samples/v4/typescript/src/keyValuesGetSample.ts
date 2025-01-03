@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the properties of the specified key-value.
+ * This sample demonstrates how to Gets the properties of the specified key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  *
- * @summary Gets the properties of the specified key-value.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresGetKeyValue.json
+ * @summary Gets the properties of the specified key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresGetKeyValue.json
  */
 async function keyValuesGet() {
   const subscriptionId =
@@ -31,12 +29,12 @@ async function keyValuesGet() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.keyValues.get(
     resourceGroupName,
     configStoreName,
-    keyValueName
+    keyValueName,
   );
   console.log(result);
 }

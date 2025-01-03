@@ -68,6 +68,8 @@ async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
 
 const IGNORE_CODE_COMMENT = "// dev-tool snippets ignore";
 const IGNORE_MARKDOWN_COMMENT = "<!-- dev-tool snippets ignore -->";
+const TS_PRESERVE_WHITESPACE = /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/g;
+const TS_IGNORE = /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g;
 
 /**
  * Finds all the snippet locations in a project.
@@ -285,12 +287,12 @@ async function parseSnippetDefinitions(
       )
         .replace(
           // Need to get rid of any ts-ignores that were added because of unused symbols
-          /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g,
+          TS_IGNORE,
           EOL,
         )
         .replace(
           // Need to get rid of any ts-ignores that were added because of unused symbols
-          /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/g,
+          TS_PRESERVE_WHITESPACE,
           EOL + EOL,
         )
         .trim();
@@ -390,7 +392,10 @@ async function parseSnippetDefinitions(
     // Get all the decls that are in source files and where the decl comes from an import clause.
     return sym?.declarations
       ?.filter(
-        (decl) => decl.getSourceFile() === sourceFile && ts.isImportClause(decl.parent.parent),
+        (decl) =>
+          decl.getSourceFile() === sourceFile &&
+          decl.parent?.parent &&
+          ts.isImportClause(decl.parent.parent),
       )
       .map(
         // It is a grammar error for moduleSpecifier to be anything other than a string literal. In future versions of

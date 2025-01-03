@@ -46,8 +46,8 @@
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy",
-    "lint": "eslint package.json api-extractor.json src",
+    "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy --esm",
+    "lint": "eslint README.md package.json api-extractor.json src test",
     "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run build:test && npm run unit-test",
@@ -113,11 +113,10 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.46.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.0.5"
   },
   "type": "module",
@@ -130,7 +129,8 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

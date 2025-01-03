@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a replica.
  *
  * @summary Deletes a replica.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresDeleteReplica.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDeleteReplica.json
  */
 async function replicasDelete() {
   const subscriptionId =
@@ -31,12 +29,12 @@ async function replicasDelete() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.replicas.beginDeleteAndWait(
     resourceGroupName,
     configStoreName,
-    replicaName
+    replicaName,
   );
   console.log(result);
 }

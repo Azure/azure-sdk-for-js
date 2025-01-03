@@ -21,7 +21,7 @@ import {
   B2CTenantsUpdateOptionalParams,
   B2CTenantsUpdateResponse,
   B2CTenantsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a B2CTenants. */

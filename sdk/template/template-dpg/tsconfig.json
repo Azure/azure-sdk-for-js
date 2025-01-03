@@ -1,14 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": { "@azure/template-dpg": ["./src/index.js"] },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["esnext"],
-    "rootDir": "."
-  },
-  "ts-node": { "esm": true },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

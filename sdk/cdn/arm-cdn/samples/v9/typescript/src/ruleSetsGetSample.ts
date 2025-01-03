@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an existing AzureFrontDoor rule set with the specified rule set name under the specified subscription, resource group and profile.

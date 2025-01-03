@@ -34,7 +34,7 @@ import {
   CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CallConnection. */
@@ -90,7 +90,7 @@ export interface CallConnection {
   /**
    * Add a participant to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantRequest The request payload for adding participant to the call.
+   * @param addParticipantRequest The add participants request.
    * @param options The options parameters.
    */
   addParticipant(

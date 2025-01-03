@@ -12,8 +12,6 @@ export default mergeConfig(
       alias: {
         "../commonjs/state.js": resolve("./src/state-cjs.cts"),
       },
-      include: ["test/**/*.spec.ts"],
-      exclude: ["test/snippets.spec.ts"],
     },
   }),
 );

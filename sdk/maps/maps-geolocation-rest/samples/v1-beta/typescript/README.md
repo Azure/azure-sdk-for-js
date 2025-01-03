@@ -51,7 +51,7 @@ node dist/getCountryCodeFromIP.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/getCountryCodeFromIP.js
+npx dev-tool run vendored cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/getCountryCodeFromIP.js
 ```
 
 ## Next Steps
@@ -59,8 +59,8 @@ npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/getC
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getcountrycodefromip]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-geolocation-rest/samples/v1-beta/typescript/src/getCountryCodeFromIP.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-geolocation
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-geolocation
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
+[createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

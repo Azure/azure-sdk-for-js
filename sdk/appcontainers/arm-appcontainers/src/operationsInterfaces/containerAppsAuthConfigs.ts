@@ -15,7 +15,7 @@ import {
   ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ContainerAppsAuthConfigsCreateOrUpdateResponse,
   ContainerAppsAuthConfigsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerAppsAuthConfigs. */

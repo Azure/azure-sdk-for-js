@@ -13,7 +13,7 @@ import type {
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUnassignJobActionOptionalParams,
   ChannelConfiguration,
-} from "./generated/src";
+} from "./generated/src/index.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type {
   JSONObject,
@@ -27,7 +27,7 @@ import type {
   ExceptionRule,
   RouterJobStatusSelector,
   RouterWorkerStateSelector,
-} from "./models";
+} from "./models.js";
 
 /**
  * Options to create a job router administration client.
@@ -391,4 +391,4 @@ export {
   JobRouterUpsertWorkerOptionalParams,
   DeclineJobOfferRequest,
   UnassignJobRequest,
-} from "./generated/src";
+} from "./generated/src/index.js";

@@ -71,7 +71,7 @@ node dist/workingWithBigInt.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/workingWithBigInt.js
+npx dev-tool run vendored cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/workingWithBigInt.js
 ```
 
 ## Next Steps

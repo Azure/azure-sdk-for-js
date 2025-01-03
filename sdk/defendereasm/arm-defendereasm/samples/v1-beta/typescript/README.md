@@ -61,7 +61,7 @@ node dist/labelsCreateAndUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEFENDEREASM_SUBSCRIPTION_ID="<defendereasm subscription id>" DEFENDEREASM_RESOURCE_GROUP="<defendereasm resource group>" node dist/labelsCreateAndUpdateSample.js
+npx dev-tool run vendored cross-env DEFENDEREASM_SUBSCRIPTION_ID="<defendereasm subscription id>" DEFENDEREASM_RESOURCE_GROUP="<defendereasm resource group>" node dist/labelsCreateAndUpdateSample.js
 ```
 
 ## Next Steps
@@ -81,7 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/defendereasm/arm-defendereasm/samples/v1-beta/typescript/src/workspacesListByResourceGroupSample.ts
 [workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/defendereasm/arm-defendereasm/samples/v1-beta/typescript/src/workspacesListBySubscriptionSample.ts
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/defendereasm/arm-defendereasm/samples/v1-beta/typescript/src/workspacesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-defendereasm?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-defendereasm?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/defendereasm/arm-defendereasm/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

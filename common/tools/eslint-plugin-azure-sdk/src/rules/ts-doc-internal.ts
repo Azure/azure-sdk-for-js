@@ -7,10 +7,10 @@
  */
 
 import { TSESTree, ESLintUtils } from "@typescript-eslint/utils";
-import { getLocalExports, createRule } from "../utils";
+import { getLocalExports, createRule } from "../utils/index.js";
 import { globSync } from "glob";
-import { readFileSync } from "fs";
-import { relative } from "path";
+import { readFileSync } from "node:fs";
+import { relative } from "node:path";
 
 //------------------------------------------------------------------------------
 // Rule Definition

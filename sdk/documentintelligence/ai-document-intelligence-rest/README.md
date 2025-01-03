@@ -15,15 +15,13 @@ Key links:
 - [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md)
 - [Migration Guide from Form Recognizer](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md)
 
-> This version of the client library defaults to the `"2024-07-31-preview"` version of the service.
+> This version of the client library defaults to the `"2024-11-30"` version of the service.
 
 This table shows the relationship between SDK versions and supported API versions of the service:
 
 | SDK version  | Supported API version of service |
 | ------------ | -------------------------------- |
-| 1.0.0-beta.3 | 2024-07-31-preview               |
-| 1.0.0-beta.2 | 2024-02-29-preview               |
-| 1.0.0-beta.1 | 2023-10-31-preview               |
+| 1.0.0        | 2024-11-30                       |
 
 > Please rely on the older `@azure/ai-form-recognizer` library through the older service API versions for retired models, such as `"prebuilt-businessCard"` and `"prebuilt-document"`. For more information, see [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md).
 
@@ -31,9 +29,7 @@ The below table describes the relationship of each client and its supported API 
 
 | Service API version | Supported clients                                            | Package                                                       |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
-| 2024-07-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.3` |
-| 2024-02-29-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.2` |
-| 2023-10-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.1` |
+| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0`        |
 | 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`                  |
 | 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`                  |
 
@@ -77,7 +73,7 @@ import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
-  new DefaultAzureCredential(),
+  new DefaultAzureCredential()
 );
 ```
 
@@ -132,15 +128,15 @@ Continue creating the poller from initial response
 ```ts
 import {
   getLongRunningPoller,
-  AnalyzeResultOperationOutput,
+  AnalyzeOperationOutput,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
-const poller = await getLongRunningPoller(client, initialResponse);
-const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+const poller = getLongRunningPoller(client, initialResponse);
+const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
 console.log(result);
 // {
 //   status: 'succeeded',
@@ -154,6 +150,42 @@ console.log(result);
 //     contentFormat: 'text'
 //   }
 // }
+```
+
+## Batch analysis
+
+```ts
+import { parseResultIdFromResponse, isUnexpected } from "@azure-rest/ai-document-intelligence";
+
+// 1. Analyze a batch of documents
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      azureBlobSource: {
+        containerUrl: batchTrainingFilesContainerUrl(),
+      },
+      resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+      resultPrefix: "result",
+    },
+  });
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+const resultId = parseResultIdFromResponse(initialResponse);
+console.log("resultId: ", resultId);
+
+// (Optional) You can poll for the batch analysis result but be aware that a job may take unexpectedly long time, and polling could incur additional costs.
+// const poller = getLongRunningPoller(client, initialResponse);
+// await poller.pollUntilDone();
+
+// 2. At a later time, you can retrieve the operation result using the resultId
+const output = await client
+  .path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-layout", resultId)
+  .get();
+console.log(output);
 ```
 
 ### Markdown content format
@@ -246,7 +278,7 @@ const initialResponse = await client.path("/documentClassifiers:build").post({
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
-const poller = await getLongRunningPoller(client, initialResponse);
+const poller = getLongRunningPoller(client, initialResponse);
 const response = (await poller.pollUntilDone())
   .body as DocumentClassifierBuildOperationDetailsOutput;
 console.log(response);
@@ -265,6 +297,98 @@ console.log(response);
 //    },
 //    apiVersion: '2023-10-31-preview'
 //  }
+```
+
+## Get the generated PDF output from document analysis
+
+```ts
+const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+const base64Source = await fs.readFile(filePath, { encoding: "base64" });
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+  .post({
+    contentType: "application/json",
+    body: {
+      base64Source,
+    },
+    queryParameters: { output: ["pdf"] },
+  });
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+
+const poller = getLongRunningPoller(client, initialResponse);
+
+await poller.pollUntilDone();
+
+const output = await client
+  .path(
+    "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
+    "prebuilt-read",
+    parseResultIdFromResponse(initialResponse)
+  )
+  .get()
+  .asNodeStream(); // output.body would be NodeJS.ReadableStream
+
+if (output.status !== "200" || !output.body) {
+  throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
+}
+
+const pdfData = await streamToUint8Array(output.body);
+fs.promises.writeFile(`./output.pdf`, pdfData);
+// Or you can consume the NodeJS.ReadableStream directly
+```
+
+## Get the generated cropped image of specified figure from document analysis
+
+```ts
+const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      base64Source,
+    },
+    queryParameters: { output: ["figures"] },
+  });
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+
+const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
+const figures = result.analyzeResult?.figures;
+assert.isArray(figures);
+assert.isNotEmpty(figures?.[0]);
+const figureId = figures?.[0].id || "";
+assert.isDefined(figureId);
+
+const output = await client
+  .path(
+    "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+    "prebuilt-layout",
+    parseResultIdFromResponse(initialResponse),
+    figureId
+  )
+  .get()
+  .asNodeStream(); // output.body would be NodeJS.ReadableStream
+
+if (output.status !== "200" || !output.body) {
+  throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
+}
+
+const imageData = await streamToUint8Array(output.body);
+fs.promises.writeFile(`./figures/${figureId}.png`, imageData);
+// Or you can consume the NodeJS.ReadableStream directly
 ```
 
 ## Get Info

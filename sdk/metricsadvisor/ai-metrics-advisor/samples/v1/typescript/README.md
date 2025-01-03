@@ -72,7 +72,7 @@ node dist/quickstart.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVISOR_SUBSCRIPTION_KEY="<metrics advisor subscription key>" METRICS_ADVISOR_API_KEY="<metrics advisor api key>" METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING="<metrics advisor sql server connection string>" METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY="<metrics advisor azure sql server query>" node dist/quickstart.js
+npx dev-tool run vendored cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVISOR_SUBSCRIPTION_KEY="<metrics advisor subscription key>" METRICS_ADVISOR_API_KEY="<metrics advisor api key>" METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING="<metrics advisor sql server connection string>" METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY="<metrics advisor azure sql server query>" node dist/quickstart.js
 ```
 
 ## Next Steps
@@ -90,8 +90,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricFeedback.ts
 [metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricQueries.ts
 [seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/seriesData.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesaccount]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

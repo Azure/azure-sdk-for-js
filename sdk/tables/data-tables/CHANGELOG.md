@@ -1,16 +1,21 @@
 # Release History
 
-## 13.3.0 (Unreleased)
+## 13.3.1 (Unreleased)
 
 ### Features Added
-
-- Added support for Entra ID credentials when targeting a Cosmos endpoint.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+- Fix issue [#28624](https://github.com/Azure/azure-sdk-for-js/issues/28624) where request options were not available when submitting a transaction operation.
 
 ### Other Changes
+
+## 13.3.0 (2024-11-18)
+
+### Features Added
+
+- Added support for Entra ID credentials when targeting a Cosmos endpoint.
 
 ## 13.2.2 (2023-04-10)
 

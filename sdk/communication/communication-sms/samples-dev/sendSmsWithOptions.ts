@@ -5,11 +5,10 @@
  * @summary Configure SMS options when sending a message
  */
 
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
+import { SmsClient, SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { SmsSendOptions } from "../src/generated/src/models";
 dotenv.config();
 
 export async function main() {

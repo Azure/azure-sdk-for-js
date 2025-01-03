@@ -52,9 +52,9 @@ function fileLinks(info: SampleReadmeConfiguration) {
 
   return filterModules(info)
     .map(({ relativeSourcePath }) => {
-      const sourcePath = info.useTypeScript
-        ? relativeSourcePath
-        : relativeSourcePath.replace(/\.ts$/, ".js");
+      const sourcePath = (
+        info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+      ).replace(path.sep, "/");
       return `[${sampleLinkTag(
         relativeSourcePath,
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
@@ -112,9 +112,9 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  */
 function table(info: SampleReadmeConfiguration) {
   const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
-    const fileName = info.useTypeScript
-      ? relativeSourcePath
-      : relativeSourcePath.replace(/\.ts$/, ".js");
+    const fileName = (
+      info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+    ).replace(path.sep, "/");
     if (summary && summary.includes("|")) {
       summary = summary.replace(/\|/g, "\\|");
     }
@@ -232,7 +232,7 @@ ${fence(
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
-${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
+${fence("bash", `npx dev-tool run vendored cross-env ${exampleNodeInvocation(info)}`)}
 
 ## Next Steps
 

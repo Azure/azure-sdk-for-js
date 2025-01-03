@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import TextTranslationClient from "./customClient";
+import TextTranslationClient from "./customClient.js";
 
-export * from "./customClient";
-export * from "./generated/parameters";
-export * from "./generated/responses";
-export * from "./generated/clientDefinitions";
-export * from "./generated/isUnexpected";
-export * from "./generated/models";
-export * from "./generated/outputModels";
-export * from "./generated/serializeHelper";
-export { TranslatorCredential, TranslatorTokenCredential } from "./authentication";
+export * from "./customClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./serializeHelper.js";
+export { TranslatorCredential, TranslatorTokenCredential } from "./authenticationCustomized.js";
 
+// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default TextTranslationClient;

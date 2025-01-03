@@ -6,15 +6,15 @@ import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+} from "../util/tenantIdUtils.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils.js";
 
-import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
 import child_process from "child_process";
-import { tracingClient } from "../util/tracing";
-import { checkSubscription } from "../util/subscriptionUtils";
+import { tracingClient } from "../util/tracing.js";
+import { checkSubscription } from "../util/subscriptionUtils.js";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -26,10 +26,10 @@ export const cliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env.SystemRoot) {
-        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+      if (!process.env["SYSTEMROOT"]) {
+        throw new Error("Azure CLI credential expects a 'SYSTEMROOT' environment variable");
       }
-      return process.env.SystemRoot;
+      return process.env["SYSTEMROOT"];
     } else {
       return "/bin";
     }

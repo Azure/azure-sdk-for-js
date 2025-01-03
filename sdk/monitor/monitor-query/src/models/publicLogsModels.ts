@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { LogsColumnType } from "../generated/logquery/src";
-import type { QueryTimeInterval } from "./timeInterval";
+import type { LogsColumnType } from "../generated/logquery/src/index.js";
+import type { QueryTimeInterval } from "./timeInterval.js";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts

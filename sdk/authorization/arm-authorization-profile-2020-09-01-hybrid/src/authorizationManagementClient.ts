@@ -20,15 +20,15 @@ import {
   ProviderOperationsMetadataOperationsImpl,
   GlobalAdministratorImpl,
   RoleAssignmentsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Permissions,
   RoleDefinitions,
   ProviderOperationsMetadataOperations,
   GlobalAdministrator,
   RoleAssignments
-} from "./operationsInterfaces";
-import { AuthorizationManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AuthorizationManagementClientOptionalParams } from "./models/index.js";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;

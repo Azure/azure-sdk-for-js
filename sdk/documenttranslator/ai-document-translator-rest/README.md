@@ -1,23 +1,23 @@
 # Azure Document Translator Rest-Level client library for JavaScript
 
-[Azure Document Translator](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) is a cloud-based feature of the Azure Translator service and is part of the Azure Cognitive Service family of REST APIs. The Document Translation API translates documents to and from 90 languages and dialects while preserving document structure and data format.
+[Azure Document Translator](https://learn.microsoft.com/azure/cognitive-services/translator/document-translation/overview) is a cloud-based feature of the Azure Translator service and is part of the Azure Cognitive Service family of REST APIs. The Document Translation API translates documents to and from 90 languages and dialects while preserving document structure and data format.
 
 **Note:** This Rest Level Library targets Azure Document Translator service API version v1.0-preview.1.
 
 Use the client library to:
 
-| Feature                           | Description                                                                                                                                                        |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Translate large files             | Translate whole documents asynchronously.                                                                                                                          |
-| Translate numerous files          | Translate multiple files to and from 90 languages and dialects.                                                                                                    |
-| Preserve source file presentation | Translate files while preserving the original layout and format.                                                                                                   |
-| Apply custom translation          | Translate documents using general and [custom translation](https://docs.microsoft.com/azure/cognitive-services/translator/customization#custom-translator) models. |
-| Apply custom glossaries           | Translate documents using custom glossaries.                                                                                                                       |
+| Feature                           | Description                                                                                                                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Translate large files             | Translate whole documents asynchronously.                                                                                                                           |
+| Translate numerous files          | Translate multiple files to and from 90 languages and dialects.                                                                                                     |
+| Preserve source file presentation | Translate files while preserving the original layout and format.                                                                                                    |
+| Apply custom translation          | Translate documents using general and [custom translation](https://learn.microsoft.com/azure/cognitive-services/translator/customization#custom-translator) models. |
+| Apply custom glossaries           | Translate documents using custom glossaries.                                                                                                                        |
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-translator) |
-[API reference documentation](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
+[API reference documentation](https://learn.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
+[Product documentation](https://learn.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documenttranslator/ai-document-translator-rest/samples)
 
 ## Getting started
@@ -197,7 +197,7 @@ Please refer to the samples folder to see code samples, including:
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -219,18 +219,18 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fdocumenttranslator%2Fai-document-translator-rest%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [translator_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesTextTranslation
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[cognitive_auth]: https://learn.microsoft.com/azure/cognitive-services/authentication
+[register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[azure_cli_create_dt_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
+[azure_cli_create_dt_resource]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
 [azure_portal_get_endpoint]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/document-translation-rest-api?pivots=programming-language-javascript#retrieve-your-key-and-document-translation-endpoint
 [source_containers]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/document-translation-rest-api?pivots=programming-language-javascript#create-azure-blob-storage-containers
-[glossary]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview#supported-glossary-formats
-[custom_model]: https://docs.microsoft.com/azure/cognitive-services/translator/custom-translator/quickstart-build-deploy-custom-model
+[glossary]: https://learn.microsoft.com/azure/cognitive-services/translator/document-translation/overview#supported-glossary-formats
+[custom_model]: https://learn.microsoft.com/azure/cognitive-services/translator/custom-translator/quickstart-build-deploy-custom-model
 [sas_token]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/how-to-guides/create-sas-tokens?tabs=Containers
-[supported_languages]: https://docs.microsoft.com/azure/cognitive-services/translator/language-support#translate
+[supported_languages]: https://learn.microsoft.com/azure/cognitive-services/translator/language-support#translate

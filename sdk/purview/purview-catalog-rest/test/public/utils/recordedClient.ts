@@ -3,8 +3,8 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import type { PurviewCatalogClient } from "../../../src";
-import PurviewCatalog from "../../../src";
+import type { PurviewCatalogClient } from "../../../src/index.js";
+import PurviewCatalog from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { ClientOptions } from "@azure-rest/core-client";
 

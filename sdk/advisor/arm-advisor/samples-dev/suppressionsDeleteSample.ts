@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
@@ -26,15 +24,11 @@ async function deleteSuppression() {
   const name = "suppressionName1";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
-  const result = await client.suppressions.delete(
-    resourceUri,
-    recommendationId,
-    name
-  );
+  const result = await client.suppressions.delete(resourceUri, recommendationId, name);
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSuppression();
 }
 

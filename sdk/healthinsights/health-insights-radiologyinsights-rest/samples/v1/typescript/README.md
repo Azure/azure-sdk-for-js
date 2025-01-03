@@ -1,20 +1,20 @@
-# HealthInsightsRadiologyInsights client library samples for TypeScript (Beta)
+# HealthInsightsRadiologyInsights client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for HealthInsightsRadiologyInsights in some common scenarios.
 
-| **File Name**                                                                                       | **Description**           |
-| --------------------------------------------------------------------------------------------------- | ------------------------- |
-| [sample_age_mismatch_inference_async.ts][sample_age_mismatch_inference_async]                       | Infer age mismatches from a radiology report (async) |
-| [sample_complete_order_inference_async.ts][sample_complete_order_inference_async]                   | Infer complete orders from a radiology report (async) |
-| [sample_critical_result_inference_async.ts][sample_critical_result_inference_async]                 | Infer critical results from a radiology report (async) |
-| [sample_finding_inference_async.ts][sample_finding_inference_async]                                 | Infer findings from a radiology report (async) |
-| [sample_follow_up_communication_inference_async.ts][sample_follow_up_communication_inference_async] | Infer follow up communications  from a radiology report (async) |
-| [sample_follow_up_recommendation_inference_async.ts][sample_follow_up_recommendation_inference_async]| Infer follow up recommendation from a radiology report (async) |
-| [sample_laterality_discrepancy_inference_async.ts][sample_laterality_discrepancy_inference_async]   | Infer laterality discrepancies from a radiology report (async) |
-| [sample_limited_order_inference_async.ts][sample_limited_order_inference_async]                     | Infer limited orders from a radiology report (async) |
-| [sample_radioloy_procedure_inference_async.ts][sample_radioloy_procedure_inference_async]           | Infer radiology procedures from a radiology report (async) |
-| [sample_sex_mismatch_inference_async.ts][sample_sex_mismatch_inference_async]                       | Infer sex mismatches from a radiology report (async) |
-
+| **File Name**                                                                                             | **Description**                                                            |
+| --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [sample_age_mismatch_inference_async.ts][sample_age_mismatch_inference_async]                             | Displays the age mismatch of the Radiology Insights request.               |
+| [sample_complete_order_discrepancy_inference_async.ts][sample_complete_order_discrepancy_inference_async] | Displays the complete order discrepancy of the Radiology Insights request. |
+| [sample_critical_result_inference_async.ts][sample_critical_result_inference_async]                       | Displays the critical results of the Radiology Insights request.           |
+| [sample_critical_result_managed_identity.ts][sample_critical_result_managed_identity]                     | Displays the critical results of the Radiology Insights request.           |
+| [sample_finding_inference_async.ts][sample_finding_inference_async]                                       | Displays the finding of the Radiology Insights request.                    |
+| [sample_follow_up_communication_inference_async.ts][sample_follow_up_communication_inference_async]       | Displays the follow up communication of the Radiology Insights request.    |
+| [sample_follow_up_recommendation_inference_async.ts][sample_follow_up_recommendation_inference_async]     | Displays the follow up recommendation of the Radiology Insights request.   |
+| [sample_laterality_discrepancy_inference_async.ts][sample_laterality_discrepancy_inference_async]         | Displays the laterality discrepancy of the Radiology Insights request.     |
+| [sample_limited_order_discrepancy_inference_async.ts][sample_limited_order_discrepancy_inference_async]   | Displays the limited order discrepancy of the Radiology Insights request.  |
+| [sample_radiology_procedure_inference_async.ts][sample_radiology_procedure_inference_async]               | Displays the radiology procedure of the Radiology Insights request.        |
+| [sample_sex_mismatch_inference_async.ts][sample_sex_mismatch_inference_async]                             | Displays the sex mismatch of the Radiology Insights request.               |
 
 ## Prerequisites
 
@@ -53,30 +53,31 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/sample_critical_result_inference_async.js
+node dist/sample_age_mismatch_inference_async.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node dist/sample_critical_result_inference_async.js
+npx dev-tool run vendored cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node dist/sample_critical_result_inference_async.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_age_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_age_mismatch_inference_async.ts
-[sample_complete_order_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_complete_order_discrepancy_inference_async.ts
-[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_critical_result_inference_async.ts
-[sample_finding_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_finding_inference_async.ts
-[sample_follow_up_communication_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_follow_up_communication_inference_async.ts
-[sample_follow_up_recommendation_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_follow_up_recommendation_inference_async.ts
-[sample_laterality_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_laterality_discrepancy_inference_async.ts
-[sample_limited_order_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_limited_order_discrepancy_inference_async.ts
-[sample_radioloy_procedure_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_radiology_procedure_inference_async.ts
-[sample_sex_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_sex_mismatch_inference_async.ts
+[sample_age_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_age_mismatch_inference_async.ts
+[sample_complete_order_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_complete_order_discrepancy_inference_async.ts
+[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_critical_result_inference_async.ts
+[sample_critical_result_managed_identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_critical_result_managed_identity.ts
+[sample_finding_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_finding_inference_async.ts
+[sample_follow_up_communication_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_follow_up_communication_inference_async.ts
+[sample_follow_up_recommendation_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_follow_up_recommendation_inference_async.ts
+[sample_laterality_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_laterality_discrepancy_inference_async.ts
+[sample_limited_order_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_limited_order_discrepancy_inference_async.ts
+[sample_radiology_procedure_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_radiology_procedure_inference_async.ts
+[sample_sex_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/typescript/src/sample_sex_mismatch_inference_async.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

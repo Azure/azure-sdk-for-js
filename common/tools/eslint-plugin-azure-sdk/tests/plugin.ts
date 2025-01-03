@@ -7,7 +7,7 @@
  */
 
 import { describe, it, assert } from "vitest";
-import plugin from "../src";
+import plugin from "../src/index.js";
 
 /**
  * A list of all currently supported rules
@@ -17,7 +17,6 @@ const ruleList = [
   "ts-apiextractor-json-types",
   "ts-apisurface-standardized-verbs",
   "ts-apisurface-supportcancellation",
-  "ts-config-include",
   "ts-doc-internal",
   "ts-doc-internal-private-member",
   "ts-error-handling",

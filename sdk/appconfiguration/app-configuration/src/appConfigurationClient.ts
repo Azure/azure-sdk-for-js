@@ -189,7 +189,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigurationApiVersion,
+      options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });

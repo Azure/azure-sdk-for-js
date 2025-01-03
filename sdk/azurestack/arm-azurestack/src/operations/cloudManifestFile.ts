@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudManifestFile } from "../operationsInterfaces";
+import { CloudManifestFile } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureStackManagementClient } from "../azureStackManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureStackManagementClient } from "../azureStackManagementClient.js";
 import {
   CloudManifestFileListOptionalParams,
   CloudManifestFileListResponse,
   CloudManifestFileGetOptionalParams,
   CloudManifestFileGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CloudManifestFile operations. */
 export class CloudManifestFileImpl implements CloudManifestFile {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
+import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics.js";
 import type { TokenCredential } from "@azure/core-auth";
 
 import type {
@@ -12,26 +12,26 @@ import type {
   LogsQueryResult,
   LogsQuerySuccessfulResult,
   QueryBatch,
-} from "./models/publicLogsModels";
-import { LogsQueryResultStatus } from "./models/publicLogsModels";
+} from "./models/publicLogsModels.js";
+import { LogsQueryResultStatus } from "./models/publicLogsModels.js";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
   convertResponseForQueryBatch,
   mapError,
-} from "./internal/modelConverters";
-import { formatPreferHeader } from "./internal/util";
+} from "./internal/modelConverters.js";
+import { formatPreferHeader } from "./internal/util.js";
 import type {
   CommonClientOptions,
   FullOperationResponse,
   OperationOptions,
 } from "@azure/core-client";
-import type { QueryTimeInterval } from "./models/timeInterval";
-import { convertTimespanToInterval } from "./timespanConversion";
-import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants";
-import { tracingClient } from "./tracing";
-import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
+import type { QueryTimeInterval } from "./models/timeInterval.js";
+import { convertTimespanToInterval } from "./timespanConversion.js";
+import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants.js";
+import { tracingClient } from "./tracing.js";
+import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils.js";
 
 /**
  * Options for the LogsQueryClient.

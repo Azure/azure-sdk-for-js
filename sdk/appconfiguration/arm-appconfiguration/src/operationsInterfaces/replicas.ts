@@ -15,8 +15,8 @@ import {
   ReplicasGetResponse,
   ReplicasCreateOptionalParams,
   ReplicasCreateResponse,
-  ReplicasDeleteOptionalParams
-} from "../models";
+  ReplicasDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Replicas. */
@@ -30,7 +30,7 @@ export interface Replicas {
   listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams
+    options?: ReplicasListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<Replica>;
   /**
    * Gets the properties of the specified replica.
@@ -43,7 +43,7 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasGetOptionalParams
+    options?: ReplicasGetOptionalParams,
   ): Promise<ReplicasGetResponse>;
   /**
    * Creates a replica with the specified parameters.
@@ -58,7 +58,7 @@ export interface Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicasCreateResponse>,
@@ -78,7 +78,7 @@ export interface Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<ReplicasCreateResponse>;
   /**
    * Deletes a replica.
@@ -91,7 +91,7 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a replica.
@@ -104,6 +104,6 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -79,7 +79,7 @@ node dist/sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
+npx dev-tool run vendored cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
 ```
 
 ## Next Steps
@@ -105,8 +105,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/movingMessagesToDLQ.ts
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/processMessageFromDLQ.ts
 [exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/exceedMaxDeliveryCount.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging
+[createinstance_azureservicebus]: https://learn.microsoft.com/azure/service-bus-messaging
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

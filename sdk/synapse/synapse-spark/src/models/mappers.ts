@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const SparkBatchJobCollection: coreClient.CompositeMapper = {
   type: {
@@ -17,15 +17,15 @@ export const SparkBatchJobCollection: coreClient.CompositeMapper = {
         serializedName: "from",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       total: {
         serializedName: "total",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sessions: {
         serializedName: "sessions",
@@ -34,13 +34,13 @@ export const SparkBatchJobCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkBatchJob"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SparkBatchJob",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkBatchJob: coreClient.CompositeMapper = {
@@ -52,70 +52,70 @@ export const SparkBatchJob: coreClient.CompositeMapper = {
         serializedName: "livyInfo",
         type: {
           name: "Composite",
-          className: "SparkBatchJobState"
-        }
+          className: "SparkBatchJobState",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       workspaceName: {
         serializedName: "workspaceName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sparkPoolName: {
         serializedName: "sparkPoolName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitterName: {
         serializedName: "submitterName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitterId: {
         serializedName: "submitterId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       artifactId: {
         serializedName: "artifactId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       jobType: {
         serializedName: "jobType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       result: {
         serializedName: "result",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scheduler: {
         serializedName: "schedulerInfo",
         type: {
           name: "Composite",
-          className: "SparkScheduler"
-        }
+          className: "SparkScheduler",
+        },
       },
       plugin: {
         serializedName: "pluginInfo",
         type: {
           name: "Composite",
-          className: "SparkServicePlugin"
-        }
+          className: "SparkServicePlugin",
+        },
       },
       errors: {
         serializedName: "errorInfo",
@@ -124,45 +124,45 @@ export const SparkBatchJob: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkServiceError"
-            }
-          }
-        }
+              className: "SparkServiceError",
+            },
+          },
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       id: {
         serializedName: "id",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       appId: {
         serializedName: "appId",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appInfo: {
         serializedName: "appInfo",
         nullable: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logLines: {
         serializedName: "log",
@@ -171,13 +171,13 @@ export const SparkBatchJob: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkBatchJobState: coreClient.CompositeMapper = {
@@ -189,66 +189,66 @@ export const SparkBatchJobState: coreClient.CompositeMapper = {
         serializedName: "notStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       startingAt: {
         serializedName: "startingAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       runningAt: {
         serializedName: "runningAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       deadAt: {
         serializedName: "deadAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       successAt: {
         serializedName: "successAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       terminatedAt: {
         serializedName: "killedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       recoveringAt: {
         serializedName: "recoveringAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       currentState: {
         serializedName: "currentState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       jobCreationRequest: {
         serializedName: "jobCreationRequest",
         type: {
           name: "Composite",
-          className: "SparkRequest"
-        }
-      }
-    }
-  }
+          className: "SparkRequest",
+        },
+      },
+    },
+  },
 };
 
 export const SparkRequest: coreClient.CompositeMapper = {
@@ -259,20 +259,20 @@ export const SparkRequest: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       file: {
         serializedName: "file",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       className: {
         serializedName: "className",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       arguments: {
         serializedName: "args",
@@ -280,10 +280,10 @@ export const SparkRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       jars: {
         serializedName: "jars",
@@ -291,10 +291,10 @@ export const SparkRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       pythonFiles: {
         serializedName: "pyFiles",
@@ -302,10 +302,10 @@ export const SparkRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       files: {
         serializedName: "files",
@@ -313,10 +313,10 @@ export const SparkRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       archives: {
         serializedName: "archives",
@@ -324,50 +324,50 @@ export const SparkRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       configuration: {
         serializedName: "conf",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       driverMemory: {
         serializedName: "driverMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       driverCores: {
         serializedName: "driverCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorMemory: {
         serializedName: "executorMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       executorCores: {
         serializedName: "executorCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorCount: {
         serializedName: "numExecutors",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SparkScheduler: coreClient.CompositeMapper = {
@@ -379,38 +379,38 @@ export const SparkScheduler: coreClient.CompositeMapper = {
         serializedName: "submittedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       scheduledAt: {
         serializedName: "scheduledAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedAt: {
         serializedName: "endedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       cancellationRequestedAt: {
         serializedName: "cancellationRequestedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       currentState: {
         serializedName: "currentState",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SparkServicePlugin: coreClient.CompositeMapper = {
@@ -422,45 +422,45 @@ export const SparkServicePlugin: coreClient.CompositeMapper = {
         serializedName: "preparationStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       resourceAcquisitionStartedAt: {
         serializedName: "resourceAcquisitionStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       submissionStartedAt: {
         serializedName: "submissionStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       monitoringStartedAt: {
         serializedName: "monitoringStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       cleanupStartedAt: {
         serializedName: "cleanupStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       currentState: {
         serializedName: "currentState",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SparkServiceError: coreClient.CompositeMapper = {
@@ -471,23 +471,23 @@ export const SparkServiceError: coreClient.CompositeMapper = {
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorCode: {
         serializedName: "errorCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       source: {
         serializedName: "source",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SparkBatchJobOptions: coreClient.CompositeMapper = {
@@ -499,34 +499,34 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       artifactId: {
         serializedName: "artifactId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       file: {
         serializedName: "file",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       className: {
         serializedName: "className",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       arguments: {
         serializedName: "args",
@@ -534,10 +534,10 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       jars: {
         serializedName: "jars",
@@ -545,10 +545,10 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       pythonFiles: {
         serializedName: "pyFiles",
@@ -556,10 +556,10 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       files: {
         serializedName: "files",
@@ -567,10 +567,10 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       archives: {
         serializedName: "archives",
@@ -578,50 +578,50 @@ export const SparkBatchJobOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       configuration: {
         serializedName: "conf",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       driverMemory: {
         serializedName: "driverMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       driverCores: {
         serializedName: "driverCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorMemory: {
         serializedName: "executorMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       executorCores: {
         serializedName: "executorCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorCount: {
         serializedName: "numExecutors",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SparkSessionCollection: coreClient.CompositeMapper = {
@@ -633,15 +633,15 @@ export const SparkSessionCollection: coreClient.CompositeMapper = {
         serializedName: "from",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       total: {
         serializedName: "total",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sessions: {
         serializedName: "sessions",
@@ -650,13 +650,13 @@ export const SparkSessionCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkSession"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SparkSession",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkSession: coreClient.CompositeMapper = {
@@ -668,70 +668,70 @@ export const SparkSession: coreClient.CompositeMapper = {
         serializedName: "livyInfo",
         type: {
           name: "Composite",
-          className: "SparkSessionState"
-        }
+          className: "SparkSessionState",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       workspaceName: {
         serializedName: "workspaceName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sparkPoolName: {
         serializedName: "sparkPoolName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitterName: {
         serializedName: "submitterName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitterId: {
         serializedName: "submitterId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       artifactId: {
         serializedName: "artifactId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       jobType: {
         serializedName: "jobType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       result: {
         serializedName: "result",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scheduler: {
         serializedName: "schedulerInfo",
         type: {
           name: "Composite",
-          className: "SparkScheduler"
-        }
+          className: "SparkScheduler",
+        },
       },
       plugin: {
         serializedName: "pluginInfo",
         type: {
           name: "Composite",
-          className: "SparkServicePlugin"
-        }
+          className: "SparkServicePlugin",
+        },
       },
       errors: {
         serializedName: "errorInfo",
@@ -740,45 +740,45 @@ export const SparkSession: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkServiceError"
-            }
-          }
-        }
+              className: "SparkServiceError",
+            },
+          },
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       id: {
         serializedName: "id",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       appId: {
         serializedName: "appId",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appInfo: {
         serializedName: "appInfo",
         nullable: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logLines: {
         serializedName: "log",
@@ -787,13 +787,13 @@ export const SparkSession: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkSessionState: coreClient.CompositeMapper = {
@@ -805,80 +805,80 @@ export const SparkSessionState: coreClient.CompositeMapper = {
         serializedName: "notStartedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       startingAt: {
         serializedName: "startingAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       idleAt: {
         serializedName: "idleAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       deadAt: {
         serializedName: "deadAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       shuttingDownAt: {
         serializedName: "shuttingDownAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       terminatedAt: {
         serializedName: "killedAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       recoveringAt: {
         serializedName: "recoveringAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       busyAt: {
         serializedName: "busyAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       errorAt: {
         serializedName: "errorAt",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       currentState: {
         serializedName: "currentState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       jobCreationRequest: {
         serializedName: "jobCreationRequest",
         type: {
           name: "Composite",
-          className: "SparkRequest"
-        }
-      }
-    }
-  }
+          className: "SparkRequest",
+        },
+      },
+    },
+  },
 };
 
 export const SparkSessionOptions: coreClient.CompositeMapper = {
@@ -890,33 +890,33 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       artifactId: {
         serializedName: "artifactId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       file: {
         serializedName: "file",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       className: {
         serializedName: "className",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       arguments: {
         serializedName: "args",
@@ -924,10 +924,10 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       jars: {
         serializedName: "jars",
@@ -935,10 +935,10 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       pythonFiles: {
         serializedName: "pyFiles",
@@ -946,10 +946,10 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       files: {
         serializedName: "files",
@@ -957,10 +957,10 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       archives: {
         serializedName: "archives",
@@ -968,50 +968,50 @@ export const SparkSessionOptions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       configuration: {
         serializedName: "conf",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       driverMemory: {
         serializedName: "driverMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       driverCores: {
         serializedName: "driverCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorMemory: {
         serializedName: "executorMemory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       executorCores: {
         serializedName: "executorCores",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       executorCount: {
         serializedName: "numExecutors",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SparkStatementCollection: coreClient.CompositeMapper = {
@@ -1023,8 +1023,8 @@ export const SparkStatementCollection: coreClient.CompositeMapper = {
         serializedName: "total_statements",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       statements: {
         serializedName: "statements",
@@ -1033,13 +1033,13 @@ export const SparkStatementCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkStatement"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SparkStatement",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkStatement: coreClient.CompositeMapper = {
@@ -1051,30 +1051,30 @@ export const SparkStatement: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       output: {
         serializedName: "output",
         type: {
           name: "Composite",
-          className: "SparkStatementOutput"
-        }
-      }
-    }
-  }
+          className: "SparkStatementOutput",
+        },
+      },
+    },
+  },
 };
 
 export const SparkStatementOutput: coreClient.CompositeMapper = {
@@ -1085,36 +1085,36 @@ export const SparkStatementOutput: coreClient.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       executionCount: {
         serializedName: "execution_count",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       data: {
         serializedName: "data",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       errorName: {
         serializedName: "ename",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorValue: {
         serializedName: "evalue",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       traceback: {
         serializedName: "traceback",
@@ -1123,13 +1123,13 @@ export const SparkStatementOutput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkStatementOptions: coreClient.CompositeMapper = {
@@ -1140,17 +1140,17 @@ export const SparkStatementOptions: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kind: {
         serializedName: "kind",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SparkStatementCancellationResult: coreClient.CompositeMapper = {
@@ -1161,9 +1161,9 @@ export const SparkStatementCancellationResult: coreClient.CompositeMapper = {
       message: {
         serializedName: "msg",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

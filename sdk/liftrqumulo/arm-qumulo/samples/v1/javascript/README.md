@@ -43,7 +43,7 @@ node fileSystemsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LIFTRQUMULO_SUBSCRIPTION_ID="<liftrqumulo subscription id>" LIFTRQUMULO_RESOURCE_GROUP="<liftrqumulo resource group>" node fileSystemsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env LIFTRQUMULO_SUBSCRIPTION_ID="<liftrqumulo subscription id>" LIFTRQUMULO_RESOURCE_GROUP="<liftrqumulo resource group>" node fileSystemsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -57,6 +57,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [filesystemslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v1/javascript/fileSystemsListBySubscriptionSample.js
 [filesystemsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v1/javascript/fileSystemsUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v1/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrqumulo/arm-qumulo/README.md

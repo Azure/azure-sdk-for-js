@@ -71,6 +71,10 @@
 # ServiceLabel: %Communication - Alpha IDs
 /sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
+# PRLabel: %Communication - Call Automation
+# ServiceLabel: %Communication - Call Automation
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @cochi2
+
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft
@@ -81,7 +85,7 @@
 
 # PRLabel: %Communication - Email
 # ServiceLabel: %Communication - Email
-/sdk/communication/communication-email/ @yogeshmo
+/sdk/communication/communication-email/ @yogeshmo @natekimball-msft @kagbakpem
 
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router
@@ -144,6 +148,10 @@
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
 /sdk/healthinsights/ @tomsft @koen-mertens
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas @alexathomases
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
@@ -276,7 +284,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
-# ServiceOwners: @lomagdal2
+# Service owner will be pranav-gupta-msft
 
 # PRLabel: %Operator Nexus - Network Cloud
 # ServiceLabel: %Operator Nexus - Network Cloud
@@ -309,6 +317,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # Managment API review files
 /sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
+# Cosmos API review files
+/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -400,6 +411,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
@@ -566,10 +580,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
 
-# ServiceLabel: %Health Deidentification
-# PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas
-
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 
@@ -581,6 +591,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/neonpostgres/arm-neonpostgres/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao
@@ -911,6 +924,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
@@ -1419,7 +1435,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-#/<NotInRepo>/          @wonner @zesluo
+#/<NotInRepo>/          @zesluo
 
 # ServiceLabel: %Service Attention %Tables
 #/<NotInRepo>/          @klaaslanghout

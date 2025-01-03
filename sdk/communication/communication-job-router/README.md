@@ -102,7 +102,7 @@ const distributionPolicy = await jobRouterAdministrationClient.createDistributio
       minConcurrentOffers: 1,
       maxConcurrentOffers: 3,
     },
-  }
+  },
 );
 ```
 
@@ -113,23 +113,30 @@ This policy classifies jobs upon creation.
 - Refer to our [rules documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript#rule-engine-types) to better understand prioritization rules.
 
 ```js
-const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy("default-classification-policy-id", {
-  name: "Default Classification Policy",
-  fallbackQueueId: salesQueueResponse.id,
-  queueSelectors: [{
-    kind: "static",
-    labelSelector: { key: "department", labelOperator: "equal", value: "xbox" }
-  }],
-  workerSelectors: [{
-    kind: "static",
-    labelSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
-  }],
-  prioritizationRule: {
-    kind: "expression-rule",
-    language: "powerFx",
-    expression: "If(job.department = \"xbox\", 2, 1)"
-  }
-});
+const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy(
+  "default-classification-policy-id",
+  {
+    name: "Default Classification Policy",
+    fallbackQueueId: salesQueueResponse.id,
+    queueSelectors: [
+      {
+        kind: "static",
+        labelSelector: { key: "department", labelOperator: "equal", value: "xbox" },
+      },
+    ],
+    workerSelectors: [
+      {
+        kind: "static",
+        labelSelector: { key: "english", labelOperator: "greaterThan", value: 5 },
+      },
+    ],
+    prioritizationRule: {
+      kind: "expression-rule",
+      language: "powerFx",
+      expression: 'If(job.department = "xbox", 2, 1)',
+    },
+  },
+);
 ```
 
 ### Create a Queue
@@ -154,18 +161,18 @@ These workers are assigned to our previously created "Sales" queue and have some
 - refer to our [labels documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
 
 ```js
-  // Create worker "Alice".
-  const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-  const workerAliceResponse = await jobRouterClient.createWorker(workerAliceId, {
-    totalCapacity: 120,
-    labels: {
-      Xbox: 5,
-      german: 4,
-      name: "Alice"
-    },
-    queueAssignments: { [salesQueueResponse.id]: {} },
-    availableForOffers: true
-  });
+// Create worker "Alice".
+const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
+const workerAliceResponse = await jobRouterClient.createWorker(workerAliceId, {
+  totalCapacity: 120,
+  labels: {
+    Xbox: 5,
+    german: 4,
+    name: "Alice",
+  },
+  queueAssignments: { [salesQueueResponse.id]: {} },
+  availableForOffers: true,
+});
 
 // Create worker "Bob".
 const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
@@ -174,12 +181,11 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
   labels: {
     xbox: 5,
     english: 3,
-    name: "Bob"
+    name: "Bob",
   },
   queueAssignments: { [salesQueueResponse.id]: {} },
-  availableForOffers: true
+  availableForOffers: true,
 });
-
 ```
 
 ### Job Lifecycle
@@ -218,7 +224,7 @@ const classificationJob = await jobRouterClient.createJob("classification-job-id
 
 ## Events
 
-Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://docs.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
+Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://learn.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
 
 In the previous example:
 
@@ -329,7 +335,7 @@ If you'd like to contribute to this SDK, please read the [contributing guide](ht
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice

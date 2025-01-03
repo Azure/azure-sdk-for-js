@@ -168,7 +168,7 @@ node armTemplatesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node armTemplatesGetSample.js
+npx dev-tool run vendored cross-env  node armTemplatesGetSample.js
 ```
 
 ## Next Steps
@@ -307,6 +307,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/javascript/virtualNetworksGetSample.js
 [virtualnetworkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/javascript/virtualNetworksListSample.js
 [virtualnetworksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devtestlabs/arm-devtestlabs/samples/v4/javascript/virtualNetworksUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devtestlabs?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devtestlabs?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devtestlabs/arm-devtestlabs/README.md

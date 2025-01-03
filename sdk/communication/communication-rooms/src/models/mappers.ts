@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as RestModel from "../generated/src/models";
+import type * as RestModel from "../generated/src/models/index.js";
 import type {
   CommunicationRoom,
   ParticipantRole,
   RoomParticipant,
   RoomParticipantPatch,
-} from "./models";
+} from "./models.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind, getIdentifierRawId } from "@azure/communication-common";
 import type {
   ParticipantProperties,
   RoomParticipant as RESTRoomParticipant,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import { createIdentifierFromRawId } from "@azure/communication-common";
 
 const defaultRole: ParticipantRole = "Attendee";

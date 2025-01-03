@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -20,10 +20,7 @@ describe("extendedZones test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: EdgeZonesClient;
-  let location: string;
-  let resourceGroup: string;
   let resourcename: string;
-  let resourcename1: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -32,10 +29,7 @@ describe("extendedZones test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new EdgeZonesClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
     resourcename = "losangeles";
-    resourcename1 = "losangeless";
   });
 
   afterEach(async function () {
@@ -61,7 +55,7 @@ describe("extendedZones test", () => {
   });
 
   it("extendedZones unregister test", async function () {
-    const res = await client.extendedZones.unregister(resourcename);
+    await client.extendedZones.unregister(resourcename);
   });
 
   it("operations list test", async function () {

@@ -109,7 +109,7 @@ node dist/administratorsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env POSTGRESQL_SUBSCRIPTION_ID="<postgresql subscription id>" POSTGRESQL_RESOURCE_GROUP="<postgresql resource group>" node dist/administratorsCreateSample.js
+npx dev-tool run vendored cross-env POSTGRESQL_SUBSCRIPTION_ID="<postgresql subscription id>" POSTGRESQL_RESOURCE_GROUP="<postgresql resource group>" node dist/administratorsCreateSample.js
 ```
 
 ## Next Steps
@@ -177,7 +177,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualendpointslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8-beta/typescript/src/virtualEndpointsListByServerSample.ts
 [virtualendpointsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8-beta/typescript/src/virtualEndpointsUpdateSample.ts
 [virtualnetworksubnetusageexecutesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8-beta/typescript/src/virtualNetworkSubnetUsageExecuteSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

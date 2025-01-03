@@ -55,7 +55,7 @@ node moveCollectionsBulkRemoveSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RESOURCEMOVER_SUBSCRIPTION_ID="<resourcemover subscription id>" RESOURCEMOVER_RESOURCE_GROUP="<resourcemover resource group>" node moveCollectionsBulkRemoveSample.js
+npx dev-tool run vendored cross-env RESOURCEMOVER_SUBSCRIPTION_ID="<resourcemover subscription id>" RESOURCEMOVER_RESOURCE_GROUP="<resourcemover resource group>" node moveCollectionsBulkRemoveSample.js
 ```
 
 ## Next Steps
@@ -81,6 +81,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [moveresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/javascript/moveResourcesListSample.js
 [operationsdiscoverygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/javascript/operationsDiscoveryGetSample.js
 [unresolveddependenciesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/javascript/unresolvedDependenciesGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourcemover?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcemover?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcemover/arm-resourcemover/README.md

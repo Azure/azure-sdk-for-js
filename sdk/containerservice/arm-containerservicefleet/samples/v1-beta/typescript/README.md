@@ -76,7 +76,7 @@ node dist/autoUpgradeProfilesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTAINERSERVICE_SUBSCRIPTION_ID="<containerservice subscription id>" CONTAINERSERVICE_RESOURCE_GROUP="<containerservice resource group>" node dist/autoUpgradeProfilesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env CONTAINERSERVICE_SUBSCRIPTION_ID="<containerservice subscription id>" CONTAINERSERVICE_RESOURCE_GROUP="<containerservice resource group>" node dist/autoUpgradeProfilesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -111,7 +111,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updaterunsskipsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/samples/v1-beta/typescript/src/updateRunsSkipSample.ts
 [updaterunsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/samples/v1-beta/typescript/src/updateRunsStartSample.ts
 [updaterunsstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/samples/v1-beta/typescript/src/updateRunsStopSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservicefleet/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

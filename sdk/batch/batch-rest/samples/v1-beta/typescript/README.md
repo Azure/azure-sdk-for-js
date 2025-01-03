@@ -49,7 +49,7 @@ node dist/quick-start.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env BATCH_ACCOUNT_ENDPOINT="<batch account endpoint>" node dist/quick-start.js
+npx dev-tool run vendored cross-env BATCH_ACCOUNT_ENDPOINT="<batch account endpoint>" node dist/quick-start.js
 ```
 
 ## Next Steps
@@ -57,7 +57,7 @@ npx cross-env BATCH_ACCOUNT_ENDPOINT="<batch account endpoint>" node dist/quick-
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [quick-start]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch-rest/samples/v1-beta/typescript/src/quick-start.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/batch
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/batch
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

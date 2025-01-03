@@ -35,8 +35,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -72,12 +70,11 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "concurrently": "^8.2.0",
-    "cross-env": "^7.0.3",
     "eslint": "^9.9.0",
     "express": "^4.19.2",
     "playwright": "^1.41.2",
     "tslib": "^2.6.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.0.5"
   },
   "tshy": {
@@ -93,7 +90,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import express from "express";
-import { port, waitBetweenEventsInMS } from "./config.mts";
-import { logger } from "./logger.mts";
-import { sendEvents, sendHeaders } from "./responses.mts";
-import { Server } from "http";
+import { port, waitBetweenEventsInMS } from "./config.mjs";
+import { logger } from "./logger.mjs";
+import { sendEvents, sendHeaders } from "./responses.mjs";
+import type { Server } from "http";
 
 async function run(): Promise<Server> {
   const app = express();
@@ -24,7 +24,6 @@ async function run(): Promise<Server> {
     const eventCount = parseInt(req.params.eventCount);
     await sendEvents(res, eventCount, waitBetweenEventsInMS);
     res.socket?.destroy();
-    //res.end();
   });
 
   app.get("/events/hang", async function (_, res) {
@@ -41,7 +40,7 @@ async function run(): Promise<Server> {
     res.end("\n");
   });
 
-  app.get("/events/extra-newline/hang", async function (req, res) {
+  app.get("/events/extra-newline/hang", async function (_req, res) {
     logger.info(`Got /events/extra-newline/hang`);
     sendHeaders(res);
     await sendEvents(res, 0, waitBetweenEventsInMS);
@@ -56,7 +55,7 @@ async function run(): Promise<Server> {
     res.end(`data: truly done this time :)\n\n`);
   });
 
-  app.get("/events/extra-event/hang", async function (req, res) {
+  app.get("/events/extra-event/hang", async function (_req, res) {
     logger.info(`Got /events/hang/extra-event`);
     sendHeaders(res);
     await sendEvents(res, 0, waitBetweenEventsInMS);
@@ -69,7 +68,7 @@ async function run(): Promise<Server> {
 export default async function () {
   const server = await run();
   logger.info(`Listening on port ${port}`);
-  return function () {
+  return function (): void {
     server.close();
   };
 }

@@ -186,7 +186,7 @@ node dist/migrationRecoveryPointsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID="<recoveryservicessiterecovery subscription id>" RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP="<recoveryservicessiterecovery resource group>" node dist/migrationRecoveryPointsGetSample.js
+npx dev-tool run vendored cross-env RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID="<recoveryservicessiterecovery subscription id>" RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP="<recoveryservicessiterecovery resource group>" node dist/migrationRecoveryPointsGetSample.js
 ```
 
 ## Next Steps
@@ -331,7 +331,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [replicationvcentersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/typescript/src/replicationvCentersUpdateSample.ts
 [supportedoperatingsystemsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/typescript/src/supportedOperatingSystemsGetSample.ts
 [targetcomputesizeslistbyreplicationprotecteditemssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/typescript/src/targetComputeSizesListByReplicationProtectedItemsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

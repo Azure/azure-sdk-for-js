@@ -112,7 +112,7 @@ node analyticsItemsDeleteSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node analyticsItemsDeleteSample.js
+npx dev-tool run vendored cross-env  node analyticsItemsDeleteSample.js
 ```
 
 ## Next Steps
@@ -195,6 +195,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workbooksrevisiongetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksRevisionGetSample.js
 [workbooksrevisionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksRevisionsListSample.js
 [workbooksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appinsights?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appinsights?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/applicationinsights/arm-appinsights/README.md

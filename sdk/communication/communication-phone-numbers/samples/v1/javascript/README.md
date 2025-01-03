@@ -55,7 +55,7 @@ node getPurchasedPhoneNumber.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node getPurchasedPhoneNumber.js
+npx dev-tool run vendored cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node getPurchasedPhoneNumber.js
 ```
 
 ## Next Steps
@@ -69,7 +69,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/javascript/updatePhoneNumberCapabilities.js
 [getsiproutingconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/javascript/siprouting/getSipRoutingConfiguration.js
 [managesiproutingconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/samples/v1/javascript/siprouting/manageSipRoutingConfiguration.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-phone-numbers/README.md

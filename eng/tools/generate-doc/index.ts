@@ -8,17 +8,41 @@ import { loadTheme } from "./theme/theme.js";
 async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
   const oldCwd = process.cwd();
   process.chdir(cwd);
+  const packageJsonPath = path.join(cwd, "package.json");
+  const content = await readFile(packageJsonPath, "utf-8");
+  const packageJson = JSON.parse(content);
+  let entryPoints = ["src/index.ts"];
+  const exports = packageJson["exports"];
+  if (exports) {
+    entryPoints = [];
+    for (const [key, value] of Object.entries(exports)) {
+      if (key === "./package.json") {
+        continue;
+      }
+      const sourcePath = (value as Record<string, any>)["import"]?.["default"];
+      if (sourcePath) {
+        entryPoints.push(sourcePath.replace("./dist/esm", "src").replace(".js", ".ts"));
+      }
+    }
+  }
+  console.log(`entrypoints: ${JSON.stringify(entryPoints)}`);
 
-  const app = await TypeDocApplication.bootstrap({
-    entryPoints: ["src/index.ts"],
-    excludeInternal: true,
-    excludePrivate: true,
-    skipErrorChecking: true,
-    theme: "azureSdk",
-  }, [
-    new TSConfigReader(),
-    new TypeDocReader(),
-  ]);
+  const srcTsconfigPath = path.join(cwd, "tsconfig.src.json");
+  const tsconfig = (await fileExists(srcTsconfigPath))
+    ? srcTsconfigPath
+    : path.join(cwd, "tsconfig.json");
+
+  const app = await TypeDocApplication.bootstrap(
+    {
+      entryPoints,
+      excludeInternal: true,
+      excludePrivate: true,
+      skipErrorChecking: true,
+      theme: "azureSdk",
+      tsconfig,
+    },
+    [new TSConfigReader(), new TypeDocReader()],
+  );
 
   loadTheme(app);
 

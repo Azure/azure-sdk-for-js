@@ -9,7 +9,7 @@
 import {
   KeysListByAutomationAccountOptionalParams,
   KeysListByAutomationAccountResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Keys. */
 export interface Keys {

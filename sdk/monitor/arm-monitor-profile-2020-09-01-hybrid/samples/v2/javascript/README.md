@@ -46,7 +46,7 @@ node diagnosticSettingsCategoryGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node diagnosticSettingsCategoryGetSample.js
+npx dev-tool run vendored cross-env  node diagnosticSettingsCategoryGetSample.js
 ```
 
 ## Next Steps
@@ -63,6 +63,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricdefinitionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/samples/v2/javascript/metricDefinitionsListSample.js
 [metricslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/samples/v2/javascript/metricsListSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/samples/v2/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-monitor-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-monitor-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/README.md
