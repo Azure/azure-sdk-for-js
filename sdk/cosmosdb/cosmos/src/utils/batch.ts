@@ -3,7 +3,7 @@
 
 import type { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
-import type { CosmosDiagnostics, RequestOptions } from "..";
+import type { CosmosDiagnostics, DiagnosticNodeInternal, RequestOptions, StatusCode } from "..";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
@@ -15,6 +15,7 @@ import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
 import { randomUUID } from "@azure/core-util";
+import { BulkResponse, ItemBulkOperation } from "../bulk";
 
 export type Operation =
   | CreateOperation
@@ -301,4 +302,47 @@ export function decorateBatchOperation(
     }
   }
   return operation as Operation;
+}
+
+export function isSuccessStatusCode(statusCode: StatusCode): boolean {
+  return statusCode >= 200 && statusCode <= 299;
+}
+
+export type ExecuteCallback = (
+  operations: ItemBulkOperation[],
+  options: RequestOptions,
+  bulkOptions: BulkOptions,
+  diagnosticNode: DiagnosticNodeInternal
+) => Promise<BulkResponse>;
+export type RetryCallback = (
+  operation: ItemBulkOperation,
+  diagnosticNode: DiagnosticNodeInternal,
+  options: RequestOptions,
+  bulkOptions: BulkOptions,
+  orderedResponse: OperationResponse[]
+) => Promise<void>;
+
+export class TaskCompletionSource<T> {
+  private readonly promise: Promise<T>;
+  private resolveFn!: (value: T) => void;
+  private rejectFn!: (reason?: any) => void;
+
+  constructor() {
+    this.promise = new Promise<T>((resolve, reject) => {
+      this.resolveFn = resolve;
+      this.rejectFn = reject;
+    });
+  }
+
+  public get task(): Promise<T> {
+    return this.promise;
+  }
+
+  public setResult(value: T): void {
+    this.resolveFn(value);
+  }
+
+  public setException(error: Error): void {
+    this.rejectFn(error);
+  }
 }
