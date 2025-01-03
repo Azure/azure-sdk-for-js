@@ -20,15 +20,15 @@ import {
   OrganizationImpl,
   ValidationsImpl,
   AccessImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   MarketplaceAgreements,
   OrganizationOperations,
   Organization,
   Validations,
   Access,
-} from "./operationsInterfaces";
-import { ConfluentManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ConfluentManagementClientOptionalParams } from "./models/index.js";
 
 export class ConfluentManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -14,9 +14,7 @@ import {
   AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to API to update certain properties of the datastore resource.
