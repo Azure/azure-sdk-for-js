@@ -112,6 +112,7 @@ describe("Chaos test", () => {
         }
       }
     );
+    assert.equal(res.name, targetName);
   });
 
   it("experiment create test", async function () {
@@ -195,7 +196,7 @@ describe("Chaos test", () => {
 
   it("experiment delete test", async function () {
     const resArray = new Array();
-    const res = await client.experiments.beginDeleteAndWait(resourceGroup, experimentName, testPollingOptions)
+    await client.experiments.beginDeleteAndWait(resourceGroup, experimentName, testPollingOptions)
     for await (let item of client.experiments.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -204,7 +205,7 @@ describe("Chaos test", () => {
 
   it("target delete test", async function () {
     const resArray = new Array();
-    const res = await client.targets.delete(resourceGroup,
+    await client.targets.delete(resourceGroup,
       parentProviderNamespace,
       parentResourceType,
       cosmosdbName,
@@ -220,7 +221,7 @@ describe("Chaos test", () => {
 
   it("chaos dependence delete test", async function () {
     const resArray = new Array();
-    const res = await cos_client.databaseAccounts.beginDeleteAndWait(resourceGroup, cosmosdbName, testPollingOptions)
+    await cos_client.databaseAccounts.beginDeleteAndWait(resourceGroup, cosmosdbName, testPollingOptions)
     for await (let item of cos_client.databaseAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
