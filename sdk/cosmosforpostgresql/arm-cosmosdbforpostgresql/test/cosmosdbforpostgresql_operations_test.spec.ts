@@ -109,5 +109,5 @@ describe("CosmosDBForPostgreSQL test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  }).timeout(3600000);
+  });
 })
