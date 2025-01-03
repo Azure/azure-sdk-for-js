@@ -39,7 +39,6 @@ describe("Consumption test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConsumptionManagementClient;
-  let location: string;
   let resourceGroup: string;
   let budgetName: string;
   let vmName: string;
@@ -52,7 +51,6 @@ describe("Consumption test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ConsumptionManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
     budgetName = "mybudgetxxxy";
     vmName = "myvmxxx";

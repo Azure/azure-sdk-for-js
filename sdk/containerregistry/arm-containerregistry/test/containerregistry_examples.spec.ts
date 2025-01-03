@@ -42,8 +42,8 @@ describe("ContainerRegistry test", () => {
   let location: string;
   let resourceGroup: string;
   let registryName: string;
-  let importPipelineName: string;
-  let exportPipelineName: string;
+  // let importPipelineName: string;
+  // let exportPipelineName: string;
   let taskName: string
 
   beforeEach(async function (ctx) {
@@ -56,8 +56,8 @@ describe("ContainerRegistry test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     registryName = "myregistryxxxyy";
-    importPipelineName = "myimportpipelinexxx";
-    exportPipelineName = 'myexportpipelinexxx';
+    // importPipelineName = "myimportpipelinexxx";
+    // exportPipelineName = 'myexportpipelinexxx';
     taskName = "mytaskxxx";
   });
 

@@ -111,7 +111,7 @@ describe("ContainerInstance test", () => {
       ]
     }, testPollingOptions)
     assert.equal(res.name, containerGroupName);
-  }).timeout(3600000);
+  });
 
   it("containerGroups get test", async function () {
     const res = await client.containerGroups.get(resourceGroup, containerGroupName);
