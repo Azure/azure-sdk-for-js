@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
  */
 async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -61,7 +61,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Validate_Only.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_Validate_Only.json
  */
 async function createPreMigrationValidation() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -100,7 +100,7 @@ async function createPreMigrationValidation() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Other_Users.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_Other_Users.json
  */
 async function migrationsCreateByPassingUserNames() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -139,7 +139,7 @@ async function migrationsCreateByPassingUserNames() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
  */
 async function migrationsCreateWithPrivateEndpoint() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -179,7 +179,7 @@ async function migrationsCreateWithPrivateEndpoint() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Roles.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_Roles.json
  */
 async function migrationsCreateWithRoles() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -218,7 +218,7 @@ async function migrationsCreateWithRoles() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create.json
  */
 async function migrationsCreate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

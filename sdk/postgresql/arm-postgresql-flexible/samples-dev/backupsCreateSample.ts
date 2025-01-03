@@ -15,35 +15,34 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List all the server log files in a given server.
+ * This sample demonstrates how to Create a specific backup for PostgreSQL flexible server.
  *
- * @summary List all the server log files in a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LogFilesListByServer.json
+ * @summary Create a specific backup for PostgreSQL flexible server.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/BackupCreate.json
  */
-async function listAllServerLogFilesForAServer() {
+async function createANewBackupForAFlexibleServer() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "postgresqltestsvc1";
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+  const serverName = "postgresqltestserver";
+  const backupName = "backup_20210615T160516";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId,
   );
-  const resArray = new Array();
-  for await (let item of client.logFiles.listByServer(
+  const result = await client.backups.beginCreateAndWait(
     resourceGroupName,
     serverName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    backupName,
+  );
+  console.log(result);
 }
 
 async function main() {
-  listAllServerLogFilesForAServer();
+  createANewBackupForAFlexibleServer();
 }
 
 main().catch(console.error);

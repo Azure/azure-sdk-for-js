@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Restarts a server.
  *
  * @summary Restarts a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerRestart.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerRestart.json
  */
 async function serverRestart() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function serverRestart() {
  * This sample demonstrates how to Restarts a server.
  *
  * @summary Restarts a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerRestartWithFailover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerRestartWithFailover.json
  */
 async function serverRestartWithFailover() {
   const subscriptionId =

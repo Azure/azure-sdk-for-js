@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Start the Long Term Retention Backup operation
  *
  * @summary Start the Long Term Retention Backup operation
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionBackup.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/LongTermRetentionBackup.json
  */
 async function sampleExecuteBackup() {
   const subscriptionId =

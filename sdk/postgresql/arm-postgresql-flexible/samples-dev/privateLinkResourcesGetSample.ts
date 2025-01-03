@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a private link resource for PostgreSQL server.
  *
  * @summary Gets a private link resource for PostgreSQL server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PrivateLinkResourcesGet.json
  */
 async function getsAPrivateLinkResourceForPostgreSql() {
   const subscriptionId =

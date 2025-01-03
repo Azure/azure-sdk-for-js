@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the firewall rules in a given PostgreSQL server.
  *
  * @summary List all the firewall rules in a given PostgreSQL server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/FirewallRuleListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/FirewallRuleListByServer.json
  */
 async function firewallRuleList() {
   const subscriptionId =

@@ -24,7 +24,6 @@ export * from "./getPrivateDnsZoneSuffix";
 export * from "./privateEndpointConnections";
 export * from "./privateEndpointConnectionOperations";
 export * from "./privateLinkResources";
-export * from "./quotaUsages";
 export * from "./replicas";
 export * from "./logFiles";
 export * from "./serverThreatProtectionSettings";

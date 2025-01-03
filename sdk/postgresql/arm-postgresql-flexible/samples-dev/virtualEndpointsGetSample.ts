@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a virtual endpoint.
  *
  * @summary Gets information about a virtual endpoint.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualEndpointsGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointsGet.json
  */
 async function getAVirtualEndpoint() {
   const subscriptionId =

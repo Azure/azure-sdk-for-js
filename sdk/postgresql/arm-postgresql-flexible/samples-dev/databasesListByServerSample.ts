@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the databases in a given server.
  *
  * @summary List all the databases in a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/DatabasesListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabasesListByServer.json
  */
 async function listDatabasesInAServer() {
   const subscriptionId =

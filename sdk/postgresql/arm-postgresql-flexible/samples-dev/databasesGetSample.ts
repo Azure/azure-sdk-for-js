@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a database.
  *
  * @summary Gets information about a database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/DatabaseGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabaseGet.json
  */
 async function getADatabase() {
   const subscriptionId =

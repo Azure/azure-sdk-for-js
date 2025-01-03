@@ -15,35 +15,34 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List all the configurations in a given server.
+ * This sample demonstrates how to Deletes a specific backup.
  *
- * @summary List all the configurations in a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ConfigurationListByServer.json
+ * @summary Deletes a specific backup.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/BackupDelete.json
  */
-async function configurationList() {
+async function deleteASpecificBackup() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "testserver";
+  const backupName = "backup_20210615T160516";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId,
   );
-  const resArray = new Array();
-  for await (let item of client.configurations.listByServer(
+  const result = await client.backups.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    backupName,
+  );
+  console.log(result);
 }
 
 async function main() {
-  configurationList();
+  deleteASpecificBackup();
 }
 
 main().catch(console.error);

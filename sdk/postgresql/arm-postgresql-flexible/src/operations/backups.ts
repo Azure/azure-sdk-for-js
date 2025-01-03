@@ -14,10 +14,20 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   ServerBackup,
   BackupsListByServerNextOptionalParams,
   BackupsListByServerOptionalParams,
   BackupsListByServerResponse,
+  BackupsCreateOptionalParams,
+  BackupsCreateResponse,
+  BackupsDeleteOptionalParams,
+  BackupsDeleteResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
   BackupsListByServerNextResponse,
@@ -117,6 +127,196 @@ export class BackupsImpl implements Backups {
   }
 
   /**
+   * Create a specific backup for PostgreSQL flexible server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param backupName The name of the backup.
+   * @param options The options parameters.
+   */
+  async beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsCreateResponse>,
+      BackupsCreateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BackupsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, backupName, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BackupsCreateResponse,
+      OperationState<BackupsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a specific backup for PostgreSQL flexible server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param backupName The name of the backup.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsCreateOptionalParams,
+  ): Promise<BackupsCreateResponse> {
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      serverName,
+      backupName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes a specific backup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param backupName The name of the backup.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsDeleteResponse>,
+      BackupsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BackupsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, backupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BackupsDeleteResponse,
+      OperationState<BackupsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a specific backup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param backupName The name of the backup.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<BackupsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serverName,
+      backupName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get specific backup for a given server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
@@ -174,6 +374,68 @@ export class BackupsImpl implements Backups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerBackup,
+    },
+    201: {
+      bodyMapper: Mappers.ServerBackup,
+    },
+    202: {
+      bodyMapper: Mappers.ServerBackup,
+    },
+    204: {
+      bodyMapper: Mappers.ServerBackup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.backupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.BackupsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BackupsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BackupsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BackupsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.backupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
   httpMethod: "GET",
