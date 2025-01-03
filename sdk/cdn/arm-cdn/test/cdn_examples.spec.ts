@@ -121,6 +121,8 @@ describe("CDN test", () => {
   });
 
   it("profiles update test", async function () {
+    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
+    assert.equal(res.name, profileName)
   });
 
   it("endpoints list test", async function () {
@@ -151,6 +153,7 @@ describe("CDN test", () => {
   });
 
   it("endpoints delete test", async function () {
+    await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
       resArray.push(item);
@@ -159,6 +162,7 @@ describe("CDN test", () => {
   });
 
   it("profiles delete test", async function () {
+    await client.profiles.beginDeleteAndWait(resourceGroup, profileName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

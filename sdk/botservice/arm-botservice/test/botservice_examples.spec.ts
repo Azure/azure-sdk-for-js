@@ -36,9 +36,6 @@ describe("Botservice test", () => {
   let recorder: Recorder;
   let client: AzureBotService;
   let subscriptionId: string;
-  let location: string;
-  let resourceGroup: string;
-  let botresourceName: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -47,9 +44,6 @@ describe("Botservice test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureBotService(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "global";
-    resourceGroup = "myjstest";
-    botresourceName = "mybotxxx";
   });
 
   afterEach(async function () {
