@@ -39,9 +39,6 @@ describe("Confluent test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConfluentManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,10 +47,6 @@ describe("Confluent test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ConfluentManagementClient(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {

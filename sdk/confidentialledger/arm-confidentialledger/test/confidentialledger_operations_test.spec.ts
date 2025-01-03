@@ -36,9 +36,6 @@ describe("ConfidentialLedger test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConfidentialLedgerClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -47,9 +44,6 @@ describe("ConfidentialLedger test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ConfidentialLedgerClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
 
   });
 
