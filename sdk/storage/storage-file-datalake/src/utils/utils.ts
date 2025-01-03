@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as util from "node:util";
+import { createReadStream } from "node:fs";
+import { stat } from "node:fs/promises";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -109,6 +109,6 @@ export async function streamToBuffer2(
  *
  * Promisified version of fs.stat().
  */
-export const fsStat = util.promisify(fs.stat);
+export const fsStat = stat;
 
-export const fsCreateReadStream = fs.createReadStream;
+export const fsCreateReadStream = createReadStream;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
-
 import type {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,

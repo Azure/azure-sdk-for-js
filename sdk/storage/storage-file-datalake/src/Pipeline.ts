@@ -33,10 +33,16 @@ import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
+import {
+  StorageBrowserPolicyFactory,
+  StorageRetryPolicyFactory,
+  storageBrowserPolicy,
+  storageRetryPolicy,
+  storageCorrectContentLengthPolicy,
+  storageSharedKeyCredentialPolicy,
+} from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import {
@@ -45,12 +51,7 @@ import {
   StorageDataLakeLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache.js";
-import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2.js";
-import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2.js";
-import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js";
-import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
-
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,
@@ -58,7 +59,6 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy.js";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// In browser, during webpack or browserify bundling, this module will be replaced by 'events'
-// https://github.com/Gozala/events
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 
 /**
  * Operation is an async function to be executed and managed by Batch.

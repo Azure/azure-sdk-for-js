@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 export * from "./DataLakeServiceClient.js";
 export * from "./DataLakeFileSystemClient.js";
 export * from "./clients.js";
@@ -56,7 +57,6 @@ export {
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
 export { CommonOptions } from "./StorageClient.js";
-
 export { SasIPRange } from "./sas/SasIPRange.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
