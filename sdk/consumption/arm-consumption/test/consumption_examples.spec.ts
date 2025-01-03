@@ -121,5 +121,6 @@ describe("Consumption test", () => {
   });
 
   it("budgets delete test", async function () {
+    await client.budgets.delete(scope, budgetName);
   });
 });

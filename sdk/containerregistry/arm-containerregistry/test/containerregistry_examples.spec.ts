@@ -242,6 +242,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks delete test", async function () {
+    await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
@@ -250,5 +251,6 @@ describe("ContainerRegistry test", () => {
   });
 
   it("registries delete test", async function () {
+    await client.registries.beginDeleteAndWait(resourceGroup, registryName, testPollingOptions);
   });
 });
