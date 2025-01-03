@@ -42,7 +42,7 @@ export class BulkStreamer {
         this.runDispatchTimer();
     }
 
-    async add(operation: ItemBulkOperation): Promise<void> {
+    add(operation: ItemBulkOperation): void {
         let toDispatch: BulkBatcher;
         this.lock.take(() => {
             try {
