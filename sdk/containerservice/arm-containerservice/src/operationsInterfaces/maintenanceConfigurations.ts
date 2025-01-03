@@ -15,7 +15,7 @@ import {
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateResponse,
   MaintenanceConfigurationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MaintenanceConfigurations. */

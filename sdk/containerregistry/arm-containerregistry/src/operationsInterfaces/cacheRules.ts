@@ -20,7 +20,7 @@ import {
   CacheRuleUpdateParameters,
   CacheRulesUpdateOptionalParams,
   CacheRulesUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CacheRules. */

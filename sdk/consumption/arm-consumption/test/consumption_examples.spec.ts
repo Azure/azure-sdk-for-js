@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ConsumptionManagementClient } from "../src/consumptionManagementClient";
+import { ConsumptionManagementClient } from "../src/consumptionManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -41,20 +39,18 @@ describe("Consumption test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConsumptionManagementClient;
-  let location: string;
   let resourceGroup: string;
   let budgetName: string;
   let vmName: string;
   let scope: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ConsumptionManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
     budgetName = "mybudgetxxxy";
     vmName = "myvmxxx";
@@ -123,6 +119,6 @@ describe("Consumption test", () => {
   });
 
   it("budgets delete test", async function () {
-    const res = await client.budgets.delete(scope, budgetName);
+    await client.budgets.delete(scope, budgetName);
   });
 });
