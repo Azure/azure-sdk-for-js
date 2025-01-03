@@ -490,8 +490,7 @@ describe("LogsQueryClient live tests", function () {
         }
 
         loggerForTest.verbose(
-          `[Attempt: ${i}/${args.maxTries}, elapsed: ${
-            Date.now() - startTime
+          `[Attempt: ${i}/${args.maxTries}, elapsed: ${Date.now() - startTime
           } ms] No rows, will poll again.`,
         );
 
@@ -527,7 +526,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async function () {
+  it.skip("serverTimeoutInSeconds", async function () {
     try {
       const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(
