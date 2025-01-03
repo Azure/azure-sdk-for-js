@@ -159,6 +159,7 @@ export class OrderByDocumentProducerComparator {
 
   private getOrderByItems(res: any): any {
     // TODO: any res?
+    console.log("getOrderByItems", res);
     return res["orderByItems"];
   }
 }
