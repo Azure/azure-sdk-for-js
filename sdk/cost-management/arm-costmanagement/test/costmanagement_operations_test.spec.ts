@@ -39,9 +39,6 @@ describe("CostManagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CostManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,10 +47,6 @@ describe("CostManagement test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new CostManagementClient(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
