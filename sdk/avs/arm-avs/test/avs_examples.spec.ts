@@ -81,7 +81,7 @@ describe("avs test", () => {
       testPollingOptions
     );
     assert.equal(res.name, privateCloudName);
-  }).timeout(36000000);
+  });
 
   it.skip("privateClouds get test", async function () {
     const res = await client.privateClouds.get(resourceGroup, privateCloudName);

@@ -51,7 +51,7 @@ describe("Databricks test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureDatabricksManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "westus";
     resourceGroup = "myjstest";
     resourceGroup2 = "myjstest2";
     workSpaceName = "myworkspacexx";
@@ -64,7 +64,7 @@ describe("Databricks test", () => {
   it("workspaces create test", async function () {
     const res = await client.workspaces.beginCreateOrUpdateAndWait(resourceGroup, workSpaceName, {
       managedResourceGroupId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup2,
-      location: "westus",
+      location,
       sku: {
         name: "Standard"
       }
