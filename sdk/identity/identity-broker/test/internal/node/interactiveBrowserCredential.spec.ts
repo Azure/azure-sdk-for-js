@@ -3,7 +3,7 @@
 import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
-import type { Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
@@ -16,7 +16,8 @@ describe("InteractiveBrowserCredential (internal)", function () {
   let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenInteractive");
   });
 
