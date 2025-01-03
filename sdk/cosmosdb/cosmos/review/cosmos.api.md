@@ -562,6 +562,9 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkTimeoutInMs: number;
+    BulkMaxDegreeOfConcurrency: number;
     Quota: {
         CollectionSize: string;
     };
