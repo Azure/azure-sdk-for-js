@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityPolicy, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new security policy within the specified profile.

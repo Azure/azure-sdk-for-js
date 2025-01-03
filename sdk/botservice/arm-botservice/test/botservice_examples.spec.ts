@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureBotService } from "../src/azureBotService";
+import { AzureBotService } from "../src/azureBotService.js";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -38,20 +36,14 @@ describe("Botservice test", () => {
   let recorder: Recorder;
   let client: AzureBotService;
   let subscriptionId: string;
-  let location: string;
-  let resourceGroup: string;
-  let botresourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureBotService(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "global";
-    resourceGroup = "myjstest";
-    botresourceName = "mybotxxx";
   });
 
   afterEach(async function () {
