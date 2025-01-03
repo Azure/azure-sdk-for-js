@@ -201,6 +201,24 @@ export type ApiResponseFormat = string;
 export type ApiResponseFormatOutput = string;
 
 // @public
+export interface ApplicationInsightsConfiguration extends InputDataParent {
+    connectionString?: string;
+    query: string;
+    resourceId: string;
+    serviceName: string;
+}
+
+// @public
+export interface ApplicationInsightsConfigurationOutput extends InputDataOutputParent {
+    connectionString?: string;
+    query: string;
+    resourceId: string;
+    serviceName: string;
+    // (undocumented)
+    readonly type: "app_insights";
+}
+
+// @public
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
@@ -404,6 +422,30 @@ export interface CredentialsSASAuthOutput {
 }
 
 // @public
+export interface CronTrigger extends TriggerParent {
+    expression: string;
+}
+
+// @public
+export interface CronTriggerOutput extends TriggerOutputParent {
+    expression: string;
+    // (undocumented)
+    readonly type: "Cron";
+}
+
+// @public
+export interface Dataset extends InputDataParent {
+    id: string;
+}
+
+// @public
+export interface DatasetOutput extends InputDataOutputParent {
+    id: string;
+    // (undocumented)
+    readonly type: "dataset";
+}
+
+// @public
 export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
@@ -434,24 +476,40 @@ export enum ErrorEvent {
 }
 
 // @public
+export interface Evaluation {
+    data: InputData;
+    description?: string;
+    displayName?: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    properties?: Record<string, string>;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface EvaluationOutput {
-    // Warning: (ae-forgotten-export) The symbol "InputDataOutput" needs to be exported by the entry point index.d.ts
     data: InputDataOutput;
     description?: string;
     displayName?: string;
-    // Warning: (ae-forgotten-export) The symbol "EvaluatorConfigurationOutput" needs to be exported by the entry point index.d.ts
     evaluators: Record<string, EvaluatorConfigurationOutput>;
     readonly id: string;
     properties?: Record<string, string>;
     readonly status?: string;
-    // Warning: (ae-forgotten-export) The symbol "SystemDataOutput" needs to be exported by the entry point index.d.ts
     readonly systemData?: SystemDataOutput;
     tags?: Record<string, string>;
 }
 
 // @public
+export interface EvaluationSchedule {
+    data: ApplicationInsightsConfiguration;
+    description?: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    properties?: Record<string, string>;
+    tags?: Record<string, string>;
+    trigger: Trigger;
+}
+
+// @public
 export interface EvaluationScheduleOutput {
-    // Warning: (ae-forgotten-export) The symbol "ApplicationInsightsConfigurationOutput" needs to be exported by the entry point index.d.ts
     data: ApplicationInsightsConfigurationOutput;
     description?: string;
     evaluators: Record<string, EvaluatorConfigurationOutput>;
@@ -461,26 +519,33 @@ export interface EvaluationScheduleOutput {
     readonly provisioningState?: string;
     readonly systemData?: SystemDataOutput;
     tags?: Record<string, string>;
-    // Warning: (ae-forgotten-export) The symbol "TriggerOutput" needs to be exported by the entry point index.d.ts
     trigger: TriggerOutput;
 }
 
 // @public (undocumented)
 export interface EvaluationsOperations {
-    // Warning: (ae-forgotten-export) The symbol "Evaluation" needs to be exported by the entry point index.d.ts
     createEvaluation: (evaluation: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
-    // Warning: (ae-forgotten-export) The symbol "EvaluationSchedule" needs to be exported by the entry point index.d.ts
     createOrReplaceSchedule: (scheduleName: string, resource: EvaluationSchedule, requestParams?: OptionalRequestParameters) => Promise<EvaluationScheduleOutput>;
     disableSchedule: (scheduleName: string, requestParams?: OptionalRequestParameters) => Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "OptionalRequestParameters" needs to be exported by the entry point index.d.ts
     getEvaluation: (evaluationId: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
     getSchedule: (evaluationName: string, requestParams?: OptionalRequestParameters) => Promise<EvaluationScheduleOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListQueryParamProperties" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "PagedEvaluationOutput" needs to be exported by the entry point index.d.ts
     listEvaluations: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationOutput>;
-    // Warning: (ae-forgotten-export) The symbol "PagedEvaluationScheduleOutput" needs to be exported by the entry point index.d.ts
     listSchedules: (options?: ListQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<PagedEvaluationScheduleOutput>;
     updateEvaluation: (evaluationId: string, resource: Evaluation, requestParams?: OptionalRequestParameters) => Promise<EvaluationOutput>;
+}
+
+// @public
+export interface EvaluatorConfiguration {
+    dataMapping?: Record<string, string>;
+    id: string;
+    initParams?: Record<string, unknown>;
+}
+
+// @public
+export interface EvaluatorConfigurationOutput {
+    dataMapping?: Record<string, string>;
+    id: string;
+    initParams?: Record<string, any>;
 }
 
 // @public
@@ -559,6 +624,12 @@ export type FileStateOutput = string;
 export interface FileStatusFilter {
     filter?: VectorStoreFileStatusFilter;
 }
+
+// @public
+export type Frequency = string;
+
+// @public
+export type FrequencyOutput = string;
 
 // @public
 export interface FunctionDefinition {
@@ -667,6 +738,24 @@ export interface IndexResourceOutput {
 }
 
 // @public
+export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
+
+// @public
+export type InputDataOutput = InputDataOutputParent | ApplicationInsightsConfigurationOutput | DatasetOutput;
+
+// @public
+export interface InputDataOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface InputDataParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
 export interface InternalConnectionPropertiesAADAuthOutput extends InternalConnectionPropertiesOutputParent {
     authType: "AAD";
 }
@@ -742,6 +831,13 @@ export interface ListQueryParameters {
     before?: string;
     limit?: number;
     order?: "asc" | "desc";
+}
+
+// @public (undocumented)
+export interface ListQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -1131,6 +1227,15 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 }
 
 // @public
+export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">;
+
+// @public
+export type PagedEvaluationOutput = Paged<EvaluationOutput>;
+
+// @public
+export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
+
+// @public
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
@@ -1144,6 +1249,38 @@ export interface PollingOptionsParams {
 // @public
 export interface ProjectsClientOptions extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface RecurrenceSchedule {
+    hours: number[];
+    minutes: number[];
+    monthDays?: number[];
+    weekDays?: WeekDays[];
+}
+
+// @public
+export interface RecurrenceScheduleOutput {
+    hours: number[];
+    minutes: number[];
+    monthDays?: number[];
+    weekDays?: WeekDaysOutput[];
+}
+
+// @public
+export interface RecurrenceTrigger extends TriggerParent {
+    frequency: Frequency;
+    interval: number;
+    schedule?: RecurrenceSchedule;
+}
+
+// @public
+export interface RecurrenceTriggerOutput extends TriggerOutputParent {
+    frequency: FrequencyOutput;
+    interval: number;
+    schedule?: RecurrenceScheduleOutput;
+    // (undocumented)
+    readonly type: "Recurrence";
 }
 
 // @public
@@ -1506,6 +1643,14 @@ export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SystemDataOutput {
+    readonly createdAt?: string;
+    readonly createdBy?: string;
+    readonly createdByType?: string;
+    readonly lastModifiedAt?: string;
+}
+
+// @public
 export interface TelemetryOperations {
     getConnectionString(): Promise<string>;
     getSettings(): TelemetryOptions;
@@ -1704,6 +1849,24 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
+}
+
+// @public
+export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
+
+// @public
+export type TriggerOutput = TriggerOutputParent | RecurrenceTriggerOutput | CronTriggerOutput;
+
+// @public
+export interface TriggerOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface TriggerParent {
+    // (undocumented)
+    type: string;
 }
 
 // @public
@@ -2022,6 +2185,12 @@ export interface VectorStoreUpdateOptions {
     metadata?: Record<string, string> | null;
     name?: string | null;
 }
+
+// @public
+export type WeekDays = string;
+
+// @public
+export type WeekDaysOutput = string;
 
 // (No @packageDocumentation comment for this package)
 
