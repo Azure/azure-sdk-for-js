@@ -99,18 +99,20 @@ function getHost(endpoint: string): string {
   return !match ? endpoint : match;
 }
 
+function extractPort(ep: string): number | undefined {
+  const matches = /.*:(\d*)/.exec(ep);
+  const match = matches?.[1];
+  return match ? parseInt(match, 10) : undefined;
+}
+
 function getPort(endpoint: string): number | undefined {
   for (const ip of specialLocalIPs) {
     if (endpoint.includes(ip)) {
-      const matches = /.*:(\d*)/.exec(endpoint.replace(ip, ""));
-      const match = matches?.[1];
-      return match ? parseInt(match, 10) : undefined;
+      return extractPort(endpoint.replace(ip, ""));
     }
   }
 
-  const matches = /.*:(\d*)/.exec(endpoint);
-  const match = matches?.[1];
-  return match ? parseInt(match, 10) : undefined;
+  return extractPort(endpoint);
 }
 
 /**
