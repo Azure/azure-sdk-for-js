@@ -6,6 +6,8 @@ import type { AgentsOperations } from "./agents/index.js";
 import { getAgentsOperations } from "./agents/index.js";
 import type { ConnectionsOperations } from "./connections/index.js";
 import { getConnectionsOperations } from "./connections/index.js";
+import type { EvaluationsOperations } from "./evaluations/index.js";
+import { getEvaluationsOperations } from "./evaluations/index.js";
 import type { ProjectsClientOptions } from "./generated/src/projectsClient.js";
 import createClient from "./generated/src/projectsClient.js";
 import type { TelemetryOperations } from "./telemetry/index.js";
@@ -22,6 +24,7 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {}
 export class AIProjectsClient {
   private _client: Client;
   private _connectionClient: Client;
+  private _evaluationsClient: Client;
   private _telemetryClient: Client;
 
   /*
@@ -58,6 +61,9 @@ export class AIProjectsClient {
       { ...options, endpoint: connectionEndPoint },
     );
 
+    const evaluationsEndpoint = `${endpointParam}/raisvc/v1.0/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`
+    this._evaluationsClient = createClient(endpointParam, subscriptionId, resourceGroupName, projectName, credential, { ...options, apiVersion: "2024-07-01-preview", endpoint: evaluationsEndpoint, credentials: { scopes: ["https://ml.azure.com/.default"] } });
+
     this._telemetryClient = createClient(
       endpointParam,
       subscriptionId,
@@ -69,7 +75,13 @@ export class AIProjectsClient {
 
     this.agents = getAgentsOperations(this._client);
     this.connections = getConnectionsOperations(this._connectionClient);
+    this.evaluations = getEvaluationsOperations(this._evaluationsClient);
     this.telemetry = getTelemetryOperations(this._telemetryClient, this.connections);
+    this.scope = {
+      "subscription_id": subscriptionId,
+      "resource_group_name": resourceGroupName,
+      "project_name": projectName,
+    };
   }
 
   /**
@@ -117,6 +129,15 @@ export class AIProjectsClient {
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
 
+  /** The operation groups for evaluations */
+  public readonly evaluations: EvaluationsOperations;
+
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
+
+  public readonly scope: {
+    "subscription_id": string;
+    "resource_group_name": string;
+    "project_name": string;
+  };
 }
