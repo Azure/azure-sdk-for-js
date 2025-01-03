@@ -87,6 +87,7 @@ describe("Authorization test", () => {
 
   it("roleDefinitions delete test", async function () {
     const resArray = new Array();
+    await client.roleDefinitions.delete(scope, resourcename);
     for await (let item of client.roleDefinitions.list(scope)) {
       resArray.push(item);
     }

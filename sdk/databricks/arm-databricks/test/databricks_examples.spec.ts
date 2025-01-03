@@ -90,5 +90,6 @@ describe("Databricks test", () => {
   });
 
   it("workspaces delete test", async function () {
+    await client.workspaces.beginDeleteAndWait(resourceGroup, workSpaceName, testPollingOptions);
   });
 });

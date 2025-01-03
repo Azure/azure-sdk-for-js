@@ -90,6 +90,7 @@ describe("Attestation test", () => {
   });
 
   it("attestationProviders delete test", async function () {
+    await client.attestationProviders.delete(resourceGroup, providerName)
     const res = await client.attestationProviders.listByResourceGroup(resourceGroup)
     assert.equal(res.value?.length, 0);
   });

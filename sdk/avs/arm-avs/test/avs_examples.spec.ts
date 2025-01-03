@@ -105,6 +105,7 @@ describe("avs test", () => {
 
   it.skip("privateClouds delete test", async function () {
     const resArray = new Array();
+    await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName, testPollingOptions);
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
