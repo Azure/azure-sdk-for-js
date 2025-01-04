@@ -393,6 +393,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
     });
 
+    it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
+      const longIntervalStatsbeat = getInstance(options);
+      const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
+      longIntervalStatsbeat["initialize"]();
+      expect(mockExport).not.toHaveBeenCalled();
+      setTimeout(async () => {
+        expect(mockExport).toHaveBeenCalled();
+      }, 15000);
+    })
+
     describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environement variable is set", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
