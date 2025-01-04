@@ -10,6 +10,7 @@
 
 - Fix setting statsbeat custom dimensions.
 - EAI_AGAIN REST errors are considered retriable.
+- Add 15 second warmup before export of long interval statsbeat.
 
 ## 1.0.0-beta.27 (2024-10-23)
 
