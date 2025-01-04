@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import { Constants } from "../common";
-import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import type { FeedOptions, Response } from "../request";
-import { getInitialHeader } from "./headerUtils";
-import type { ExecutionContext } from "./index";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { addDignosticChild } from "../utils/diagnostics";
-import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import { Constants } from "../common/index.js";
+import { ClientSideMetrics, QueryMetrics } from "../queryMetrics/index.js";
+import type { FeedOptions, Response } from "../request/index.js";
+import { getInitialHeader } from "./headerUtils.js";
+import type { ExecutionContext } from "./index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import { addDignosticChild } from "../utils/diagnostics.js";
+import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */

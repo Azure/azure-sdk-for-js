@@ -1,30 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Context } from "mocha";
-import type { Suite } from "mocha";
-import { Constants } from "../../../src";
-import type { Container, StoredProcedureDefinition } from "../../../src/";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
+
+import { Constants } from "../../../src/index.js";
+import type { Container, StoredProcedureDefinition } from "../../../src/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import {
   bulkInsertItems,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
+import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
 
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function () {
     let container: Container;
-    beforeEach(async function (this: Context) {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(getTaskFullTitle(ctx));
     });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
@@ -95,8 +94,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
 
   describe("Validate stored procedure functionality", function () {
     let container: Container;
-    beforeEach(async function (this: Context) {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(getTaskFullTitle(ctx));
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
@@ -162,7 +161,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     const { resource: containerResult } = await database.containers.create(containerDefinition, {
       offerThroughput: 12000,
     });
-    const container = await database.container(containerResult.id);
+    const container = database.container(containerResult.id);
 
     const querySproc = {
       id: "querySproc",

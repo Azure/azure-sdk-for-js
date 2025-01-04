@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../../public/common/_testConfig";
-import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets";
-import { SasTokenPermissionKind } from "../../../src/common";
-import { createAuthorizationSasToken } from "../../../src/utils/SasToken";
-import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties";
 
-describe.skip("SAS Token Authorization", function () {
+import { CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets.js";
+import { SasTokenPermissionKind } from "../../../src/common/index.js";
+import { createAuthorizationSasToken } from "../../../src/utils/SasToken.js";
+import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties.js";
+import { describe, it, assert } from "vitest";
+
+describe.skip("SAS Token Authorization", () => {
   const sasTokenProperties = <SasTokenProperties>{
     user: "user1",
     userTag: "",
@@ -25,7 +26,7 @@ describe.skip("SAS Token Authorization", function () {
     dataPlaneWriterScope: 0,
   };
 
-  it("should connect with sas token properties set", async function () {
+  it("should connect with sas token properties set", async () => {
     const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 
     // If connecting to the Cosmos DB Emulator, disable TLS verification for your node process:
@@ -53,7 +54,7 @@ describe.skip("SAS Token Authorization", function () {
     assert(undefined !== dbs, "Should be able to fetch list of databases");
   });
 
-  it("should connect when a user set sas token", async function () {
+  it("should connect when a user set sas token", async () => {
     const sasTokenClient = new CosmosClient({
       endpoint,
       key: userSasTokenKey,

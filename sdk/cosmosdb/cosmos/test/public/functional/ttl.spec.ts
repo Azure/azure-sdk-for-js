@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, ContainerDefinition, Database } from "../../../src";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import { StatusCodes } from "../../../src";
+
+import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { StatusCodes } from "../../../src/index.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
@@ -12,9 +12,8 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 600000);
-  beforeEach(async function () {
+describe("Container TTL", { timeout: 600000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
   async function createcontainerWithInvalidDefaultTtl(
@@ -59,7 +58,7 @@ describe("Container TTL", function (this: Suite) {
     }
   }
 
-  it("Validate container and Item TTL values.", async function () {
+  it("Validate container and Item TTL values.", async () => {
     const database = await getTestDatabase("ttl test1 database");
 
     const containerDefinition = {
@@ -166,7 +165,7 @@ describe("Container TTL", function (this: Suite) {
     await positiveDefaultTtlStep2(container, doc, itemDefinition);
   }
 
-  it("Validate Item TTL with positive defaultTtl.", async function () {
+  it("Validate Item TTL with positive defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test2 database");
 
     const containerDefinition = {
@@ -206,7 +205,7 @@ describe("Container TTL", function (this: Suite) {
     assert.equal(readItem2.id, createdItem2.id);
   }
 
-  it("Validate Item TTL with -1 defaultTtl.", async function () {
+  it("Validate Item TTL with -1 defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test2 database");
 
     const containerDefinition = {
@@ -241,7 +240,7 @@ describe("Container TTL", function (this: Suite) {
     await minusOneDefaultTtlStep1(container, createdItem1, createdItem2, createdItem3);
   });
 
-  it("Validate Item TTL with no defaultTtl.", async function () {
+  it("Validate Item TTL with no defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test3 database");
 
     const containerDefinition = { id: "sample container" };
@@ -264,7 +263,7 @@ describe("Container TTL", function (this: Suite) {
     await checkItemExists(container, createdItem);
   });
 
-  it("Validate Item TTL Misc cases.", async function () {
+  it("Validate Item TTL Misc cases.", async () => {
     const database = await getTestDatabase("ttl test4 database");
 
     const containerDefinition = {
