@@ -36,7 +36,4 @@ export class BulkOperationResult {
     this.requestCharge = requestCharge;
     this.resourceBody = resource;
   }
-
-
-
 }

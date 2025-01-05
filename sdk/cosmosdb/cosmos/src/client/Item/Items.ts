@@ -4,12 +4,7 @@
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import type { ClientContext } from "../../ClientContext";
-import {
-  getIdFromLink,
-  getPathFromLink,
-  isItemResourceValid,
-  ResourceType,
-} from "../../common";
+import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -24,9 +19,7 @@ import type {
   BulkOptions,
   BulkOperationResponse,
 } from "../../utils/batch";
-import {
-  decorateBatchOperation,
-} from "../../utils/batch";
+import { decorateBatchOperation } from "../../utils/batch";
 import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import type { PartitionKey } from "../../documents";
 import { PartitionKeyRangeCache } from "../../routing";
@@ -36,10 +29,7 @@ import type {
 } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import {
-  getEmptyCosmosDiagnostics,
-  withDiagnostics,
-} from "../../utils/diagnostics";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
@@ -461,8 +451,17 @@ export class Items {
     options?: RequestOptions,
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const bulkExecutor = new BulkExecutor(this.container, this.clientContext, this.partitionKeyRangeCache);
-      const orderedResponse = await bulkExecutor.executeBulk(operations, diagnosticNode, options, bulkOptions);
+      const bulkExecutor = new BulkExecutor(
+        this.container,
+        this.clientContext,
+        this.partitionKeyRangeCache,
+      );
+      const orderedResponse = await bulkExecutor.executeBulk(
+        operations,
+        diagnosticNode,
+        options,
+        bulkOptions,
+      );
       const response: any = orderedResponse;
       response.diagnostics = diagnosticNode.toDiagnostic(this.clientContext.getClientConfig());
       return response;
