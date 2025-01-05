@@ -38,6 +38,7 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
+import type { RetryOptions } from "./retry/retryOptions";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -85,6 +86,7 @@ export class ClientContext {
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
+
   /** @hidden */
   public async read<T>({
     path,
@@ -216,9 +218,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
@@ -977,5 +979,12 @@ export class ClientContext {
 
   public getClientConfig(): ClientConfigDiagnostic {
     return this.clientConfig;
+  }
+
+  /**
+   * @internal
+   */
+  public getRetryOptions(): RetryOptions {
+    return this.connectionPolicy.retryOptions;
   }
 }

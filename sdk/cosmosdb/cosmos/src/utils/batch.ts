@@ -15,7 +15,8 @@ import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
 import { randomUUID } from "@azure/core-util";
-import { BulkResponse, ItemBulkOperation } from "../bulk";
+import type { BulkResponse, ItemBulkOperation } from "../bulk";
+import type { BulkOperationResult } from "../bulk/BulkOperationResult";
 
 export type Operation =
   | CreateOperation
@@ -33,11 +34,12 @@ export interface Batch {
   operations: Operation[];
 }
 
-export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
+export type BulkOperationResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
 
 export interface OperationResponse {
   statusCode: number;
   requestCharge: number;
+  subStatusCode: number;
   eTag?: string;
   resourceBody?: JSONObject;
 }
@@ -283,7 +285,8 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
  * @hidden
  */
 export function calculateObjectSizeInBytes(obj: unknown): number {
-  return new TextEncoder().encode(bodyFromData(obj as any)).length;
+  return new TextEncoder().encode(bodyFromData(sanitizeObject(obj)) as any).length;
+  // return new TextEncoder().encode(bodyFromData(obj as any)).length;
 }
 
 export function decorateBatchOperation(
@@ -319,7 +322,7 @@ export type RetryCallback = (
   diagnosticNode: DiagnosticNodeInternal,
   options: RequestOptions,
   bulkOptions: BulkOptions,
-  orderedResponse: OperationResponse[]
+  orderedResponse: BulkOperationResult[],
 ) => Promise<void>;
 
 export class TaskCompletionSource<T> {
@@ -346,3 +349,25 @@ export class TaskCompletionSource<T> {
     this.rejectFn(error);
   }
 }
+
+/**
+* Removes circular references and unnecessary properties from the object.
+* workaround for TypeError: Converting circular structure to JSON
+* @internal
+*/
+function sanitizeObject(obj: any): any {
+  const seen = new WeakSet();
+  return JSON.parse(
+    JSON.stringify(obj, (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return undefined; // Remove circular references
+        }
+        seen.add(value);
+      }
+      return key === "diagnosticNode" || key === "retryPolicy" ? undefined : value; // Exclude unnecessary properties
+    })
+  );
+}
+
+

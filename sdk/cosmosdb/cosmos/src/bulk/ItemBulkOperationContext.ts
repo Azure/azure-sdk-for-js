@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RetryPolicy } from "../retry/RetryPolicy";
-import { isSuccessStatusCode, OperationResponse, TaskCompletionSource } from "../utils/batch";
+import type { RetryPolicy } from "../retry/RetryPolicy";
+import { TaskCompletionSource } from "../utils/batch";
+import type { BulkOperationResult } from "./BulkOperationResult";
 
+/**
+ * Context for a particular @see {@link ItemBulkOperation}.
+ * @hidden
+ */
 export class ItemBulkOperationContext {
     pkRangeId: string;
     retryPolicy: RetryPolicy;
-    private readonly taskCompletionSource: TaskCompletionSource<OperationResponse>;
+    private readonly taskCompletionSource: TaskCompletionSource<BulkOperationResult>;
 
     constructor(pkRangeId: string, retryPolicy: RetryPolicy) {
         this.pkRangeId = pkRangeId;
         this.retryPolicy = retryPolicy;
-        this.taskCompletionSource = new TaskCompletionSource<OperationResponse>();
+        this.taskCompletionSource = new TaskCompletionSource<BulkOperationResult>();
     }
 
-    public get operationPromise(): Promise<OperationResponse> {
+    public get operationPromise(): Promise<BulkOperationResult> {
         return this.taskCompletionSource.task;
-    }
-
-    // will implement this with next PR. skipping it for now
-    async shouldRetry(operationResponse: OperationResponse): Promise<boolean> {
-        if (this.retryPolicy == null || isSuccessStatusCode(operationResponse.statusCode)) {
-            return false;
-        }
-        return false;
-        // return this.retryPolicy.shouldRetry(operationResponse, diagnosticNode);
     }
 
     reRouteOperation(pkRangeId: string): void {
         this.pkRangeId = pkRangeId;
     }
 
-    complete(result: OperationResponse): void {
+    complete(result: BulkOperationResult): void {
         this.taskCompletionSource.setResult(result);
     }
 
