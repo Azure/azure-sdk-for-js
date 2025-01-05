@@ -6,7 +6,6 @@ import type {
   BulkOptions,
   Container,
   ContainerRequest,
-  OperationResponse,
   PluginConfig,
 } from "../../../../src";
 import {
@@ -29,7 +28,7 @@ import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 import { SubStatusCodes } from "../../../../src/common";
 
-describe("test bulk operations", async function () {
+describe("testbulkoperations", async function () {
   describe("Check size based splitting of batches", function () {
     let container: Container;
     before(async function () {
@@ -254,7 +253,7 @@ describe("test bulk operations", async function () {
           id: readItemId,
         };
 
-        const readResponse: OperationResponse[] = await container.items.bulk([operation]);
+        const readResponse = await container.items.bulk([operation]);
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
           readResponse[0].resourceBody.id,
@@ -277,7 +276,7 @@ describe("test bulk operations", async function () {
           id: id,
         };
 
-        const readResponse: OperationResponse[] = await container.items.bulk([createOp, readOp]);
+        const readResponse = await container.items.bulk([createOp, readOp]);
         assert.strictEqual(readResponse[0].statusCode, 201);
         assert.strictEqual(readResponse[0].resourceBody.id, id, "Created item's id should match");
         assert.strictEqual(readResponse[1].statusCode, 200);
@@ -297,7 +296,7 @@ describe("test bulk operations", async function () {
           partitionKey: "B",
         };
 
-        const readResponse: OperationResponse[] = await splitContainer.items.bulk([operation]);
+        const readResponse = await splitContainer.items.bulk([operation]);
 
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
@@ -1103,7 +1102,7 @@ describe("test bulk operations", async function () {
           {
             on: PluginOn.request,
             plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex % 50 === 0) {
+              if (context.operationType === "batch" && responseIndex % 2 === 0) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
                 error.substatus = SubStatusCodes.PartitionKeyRangeGone;

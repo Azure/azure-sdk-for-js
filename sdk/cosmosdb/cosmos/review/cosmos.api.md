@@ -29,8 +29,10 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
+// Warning: (ae-forgotten-export) The symbol "BulkOperationResult" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type BulkOperationResponse = OperationResponse[] & {
+export type BulkOperationResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;
 };
 
@@ -997,6 +999,7 @@ export interface ErrorBody {
 
 // @public (undocumented)
 export class ErrorResponse extends Error {
+    constructor(message?: string, code?: number, substatus?: number);
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1456,6 +1459,8 @@ export interface OperationResponse {
     resourceBody?: JSONObject;
     // (undocumented)
     statusCode: number;
+    // (undocumented)
+    subStatusCode: number;
 }
 
 // @public (undocumented)
@@ -2266,6 +2271,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2273,6 +2280,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)

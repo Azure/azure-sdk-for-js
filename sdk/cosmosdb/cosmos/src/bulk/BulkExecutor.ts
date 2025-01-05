@@ -7,7 +7,7 @@ import type { ClientContext } from "../ClientContext";
 import { DiagnosticNodeType, type DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type { BulkOptions, Operation, OperationInput, OperationResponse } from "../utils/batch";
+import type { BulkOptions, Operation, OperationInput } from "../utils/batch";
 import { isKeyInRange, prepareOperations } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
@@ -18,21 +18,33 @@ import { Constants, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDignosticChild } from "../utils/diagnostics";
+import type { BulkOperationResult } from "./BulkOperationResult";
+import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
+import type { RetryPolicy } from "../retry/RetryPolicy";
 
+/**
+ * BulkExecutor for bulk operations in a container.
+ * It maintains one @see {@link BulkStreamer} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
+ * at the Streamer / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
+ * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the streamer dispatches a batch
+ * the batch will create a request and call the execute callback (executeRequest), if conditions are met, it might call the retry callback (reBatchOperation).
+ * @hidden
+ */
 
 export class BulkExecutor {
 
   private readonly container: Container;
   private readonly clientContext: ClientContext;
   private readonly partitionKeyRangeCache: PartitionKeyRangeCache;
-  private streamersByPartitionKeyRangeId: Map<string, BulkStreamer> = new Map();
-  private limitersByPartitionKeyRangeId: Map<string, semaphore.Semaphore> = new Map();
-
+  private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamer>;
+  private readonly limitersByPartitionKeyRangeId: Map<string, semaphore.Semaphore>;
 
   constructor(container: Container, clientContext: ClientContext, partitionKeyRangeCache: PartitionKeyRangeCache) {
     this.container = container;
     this.clientContext = clientContext;
     this.partitionKeyRangeCache = partitionKeyRangeCache;
+    this.streamersByPartitionKeyRangeId = new Map();
+    this.limitersByPartitionKeyRangeId = new Map();
 
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
@@ -43,15 +55,13 @@ export class BulkExecutor {
     diagnosticNode: DiagnosticNodeInternal,
     options: RequestOptions,
     bulkOptions: BulkOptions
-  ): Promise<OperationResponse[]> {
-    const orderedResponse = new Array<OperationResponse>(operations.length);
+  ): Promise<BulkOperationResult[]> {
+    const orderedResponse = new Array<BulkOperationResult>(operations.length);
     const operationPromises = operations.map((operation, index) =>
       this.addOperation(operation, index, diagnosticNode, options, bulkOptions, orderedResponse)
     );
     try {
       await Promise.all(operationPromises);
-    } catch (error) {
-      throw new ErrorResponse(`Error during bulk execution: ${error}`);
     } finally {
       for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
         streamer.disposeTimers();
@@ -61,19 +71,20 @@ export class BulkExecutor {
   }
 
 
-  private async addOperation(operation: OperationInput, index: number, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: OperationResponse[]): Promise<OperationResponse> {
+  private async addOperation(operation: OperationInput, index: number, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: BulkOperationResult[]): Promise<BulkOperationResult> {
     if (!operation) {
-      throw new ErrorResponse("operation is required.");
+      throw new ErrorResponse("Operation is required.");
     }
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode, options);
     const streamer = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId, diagnosticNode, options, bulkOptions, orderedResponse);
-    const context = new ItemBulkOperationContext(partitionKeyRangeId, new ResourceThrottleRetryPolicy())
+    const retryPolicy = this.getRetryPolicy();
+    const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
     const itemOperation = new ItemBulkOperation(index, operation, context);
     streamer.add(itemOperation);
     return context.operationPromise;
   }
 
-  async resolvePartitionKeyRangeId(
+  private async resolvePartitionKeyRangeId(
     operation: OperationInput,
     diagnosticNode: DiagnosticNodeInternal,
     options: RequestOptions,
@@ -105,7 +116,17 @@ export class BulkExecutor {
     }
   }
 
-  async executeRequest(operations: ItemBulkOperation[], options: RequestOptions, bulkOptions: BulkOptions, diagnosticNode: DiagnosticNodeInternal): Promise<BulkResponse> {
+  private getRetryPolicy(): RetryPolicy {
+    const retryOptions = this.clientContext.getRetryOptions();
+    const nextRetryPolicy = new ResourceThrottleRetryPolicy(
+      retryOptions.maxRetryAttemptCount,
+      retryOptions.fixedRetryIntervalInMilliseconds,
+      retryOptions.maxWaitTimeInSeconds
+    );
+    return new BulkExecutionRetryPolicy(this.container, nextRetryPolicy, this.partitionKeyRangeCache);
+  }
+
+  private async executeRequest(operations: ItemBulkOperation[], options: RequestOptions, bulkOptions: BulkOptions, diagnosticNode: DiagnosticNodeInternal): Promise<BulkResponse> {
     if (!operations.length) return;
     const pkRangeId = operations[0].operationContext.pkRangeId;
     const limiter = this.getOrCreateLimiterForPartitionKeyRange(pkRangeId);
@@ -124,7 +145,7 @@ export class BulkExecutor {
       );
       requestBody.push(operation)
     }
-    return new Promise<BulkResponse>((resolve, reject) => {
+    return new Promise<BulkResponse>((resolve, _reject) => {
       limiter.take(async () => {
         try {
           const response = await addDignosticChild(
@@ -141,9 +162,9 @@ export class BulkExecutor {
             diagnosticNode,
             DiagnosticNodeType.BATCH_REQUEST,
           );
-          resolve(new BulkResponse(response.code, response.substatus, response.headers, operations, response.result));
+          resolve(BulkResponse.fromResponseMessage(response, operations));
         } catch (error) {
-          reject(error);
+          resolve(BulkResponse.fromResponseMessage(error, operations));
         } finally {
           limiter.leave();
         }
@@ -152,14 +173,14 @@ export class BulkExecutor {
   }
 
 
-  async reBatchOperation(operation: ItemBulkOperation, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: OperationResponse[]): Promise<void> {
+  private async reBatchOperation(operation: ItemBulkOperation, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: BulkOperationResult[]): Promise<void> {
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput, diagnosticNode, options);
     operation.operationContext.reRouteOperation(partitionKeyRangeId);
     const streamer = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId, diagnosticNode, options, bulkOptions, orderedResponse);
     streamer.add(operation);
   }
 
-  getOrCreateLimiterForPartitionKeyRange(pkRangeId: string): semaphore.Semaphore {
+  private getOrCreateLimiterForPartitionKeyRange(pkRangeId: string): semaphore.Semaphore {
     let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
     if (!limiter) {
       limiter = semaphore(Constants.BulkMaxDegreeOfConcurrency);
@@ -169,7 +190,7 @@ export class BulkExecutor {
   }
 
 
-  getOrCreateStreamerForPartitionKeyRange(pkRangeId: string, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: OperationResponse[]): BulkStreamer {
+  private getOrCreateStreamerForPartitionKeyRange(pkRangeId: string, diagnosticNode: DiagnosticNodeInternal, options: RequestOptions, bulkOptions: BulkOptions, orderedResponse: BulkOperationResult[]): BulkStreamer {
     if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.streamersByPartitionKeyRangeId.get(pkRangeId);
     }
