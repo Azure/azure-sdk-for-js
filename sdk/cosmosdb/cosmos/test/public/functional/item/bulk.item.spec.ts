@@ -28,7 +28,7 @@ import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 import { SubStatusCodes } from "../../../../src/common";
 
-describe("testbulkoperations", async function () {
+describe("test bulk operations", async function () {
   describe("Check size based splitting of batches", function () {
     let container: Container;
     before(async function () {
