@@ -91,8 +91,8 @@ export interface SubStatusCodesType {
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002;
   CompletingSplit: 1007;
-  CompletingPartitionMigration: 1008,
-  NameCacheIsStale: 1000,
+  CompletingPartitionMigration: 1008;
+  NameCacheIsStale: 1000;
 
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002;

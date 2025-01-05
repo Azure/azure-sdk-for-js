@@ -29,12 +29,31 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
-// Warning: (ae-forgotten-export) The symbol "BulkOperationResult" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export type BulkOperationResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;
 };
+
+// @public
+export class BulkOperationResult {
+    constructor(statusCode?: StatusCode, subStatusCode?: SubStatusCode, etag?: string, retryAfter?: number, activityId?: string, sessionToken?: string, requestCharge?: number, resource?: JSONObject);
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody: JSONObject;
+    // (undocumented)
+    retryAfter: number;
+    // (undocumented)
+    sessionToken: string;
+    // (undocumented)
+    statusCode: StatusCode;
+    // (undocumented)
+    subStatusCode: SubStatusCode;
+}
 
 // @public (undocumented)
 export const BulkOperationType: {

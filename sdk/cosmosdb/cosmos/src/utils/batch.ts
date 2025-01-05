@@ -315,7 +315,7 @@ export type ExecuteCallback = (
   operations: ItemBulkOperation[],
   options: RequestOptions,
   bulkOptions: BulkOptions,
-  diagnosticNode: DiagnosticNodeInternal
+  diagnosticNode: DiagnosticNodeInternal,
 ) => Promise<BulkResponse>;
 export type RetryCallback = (
   operation: ItemBulkOperation,
@@ -351,10 +351,10 @@ export class TaskCompletionSource<T> {
 }
 
 /**
-* Removes circular references and unnecessary properties from the object.
-* workaround for TypeError: Converting circular structure to JSON
-* @internal
-*/
+ * Removes circular references and unnecessary properties from the object.
+ * workaround for TypeError: Converting circular structure to JSON
+ * @internal
+ */
 function sanitizeObject(obj: any): any {
   const seen = new WeakSet();
   return JSON.parse(
@@ -366,8 +366,6 @@ function sanitizeObject(obj: any): any {
         seen.add(value);
       }
       return key === "diagnosticNode" || key === "retryPolicy" ? undefined : value; // Exclude unnecessary properties
-    })
+    }),
   );
 }
-
-
