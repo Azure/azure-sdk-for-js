@@ -10,7 +10,7 @@ import {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageExecuteOptionalParams,
   VirtualNetworkSubnetUsageExecuteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualNetworkSubnetUsage. */
 export interface VirtualNetworkSubnetUsage {

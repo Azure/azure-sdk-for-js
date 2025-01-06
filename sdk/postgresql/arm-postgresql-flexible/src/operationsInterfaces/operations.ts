@@ -9,7 +9,7 @@
 import {
   OperationsListOptionalParams,
   OperationsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Operations. */
 export interface Operations {

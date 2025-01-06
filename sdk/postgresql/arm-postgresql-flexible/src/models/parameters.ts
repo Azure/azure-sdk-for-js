@@ -31,7 +31,7 @@ import {
   VirtualEndpointResource as VirtualEndpointResourceMapper,
   VirtualEndpointResourceForPatch as VirtualEndpointResourceForPatchMapper,
   VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -130,7 +130,7 @@ export const objectId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-08-01",
+    defaultValue: "2023-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

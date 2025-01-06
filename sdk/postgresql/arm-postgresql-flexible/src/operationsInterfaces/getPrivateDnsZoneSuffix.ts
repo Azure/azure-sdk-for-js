@@ -9,7 +9,7 @@
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
   GetPrivateDnsZoneSuffixExecuteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a GetPrivateDnsZoneSuffix. */
 export interface GetPrivateDnsZoneSuffix {

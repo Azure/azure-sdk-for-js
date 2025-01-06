@@ -10,7 +10,7 @@ import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityWithLocationExecuteOptionalParams,
   CheckNameAvailabilityWithLocationExecuteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a CheckNameAvailabilityWithLocation. */
 export interface CheckNameAvailabilityWithLocation {

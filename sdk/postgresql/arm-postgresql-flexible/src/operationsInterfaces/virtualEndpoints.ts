@@ -20,7 +20,7 @@ import {
   VirtualEndpointsDeleteResponse,
   VirtualEndpointsGetOptionalParams,
   VirtualEndpointsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualEndpoints. */

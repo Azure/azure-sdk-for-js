@@ -16,7 +16,7 @@ import {
   FirewallRulesDeleteOptionalParams,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FirewallRules. */
