@@ -62,33 +62,53 @@ const restrictedToPackages = [
 ];
 
 /**
- * Helper function that determines the rush command flag to use based on each individual package name for the 'build' check.
+ * Helper function that determines the rush command flag to use based on each individual package name
  *
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
- * @param {string[]} actionComponents - An array of strings containing the packages names to run the action on.
+ * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
+ * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
  */
-export const getDirectionMappedPackages = (packageNames, actionComponents) => {
+export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
+
+  
   const mappedPackages = [];
 
-  for (const packageName of packageNames) {
-    // Build command without any additional option should build the project and downstream
-    // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
-    // If the package is a core package, azure-identity or arm-resources then build only the package,
-    // otherwise build the package and all its dependents
-    var rushCommandFlag = "--impacted-by";
+  if (action.startsWith("build")) {
+     for (const packageName of packageNames) {
+      /**  @type {string} */
+      let rushCommandFlag;
 
-    if (restrictedToPackages.includes(packageName)) {
-      // if this is one of our restricted packages with a ton of deps, make it targeted
-      // as including all dependents will be too much
-      rushCommandFlag = "--to";
-    } else if (actionComponents.length == 1) {
-      // else we are building the project and its dependents
-      rushCommandFlag = "--from";
+      if (restrictedToPackages.includes(packageName)) {
+        // if this is one of our restricted packages with a ton of deps, make it targeted
+        // as including all dependents will be too much
+        rushCommandFlag = "--to";
+      } else if (action === "build") {
+        rushCommandFlag = "--from";
+      } else {
+        // --impacted-by is only safe if the packages have already been built, since it won't build
+        // unrelated dependencies
+        rushCommandFlag =  "--impacted-by";
+      }
+
+      mappedPackages.push([rushCommandFlag, packageName]);
+    }
+  } else {
+    // we are in a test task of some kind
+    let fullPackageNames = packageNames.slice();
+
+    let isReducedTestScopeEnabled = serviceDirs.length > 1;
+    for (const dir of serviceDirs) {
+      if (reducedDependencyTestMatrix[dir]) {
+        isReducedTestScopeEnabled = true;
+        fullPackageNames.push(...reducedDependencyTestMatrix[dir]);
+      }
     }
 
-    mappedPackages.push([rushCommandFlag, packageName]);
+    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
+
+    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
   }
 
   return mappedPackages;
@@ -145,6 +165,7 @@ export const getServicePackages = (serviceDirs, artifactNames) => {
       }
     }
   }
+  
   return {packageNames, packageDirs};
 };
 
