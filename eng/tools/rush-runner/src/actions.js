@@ -16,15 +16,14 @@ import {
 } from "./rush.js";
 
 /**
- * 
+ *
  * @param {string} action - the command being performed
  * @param {string[]} serviceDirs - list of service directories impacted
- * @param {string[]} rushParams - commandline flags to pass directly to rush 
+ * @param {string[]} rushParams - commandline flags to pass directly to rush
  * @param {string} artifactNames - package names to filter to
- * @returns 
+ * @returns
  */
 export function executeActions(action, serviceDirs, rushParams, artifactNames) {
-  
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
