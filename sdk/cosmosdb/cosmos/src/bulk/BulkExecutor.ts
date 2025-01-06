@@ -67,7 +67,7 @@ export class BulkExecutor {
       this.addOperation(operation, index, diagnosticNode, options, bulkOptions, orderedResponse),
     );
     try {
-      await Promise.all(operationPromises);
+      await Promise.allSettled(operationPromises);
     } finally {
       for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
         streamer.disposeTimers();
@@ -238,10 +238,11 @@ export class BulkExecutor {
     if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.streamersByPartitionKeyRangeId.get(pkRangeId);
     }
-    this.getOrCreateLimiterForPartitionKeyRange(pkRangeId);
+    const limiter = this.getOrCreateLimiterForPartitionKeyRange(pkRangeId);
     const newStreamer = new BulkStreamer(
       this.executeRequest,
       this.reBatchOperation,
+      limiter,
       options,
       bulkOptions,
       diagnosticNode,

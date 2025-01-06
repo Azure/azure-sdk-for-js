@@ -10,6 +10,8 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import type { BulkOptions } from "../utils/batch";
 import type { RequestOptions } from "../request/RequestOptions";
 import type { BulkOperationResult } from "./BulkOperationResult";
+import { BulkPartitionMetric } from "./BulkPartitionMetric";
+import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -26,13 +28,23 @@ export class BulkStreamer {
   private readonly diagnosticNode: DiagnosticNodeInternal;
 
   private currentBatcher: BulkBatcher;
-  private readonly lock = semaphore(1);
+  private readonly lock: semaphore.Semaphore;
   private dispatchTimer: NodeJS.Timeout;
   private readonly orderedResponse: BulkOperationResult[] = [];
+  private limiterSemaphore: semaphore.Semaphore;
+
+  private readonly oldPartitionMetric: BulkPartitionMetric;
+  private readonly partitionMetric: BulkPartitionMetric;
+  private congestionControlTimer: NodeJS.Timeout;
+  private congestionControlDelayInMs: number = 100;
+  private congestionDegreeOfConcurrency = 1;
+  private congestionControlAlgorithm: BulkCongestionAlgorithm;
+  // private semaphoreForSplit: semaphore.Semaphore;
 
   constructor(
     executor: ExecuteCallback,
     retrier: RetryCallback,
+    limiter: semaphore.Semaphore,
     options: RequestOptions,
     bulkOptions: BulkOptions,
     diagnosticNode: DiagnosticNodeInternal,
@@ -40,12 +52,24 @@ export class BulkStreamer {
   ) {
     this.executor = executor;
     this.retrier = retrier;
+    this.limiterSemaphore = limiter;
     this.options = options;
     this.bulkOptions = bulkOptions;
     this.diagnosticNode = diagnosticNode;
     this.orderedResponse = orderedResponse;
     this.currentBatcher = this.createBulkBatcher();
+    this.oldPartitionMetric = new BulkPartitionMetric();
+    this.partitionMetric = new BulkPartitionMetric();
+    this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
+      this.limiterSemaphore,
+      this.partitionMetric,
+      this.oldPartitionMetric,
+      this.congestionDegreeOfConcurrency
+    )
+
+    this.lock = semaphore(1);
     this.runDispatchTimer();
+    this.runCongestionControlTimer();
   }
 
   /**
@@ -67,7 +91,7 @@ export class BulkStreamer {
 
     if (toDispatch) {
       // dispatch with fire and forget. No need to wait for the dispatch to complete.
-      toDispatch.dispatch();
+      toDispatch.dispatch(this.partitionMetric);
     }
   }
 
@@ -103,17 +127,26 @@ export class BulkStreamer {
         this.lock.leave();
       });
       if (toDispatch) {
-        toDispatch.dispatch();
+        toDispatch.dispatch(this.partitionMetric);
       }
     }, Constants.BulkTimeoutInMs);
   }
 
+  private async runCongestionControlTimer(): Promise<void> {
+    this.congestionControlTimer = setInterval(() => {
+      this.congestionControlAlgorithm.run();
+    }, this.congestionControlDelayInMs);
+  }
+
   /**
-   * Dispose the active timers after bulk is done
+   * Dispose the active timers after bulk is complete.
    */
   disposeTimers(): void {
     if (this.dispatchTimer) {
       clearInterval(this.dispatchTimer);
+    }
+    if (this.congestionControlTimer) {
+      clearInterval(this.congestionControlTimer);
     }
   }
 }
