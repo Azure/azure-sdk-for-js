@@ -41,5 +41,5 @@ export function parseArgs() {
     }
   }
 
-  return { action, services, flags, artifactNames };
+  return { action, serviceDirs: services, rushParams: flags, artifactNames };
 }

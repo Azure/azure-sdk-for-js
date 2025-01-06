@@ -5,9 +5,11 @@
 
 import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
+import { parseArgs } from "./src/args.js";
 
 function main() {
-  exit(executeActions());
+  const { action, serviceDirs, rushParams, artifactNames } = parseArgs();
+  exit(executeActions(action, serviceDirs, rushParams, artifactNames));
 }
 
 main();

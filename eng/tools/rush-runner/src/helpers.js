@@ -143,7 +143,9 @@ const getPackageJSONs = (searchDir) => {
  * @param {string} artifactNames -
  */
 export const getServicePackages = (serviceDirs, artifactNames) => {
+  /** @type {string[]} */
   const packageNames = [];
+  /** @type {string[]} */
   const packageDirs = [];
   let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   const artifacts = artifactNames.split(",");

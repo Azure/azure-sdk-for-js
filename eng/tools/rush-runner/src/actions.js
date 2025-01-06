@@ -8,7 +8,6 @@ import {
   getServicePackages,
   tryGetPkgRelativePath,
 } from "./helpers.js";
-import { parseArgs } from "./args.js";
 import {
   rushRunAll,
   rushRunAllWithDirection,
@@ -16,8 +15,16 @@ import {
   rushGlobalAction,
 } from "./rush.js";
 
-export function executeActions() {
-  const { action, services: serviceDirs, flags: rushParams, artifactNames } = parseArgs();
+/**
+ * 
+ * @param {string} action - the command being performed
+ * @param {string[]} serviceDirs - list of service directories impacted
+ * @param {string[]} rushParams - commandline flags to pass directly to rush 
+ * @param {string} artifactNames - package names to filter to
+ * @returns 
+ */
+export function executeActions(action, serviceDirs, rushParams, artifactNames) {
+  
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);

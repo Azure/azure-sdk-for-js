@@ -73,7 +73,7 @@ export function runRushInPackageDirs(action, packageDirs, onError) {
   let exitCode = 0;
   for (const packageDir of packageDirs) {
     let dirExitCode = spawnNode(packageDir, rushx_runner_path, action);
-    if (dirExitCode !== 0) {
+    if (dirExitCode !== 0 && onError) {
       onError(packageDir);
     }
     exitCode = exitCode || dirExitCode;
