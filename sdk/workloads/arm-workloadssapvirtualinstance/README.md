@@ -4,10 +4,12 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Workloads client provides access to various workload operations.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadssapvirtualinstance) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadssapvirtualinstance)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance/samples)
 
 ## Getting started
 
@@ -44,7 +46,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure Workloads** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -89,7 +90,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -99,10 +100,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fworkloads%2Farm-workloadssapvirtualinstance%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
