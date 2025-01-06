@@ -14,6 +14,9 @@ import { QueueClient } from "../src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;
@@ -212,12 +215,9 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        await queueClient.getProperties(options);
-      },
-      ["QueueClient-getProperties"],
-    );
+    await expect(async (options) => {
+    await queueClient.getProperties(options);
+}).toSupportTracing(["QueueClient-getProperties"]);
   });
 });
 
