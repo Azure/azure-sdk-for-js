@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewayPrivateEndpointConnectionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all private endpoint connections on an application gateway.
@@ -25,14 +23,14 @@ async function listsAllPrivateEndpointConnectionsOnApplicationGateway() {
   const resourceGroupName = "rg1";
   const applicationGatewayName = "appgw";
   const options: ApplicationGatewayPrivateEndpointConnectionsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections",
       subscriptionId,
       resourceGroupName,
-      applicationGatewayName
+      applicationGatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   StaticMembersListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the specified static member.
@@ -26,7 +24,7 @@ async function staticMembersList() {
   const networkManagerName = "testNetworkManager";
   const networkGroupName = "testNetworkGroup";
   const options: StaticMembersListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +32,7 @@ async function staticMembersList() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

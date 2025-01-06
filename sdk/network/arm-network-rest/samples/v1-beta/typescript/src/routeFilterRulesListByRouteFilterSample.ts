@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteFilterRulesListByRouteFilterParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all RouteFilterRules in a route filter.
@@ -25,14 +23,14 @@ async function routeFilterRuleListByRouteFilter() {
   const resourceGroupName = "rg1";
   const routeFilterName = "filterName";
   const options: RouteFilterRulesListByRouteFilterParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
       subscriptionId,
       resourceGroupName,
-      routeFilterName
+      routeFilterName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

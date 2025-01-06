@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubRouteTableV2SCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2.
@@ -34,18 +32,18 @@ async function virtualHubRouteTableV2Put() {
             destinationType: "CIDR",
             destinations: ["20.10.0.0/16", "20.20.0.0/16"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
+            nextHops: ["10.0.0.68"],
           },
           {
             destinationType: "CIDR",
             destinations: ["0.0.0.0/0"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
-          }
-        ]
-      }
+            nextHops: ["10.0.0.68"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -53,7 +51,7 @@ async function virtualHubRouteTableV2Put() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName
+      routeTableName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

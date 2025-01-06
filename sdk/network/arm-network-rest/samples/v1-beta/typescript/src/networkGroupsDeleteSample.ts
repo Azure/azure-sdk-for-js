@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkGroupsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a network group.
@@ -26,7 +24,7 @@ async function networkGroupsDelete() {
   const networkManagerName = "testNetworkManager";
   const networkGroupName = "testNetworkGroup";
   const options: NetworkGroupsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01", force: false }
+    queryParameters: { "api-version": "2022-05-01", force: false },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +32,7 @@ async function networkGroupsDelete() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
