@@ -22,7 +22,7 @@ import {
   CertificateCreateOrUpdateParameters as CertificateCreateOrUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Pool as PoolMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

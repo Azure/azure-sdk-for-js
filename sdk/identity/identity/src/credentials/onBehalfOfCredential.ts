@@ -60,6 +60,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -88,6 +89,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -119,6 +121,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *

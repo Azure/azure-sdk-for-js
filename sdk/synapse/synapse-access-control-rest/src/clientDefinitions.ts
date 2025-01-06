@@ -13,22 +13,22 @@ import type {
 } from "./parameters.js";
 import type {
   RoleAssignmentsCheckPrincipalAccess200Response,
-  RoleAssignmentsCheckPrincipalAccessdefaultResponse,
+  RoleAssignmentsCheckPrincipalAccessDefaultResponse,
   RoleAssignmentsListRoleAssignments200Response,
-  RoleAssignmentsListRoleAssignmentsdefaultResponse,
+  RoleAssignmentsListRoleAssignmentsDefaultResponse,
   RoleAssignmentsCreateRoleAssignment200Response,
-  RoleAssignmentsCreateRoleAssignmentdefaultResponse,
+  RoleAssignmentsCreateRoleAssignmentDefaultResponse,
   RoleAssignmentsGetRoleAssignmentById200Response,
-  RoleAssignmentsGetRoleAssignmentByIddefaultResponse,
+  RoleAssignmentsGetRoleAssignmentByIdDefaultResponse,
   RoleAssignmentsDeleteRoleAssignmentById200Response,
   RoleAssignmentsDeleteRoleAssignmentById204Response,
-  RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse,
+  RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse,
   RoleDefinitionsListRoleDefinitions200Response,
-  RoleDefinitionsListRoleDefinitionsdefaultResponse,
+  RoleDefinitionsListRoleDefinitionsDefaultResponse,
   RoleDefinitionsGetRoleDefinitionById200Response,
-  RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
+  RoleDefinitionsGetRoleDefinitionByIdDefaultResponse,
   RoleDefinitionsListScopes200Response,
-  RoleDefinitionsListScopesdefaultResponse,
+  RoleDefinitionsListScopesDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -38,7 +38,7 @@ export interface RoleAssignmentsCheckPrincipalAccess {
     options: RoleAssignmentsCheckPrincipalAccessParameters,
   ): StreamableMethod<
     | RoleAssignmentsCheckPrincipalAccess200Response
-    | RoleAssignmentsCheckPrincipalAccessdefaultResponse
+    | RoleAssignmentsCheckPrincipalAccessDefaultResponse
   >;
 }
 
@@ -48,7 +48,7 @@ export interface RoleAssignmentsListRoleAssignments {
     options?: RoleAssignmentsListRoleAssignmentsParameters,
   ): StreamableMethod<
     | RoleAssignmentsListRoleAssignments200Response
-    | RoleAssignmentsListRoleAssignmentsdefaultResponse
+    | RoleAssignmentsListRoleAssignmentsDefaultResponse
   >;
 }
 
@@ -58,14 +58,14 @@ export interface RoleAssignmentsCreateRoleAssignment {
     options: RoleAssignmentsCreateRoleAssignmentParameters,
   ): StreamableMethod<
     | RoleAssignmentsCreateRoleAssignment200Response
-    | RoleAssignmentsCreateRoleAssignmentdefaultResponse
+    | RoleAssignmentsCreateRoleAssignmentDefaultResponse
   >;
   /** Get role assignment by role assignment Id. */
   get(
     options?: RoleAssignmentsGetRoleAssignmentByIdParameters,
   ): StreamableMethod<
     | RoleAssignmentsGetRoleAssignmentById200Response
-    | RoleAssignmentsGetRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsGetRoleAssignmentByIdDefaultResponse
   >;
   /** Delete role assignment by role assignment Id. */
   delete(
@@ -73,7 +73,7 @@ export interface RoleAssignmentsCreateRoleAssignment {
   ): StreamableMethod<
     | RoleAssignmentsDeleteRoleAssignmentById200Response
     | RoleAssignmentsDeleteRoleAssignmentById204Response
-    | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse
   >;
 }
 
@@ -83,7 +83,7 @@ export interface RoleDefinitionsListRoleDefinitions {
     options?: RoleDefinitionsListRoleDefinitionsParameters,
   ): StreamableMethod<
     | RoleDefinitionsListRoleDefinitions200Response
-    | RoleDefinitionsListRoleDefinitionsdefaultResponse
+    | RoleDefinitionsListRoleDefinitionsDefaultResponse
   >;
 }
 
@@ -93,7 +93,7 @@ export interface RoleDefinitionsGetRoleDefinitionById {
     options?: RoleDefinitionsGetRoleDefinitionByIdParameters,
   ): StreamableMethod<
     | RoleDefinitionsGetRoleDefinitionById200Response
-    | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
+    | RoleDefinitionsGetRoleDefinitionByIdDefaultResponse
   >;
 }
 
@@ -102,7 +102,7 @@ export interface RoleDefinitionsListScopes {
   get(
     options?: RoleDefinitionsListScopesParameters,
   ): StreamableMethod<
-    RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse
+    RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesDefaultResponse
   >;
 }
 

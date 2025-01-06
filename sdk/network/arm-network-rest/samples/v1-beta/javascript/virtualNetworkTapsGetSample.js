@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets information about the specified virtual network tap.
@@ -27,7 +27,7 @@ async function getVirtualNetworkTap() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       subscriptionId,
       resourceGroupName,
-      tapName
+      tapName,
     )
     .get(options);
   console.log(result);

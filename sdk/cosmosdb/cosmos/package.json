@@ -72,7 +72,7 @@
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -120,7 +120,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.7.2"
   },
   "//sampleConfiguration": {
     "skip": [

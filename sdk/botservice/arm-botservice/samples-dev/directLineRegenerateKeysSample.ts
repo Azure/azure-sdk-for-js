@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteInfo, AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource

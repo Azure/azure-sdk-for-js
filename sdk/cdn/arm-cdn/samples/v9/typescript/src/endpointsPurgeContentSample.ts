@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PurgeParameters, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Removes a content from CDN.

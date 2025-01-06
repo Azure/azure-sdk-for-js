@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Bot, AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a Bot Service. Bot Service is a resource group wide resource type.

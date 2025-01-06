@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { ADCOperationsImpl, ADCCatalogsImpl } from "./operations";
-import { ADCOperations, ADCCatalogs } from "./operationsInterfaces";
-import { DataCatalogRestClientOptionalParams } from "./models";
+import { ADCOperationsImpl, ADCCatalogsImpl } from "./operations/index.js";
+import { ADCOperations, ADCCatalogs } from "./operationsInterfaces/index.js";
+import { DataCatalogRestClientOptionalParams } from "./models/index.js";
 
 export class DataCatalogRestClient extends coreClient.ServiceClient {
   $host: string;
