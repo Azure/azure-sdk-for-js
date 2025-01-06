@@ -39,9 +39,6 @@ describe("Astro test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AstroManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,9 +47,6 @@ describe("Astro test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AstroManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
 
   });
 
