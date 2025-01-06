@@ -4,8 +4,8 @@
     "noEmit": true,
     "target": "Es2021",
     "skipLibCheck": true,
-    "module": "ES2022",
-    "moduleResolution": "node16"
+    "module": "NodeNext",
+    "moduleResolution": "nodenext"
   },
   "include": ["index.js", "src/**/*.js", "test/**/*.js"]
 }
