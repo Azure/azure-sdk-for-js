@@ -401,7 +401,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       setTimeout(async () => {
         expect(mockExport).toHaveBeenCalled();
       }, 15000);
-    })
+    });
 
     describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environement variable is set", () => {
