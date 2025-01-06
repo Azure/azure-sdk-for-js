@@ -8,7 +8,7 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
