@@ -64,8 +64,8 @@ export class BulkStreamer {
       this.limiterSemaphore,
       this.partitionMetric,
       this.oldPartitionMetric,
-      this.congestionDegreeOfConcurrency
-    )
+      this.congestionDegreeOfConcurrency,
+    );
 
     this.lock = semaphore(1);
     this.runDispatchTimer();

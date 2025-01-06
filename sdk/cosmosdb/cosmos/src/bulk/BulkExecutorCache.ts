@@ -7,24 +7,29 @@ import type { PartitionKeyRangeCache } from "../routing";
 import { BulkExecutor } from "./BulkExecutor";
 
 /**
+ * @hidden
  * Cache to create and share Executor instances across the client's lifetime.
  * key - containerUrl
- * @hidden
  */
-
 export class BulkExecutorCache {
-    private readonly executorPerContainer: Map<string, BulkExecutor>;
+  private readonly executorPerContainer: Map<string, BulkExecutor>;
 
-    constructor() {
-        this.executorPerContainer = new Map<string, BulkExecutor>();
+  constructor() {
+    this.executorPerContainer = new Map<string, BulkExecutor>();
+  }
+
+  public getOrCreateExecutor(
+    container: Container,
+    clientContext: ClientContext,
+    partitionKeyRangeCache: PartitionKeyRangeCache,
+  ): BulkExecutor {
+    if (!this.executorPerContainer.has(container.url)) {
+      this.executorPerContainer.set(
+        container.url,
+        new BulkExecutor(container, clientContext, partitionKeyRangeCache),
+      );
     }
 
-    public getOrCreateExecutor(container: Container, clientContext: ClientContext, partitionKeyRangeCache: PartitionKeyRangeCache): BulkExecutor {
-        if (!this.executorPerContainer.has(container.url)) {
-            this.executorPerContainer.set(container.url, new BulkExecutor(container, clientContext, partitionKeyRangeCache));
-        }
-
-        return this.executorPerContainer.get(container.url);
-    }
-
+    return this.executorPerContainer.get(container.url);
+  }
 }

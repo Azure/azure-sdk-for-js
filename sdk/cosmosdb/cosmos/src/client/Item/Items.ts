@@ -451,7 +451,11 @@ export class Items {
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const bulkExecutorCache = this.clientContext.getBulkExecutorCache();
-      const bulkExecutor = bulkExecutorCache.getOrCreateExecutor(this.container, this.clientContext, this.partitionKeyRangeCache);
+      const bulkExecutor = bulkExecutorCache.getOrCreateExecutor(
+        this.container,
+        this.clientContext,
+        this.partitionKeyRangeCache,
+      );
       const orderedResponse = await bulkExecutor.executeBulk(
         operations,
         diagnosticNode,
