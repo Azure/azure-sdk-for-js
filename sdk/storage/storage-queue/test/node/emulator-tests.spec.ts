@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { QueueClient, QueueServiceClient } from "../../src/index.js";
 import {
   getConnectionStringFromEnvironment,
@@ -10,6 +8,7 @@ import {
   recorderEnvSetup,
 } from "../utils/index.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // Expected environment variables to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true

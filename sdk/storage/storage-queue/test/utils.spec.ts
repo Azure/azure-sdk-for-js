@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   sanitizeHeaders,
   sanitizeURL,
@@ -11,6 +9,7 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Utility Helpers", () => {
   let recorder: Recorder;

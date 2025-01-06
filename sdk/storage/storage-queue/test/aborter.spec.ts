@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import type { QueueClient } from "../src/QueueClient.js";
 import { getQSU } from "./utils/index.js";
 import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
   let queueName: string;

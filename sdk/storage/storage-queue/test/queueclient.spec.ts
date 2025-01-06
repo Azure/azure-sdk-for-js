@@ -11,9 +11,9 @@ import {
 } from "./utils/index.js";
 import type { QueueServiceClient } from "../src/index.js";
 import { QueueClient } from "../src/index.js";
-import { assert } from "@azure-tools/test-utils";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;

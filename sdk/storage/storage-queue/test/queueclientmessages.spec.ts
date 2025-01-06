@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -12,6 +10,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/testutils.common.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods", () => {
   let queueName: string;

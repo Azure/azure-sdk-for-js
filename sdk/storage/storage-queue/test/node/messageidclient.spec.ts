@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { newPipeline } from "../../src/index.js";
 import {
   getQSU,
@@ -12,6 +10,7 @@ import {
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;
