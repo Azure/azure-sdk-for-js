@@ -29,6 +29,16 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
+// @public
+export class BulkExecutorCache {
+    constructor();
+    // Warning: (ae-forgotten-export) The symbol "PartitionKeyRangeCache" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "BulkExecutor" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getOrCreateExecutor(container: Container, clientContext: ClientContext, partitionKeyRangeCache: PartitionKeyRangeCache): BulkExecutor;
+}
+
 // @public (undocumented)
 export type BulkOperationResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;
@@ -241,8 +251,6 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T>>;
-    // Warning: (ae-forgotten-export) The symbol "BulkExecutorCache" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getBulkExecutorCache(): BulkExecutorCache;
     // (undocumented)

@@ -9,7 +9,7 @@ import { BulkExecutor } from "./BulkExecutor";
 /**
  * Cache to create and share Executor instances across the client's lifetime.
  * key - containerUrl
- * @internal
+ * @hidden
  */
 
 export class BulkExecutorCache {
