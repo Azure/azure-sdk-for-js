@@ -138,4 +138,3 @@ export { createAuthorizationSasToken } from "./utils/SasToken";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
 export { BulkOperationResult } from "./bulk/BulkOperationResult";
-export { BulkExecutorCache } from "./bulk/BulkExecutorCache";

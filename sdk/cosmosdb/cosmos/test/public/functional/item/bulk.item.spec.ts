@@ -1132,7 +1132,7 @@ describe("test bulk operations", async function () {
         }
       });
 
-      it("checkmultiplepartitionsplitsduringbulk", async function () {
+      it("check multiple partition splits during bulk", async function () {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
           operations.push({
