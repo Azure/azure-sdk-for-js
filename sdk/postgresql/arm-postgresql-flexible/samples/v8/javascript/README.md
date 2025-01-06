@@ -169,6 +169,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualendpointslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8/javascript/virtualEndpointsListByServerSample.js
 [virtualendpointsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8/javascript/virtualEndpointsUpdateSample.js
 [virtualnetworksubnetusageexecutesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql-flexible/samples/v8/javascript/virtualNetworkSubnetUsageExecuteSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible/README.md
