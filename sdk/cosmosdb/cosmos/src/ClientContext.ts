@@ -39,6 +39,7 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import type { RetryOptions } from "./retry/retryOptions";
+import { BulkExecutorCache } from "./bulk/BulkExecutorCache";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -55,6 +56,7 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  private bulkExecutorCache: BulkExecutorCache;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -84,6 +86,7 @@ export class ClientContext {
         }),
       );
     }
+    this.bulkExecutorCache = new BulkExecutorCache();
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
 
@@ -218,9 +221,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
@@ -987,5 +990,9 @@ export class ClientContext {
    */
   public getRetryOptions(): RetryOptions {
     return this.connectionPolicy.retryOptions;
+  }
+
+  public getBulkExecutorCache(): BulkExecutorCache {
+    return this.bulkExecutorCache;
   }
 }

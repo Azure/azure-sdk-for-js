@@ -241,6 +241,10 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T>>;
+    // Warning: (ae-forgotten-export) The symbol "BulkExecutorCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getBulkExecutorCache(): BulkExecutorCache;
     // (undocumented)
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
