@@ -25,7 +25,13 @@ export function rushGlobalAction(action, rushParams) {
  */
 export function rushRunAll(action, direction, packages, rushParams) {
   const params = packages.flatMap((p) => [direction, p]);
-  return spawnNode(getBaseDir(), "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+  return spawnNode(
+    getBaseDir(),
+    "common/scripts/install-run-rush.js",
+    action,
+    ...params,
+    ...rushParams,
+  );
 }
 
 /**
@@ -64,14 +70,13 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
  */
 export function runRushInPackageDirs(action, packageDirs, onError) {
   const rushx_runner_path = pathJoin(getBaseDir(), "common/scripts/install-run-rushx.js");
-  let exitCode = 0
+  let exitCode = 0;
   for (const packageDir of packageDirs) {
     let dirExitCode = spawnNode(packageDir, rushx_runner_path, action);
     if (dirExitCode !== 0) {
       onError(packageDir);
     }
     exitCode = exitCode || dirExitCode;
-    
   }
   return exitCode;
 }

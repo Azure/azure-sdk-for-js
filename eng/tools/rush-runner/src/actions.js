@@ -6,10 +6,15 @@
 import {
   getDirectionMappedPackages,
   getServicePackages,
-  tryGetPkgRelativePath
+  tryGetPkgRelativePath,
 } from "./helpers.js";
 import { parseArgs } from "./args.js";
-import { rushRunAll, rushRunAllWithDirection, runRushInPackageDirs, rushGlobalAction } from "./rush.js";
+import {
+  rushRunAll,
+  rushRunAllWithDirection,
+  runRushInPackageDirs,
+  rushGlobalAction,
+} from "./rush.js";
 
 export function executeActions() {
   const { action, services: serviceDirs, flags: rushParams, artifactNames } = parseArgs();
@@ -28,7 +33,11 @@ export function executeActions() {
       case "test":
       case "unit-test":
       case "integration-test":
-        exitCode = rushRunAllWithDirection(action, getDirectionMappedPackages(packageNames, action, serviceDirs), rushParams);
+        exitCode = rushRunAllWithDirection(
+          action,
+          getDirectionMappedPackages(packageNames, action, serviceDirs),
+          rushParams,
+        );
         break;
 
       case "lint":
@@ -37,8 +46,8 @@ export function executeActions() {
       case "check-format":
         exitCode = runRushInPackageDirs(action, packageDirs, (packageDir) => {
           console.log(
-              `\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
-            );
+            `\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
+          );
         });
         break;
 

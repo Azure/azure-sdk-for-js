@@ -71,12 +71,10 @@ const restrictedToPackages = [
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
  */
 export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
-
-  
   const mappedPackages = [];
 
   if (action.startsWith("build")) {
-     for (const packageName of packageNames) {
+    for (const packageName of packageNames) {
       /**  @type {string} */
       let rushCommandFlag;
 
@@ -89,7 +87,7 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
       } else {
         // --impacted-by is only safe if the packages have already been built, since it won't build
         // unrelated dependencies
-        rushCommandFlag =  "--impacted-by";
+        rushCommandFlag = "--impacted-by";
       }
 
       mappedPackages.push([rushCommandFlag, packageName]);
@@ -145,7 +143,6 @@ const getPackageJSONs = (searchDir) => {
  * @param {string} artifactNames -
  */
 export const getServicePackages = (serviceDirs, artifactNames) => {
-  
   const packageNames = [];
   const packageDirs = [];
   let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
@@ -165,8 +162,8 @@ export const getServicePackages = (serviceDirs, artifactNames) => {
       }
     }
   }
-  
-  return {packageNames, packageDirs};
+
+  return { packageNames, packageDirs };
 };
 
 /**

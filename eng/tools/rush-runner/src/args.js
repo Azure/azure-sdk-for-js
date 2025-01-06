@@ -42,4 +42,4 @@ export function parseArgs() {
   }
 
   return { action, services, flags, artifactNames };
-};
+}

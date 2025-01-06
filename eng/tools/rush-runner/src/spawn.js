@@ -17,4 +17,4 @@ export function spawnNode(cwd, ...args) {
   console.log(`\n\nNode process exited with code ${proc.status} `);
 
   return proc.status ?? 1;
-};
+}

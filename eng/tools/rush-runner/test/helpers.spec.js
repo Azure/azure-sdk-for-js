@@ -7,36 +7,26 @@ import { assert, describe, it } from "vitest";
 import { getDirectionMappedPackages, reducedDependencyTestMatrix } from "../src/helpers.js";
 
 describe("getDirectionMappedPackages", () => {
-
   describe("build", () => {
     it("should use --to reduced core scope for changed core package", () => {
       const changed = ["@azure/core-client"];
       const mapped = getDirectionMappedPackages(changed, "build", ["core"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-        [["--to", "@azure/core-client"]],
-      );
+
+      assert.deepStrictEqual(mapped, [["--to", "@azure/core-client"]]);
     });
 
     it("it uses --from when building a normal package", () => {
       const changed = ["@azure/app-configuration"];
       const mapped = getDirectionMappedPackages(changed, "build", ["appconfiguration"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-        [["--from", "@azure/app-configuration"]],
-      );
+
+      assert.deepStrictEqual(mapped, [["--from", "@azure/app-configuration"]]);
     });
 
     it("it uses --impacted-by when doing subsequent build tasks like build:test", () => {
       const changed = ["@azure/storage-blob"];
       const mapped = getDirectionMappedPackages(changed, "build:test", ["storage"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-        [["--impacted-by", "@azure/storage-blob"]],
-      );
+
+      assert.deepStrictEqual(mapped, [["--impacted-by", "@azure/storage-blob"]]);
     });
 
     it("should use --to and --from for mixed packages", () => {
@@ -45,10 +35,10 @@ describe("getDirectionMappedPackages", () => {
 
       const expected = reducedDependencyTestMatrix["core"].map((p) => ["--to", p]);
       expected.push(["--from", "@azure/app-configuration"]);
-      assert.deepStrictEqual(
-        mapped, 
-        [["--to", "@azure/core-rest-pipeline"], ["--from", "@azure/app-configuration"]],
-      );
+      assert.deepStrictEqual(mapped, [
+        ["--to", "@azure/core-rest-pipeline"],
+        ["--from", "@azure/app-configuration"],
+      ]);
     });
   });
 
@@ -58,33 +48,28 @@ describe("getDirectionMappedPackages", () => {
       const mapped = getDirectionMappedPackages(changed, "unit-test", ["core"]);
       const expected = reducedDependencyTestMatrix["core"].map((p) => ["--only", p]);
       expected.unshift(["--only", "@azure/core-client"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-        expected,
-      );
+
+      assert.deepStrictEqual(mapped, expected);
     });
 
     it("it uses --impacted-by when testing a normal package", () => {
       const changed = ["@azure/app-configuration"];
       const mapped = getDirectionMappedPackages(changed, "unit-test", ["appconfiguration"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-        [["--impacted-by", "@azure/app-configuration"]],
-      );
+
+      assert.deepStrictEqual(mapped, [["--impacted-by", "@azure/app-configuration"]]);
     });
 
     it("should use --only when testing two or more service dirs", () => {
       const changed = ["@azure/app-configuration", "@azure/storage-blob"];
-      const mapped = getDirectionMappedPackages(changed, "unit-test", ["appconfiguration", "storage"]);
-  
-      assert.deepStrictEqual(
-        mapped,
-         [["--only", "@azure/app-configuration"], ["--only", "@azure/storage-blob"]],
-      );
+      const mapped = getDirectionMappedPackages(changed, "unit-test", [
+        "appconfiguration",
+        "storage",
+      ]);
+
+      assert.deepStrictEqual(mapped, [
+        ["--only", "@azure/app-configuration"],
+        ["--only", "@azure/storage-blob"],
+      ]);
     });
-
   });
-
 });
