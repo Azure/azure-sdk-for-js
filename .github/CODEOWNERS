@@ -188,7 +188,7 @@
 /sdk/synapse/ @joheredi
 
 # PRLabel: %Tables
-/sdk/tables/ @joheredi
+/sdk/tables/ @joheredi @jeremymeng
 
 # ServiceLabel: %Tables
 # AzureSdkOwners: @joheredi
