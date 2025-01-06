@@ -9173,6 +9173,13 @@ export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      segmentCount: {
+        serializedName: "segmentCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
       }
     }
   }

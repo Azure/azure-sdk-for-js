@@ -639,6 +639,7 @@ export interface AcsSmsEventBase {
 export type AcsSmsReceivedEventData = AcsSmsEventBase & {
     message: string;
     receivedTimestamp: string;
+    segmentCount: number;
 };
 
 // @public
