@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AFDEndpoint, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile.

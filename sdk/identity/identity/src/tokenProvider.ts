@@ -34,6 +34,7 @@ export interface GetBearerTokenProviderOptions {
  * const scope = "https://cognitiveservices.azure.com/.default";
  * const getAccessToken = getBearerTokenProvider(credential, scope);
  * const token = await getAccessToken();
+ *
  * // usage
  * const request = createPipelineRequest({ url: "https://example.com" });
  * request.headers.set("Authorization", `Bearer ${token}`);
