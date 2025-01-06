@@ -164,5 +164,8 @@ describe("Partition Splits", () => {
     } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
+
+    const x = 5;
+    assert.strictEqual(x, 7);
   });
 });
