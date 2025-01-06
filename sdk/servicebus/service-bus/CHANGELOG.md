@@ -13,7 +13,8 @@
 
 ### Other Changes
 
-- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Remove port number from fully qualified namespace.
 
 ## 7.9.5 (2024-06-11)
 

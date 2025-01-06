@@ -21,7 +21,7 @@ import {
   ProductsImpl,
   RegistrationsImpl,
   LinkedSubscriptionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   CloudManifestFile,
@@ -29,8 +29,8 @@ import {
   Products,
   Registrations,
   LinkedSubscriptions
-} from "./operationsInterfaces";
-import { AzureStackManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureStackManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureStackManagementClient extends coreClient.ServiceClient {
   $host: string;

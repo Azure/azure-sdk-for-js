@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a VM scale set.
@@ -34,9 +32,8 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
           diagnosticsProfile: {
             bootDiagnostics: {
               enabled: true,
-              storageUri:
-                "http://{existing-storage-account-name}.blob.core.windows.net"
-            }
+              storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+            },
           },
           extensionProfile: {
             extensions: [
@@ -48,10 +45,10 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
                   publisher: "{extension-Publisher}",
                   settings: {},
                   suppressFailures: true,
-                  typeHandlerVersion: "{handler-version}"
-                }
-              }
-            ]
+                  typeHandlerVersion: "{handler-version}",
+                },
+              },
+            ],
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -64,50 +61,49 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -135,9 +131,8 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
           diagnosticsProfile: {
             bootDiagnostics: {
               enabled: true,
-              storageUri:
-                "http://{existing-storage-account-name}.blob.core.windows.net"
-            }
+              storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+            },
           },
           extensionProfile: {
             extensions: [
@@ -150,16 +145,15 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
                     secretUrl:
                       "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e",
                     sourceVault: {
-                      id:
-                        "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
-                    }
+                      id: "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
+                    },
                   },
                   publisher: "{extension-Publisher}",
                   settings: {},
-                  typeHandlerVersion: "{handler-version}"
-                }
-              }
-            ]
+                  typeHandlerVersion: "{handler-version}",
+                },
+              },
+            ],
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -172,57 +166,54 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault().catch(
-  console.error
-);
+createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -253,21 +244,20 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             osDisk: {
@@ -275,33 +265,30 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
               caching: "ReadWrite",
               createOption: "FromImage",
               image: {
-                uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd"
-              }
-            }
-          }
-        }
+                uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
+              },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage().catch(
-  console.error
-);
+createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -332,28 +319,27 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               name: "osDisk",
@@ -364,25 +350,25 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
                 "http://{existing-storage-account-name-1}.blob.core.windows.net/vhdContainer",
                 "http://{existing-storage-account-name-2}.blob.core.windows.net/vhdContainer",
                 "http://{existing-storage-account-name-3}.blob.core.windows.net/vhdContainer",
-                "http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer"
-              ]
-            }
-          }
-        }
+                "http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer",
+              ],
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -418,48 +404,46 @@ async function createAScaleSetFromACustomImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -495,48 +479,46 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -572,43 +554,41 @@ async function createAScaleSetFromASpecializedSharedImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -646,14 +626,13 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
+                  primary: true,
+                },
               },
               {
                 name: "{nicConfig2-name}",
@@ -668,55 +647,51 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
                         primary: true,
                         privateIPAddressVersion: "IPv4",
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}",
+                        },
+                      },
+                    },
                   ],
-                  primary: false
-                }
-              }
-            ]
+                  primary: false,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty().catch(
-  console.error
-);
+createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -746,13 +721,13 @@ async function createAScaleSetWithApplicationProfile() {
                 packageReferenceId:
                   "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
                 tags: "myTag1",
-                treatFailureAsDeploymentFailure: true
+                treatFailureAsDeploymentFailure: true,
               },
               {
                 packageReferenceId:
-                  "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"
-              }
-            ]
+                  "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1",
+              },
+            ],
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -765,50 +740,49 @@ async function createAScaleSetWithApplicationProfile() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -834,7 +808,7 @@ async function createAScaleSetWithDiskControllerType() {
         upgradePolicy: { mode: "Manual" },
         virtualMachineProfile: {
           hardwareProfile: {
-            vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+            vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -847,21 +821,20 @@ async function createAScaleSetWithDiskControllerType() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             diskControllerType: "NVMe",
@@ -869,30 +842,30 @@ async function createAScaleSetWithDiskControllerType() {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
           },
-          userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-        }
+          userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -928,21 +901,20 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             dataDisks: [
@@ -953,51 +925,46 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
                 lun: 0,
                 managedDisk: {
                   diskEncryptionSet: {
-                    id:
-                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                   },
-                  storageAccountType: "Standard_LRS"
-                }
-              }
+                  storageAccountType: "Standard_LRS",
+                },
+              },
             ],
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
               managedDisk: {
                 diskEncryptionSet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
-                storageAccountType: "Standard_LRS"
-              }
-            }
-          }
-        }
+                storageAccountType: "Standard_LRS",
+              },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk().catch(
-  console.error
-);
+createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -1028,14 +995,13 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
+                  primary: true,
+                },
               },
               {
                 name: "{fpgaNic-Name}",
@@ -1050,48 +1016,46 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
                         primary: true,
                         privateIPAddressVersion: "IPv4",
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: false
-                }
-              }
-            ]
+                  primary: false,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1115,7 +1079,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         overprovision: true,
@@ -1132,21 +1096,20 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           securityProfile: { encryptionAtHost: true },
           storageProfile: {
@@ -1154,36 +1117,34 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
               offer: "windows-data-science-vm",
               publisher: "microsoft-ads",
               sku: "windows2016",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadOnly",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty().catch(
-  console.error
-);
+createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -1214,57 +1175,56 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           securityProfile: {
             securityType: "ConfidentialVM",
-            uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+            uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
           },
           storageProfile: {
             imageReference: {
               offer: "2019-datacenter-cvm",
               publisher: "MicrosoftWindowsServer",
               sku: "windows-cvm",
-              version: "17763.2183.2109130127"
+              version: "17763.2183.2109130127",
             },
             osDisk: {
               caching: "ReadOnly",
               createOption: "FromImage",
               managedDisk: {
                 securityProfile: { securityEncryptionType: "VMGuestStateOnly" },
-                storageAccountType: "StandardSSD_LRS"
-              }
-            }
-          }
-        }
+                storageAccountType: "StandardSSD_LRS",
+              },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DC2as_v5", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DC2as_v5", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1300,54 +1260,53 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           securityProfile: {
             securityType: "TrustedLaunch",
-            uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+            uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
           },
           storageProfile: {
             imageReference: {
               offer: "windowsserver-gen2preview-preview",
               publisher: "MicrosoftWindowsServer",
               sku: "windows10-tvm",
-              version: "18363.592.2001092016"
+              version: "18363.592.2001092016",
             },
             osDisk: {
               caching: "ReadOnly",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "StandardSSD_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "StandardSSD_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D2s_v3", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D2s_v3", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1371,7 +1330,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         overprovision: true,
@@ -1388,50 +1347,49 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "windows-data-science-vm",
               publisher: "microsoft-ads",
               sku: "windows2016",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1468,55 +1426,53 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
                       properties: {
                         applicationGatewayBackendAddressPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}"
-                          }
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                          },
                         ],
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1553,65 +1509,62 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
                       properties: {
                         loadBalancerBackendAddressPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}"
-                          }
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                          },
                         ],
                         loadBalancerInboundNatPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}"
-                          }
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}",
+                          },
                         ],
                         publicIPAddressConfiguration: {
                           name: "{vmss-name}",
-                          properties: { publicIPAddressVersion: "IPv4" }
+                          properties: { publicIPAddressVersion: "IPv4" },
                         },
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1648,50 +1601,49 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1719,9 +1671,8 @@ async function createAScaleSetWithBootDiagnostics() {
           diagnosticsProfile: {
             bootDiagnostics: {
               enabled: true,
-              storageUri:
-                "http://{existing-storage-account-name}.blob.core.windows.net"
-            }
+              storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+            },
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -1734,50 +1685,49 @@ async function createAScaleSetWithBootDiagnostics() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1813,55 +1763,54 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             dataDisks: [
               { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-              { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+              { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
             ],
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
               diskSizeGB: 512,
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D2_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D2_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1885,7 +1834,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         overprovision: true,
@@ -1902,58 +1851,55 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "windows-data-science-vm",
               publisher: "microsoft-ads",
               sku: "windows2016",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadOnly",
               createOption: "FromImage",
               diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAScaleSetWithEphemeralOSDisksUsingPlacementProperty().catch(
-  console.error
-);
+createAScaleSetWithEphemeralOSDisksUsingPlacementProperty().catch(console.error);
 /**
  * This sample demonstrates how to Create or update a VM scale set.
  *
@@ -1972,7 +1918,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
       plan: {
         name: "windows2016",
         product: "windows-data-science-vm",
-        publisher: "microsoft-ads"
+        publisher: "microsoft-ads",
       },
       properties: {
         overprovision: true,
@@ -1989,51 +1935,50 @@ async function createAScaleSetWithEphemeralOSDisks() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "windows-data-science-vm",
               publisher: "microsoft-ads",
               sku: "windows2016",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadOnly",
               createOption: "FromImage",
               diffDiskSettings: { option: "Local" },
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2061,9 +2006,8 @@ async function createAScaleSetWithExtensionTimeBudget() {
           diagnosticsProfile: {
             bootDiagnostics: {
               enabled: true,
-              storageUri:
-                "http://{existing-storage-account-name}.blob.core.windows.net"
-            }
+              storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+            },
           },
           extensionProfile: {
             extensionsTimeBudget: "PT1H20M",
@@ -2075,10 +2019,10 @@ async function createAScaleSetWithExtensionTimeBudget() {
                   autoUpgradeMinorVersion: false,
                   publisher: "{extension-Publisher}",
                   settings: {},
-                  typeHandlerVersion: "{handler-version}"
-                }
-              }
-            ]
+                  typeHandlerVersion: "{handler-version}",
+                },
+              },
+            ],
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -2091,50 +2035,49 @@ async function createAScaleSetWithExtensionTimeBudget() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2171,50 +2114,49 @@ async function createAScaleSetWithManagedBootDiagnostics() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2250,50 +2192,49 @@ async function createAScaleSetWithPasswordAuthentication() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2329,50 +2270,49 @@ async function createAScaleSetWithPremiumStorage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Premium_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Premium_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2397,7 +2337,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
         orchestrationMode: "Flexible",
         priorityMixPolicy: {
           baseRegularPriorityCount: 4,
-          regularPriorityPercentageAboveBase: 50
+          regularPriorityPercentageAboveBase: 50,
         },
         singlePlacementGroup: false,
         virtualMachineProfile: {
@@ -2414,21 +2354,20 @@ async function createAScaleSetWithPriorityMixPolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           priority: "Spot",
           storageProfile: {
@@ -2436,29 +2375,29 @@ async function createAScaleSetWithPriorityMixPolicy() {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" }
+      sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2495,50 +2434,49 @@ async function createAScaleSetWithScaleInPolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2577,21 +2515,20 @@ async function createAScaleSetWithSpotRestorePolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           priority: "Spot",
           storageProfile: {
@@ -2599,29 +2536,29 @@ async function createAScaleSetWithSpotRestorePolicy() {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_A8m_v2", capacity: 2, tier: "Standard" }
+      sku: { name: "Standard_A8m_v2", capacity: 2, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2657,16 +2594,15 @@ async function createAScaleSetWithSshAuthentication() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -2678,40 +2614,40 @@ async function createAScaleSetWithSshAuthentication() {
                   {
                     path: "/home/{your-username}/.ssh/authorized_keys",
                     keyData:
-                      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
-                  }
-                ]
-              }
-            }
+                      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1",
+                  },
+                ],
+              },
+            },
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2747,56 +2683,55 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           scheduledEventsProfile: {
             terminateNotificationProfile: {
               enable: true,
-              notBeforeTimeout: "PT5M"
-            }
+              notBeforeTimeout: "PT5M",
+            },
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2832,51 +2767,50 @@ async function createAScaleSetWithUserData() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
           },
-          userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-        }
+          userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2912,56 +2846,55 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             dataDisks: [
               { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-              { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+              { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
             ],
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
               diskSizeGB: 512,
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
       sku: { name: "Standard_A1_v2", capacity: 2, tier: "Standard" },
-      zones: ["1", "3"]
+      zones: ["1", "3"],
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -2987,7 +2920,7 @@ async function createAScaleSetWithVMSizeProperties() {
         upgradePolicy: { mode: "Manual" },
         virtualMachineProfile: {
           hardwareProfile: {
-            vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+            vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -3000,51 +2933,50 @@ async function createAScaleSetWithVMSizeProperties() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
           },
-          userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-        }
+          userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+        },
       },
-      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -3071,9 +3003,8 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
         virtualMachineProfile: {
           capacityReservation: {
             capacityReservationGroup: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}"
-            }
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+            },
           },
           networkProfile: {
             networkInterfaceConfigurations: [
@@ -3086,50 +3017,49 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                        }
-                      }
-                    }
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                        },
+                      },
+                    },
                   ],
-                  primary: true
-                }
-              }
-            ]
+                  primary: true,
+                },
+              },
+            ],
           },
           osProfile: {
             adminPassword: "{your-password}",
             adminUsername: "{your-username}",
-            computerNamePrefix: "{vmss-name}"
+            computerNamePrefix: "{vmss-name}",
           },
           storageProfile: {
             imageReference: {
               offer: "WindowsServer",
               publisher: "MicrosoftWindowsServer",
               sku: "2016-Datacenter",
-              version: "latest"
+              version: "latest",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
-              managedDisk: { storageAccountType: "Standard_LRS" }
-            }
-          }
-        }
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+        },
       },
-      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" }
+      sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
