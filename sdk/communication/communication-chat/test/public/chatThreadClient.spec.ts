@@ -10,6 +10,7 @@ import {
   ChatThreadClient,
   NoneRetentionPolicy,
   ThreadCreationDateRetentionPolicy,
+  ChatAttachment
 } from "../../src";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
@@ -130,6 +131,61 @@ describe("ChatThreadClient", function () {
     assert.isNotNull(result.id);
     messageId = result.id!;
   });
+
+  it("successfully sends a message with attachment and update message without modifying attachment", async function () {
+    const chatThreadResult = await chatClient.createChatThread({ topic: "test attachments" });
+    const chatThreadClientForAttachment = chatClient.getChatThreadClient(chatThreadResult.chatThread?.id as string);
+
+    const request = { content: `content` };
+    const chatAttachment: ChatAttachment = { id: "123456", attachmentType: 'image' };
+    const options = { attachments: [chatAttachment] };
+    const result = await chatThreadClientForAttachment.sendMessage(request, options);
+
+    assert.isNotNull(result.id);
+    const msgId = result.id!;
+
+    const message = await chatThreadClientForAttachment.getMessage(msgId);
+    assert.isNotNull(message);
+    assert.equal(message.id, msgId);
+    assert.isNotNull(message.content?.attachments);
+    assert.equal(message.content?.attachments?.length, 1);
+
+    // Update without attachments, attachment stay the same
+    const updateMessageRequest = { content: `contentEdited` };
+    await chatThreadClientForAttachment.updateMessage(msgId, updateMessageRequest);
+
+    const messageUpdated = await chatThreadClientForAttachment.getMessage(msgId);
+    assert.isNotNull(messageUpdated);
+    assert.equal(messageUpdated.content?.attachments?.length, 1);
+  });
+
+  it("successfully sends a message with attachment and update to remove attachments", async function () {
+    const chatThreadResult = await chatClient.createChatThread({ topic: "test attachments" });
+    const chatThreadClientForAttachment = chatClient.getChatThreadClient(chatThreadResult.chatThread?.id as string);
+
+    const request = { content: `content` };
+    const chatAttachment: ChatAttachment = { id: "123456", attachmentType: 'image' };
+    const options = { attachments: [chatAttachment] };
+    const result = await chatThreadClientForAttachment.sendMessage(request, options);
+
+    assert.isNotNull(result.id);
+    const msgId = result.id!;
+
+    const message = await chatThreadClientForAttachment.getMessage(msgId);
+    assert.isNotNull(message);
+    assert.equal(message.id, msgId);
+    assert.isNotNull(message.content?.attachments);
+    assert.equal(message.content?.attachments?.length, 1);
+
+    // Update to empty out attachments
+    const updateMessageRequest = { content: `contentEdited`, attachments: [] };
+    await chatThreadClientForAttachment.updateMessage(msgId, updateMessageRequest);
+
+    const messageUpdated = await chatThreadClientForAttachment.getMessage(msgId);
+    assert.isNotNull(messageUpdated);
+    assert.equal(messageUpdated.content?.attachments?.length, 0);
+  });
+
 
   it("successfully sends typing notification", async function () {
     const result = await chatThreadClient.sendTypingNotification();
