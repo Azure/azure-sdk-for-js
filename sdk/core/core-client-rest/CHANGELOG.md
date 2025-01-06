@@ -1,16 +1,10 @@
 # Release History
 
-## 2.3.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.3.2 (2025-01-07)
 
 ### Bugs Fixed
 
 - Allow dashes (`-`) in path parameter identifiers. PR [#31731](https://github.com/Azure/azure-sdk-for-js/pull/31731)
-
-### Other Changes
 
 ## 2.3.1 (2024-10-10)
 
