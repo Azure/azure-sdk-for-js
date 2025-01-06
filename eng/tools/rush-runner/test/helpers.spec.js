@@ -4,15 +4,17 @@
 // @ts-check
 
 import { assert, describe, it } from "vitest";
-import { getDirectionMappedPackages, reducedDependencyTestMatrix } from "../src/helpers.js";
+import { getDirectionMappedPackages, reducedDependencyTestMatrix, restrictedToPackages } from "../src/helpers.js";
 
 describe("getDirectionMappedPackages", () => {
   describe("build", () => {
     it("should use --to reduced core scope for changed core package", () => {
       const changed = ["@azure/core-client"];
       const mapped = getDirectionMappedPackages(changed, "build", ["core"]);
+      const expected = reducedDependencyTestMatrix["core"].map((p) => [restrictedToPackages.includes(p) ? "--to" : "--from", p]);
+      expected.unshift(["--to", "@azure/core-client"]);
 
-      assert.deepStrictEqual(mapped, [["--to", "@azure/core-client"]]);
+      assert.deepStrictEqual(mapped, expected);
     });
 
     it("it uses --from when building a normal package", () => {
@@ -32,13 +34,10 @@ describe("getDirectionMappedPackages", () => {
     it("should use --to and --from for mixed packages", () => {
       const changed = ["@azure/core-rest-pipeline", "@azure/app-configuration"];
       const mapped = getDirectionMappedPackages(changed, "build", ["core", "appconfiguration"]);
-
-      const expected = reducedDependencyTestMatrix["core"].map((p) => ["--to", p]);
-      expected.push(["--from", "@azure/app-configuration"]);
-      assert.deepStrictEqual(mapped, [
-        ["--to", "@azure/core-rest-pipeline"],
-        ["--from", "@azure/app-configuration"],
-      ]);
+      const expected = reducedDependencyTestMatrix["core"].map((p) => [restrictedToPackages.includes(p) ? "--to" : "--from", p]);
+      expected.unshift(["--from", "@azure/app-configuration"]);
+      expected.unshift(["--to", "@azure/core-rest-pipeline"]);
+      assert.deepStrictEqual(mapped, expected);
     });
   });
 

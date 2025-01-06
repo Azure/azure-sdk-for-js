@@ -36,7 +36,7 @@ export const reducedDependencyTestMatrix = {
 };
 
 /** @type {string[]} */
-const restrictedToPackages = [
+export const restrictedToPackages = [
   "@azure/abort-controller",
   "@azure/core-amqp",
   "@azure/core-auth",
@@ -73,8 +73,25 @@ const restrictedToPackages = [
 export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
   const mappedPackages = [];
 
+  let fullPackageNames = packageNames.slice();
+
+  let isReducedTestScopeEnabled = serviceDirs.length > 1;
+  for (const dir of serviceDirs) {
+    // reducedDependencyTestMatrix is a little misleading, since if we want to test
+    // these projects, we need to make sure they are built first, which requires them impacting
+    // the build commands as well
+    if (reducedDependencyTestMatrix[dir]) {
+      isReducedTestScopeEnabled = true;
+      for (const dep of reducedDependencyTestMatrix[dir]) {
+        if (!fullPackageNames.includes(dep)) {
+          fullPackageNames.push(dep);
+        }
+      }
+    }
+  }
+
   if (action.startsWith("build")) {
-    for (const packageName of packageNames) {
+    for (const packageName of fullPackageNames) {
       /**  @type {string} */
       let rushCommandFlag;
 
@@ -94,16 +111,6 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     }
   } else {
     // we are in a test task of some kind
-    let fullPackageNames = packageNames.slice();
-
-    let isReducedTestScopeEnabled = serviceDirs.length > 1;
-    for (const dir of serviceDirs) {
-      if (reducedDependencyTestMatrix[dir]) {
-        isReducedTestScopeEnabled = true;
-        fullPackageNames.push(...reducedDependencyTestMatrix[dir]);
-      }
-    }
-
     const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
 
     mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
