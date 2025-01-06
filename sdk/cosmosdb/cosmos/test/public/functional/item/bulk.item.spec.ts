@@ -1097,7 +1097,7 @@ describe("test bulk operations", async function () {
           {
             on: PluginOn.request,
             plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex % 2 === 0) {
+              if (context.operationType === "batch" && responseIndex % 3 === 0) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
                 error.substatus = SubStatusCodes.PartitionKeyRangeGone;

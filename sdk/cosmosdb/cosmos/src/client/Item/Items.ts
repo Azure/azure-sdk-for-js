@@ -33,6 +33,7 @@ import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInt
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { BulkExecutor } from "../../bulk/BulkExecutor";
 
 /**
  * @hidden
@@ -450,8 +451,13 @@ export class Items {
     options?: RequestOptions,
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const bulkExecutorCache = this.clientContext.getBulkExecutorCache();
-      const bulkExecutor = bulkExecutorCache.getOrCreateExecutor(
+      // const bulkExecutorCache = this.clientContext.getBulkExecutorCache();
+      // const bulkExecutor = bulkExecutorCache.getOrCreateExecutor(
+      //   this.container,
+      //   this.clientContext,
+      //   this.partitionKeyRangeCache,
+      // );
+      const bulkExecutor = new BulkExecutor(
         this.container,
         this.clientContext,
         this.partitionKeyRangeCache,
