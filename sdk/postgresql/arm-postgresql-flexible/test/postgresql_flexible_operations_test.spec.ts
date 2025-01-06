@@ -39,9 +39,6 @@ describe("PostgreSQLFlexible test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PostgreSQLManagementFlexibleServerClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,9 +47,6 @@ describe("PostgreSQLFlexible test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
 
   });
 
@@ -60,6 +54,8 @@ describe("PostgreSQLFlexible test", () => {
     await recorder.stop();
   });
 
-  it.skip("operation list test", async function () {
+  it("operation list test", async function () {
+    const result = await client.operations.list();
+    console.log(result);
   });
 })
