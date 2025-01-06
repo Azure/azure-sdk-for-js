@@ -19,33 +19,33 @@ import type {
   ServiceSetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
   QueueServiceStatistics,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   assertResponse,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
-import { QueueClient } from "./QueueClient";
-import { AccountSASPermissions } from "./AccountSASPermissions";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
+import { QueueClient } from "./QueueClient.js";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
+} from "./AccountSASSignatureValues.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**

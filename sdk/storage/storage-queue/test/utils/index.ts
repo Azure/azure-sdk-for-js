@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { QueueServiceClient } from "../../src/QueueServiceClient";
+import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { newPipeline } from "../../src/Pipeline.js";
+import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { configureStorageClient } from "./testutils.common";
-export * from "./testutils.common";
+import { configureStorageClient } from "./testutils.common.js";
+export * from "./testutils.common.js";
 
 export function getGenericQSU(
   recorder: Recorder,

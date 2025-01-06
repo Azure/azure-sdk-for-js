@@ -38,8 +38,7 @@ import { QueueServiceClient } from "@azure/storage-queue";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   // Enter your storage account name and shared key

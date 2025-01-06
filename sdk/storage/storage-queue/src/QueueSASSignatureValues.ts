@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueueSASPermissions } from "./QueueSASPermissions";
-import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "./utils/constants.js";
+import { truncatedISO8061Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

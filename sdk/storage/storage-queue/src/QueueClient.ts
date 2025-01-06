@@ -29,14 +29,14 @@ import type {
   MessagesClearHeaders,
   MessageIdDeleteHeaders,
   MessageIdUpdateHeaders,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient, getStorageClientContext } from "./StorageClient";
-import type { WithResponse } from "./utils/utils.common";
+import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient, getStorageClientContext } from "./StorageClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
@@ -44,18 +44,18 @@ import {
   truncatedISO8061Date,
   appendToURLQuery,
   assertResponse,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { Metadata } from "./models";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { Metadata } from "./models.js";
 import {
   generateQueueSASQueryParameters,
   generateQueueSASQueryParametersInternal,
-} from "./QueueSASSignatureValues";
-import type { SasIPRange } from "./SasIPRange";
-import type { QueueSASPermissions } from "./QueueSASPermissions";
-import type { SASProtocol } from "./SASQueryParameters";
+} from "./QueueSASSignatureValues.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
