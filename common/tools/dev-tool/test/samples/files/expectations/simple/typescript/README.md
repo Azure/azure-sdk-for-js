@@ -59,8 +59,8 @@ npx dev-tool run vendored cross-env MY_VARIABLE="<my variable>" node dist/getCon
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/simple/typescript/src/getConfigurationSetting.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
+[createinstance_azureappconfiguration]: https://learn.microsoft.com/azure/azure-app-configuration/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
