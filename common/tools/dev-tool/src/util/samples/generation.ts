@@ -129,7 +129,7 @@ export async function makeSampleGenerationInfo(
       "There is probably a more specific product that applies to this package! Reach out for help with the docs platform.",
     );
     log.warn(
-      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.',
+      'If you do not want to publish samples to learn.microsoft.com, set `"disableDocsMs": true` in the sample configuration.',
     );
     onError();
   }

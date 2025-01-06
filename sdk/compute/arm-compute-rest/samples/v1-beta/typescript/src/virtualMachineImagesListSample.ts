@@ -4,12 +4,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesListParameters
+  VirtualMachineImagesListParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
@@ -30,8 +28,8 @@ async function virtualMachineImagesListMaximumSetGen() {
       $expand: "aaaaaaaaaaaaaaaaaaaaaaaa",
       $top: 18,
       $orderby: "aa",
-      "api-version": "2022-08-01"
-    }
+      "api-version": "2022-08-01",
+    },
   };
   const result = await client
     .path(
@@ -40,7 +38,7 @@ async function virtualMachineImagesListMaximumSetGen() {
       location,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);
@@ -62,7 +60,7 @@ async function virtualMachineImagesListMinimumSetGen() {
   const offer = "aaaaaaaaaa";
   const skus = "aaaaaa";
   const options: VirtualMachineImagesListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -71,7 +69,7 @@ async function virtualMachineImagesListMinimumSetGen() {
       location,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);
