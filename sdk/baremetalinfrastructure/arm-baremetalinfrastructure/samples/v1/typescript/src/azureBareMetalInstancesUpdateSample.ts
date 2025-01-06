@@ -13,9 +13,7 @@ import {
   BareMetalInfrastructureClient
 } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource group, and instance name.
