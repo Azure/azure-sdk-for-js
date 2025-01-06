@@ -134,10 +134,7 @@ export function sAPCentralServerInstancesCreate(
   options: SAPCentralServerInstancesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SAPCentralServerInstance>,
-  SAPCentralServerInstance
-> {
+): PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance> {
   return getLongRunningPoller(
     context,
     _sAPCentralServerInstancesCreateDeserialize,
@@ -157,10 +154,7 @@ export function sAPCentralServerInstancesCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<SAPCentralServerInstance>,
-    SAPCentralServerInstance
-  >;
+  ) as PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
 }
 
 export function _sAPCentralServerInstancesUpdateSend(
@@ -359,9 +353,7 @@ export function _sAPCentralServerInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : startRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -387,25 +379,20 @@ export function sAPCentralServerInstancesStart(
     requestOptions: {},
   },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPCentralServerInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPCentralServerInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          centralInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPCentralServerInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPCentralServerInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPCentralServerInstancesStopSend(
@@ -426,9 +413,7 @@ export function _sAPCentralServerInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : stopRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 
@@ -452,23 +437,18 @@ export function sAPCentralServerInstancesStop(
   centralInstanceName: string,
   options: SAPCentralServerInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPCentralServerInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPCentralServerInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          centralInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPCentralServerInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPCentralServerInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }

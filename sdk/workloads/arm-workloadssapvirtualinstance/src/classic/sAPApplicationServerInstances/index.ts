@@ -44,10 +44,7 @@ export interface SAPApplicationServerInstancesOperations {
     applicationInstanceName: string,
     resource: SAPApplicationServerInstance,
     options?: SAPApplicationServerInstancesCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<SAPApplicationServerInstance>,
-    SAPApplicationServerInstance
-  >;
+  ) => PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
   /** Puts the SAP Application Server Instance resource. */
   update: (
     resourceGroupName: string,

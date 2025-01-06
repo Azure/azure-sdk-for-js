@@ -15,9 +15,7 @@ async function sAPVirtualInstancesListByResourceGroup() {
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sAPVirtualInstances.listByResourceGroup(
-    "test-rg",
-  )) {
+  for await (let item of client.sAPVirtualInstances.listByResourceGroup("test-rg")) {
     resArray.push(item);
   }
 

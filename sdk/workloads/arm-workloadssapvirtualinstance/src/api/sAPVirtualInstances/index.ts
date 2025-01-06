@@ -145,25 +145,20 @@ export function sAPVirtualInstancesCreate(
   resource: SAPVirtualInstance,
   options: SAPVirtualInstancesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
 }
 
 export function _sAPVirtualInstancesUpdateSend(
@@ -207,25 +202,20 @@ export function sAPVirtualInstancesUpdate(
   properties: UpdateSAPVirtualInstanceRequest,
   options: SAPVirtualInstancesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
 }
 
 export function _sAPVirtualInstancesDeleteSend(
@@ -372,12 +362,7 @@ export function sAPVirtualInstancesListBySubscription(
 ): PagedAsyncIterableIterator<SAPVirtualInstance> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _sAPVirtualInstancesListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _sAPVirtualInstancesListBySubscriptionSend(context, subscriptionId, options),
     _sAPVirtualInstancesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -400,9 +385,7 @@ export function _sAPVirtualInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : startRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -425,24 +408,19 @@ export function sAPVirtualInstancesStart(
   sapVirtualInstanceName: string,
   options: SAPVirtualInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPVirtualInstancesStopSend(
@@ -461,9 +439,7 @@ export function _sAPVirtualInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : stopRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 
@@ -486,24 +462,19 @@ export function sAPVirtualInstancesStop(
   sapVirtualInstanceName: string,
   options: SAPVirtualInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPVirtualInstancesGetSizingRecommendationsSend(

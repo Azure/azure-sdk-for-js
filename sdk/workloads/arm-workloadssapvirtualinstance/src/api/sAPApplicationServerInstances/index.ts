@@ -138,10 +138,7 @@ export function sAPApplicationServerInstancesCreate(
   options: SAPApplicationServerInstancesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SAPApplicationServerInstance>,
-  SAPApplicationServerInstance
-> {
+): PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance> {
   return getLongRunningPoller(
     context,
     _sAPApplicationServerInstancesCreateDeserialize,
@@ -161,10 +158,7 @@ export function sAPApplicationServerInstancesCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<SAPApplicationServerInstance>,
-    SAPApplicationServerInstance
-  >;
+  ) as PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
 }
 
 export function _sAPApplicationServerInstancesUpdateSend(
@@ -367,9 +361,7 @@ export function _sAPApplicationServerInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : startRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -436,9 +428,7 @@ export function _sAPApplicationServerInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : stopRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 

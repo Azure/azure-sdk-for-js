@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getSAPVirtualInstancesOperations,
   SAPVirtualInstancesOperations,
@@ -21,11 +18,7 @@ import {
   getSAPApplicationServerInstancesOperations,
   SAPApplicationServerInstancesOperations,
 } from "./classic/sAPApplicationServerInstances/index.js";
-import {
-  createWorkloads,
-  WorkloadsContext,
-  WorkloadsClientOptionalParams,
-} from "./api/index.js";
+import { createWorkloads, WorkloadsContext, WorkloadsClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -52,20 +45,16 @@ export class WorkloadsClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.sAPVirtualInstances = getSAPVirtualInstancesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.sAPVirtualInstances = getSAPVirtualInstancesOperations(this._client, subscriptionId);
     this.sAPCentralServerInstances = getSAPCentralServerInstancesOperations(
       this._client,
       subscriptionId,
     );
-    this.sAPDatabaseInstances = getSAPDatabaseInstancesOperations(
+    this.sAPDatabaseInstances = getSAPDatabaseInstancesOperations(this._client, subscriptionId);
+    this.sAPApplicationServerInstances = getSAPApplicationServerInstancesOperations(
       this._client,
       subscriptionId,
     );
-    this.sAPApplicationServerInstances =
-      getSAPApplicationServerInstancesOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

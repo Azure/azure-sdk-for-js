@@ -131,26 +131,21 @@ export function sAPDatabaseInstancesCreate(
   resource: SAPDatabaseInstance,
   options: SAPDatabaseInstancesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance>;
 }
 
 export function _sAPDatabaseInstancesUpdateSend(
@@ -339,9 +334,7 @@ export function _sAPDatabaseInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : startRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -365,25 +358,20 @@ export function sAPDatabaseInstancesStart(
   databaseInstanceName: string,
   options: SAPDatabaseInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPDatabaseInstancesStopSend(
@@ -404,9 +392,7 @@ export function _sAPDatabaseInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: !options["body"]
-        ? options["body"]
-        : stopRequestSerializer(options["body"]),
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 
@@ -430,23 +416,18 @@ export function sAPDatabaseInstancesStop(
   databaseInstanceName: string,
   options: SAPDatabaseInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
