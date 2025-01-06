@@ -27,7 +27,7 @@ async function availabilitySetsDeleteMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .delete(options);
   console.log(result);
@@ -54,7 +54,7 @@ async function availabilitySetsDeleteMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .delete(options);
   console.log(result);

@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createComputeManagementClient, {
   CommunityGalleryImageVersionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List community gallery image versions inside an image.
@@ -26,7 +24,7 @@ async function listCommunityGalleryImageVersions() {
   const publicGalleryName = "publicGalleryName";
   const galleryImageName = "myGalleryImageName";
   const options: CommunityGalleryImageVersionsListParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +32,7 @@ async function listCommunityGalleryImageVersions() {
       subscriptionId,
       location,
       publicGalleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

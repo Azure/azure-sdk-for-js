@@ -29,7 +29,7 @@ async function getAGalleryApplication() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryApplicationName
+      galleryApplicationName,
     )
     .get(options);
   console.log(result);

@@ -8,9 +8,7 @@ import createComputeManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
@@ -48,129 +46,6 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
         hardwareProfile: {
           vmSize: "Basic_A0",
           vmSizeProperties: { vCPUsAvailable: 9, vCPUsPerCore: 12 },
-        },
-        instanceView: {
-          bootDiagnostics: {
-            status: {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z"),
-            },
-          },
-          disks: [
-            {
-              name: "aaaaaaaaaaa",
-              encryptionSettings: [
-                {
-                  diskEncryptionKey: {
-                    secretUrl: "aaaaaaaa",
-                    sourceVault: {
-                      id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
-                    },
-                  },
-                  enabled: true,
-                  keyEncryptionKey: {
-                    keyUrl: "aaaaaaaaaaaaaa",
-                    sourceVault: {
-                      id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
-                    },
-                  },
-                },
-              ],
-              statuses: [
-                {
-                  code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                  displayStatus: "aaaaaa",
-                  level: "Info",
-                  message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z"),
-                },
-              ],
-            },
-          ],
-          maintenanceRedeployStatus: {
-            isCustomerInitiatedMaintenanceAllowed: true,
-            lastOperationMessage: "aaaaaa",
-            lastOperationResultCode: "None",
-            maintenanceWindowEndTime: new Date("2021-11-30T12:58:26.531Z"),
-            maintenanceWindowStartTime: new Date("2021-11-30T12:58:26.531Z"),
-            preMaintenanceWindowEndTime: new Date("2021-11-30T12:58:26.531Z"),
-            preMaintenanceWindowStartTime: new Date("2021-11-30T12:58:26.531Z"),
-          },
-          placementGroupId: "aaa",
-          platformFaultDomain: 14,
-          platformUpdateDomain: 23,
-          rdpThumbPrint: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          statuses: [
-            {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z"),
-            },
-          ],
-          vmAgent: {
-            extensionHandlers: [
-              {
-                type: "aaaaaaaaaaaaa",
-                status: {
-                  code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                  displayStatus: "aaaaaa",
-                  level: "Info",
-                  message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z"),
-                },
-                typeHandlerVersion: "aaaaa",
-              },
-            ],
-            statuses: [
-              {
-                code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                displayStatus: "aaaaaa",
-                level: "Info",
-                message: "a",
-                time: new Date("2021-11-30T12:58:26.522Z"),
-              },
-            ],
-            vmAgentVersion: "aaaaaaaaaaaaaaaaaaaaaaa",
-          },
-          vmHealth: {
-            status: {
-              code: "aaaaaaaaaaaaaaaaaaaaaaa",
-              displayStatus: "aaaaaa",
-              level: "Info",
-              message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z"),
-            },
-          },
-          extensions: [
-            {
-              name: "aaaaaaaaaaaaaaaaa",
-              type: "aaaaaaaaa",
-              statuses: [
-                {
-                  code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                  displayStatus: "aaaaaa",
-                  level: "Info",
-                  message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z"),
-                },
-              ],
-              substatuses: [
-                {
-                  code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                  displayStatus: "aaaaaa",
-                  level: "Info",
-                  message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z"),
-                },
-              ],
-              typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
-            },
-          ],
         },
         licenseType: "aaaaaaaaaa",
         networkProfile: {
@@ -443,7 +318,6 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
         },
         userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
       },
-      sku: { name: "Classic", capacity: 29, tier: "aaaaaaaaaaaaaa" },
       tags: {},
     },
     queryParameters: { "api-version": "2022-08-01" },
@@ -457,7 +331,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
       instanceId,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -489,7 +363,7 @@ async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
       instanceId,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
