@@ -22,6 +22,7 @@ export const Constants = {
     ContentEncoding: "Content-Encoding",
     CharacterSet: "CharacterSet",
     UserAgent: "User-Agent",
+    XMSUserAgent: "x-ms-useragent",
     IfModifiedSince: "If-Modified-Since",
     IfMatch: "If-Match",
     IfNoneMatch: "If-None-Match",
