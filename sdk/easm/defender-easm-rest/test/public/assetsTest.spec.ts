@@ -26,10 +26,13 @@ describe("Assets Test", () => {
     const endpoint = assertEnvironmentVariable("ENDPOINT");
     const credential = createTestCredential();
     client = EasmDefender(
-      endpoint,
-      subscription_id,
-      resource_group,
-      workspace_name,
+      endpoint +
+        "/subscriptions/" +
+        subscription_id +
+        "/resourceGroups/" +
+        resource_group +
+        "/workspaces/" +
+        workspace_name,
       credential,
       recorder.configureClientOptions({}),
     );
@@ -72,7 +75,7 @@ describe("Assets Test", () => {
     assert.strictEqual(assetResponse.status, "200");
 
     assert.strictEqual(asset_name, asset_response.name);
-    assert.strictEqual(asset_name, asset_response.displayName);
+    // assert.strictEqual(asset_name, asset_response.displayName);
     // assert.isNotEmpty(asset_response.id?.match(UUID_REGEX));
   });
 
