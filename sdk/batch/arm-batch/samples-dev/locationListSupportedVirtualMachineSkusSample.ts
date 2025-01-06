@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of Batch supported Virtual Machine VM sizes available at the given location.

@@ -38,10 +38,10 @@ async function submitNewCommand() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post(requestPayload);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);
 }

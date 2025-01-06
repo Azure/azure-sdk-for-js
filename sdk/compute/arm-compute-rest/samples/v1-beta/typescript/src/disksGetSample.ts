@@ -3,13 +3,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  DisksGetParameters
-} from "@azure-rest/arm-compute";
+import createComputeManagementClient, { DisksGetParameters } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a disk.
@@ -24,14 +20,14 @@ async function getInformationAboutAManagedDisk() {
   const resourceGroupName = "myResourceGroup";
   const diskName = "myManagedDisk";
   const options: DisksGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .get(options);
   console.log(result);
