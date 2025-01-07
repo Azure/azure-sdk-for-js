@@ -583,6 +583,9 @@ importers:
       '@rush-temp/arm-peering':
         specifier: file:./projects/arm-peering.tgz
         version: file:projects/arm-peering.tgz
+      '@rush-temp/arm-pineconevectordb':
+        specifier: file:./projects/arm-pineconevectordb.tgz
+        version: file:projects/arm-pineconevectordb.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-playwrighttesting':
         specifier: file:./projects/arm-playwrighttesting.tgz
         version: file:projects/arm-playwrighttesting.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
@@ -3224,6 +3227,10 @@ packages:
 
   '@rush-temp/arm-peering@file:projects/arm-peering.tgz':
     resolution: {integrity: sha512-9JSEKB20oOKAhOxeQZdYkKmlfDAyUund2pnDWzHNK+bWDBWvas7xvM1pk48VQ/7Z7KQz1cWIXzMcVW42zcX1Yw==, tarball: file:projects/arm-peering.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
+    resolution: {integrity: sha512-Cz2jmiXBAerxg/4yJO5dtqk7qmW+otO34F10xiATj18mtFyKfVkiqV2Vw/Ovh7iX86SRdvfGLdu2vYiKP0Rqmg==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -14375,6 +14382,39 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
+  '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
+    dependencies:
+      '@microsoft/api-extractor': 7.48.1(@types/node@18.19.68)
+      '@types/node': 18.19.68
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      eslint: 9.17.0
+      playwright: 1.49.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@microsoft/api-extractor': 7.48.1(@types/node@18.19.68)
@@ -20422,11 +20462,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20444,7 +20484,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20452,7 +20492,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -20494,12 +20534,12 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -20516,7 +20556,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
@@ -20553,11 +20593,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.68':
@@ -20582,7 +20622,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -20599,7 +20639,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -20610,12 +20650,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -20634,7 +20674,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -20668,7 +20708,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.17.0)(typescript@5.7.2))(eslint@9.17.0)(typescript@5.7.2)':
@@ -21650,7 +21690,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
