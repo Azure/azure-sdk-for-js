@@ -918,7 +918,7 @@ importers:
         version: file:projects/core-xml.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/cosmos':
         specifier: file:./projects/cosmos.tgz
-        version: file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
+        version: file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
       '@rush-temp/create-microsoft-playwright-testing':
         specifier: file:./projects/create-microsoft-playwright-testing.tgz
         version: file:projects/create-microsoft-playwright-testing.tgz(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
@@ -3671,7 +3671,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-IzgO/rrDUd7B2ldyw/1N7sJ0DbLe5Wsd56Fsu3wpDJbDeYcSAmjODoqvmqRpGg3C5Ikz9fk4LFeUO2r9scylpg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-MkmfDa9tUWqnwR8aF4MMXLk//KaT7JemvzRRhaoOSKQ/bkZR9B9UG/cGMh7XFQxUC7mVxBKaV9QycA/HYilGLg==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -17028,7 +17028,7 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/cosmos@file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
+  '@rush-temp/cosmos@file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))':
     dependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.70
@@ -17046,6 +17046,7 @@ snapshots:
       semaphore: 1.1.0
       tslib: 2.8.1
       typescript: 5.7.2
+      vite: 5.4.11(@types/node@18.19.70)
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17065,7 +17066,6 @@ snapshots:
       - supports-color
       - terser
       - utf-8-validate
-      - vite
       - webdriverio
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))':

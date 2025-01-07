@@ -3,6 +3,7 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
+import "dotenv/config";
 
 export default mergeConfig(
   viteConfig,
