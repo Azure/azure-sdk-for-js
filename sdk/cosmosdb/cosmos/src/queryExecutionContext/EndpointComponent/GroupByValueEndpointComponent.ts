@@ -176,12 +176,16 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
       return this.generateAggregateResponse(aggregateHeaders);
+       
     }
   }
 
   private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const aggregator of this.aggregators.values()) {
-      this.aggregateResultArray.push(aggregator.getResult());
+      const result = aggregator.getResult();
+      if (result !== undefined) {
+        this.aggregateResultArray.push(result);
+      }
     }
     this.completed = true;
     return {
