@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { newPipeline } from "../../src/index.js";
 import {
   getQSU,
@@ -19,7 +20,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     const queueServiceClient = getQSU(recorder);
@@ -28,7 +29,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

@@ -20,7 +20,6 @@ import type {
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
-  ContainerRenameResponse,
   LeaseAccessConditions,
   FilterBlobSegment,
   FilterBlobItem,
@@ -57,7 +56,6 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type {
-  ContainerRenameHeaders,
   ContainerRestoreHeaders,
   ListContainersIncludeType,
   ServiceFilterBlobsResponse,
@@ -576,43 +574,6 @@ export class BlobServiceClient extends StorageClient {
     );
   }
 
-  /**
-   * Rename an existing Blob Container.
-   *
-   * @param sourceContainerName - The name of the source container.
-   * @param destinationContainerName - The new name of the container.
-   * @param options - Options to configure Container Rename operation.
-   */
-  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
-  private async renameContainer(
-    sourceContainerName: string,
-    destinationContainerName: string,
-    options: ServiceRenameContainerOptions = {},
-  ): Promise<{
-    containerClient: ContainerClient;
-    containerRenameResponse: ContainerRenameResponse;
-  }> {
-    return tracingClient.withSpan(
-      "BlobServiceClient-renameContainer",
-      options,
-      async (updatedOptions) => {
-        const containerClient = this.getContainerClient(destinationContainerName);
-        // Hack to access a protected member.
-        const containerContext = containerClient["storageClientContext"].container;
-        const containerRenameResponse = assertResponse<
-          ContainerRenameHeaders,
-          ContainerRenameHeaders
-        >(
-          await containerContext.rename(sourceContainerName, {
-            ...updatedOptions,
-            sourceLeaseId: options.sourceCondition?.leaseId,
-          }),
-        );
-        return { containerClient, containerRenameResponse };
-      },
-    );
-  }
 
   /**
    * Gets the properties of a storage account’s Blob service, including properties

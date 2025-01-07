@@ -13,7 +13,7 @@ describe("Utility Helpers Node.js only", () => {
   const accountKey = "myAccountKey";
   const queueEndpoint = `${protocol}://${accountName}.queue.${endpointSuffix}`;
 
-  function verifyConnectionString(connectionString: string) {
+  function verifyConnectionString(connectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(connectionString);
     assert.equal(
       "AccountConnString",
@@ -32,12 +32,12 @@ describe("Utility Helpers Node.js only", () => {
     );
   }
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

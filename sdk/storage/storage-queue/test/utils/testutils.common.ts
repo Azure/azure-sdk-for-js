@@ -5,11 +5,12 @@ import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder"
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { isNodeLike } from "@azure/core-util";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 
 export function isBrowser(): boolean {
-  return typeof self !== "undefined";
+  return !isNodeLike;
 }
 
 export function configureStorageClient(recorder: Recorder, client: StorageClient): void {
@@ -21,7 +22,12 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): {
+  regex: boolean;
+  target: string;
+  groupForReplace: string;
+  value: string;
+} {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,

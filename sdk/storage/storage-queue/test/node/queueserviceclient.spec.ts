@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import {
   getQSU,
   getConnectionStringFromEnvironment,
@@ -16,12 +17,12 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

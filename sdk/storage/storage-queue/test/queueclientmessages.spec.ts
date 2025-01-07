@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -19,7 +20,7 @@ describe("QueueClient message methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -29,7 +30,7 @@ describe("QueueClient message methods", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { QueueClient } from "../src/QueueClient.js";
 import { getQSU } from "./utils/index.js";
 import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common.js";

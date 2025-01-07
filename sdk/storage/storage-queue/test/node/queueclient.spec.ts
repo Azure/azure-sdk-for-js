@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import {
   getQSU,
   getConnectionStringFromEnvironment,
@@ -23,7 +24,7 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     queueServiceClient = getQSU(recorder);
@@ -32,7 +33,7 @@ describe("QueueClient Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

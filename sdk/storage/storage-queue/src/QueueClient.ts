@@ -45,8 +45,7 @@ import {
   appendToURLQuery,
   assertResponse,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { tracingClient } from "./utils/tracing.js";
 import type { Metadata } from "./models.js";
 import {

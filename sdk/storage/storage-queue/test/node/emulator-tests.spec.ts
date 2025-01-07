@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { QueueClient, QueueServiceClient } from "../../src/index.js";
 import {
   getConnectionStringFromEnvironment,
@@ -17,7 +18,8 @@ describe("Emulator Tests", () => {
   let queueName: string;
   let queueClient: QueueClient;
   let recorder: Recorder;
-  beforeEach(async function (ctx) {
+
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
@@ -29,7 +31,7 @@ describe("Emulator Tests", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (queueClient) {
       await queueClient.delete();
     }

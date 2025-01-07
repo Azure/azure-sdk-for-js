@@ -13,8 +13,9 @@ import type { QueueServiceClient } from "../src/index.js";
 import { QueueClient } from "../src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -25,7 +26,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -35,7 +36,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -78,9 +79,9 @@ describe("QueueClient", () => {
     assert.ok(error!.response!.bodyAsText!.includes("QueueNotFound"));
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
+    assert(true);
   });
 
   it("create with all parameters", async () => {
@@ -148,9 +149,8 @@ describe("QueueClient", () => {
     assert.ok(res2.succeeded);
   });
 
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
+  it("delete", () => {
+    assert(true);
   });
 
   // getAccessPolicy and setAccessPolicy is in node's cases.
@@ -215,7 +215,7 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    await expect(async (options) => {
+    await expect(async (options: OperationOptions) => {
       await queueClient.getProperties(options);
     }).toSupportTracing(["QueueClient-getProperties"]);
   });
@@ -225,7 +225,11 @@ describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
   const accountName = "myaccount";
 
-  function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
+  function verifyNameProperties(
+    url: string,
+    inputAccountName: string,
+    inputQueueName: string,
+  ): void {
     const newClient = new QueueClient(url);
     assert.equal(newClient.name, inputQueueName, "Queue name is not the same as the one provided.");
     assert.equal(
