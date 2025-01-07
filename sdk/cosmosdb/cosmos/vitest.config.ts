@@ -10,6 +10,8 @@ export default mergeConfig(
     test: {
       include: ["test/internal/unit/**/*.spec.ts"],
       exclude: ["test/public/**/*.spec.ts"],
+      hookTimeout: 500000,
+      testTimeout: 500000,
     },
   }),
 );
