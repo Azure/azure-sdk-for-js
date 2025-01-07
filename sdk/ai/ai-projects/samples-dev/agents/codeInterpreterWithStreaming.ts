@@ -42,6 +42,7 @@ export async function main(): Promise<void> {
   );
 
   // Upload file and wait for it to be processed
+  // using dirname for generated samples, replace with full file path for local testing
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
@@ -131,6 +132,7 @@ export async function main(): Promise<void> {
   console.log(`Saving new files...`);
   const imageFileOutput = messages.data[0].content[0] as MessageImageFileContentOutput;
   const imageFile = imageFileOutput.imageFile.fileId;
+  // using dirname for generated samples, replace with full file path for local testing
   const imageFileName = path.resolve(
     __dirname,
     "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
