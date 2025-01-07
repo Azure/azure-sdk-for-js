@@ -75,21 +75,24 @@ describe("Service Utils", () => {
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
+    const runName = "runName";
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
-    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
-  it("should escape special character in runId", () => {
+  it("should escape special character in runName and runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
+    const runName = "run#Name-12/09";
+    const escapeRunName = encodeURIComponent(runName);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
-    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&runName=${escapeRunName}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
