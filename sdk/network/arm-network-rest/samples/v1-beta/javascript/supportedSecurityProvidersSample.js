@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gives the supported security providers for the virtual wan.
@@ -27,7 +27,7 @@ async function supportedSecurityProviders() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
       subscriptionId,
       resourceGroupName,
-      virtualWANName
+      virtualWANName,
     )
     .get(options);
   console.log(result);

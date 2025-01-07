@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Site.
@@ -38,7 +38,7 @@ async function createNetworkVirtualApplianceSite() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      siteName
+      siteName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
