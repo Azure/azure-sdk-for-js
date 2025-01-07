@@ -7,9 +7,7 @@ import createComputeManagementClient, {
   DedicatedHostGroupsUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an dedicated host group.
@@ -26,24 +24,6 @@ async function dedicatedHostGroupsUpdateMaximumSetGen() {
   const options: DedicatedHostGroupsUpdateParameters = {
     body: {
       properties: {
-        instanceView: {
-          hosts: [
-            {
-              availableCapacity: {
-                allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
-              },
-              statuses: [
-                {
-                  code: "aaaaaaaaaaaaaaaaaaaaaaa",
-                  displayStatus: "aaaaaa",
-                  level: "Info",
-                  message: "a",
-                  time: new Date("2021-11-30T12:58:26.522Z"),
-                },
-              ],
-            },
-          ],
-        },
         platformFaultDomainCount: 3,
         supportAutomaticPlacement: true,
       },
