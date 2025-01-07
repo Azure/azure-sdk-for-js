@@ -323,8 +323,9 @@ describe("#StandardMetricsHandler", () => {
 
   it("should not collect when disabled", async () => {
     autoCollect.shutdown();
-    await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    setTimeout(() => {
+      assert.ok(exportStub.notCalled);
+    }, 120);
   });
 
   it("should calculate even if telemetry is sampled out", async () => {
