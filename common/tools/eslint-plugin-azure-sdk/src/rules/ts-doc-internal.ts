@@ -82,7 +82,9 @@ export default createRule({
       const tsNode = converter.get(node as TSESTree.Node) as any;
       const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
       const exported = context.settings.exported as Array<unknown>;
-
+      if (!exported) {
+        return;
+      }
       // if type is internal and has a TSDoc
       if (!exported.includes(symbol) && tsNode.jsDoc !== undefined) {
         // fetch all tags
