@@ -69,7 +69,7 @@ const testDataset = {
 
 describe("Testing Credentials integration for Client", { skip: !isNodeLike }, async () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
-  const mockedEndpoint = "https://localhost:6969";
+  const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
   let spy: MockInstance;
 
