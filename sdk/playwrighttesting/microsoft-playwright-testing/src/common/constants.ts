@@ -69,6 +69,8 @@ export class Constants {
   public static readonly GIT_REV_PARSE = "git rev-parse --is-inside-work-tree";
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
+  public static readonly sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+  public static readonly oneDayInMs = 24 * 60 * 60 * 1000;
   public static readonly API_VERSION = "2024-09-01-preview";
   public static readonly OS = "Os";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
@@ -241,6 +243,7 @@ export const InternalEnvironmentVariables = {
   MPT_SERVICE_RUN_NAME: "_MPT_SERVICE_RUN_NAME",
   MPT_SERVICE_RUN_ID: "_MPT_SERVICE_RUN_ID",
   MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
+  ONE_TIME_OPERATION_FLAG: "_ONE_TIME_OPERATION_FLAG",
 };
 
 export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
