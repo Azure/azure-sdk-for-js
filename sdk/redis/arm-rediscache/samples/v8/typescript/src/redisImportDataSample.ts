@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Import data into Redis cache.
  *
  * @summary Import data into Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheImport.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheImport.json
  */
 async function redisCacheImport() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

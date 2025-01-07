@@ -15,7 +15,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RedisManagementClient } from "../src/redisManagementClient.js";
-import { NetworkManagementClient } from "@azure/arm-network";
+import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -64,15 +64,22 @@ describe("Redis test", () => {
     await recorder.stop();
   });
 
-
   async function createVirtualNetwork(
     groupName: any,
     location: any,
     networkName: any,
     subnetName: any
   ) {
+    const parameter: VirtualNetwork = {
+      location: location,
+      addressSpace: {
+        addressPrefixes: ["10.0.0.0/16"],
+      },
+    };
     //network create
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter, testPollingOptions);
     //subnet create
+    await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
   }
 
   it("operations list test", async function () {
@@ -160,13 +167,15 @@ describe("Redis test", () => {
         await delay(isPlaybackMode() ? 1000 : 300000);
       }
     }
-  }).timeout(3600000);
+  });
 
   it("patchSchedules delete for redis test", async function () {
+    await client.patchSchedules.delete(resourceGroupName, name, "default");
     // It's can not run patchSchedules.listByRedisResource after patchSchedules.delete operation
   });
 
   it("redis delete test", async function () {
+    await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Cache provider.
  *
  * @summary Lists all of the available REST API operations of the Microsoft.Cache provider.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheOperations.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheOperations.json
  */
 async function redisCacheOperations() {
   const subscriptionId =

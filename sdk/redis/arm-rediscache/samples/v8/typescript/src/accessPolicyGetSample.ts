@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the detailed information about an access policy of a redis cache
  *
  * @summary Gets the detailed information about an access policy of a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyGet.json
  */
 async function redisCacheAccessPolicyGet() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or replace the patching schedule for Redis cache.
  *
  * @summary Create or replace the patching schedule for Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
  */
 async function redisCachePatchSchedulesCreateOrUpdate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
