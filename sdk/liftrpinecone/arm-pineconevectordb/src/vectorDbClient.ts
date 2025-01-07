@@ -1,19 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getOrganizationsOperations,
   OrganizationsOperations,
 } from "./classic/organizations/index.js";
-import {
-  createVectorDb,
-  VectorDbContext,
-  VectorDbClientOptionalParams,
-} from "./api/index.js";
+import { createVectorDb, VectorDbContext, VectorDbClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -39,10 +32,7 @@ export class VectorDbClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.organizations = getOrganizationsOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.organizations = getOrganizationsOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

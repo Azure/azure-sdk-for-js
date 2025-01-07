@@ -10,10 +10,7 @@ import {
   organizationsListByResourceGroup,
   organizationsListBySubscription,
 } from "../../api/organizations/index.js";
-import {
-  OrganizationResource,
-  OrganizationResourceUpdate,
-} from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -64,23 +61,13 @@ export interface OrganizationsOperations {
   ) => PagedAsyncIterableIterator<OrganizationResource>;
 }
 
-export function getOrganizations(
-  context: VectorDbContext,
-  subscriptionId: string,
-) {
+export function getOrganizations(context: VectorDbContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsGetOptionalParams,
-    ) =>
-      organizationsGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationname,
-        options,
-      ),
+    ) => organizationsGet(context, subscriptionId, resourceGroupName, organizationname, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
@@ -113,27 +100,13 @@ export function getOrganizations(
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsDeleteOptionalParams,
-    ) =>
-      organizationsDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationname,
-        options,
-      ),
+    ) => organizationsDelete(context, subscriptionId, resourceGroupName, organizationname, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
-    ) =>
-      organizationsListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => organizationsListBySubscription(context, subscriptionId, options),
+    ) => organizationsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      organizationsListBySubscription(context, subscriptionId, options),
   };
 }
 

@@ -119,25 +119,20 @@ export function organizationsCreateOrUpdate(
   resource: OrganizationResource,
   options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
-  return getLongRunningPoller(
-    context,
-    _organizationsCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _organizationsCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          organizationname,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+  return getLongRunningPoller(context, _organizationsCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _organizationsCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        organizationname,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
 export function _organizationsUpdateSend(
@@ -228,24 +223,19 @@ export function organizationsDelete(
   organizationname: string,
   options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _organizationsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _organizationsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          organizationname,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _organizationsDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _organizationsDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        organizationname,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _organizationsListByResourceGroupSend(
@@ -288,12 +278,7 @@ export function organizationsListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _organizationsListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+      _organizationsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _organizationsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -336,8 +321,7 @@ export function organizationsListBySubscription(
 ): PagedAsyncIterableIterator<OrganizationResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _organizationsListBySubscriptionSend(context, subscriptionId, options),
+    () => _organizationsListBySubscriptionSend(context, subscriptionId, options),
     _organizationsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
