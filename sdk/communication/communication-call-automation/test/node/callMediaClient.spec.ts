@@ -2318,7 +2318,7 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    const playOption: PlayOptions = { operationContext: "playAudio" };
+    const playOption: PlayOptions = { operationContext: "playAudio", interruptHoldAudio: true };
     await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
     const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
     assert.isDefined(holdAudioPausedEvent);
