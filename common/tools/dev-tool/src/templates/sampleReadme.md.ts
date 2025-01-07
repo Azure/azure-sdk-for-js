@@ -52,9 +52,9 @@ function fileLinks(info: SampleReadmeConfiguration) {
 
   return filterModules(info)
     .map(({ relativeSourcePath }) => {
-      const sourcePath = info.useTypeScript
-        ? relativeSourcePath
-        : relativeSourcePath.replace(/\.ts$/, ".js");
+      const sourcePath = (
+        info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+      ).replace(path.sep, "/");
       return `[${sampleLinkTag(
         relativeSourcePath,
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
@@ -112,9 +112,9 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  */
 function table(info: SampleReadmeConfiguration) {
   const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
-    const fileName = info.useTypeScript
-      ? relativeSourcePath
-      : relativeSourcePath.replace(/\.ts$/, ".js");
+    const fileName = (
+      info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+    ).replace(path.sep, "/");
     if (summary && summary.includes("|")) {
       summary = summary.replace(/\|/g, "\\|");
     }
@@ -241,7 +241,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-[apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
+[apiref]: ${info.apiRefLink ?? `https://learn.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}

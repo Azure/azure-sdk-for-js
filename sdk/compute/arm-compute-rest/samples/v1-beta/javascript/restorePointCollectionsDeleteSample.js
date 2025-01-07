@@ -28,10 +28,10 @@ async function restorePointCollectionsDeleteMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -57,10 +57,10 @@ async function restorePointCollectionsDeleteMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

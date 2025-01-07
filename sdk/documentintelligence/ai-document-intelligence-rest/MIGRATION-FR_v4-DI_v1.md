@@ -178,7 +178,7 @@ if (isUnexpected(initialResponse)) {
 }
 
 const poller = await getLongRunningPoller(client, initialResponse);
-const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeResultOperationOutput)
+const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeOperationOutput)
   .analyzeResult;
 
 const pages = analyzeResult?.pages;

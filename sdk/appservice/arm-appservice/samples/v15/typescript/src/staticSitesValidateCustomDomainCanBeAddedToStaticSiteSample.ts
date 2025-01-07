@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Validates a particular custom domain can be added to a static site.

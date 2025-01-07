@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a billing subscription by its alias ID.  The operation is supported for seat based billing subscriptions.

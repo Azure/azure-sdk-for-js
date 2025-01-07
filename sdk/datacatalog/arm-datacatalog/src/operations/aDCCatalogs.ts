@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ADCCatalogs } from "../operationsInterfaces";
+import { ADCCatalogs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataCatalogRestClient } from "../dataCatalogRestClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataCatalogRestClient } from "../dataCatalogRestClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   ADCCatalogsListtByResourceGroupOptionalParams,
   ADCCatalogsListtByResourceGroupResponse,
@@ -24,7 +24,7 @@ import {
   ADCCatalogsDeleteOptionalParams,
   ADCCatalogsUpdateOptionalParams,
   ADCCatalogsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ADCCatalogs operations. */
 export class ADCCatalogsImpl implements ADCCatalogs {

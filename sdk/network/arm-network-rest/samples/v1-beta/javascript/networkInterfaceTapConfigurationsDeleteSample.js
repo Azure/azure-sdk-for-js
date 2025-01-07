@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified tap configuration from the NetworkInterface.
@@ -30,7 +30,7 @@ async function deleteTapConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      tapConfigurationName
+      tapConfigurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

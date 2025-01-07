@@ -45,7 +45,7 @@ import {
   TransfersImpl,
   PartnerTransfersImpl,
   RecipientTransfersImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Agreements,
   AssociatedTenants,
@@ -77,8 +77,8 @@ import {
   Transfers,
   PartnerTransfers,
   RecipientTransfers,
-} from "./operationsInterfaces";
-import { BillingManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { BillingManagementClientOptionalParams } from "./models/index.js";
 
 export class BillingManagementClient extends coreClient.ServiceClient {
   $host: string;

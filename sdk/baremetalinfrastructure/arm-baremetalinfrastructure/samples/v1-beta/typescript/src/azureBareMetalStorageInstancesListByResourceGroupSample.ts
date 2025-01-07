@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of AzureBareMetalStorage instances in the specified subscription and resource group. The operations returns various properties of each Azure Bare Metal Instance.

@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { B2CTenantsImpl, OperationsImpl, GuestUsagesImpl } from "./operations";
-import { B2CTenants, Operations, GuestUsages } from "./operationsInterfaces";
-import { ExternalIdentitiesConfigurationClientOptionalParams } from "./models";
+import { B2CTenantsImpl, OperationsImpl, GuestUsagesImpl } from "./operations/index.js";
+import { B2CTenants, Operations, GuestUsages } from "./operationsInterfaces/index.js";
+import { ExternalIdentitiesConfigurationClientOptionalParams } from "./models/index.js";
 
 export class ExternalIdentitiesConfigurationClient extends coreClient.ServiceClient {
   $host: string;

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AddressDetails, BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.

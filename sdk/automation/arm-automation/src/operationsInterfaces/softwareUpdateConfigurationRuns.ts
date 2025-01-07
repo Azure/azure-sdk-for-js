@@ -11,7 +11,7 @@ import {
   SoftwareUpdateConfigurationRunsGetByIdResponse,
   SoftwareUpdateConfigurationRunsListOptionalParams,
   SoftwareUpdateConfigurationRunsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SoftwareUpdateConfigurationRuns. */
 export interface SoftwareUpdateConfigurationRuns {
