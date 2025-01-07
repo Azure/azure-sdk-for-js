@@ -231,6 +231,8 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** If set, hold audio will be interrupted, then this request will be played, and then the hold audio will be resumed. */
+  interruptHoldAudio?: boolean;
 }
 
 /**
