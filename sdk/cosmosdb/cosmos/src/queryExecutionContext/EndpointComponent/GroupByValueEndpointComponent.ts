@@ -122,12 +122,11 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       };
     }
     const aggregateHeaders = getInitialHeader();
-
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
     if (response === undefined || response.result === undefined) {
-      if( this.aggregators.size > 0) {
+      if (this.aggregators.size > 0) {
         return this.generateAggregateResponse(aggregateHeaders);
       }
       return { result: undefined, headers: aggregateHeaders };
@@ -180,7 +179,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     }
   }
 
-  private generateAggregateResponse(aggregateHeaders: CosmosHeaders) {
+  private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       this.aggregateResultArray.push(aggregator.getResult());
     }

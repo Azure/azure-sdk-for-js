@@ -125,7 +125,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     if (response === undefined || response.result === undefined) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
-      return this.consolidateGroupResults(aggregateHeaders);
+        return this.consolidateGroupResults(aggregateHeaders);
       }
       return { result: undefined, headers: aggregateHeaders };
     }
@@ -133,37 +133,37 @@ export class GroupByEndpointComponent implements ExecutionContext {
     for (const item of response.result) {
       // If it exists, process it via aggregators
       if (item) {
-      const group = item.groupByItems ? await hashObject(item.groupByItems) : emptyGroup;
-      const aggregators = this.groupings.get(group);
-      const payload = item.payload;
-      if (aggregators) {
-        // Iterator over all results in the payload
-        for (const key of Object.keys(payload)) {
-        // in case the value of a group is null make sure we create a dummy payload with item2==null
-        const effectiveGroupByValue = payload[key]
-          ? payload[key]
-          : new Map().set("item2", null);
-        const aggregateResult = extractAggregateResult(effectiveGroupByValue);
-        aggregators.get(key).aggregate(aggregateResult);
-        }
-      } else {
-        // This is the first time we have seen a grouping. Setup the initial result without aggregate values
-        const grouping = new Map();
-        this.groupings.set(group, grouping);
-        // Iterator over all results in the payload
-        for (const key of Object.keys(payload)) {
-        const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
-        // Create a new aggregator for this specific aggregate field
-        const aggregator = createAggregator(aggregateType);
-        grouping.set(key, aggregator);
-        if (aggregateType) {
-          const aggregateResult = extractAggregateResult(payload[key]);
-          aggregator.aggregate(aggregateResult);
+        const group = item.groupByItems ? await hashObject(item.groupByItems) : emptyGroup;
+        const aggregators = this.groupings.get(group);
+        const payload = item.payload;
+        if (aggregators) {
+          // Iterator over all results in the payload
+          for (const key of Object.keys(payload)) {
+            // in case the value of a group is null make sure we create a dummy payload with item2==null
+            const effectiveGroupByValue = payload[key]
+              ? payload[key]
+              : new Map().set("item2", null);
+            const aggregateResult = extractAggregateResult(effectiveGroupByValue);
+            aggregators.get(key).aggregate(aggregateResult);
+          }
         } else {
-          aggregator.aggregate(payload[key]);
+          // This is the first time we have seen a grouping. Setup the initial result without aggregate values
+          const grouping = new Map();
+          this.groupings.set(group, grouping);
+          // Iterator over all results in the payload
+          for (const key of Object.keys(payload)) {
+            const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
+            // Create a new aggregator for this specific aggregate field
+            const aggregator = createAggregator(aggregateType);
+            grouping.set(key, aggregator);
+            if (aggregateType) {
+              const aggregateResult = extractAggregateResult(payload[key]);
+              aggregator.aggregate(aggregateResult);
+            } else {
+              aggregator.aggregate(payload[key]);
+            }
+          }
         }
-        }
-      }
       }
     }
 
@@ -177,7 +177,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
   }
 
-  private consolidateGroupResults(aggregateHeaders: CosmosHeaders) {
+  private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const grouping of this.groupings.values()) {
       const groupResult: any = {};
       for (const [aggregateKey, aggregator] of grouping.entries()) {
