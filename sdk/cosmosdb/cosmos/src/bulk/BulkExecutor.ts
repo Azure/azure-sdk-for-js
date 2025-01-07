@@ -69,8 +69,10 @@ export class BulkExecutor {
     try {
       await Promise.allSettled(operationPromises);
     } finally {
-      for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
+      for (const [key, streamer] of this.streamersByPartitionKeyRangeId.entries()) {
         streamer.disposeTimers();
+        this.limitersByPartitionKeyRangeId.delete(key);
+        this.streamersByPartitionKeyRangeId.delete(key);
       }
     }
     return orderedResponse;
@@ -190,7 +192,9 @@ export class BulkExecutor {
         } catch (error) {
           resolve(BulkResponse.fromResponseMessage(error, operations));
         } finally {
-          limiter.leave();
+          if (limiter.current > 0) {
+            limiter.leave();
+          }
         }
       });
     });

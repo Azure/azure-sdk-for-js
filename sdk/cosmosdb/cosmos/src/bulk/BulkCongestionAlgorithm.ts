@@ -66,9 +66,9 @@ export class BulkCongestionAlgorithm {
       this.congestionDecreaseFactor,
       this.currentDegreeOfConcurrency / 2,
     );
-
+    // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiterSemaphore.take(decreaseCount, () => {});
+      this.limiterSemaphore.take(() => {});
     }
 
     this.currentDegreeOfConcurrency -= decreaseCount;
@@ -81,7 +81,9 @@ export class BulkCongestionAlgorithm {
       this.currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
       Constants.BulkMaxDegreeOfConcurrency
     ) {
-      this.limiterSemaphore.leave(this.congestionIncreaseFactor);
+      if (this.limiterSemaphore.current > 0) {
+        this.limiterSemaphore.leave(this.congestionIncreaseFactor);
+      }
       this.currentDegreeOfConcurrency += this.congestionIncreaseFactor;
     }
   }
