@@ -1303,6 +1303,12 @@ export const PlayOptionsInternal: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      interruptHoldAudio: {
+        serializedName: "interruptHoldAudio",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -2749,50 +2755,118 @@ export const ErrorModel: coreClient.CompositeMapper = {
   },
 };
 
-export const MoveParticipantSucceeded: coreClient.CompositeMapper = {
+export const RecordingResultResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveParticipantSucceeded",
+    className: "RecordingResultResponse",
     modelProperties: {
-      fromCall: {
-        serializedName: "fromCall",
+      recordingId: {
+        serializedName: "recordingId",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
-      callConnectionId: {
-        serializedName: "callConnectionId",
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        type: {
-          name: "String",
-        },
-      },
-      correlationId: {
-        serializedName: "correlationId",
-        type: {
-          name: "String",
-        },
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String",
-        },
-      },
-      resultInformation: {
-        serializedName: "resultInformation",
+      recordingStorageInfo: {
+        serializedName: "recordingStorageInfo",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "RecordingStorageInfo",
         },
       },
-      participant: {
-        serializedName: "participant",
+      errors: {
+        serializedName: "errors",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel",
+            },
+          },
+        },
+      },
+      recordingStartTime: {
+        serializedName: "recordingStartTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      recordingDurationMs: {
+        serializedName: "recordingDurationMs",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      sessionEndReason: {
+        serializedName: "sessionEndReason",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      recordingExpirationTime: {
+        serializedName: "recordingExpirationTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const RecordingStorageInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecordingStorageInfo",
+    modelProperties: {
+      recordingChunks: {
+        serializedName: "recordingChunks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecordingChunkStorageInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const RecordingChunkStorageInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecordingChunkStorageInfo",
+    modelProperties: {
+      documentId: {
+        serializedName: "documentId",
+        type: {
+          name: "String",
+        },
+      },
+      customContext: {
+        serializedName: "customContext",
+        type: {
+          name: "Composite",
+          className: "CustomCallingContextInternal",
+        },
+      },
+      incomingCallContext: {
+        serializedName: "incomingCallContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      onBehalfOfCallee: {
+        serializedName: "onBehalfOfCallee",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel",

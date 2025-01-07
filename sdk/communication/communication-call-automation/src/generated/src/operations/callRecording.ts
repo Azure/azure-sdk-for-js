@@ -136,9 +136,6 @@ const startRecordingOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RecordingStateResponse,
     },
-    202: {
-      bodyMapper: Mappers.RecordingStateResponse,
-    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
     },
