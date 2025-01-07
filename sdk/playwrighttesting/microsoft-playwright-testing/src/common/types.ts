@@ -2,24 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Location, TestStep } from "@playwright/test/reporter";
+import type { ConnectOptions } from "@playwright/test";
 import type { ServiceAuth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
 
-export type JwtPayload = {
-  aid?: string;
-  iss?: string;
-  sub?: string;
-  aud?: string[] | string;
-  exp?: number;
-  nbf?: number;
-  iat?: number;
-  jti?: string;
-};
-
-export type AccessTokenClaims = JwtPayload & {
-  aid?: string;
-  accountId?: string;
-};
+// Public APIs
 
 /**
  * @public
@@ -33,47 +20,6 @@ export type EndpointOptions = {
    * A browser websocket endpoint to connect to.
    */
   wsEndpoint: string;
-};
-
-/**
- * @public
- *
- * Connect options for the service.
- */
-export type ConnectOptions = {
-  /**
-   * @public
-   *
-   * Additional HTTP headers to be sent with web socket connect request.
-   */
-  headers?: { [key: string]: string };
-
-  /**
-   * @public
-   *
-   * Exposes network available on the connecting client to the browser being connected to.
-   *
-   * @defaultValue `<loopback>`
-   */
-  exposeNetwork?: string;
-
-  /**
-   * @public
-   *
-   * Maximum time in milliseconds to wait for the connection to be established.
-   *
-   * @defaultValue `30000`
-   */
-  timeout?: number;
-
-  /**
-   * @public
-   *
-   * Slows down Playwright operations by the specified amount of milliseconds.
-   *
-   * @defaultValue `0`
-   */
-  slowMo?: number;
 };
 
 /**
@@ -206,15 +152,6 @@ export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
  */
 export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 
-export type ErrorDetails = {
-  message: string;
-  location?: Location;
-};
-export type ApiErrorMessage = {
-  [key: string]: {
-    [key: number]: string;
-  };
-};
 /**
  * @public
  *
@@ -232,7 +169,7 @@ export type ApiErrorMessage = {
  * });
  * ```
  */
-export interface MPTReporterConfig {
+export type ReporterConfiguration = {
   /**
    * @public
    *
@@ -250,7 +187,37 @@ export interface MPTReporterConfig {
    * @defaultValue `true`
    */
   enableResultPublish?: boolean;
-}
+};
+
+// Internal APIs
+
+export type JwtPayload = {
+  aid?: string;
+  iss?: string;
+  sub?: string;
+  aud?: string[] | string;
+  exp?: number;
+  nbf?: number;
+  iat?: number;
+  jti?: string;
+};
+
+export type AccessTokenClaims = JwtPayload & {
+  aid?: string;
+  accountId?: string;
+};
+
+export type ErrorDetails = {
+  message: string;
+  location?: Location;
+};
+
+export type ApiErrorMessage = {
+  [key: string]: {
+    [key: number]: string;
+  };
+};
+
 export type DedupedStep = { step: TestStep; count: number; duration: number };
 
 export type RawTestStep = {
@@ -283,9 +250,3 @@ export type PackageManager = {
   runCommand: (command: string, args: string) => string;
   getVersionFromStdout: (stdout: string) => string;
 };
-
-// Playwright OSS Types
-
-export interface FullConfig {
-  configFile?: string;
-}
