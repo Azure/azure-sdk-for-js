@@ -157,7 +157,7 @@ export const ConnectionConfig = {
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,
       useDevelopmentEmulator: parsedCS.UseDevelopmentEmulator === "true",
-      ... port !== undefined ? { port } : undefined,
+      ...(port !== undefined ? { port } : undefined),
     };
 
     if (path || parsedCS.EntityPath) {
