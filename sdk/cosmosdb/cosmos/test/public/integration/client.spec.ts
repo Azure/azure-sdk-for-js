@@ -80,10 +80,12 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
   afterEach(() => {
     vi.restoreAllMocks();
   });
+
   describe("Client Test With AAD Credentials", () => {
     let client: CosmosClient;
 
     beforeEach(() => {
+      setupMockResponse();
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
@@ -99,7 +101,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.create for aadCredentials", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.create(item1Definition);
@@ -109,7 +110,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.read for aadCredentials", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -121,7 +121,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.patch", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -133,7 +132,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.replace", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container
@@ -145,7 +143,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.upsert", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.upsert(testDataset.itemGetResponse);
@@ -155,7 +152,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.delete", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -166,7 +162,6 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     });
 
     it("Test pipeline setup for items.batch", async () => {
-      setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
 
