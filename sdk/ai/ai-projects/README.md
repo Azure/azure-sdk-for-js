@@ -78,7 +78,7 @@ npm install @azure/ai-projects
 
 The class factory method `fromConnectionString` is used to construct the client. To construct a client:
 
-```js snippet:setup
+```ts snippet:setup
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -86,6 +86,7 @@ const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<co
 const client = AIProjectsClient.fromConnectionString(
   connectionString,
   new DefaultAzureCredential(),
+);
 ```
 
 ## Examples
@@ -100,34 +101,38 @@ Below are code examples of the connection operations. Full samples can be found 
 
 To list the properties of all the connections in the Azure AI Foundry project:
 
-```js snippet:listConnections
+```ts snippet:listConnections
 const connections = await client.connections.listConnections();
 for (const connection of connections) {
   console.log(connection);
+}
 ```
 
 #### Get properties of all connections of a particular type
 
 To list the properties of connections of a certain type (here Azure OpenAI):
 
-```js snippet:filterConnections
+```ts snippet:filterConnections
 const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
 for (const connection of connections) {
   console.log(connection);
+}
 ```
 
 #### Get properties of a connection by its connection name
 
 To get the connection properties of a connection named `connectionName`:
 
-```js snippet:getConnection
+```ts snippet:getConnection
 const connection = await client.connections.getConnection("connectionName");
+console.log(connection);
 ```
 
 To get the connection properties with its authentication credentials:
 
-```js snippet:getConnectionWithSecrets
+```ts snippet:getConnectionWithSecrets
 const connection = await client.connections.getConnectionWithSecrets("connectionName");
+console.log(connection);
 ```
 
 ### Agents (Preview)
@@ -140,20 +145,21 @@ Agents are actively being developed. A sign-up form for private preview is comin
 
 Here is an example of how to create an Agent:
 
-```js snippet:createAgent
+```ts snippet:createAgent
 // Begin snippet
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful assistant",
 });
 // End snippet
+await client.agents.deleteAgent(agent.id);
 ```
 
 To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
 
 You can use `ToolSet` to do this:
 
-```js snippet:toolSet
+```ts snippet:toolSet
 import { ToolSet } from "@azure/ai-projects";
 
 const filePath1 = path.resolve("./data/nifty500QuarterlyResults.csv");
@@ -178,13 +184,14 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 await client.agents.deleteAgent(agent.id);
 await client.agents.deleteVectorStore(vectorStore.id);
 await client.agents.deleteFile(codeInterpreterFile.id);
+await client.agents.deleteFile(fileSearchFile.id);
 ```
 
 #### Create Agent with File Search
 
 To perform file search by an Agent, we first need to upload a file, create a vector store, and associate the file to the vector store. Here is an example:
 
-```js snippet:fileSearch
+```ts snippet:fileSearch
 import { ToolUtility } from "@azure/ai-projects";
 
 const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
@@ -210,13 +217,14 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 // End snippet
 await client.agents.deleteAgent(agent.id);
 await client.agents.deleteVectorStore(vectorStore.id);
+await client.agents.deleteFile(file.id);
 ```
 
 #### Create Agent with Code Interpreter
 
 Here is an example to upload a file and use it for code interpreter by an Agent:
 
-```js snippet:codeInterpreter
+```ts snippet:codeInterpreter
 import { ToolUtility } from "@azure/ai-projects";
 
 const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
@@ -237,6 +245,7 @@ const agent = await client.agents.createAgent("gpt-4o-mini", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 // End snippet
 await client.agents.deleteAgent(agent.id);
+await client.agents.deleteFile(localFile.id);
 ```
 
 #### Create Agent with Bing Grounding
@@ -245,7 +254,7 @@ To enable your Agent to perform search through Bing search API, you use `ToolUti
 
 Here is an example:
 
-```js snippet:bingGrounding
+```ts snippet:bingGrounding
 import { ToolUtility, connectionToolType } from "@azure/ai-projects";
 
 // Begin snippet
@@ -261,6 +270,7 @@ const agent = await client.agents.createAgent("gpt-4o", {
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
 // End snippet
+await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Agent with Azure AI Search
@@ -269,7 +279,7 @@ Azure AI Search is an enterprise search system for high-performance applications
 
 Here is an example to integrate Azure AI Search:
 
-```js snippet:AISearch
+```ts snippet:AISearch
 import { ToolUtility } from "@azure/ai-projects";
 
 // Begin snippet
@@ -285,6 +295,7 @@ const agent = await client.agents.createAgent("gpt-4-0125-preview", {
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
 // End snippet
+await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Agent with Function Call
@@ -293,12 +304,21 @@ You can enhance your Agents by defining callback functions as function tools. Th
 
 Here is an example:
 
-```js snippet:functionTools
-import { ToolUtility } from "@azure/ai-projects";
+```ts snippet:functionTools
+import {
+  FunctionToolDefinition,
+  ToolUtility,
+  RequiredToolCallOutput,
+  FunctionToolDefinitionOutput,
+  ToolOutput,
+} from "@azure/ai-projects";
 
 // Begin snippet
 class FunctionToolExecutor {
-  functionTools;
+  private functionTools: {
+    func: Function;
+    definition: FunctionToolDefinition;
+  }[];
   constructor() {
     this.functionTools = [
       {
@@ -338,16 +358,18 @@ class FunctionToolExecutor {
       },
     ];
   }
-  getUserFavoriteCity() {
+  private getUserFavoriteCity(): {} {
     return { location: "Seattle, WA" };
   }
-  getCityNickname(location) {
+  private getCityNickname(location: string): {} {
     return { nickname: "The Emerald City" };
   }
-  getWeather(location, unit) {
+  private getWeather(location: string, unit: string): {} {
     return { weather: unit === "f" ? "72f" : "22c" };
   }
-  invokeTool(toolCall) {
+  public invokeTool(
+    toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+  ): ToolOutput | undefined {
     console.log(`Function tool call - ${toolCall.function.name}`);
     const args = [];
     if (toolCall.function.parameters) {
@@ -373,7 +395,7 @@ class FunctionToolExecutor {
         }
       : undefined;
   }
-  getFunctionDefinitions() {
+  public getFunctionDefinitions(): FunctionToolDefinition[] {
     return this.functionTools.map((tool) => {
       return tool.definition;
     });
@@ -389,23 +411,25 @@ const agent = await client.agents.createAgent("gpt-4o", {
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 // End snippet
+await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Thread
 
 For each session or conversation, a thread is required. Here is an example:
 
-```js snippet:createThread
+```ts snippet:createThread
 // Begin snippet
 const thread = await client.agents.createThread();
 // End snippet
+await client.agents.deleteThread(thread.id);
 ```
 
 #### Create Thread with Tool Resource
 
 In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
 
-```js snippet:threadWithTool
+```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-projects";
 
 const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
@@ -433,13 +457,14 @@ const thread = await client.agents.createThread({ toolResources: fileSearchTool.
 await client.agents.deleteThread(thread.id);
 await client.agents.deleteAgent(agent.id);
 await client.agents.deleteVectorStore(vectorStore.id);
+await client.agents.deleteFile(file.id);
 ```
 
 #### Create Message
 
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
 
-```js snippet:createMessage
+```ts snippet:createMessage
 const thread = await client.agents.createThread();
 // Begin snippet
 const message = await client.agents.createMessage(thread.id, {
@@ -448,13 +473,14 @@ const message = await client.agents.createMessage(thread.id, {
 });
 console.log(`Created message, message ID: ${message.id}`);
 // End snippet
+await client.agents.deleteThread(thread.id);
 ```
 
 #### Create Message with File Search Attachment
 
 To attach a file to a message for content searching, you use `ToolUtility.createFileSearchTool()` and the `attachments` argument:
 
-```js snippet:messageWithFileSearch
+```ts snippet:messageWithFileSearch
 import { ToolUtility } from "@azure/ai-projects";
 
 const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
@@ -473,6 +499,7 @@ const message = await client.agents.createMessage(thread.id, {
 });
 // End snippet
 await client.agents.deleteThread(thread.id);
+await client.agents.deleteFile(file.id);
 ```
 
 #### Create Message with Code Interpreter Attachment
@@ -481,7 +508,7 @@ To attach a file to a message for data analysis, you use `ToolUtility.createCode
 
 Here is an example:
 
-```js snippet:messageWithCodeInterpreter
+```ts snippet:messageWithCodeInterpreter
 import { ToolUtility } from "@azure/ai-projects";
 
 const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
@@ -512,13 +539,14 @@ console.log(`Created message, message ID: ${message.id}`);
 // End snippet
 await client.agents.deleteAgent(agent.id);
 await client.agents.deleteThread(thread.id);
+await client.agents.deleteFile(file.id);
 ```
 
 #### Create Run, Run_and_Process, or Stream
 
 Here is an example of `createRun` and poll until the run is completed:
 
-```js snippet:createRun
+```ts snippet:createRun
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
@@ -538,13 +566,14 @@ while (
 }
 // End snippet
 await client.agents.deleteThread(thread.id);
+await client.agents.deleteAgent(agent.id);
 ```
 
 To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 
 Here is an example:
 
-```js snippet:createThreadAndRun
+```ts snippet:createThreadAndRun
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
@@ -554,13 +583,14 @@ const thread = await client.agents.createThread();
 const run = await client.agents.createThreadAndRun(thread.id, agent.id);
 // End snippet
 await client.agents.deleteThread(thread.id);
+await client.agents.deleteAgent(agent.id);
 ```
 
 With streaming, polling also need not be considered.
 
 Here is an example:
 
-```js snippet:createRunStream
+```ts snippet:createRunStream
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
@@ -570,12 +600,20 @@ const thread = await client.agents.createThread();
 const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 // End snippet
 await client.agents.deleteThread(thread.id);
+await client.agents.deleteAgent(agent.id);
 ```
 
 Event handling can be done as follows:
 
-```js snippet:eventHandling
-import { RunStreamEvent, MessageStreamEvent, DoneEvent } from "@azure/ai-projects";
+```ts snippet:eventHandling
+import {
+  RunStreamEvent,
+  ThreadRunOutput,
+  MessageStreamEvent,
+  MessageDeltaChunk,
+  MessageDeltaTextContent,
+  DoneEvent,
+} from "@azure/ai-projects";
 
 const agent = await client.agents.createAgent("gpt-4-1106-preview", {
   name: "my-assistant",
@@ -588,14 +626,14 @@ const streamEventMessages = await client.agents.createRun(thread.id, agent.id).s
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
     case RunStreamEvent.ThreadRunCreated:
-      console.log(`ThreadRun status: ${eventMessage.data.status}`);
+      console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
       break;
     case MessageStreamEvent.ThreadMessageDelta:
       {
-        const messageDelta = eventMessage.data;
+        const messageDelta = eventMessage.data as MessageDeltaChunk;
         messageDelta.delta.content.forEach((contentPart) => {
           if (contentPart.type === "text") {
-            const textContent = contentPart;
+            const textContent = contentPart as MessageDeltaTextContent;
             const textValue = textContent.text?.value || "No text";
             console.log(`Text delta received:: ${textValue}`);
           }
@@ -614,14 +652,15 @@ for await (const eventMessage of streamEventMessages) {
   }
 }
 // End snippet
+await client.agents.deleteAgent(agent.id);
 ```
 
 #### Retrieve Message
 
 To retrieve messages from agents, use the following example:
 
-```js snippet:listMessages
-import { isOutputOfType } from "../src/index.js";
+```ts snippet:listMessages
+import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "../src/index.js";
 
 const thread = await client.agents.createThread();
 await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
@@ -630,13 +669,16 @@ const messages = await client.agents.listMessages(thread.id);
 // The messages are following in the reverse order,
 // we will iterate them and output only text contents.
 for (const dataPoint of messages.data.reverse()) {
-  const lastMessageContent = dataPoint.content[dataPoint.content.length - 1];
+  const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
   console.log(lastMessageContent);
-  if (isOutputOfType(lastMessageContent, "text")) {
-    console.log(`${dataPoint.role}: ${lastMessageContent.text.value}`);
+  if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
+    console.log(
+      `${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`,
+    );
   }
 }
 // End snippet
+await client.agents.deleteThread(thread.id);
 ```
 
 ### Retrieve File
@@ -645,10 +687,14 @@ Files uploaded by Agents cannot be retrieved back. If your use case needs to acc
 
 Here is an example retrieving file ids from messages:
 
-```js snippet:retrieveFile
+```ts snippet:retrieveFile
 import { ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
-import { isOutputOfType } from "../src/index.js";
+import {
+  isOutputOfType,
+  MessageTextContentOutput,
+  MessageImageFileContentOutput,
+} from "../src/index.js";
 
 const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
 const localFileStream = fs.createReadStream(filePath);
@@ -682,18 +728,20 @@ const messages = await client.agents.listMessages(thread.id);
 // Get most recent message from the assistant
 const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
 if (assistantMessage) {
-  const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
+  const textContent = assistantMessage.content.find((content) =>
+    isOutputOfType<MessageTextContentOutput>(content, "text"),
+  ) as MessageTextContentOutput;
   if (textContent) {
     console.log(`Last message: ${textContent.text.value}`);
   }
 }
-const imageFile = messages.data[0].content[0].imageFile;
+const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
 const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
 const fileContent = await (
   await client.agents.getFileContent(imageFile.fileId).asNodeStream()
 ).body;
 if (fileContent) {
-  const chunks = [];
+  const chunks: Buffer[] = [];
   for await (const chunk of fileContent) {
     chunks.push(Buffer.from(chunk));
   }
@@ -705,13 +753,14 @@ if (fileContent) {
 console.log(`Saved image file to: ${imageFileName}`);
 // End snippet
 await client.agents.deleteAgent(agent.id);
+await client.agents.deleteThread(thread.id);
 ```
 
 #### Teardown
 
 To remove resources after completing tasks, use the following functions:
 
-```js snippet:teardown
+```ts snippet:teardown
 const vectorStore = await client.agents.createVectorStore();
 const file = await client.agents.uploadFile();
 const agent = await client.agents.createAgent("gpt-4o");
@@ -721,6 +770,7 @@ console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 await client.agents.deleteFile(file.id);
 console.log(`Deleted file, file ID: ${file.id}`);
 client.agents.deleteAgent(agent.id);
+console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 
 ### Tracing
@@ -752,7 +802,7 @@ npm install @opentelemetry/exporter-trace-otlp-proto \
 
 Here is a code sample to be included above `createAgent`:
 
-```js snippet:tracing
+```ts snippet:tracing
 import {
   NodeTracerProvider,
   SimpleSpanProcessor,
@@ -781,6 +831,7 @@ await tracer.startActiveSpan("main", async (span) => {
   client.telemetry.updateSettings({ enableContentRecording: true });
   // ...
   // End snippet
+});
 ```
 
 ## Troubleshooting
@@ -789,7 +840,7 @@ await tracer.startActiveSpan("main", async (span) => {
 
 Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
-```js snippet:exceptions
+```ts snippet:exceptions
 import { RestError } from "@azure/core-rest-pipeline";
 
 try {
@@ -801,6 +852,7 @@ try {
   } else {
     console.error(e);
   }
+}
 ```
 
 For example, when you provide wrong credentials:
