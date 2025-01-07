@@ -155,11 +155,10 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     // If there are more results in backend, keep filling map.
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const response = await this.executionContext.fetchMore(
-        diagnosticNode,
-      );
+      const response = await this.executionContext.fetchMore(diagnosticNode);
       if (response === undefined || response.result === undefined) {
-        if( this.aggregateMap.size() > 0) {
+        this.isCompleted = true;
+        if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
           return {
             result: this.finalResultArray,
@@ -183,7 +182,6 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
           headers: resHeaders,
         };
       }
-
     }
 
     // If all results are fetched from backend, prepare final results
