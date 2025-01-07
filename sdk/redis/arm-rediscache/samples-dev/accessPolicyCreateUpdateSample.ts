@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Adds an access policy to the redis cache
  *
  * @summary Adds an access policy to the redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyCreateUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyCreateUpdate.json
  */
 async function redisCacheAccessPolicyCreateUpdate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

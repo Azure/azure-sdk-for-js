@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all firewall rules in the specified redis cache.
  *
  * @summary Gets all firewall rules in the specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheFirewallRulesList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFirewallRulesList.json
  */
 async function redisCacheFirewallRulesList() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
