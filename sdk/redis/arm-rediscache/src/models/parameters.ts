@@ -25,7 +25,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   RedisCacheAccessPolicy as RedisCacheAccessPolicyMapper,
   RedisCacheAccessPolicyAssignment as RedisCacheAccessPolicyAssignmentMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

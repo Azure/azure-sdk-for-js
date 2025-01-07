@@ -25,7 +25,7 @@ import {
   AsyncOperationStatusImpl,
   AccessPolicyImpl,
   AccessPolicyAssignmentImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Redis,
@@ -37,8 +37,8 @@ import {
   AsyncOperationStatus,
   AccessPolicy,
   AccessPolicyAssignment,
-} from "./operationsInterfaces";
-import { RedisManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { RedisManagementClientOptionalParams } from "./models/index.js";
 
 export class RedisManagementClient extends coreClient.ServiceClient {
   $host: string;
