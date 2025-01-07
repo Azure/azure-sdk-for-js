@@ -12,6 +12,8 @@ export default mergeConfig(
       outputFile: {
         junit: "test-results-int.xml",
       },
+      hookTimeout: 500000,
+      testTimeout: 500000,
     },
   }),
 );
