@@ -143,6 +143,7 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
       const spyCall = spy.mock.calls[0][0];
       assert.isDefined(spyCall.pipeline);
     });
+
     it("Test pipeline setup for items.upsert", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
@@ -152,6 +153,7 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
       const spyCall = spy.mock.calls[0][0];
       assert.isDefined(spyCall.pipeline);
     });
+
     it("Test pipeline setup for items.delete", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
@@ -162,6 +164,7 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
       const spyCall = spy.mock.calls[0][0];
       assert.isDefined(spyCall.pipeline);
     });
+
     it("Test pipeline setup for items.batch", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
