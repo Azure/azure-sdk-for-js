@@ -57,7 +57,7 @@ describe("Reporter Utils", () => {
       const result: MPTTestResult = reporterUtils.getTestResultObject(
         testMock,
         resultMock,
-        "job-name"
+        "job-name",
       );
       expect(result.webTestConfig.browserType).to.equal("");
     }).not.to.throw();
@@ -84,7 +84,7 @@ describe("ReporterUtils.getTestError", () => {
     } as any);
     console.log(result);
     expect(result).to.equal(
-      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  }\n]`
+      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  }\n]`,
     );
   });
 
@@ -99,7 +99,7 @@ describe("ReporterUtils.getTestError", () => {
     } as any);
     console.log(result);
     expect(result).to.equal(
-      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  },\n  {\n    "message": "test-snippet"\n  },\n  {\n    "message": "test-error - 3"\n  }\n]`
+      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  },\n  {\n    "message": "test-snippet"\n  },\n  {\n    "message": "test-error - 3"\n  }\n]`,
     );
   });
 
@@ -122,7 +122,7 @@ describe("ReporterUtils.getTestError", () => {
     } as any);
     console.log(result);
     expect(result).to.equal(
-      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  },\n  {\n    "message": "test-snippet\\n\\nat test-file.ts:100:10"\n  },\n  {\n    "message": "test-error - 3"\n  }\n]`
+      `[\n  {\n    "message": "test-error"\n  },\n  {\n    "message": "test-error - 2"\n  },\n  {\n    "message": "test-snippet\\n\\nat test-file.ts:100:10"\n  },\n  {\n    "message": "test-error - 3"\n  }\n]`,
     );
   });
 });
