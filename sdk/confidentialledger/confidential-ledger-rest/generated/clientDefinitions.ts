@@ -13,10 +13,23 @@ import {
   GetTransactionStatusParameters,
   GetCurrentLedgerEntryParameters,
   ListUsersParameters,
+  ListLedgerUsersParameters,
   DeleteUserParameters,
   GetUserParameters,
   CreateOrUpdateUserParameters,
-} from "./parameters.js";
+  DeleteLedgerUserParameters,
+  GetLedgerUserParameters,
+  CreateOrUpdateLedgerUserParameters,
+  GetUserDefinedEndpointParameters,
+  CreateUserDefinedEndpointParameters,
+  GetRuntimeOptionsParameters,
+  UpdateRuntimeOptionsParameters,
+  GetUserDefinedEndpointsModuleParameters,
+  GetUserDefinedRoleParameters,
+  CreateUserDefinedRoleParameters,
+  UpdateUserDefinedRoleParameters,
+  DeleteUserDefinedRoleParameters,
+} from "./parameters";
 import {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
@@ -40,13 +53,39 @@ import {
   GetCurrentLedgerEntryDefaultResponse,
   ListUsers200Response,
   ListUsersDefaultResponse,
+  ListLedgerUsers200Response,
+  ListLedgerUsersDefaultResponse,
   DeleteUser204Response,
   DeleteUserDefaultResponse,
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
-} from "./responses.js";
+  DeleteLedgerUser204Response,
+  DeleteLedgerUserDefaultResponse,
+  GetLedgerUser200Response,
+  GetLedgerUserDefaultResponse,
+  CreateOrUpdateLedgerUser200Response,
+  CreateOrUpdateLedgerUserDefaultResponse,
+  GetUserDefinedEndpoint200Response,
+  GetUserDefinedEndpointDefaultResponse,
+  CreateUserDefinedEndpoint201Response,
+  CreateUserDefinedEndpointDefaultResponse,
+  GetRuntimeOptions200Response,
+  GetRuntimeOptionsDefaultResponse,
+  UpdateRuntimeOptions200Response,
+  UpdateRuntimeOptionsDefaultResponse,
+  GetUserDefinedEndpointsModule200Response,
+  GetUserDefinedEndpointsModuleDefaultResponse,
+  GetUserDefinedRole200Response,
+  GetUserDefinedRoleDefaultResponse,
+  CreateUserDefinedRole200Response,
+  CreateUserDefinedRoleDefaultResponse,
+  UpdateUserDefinedRole200Response,
+  UpdateUserDefinedRoleDefaultResponse,
+  DeleteUserDefinedRole200Response,
+  DeleteUserDefinedRoleDefaultResponse,
+} from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {
@@ -135,10 +174,19 @@ export interface GetCurrentLedgerEntry {
 }
 
 export interface ListUsers {
-  /** All users' object IDs and roles will be returned. */
+  /** All users' object IDs and single role per user will be returned. */
   get(
     options?: ListUsersParameters,
   ): StreamableMethod<ListUsers200Response | ListUsersDefaultResponse>;
+}
+
+export interface ListLedgerUsers {
+  /** All users' object IDs and multiple roles will be returned. */
+  get(
+    options?: ListLedgerUsersParameters,
+  ): StreamableMethod<
+    ListLedgerUsers200Response | ListLedgerUsersDefaultResponse
+  >;
 }
 
 export interface DeleteUser {
@@ -155,6 +203,94 @@ export interface DeleteUser {
     options: CreateOrUpdateUserParameters,
   ): StreamableMethod<
     CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse
+  >;
+}
+
+export interface DeleteLedgerUser {
+  /** Deletes a user with multiple roles from the Confidential Ledger. */
+  delete(
+    options?: DeleteLedgerUserParameters,
+  ): StreamableMethod<
+    DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse
+  >;
+  /** Gets a user with multiple roles. */
+  get(
+    options?: GetLedgerUserParameters,
+  ): StreamableMethod<GetLedgerUser200Response | GetLedgerUserDefaultResponse>;
+  /** A JSON merge patch is applied for existing users */
+  patch(
+    options: CreateOrUpdateLedgerUserParameters,
+  ): StreamableMethod<
+    | CreateOrUpdateLedgerUser200Response
+    | CreateOrUpdateLedgerUserDefaultResponse
+  >;
+}
+
+export interface GetUserDefinedEndpoint {
+  /** Returns the user defined endpoint in the ACL instance */
+  get(
+    options?: GetUserDefinedEndpointParameters,
+  ): StreamableMethod<
+    GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse
+  >;
+  /** Creates the user defined endpoint in the ACL instance */
+  put(
+    options: CreateUserDefinedEndpointParameters,
+  ): StreamableMethod<
+    | CreateUserDefinedEndpoint201Response
+    | CreateUserDefinedEndpointDefaultResponse
+  >;
+}
+
+export interface GetRuntimeOptions {
+  /** It returns the runtime options */
+  get(
+    options?: GetRuntimeOptionsParameters,
+  ): StreamableMethod<
+    GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse
+  >;
+  /** Updates the runtime options. */
+  patch(
+    options: UpdateRuntimeOptionsParameters,
+  ): StreamableMethod<
+    UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse
+  >;
+}
+
+export interface GetUserDefinedEndpointsModule {
+  /** It gets the module for the user defined endpoint. */
+  get(
+    options: GetUserDefinedEndpointsModuleParameters,
+  ): StreamableMethod<
+    | GetUserDefinedEndpointsModule200Response
+    | GetUserDefinedEndpointsModuleDefaultResponse
+  >;
+}
+
+export interface GetUserDefinedRole {
+  /** user defined roles allow users to define and manage app specific AuthZ policy. */
+  get(
+    options: GetUserDefinedRoleParameters,
+  ): StreamableMethod<
+    GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse
+  >;
+  /** User defined roles allow users to define and manage app specific AuthZ policy. */
+  put(
+    options: CreateUserDefinedRoleParameters,
+  ): StreamableMethod<
+    CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse
+  >;
+  /** User defined roles allow users to define and manage app specific AuthZ policy. */
+  patch(
+    options: UpdateUserDefinedRoleParameters,
+  ): StreamableMethod<
+    UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse
+  >;
+  /** A user defined role allows the users to create and manage their own role actions using the API. */
+  delete(
+    options: DeleteUserDefinedRoleParameters,
+  ): StreamableMethod<
+    DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse
   >;
 }
 
@@ -188,8 +324,20 @@ export interface Routes {
   (path: "/app/transactions/current"): GetCurrentLedgerEntry;
   /** Resource for '/app/users' has methods for the following verbs: get */
   (path: "/app/users"): ListUsers;
+  /** Resource for '/app/ledgerUsers' has methods for the following verbs: get */
+  (path: "/app/ledgerUsers"): ListLedgerUsers;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
   (path: "/app/users/{userId}", userId: string): DeleteUser;
+  /** Resource for '/app/ledgerUsers/\{userId\}' has methods for the following verbs: delete, get, patch */
+  (path: "/app/ledgerUsers/{userId}", userId: string): DeleteLedgerUser;
+  /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: get, put */
+  (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
+  /** Resource for '/app/userDefinedEndpoints/runTimeOptions' has methods for the following verbs: get, patch */
+  (path: "/app/userDefinedEndpoints/runTimeOptions"): GetRuntimeOptions;
+  /** Resource for '/app/userDefinedEndpoints/modules' has methods for the following verbs: get */
+  (path: "/app/userDefinedEndpoints/modules"): GetUserDefinedEndpointsModule;
+  /** Resource for '/app/roles' has methods for the following verbs: get, put, patch, delete */
+  (path: "/app/roles"): GetUserDefinedRole;
 }
 
 export type ConfidentialLedgerClient = Client & {
