@@ -1,14 +1,10 @@
 # Release History
 
-## 5.9.1 (Unreleased)
+## 5.10.0 (2025-01-13)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added `segmentCount` property to `AcsSmsReceivedEventData`.
 
 ## 5.9.0 (2024-12-02)
 

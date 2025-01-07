@@ -3109,6 +3109,8 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   message: string;
   /** The time at which the SMS was received */
   receivedTimestamp: string;
+  /** Number of segments in the message */
+  segmentCount: number;
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
