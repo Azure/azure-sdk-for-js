@@ -6,6 +6,8 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { getBaseDir } from "./env.js";
+
 /** @type {Record<"core"|"test-utils"|"identity", string[]>} */
 export const reducedDependencyTestMatrix = {
   core: [
@@ -34,7 +36,7 @@ export const reducedDependencyTestMatrix = {
 };
 
 /** @type {string[]} */
-const restrictedToPackages = [
+export const restrictedToPackages = [
   "@azure/abort-controller",
   "@azure/core-amqp",
   "@azure/core-auth",
@@ -60,33 +62,58 @@ const restrictedToPackages = [
 ];
 
 /**
- * Helper function that determines the rush command flag to use based on each individual package name for the 'build' check.
+ * Helper function that determines the rush command flag to use based on each individual package name
  *
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
- * @param {string[]} actionComponents - An array of strings containing the packages names to run the action on.
+ * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
+ * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
  */
-export const getDirectionMappedPackages = (packageNames, actionComponents) => {
+export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
   const mappedPackages = [];
 
-  for (const packageName of packageNames) {
-    // Build command without any additional option should build the project and downstream
-    // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
-    // If the package is a core package, azure-identity or arm-resources then build only the package,
-    // otherwise build the package and all its dependents
-    var rushCommandFlag = "--impacted-by";
+  let fullPackageNames = packageNames.slice();
 
-    if (restrictedToPackages.includes(packageName)) {
-      // if this is one of our restricted packages with a ton of deps, make it targeted
-      // as including all dependents will be too much
-      rushCommandFlag = "--to";
-    } else if (actionComponents.length == 1) {
-      // else we are building the project and its dependents
-      rushCommandFlag = "--from";
+  let isReducedTestScopeEnabled = serviceDirs.length > 1;
+  for (const dir of serviceDirs) {
+    // reducedDependencyTestMatrix is a little misleading, since if we want to test
+    // these projects, we need to make sure they are built first, which requires them impacting
+    // the build commands as well
+    if (reducedDependencyTestMatrix[dir]) {
+      isReducedTestScopeEnabled = true;
+      for (const dep of reducedDependencyTestMatrix[dir]) {
+        if (!fullPackageNames.includes(dep)) {
+          fullPackageNames.push(dep);
+        }
+      }
     }
+  }
 
-    mappedPackages.push([rushCommandFlag, packageName]);
+  if (action.startsWith("build")) {
+    for (const packageName of fullPackageNames) {
+      /**  @type {string} */
+      let rushCommandFlag;
+
+      if (restrictedToPackages.includes(packageName)) {
+        // if this is one of our restricted packages with a ton of deps, make it targeted
+        // as including all dependents will be too much
+        rushCommandFlag = "--to";
+      } else if (action === "build") {
+        rushCommandFlag = "--from";
+      } else {
+        // --impacted-by is only safe if the packages have already been built, since it won't build
+        // unrelated dependencies
+        rushCommandFlag = "--impacted-by";
+      }
+
+      mappedPackages.push([rushCommandFlag, packageName]);
+    }
+  } else {
+    // we are in a test task of some kind
+    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
+
+    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
   }
 
   return mappedPackages;
@@ -119,17 +146,18 @@ const getPackageJSONs = (searchDir) => {
 /**
  * Returns package names and package dirs arrays
  *
- * @param {string} baseDir -
  * @param {string[]} serviceDirs -
  * @param {string} artifactNames -
  */
-export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
+export const getServicePackages = (serviceDirs, artifactNames) => {
+  /** @type {string[]} */
   const packageNames = [];
+  /** @type {string[]} */
   const packageDirs = [];
   let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
-    const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
+    const searchDir = path.resolve(path.join(getBaseDir(), "sdk", serviceDir));
     const packageJSONs = getPackageJSONs(searchDir);
     for (const filePath of packageJSONs) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -143,5 +171,21 @@ export const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
       }
     }
   }
-  return {packageNames, packageDirs};
+
+  return { packageNames, packageDirs };
 };
+
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ *
+ * @param {string} absolutePath absolute path to a package
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+export function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1
+    ? absolutePath
+    : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
