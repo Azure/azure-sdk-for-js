@@ -321,7 +321,7 @@ describe("#StandardMetricsHandler", () => {
     assert.ok(autoCollect.getMeterProvider());
   });
 
-  it("should not collect when disabled", async () => {
+  it("should not collect when disabled", () => {
     autoCollect.shutdown();
     setTimeout(() => {
       assert.ok(exportStub.notCalled);

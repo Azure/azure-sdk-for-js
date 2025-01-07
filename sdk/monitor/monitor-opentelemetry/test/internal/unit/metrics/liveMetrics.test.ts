@@ -268,7 +268,7 @@ describe("#LiveMetrics", () => {
     assert.ok(autoCollect.getMeterProvider());
   });
 
-  it("should not collect when disabled", async () => {
+  it("should not collect when disabled", () => {
     autoCollect.deactivateMetrics();
     setTimeout(() => {
       assert.ok(exportStub.notCalled);
