@@ -25,13 +25,13 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     let request: OperationRequest;
     const client = new ResourceManagementClient(credential, "subscriptionID", {
       httpClient: {
-        sendRequest: (req) => {
+        sendRequest: async (req) => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return Promise.resolve({ request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) });
+            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) };
           }
-          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+          return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
       credential
