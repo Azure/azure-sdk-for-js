@@ -1,16 +1,10 @@
 # Release History
 
-## 4.3.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.4 (2025-01-10)
 
 ### Bugs Fixed
 
 - Fix parsing of connection string to extract port number properly.
-
-### Other Changes
 
 ## 4.3.3 (2024-11-07)
 
