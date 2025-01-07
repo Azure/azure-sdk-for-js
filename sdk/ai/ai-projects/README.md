@@ -78,11 +78,9 @@ npm install @azure/ai-projects
 
 The class factory method `fromConnectionString` is used to construct the client. To construct a client:
 
-```javascript
+```ts snippet:fromConnectionString
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-
-import "dotenv/config";  
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
 
@@ -104,7 +102,17 @@ Below are code examples of the connection operations. Full samples can be found 
 
 To list the properties of all the connections in the Azure AI Foundry project:
 
-```javascript
+```ts snippet:listConnections
+import { AIProjectsClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
+
+const client = AIProjectsClient.fromConnectionString(
+  connectionString,
+  new DefaultAzureCredential(),
+);
+
 const connections = await client.connections.listConnections();
 for (const connection of connections) {
   console.log(connection);
@@ -115,7 +123,17 @@ for (const connection of connections) {
 
 To list the properties of connections of a certain type (here Azure OpenAI):
 
-```javascript
+```ts snippet:listConnectionsByCategory
+import { AIProjectsClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<connectionString>";
+
+const client = AIProjectsClient.fromConnectionString(
+  connectionString,
+  new DefaultAzureCredential(),
+);
+
 const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
 for (const connection of connections) {
   console.log(connection);
@@ -126,14 +144,14 @@ for (const connection of connections) {
 
 To get the connection properties of a connection named `connectionName`:
 
-```javascript
+```bash
 const connection = await client.connections.getConnection("connectionName");
 console.log(connection);
 ```
 
 To get the connection properties with its authentication credentials:
 
-```javascript
+```bash
 const connection = await client.connections.getConnectionWithSecrets("connectionName");
 console.log(connection);
 ```
@@ -148,7 +166,7 @@ Agents are actively being developed. A sign-up form for private preview is comin
 
 Here is an example of how to create an Agent:
 
-```javascript
+```bash
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful assistant",
@@ -159,7 +177,7 @@ To allow Agents to access your resources or custom functions, you need tools. Yo
 
 You can use `ToolSet` to do this:
 
-```javascript
+```bash
 const toolSet = new ToolSet();
 toolSet.addFileSearchTool([vectorStore.id]);
 toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
@@ -178,7 +196,7 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 
 To perform file search by an Agent, we first need to upload a file, create a vector store, and associate the file to the vector store. Here is an example:
 
-```javascript
+```bash
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
 const file = await client.agents.uploadFile(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.txt",
@@ -206,7 +224,7 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 
 Here is an example to upload a file and use it for code interpreter by an Agent:
 
-```javascript
+```bash
 const fileStream = fs.createReadStream("nifty_500_quarterly_results.csv");
 const fFile = await client.agents.uploadFile(fileStream, "assistants", {
   fileName: "nifty_500_quarterly_results.csv",
@@ -231,7 +249,7 @@ To enable your Agent to perform search through Bing search API, you use `ToolUti
 
 Here is an example:
 
-```javascript
+```bash
 const bingGroundingConnectionId = "<bingGroundingConnectionId>";
 const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
   bingGroundingConnectionId,
@@ -251,7 +269,7 @@ Azure AI Search is an enterprise search system for high-performance applications
 
 Here is an example to integrate Azure AI Search:
 
-```javascript
+```bash
 const cognitiveServicesConnectionName = "<cognitiveServicesConnectionName>";
 const cognitiveServicesConnection = await client.connections.getConnection(
   cognitiveServicesConnectionName,
@@ -277,7 +295,7 @@ You can enhance your Agents by defining callback functions as function tools. Th
 
 Here is an example:
 
-```javascript
+```bash
 class FunctionToolExecutor {
   private functionTools: { func: Function, definition: FunctionToolDefinition }[];
 
@@ -361,7 +379,7 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 
 For each session or conversation, a thread is required. Here is an example:
 
-```javascript
+```bash
 const thread = await client.agents.createThread();
 ```
 
@@ -369,7 +387,7 @@ const thread = await client.agents.createThread();
 
 In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
 
-```javascript
+```bash
 const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
 const file = await client.agents.uploadFile(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.txt",
@@ -400,7 +418,7 @@ const thread = await client.agents.createThread({ toolResources: fileSearchTool.
 
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
 
-```javascript
+```bash
 const message = await client.agents.createMessage(thread.id, {
   role: "user",
   content: "hello, world!",
@@ -411,7 +429,7 @@ const message = await client.agents.createMessage(thread.id, {
 
 To attach a file to a message for content searching, you use `ToolUtility.createFileSearchTool()` and the `attachments` argument:
 
-```javascript
+```bash
 const fileSearchTool = ToolUtility.createFileSearchTool();
 const message = await client.agents.createMessage(thread.id, {
   role: "user",
@@ -429,7 +447,7 @@ To attach a file to a message for data analysis, you use `ToolUtility.createCode
 
 Here is an example:
 
-```javascript
+```bash
 // notice that CodeInterpreter must be enabled in the agent creation,
 // otherwise the agent will not be able to see the file attachment for code interpretation
 const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
@@ -459,7 +477,7 @@ console.log(`Created message, message ID: ${message.id}`);
 
 Here is an example of `createRun` and poll until the run is completed:
 
-```javascript
+```bash
 let run = await client.agents.createRun(thread.id, agent.id);
 
 // Poll the run as long as run status is queued or in progress
@@ -478,7 +496,7 @@ To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 
 Here is an example:
 
-```javascript
+```bash
 const run = await client.agents.createThreadAndRun(thread.id, agent.id);
 ```
 
@@ -486,13 +504,13 @@ With streaming, polling also need not be considered.
 
 Here is an example:
 
-```javascript
+```bash
 const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 ```
 
 Event handling can be done as follows:
 
-```javascript
+```bash
 for await (const eventMessage of streamEventMessages) {
 switch (eventMessage.event) {
   case RunStreamEvent.ThreadRunCreated:
@@ -528,7 +546,7 @@ switch (eventMessage.event) {
 
 To retrieve messages from agents, use the following example:
 
-```javascript
+```bash
 const messages = await client.agents.listMessages(thread.id);
 
 // The messages are following in the reverse order,
@@ -548,7 +566,7 @@ Files uploaded by Agents cannot be retrieved back. If your use case needs to acc
 
 Here is an example retrieving file ids from messages:
 
-```javascript
+```bash
 const messages = await client.agents.listMessages(thread.id);
 const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
 const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
@@ -571,7 +589,7 @@ console.log(`Saved image file to: ${imageFileName}`);
 
 To remove resources after completing tasks, use the following functions:
 
-```javascript
+```bash
 await client.agents.deleteVectorStore(vectorStore.id);
 console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 
@@ -611,7 +629,7 @@ npm install @opentelemetry/exporter-trace-otlp-proto \
 
 Here is a code sample to be included above `createAgent`:
 
-```javascript
+```bash
 import { trace } from "@opentelemetry/api";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter"
 import {
@@ -652,7 +670,7 @@ await tracer.startActiveSpan("main", async (span) => {
 
 Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
-```javascript
+```bash
 import { RestError } from "@azure/core-rest-pipeline"
 
 // ...
