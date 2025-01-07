@@ -14,9 +14,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { RedisManagementClient } from "../src/redisManagementClient.js";
-import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -71,12 +71,6 @@ describe("Redis test", () => {
     networkName: any,
     subnetName: any
   ) {
-    const parameter: VirtualNetwork = {
-      location: location,
-      addressSpace: {
-        addressPrefixes: ["10.0.0.0/16"],
-      },
-    };
     //network create
     //subnet create
   }
