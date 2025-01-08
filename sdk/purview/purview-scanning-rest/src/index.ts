@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import PurviewScanning from "./purviewScanning.js";
+import PurviewScanningRestClient from "./purviewScanningRestClient";
 
-export * from "./purviewScanning.js";
-export * from "./models.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./paginateHelper.js";
+export * from "./purviewScanningRestClient";
+export * from "./parameters";
+export * from "./responses";
+export * from "./clientDefinitions";
+export * from "./isUnexpected";
+export * from "./models";
+export * from "./outputModels";
+export * from "./paginateHelper";
+export * from "./pollingHelper";
 
-// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
-export default PurviewScanning;
+export default PurviewScanningRestClient;
