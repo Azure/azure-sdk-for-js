@@ -83,8 +83,11 @@ export class Constants {
   // Error messages
   public static readonly CONFLICT_409_ERROR_MESSAGE =
     "Test run with id {runId} already exists. Provide a unique run id.";
-  public static readonly FORBIDDEN_403_ERROR_MESSAGE =
-    "Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
+  public static readonly FORBIDDEN_403_ERROR_MESSAGE = `You do not have the required permissions to upload test results. This could be because
+
+  a. Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general
+  b. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
+  `;
   // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
