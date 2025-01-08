@@ -6,8 +6,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-system-events/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-system-events)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
-- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
+- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 
 ## Getting started
 
@@ -73,10 +73,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/azure/event-grid
+[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
 [cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/
+[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/

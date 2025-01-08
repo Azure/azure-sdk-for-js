@@ -3,7 +3,7 @@
 The `@azure/abort-controller` package provides `AbortSignalLike` interface and
 `AbortError` classes to make it easier to work with the
 [AbortController](https://developer.mozilla.org/docs/Web/API/AbortController)
- and the `AbortSignal` used by
+and the `AbortSignal` used by
 [fetch](https://developer.mozilla.org/docs/Web/API/Fetch_API) built into modern JavaScript platforms.
 
 Customers of Azure SDK for JavaScript in general do not need to use this library. Instead they
@@ -13,7 +13,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller)
 - [Package (npm)](https://www.npmjs.com/package/@azure/abort-controller)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/overview/azure/abort-controller-readme)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/overview/azure/abort-controller-readme)
 
 ## Getting started
 

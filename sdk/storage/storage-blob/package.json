@@ -120,7 +120,7 @@
       "azure-storage"
     ],
     "requiredResources": {
-      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+      "Azure Storage Account": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
     }
   },
   "dependencies": {

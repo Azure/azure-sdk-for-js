@@ -109,7 +109,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [stepsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deploymentmanager/arm-deploymentmanager/samples/v4-beta/typescript/src/stepsDeleteSample.ts
 [stepsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deploymentmanager/arm-deploymentmanager/samples/v4-beta/typescript/src/stepsGetSample.ts
 [stepslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deploymentmanager/arm-deploymentmanager/samples/v4-beta/typescript/src/stepsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-deploymentmanager?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deploymentmanager?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deploymentmanager/arm-deploymentmanager/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
