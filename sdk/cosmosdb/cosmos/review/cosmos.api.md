@@ -30,9 +30,30 @@ export interface Agent {
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 // @public (undocumented)
-export type BulkOperationResponse = OperationResponse[] & {
+export type BulkOperationResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;
 };
+
+// @public
+export class BulkOperationResult {
+    constructor(statusCode?: StatusCode, subStatusCode?: SubStatusCode, etag?: string, retryAfter?: number, activityId?: string, sessionToken?: string, requestCharge?: number, resource?: JSONObject);
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody: JSONObject;
+    // (undocumented)
+    retryAfter: number;
+    // (undocumented)
+    sessionToken: string;
+    // (undocumented)
+    statusCode: StatusCode;
+    // (undocumented)
+    subStatusCode: SubStatusCode;
+}
 
 // @public (undocumented)
 export const BulkOperationType: {
@@ -558,6 +579,9 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkTimeoutInMs: number;
+    BulkMaxDegreeOfConcurrency: number;
     Quota: {
         CollectionSize: string;
     };
@@ -990,6 +1014,7 @@ export interface ErrorBody {
 
 // @public (undocumented)
 export class ErrorResponse extends Error {
+    constructor(message?: string, code?: number, substatus?: number);
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1449,6 +1474,8 @@ export interface OperationResponse {
     resourceBody?: JSONObject;
     // (undocumented)
     statusCode: number;
+    // (undocumented)
+    subStatusCode: number;
 }
 
 // @public (undocumented)
@@ -2258,6 +2285,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2265,6 +2294,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
