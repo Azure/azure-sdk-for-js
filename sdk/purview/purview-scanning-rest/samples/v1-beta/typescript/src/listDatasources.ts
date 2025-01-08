@@ -10,10 +10,7 @@
 import PurviewScanning, { DataSource, paginate } from "@azure-rest/purview-scanning";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {

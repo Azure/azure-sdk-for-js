@@ -60,7 +60,7 @@ import {
   TriggersDeleteParameters,
   TriggersEnableParameters,
   TriggersDisableParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   KeyVaultConnectionsGet200Response,
   KeyVaultConnectionsGetDefaultResponse,
@@ -189,7 +189,7 @@ import {
   TriggersEnableDefaultResponse,
   TriggersDisable200Response,
   TriggersDisableDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface KeyVaultConnectionsGet {

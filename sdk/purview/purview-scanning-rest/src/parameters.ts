@@ -16,7 +16,7 @@ import {
   Scan,
   ScanRuleset,
   Trigger,
-} from "./models";
+} from "./models.js";
 
 export type KeyVaultConnectionsGetParameters = RequestParameters;
 

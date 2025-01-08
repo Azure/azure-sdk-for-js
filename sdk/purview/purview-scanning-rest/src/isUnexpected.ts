@@ -129,7 +129,7 @@ import {
   TriggersEnableDefaultResponse,
   TriggersDisable200Response,
   TriggersDisableDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /azureKeyVaults/{azureKeyVaultName}": ["200"],

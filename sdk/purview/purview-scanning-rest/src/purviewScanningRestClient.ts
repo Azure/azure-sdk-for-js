@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { PurviewScanningRestClient } from "./clientDefinitions";
+import { PurviewScanningRestClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface PurviewScanningRestClientOptions extends ClientOptions {

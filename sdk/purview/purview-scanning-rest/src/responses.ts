@@ -32,7 +32,7 @@ import {
   SystemScanRulesetListOutput,
   SystemScanRulesetOutput,
   TriggerOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Gets an Azure Key Vault connection. */
 export interface KeyVaultConnectionsGet200Response extends HttpResponse {
