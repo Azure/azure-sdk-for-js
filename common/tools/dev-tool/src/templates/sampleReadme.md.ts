@@ -245,7 +245,7 @@ ${(() => {
   if (info.apiRefLink) {
     return `[apiref]: ${info.apiRefLink}`;
   } else if (info.scope === "@azure" || info.scope === "@azure-rest") {
-    return `[apiref]: https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}`;
+    return `[apiref]: https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
   }
   return "";
 })()}
