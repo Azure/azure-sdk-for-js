@@ -143,7 +143,7 @@
       "azure"
     ],
     "extraFiles": {
-      "./samples-dev/data": [
+      "./data": [
         "javascript/data",
         "typescript/src/data"
       ]

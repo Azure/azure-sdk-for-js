@@ -4,7 +4,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 const dotenv = require("dotenv");
 const fs = require("fs");
-const path = require("node:path");
 dotenv.config();
 
 const connectionString =
@@ -18,7 +17,7 @@ async function main() {
 
   // Upload file
   // using dirname for generated samples, replace with full file path for local testing
-  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",

@@ -17,7 +17,7 @@ async function main() {
 
   // Upload file and wait for it to be processed
   // using dirname for generated samples, replace with full file path for local testing
-  const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
+  const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "localFile",
@@ -85,8 +85,7 @@ async function main() {
   console.log(`Image file ID : ${imageFile}`);
   // using dirname for generated samples, replace with full file path for local testing
   const imageFileName = path.resolve(
-    __dirname,
-    "../data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png",
+    "./data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png",
   );
 
   const fileContent = await (
