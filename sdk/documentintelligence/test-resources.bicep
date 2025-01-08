@@ -1,10 +1,10 @@
 param baseName string = resourceGroup().name
 param location string = 'eastus'
-param blobStorageAccount string = 'azuresdktrainingdata'
+param blobStorageAccount string = 'azuresdktrainingdatatme'
 param trainingDataContainer string = 'trainingdata-v3'
 param batchTrainingDataContainer string = 'trainingdata-batch'
 param selectionMarkTrainingDataContainer string = 'selectionmark-v3'
-param blobResourceId string = resourceId('2cd617ea-1866-46b1-90e3-fffb087ebf9b', 'TrainingData', 'Microsoft.Storage/storageAccounts', blobStorageAccount)
+param blobResourceId string = resourceId('4d042dc6-fe17-4698-a23f-ec6a8d1e98f4', 'static-test-resources', 'Microsoft.Storage/storageAccounts', blobStorageAccount)
 param trainingDataSasProperties object = {
   canonicalizedResource: '/blob/${blobStorageAccount}/${trainingDataContainer}'
   signedExpiry: dateTimeAdd(utcNow('u'), 'P2M')
