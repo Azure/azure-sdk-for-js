@@ -90,7 +90,7 @@ This command will automatically:
 8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
-After all the steps finished, you can prepare the release PullRequest for this generation. See [Prepare Release](#prepare-release)
+After all the steps finished, you can prepare the release for this generation. See [Prepare Release](#prepare-release)
 
 ### Generate Code with tsp-client tool
 > To reduce workload and unnecessary mistakes, it is recommended to use the simple method from the previous section. Only if you are clear about what you are doing and the method from the previous section does not meet your needs, should you consider using the method below.
