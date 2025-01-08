@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { Suite } from "mocha";
-import {
-  CosmosClient,
-  EncryptionKeyWrapMetadata,
+import type { Suite } from "mocha";
+import type {
   Database,
   Container,
   ContainerDefinition,
+  OperationInput,
+  PatchOperation
+} from "../../../src";
+import {
+  CosmosClient,
+  EncryptionKeyWrapMetadata,
   ClientEncryptionPolicy,
   KeyEncryptionKeyAlgorithm,
   ClientEncryptionIncludedPath,
@@ -19,8 +23,6 @@ import {
   BulkOperationType,
   ChangeFeedStartFrom,
   EncryptionQueryBuilder,
-  OperationInput,
-  PatchOperation,
   PatchOperationType,
   PartitionKeyDefinitionVersion,
   ChangeFeedMode,
@@ -251,6 +253,20 @@ describe("Client Side Encryption", function (this: Suite) {
     } catch (err) {
       assert.ok(
         err.message.includes("Path in ClientEncryptionIncludedPath needs to start with '/'"),
+      );
+    }
+    // check for nested path
+    path = new ClientEncryptionIncludedPath(
+      "/address/zip",
+      "key1",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    try {
+      new ClientEncryptionPolicy([path]);
+    } catch (err) {
+      assert.ok(
+        err.message.includes("Only top-level paths are currently supported for encryption"),
       );
     }
     // check empty key
@@ -525,9 +541,9 @@ describe("Client Side Encryption", function (this: Suite) {
 
     const queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
-        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
-        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
-        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
+      " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     queryBuilder.addStringParameter(
       "@sensitive_StringFormat",
