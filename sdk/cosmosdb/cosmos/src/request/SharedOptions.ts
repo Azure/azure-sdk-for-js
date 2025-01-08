@@ -48,4 +48,11 @@ export interface SharedOptions {
    * <p>Default value is null. By default all requests are of High priority</p>
    */
   priorityLevel?: PriorityLevel;
+
+  /**
+   * Throughput Bucket for a request.
+   * 
+   * <p>Default value is null. In this case the default bucket with 100% RU is used </p>
+   */
+  throughputBucket?: number;
 }

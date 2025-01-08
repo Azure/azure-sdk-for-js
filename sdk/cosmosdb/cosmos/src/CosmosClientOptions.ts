@@ -60,4 +60,6 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   /** @internal */
   plugins?: PluginConfig[];
+
+  throughputBucket?: number;
 }

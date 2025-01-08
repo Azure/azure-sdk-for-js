@@ -180,8 +180,9 @@ export const Constants = {
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
 
-    // Priority Based throttling header
+    // Throughput related headers
     PriorityLevel: "x-ms-cosmos-priority-level",
+    ThroughputBucket: "x-ms-cosmos-throughput-bucket"
   },
 
   // GlobalDB related constants
