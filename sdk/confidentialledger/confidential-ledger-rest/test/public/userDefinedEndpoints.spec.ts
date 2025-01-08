@@ -8,7 +8,7 @@ import { env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Get user", () => {
+describe("Get userdefned endpoint", () => {
     let recorder: Recorder;
     let client: ConfidentialLedgerClient;
 
@@ -21,9 +21,8 @@ describe("Get user", () => {
         await recorder.stop();
     });
 
-    it("should obtain user data", { skip: !env.AZURE_CLIENT_OID }, async () => {
+    it("should obtain user defined endpoints", { skip: !env.AZURE_CLIENT_OID }, async () => {
         // If using a test app, it needs to be the oid.
-        const userId = env.AZURE_CLIENT_OID;
         const result = await client.path("/app/userDefinedEndpoints").get();
         assert.equal(result.status, "200");
 
@@ -33,9 +32,8 @@ describe("Get user", () => {
 
     });
 
-    it("should list all user data", { skip: !env.AZURE_CLIENT_OID }, async () => {
+    it("should list all runtimeoptions", { skip: !env.AZURE_CLIENT_OID }, async () => {
         // If using a test app, it needs to be the oid.
-        const userId = env.AZURE_CLIENT_OID;
         const result = await client.path("/app/userDefinedEndpoints/runTimeOptions").get();
         assert.equal(result.status, "200");
 
