@@ -241,7 +241,20 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-[apiref]: ${info.apiRefLink ?? `https://learn.microsoft.com/javascript/api/@azure/${info.baseName}`}
+${(() => {
+  if (info.apiRefLink) {
+    return "[apiref]: " + info.apiRefLink;
+  } else if (info.scope === "@azure" || info.scope === "@azure-rest") {
+    return (
+      "[apiref]: " +
+      "https://learn.microsoft.com/javascript/api/" +
+      info.scope +
+      "/" +
+      info.baseName
+    );
+  }
+  return "";
+})()}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
