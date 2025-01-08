@@ -146,7 +146,8 @@
       "ChangeFeedIteratorAllVersionsAndDeletes.ts",
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts",
-      "FullTextSearch.ts"
+      "FullTextSearch.ts",
+      "ClientSideEncryption.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
