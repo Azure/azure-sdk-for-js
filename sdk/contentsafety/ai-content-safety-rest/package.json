@@ -106,7 +106,7 @@
       ]
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview"
   },
   "type": "module",
   "tshy": {

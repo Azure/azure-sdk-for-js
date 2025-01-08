@@ -17,7 +17,7 @@ const { newPipeline } = require("@azure/storage-blob");
 // version 2002 that supports up to version 2017-11-09 of the Azure Storage service.
 
 // For more information on the Azure Storage versions supported on Azure Stack,\
-// please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
+// please refer to https://learn.microsoft.com/azure-stack/user/azure-stack-acs-differences.
 
 const API_VERSION = "2017-11-09";
 

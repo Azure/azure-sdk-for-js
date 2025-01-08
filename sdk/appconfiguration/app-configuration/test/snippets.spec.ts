@@ -76,7 +76,7 @@ describe("snippets", () => {
       value: "testvalue",
       // Labels allow you to create variants of a key tailored
       // for specific use-cases like supporting multiple environments.
-      // https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
+      // https://learn.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
       label: "optional-label",
     });
     // @ts-preserve-whitespace

@@ -1503,7 +1503,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index c0e38ca..1cd3978 100644
+index d67931e..823792e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,14 +1,12 @@

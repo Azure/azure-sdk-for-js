@@ -201,6 +201,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scriptslistbydatabasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v8/javascript/scriptsListByDatabaseSample.js
 [scriptsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v8/javascript/scriptsUpdateSample.js
 [skuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v8/javascript/skusListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kusto/arm-kusto/README.md
