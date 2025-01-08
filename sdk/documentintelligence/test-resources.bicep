@@ -17,6 +17,13 @@ param batchTrainingSasProperties object = {
   signedPermission: 'rwl'
   signedResource: 'c'
 }
+param batchTrainingDataResultContainer string = 'trainingdata-batch-result'
+param batchTrainingResultSasProperties object = {
+  canonicalizedResource: '/blob/${blobStorageAccount}/${batchTrainingDataResultContainer}'
+  signedExpiry: dateTimeAdd(utcNow('u'), 'P2M')
+  signedPermission: 'rwl'
+  signedResource: 'c'
+}
 param selectionMarkTrainingDataSasProperties object = {
   canonicalizedResource: '/blob/${blobStorageAccount}/${selectionMarkTrainingDataContainer}'
   signedExpiry: dateTimeAdd(utcNow('u'), 'P2M')
@@ -45,19 +52,14 @@ param classifierTrainingSasProperties object = {
   signedResource: 'c'
 }
 
-var apiVersion = '2024-04-01-preview'
+var apiVersion = '2024-10-01'
 var storageApiVersion = '2023-05-01'
-
-resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' = {
+resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: baseName
   location: location
-  sku: {
-    name: 'S0'
-  }
   kind: 'FormRecognizer'
-  properties: {
-    customSubDomainName: baseName
-  }
+  sku: { name: 'S0' }
+  properties: { customSubDomainName: baseName }
 }
 
 output DOCUMENT_INTELLIGENCE_ENDPOINT string = cognitiveServicesAccount.properties.endpoint
@@ -67,6 +69,7 @@ output DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL string = '${reference(blo
 output DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL string = '${reference(blobResourceId, storageApiVersion).primaryEndpoints.blob}${selectionMarkTrainingDataContainer}?${listServiceSas(blobResourceId, storageApiVersion, selectionMarkTrainingDataSasProperties).serviceSasToken}'
 output DOCUMENT_INTELLIGENCE_CLASSIFIER_TRAINING_DATA_CONTAINER_SAS_URL string = '${reference(blobResourceId, storageApiVersion).primaryEndpoints.blob}${classifierTrainingDataContainer}?${listServiceSas(blobResourceId, storageApiVersion, classifierTrainingSasProperties).serviceSasToken}'
 output DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL string = '${reference(blobResourceId, storageApiVersion).primaryEndpoints.blob}${batchTrainingDataContainer}?${listServiceSas(blobResourceId, storageApiVersion, batchTrainingSasProperties).serviceSasToken}'
+output DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL string = '${reference(blobResourceId, storageApiVersion).primaryEndpoints.blob}${batchTrainingDataResultContainer}?${listServiceSas(blobResourceId, storageApiVersion, batchTrainingResultSasProperties).serviceSasToken}'
 output DOCUMENT_INTELLIGENCE_MULTIPAGE_TRAINING_DATA_CONTAINER_SAS_URL string = '${reference(blobResourceId, storageApiVersion).primaryEndpoints.blob}${multiPageTestingDataContainer}?${listServiceSas(blobResourceId, storageApiVersion, multiPageTestingDataSasProperties).serviceSasToken}'
 output DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_REGION string = location
 output DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_ID string = cognitiveServicesAccount.id
