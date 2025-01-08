@@ -21,10 +21,7 @@ export interface PurviewScanningRestClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2023-09-01",
-    ...options
-  }: PurviewScanningRestClientOptions = {},
+  { apiVersion = "2023-09-01", ...options }: PurviewScanningRestClientOptions = {},
 ): PurviewScanningRestClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}/scan`;
   const userAgentInfo = `azsdk-js-purview-scanning-rest/1.0.0`;
@@ -44,11 +41,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? ["user_impersonation"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewScanningRestClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewScanningRestClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

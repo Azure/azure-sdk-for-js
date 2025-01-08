@@ -53,15 +53,13 @@ export interface KeyVaultConnectionsGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or replaces a connection to Azure Key Vault. */
-export interface KeyVaultConnectionsCreateOrReplace200Response
-  extends HttpResponse {
+export interface KeyVaultConnectionsCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: AzureKeyVaultOutput;
 }
 
 /** Creates or replaces a connection to Azure Key Vault. */
-export interface KeyVaultConnectionsCreateOrReplace201Response
-  extends HttpResponse {
+export interface KeyVaultConnectionsCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: AzureKeyVaultOutput;
 }
@@ -72,8 +70,7 @@ export interface KeyVaultConnectionsCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a connection to Azure Key Vault. */
-export interface KeyVaultConnectionsCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface KeyVaultConnectionsCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & KeyVaultConnectionsCreateOrReplaceDefaultHeaders;
@@ -133,15 +130,13 @@ export interface ClassificationRulesGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or replaces a classification rule. */
-export interface ClassificationRulesCreateOrReplace200Response
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: ClassificationRuleOutput;
 }
 
 /** Creates or replaces a classification rule. */
-export interface ClassificationRulesCreateOrReplace201Response
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: ClassificationRuleOutput;
 }
@@ -152,8 +147,7 @@ export interface ClassificationRulesCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a classification rule. */
-export interface ClassificationRulesCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ClassificationRulesCreateOrReplaceDefaultHeaders;
@@ -195,8 +189,7 @@ export interface ClassificationRulesListDefaultResponse extends HttpResponse {
 }
 
 /** Lists the rule versions of a classification rule. */
-export interface ClassificationRulesListVersionsByRuleName200Response
-  extends HttpResponse {
+export interface ClassificationRulesListVersionsByRuleName200Response extends HttpResponse {
   status: "200";
   body: ClassificationRuleListOutput;
 }
@@ -207,12 +200,10 @@ export interface ClassificationRulesListVersionsByRuleNameDefaultHeaders {
 }
 
 /** Lists the rule versions of a classification rule. */
-export interface ClassificationRulesListVersionsByRuleNameDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesListVersionsByRuleNameDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    ClassificationRulesListVersionsByRuleNameDefaultHeaders;
+  headers: RawHttpHeaders & ClassificationRulesListVersionsByRuleNameDefaultHeaders;
 }
 
 export interface ClassificationRulesTagClassificationVersion202Headers {
@@ -221,12 +212,10 @@ export interface ClassificationRulesTagClassificationVersion202Headers {
 }
 
 /** Sets classification action on a specific classification rule version. */
-export interface ClassificationRulesTagClassificationVersion202Response
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersion202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
-  headers: RawHttpHeaders &
-    ClassificationRulesTagClassificationVersion202Headers;
+  headers: RawHttpHeaders & ClassificationRulesTagClassificationVersion202Headers;
 }
 
 export interface ClassificationRulesTagClassificationVersionDefaultHeaders {
@@ -235,12 +224,10 @@ export interface ClassificationRulesTagClassificationVersionDefaultHeaders {
 }
 
 /** Sets classification action on a specific classification rule version. */
-export interface ClassificationRulesTagClassificationVersionDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    ClassificationRulesTagClassificationVersionDefaultHeaders;
+  headers: RawHttpHeaders & ClassificationRulesTagClassificationVersionDefaultHeaders;
 }
 
 /** Gets credential information. */
@@ -338,8 +325,7 @@ export interface DataSourcesCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a data source. */
-export interface DataSourcesCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface DataSourcesCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & DataSourcesCreateOrReplaceDefaultHeaders;
@@ -441,8 +427,7 @@ export interface FiltersCreateOrReplaceDefaultResponse extends HttpResponse {
 }
 
 /** Lists integration runtimes in an account. */
-export interface IntegrationRuntimesListByAccount200Response
-  extends HttpResponse {
+export interface IntegrationRuntimesListByAccount200Response extends HttpResponse {
   status: "200";
   body: IntegrationRuntimeListOutput;
 }
@@ -453,8 +438,7 @@ export interface IntegrationRuntimesListByAccountDefaultHeaders {
 }
 
 /** Lists integration runtimes in an account. */
-export interface IntegrationRuntimesListByAccountDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesListByAccountDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & IntegrationRuntimesListByAccountDefaultHeaders;
@@ -496,15 +480,13 @@ export interface IntegrationRuntimesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Creates or replaces an instance of integration runtime. */
-export interface IntegrationRuntimesCreateOrReplace200Response
-  extends HttpResponse {
+export interface IntegrationRuntimesCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: IntegrationRuntimeOutput;
 }
 
 /** Creates or replaces an instance of integration runtime. */
-export interface IntegrationRuntimesCreateOrReplace201Response
-  extends HttpResponse {
+export interface IntegrationRuntimesCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: IntegrationRuntimeOutput;
 }
@@ -515,8 +497,7 @@ export interface IntegrationRuntimesCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces an instance of integration runtime. */
-export interface IntegrationRuntimesCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & IntegrationRuntimesCreateOrReplaceDefaultHeaders;
@@ -541,8 +522,7 @@ export interface IntegrationRuntimesStatusDefaultResponse extends HttpResponse {
 }
 
 /** Retrieves the authentication keys for an integration runtime. */
-export interface IntegrationRuntimesListAuthKeys200Response
-  extends HttpResponse {
+export interface IntegrationRuntimesListAuthKeys200Response extends HttpResponse {
   status: "200";
   body: IntegrationRuntimeAuthKeysOutput;
 }
@@ -553,16 +533,14 @@ export interface IntegrationRuntimesListAuthKeysDefaultHeaders {
 }
 
 /** Retrieves the authentication keys for an integration runtime. */
-export interface IntegrationRuntimesListAuthKeysDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesListAuthKeysDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & IntegrationRuntimesListAuthKeysDefaultHeaders;
 }
 
 /** Regenerates the authentication key for an integration runtime. */
-export interface IntegrationRuntimesRegenerateAuthKey200Response
-  extends HttpResponse {
+export interface IntegrationRuntimesRegenerateAuthKey200Response extends HttpResponse {
   status: "200";
   body: IntegrationRuntimeAuthKeysOutput;
 }
@@ -573,8 +551,7 @@ export interface IntegrationRuntimesRegenerateAuthKeyDefaultHeaders {
 }
 
 /** Regenerates the authentication key for an integration runtime. */
-export interface IntegrationRuntimesRegenerateAuthKeyDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesRegenerateAuthKeyDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & IntegrationRuntimesRegenerateAuthKeyDefaultHeaders;
@@ -586,12 +563,10 @@ export interface IntegrationRuntimesDisableInteractiveQuery202Headers {
 }
 
 /** Disables interactive querying. */
-export interface IntegrationRuntimesDisableInteractiveQuery202Response
-  extends HttpResponse {
+export interface IntegrationRuntimesDisableInteractiveQuery202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
-  headers: RawHttpHeaders &
-    IntegrationRuntimesDisableInteractiveQuery202Headers;
+  headers: RawHttpHeaders & IntegrationRuntimesDisableInteractiveQuery202Headers;
 }
 
 export interface IntegrationRuntimesDisableInteractiveQueryDefaultHeaders {
@@ -600,12 +575,10 @@ export interface IntegrationRuntimesDisableInteractiveQueryDefaultHeaders {
 }
 
 /** Disables interactive querying. */
-export interface IntegrationRuntimesDisableInteractiveQueryDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesDisableInteractiveQueryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    IntegrationRuntimesDisableInteractiveQueryDefaultHeaders;
+  headers: RawHttpHeaders & IntegrationRuntimesDisableInteractiveQueryDefaultHeaders;
 }
 
 export interface IntegrationRuntimesEnableInteractiveQuery202Headers {
@@ -614,8 +587,7 @@ export interface IntegrationRuntimesEnableInteractiveQuery202Headers {
 }
 
 /** Enables interactive querying. */
-export interface IntegrationRuntimesEnableInteractiveQuery202Response
-  extends HttpResponse {
+export interface IntegrationRuntimesEnableInteractiveQuery202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
   headers: RawHttpHeaders & IntegrationRuntimesEnableInteractiveQuery202Headers;
@@ -627,17 +599,14 @@ export interface IntegrationRuntimesEnableInteractiveQueryDefaultHeaders {
 }
 
 /** Enables interactive querying. */
-export interface IntegrationRuntimesEnableInteractiveQueryDefaultResponse
-  extends HttpResponse {
+export interface IntegrationRuntimesEnableInteractiveQueryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    IntegrationRuntimesEnableInteractiveQueryDefaultHeaders;
+  headers: RawHttpHeaders & IntegrationRuntimesEnableInteractiveQueryDefaultHeaders;
 }
 
 /** Lists managed virtual networks in an account. */
-export interface ManagedVirtualNetworksListByAccount200Response
-  extends HttpResponse {
+export interface ManagedVirtualNetworksListByAccount200Response extends HttpResponse {
   status: "200";
   body: ManagedVirtualNetworkListOutput;
 }
@@ -648,8 +617,7 @@ export interface ManagedVirtualNetworksListByAccountDefaultHeaders {
 }
 
 /** Lists managed virtual networks in an account. */
-export interface ManagedVirtualNetworksListByAccountDefaultResponse
-  extends HttpResponse {
+export interface ManagedVirtualNetworksListByAccountDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ManagedVirtualNetworksListByAccountDefaultHeaders;
@@ -674,15 +642,13 @@ export interface ManagedVirtualNetworksGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or replaces a managed virtual network. */
-export interface ManagedVirtualNetworksCreateOrReplace200Response
-  extends HttpResponse {
+export interface ManagedVirtualNetworksCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: ManagedVirtualNetworkOutput;
 }
 
 /** Creates or replaces a managed virtual network. */
-export interface ManagedVirtualNetworksCreateOrReplace201Response
-  extends HttpResponse {
+export interface ManagedVirtualNetworksCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: ManagedVirtualNetworkOutput;
 }
@@ -693,16 +659,14 @@ export interface ManagedVirtualNetworksCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a managed virtual network. */
-export interface ManagedVirtualNetworksCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface ManagedVirtualNetworksCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ManagedVirtualNetworksCreateOrReplaceDefaultHeaders;
 }
 
 /** Lists managed private endpoints under a managed virtual network. */
-export interface ManagedPrivateEndpointsListByAccount200Response
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsListByAccount200Response extends HttpResponse {
   status: "200";
   body: ManagedPrivateEndpointListOutput;
 }
@@ -713,8 +677,7 @@ export interface ManagedPrivateEndpointsListByAccountDefaultHeaders {
 }
 
 /** Lists managed private endpoints under a managed virtual network. */
-export interface ManagedPrivateEndpointsListByAccountDefaultResponse
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsListByAccountDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ManagedPrivateEndpointsListByAccountDefaultHeaders;
@@ -732,8 +695,7 @@ export interface ManagedPrivateEndpointsGetDefaultHeaders {
 }
 
 /** Gets a managed private endpoint. */
-export interface ManagedPrivateEndpointsGetDefaultResponse
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ManagedPrivateEndpointsGetDefaultHeaders;
@@ -750,23 +712,20 @@ export interface ManagedPrivateEndpointsDeleteDefaultHeaders {
 }
 
 /** Deletes a managed private endpoint. */
-export interface ManagedPrivateEndpointsDeleteDefaultResponse
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ManagedPrivateEndpointsDeleteDefaultHeaders;
 }
 
 /** Creates or replaces a managed private endpoint. */
-export interface ManagedPrivateEndpointsCreateOrReplace200Response
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: ManagedPrivateEndpointOutput;
 }
 
 /** Creates or replaces a managed private endpoint. */
-export interface ManagedPrivateEndpointsCreateOrReplace201Response
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: ManagedPrivateEndpointOutput;
 }
@@ -777,12 +736,10 @@ export interface ManagedPrivateEndpointsCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a managed private endpoint. */
-export interface ManagedPrivateEndpointsCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface ManagedPrivateEndpointsCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    ManagedPrivateEndpointsCreateOrReplaceDefaultHeaders;
+  headers: RawHttpHeaders & ManagedPrivateEndpointsCreateOrReplaceDefaultHeaders;
 }
 
 /** Creates or replaces an instance of a scan. */
@@ -976,8 +933,7 @@ export interface ScanRulesetsCreateOrReplaceDefaultHeaders {
 }
 
 /** Creates or replaces a scan ruleset. */
-export interface ScanRulesetsCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface ScanRulesetsCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & ScanRulesetsCreateOrReplaceDefaultHeaders;
@@ -1055,8 +1011,7 @@ export interface SystemScanRulesetsGetDefaultResponse extends HttpResponse {
 }
 
 /** Gets a scan ruleset by version. */
-export interface SystemScanRulesetsGetByVersion200Response
-  extends HttpResponse {
+export interface SystemScanRulesetsGetByVersion200Response extends HttpResponse {
   status: "200";
   body: SystemScanRulesetOutput;
 }
@@ -1067,8 +1022,7 @@ export interface SystemScanRulesetsGetByVersionDefaultHeaders {
 }
 
 /** Gets a scan ruleset by version. */
-export interface SystemScanRulesetsGetByVersionDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsGetByVersionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & SystemScanRulesetsGetByVersionDefaultHeaders;
@@ -1086,16 +1040,14 @@ export interface SystemScanRulesetsGetLatestDefaultHeaders {
 }
 
 /** Gets the latest version of a system scan ruleset. */
-export interface SystemScanRulesetsGetLatestDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsGetLatestDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & SystemScanRulesetsGetLatestDefaultHeaders;
 }
 
 /** Lists system scan ruleset versions in data catalog. */
-export interface SystemScanRulesetsListVersionsByDataSource200Response
-  extends HttpResponse {
+export interface SystemScanRulesetsListVersionsByDataSource200Response extends HttpResponse {
   status: "200";
   body: SystemScanRulesetListOutput;
 }
@@ -1106,12 +1058,10 @@ export interface SystemScanRulesetsListVersionsByDataSourceDefaultHeaders {
 }
 
 /** Lists system scan ruleset versions in data catalog. */
-export interface SystemScanRulesetsListVersionsByDataSourceDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsListVersionsByDataSourceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
-  headers: RawHttpHeaders &
-    SystemScanRulesetsListVersionsByDataSourceDefaultHeaders;
+  headers: RawHttpHeaders & SystemScanRulesetsListVersionsByDataSourceDefaultHeaders;
 }
 
 /** Gets trigger information. */

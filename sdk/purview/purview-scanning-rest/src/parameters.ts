@@ -54,8 +54,7 @@ export type ClassificationRulesCreateOrReplaceParameters =
     RequestParameters;
 export type ClassificationRulesDeleteParameters = RequestParameters;
 export type ClassificationRulesListParameters = RequestParameters;
-export type ClassificationRulesListVersionsByRuleNameParameters =
-  RequestParameters;
+export type ClassificationRulesListVersionsByRuleNameParameters = RequestParameters;
 
 export interface ClassificationRulesTagClassificationVersionQueryParamProperties {
   /** The action of classification rule. */
@@ -80,10 +79,9 @@ export interface CredentialCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CredentialCreateOrReplaceParameters =
-  CredentialCreateOrReplaceMediaTypesParam &
-    CredentialCreateOrReplaceBodyParam &
-    RequestParameters;
+export type CredentialCreateOrReplaceParameters = CredentialCreateOrReplaceMediaTypesParam &
+  CredentialCreateOrReplaceBodyParam &
+  RequestParameters;
 export type CredentialDeleteParameters = RequestParameters;
 export type CredentialListParameters = RequestParameters;
 
@@ -97,10 +95,9 @@ export interface DataSourcesCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DataSourcesCreateOrReplaceParameters =
-  DataSourcesCreateOrReplaceMediaTypesParam &
-    DataSourcesCreateOrReplaceBodyParam &
-    RequestParameters;
+export type DataSourcesCreateOrReplaceParameters = DataSourcesCreateOrReplaceMediaTypesParam &
+  DataSourcesCreateOrReplaceBodyParam &
+  RequestParameters;
 export type DataSourcesGetParameters = RequestParameters;
 export type DataSourcesDeleteParameters = RequestParameters;
 export type DataSourcesListParameters = RequestParameters;
@@ -116,10 +113,9 @@ export interface FiltersCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type FiltersCreateOrReplaceParameters =
-  FiltersCreateOrReplaceMediaTypesParam &
-    FiltersCreateOrReplaceBodyParam &
-    RequestParameters;
+export type FiltersCreateOrReplaceParameters = FiltersCreateOrReplaceMediaTypesParam &
+  FiltersCreateOrReplaceBodyParam &
+  RequestParameters;
 export type IntegrationRuntimesListByAccountParameters = RequestParameters;
 export type IntegrationRuntimesGetParameters = RequestParameters;
 export type IntegrationRuntimesDeleteParameters = RequestParameters;
@@ -155,8 +151,7 @@ export type IntegrationRuntimesRegenerateAuthKeyParameters =
   IntegrationRuntimesRegenerateAuthKeyMediaTypesParam &
     IntegrationRuntimesRegenerateAuthKeyBodyParam &
     RequestParameters;
-export type IntegrationRuntimesDisableInteractiveQueryParameters =
-  RequestParameters;
+export type IntegrationRuntimesDisableInteractiveQueryParameters = RequestParameters;
 
 export interface IntegrationRuntimesEnableInteractiveQueryBodyParam {
   /** The request of enabling interactive query for integration runtime. */
@@ -218,10 +213,9 @@ export interface ScansCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ScansCreateOrReplaceParameters =
-  ScansCreateOrReplaceMediaTypesParam &
-    ScansCreateOrReplaceBodyParam &
-    RequestParameters;
+export type ScansCreateOrReplaceParameters = ScansCreateOrReplaceMediaTypesParam &
+  ScansCreateOrReplaceBodyParam &
+  RequestParameters;
 export type ScansGetParameters = RequestParameters;
 export type ScansDeleteParameters = RequestParameters;
 export type ScansListByDataSourceParameters = RequestParameters;
@@ -238,8 +232,7 @@ export interface ScanResultRunScanQueryParam {
   queryParameters: ScanResultRunScanQueryParamProperties;
 }
 
-export type ScanResultRunScanParameters = ScanResultRunScanQueryParam &
-  RequestParameters;
+export type ScanResultRunScanParameters = ScanResultRunScanQueryParam & RequestParameters;
 export type ScanResultCancelScanParameters = RequestParameters;
 export type ScanResultListScanHistoryParameters = RequestParameters;
 export type ScanRulesetsGetParameters = RequestParameters;
@@ -254,10 +247,9 @@ export interface ScanRulesetsCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ScanRulesetsCreateOrReplaceParameters =
-  ScanRulesetsCreateOrReplaceMediaTypesParam &
-    ScanRulesetsCreateOrReplaceBodyParam &
-    RequestParameters;
+export type ScanRulesetsCreateOrReplaceParameters = ScanRulesetsCreateOrReplaceMediaTypesParam &
+  ScanRulesetsCreateOrReplaceBodyParam &
+  RequestParameters;
 export type ScanRulesetsDeleteParameters = RequestParameters;
 export type ScanRulesetsListParameters = RequestParameters;
 export type SystemScanRulesetsListParameters = RequestParameters;
@@ -310,8 +302,8 @@ export interface SystemScanRulesetsGetByVersionQueryParam {
   queryParameters?: SystemScanRulesetsGetByVersionQueryParamProperties;
 }
 
-export type SystemScanRulesetsGetByVersionParameters =
-  SystemScanRulesetsGetByVersionQueryParam & RequestParameters;
+export type SystemScanRulesetsGetByVersionParameters = SystemScanRulesetsGetByVersionQueryParam &
+  RequestParameters;
 
 export interface SystemScanRulesetsGetLatestQueryParamProperties {
   /** The data source type. */
@@ -360,8 +352,8 @@ export interface SystemScanRulesetsGetLatestQueryParam {
   queryParameters?: SystemScanRulesetsGetLatestQueryParamProperties;
 }
 
-export type SystemScanRulesetsGetLatestParameters =
-  SystemScanRulesetsGetLatestQueryParam & RequestParameters;
+export type SystemScanRulesetsGetLatestParameters = SystemScanRulesetsGetLatestQueryParam &
+  RequestParameters;
 
 export interface SystemScanRulesetsListVersionsByDataSourceQueryParamProperties {
   /** The data source type. */
@@ -424,10 +416,9 @@ export interface TriggersCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type TriggersCreateOrReplaceParameters =
-  TriggersCreateOrReplaceMediaTypesParam &
-    TriggersCreateOrReplaceBodyParam &
-    RequestParameters;
+export type TriggersCreateOrReplaceParameters = TriggersCreateOrReplaceMediaTypesParam &
+  TriggersCreateOrReplaceBodyParam &
+  RequestParameters;
 export type TriggersDeleteParameters = RequestParameters;
 export type TriggersEnableParameters = RequestParameters;
 export type TriggersDisableParameters = RequestParameters;
