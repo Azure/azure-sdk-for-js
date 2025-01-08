@@ -301,7 +301,6 @@ export class ShareServiceClient extends StorageClient {
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
@@ -359,6 +358,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async createShare(
     shareName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ShareCreateOptions = {},
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
     return tracingClient.withSpan(
@@ -384,6 +384,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async deleteShare(
     shareName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ShareDeleteMethodOptions = {},
   ): Promise<ShareDeleteResponse> {
     return tracingClient.withSpan(
@@ -767,6 +768,7 @@ export class ShareServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
