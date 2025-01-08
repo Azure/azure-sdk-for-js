@@ -12,17 +12,13 @@ import {
   MIN_SUPPORTED_NODE_VERSION,
   SampleConfiguration,
 } from "./configuration";
-import {
-  AZSDK_META_TAG_PREFIX,
-  DEFAULT_TYPESCRIPT_CONFIG,
-  DEV_SAMPLES_BASE,
-  OutputKind,
-  SampleGenerationInfo,
-} from "./info";
+import { AZSDK_META_TAG_PREFIX, DEV_SAMPLES_BASE, OutputKind, SampleGenerationInfo } from "./info";
 import { processSources } from "./processor";
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
+import { Config, resolveConfig } from "../resolveTsConfig";
+import { CompilerOptions } from "typescript";
 
 const log = createPrinter("generator");
 
@@ -262,6 +258,27 @@ export async function createReadme(
   });
 }
 
+export async function createTsconfigJson(projectInfo: ProjectInfo): Promise<string> {
+  const tsconfigFilePath = path.join(projectInfo.path, "tsconfig.samples.json");
+  type SerializableConfig = Omit<Config, "compilerOptions"> & {
+    compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
+      moduleResolution?: string;
+      module?: string;
+    };
+  };
+  const tsconfig = (await resolveConfig(tsconfigFilePath)) as SerializableConfig;
+  delete tsconfig.compilerOptions.paths;
+  delete tsconfig.exclude;
+  delete tsconfig.compilerOptions.composite;
+  delete tsconfig.compilerOptions.noEmit;
+  tsconfig.include = ["./src"];
+  tsconfig.compilerOptions.outDir = "./dist";
+  
+  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
+  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
+  return JSON.stringify(tsconfig, undefined, 2);
+}
+
 /**
  * Create a filesystem tree factory representing a camera-ready samples
  * tree.
@@ -345,7 +362,7 @@ export async function makeSamplesFactory(
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
-              file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
+              file("tsconfig.json", () => createTsconfigJson(projectInfo)),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
