@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AgriFoodMgmtClient } from "@azure/arm-agrifood";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
-import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
-describe("snippets", () => {
-  it("AdvisorManagementClientAuth_Node", async () => {
+describe("snippets", async () => {
+  it("CreateAgriFoodMgmtClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new AdvisorManagementClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new AgriFoodMgmtClient(new DefaultAzureCredential(), subscriptionId);
   });
 
-  it("AdvisorManagementClientAuth_Browser", async () => {
+  it("CreateAgriFoodMgmtClient_Browser", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new AdvisorManagementClient(credential, subscriptionId);
+    // @ts-preserve-whitespace
+    const client = new AgriFoodMgmtClient(credential, subscriptionId);
   });
 
-  it("setLogLevel", async () => {
+  it("SetLogLevel", async () => {
     setLogLevel("info");
   });
 });
