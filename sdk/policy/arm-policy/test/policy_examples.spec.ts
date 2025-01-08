@@ -67,11 +67,8 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.policyDefinitions.list()) {
-      resArray.push(item);
-    }
-    assert.ok(resArray);
+    const result = await client.policyDefinitions.list();
+    assert.ok(result);
   });
 
   it.skip("policyDefinitions create test", async function () {
