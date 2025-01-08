@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PolicyDefinition, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PolicyAssignmentUpdate, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.

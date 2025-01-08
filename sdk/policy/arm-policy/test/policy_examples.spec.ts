@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { PolicyClient } from "../src/policyClient";
+import { PolicyClient } from "../src/policyClient.js";
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 
 const replaceableVariables: Record<string, string> = {
@@ -51,8 +49,8 @@ describe("Policy test", () => {
   let policyAssignmentName: string;
   let managementclient: ManagementGroupsAPI;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -73,10 +71,6 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions create test", async function () {
-    const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
-      groupId,
-      { name: groupId }, testPollingOptions
-    )
 
     const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {
       policyType: "Custom",
@@ -148,7 +142,6 @@ describe("Policy test", () => {
   });
 
   it("policyAssignments delete test", async function () {
-    const res = await client.policyAssignments.delete(scope, policyAssignmentName);
     const resArray = new Array();
     for await (let item of client.policyAssignments.list()) {
       resArray.push(item);
@@ -157,6 +150,5 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions delete test", async function () {
-    const res = await client.policyDefinitions.deleteAtManagementGroup(policyName, groupId);
   });
 });

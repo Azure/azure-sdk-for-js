@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation retrieves a single policy assignment, given its name and the scope it was created at.
