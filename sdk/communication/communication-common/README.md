@@ -8,11 +8,16 @@ This package contains common code for Azure Communication Service libraries.
 
 - An [Azure subscription][azure_sub].
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- Having the  @azure/identity package installed.
 
 ### Installing
 
 ```bash
 npm install @azure/communication-common
+```
+
+```bash
+npm install @azure/identity
 ```
 
 ### Browser support
@@ -107,7 +112,7 @@ const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOpt
 ```
 
 The same approach can be used for authorizing an Entra user with a Teams license to use Teams Phone Extensibility features through your Azure Communication Services resource.
-This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope and having the @azure/identity package installed.
+This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope.
 
 ```typescript 
 const options: InteractiveBrowserCredentialInBrowserOptions = {
