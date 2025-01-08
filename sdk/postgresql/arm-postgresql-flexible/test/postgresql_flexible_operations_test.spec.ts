@@ -53,6 +53,6 @@ describe("PostgreSQLFlexible test", () => {
 
   it("operation list test", async function () {
     const result = await client.operations.list();
-    console.log(result);
+    assert.ok(result);
   });
 })
