@@ -1,0 +1,175 @@
+const { delay } = require("@azure/core-util");
+
+const DEFAULT_POLL_INTERVAL_IN_MS = 2000;
+
+async function initOperation() {
+  // starts the operation
+  return { status: "running", config: { id: "1" } };
+}
+
+async function pollOperation({ setDelay, state, options }) {
+  if (options?.abortSignal?.aborted) {
+    throw new Error("aborted");
+  }
+  // polls the operation using id while respecting the abort signal in options
+  const { id } = state.config;
+  const response = { id, status: "succeeded", retryAfter: 2000 };
+  // update the state based on the response
+  if (response.status === "succeeded") {
+    state.status = "succeeded";
+    state.result = response;
+  } else if (response.status === "failed") {
+    state.status = "failed";
+    state.error = response.error;
+  } else if (response.status === "canceled") {
+    state.status = "canceled";
+  } else {
+    setDelay(response.retryAfter); // updates the delay if the service suggests a different interval
+  }
+}
+
+function deserializeState(serializedState) {
+  try {
+    return JSON.parse(serializedState).state;
+  } catch (e) {
+    throw new Error(`Unable to deserialize input state: ${serializedState}`);
+  }
+}
+
+function createPoller({ intervalInMs, restoreFrom }) {
+  let statePromise;
+  let state;
+  if (restoreFrom) {
+    state = deserializeState(restoreFrom);
+    statePromise = Promise.resolve(state);
+  } else {
+    statePromise = initOperation().then((s) => (state = s));
+  }
+  let resultPromise;
+  const abortController = new AbortController();
+  const handlers = new Map();
+  const handleProgressEvents = async () => handlers.forEach((h) => h(state));
+  const cancelErrMsg = "Operation was canceled";
+  let currentPollIntervalInMs = intervalInMs ?? DEFAULT_POLL_INTERVAL_IN_MS;
+  const poller = {
+    get operationState() {
+      return state;
+    },
+    get result() {
+      return state?.result;
+    },
+    get isDone() {
+      return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+    },
+    onProgress: (callback) => {
+      const s = Symbol();
+      handlers.set(s, callback);
+      return () => handlers.delete(s);
+    },
+    serialize: async () => {
+      await statePromise;
+      return JSON.stringify({
+        state,
+      });
+    },
+    submitted: async () => {
+      await statePromise;
+    },
+    pollUntilDone: async (pollOptions) => {
+      resultPromise ??= (async () => {
+        await statePromise;
+        if (!state) {
+          throw new Error("Poller should be initialized but it is not!");
+        }
+        const { abortSignal: inputAbortSignal } = pollOptions || {};
+        // In the future we can use AbortSignal.any() instead
+        function abortListener() {
+          abortController.abort();
+        }
+        const abortSignal = abortController.signal;
+        if (inputAbortSignal?.aborted) {
+          abortController.abort();
+        } else if (!abortSignal.aborted) {
+          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+        }
+
+        try {
+          if (!poller.isDone) {
+            await poller.poll({ abortSignal });
+            while (!poller.isDone) {
+              await delay(currentPollIntervalInMs, { abortSignal });
+              await poller.poll({ abortSignal });
+            }
+          }
+        } finally {
+          inputAbortSignal?.removeEventListener("abort", abortListener);
+        }
+        switch (state.status) {
+          case "succeeded":
+            return poller.result;
+          case "canceled":
+            throw new Error(cancelErrMsg);
+          case "failed":
+            throw state.error;
+          case "notStarted":
+          case "running":
+            throw new Error(`Polling completed without succeeding or failing`);
+        }
+      })().finally(() => {
+        resultPromise = undefined;
+      });
+      return resultPromise;
+    },
+    async poll(pollOptions) {
+      await statePromise;
+      if (!state) {
+        throw new Error("Poller should be initialized but it is not!");
+      }
+      switch (state.status) {
+        case "succeeded":
+          return state;
+        case "canceled":
+          throw new Error(cancelErrMsg);
+        case "failed":
+          throw state.error;
+      }
+      await pollOperation({
+        state,
+        options: pollOptions,
+        setDelay: (pollIntervalInMs) => {
+          currentPollIntervalInMs = pollIntervalInMs;
+        },
+      });
+      await handleProgressEvents();
+      switch (state.status) {
+        case "canceled":
+          throw new Error(cancelErrMsg);
+        case "failed":
+          throw state.error;
+      }
+
+      return state;
+    },
+    then(onfulfilled, onrejected) {
+      return poller.pollUntilDone().then(onfulfilled, onrejected);
+    },
+    catch(onrejected) {
+      return poller.pollUntilDone().catch(onrejected);
+    },
+    finally(onfinally) {
+      return poller.pollUntilDone().finally(onfinally);
+    },
+    [Symbol.toStringTag]: "Poller",
+  };
+  return poller;
+}
+
+async function main() {
+  const poller = createPoller({ intervalInMs: 1000 });
+  const res = await poller.pollUntilDone();
+  console.log(res);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
