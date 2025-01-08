@@ -32,7 +32,6 @@
   "dependencies": {
     "@azure-rest/purview-scanning": "latest",
     "dotenv": "latest",
-    "@azure/core-paging": "^1.6.2",
     "@azure/identity": "^4.5.0"
   },
   "devDependencies": {
