@@ -59,7 +59,7 @@ Use the returned token credential to authenticate the client:
 import PurviewScanning from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 const client = PurviewScanning(
-  "https://<my-account-name>.scan.purview.azure.com",
+  "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential()
 );
 ```
@@ -141,9 +141,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [scanning_npm]: https://www.npmjs.com/package/@azure-rest/purview-scanning
 [scanning_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
-[purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
-[authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
+[purview_resource]: https://learn.microsoft.com/azure/purview/create-catalog-portal
+[authenticate_with_token]: https://learn.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
-[enable_aad]: https://docs.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role
+[enable_aad]: https://learn.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
