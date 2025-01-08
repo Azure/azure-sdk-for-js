@@ -123,7 +123,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sapvirtualinstancesstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPVirtualInstancesStartSample.ts
 [sapvirtualinstancesstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPVirtualInstancesStopSample.ts
 [sapvirtualinstancesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPVirtualInstancesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
