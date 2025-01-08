@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KeyVaultConnectionsGetParameters,
   KeyVaultConnectionsCreateOrReplaceParameters,
   KeyVaultConnectionsDeleteParameters,
@@ -61,7 +61,7 @@ import {
   TriggersEnableParameters,
   TriggersDisableParameters,
 } from "./parameters.js";
-import {
+import type {
   KeyVaultConnectionsGet200Response,
   KeyVaultConnectionsGetDefaultResponse,
   KeyVaultConnectionsCreateOrReplace200Response,
@@ -190,7 +190,7 @@ import {
   TriggersDisable200Response,
   TriggersDisableDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface KeyVaultConnectionsGet {
   /** Gets an Azure Key Vault connection. */
