@@ -27,7 +27,7 @@ export async function createClient(
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
   return PurviewScanning(
-    env.ENDPOINT ?? "",
+    env.ENDPOINT ?? "https://jssdktest.purview.azure.com",
     credential,
     recorder.configureClientOptions({ ...options }),
   );

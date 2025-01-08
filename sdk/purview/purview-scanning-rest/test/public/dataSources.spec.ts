@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { PurviewScanningRestClient, DataSource } from "../../src/index.js";
-import { paginate } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -34,7 +34,7 @@ describe("List data sources", () => {
 
     assert.isNotEmpty(items);
 
-    if (result.status !== "200") {
+    if (isUnexpected(result)) {
       assert.fail(`GET "/datasources" failed with ${result.status}`);
     }
 
