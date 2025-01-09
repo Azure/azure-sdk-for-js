@@ -13,9 +13,7 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -209,8 +207,6 @@ async function timeRangeSortSelectAndLimit() {
     "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const top = 2;
-  const orderBy =
-    "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
   const select =
     "Timestamp, PolicyAssignmentId, PolicyDefinitionId, SubscriptionId, ResourceGroup, ResourceId";
   const fromParam = new Date("2018-02-05T18:00:00Z");

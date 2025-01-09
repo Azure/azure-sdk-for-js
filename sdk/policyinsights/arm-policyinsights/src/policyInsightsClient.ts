@@ -19,7 +19,7 @@ import {
   ComponentPolicyStatesImpl,
   OperationsImpl,
   AttestationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   PolicyTrackedResources,
   Remediations,
@@ -30,8 +30,8 @@ import {
   ComponentPolicyStates,
   Operations,
   Attestations,
-} from "./operationsInterfaces";
-import { PolicyInsightsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PolicyInsightsClientOptionalParams } from "./models/index.js";
 
 export class PolicyInsightsClient extends coreClient.ServiceClient {
   $host: string;

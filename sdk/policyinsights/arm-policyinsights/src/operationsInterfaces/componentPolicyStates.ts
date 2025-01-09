@@ -20,7 +20,7 @@ import {
   ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ComponentPolicyStates. */
 export interface ComponentPolicyStates {

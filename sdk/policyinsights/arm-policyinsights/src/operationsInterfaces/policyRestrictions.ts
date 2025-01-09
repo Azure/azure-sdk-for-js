@@ -15,7 +15,7 @@ import {
   CheckManagementGroupRestrictionsRequest,
   PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams,
   PolicyRestrictionsCheckAtManagementGroupScopeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PolicyRestrictions. */
 export interface PolicyRestrictions {

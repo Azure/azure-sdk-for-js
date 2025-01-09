@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyRestrictions } from "../operationsInterfaces";
+import { PolicyRestrictions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PolicyInsightsClient } from "../policyInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PolicyInsightsClient } from "../policyInsightsClient.js";
 import {
   CheckRestrictionsRequest,
   PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams,
@@ -20,7 +20,7 @@ import {
   CheckManagementGroupRestrictionsRequest,
   PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams,
   PolicyRestrictionsCheckAtManagementGroupScopeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PolicyRestrictions operations. */
 export class PolicyRestrictionsImpl implements PolicyRestrictions {

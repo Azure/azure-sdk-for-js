@@ -14,7 +14,7 @@ import {
   PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
   PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyTrackedResources. */

@@ -16,7 +16,7 @@ import {
   CheckRestrictionsRequest as CheckRestrictionsRequestMapper,
   CheckManagementGroupRestrictionsRequest as CheckManagementGroupRestrictionsRequestMapper,
   Attestation as AttestationMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

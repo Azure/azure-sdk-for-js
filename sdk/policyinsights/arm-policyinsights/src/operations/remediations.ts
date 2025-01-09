@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Remediations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Remediations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PolicyInsightsClient } from "../policyInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PolicyInsightsClient } from "../policyInsightsClient.js";
 import {
   RemediationDeployment,
   RemediationsListDeploymentsAtManagementGroupNextOptionalParams,
@@ -80,7 +80,7 @@ import {
   RemediationsListForResourceGroupNextResponse,
   RemediationsListDeploymentsAtResourceNextResponse,
   RemediationsListForResourceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Remediations operations. */

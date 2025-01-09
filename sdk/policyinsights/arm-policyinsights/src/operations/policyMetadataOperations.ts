@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PolicyMetadataOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PolicyMetadataOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PolicyInsightsClient } from "../policyInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PolicyInsightsClient } from "../policyInsightsClient.js";
 import {
   SlimPolicyMetadata,
   PolicyMetadataListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   PolicyMetadataGetResourceOptionalParams,
   PolicyMetadataGetResourceResponse,
   PolicyMetadataListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PolicyMetadataOperations operations. */
