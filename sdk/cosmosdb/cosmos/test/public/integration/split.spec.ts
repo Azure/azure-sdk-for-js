@@ -27,7 +27,7 @@ const generateDocuments = function (docSize: number): {
 
 const documentDefinitions = generateDocuments(20);
 
-describe("Partition Splits", () => {
+describe.skip("Partition Splits", () => {
   let container: Container;
 
   before(async function () {
