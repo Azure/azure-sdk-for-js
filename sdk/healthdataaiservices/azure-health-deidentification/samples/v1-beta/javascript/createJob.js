@@ -5,8 +5,8 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.
  */
 
-const createClient = require("@azure-rest/health-deidentification").default,
-  { isUnexpected } = require("@azure-rest/health-deidentification");
+const createClient = require("@azure-rest/azure-health-deidentification").default,
+  { isUnexpected } = require("@azure-rest/azure-health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 

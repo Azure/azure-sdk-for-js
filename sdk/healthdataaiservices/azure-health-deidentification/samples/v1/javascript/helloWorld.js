@@ -17,7 +17,7 @@ async function main() {
   const client = createClient(serviceEndpoint, credential);
 
   const content = {
-    inputText: "Hello John!",
+    inputText: "Hello, John!",
   };
 
   const response = await client.path("/deid").post({ body: content });
