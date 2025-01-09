@@ -16,6 +16,13 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 
+const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
+const ComunicationClientsScopePrefix = "https://communication.azure.com/clients/";
+const TeamsExtensionEndpoint = "/access/teamsPhone/:exchangeAccessToken";
+const TeamsExtensionApiVersion = "2025-03-02-preview";
+const ComunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
+const ComunicationClientsApiVersion = "2024-04-01-preview";
+
 export interface ExchangeTokenResponse {
   identity: string;
   accessToken: {
@@ -57,6 +64,8 @@ export class EntraTokenCredential implements AcsTokenCredential {
   constructor(private options: EntraCommunicationTokenCredentialOptions) {
     this.client = getClient(options.resourceEndpoint);
     this.httpClient = createDefaultHttpClient();
+    this.options = options;
+    this.options.scopes = this.options.scopes || ["https://communication.azure.com/clients/.default"];
 
     // immediately fetch the token to pre-warm
     this.isPending = this.getToken();
@@ -130,7 +139,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
     options?: { abortSignal: AbortSignalLike },
   ): Promise<AccessToken> {
     const request = createPipelineRequest({
-      url: `${resourceEndpoint}/access/entra/:exchangeAccessToken?api-version=2024-04-01-preview`,
+      url: this.createRequestUri(resourceEndpoint),
       method: "POST",
       headers: createHttpHeaders({
         Authorization: `Bearer ${entraToken}`,
@@ -152,5 +161,25 @@ export class EntraTokenCredential implements AcsTokenCredential {
       token: json.accessToken.token,
       expiresOnTimestamp: Date.parse(json.accessToken.expiresOn),
     };
+  }
+
+  private createRequestUri(resourceEndpoint : string) : string {
+    const [endpoint, apiVersion] = this.determineEndpointAndApiVersion();
+    const requestUri = `${resourceEndpoint}${endpoint}?api-version=${apiVersion}`;
+    return requestUri; 
+  }
+
+  private determineEndpointAndApiVersion() : [string, string] {
+    if (!this.options.scopes || this.options.scopes.length === 0) {
+      throw new Error(
+        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
+      );
+    } else if (this.options.scopes.every(scope => scope.startsWith(TeamsExtensionScopePrefix))) {
+      return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
+    } else if (this.options.scopes.every(scope => scope.startsWith(ComunicationClientsScopePrefix))) {
+      return [ComunicationClientsEndpoint, ComunicationClientsApiVersion];
+    } else {
+      throw new Error(`Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`);
+    }
   }
 }

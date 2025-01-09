@@ -11,12 +11,14 @@ import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import sinon from "sinon";
 import { EntraTokenCredential } from "../../../src/entraTokenCredential";
 
-const tokenExchangePath = "/access/entra/:exchangeAccessToken?api-version=2024-04-01-preview";
 const resourceEndpoint = "https://contoso.communication.azure.com";
 const entraToken = "entraToken";
 const newEntraToken = "newEntraToken";
 const acsToken = "acsToken";
-const scopes = ["https://communication.azure.com/clients/VoIP"];
+const comunicationClientsEndpoint = "/access/entra/:exchangeAccessToken?api-version=2024-04-01-preview";
+const communicationClientsScope = "https://communication.azure.com/clients/VoIP";
+const teamsExtensionEndpoint = "/access/teamsPhone/:exchangeAccessToken?api-version=2025-03-02-preview";
+const teamsExtensionScope = "https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls";
 
 const tokenCredential: TokenCredential = {
   getToken: async (_scopes: string, _options?: GetTokenOptions) => {
@@ -27,13 +29,28 @@ const tokenCredential: TokenCredential = {
   },
 };
 
-const apiMock = () =>
+const communicationApiMock = () =>
   nock(resourceEndpoint)
-    .post(tokenExchangePath)
+    .post(comunicationClientsEndpoint)
     .matchHeader("Authorization", `Bearer ${entraToken}`);
 
-const successApiMock = () =>
-  apiMock().reply(200, {
+const teamsApiMock = () =>
+  nock(resourceEndpoint)
+    .post(teamsExtensionEndpoint)
+    .matchHeader("Authorization", `Bearer ${entraToken}`);
+
+
+const communicationSuccessApiMock = () =>
+  communicationApiMock().reply(200, {
+    accessToken: {
+      token: acsToken,
+      expiresOn: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    },
+  });
+
+
+const teamsSuccessApiMock = () =>
+  teamsApiMock().reply(200, {
     accessToken: {
       token: acsToken,
       expiresOn: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
@@ -41,54 +58,57 @@ const successApiMock = () =>
   });
 
 describe("Entra CommunicationTokenCredential", function () {
-  afterEach(() => {
-    nock.cleanAll();
+  let getTokenSpy: sinon.SinonSpy;
+
+  beforeEach(function() {
+    getTokenSpy = sinon.spy(tokenCredential, "getToken");
   });
 
-  it("Token exchange is called when passing Entra credential", async function () {
-    const scope = successApiMock();
-    const getTokenSpy: sinon.SinonSpy = sinon.spy(tokenCredential, "getToken");
+  afterEach(function() {
+    nock.cleanAll();
+    getTokenSpy.restore();
+  });
 
-    const credential = new AzureCommunicationTokenCredential({
-      resourceEndpoint,
-      tokenCredential,
-      scopes,
+  const testCases = [
+    {
+      successMock: communicationSuccessApiMock,
+      mock: communicationApiMock,
+      scopes: communicationClientsScope,
+      endpoint: comunicationClientsEndpoint,
+    },
+    { 
+      successMock: teamsSuccessApiMock, 
+      mock: teamsApiMock,
+      scopes: teamsExtensionScope, 
+      endpoint: teamsExtensionEndpoint 
+    },
+  ];
+
+  testCases.forEach(({ successMock, mock, scopes, endpoint }) => {
+    it('Token exchange is called when passing Entra credential ' + endpoint, async function () {
+      const apiMock = successMock();
+
+      const credential = new AzureCommunicationTokenCredential({
+        resourceEndpoint,
+        tokenCredential,
+        scopes: [scopes],
+      });
+
+      const response = await credential.getToken();
+      const tokenResult = (response).token;
+      assert.strictEqual(tokenResult, acsToken);
+      assert.isTrue(getTokenSpy.alwaysCalledWithExactly([scopes], undefined));
+      assert.isTrue(getTokenSpy.callCount > 0);
+      assert.isTrue(apiMock.isDone());
+      getTokenSpy.restore();
     });
 
-    const tokenResult = (await credential.getToken()).token;
-    assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(getTokenSpy.alwaysCalledWithExactly(scopes, undefined));
-    assert.isTrue(getTokenSpy.callCount > 0);
-    assert.isTrue(scope.isDone());
-    getTokenSpy.restore();
-  });
-
-  it("Token exchange is called with default scopes when not passing scopes on AzureCommunicationTokenCredential", async function () {
-    const scope = successApiMock();
-    const defaultScopes = ["https://communication.azure.com/clients/.default"];
-    const getTokenSpy: sinon.SinonSpy = sinon.spy(tokenCredential, "getToken");
-
+  it("Token exchange is not called again when Entra token stays the same " + endpoint, async function () {
+    let scope = successMock();
     const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
       resourceEndpoint: resourceEndpoint,
       tokenCredential: tokenCredential,
-    };
-
-    const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
-
-    const tokenResult = (await credential.getToken()).token;
-    assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(getTokenSpy.alwaysCalledWithExactly(defaultScopes, undefined));
-    assert.isTrue(getTokenSpy.callCount > 0);
-    assert.isTrue(scope.isDone());
-    getTokenSpy.restore();
-  });
-
-  it("Token exchange is not called again when Entra token stays the same", async function () {
-    let scope = successApiMock();
-    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
-      resourceEndpoint: resourceEndpoint,
-      tokenCredential: tokenCredential,
-      scopes,
+      scopes: [scopes],
     };
     const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
 
@@ -96,14 +116,14 @@ describe("Entra CommunicationTokenCredential", function () {
     assert.strictEqual(tokenResult, acsToken);
     assert.isTrue(scope.isDone());
 
-    scope = successApiMock();
+    scope = successMock();
 
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
     assert.isFalse(scope.isDone());
   });
 
-  it("Token exchange gets called again when Entra token changes", async function () {
+  it("Token exchange gets called again when Entra token changes " + endpoint, async function () {
     let passNewToken = false;
     const customTokenCredential: TokenCredential = {
       getToken: async (_scopes: string, _options?: GetTokenOptions) => {
@@ -113,11 +133,11 @@ describe("Entra CommunicationTokenCredential", function () {
         };
       },
     };
-    let scope = successApiMock();
+    let scope = successMock();
     const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
       resourceEndpoint: resourceEndpoint,
       tokenCredential: customTokenCredential,
-      scopes,
+      scopes: [scopes],
     };
     const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
 
@@ -125,7 +145,7 @@ describe("Entra CommunicationTokenCredential", function () {
     assert.strictEqual(tokenResult, acsToken);
     assert.isTrue(scope.isDone());
 
-    scope = successApiMock();
+    scope = successMock();
 
     // Token exchange doesn't get called again when Entra token doesn't change
     tokenResult = (await entraTokenCredential.getToken()).token;
@@ -135,7 +155,7 @@ describe("Entra CommunicationTokenCredential", function () {
     passNewToken = true;
     const apiMockNewToken = () =>
       nock(resourceEndpoint)
-        .post(tokenExchangePath)
+        .post(endpoint)
         .matchHeader("Authorization", `Bearer ${newEntraToken}`);
 
     const successApiMockNewToken = () =>
@@ -154,10 +174,10 @@ describe("Entra CommunicationTokenCredential", function () {
     assert.isTrue(scope.isDone());
   });
 
-  it("Token exchange gets called again when acs token expires", async function () {
+  it("Token exchange gets called again when acs token expires " + endpoint, async function () {
     const expiredDate = new Date(Date.now() - 1000 * 60);
     const successApiMockExpiredTime = () =>
-      apiMock().reply(200, {
+      mock().reply(200, {
         accessToken: {
           token: acsToken,
           expiresOn: expiredDate.toISOString(),
@@ -168,7 +188,7 @@ describe("Entra CommunicationTokenCredential", function () {
     const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
       resourceEndpoint: resourceEndpoint,
       tokenCredential: tokenCredential,
-      scopes,
+      scopes: [scopes],
     };
     const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
 
@@ -176,15 +196,15 @@ describe("Entra CommunicationTokenCredential", function () {
     assert.strictEqual(tokenResult, acsToken);
     assert.isTrue(scope.isDone());
 
-    scope = successApiMock();
+    scope = successMock();
 
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
     assert.isTrue(scope.isDone());
   });
 
-  it("Retries when service is busy", async function () {
-    const busy = apiMock().reply(
+  it("Retries when service is busy " + endpoint, async function () {
+    const busy = mock().reply(
       503,
       {
         error: "Service Unavailable",
@@ -194,12 +214,12 @@ describe("Entra CommunicationTokenCredential", function () {
       },
     );
 
-    const success = successApiMock();
+    const success = successMock();
 
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes,
+      scopes: [scopes],
     });
 
     const tokenResult = (await credential.getToken()).token;
@@ -207,10 +227,29 @@ describe("Entra CommunicationTokenCredential", function () {
     assert.isTrue(busy.isDone());
     assert.isTrue(success.isDone());
   });
+});
+
+  it("Token exchange is called with default scopes when not passing scopes on AzureCommunicationTokenCredential", async function () {
+    const scope = communicationSuccessApiMock();
+    const defaultScopes = ["https://communication.azure.com/clients/.default"];
+
+    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+      resourceEndpoint: resourceEndpoint,
+      tokenCredential: tokenCredential,
+    };
+
+    const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
+
+    const tokenResult = (await credential.getToken()).token;
+    assert.strictEqual(tokenResult, acsToken);
+    assert.isTrue(getTokenSpy.alwaysCalledWithExactly(defaultScopes, undefined));
+    assert.isTrue(getTokenSpy.callCount > 0);
+    assert.isTrue(scope.isDone());
+    getTokenSpy.restore();
+  });
 
   async function testAbortSignal(abort: boolean) {
-    let scope = successApiMock();
-    const getTokenSpy: sinon.SinonSpy = sinon.spy(tokenCredential, "getToken");
+    let scope = communicationSuccessApiMock();
     const abortController = new AbortController();
 
     if (abort) {
@@ -220,7 +259,7 @@ describe("Entra CommunicationTokenCredential", function () {
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes,
+      scopes: [communicationClientsScope],
     });
 
     // the credential constructor immediately starts fetching,
@@ -231,7 +270,7 @@ describe("Entra CommunicationTokenCredential", function () {
     cachedResult.acsToken.token = "";
     cachedResult.entraToken = "";
     getTokenSpy.resetHistory();
-    scope = successApiMock();
+    scope = communicationSuccessApiMock();
 
     // now getToken with abort signal
     const tokenResult = (await credential.getToken({ abortSignal: abortController.signal })).token;
@@ -252,7 +291,7 @@ describe("Entra CommunicationTokenCredential", function () {
   it("Continues when abort signal isn't aborted", () => testAbortSignal(false));
 
   it("It retries only 3 times when service is busy", async function () {
-    const busy = apiMock().times(4).reply(
+    const busy = communicationApiMock().times(4).reply(
       503,
       {
         error: "Service Unavailable",
@@ -261,12 +300,12 @@ describe("Entra CommunicationTokenCredential", function () {
         "Retry-After": "0",
       },
     );
-    const success = successApiMock();
+    const success = communicationSuccessApiMock();
 
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes,
+      scopes: [communicationClientsScope],
     });
 
     await assert.isRejected(credential.getToken(), Error, "Service Unavailable");
@@ -275,19 +314,45 @@ describe("Entra CommunicationTokenCredential", function () {
   });
 
   it("It returns error when tokenExchange fails", async function () {
-    const tokenExchangeFailure = apiMock().reply(401, {
+    const tokenExchangeFailure = communicationApiMock().reply(401, {
       error: "Unauthorized",
     });
-    const success = successApiMock();
+    const success = communicationSuccessApiMock();
 
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes,
+      scopes: [communicationClientsScope],
     });
 
     await assert.isRejected(credential.getToken(), Error, "Unauthorized");
     assert.isTrue(tokenExchangeFailure.isDone());
+    assert.isFalse(success.isDone());
+  });
+
+  it("It returns error when empty scopes provided", async function () {
+    const credential = new AzureCommunicationTokenCredential({
+      resourceEndpoint,
+      tokenCredential,
+      scopes: [],
+    });
+
+    const success = communicationSuccessApiMock();
+
+    await assert.isRejected(credential.getToken(), Error, "Scopes validation failed");
+    assert.isFalse(success.isDone());
+  });
+
+  it("It returns error when unrecognized scopes provided", async function () {
+    const credential = new AzureCommunicationTokenCredential({
+      resourceEndpoint,
+      tokenCredential,
+      scopes: ["https://contoso.com/clients/unknown"],
+    });
+
+    const success = communicationSuccessApiMock();
+
+    await assert.isRejected(credential.getToken(), Error, "Scopes validation failed");
     assert.isFalse(success.isDone());
   });
 });
