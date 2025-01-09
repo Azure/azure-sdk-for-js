@@ -88,9 +88,8 @@ function convertMicrosoftFabricToolDefinitionOutput(
   input: GeneratedModels.MicrosoftFabricToolDefinitionOutput,
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
-    type: "microsoft_fabric",
-    microsoftFabric:
-      input.microsoft_fabric && convertToolConnectionListOutput(input.microsoft_fabric),
+    type: "fabric_aiskill",
+    fabricAISkill: input.fabric_aiskill && convertToolConnectionListOutput(input.fabric_aiskill),
   };
 }
 
@@ -242,7 +241,20 @@ function convertToolDefinitionOutput(
 function convertAgentsApiResponseFormatOptionOutput(
   input: GeneratedModels.AgentsApiResponseFormatOptionOutput,
 ): PublicModels.AgentsApiResponseFormatOptionOutput {
-  return input;
+  const formatOutput = input as GeneratedModels.AgentsApiResponseFormatOutput;
+  if (formatOutput && formatOutput.type) {
+    switch (formatOutput.type) {
+      case "json_schema":
+        return {
+          type: formatOutput.type,
+          jsonSchema: (formatOutput as GeneratedModels.ResponseFormatJsonSchemaTypeOutput)
+            .json_schema,
+        };
+      default:
+        return input as PublicModels.AgentsApiResponseFormatOptionOutput;
+    }
+  }
+  return input as PublicModels.AgentsApiResponseFormatOptionOutput;
 }
 
 export function convertOpenAIPageableListOfAgentOutput(
@@ -268,7 +280,7 @@ function convertMessageAttachmentOutput(
 ): PublicModels.MessageAttachmentOutput {
   return {
     fileId: input.file_id,
-    dataSources: input.data_sources?.map(convertVectorStoreDataSourceOutput),
+    dataSource: input.data_source && convertVectorStoreDataSourceOutput(input.data_source),
     tools: input.tools?.map(convertMessageAttachmentToolDefinitionOutput),
   };
 }
@@ -479,7 +491,7 @@ export function convertThreadRunOutput(
     ...(input.tool_resources && {
       toolResources: convertToolResourcesOutput(input.tool_resources),
     }),
-    parallelToolCalls: input.parallelToolCalls,
+    parallelToolCalls: input.parallel_tool_calls,
   };
 }
 
@@ -699,7 +711,29 @@ function convertRunStepFileSearchToolCallOutput(
   return {
     type: input.type,
     id: input.id,
-    fileSearch: input.file_search,
+    fileSearch:
+      input.file_search && convertRunStepFileSearchToolCallResultsOutput(input.file_search),
+  };
+}
+
+function convertRunStepFileSearchToolCallResultsOutput(
+  input: GeneratedModels.RunStepFileSearchToolCallResultsOutput,
+): PublicModels.RunStepFileSearchToolCallResultsOutput {
+  return {
+    rankingOptions:
+      input.ranking_options && convertFileSearchRankingOptionsOutput(input.ranking_options),
+    results: input.results?.map(convertRunStepFileSearchToolCallResultOutput),
+  };
+}
+
+function convertRunStepFileSearchToolCallResultOutput(
+  input: GeneratedModels.RunStepFileSearchToolCallResultOutput,
+): PublicModels.RunStepFileSearchToolCallResultOutput {
+  return {
+    fileId: input.file_id,
+    fileName: input.file_name,
+    score: input.score,
+    content: input.content,
   };
 }
 
@@ -739,7 +773,7 @@ function convertRunStepMicrosoftFabricToolCallOutput(
   return {
     type: input.type,
     id: input.id,
-    microsoftFabric: input.microsoft_fabric,
+    fabricAISkill: input.fabric_aiskill,
   };
 }
 
