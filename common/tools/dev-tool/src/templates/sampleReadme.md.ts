@@ -5,6 +5,9 @@ import path from "node:path";
 import YAML from "yaml";
 import { SampleReadmeConfiguration } from "../util/samples/info";
 import { format } from "../util/prettier";
+import { createPrinter } from "../util/printer";
+
+const log = createPrinter("readme-template");
 
 /**
  * Renders the frontmatter of the sample README.
@@ -157,7 +160,7 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
 /**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default (info: SampleReadmeConfiguration): Promise<string> => {
+export default async (info: SampleReadmeConfiguration): Promise<string> => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 
@@ -241,11 +244,16 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-${(() => {
+${await (async () => {
   if (info.apiRefLink) {
     return `[apiref]: ${info.apiRefLink}`;
   } else if (info.scope.startsWith("@azure")) {
-    return `[apiref]: https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
+    const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
+    const res = await fetch(link);
+    if (res.ok) {
+      return `[apiref]: ${link}`;
+    }
+    log.warn(`failed to reach api referrence ${link} ${res.status}-${res.statusText} so not adding it.`);
   }
   return "";
 })()}
