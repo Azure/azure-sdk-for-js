@@ -20,15 +20,15 @@ import {
   AssociationsInterfaceImpl,
   FrontendsInterfaceImpl,
   SecurityPoliciesInterfaceImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   TrafficControllerInterface,
   AssociationsInterface,
   FrontendsInterface,
   SecurityPoliciesInterface,
-} from "./operationsInterfaces";
-import { ServiceNetworkingManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceNetworkingManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceNetworkingManagementClient extends coreClient.ServiceClient {
   $host: string;

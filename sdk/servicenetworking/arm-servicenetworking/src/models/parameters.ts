@@ -20,7 +20,7 @@ import {
   FrontendUpdate as FrontendUpdateMapper,
   SecurityPolicy as SecurityPolicyMapper,
   SecurityPolicyUpdate as SecurityPolicyUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
