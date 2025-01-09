@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils";
+import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient } from "../src";
-import type { Context } from "mocha";
+import type { ShareClient } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
   let shareName: string;
@@ -14,8 +11,8 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getBSU(recorder);
@@ -23,7 +20,7 @@ describe("Aborter", () => {
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

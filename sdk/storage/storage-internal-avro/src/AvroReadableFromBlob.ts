@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvroReadableReadOptions } from "./AvroReadable";
-import { AvroReadable } from "./AvroReadable";
+import type { AvroReadableReadOptions } from "./AvroReadable.js";
+import { AvroReadable } from "./AvroReadable.js";
 import { AbortError } from "@azure/abort-controller";
 
 const ABORT_ERROR = new AbortError("Reading from the avro blob was aborted.");

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
 import {
   getQSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
   configureStorageClient,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient";
+import { QueueClient } from "../../src/QueueClient.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { newPipeline } from "../../src";
-import type { Context } from "mocha";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { newPipeline } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods, Node.js only", () => {
   let queueName: string;
@@ -23,8 +22,8 @@ describe("QueueClient message methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
@@ -32,7 +31,7 @@ describe("QueueClient message methods, Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

@@ -11,7 +11,7 @@ import {
   MessageIdUpdateResponse,
   MessageIdDeleteOptionalParams,
   MessageIdDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MessageId. */
 export interface MessageId {

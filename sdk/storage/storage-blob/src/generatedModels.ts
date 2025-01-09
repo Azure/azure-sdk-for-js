@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Tags } from ".";
-import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models";
+import type { Tags } from "./index.js";
+import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models/index.js";
 import {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -72,14 +72,14 @@ import {
   PageRange,
   BlobGetAccountInfoHeaders,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 import {
   WithResponse,
   ResponseWithBody,
   ResponseLike,
   ResponseWithHeaders,
   HttpResponse,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 
 /** Contains response data for the appendBlockFromUrl operation. */
 export type AppendBlobAppendBlockFromUrlResponse = WithResponse<
@@ -418,7 +418,7 @@ export {
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   ContainerEncryptionScope,
   SyncCopyStatusType,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 // Following definitions are to avoid breaking change.
 export interface BlobPrefix {

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -8,7 +9,7 @@ import {
   URLConstants,
   DevelopmentConnectionString,
   PathStylePorts,
-} from "./constants";
+} from "./constants.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**

@@ -3,13 +3,13 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 
-import { DataLakeServiceClient, newPipeline } from "../../src";
+import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();

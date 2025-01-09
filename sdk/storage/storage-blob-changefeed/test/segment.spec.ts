@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as fs from "fs";
-import * as path from "path";
-import * as sinon from "sinon";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { ContainerClient, BlobClient } from "@azure/storage-blob";
-import { Shard } from "../src/Shard";
-import { SegmentFactory } from "../src/SegmentFactory";
-import { ShardFactory } from "../src/ShardFactory";
-import type { BlobChangeFeedEvent } from "../src";
+import { Shard } from "../src/Shard.js";
+import { SegmentFactory } from "../src/SegmentFactory.js";
+import { ShardFactory } from "../src/ShardFactory.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";
@@ -21,28 +19,64 @@ describe("Segment", async () => {
   let shardStubs: any[];
 
   beforeEach(() => {
-    containerClientStub = sinon.createStubInstance(ContainerClient);
-    const blobClientStub = sinon.createStubInstance(BlobClient);
-    containerClientStub.getBlobClient.returns(blobClientStub);
+    vi.mock("../src/ShardFactory.js", async (importActual) => {
+      const imported = await importActual();
+      return {
+        ...(imported as any),
+        ShardFactory: vi.fn(),
+      };
+    });
+
+    vi.mock("../src/Shard.js", async (importActual) => {
+      const imported = await importActual();
+      return {
+        ...(imported as any),
+        Shard: vi.fn(),
+      };
+    });
+
+    vi.mock("@azure/storage-blob", async (importActual) => {
+      const imported = await importActual();
+      return {
+        ...(imported as any),
+        ContainerClient: vi.fn(),
+        BlobClient: vi.fn(),
+      };
+    });
+
+    containerClientStub = vi.mocked(new ContainerClient(expect.anything()));
+    const blobClientStub = vi.mocked(new BlobClient(expect.anything()));
+    containerClientStub.getBlobClient = vi.fn().mockReturnValue(blobClientStub);
     // TODO: rewrite for browser
-    blobClientStub.download.resolves({
+    blobClientStub.download = vi.fn().mockResolvedValue({
       readableStreamBody: fs.createReadStream(segmentManifestFilePath),
     } as any);
 
-    shardFactoryStub = sinon.createStubInstance(ShardFactory);
+    shardFactoryStub = vi.mocked(new ShardFactory(expect.anything()));
     shardStubs = [];
     for (let i = 0; i < shardCount; i++) {
-      shardStubs.push(sinon.createStubInstance(Shard));
-      shardFactoryStub.create.onCall(i).returns(shardStubs[i]);
+      shardStubs.push(
+        vi.mocked(
+          new Shard(
+            expect.anything(),
+            expect.anything(),
+            expect.anything(),
+            expect.anything(),
+            expect.anything(),
+          ),
+          true,
+        ),
+      );
+      shardFactoryStub.create = vi.fn().mockReturnValueOnce(shardStubs[i]);
 
-      shardStubs[i].hasNext.returns(true);
-      shardStubs[i].getChange.returns(i);
+      shardStubs[i].hasNext = vi.fn().mockReturnValue(true);
+      shardStubs[i].getChange = vi.fn().mockReturnValue(i);
       shardStubs[i].shardPath = `log/0${i}/2020/03/25/0200/`;
     }
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("getChange round robin in shards", async () => {
@@ -59,7 +93,7 @@ describe("Segment", async () => {
     }
 
     // skip finished shard
-    shardStubs[1].hasNext.returns(false);
+    shardStubs[1].hasNext = vi.fn().mockReturnValue(false);
     shardStubs[1].getChange(undefined);
     const event = await segment.getChange();
     assert.equal(event, 1 as unknown as BlobChangeFeedEvent | undefined);
@@ -77,8 +111,8 @@ describe("Segment", async () => {
 
     // all shards done, return undefined
     for (let i = 0; i < shardCount; i++) {
-      shardStubs[i].hasNext.returns(false);
-      shardStubs[i].getChange.returns(undefined);
+      shardStubs[i].hasNext = vi.fn().mockReturnValue(false);
+      shardStubs[i].getChange = vi.fn().mockReturnValue(undefined);
     }
     const lastEvent = await segment.getChange();
     assert.deepStrictEqual(lastEvent, undefined);

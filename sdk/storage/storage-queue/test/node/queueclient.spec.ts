@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
 import {
   getQSU,
   getConnectionStringFromEnvironment,
@@ -9,14 +8,14 @@ import {
   recorderEnvSetup,
   configureStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { QueueServiceClient } from "../../src";
-import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src";
+import type { QueueServiceClient } from "../../src/index.js";
+import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import type { Context } from "mocha";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient Node.js only", () => {
   let queueName: string;
@@ -25,8 +24,8 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
@@ -34,7 +33,7 @@ describe("QueueClient Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

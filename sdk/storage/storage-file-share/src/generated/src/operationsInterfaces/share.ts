@@ -42,7 +42,7 @@ import {
   ShareGetStatisticsResponse,
   ShareRestoreOptionalParams,
   ShareRestoreResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Share. */
 export interface Share {

@@ -8,11 +8,11 @@ import type {
 } from "@azure/storage-blob";
 import { BlobServiceClient, Pipeline } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ChangeFeedFactory } from "./ChangeFeedFactory";
-import type { ChangeFeed } from "./ChangeFeed";
-import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
-import type { BlobChangeFeedListChangesOptions } from "./models/models";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import { ChangeFeedFactory } from "./ChangeFeedFactory.js";
+import type { ChangeFeed } from "./ChangeFeed.js";
+import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants.js";
+import type { BlobChangeFeedListChangesOptions } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";
 
 /**

@@ -9,8 +9,7 @@
 import { QueueServiceClient, AnonymousCredential } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   // Enter your storage account name and SAS

@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import { QueueServiceClient } from "../src/QueueServiceClient";
+import { QueueServiceClient } from "../src/QueueServiceClient.js";
 import {
+  configureStorageClient,
   getAlternateQSU,
   getQSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
-import type { Context } from "mocha";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -313,23 +314,16 @@ describe("QueueServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics with default/all parameters secondary", (done) => {
+  it("getStatistics with default/all parameters secondary", async () => {
     let queueServiceClient: QueueServiceClient | undefined;
     try {
       queueServiceClient = getAlternateQSU(recorder);
     } catch (err: any) {
-      done();
-      return;
+      assert.fail(err.message);
     }
 
-    queueServiceClient!
-      .getStatistics()
-      .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncOn);
-        done();
-        return;
-      })
-      .catch(done);
+    const result = await queueServiceClient!.getStatistics();
+    assert.ok(result.geoReplication!.lastSyncOn);
   });
 
   it("can be created from a sas connection string", async () => {

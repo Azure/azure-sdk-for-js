@@ -41,7 +41,7 @@ import type {
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareStats,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 /** Contains response data for the create operation. */
 export type DirectoryCreateResponse = WithResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>;
@@ -285,10 +285,10 @@ export {
   ShareAccessTier,
   ShareRootSquash,
   FileDownloadResponse as RawFileDownloadResponse,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
-import type { ShareSetPropertiesHeaders } from "./generated/src/models";
-import type { WithResponse } from "./utils/utils.common";
+import type { ShareSetPropertiesHeaders } from "./generated/src/models/index.js";
+import type { WithResponse } from "./utils/utils.common.js";
 
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {

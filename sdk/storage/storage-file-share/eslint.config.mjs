@@ -6,6 +6,7 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-naming-options": "warn",
       "@azure/azure-sdk/ts-package-json-module": "warn",
       "@typescript-eslint/no-redeclare": "warn",
+      "@azure/azure-sdk/ts-use-interface-parameters": "off",
     },
   },
 ]);
