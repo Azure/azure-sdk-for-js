@@ -13,6 +13,11 @@ async function initOperation() {
   return { status: "running", config: { id: "1" } };
 }
 
+/**
+ * This function polls the operation using the configuration object in state
+ * that was returned from initOperation. It also updates the poller state with
+ * the information in the polling response.
+ */
 async function pollOperation({ setDelay, state, options }) {
   if (options?.abortSignal?.aborted) {
     throw new Error("aborted");

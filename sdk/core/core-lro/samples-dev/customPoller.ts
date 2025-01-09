@@ -37,6 +37,11 @@ type PollOperationOptions<T> = {
   options?: { abortSignal?: AbortSignal };
 };
 
+/**
+ * This function polls the operation using the configuration object in state
+ * that was returned from initOperation. It also updates the poller state with
+ * the information in the polling response.
+ */
 async function pollOperation<T>({
   setDelay,
   state,
