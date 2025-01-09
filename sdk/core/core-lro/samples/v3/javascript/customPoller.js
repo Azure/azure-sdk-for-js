@@ -2,6 +2,12 @@ const { delay } = require("@azure/core-util");
 
 const DEFAULT_POLL_INTERVAL_IN_MS = 2000;
 
+/**
+ * This function sends the initial request to start the operation and returns
+ * the state of the operation including a configuration object that can be used
+ * to poll the operation.
+ * @returns the initial state of the operation
+ */
 async function initOperation() {
   // starts the operation
   return { status: "running", config: { id: "1" } };
@@ -59,7 +65,7 @@ function createPoller({ intervalInMs, restoreFrom }) {
       return state?.result;
     },
     get isDone() {
-      return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+      return ["succeeded", "failed", "canceled"].includes(state?.status);
     },
     onProgress: (callback) => {
       const s = Symbol();
@@ -172,4 +178,5 @@ async function main() {
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
+  process.exit(1);
 });

@@ -10,26 +10,38 @@ import { delay } from "@azure/core-util";
 
 const DEFAULT_POLL_INTERVAL_IN_MS = 2000;
 
+/**
+ * This type represents the configuration needed to poll the operation.
+ * This is typically an operation ID, a resource ID, or an absolute URL.
+ */
 type OperationConfig = { id: string };
 
 type RestorableOperationState<TResult, TState extends OperationState<TResult>> = TState & {
   config: OperationConfig;
 };
 
+/**
+ * This function sends the initial request to start the operation and returns
+ * the state of the operation including a configuration object that can be used
+ * to poll the operation.
+ * @returns the initial state of the operation
+ */
 async function initOperation<T>(): Promise<RestorableOperationState<T, OperationState<T>>> {
   // starts the operation
   return { status: "running", config: { id: "1" } };
 }
 
+type PollOperationOptions<T> = {
+  state: RestorableOperationState<T, OperationState<T>>;
+  setDelay: (interval: number) => void;
+  options?: { abortSignal?: AbortSignal };
+};
+
 async function pollOperation<T>({
   setDelay,
   state,
   options,
-}: {
-  state: RestorableOperationState<T, OperationState<T>>;
-  setDelay: (interval: number) => void;
-  options?: { abortSignal?: AbortSignal };
-}): Promise<void> {
+}: PollOperationOptions<T>): Promise<void> {
   if (options?.abortSignal?.aborted) {
     throw new Error("aborted");
   }
@@ -91,7 +103,7 @@ function createPoller<T>({
       return state?.result;
     },
     get isDone(): boolean {
-      return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+      return ["succeeded", "failed", "canceled"].includes(state?.status);
     },
     onProgress: (callback: (state: OperationState<T>) => void) => {
       const s = Symbol();
@@ -209,4 +221,5 @@ async function main() {
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
+  process.exit(1);
 });
