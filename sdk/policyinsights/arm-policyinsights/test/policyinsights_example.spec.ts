@@ -39,9 +39,7 @@ describe("policyinsights test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PolicyInsightsClient;
-  let location: string;
   let resourceGroup: string;
-  let attestationName: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,9 +48,7 @@ describe("policyinsights test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PolicyInsightsClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
-    attestationName = "790996e6-9871-4b1f-9cd9-ec42cd6ced1e";
   });
 
   afterEach(async function () {
