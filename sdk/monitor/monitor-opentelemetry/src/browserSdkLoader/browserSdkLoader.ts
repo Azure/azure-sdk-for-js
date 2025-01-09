@@ -5,7 +5,7 @@
 
 import http from "http";
 import https from "https";
-import { webSnippet as sdkLoader } from "@microsoft/applicationinsights-web-snippet";
+import { getSdkLoaderScript } from "@microsoft/applicationinsights-web-snippet";
 import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper";
 import * as prefixHelper from "../utils/common";
 import * as zlib from "zlib";
@@ -23,7 +23,7 @@ export class BrowserSdkLoader {
   private static _aiUrl: string;
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
-  private _browserSdkLoaderIkey?: string;
+  private _browserSdkLoaderConnectionString?: string;
 
   constructor(config: InternalConfig) {
     if (BrowserSdkLoader._instance) {
@@ -33,16 +33,14 @@ export class BrowserSdkLoader {
     BrowserSdkLoader._instance = this;
     // AI URL used to validate if sdk loader already included
     BrowserSdkLoader._aiUrl = BROWSER_SDK_LOADER_DEFAULT_SOURCE;
-    let clientWebIkey;
     if (config.browserSdkLoaderOptions?.connectionString) {
-      clientWebIkey = this._getBrowserSdkLoaderIkey(
+      this._validateBrowserSdkLoaderConnectionString(
         config?.browserSdkLoaderOptions?.connectionString,
       );
     }
-    this._browserSdkLoaderIkey =
-      clientWebIkey ||
-      ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
-        .instrumentationkey;
+    this._browserSdkLoaderConnectionString =
+      config?.browserSdkLoaderOptions?.connectionString ||
+      config.azureMonitorExporterOptions.connectionString;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -57,8 +55,7 @@ export class BrowserSdkLoader {
     return BrowserSdkLoader._instance!;
   }
 
-  private _getBrowserSdkLoaderIkey(connectionString: string): string | null {
-    let iKey = null;
+  private _validateBrowserSdkLoaderConnectionString(connectionString: string) {
     try {
       const csCode = ConnectionStringParser.parse(connectionString);
       const iKeyCode = csCode.instrumentationkey || "";
@@ -69,12 +66,10 @@ export class BrowserSdkLoader {
         );
       } else {
         this._isIkeyValid = true;
-        iKey = iKeyCode;
       }
     } catch (err) {
       Logger.getInstance().info(`get browser SDK loader ikey error: ${err}`);
     }
-    return iKey;
   }
 
   /**
@@ -84,9 +79,13 @@ export class BrowserSdkLoader {
   private _getBrowserSdkLoaderReplacedStr(): string {
     const osStr = prefixHelper.getOsPrefix();
     const rpStr = prefixHelper.getResourceProvider();
-    const sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "${rpStr}${osStr}d_n_`;
-    const replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
-    return replacedSdkLoader;
+    const sdkLoaderConfig = {
+      connectionString: this._browserSdkLoaderConnectionString,
+      cfg: {
+        sdkExtension: `${rpStr}${osStr}d_n_`,
+      }
+    }
+    return getSdkLoaderScript(sdkLoaderConfig);
   }
 
   private _initialize(): void {
