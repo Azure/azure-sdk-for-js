@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a Frontend
  *
  * @summary Create a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendPut.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/FrontendPut.json
  */
 async function putFrontend() {
   const subscriptionId =

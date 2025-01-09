@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a Frontend
  *
  * @summary Update a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendPatch.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/FrontendPatch.json
  */
 async function updateFrontend() {
   const subscriptionId =

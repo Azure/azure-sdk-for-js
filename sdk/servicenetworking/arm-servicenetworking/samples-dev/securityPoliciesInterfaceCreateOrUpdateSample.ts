@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a SecurityPolicy
  *
  * @summary Create a SecurityPolicy
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyPut.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/SecurityPolicyPut.json
  */
 async function putSecurityPolicy() {
   const subscriptionId =

@@ -62,7 +62,7 @@ export class ServiceNetworkingManagementClient extends coreClient.ServiceClient 
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-servicenetworking/1.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-servicenetworking/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +116,7 @@ export class ServiceNetworkingManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01-preview";
+    this.apiVersion = options.apiVersion || "2025-01-01";
     this.operations = new OperationsImpl(this);
     this.trafficControllerInterface = new TrafficControllerInterfaceImpl(this);
     this.associationsInterface = new AssociationsInterfaceImpl(this);

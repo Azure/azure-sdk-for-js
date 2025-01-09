@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a SecurityPolicy
  *
  * @summary Delete a SecurityPolicy
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyDelete.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/SecurityPolicyDelete.json
  */
 async function deleteSecurityPolicy() {
   const subscriptionId =

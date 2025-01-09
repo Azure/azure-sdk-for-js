@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a TrafficController
  *
  * @summary Update a TrafficController
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllerPatch.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/TrafficControllerPatch.json
  */
 async function patchTrafficController() {
   const subscriptionId =

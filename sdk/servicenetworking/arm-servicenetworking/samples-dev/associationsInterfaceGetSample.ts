@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Association
  *
  * @summary Get a Association
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/AssociationGet.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/AssociationGet.json
  */
 async function getAssociation() {
   const subscriptionId =

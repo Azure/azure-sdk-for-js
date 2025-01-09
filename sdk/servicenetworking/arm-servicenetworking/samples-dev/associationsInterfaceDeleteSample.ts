@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Association
  *
  * @summary Delete a Association
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/AssociationDelete.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/AssociationDelete.json
  */
 async function deleteAssociation() {
   const subscriptionId =

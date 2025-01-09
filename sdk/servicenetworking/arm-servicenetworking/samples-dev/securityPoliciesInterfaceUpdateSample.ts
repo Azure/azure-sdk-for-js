@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a SecurityPolicy
  *
  * @summary Update a SecurityPolicy
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyPatch.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/SecurityPolicyPatch.json
  */
 async function updateSecurityPolicy() {
   const subscriptionId =
