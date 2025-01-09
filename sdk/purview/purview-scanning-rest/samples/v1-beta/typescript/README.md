@@ -1,4 +1,4 @@
-# Azure Purview Scanning rest client library samples for TypeScript
+# Azure Purview Scanning rest client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure Purview Scanning rest in some common scenarios.
 
@@ -58,7 +58,7 @@ npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" node dist/listDatasour
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[listdatasources]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-scanning-rest/samples/v1/typescript/src/listDatasources.ts
+[listdatasources]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-scanning-rest/samples/v1-beta/typescript/src/listDatasources.ts
 [apiref]: https://learn.microsoft.com/rest/api/purview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

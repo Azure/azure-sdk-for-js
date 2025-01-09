@@ -7,14 +7,14 @@
  * @summary gets a list of datasources
  */
 
-import type { DataSourceOutput, PagedAsyncIterableIterator, PageSettings } from "@azure-rest/purview-scanning";
-import PurviewScanning, { paginate, isUnexpected } from "@azure-rest/purview-scanning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const PurviewScanning = require("@azure-rest/purview-scanning").default,
+  { paginate, isUnexpected } = require("@azure-rest/purview-scanning");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main(): Promise<void> {
+async function main() {
   console.log("== List dataSources ==");
   const client = PurviewScanning(endpoint, new DefaultAzureCredential());
 
@@ -24,11 +24,9 @@ async function main(): Promise<void> {
   }
   const iter = paginate(client, dataSources);
 
-  const items: DataSourceOutput[] = [];
+  const items = [];
 
-  for await (const item of <PagedAsyncIterableIterator<DataSourceOutput, DataSourceOutput[], PageSettings>>(
-    iter
-  )) {
+  for await (const item of iter) {
     items.push(item);
   }
   console.log(items.map((ds) => ds.name).join("\n"));

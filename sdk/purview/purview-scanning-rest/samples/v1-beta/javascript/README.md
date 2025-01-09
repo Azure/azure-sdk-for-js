@@ -1,4 +1,4 @@
-# Azure Purview Scanning rest client library samples for JavaScript
+# Azure Purview Scanning rest client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Purview Scanning rest in some common scenarios.
 
@@ -46,7 +46,7 @@ npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" node listDatasources.j
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[listdatasources]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-scanning-rest/samples/v1/javascript/listDatasources.js
+[listdatasources]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-scanning-rest/samples/v1-beta/javascript/listDatasources.js
 [apiref]: https://learn.microsoft.com/rest/api/purview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

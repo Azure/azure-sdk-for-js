@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/purview-scanning-ts",
+  "name": "@azure-samples/purview-scanning-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Purview Scanning rest client library samples for TypeScript",
+  "description": "Azure Purview Scanning rest client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-scanning-rest",
   "dependencies": {
-    "@azure-rest/purview-scanning": "latest",
+    "@azure-rest/purview-scanning": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.5.0"
   },

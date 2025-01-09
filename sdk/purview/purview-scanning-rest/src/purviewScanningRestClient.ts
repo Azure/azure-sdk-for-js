@@ -15,7 +15,7 @@ export interface PurviewScanningRestClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `PurviewScanningRestClient`
- * @param endpoint - The scanning endpoint of your purview account. Example: https://\{accountName}.purview.azure.com.
+ * @param endpoint - The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2023-09-01", ...options }: PurviewScanningRestClientOptions = {},
 ): PurviewScanningRestClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}/scan`;
-  const userAgentInfo = `azsdk-js-purview-scanning-rest/1.0.0`;
+  const userAgentInfo = `azsdk-js-purview-scanning-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
