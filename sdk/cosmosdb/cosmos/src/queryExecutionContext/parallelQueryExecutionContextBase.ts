@@ -11,7 +11,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import type { CosmosHeaders } from "./CosmosHeaders";
-import { DocumentProducer } from "./documentProducer";
+import { DocumentProducer } from "./documentProducer2";
 import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import type { SqlQuerySpec } from "./SqlQuerySpec";
@@ -39,9 +39,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   protected sortOrders: any;
   private requestContinuation: any;
   private respHeaders: CosmosHeaders;
-  private orderByPQ: PriorityQueue<DocumentProducer>;
+  private unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  // TODO: update type of buffer from any
+  private buffer: any[];
   private sem: any;
-  private waitingForInternalExecutionContexts: number;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -86,14 +88,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
+    this.buffer = [];
 
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
 
+    this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
+      (a: DocumentProducer, b: DocumentProducer) => a.generation - b.generation,
+    );
     // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
-    this.orderByPQ = new PriorityQueue<DocumentProducer>(
+    this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
     // Creating the documentProducers
@@ -104,7 +110,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       // ensure the lock is released after finishing up
       try {
         const targetPartitionRanges = await this._onTargetPartitionRanges();
-        this.waitingForInternalExecutionContexts = targetPartitionRanges.length;
 
         const maxDegreeOfParallelism =
           options.maxDegreeOfParallelism === undefined || options.maxDegreeOfParallelism < 1
@@ -118,7 +123,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             maxDegreeOfParallelism,
         );
 
-        const parallelismSem = semaphore(maxDegreeOfParallelism);
         let filteredPartitionKeyRanges = [];
         // The document producers generated from filteredPartitionKeyRanges
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
@@ -141,32 +145,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // Fill up our priority queue with documentProducers
         targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
           // has async callback
-          const throttledFunc = async (): Promise<void> => {
-            try {
-              const { result: document, headers } = await documentProducer.current(
-                this.getDiagnosticNode(),
-              );
-              this._mergeWithActiveResponseHeaders(headers);
-              if (document === undefined) {
-                // no results on this one
-                return;
-              }
-              // if there are matching results in the target ex range add it to the priority queue
-              try {
-                this.orderByPQ.enq(documentProducer);
-              } catch (e: any) {
-                this.err = e;
-              }
-            } catch (err: any) {
-              this._mergeWithActiveResponseHeaders(err.headers);
-              this.err = err;
-            } finally {
-              parallelismSem.leave();
-              this._decrementInitiationLock();
-            }
-          };
-          parallelismSem.take(throttledFunc);
+          try {
+            this.unfilledDocumentProducersQueue.enq(documentProducer);
+          } catch (e: any) {
+            this.err = e;
+          }
         });
+
+        this.sem.leave();
       } catch (err: any) {
         this.err = err;
         // release the lock
@@ -181,18 +167,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer,
   ): number;
-
-  private _decrementInitiationLock(): void {
-    // decrements waitingForInternalExecutionContexts
-    // if waitingForInternalExecutionContexts reaches 0 releases the semaphore and changes the state
-    this.waitingForInternalExecutionContexts = this.waitingForInternalExecutionContexts - 1;
-    if (this.waitingForInternalExecutionContexts === 0) {
-      this.sem.leave();
-      if (this.orderByPQ.size() === 0) {
-        this.state = ParallelQueryExecutionContextBase.STATES.inProgress;
-      }
-    }
-  }
 
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
@@ -224,6 +198,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private async _getReplacementPartitionKeyRanges(
     documentProducer: DocumentProducer,
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
@@ -233,7 +208,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
-      this.getDiagnosticNode(),
+      diagnosticNode,
     );
   }
 
@@ -250,10 +225,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // TODO: any
     // Get the replacement ranges
     // Removing the invalid documentProducer from the orderByPQ
-    const parentDocumentProducer = this.orderByPQ.deq();
+    const parentDocumentProducer = this.bufferedDocumentProducersQueue.deq();
     try {
-      const replacementPartitionKeyRanges: any[] =
-        await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
+      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
+        parentDocumentProducer,
+        diagnosticNode,
+      );
+
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
       replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
@@ -270,14 +248,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         checkNextDocumentProducerCallback: any,
       ): Promise<void> => {
         try {
-          const { result: afterItem } = await documentProducerToCheck.current(diagnosticNode);
-          if (afterItem === undefined) {
-            // no more results left in this document producer, so we don't enqueue it
-          } else {
-            // Safe to put document producer back in the queue
-            this.orderByPQ.enq(documentProducerToCheck);
+          if (documentProducerToCheck.hasMoreResults()) {
+            this.unfilledDocumentProducersQueue.enq(documentProducerToCheck);
           }
-
           await checkNextDocumentProducerCallback();
         } catch (err: any) {
           this.err = err;
@@ -323,10 +296,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     ifCallback: any,
     elseCallback: any,
   ): Promise<void> {
-    const documentProducer = this.orderByPQ.peek();
     // Check if split happened
     try {
-      await documentProducer.current(diagnosticNode);
       elseCallback();
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
@@ -376,7 +347,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return;
         }
 
-        if (this.orderByPQ.size() === 0) {
+        if (this.unfilledDocumentProducersQueue.size() === 0) {
           // there is no more results
           this.state = ParallelQueryExecutionContextBase.STATES.ended;
           // release the lock before invoking callback
@@ -396,7 +367,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const elseCallback = async (): Promise<void> => {
           let documentProducer: DocumentProducer;
           try {
-            documentProducer = this.orderByPQ.deq();
+            documentProducer = this.unfilledDocumentProducersQueue.deq();
           } catch (e: any) {
             // if comparing elements of the priority queue throws exception
             // set that error and return error
@@ -411,7 +382,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           let item: any;
           let headers: CosmosHeaders;
           try {
-            const response = await documentProducer.nextItem(diagnosticNode);
+            // const response = await documentProducer.nextItem(diagnosticNode);
+            const response = await documentProducer.fetchNextItem();
             item = response.result;
             headers = response.headers;
             this._mergeWithActiveResponseHeaders(headers);
@@ -446,7 +418,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // the lock will be released after we know document producer must be put back in the queue or not
           try {
             const { result: afterItem, headers: otherHeaders } =
-              await documentProducer.current(diagnosticNode);
+              // await documentProducer.current(diagnosticNode);
+              await documentProducer.fetchNextItem();
+
             this._mergeWithActiveResponseHeaders(otherHeaders);
             if (afterItem === undefined) {
               // no more results is left in this document producer
@@ -458,7 +432,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                     "Extracted DocumentProducer from PQ is invalid state with no result!",
                   );
                 }
-                this.orderByPQ.enq(documentProducer);
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
               } catch (e: any) {
                 // if comparing elements in priority queue throws exception
                 // set error
@@ -469,7 +443,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
               // We want the document producer enqueued
               // So that later parts of the code can repair the execution context
-              this.orderByPQ.enq(documentProducer);
+              this.unfilledDocumentProducersQueue.enq(documentProducer);
             } else {
               // Something actually bad happened
               this.err = err;
@@ -498,8 +472,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults(): boolean {
-    return !(
-      this.state === ParallelQueryExecutionContextBase.STATES.ended || this.err !== undefined
+    return (
+      !this.err &&
+      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
     );
   }
 
@@ -540,5 +515,231 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       options,
       this.correlatedActivityId,
     );
+  }
+  protected async drainBufferedItems(): Promise<Response<any>> {
+    return new Promise<Response<any>>((resolve, reject) => {
+      this.sem.take(() => {
+        if (this.err) {
+          // if there is a prior error return error
+          this.sem.leave();
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+          reject(this.err);
+          return;
+        }
+
+        // return undefined if there is no more results
+        if (this.buffer.length === 0) {
+          this.sem.leave();
+          return resolve({
+            result: this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
+            headers: this._getAndResetActiveResponseHeaders(),
+          });
+        }
+        // draing the entire buffer object and return that in result of return object
+        const bufferedResults = this.buffer;
+        this.buffer = [];
+
+        // release the lock before returning
+        this.sem.leave();
+        // invoke the callback on the item
+        return resolve({
+          result: bufferedResults,
+          headers: this._getAndResetActiveResponseHeaders(),
+        });
+      });
+    });
+  }
+
+  /**
+   * Buffers document producers based on the maximum degree of parallelism.
+   * Moves document producers from the unfilled queue to the buffered queue.
+   * @param diagnosticNode - The diagnostic node for logging and tracing.
+   * @returns A promise that resolves when buffering is complete.
+   */
+  protected async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sem.take(async () => {
+        if (this.err) {
+          this.sem.leave();
+          reject(this.err);
+          return;
+        }
+
+        if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
+          this.sem.leave();
+          resolve();
+          return;
+        }
+
+        if (this.unfilledDocumentProducersQueue.size() === 0) {
+          this.sem.leave();
+          resolve();
+          return;
+        }
+
+        try {
+          const maxDegreeOfParallelism =
+            this.options.maxDegreeOfParallelism === undefined ||
+            this.options.maxDegreeOfParallelism < 1
+              ? this.unfilledDocumentProducersQueue.size()
+              : Math.min(
+                  this.options.maxDegreeOfParallelism,
+                  this.unfilledDocumentProducersQueue.size(),
+                );
+
+          const documentProducers: DocumentProducer[] = [];
+          while (
+            documentProducers.length < maxDegreeOfParallelism &&
+            this.unfilledDocumentProducersQueue.size() > 0
+          ) {
+            let documentProducer: DocumentProducer;
+            try {
+              documentProducer = this.unfilledDocumentProducersQueue.deq();
+            } catch (e: any) {
+              this.err = e;
+              this.sem.leave();
+              this.err.headers = this._getAndResetActiveResponseHeaders();
+              reject(this.err);
+              return;
+            }
+            documentProducers.push(documentProducer);
+          }
+
+          const ifCallback = (): void => {
+            this.sem.leave();
+            resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
+          };
+
+          const elseCallback = async (): Promise<void> => {
+            const bufferDocumentProducer = async (
+              documentProducer: DocumentProducer,
+            ): Promise<void> => {
+              try {
+                await documentProducer.bufferMore(this.getDiagnosticNode());
+                // if buffer of document producer is filled, add it to the buffered document producers queue
+                const nextItem = documentProducer.peakNextItem();
+                if (nextItem !== undefined) {
+                  this.bufferedDocumentProducersQueue.enq(documentProducer);
+                } else if (documentProducer.hasMoreResults()) {
+                  this.unfilledDocumentProducersQueue.enq(documentProducer);
+                }
+              } catch (err) {
+                this.err = err;
+                this.sem.leave();
+                this.err.headers = this._getAndResetActiveResponseHeaders();
+                reject(err);
+                // TODO: repair execution context  may cause issue
+              }
+            };
+
+            try {
+              // TODO: fix when handling splits
+              await Promise.all(
+                documentProducers.map((producer) => bufferDocumentProducer(producer)),
+              );
+            } catch (err) {
+              this.err = err;
+              this.err.headers = this._getAndResetActiveResponseHeaders();
+              reject(err);
+              return;
+            } finally {
+              this.sem.leave();
+            }
+            resolve();
+          };
+          this._repairExecutionContextIfNeeded(
+            this.getDiagnosticNode(),
+            ifCallback,
+            elseCallback,
+          ).catch(reject);
+        } catch (err) {
+          this.sem.leave();
+
+          this.err = err;
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+
+          reject(err);
+
+          return;
+        }
+      });
+    });
+  }
+  /**
+   * Drains the buffer of filled document producers and appends their items to the main buffer.
+   * @param isOrderBy - Indicates if the query is an order by query.
+   * @returns A promise that resolves when the buffer is filled.
+   */
+  protected async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sem.take(async () => {
+        if (this.err) {
+          // if there is a prior error return error
+          this.sem.leave();
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+          reject(this.err);
+          return;
+        }
+
+        if (
+          this.state === ParallelQueryExecutionContextBase.STATES.ended ||
+          this.bufferedDocumentProducersQueue.size() === 0
+        ) {
+          this.sem.leave();
+          resolve();
+          return;
+        }
+
+        try {
+          if (isOrderBy) {
+            while (
+              this.unfilledDocumentProducersQueue.isEmpty() &&
+              this.bufferedDocumentProducersQueue.size() > 0
+            ) {
+              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              const { result, headers } = await documentProducer.fetchNextItem();
+              this._mergeWithActiveResponseHeaders(headers);
+              if (result) {
+                this.buffer.push(result);
+              }
+              if (documentProducer.peakNextItem() !== undefined) {
+                this.bufferedDocumentProducersQueue.enq(documentProducer);
+              } else if (documentProducer.hasMoreResults()) {
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              } else {
+                // no more results in document producer
+              }
+            }
+          } else {
+            while (this.bufferedDocumentProducersQueue.size() > 0) {
+              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              const { result, headers } = await documentProducer.fetchBufferedItems();
+              this._mergeWithActiveResponseHeaders(headers);
+              this.buffer.push(...result);
+              if (documentProducer.hasMoreResults()) {
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              }
+            }
+          }
+          // no more buffers to fetch
+          if (
+            this.unfilledDocumentProducersQueue.size() === 0 &&
+            this.bufferedDocumentProducersQueue.size() === 0
+          ) {
+            this.state = ParallelQueryExecutionContextBase.STATES.ended;
+          }
+        } catch (err) {
+          this.err = err;
+          this.err.headers = this._getAndResetActiveResponseHeaders();
+          reject(this.err);
+          return;
+        } finally {
+          // release the lock before returning
+          this.sem.leave();
+        }
+        resolve();
+        return;
+      });
+    });
   }
 }

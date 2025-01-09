@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentProducer } from "./documentProducer";
+import type { DocumentProducer } from "./documentProducer2";
 import type { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
+import { Response } from "../request";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -27,5 +29,16 @@ export class ParallelQueryExecutionContext
     docProd2: DocumentProducer,
   ): number {
     return docProd1.generation - docProd2.generation;
+  }
+
+  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+    // TODO: need to upadte headers from here, so make sure it returns it
+    await this.bufferDocumentProducers(diagnosticNode);
+    await this.fillBufferFromBufferQueue();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    await this.bufferMore(diagnosticNode);
+    return this.drainBufferedItems();
   }
 }

@@ -128,4 +128,10 @@ export interface FeedOptions extends SharedOptions {
    * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
    */
   allowUnboundedNonStreamingQueries?: boolean;
+
+  /**
+   * Enable query control for the query.
+   * Would give empty results if the results is not ready to served.
+   */
+  enableQueryControl?: boolean;
 }
