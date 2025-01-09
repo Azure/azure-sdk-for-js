@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Update the Browser SDK Loader to use the function snippet loader.
+
 ## 1.8.0 (2024-10-23)
 
 ### Features Added
