@@ -197,7 +197,7 @@ export default async (info: SampleReadmeConfiguration): Promise<string> => {
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return format(
+  return await format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
