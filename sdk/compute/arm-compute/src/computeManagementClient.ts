@@ -62,7 +62,7 @@ import {
   CloudServicesImpl,
   CloudServicesUpdateDomainImpl,
   CloudServiceOperatingSystemsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   UsageOperations,
@@ -116,8 +116,8 @@ import {
   CloudServices,
   CloudServicesUpdateDomain,
   CloudServiceOperatingSystems,
-} from "./operationsInterfaces";
-import { ComputeManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ComputeManagementClientOptionalParams } from "./models/index.js";
 
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;

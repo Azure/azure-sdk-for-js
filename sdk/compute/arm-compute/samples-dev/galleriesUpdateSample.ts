@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GalleryUpdate, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Shared Image Gallery.
