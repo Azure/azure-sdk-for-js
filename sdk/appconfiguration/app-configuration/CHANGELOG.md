@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 1.8.1 (Unreleased)
@@ -20,7 +22,7 @@
 
 ### Features Added
 
-- Support `listLabels` method to list all the labels in the configuration setting store. 
+- Support `listLabels` method to list all the labels in the configuration setting store.
 
 Example:
 
@@ -39,9 +41,10 @@ const allProdTags = client.listConfigurationSettings({
   tagsFilter: ["production=prod*"],
 });
 ```
-See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
-- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
+See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
+
+- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
 ## 1.6.1 (2024-07-11)
 
@@ -65,13 +68,10 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 
 ### Features Added
 
-- With the new API version `2023-10-01`, the configuration snapshot feature is generally available. 
-  
-  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store. 
-  
+- With the new API version `2023-10-01`, the configuration snapshot feature is generally available.
+  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store.
   The filtered configuration settings are stored as a snapshot with the name provided during its creation.
-`AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
-  
+  `AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
   See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) for more information now how to use snapshots.
 
 ### Bugs Fixed
@@ -101,6 +101,7 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ## 1.4.1 (2023-04-24)
 
 ### Features Added
+
 - Added dependency on `@azure/logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
 
 ### Bugs Fixed
