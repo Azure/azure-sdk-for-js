@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Frontend
  *
  * @summary Get a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendGet.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/FrontendGet.json
  */
 async function getFrontend() {
   const subscriptionId =
