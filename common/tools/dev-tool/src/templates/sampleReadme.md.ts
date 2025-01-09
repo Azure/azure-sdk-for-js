@@ -146,7 +146,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 }
 
 /**
- * Create a link to the package.
+ * Creates a link to the package.
  * @param info - the README configuration
  * @returns a link to the project
  */
@@ -155,6 +155,37 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
     ? info.overridePublicationLinkFragment.split("/").slice(0, -5).join("/")
     : info.projectRepoPath;
   return `https://github.com/Azure/azure-sdk-for-js/tree/main/${fragment}/README.md`;
+}
+
+/**
+ * Checks whether a url exists
+ * @param url -
+ * @returns true if the url is accessible; false otherwise
+ */
+async function urlExists(url: string): Promise<boolean> {
+  const res = await fetch(url);
+  return res.ok;
+}
+
+/**
+ * Creates link to the SDK package's Api reference page on learn.microsoft.com.
+ * @param info - the README configuration
+ * @returns a link to the api reference page.
+            This methods validates the generated api link first and will return an empty
+            string if the generated link is not valid.
+            No validation is done for customized api ref link that is passed in.
+ */
+async function createApiRef(info: SampleReadmeConfiguration): Promise<string> {
+  if (info.apiRefLink) {
+    return `[apiref]: ${info.apiRefLink}`;
+  } else if (info.scope.startsWith("@azure")) {
+    const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
+    if (await urlExists(link)) {
+      return `[apiref]: ${link}`;
+    }
+    log.warn(`failed to reach api reference ${link} so not adding it.`);
+  }
+  return "";
 }
 
 /**
@@ -244,21 +275,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-${await (async () => {
-  if (info.apiRefLink) {
-    return `[apiref]: ${info.apiRefLink}`;
-  } else if (info.scope.startsWith("@azure")) {
-    const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
-    const res = await fetch(link);
-    if (res.ok) {
-      return `[apiref]: ${link}`;
-    }
-    log.warn(
-      `failed to reach api referrence ${link} ${res.status}-${res.statusText} so not adding it.`,
-    );
-  }
-  return "";
-})()}
+${await createApiRef(info)}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
