@@ -25,7 +25,6 @@ async function main() {
   );
 
   // Upload file for code interpreter tool
-  // using dirname for generated samples, replace with full file path for local testing
   const filePath1 = "./data/nifty500QuarterlyResults.csv";
   const fileStream1 = fs.createReadStream(filePath1);
   const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", {
@@ -35,7 +34,6 @@ async function main() {
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
-  // using dirname for generated samples, replace with full file path for local testing
   const filePath2 = "./data/sampleFileForUpload.txt";
   const fileStream2 = fs.createReadStream(filePath2);
   const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", {

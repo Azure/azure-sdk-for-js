@@ -24,7 +24,6 @@ export async function main(): Promise<void> {
   );
 
   // Upload local file
-  // using dirname for generated samples, replace with full file path for local testing
   const filePath = "./data/localFile.txt";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", {

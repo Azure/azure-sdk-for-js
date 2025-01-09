@@ -30,7 +30,6 @@ export async function main(): Promise<void> {
   );
 
   // Upload file
-  // using dirname for generated samples, replace with full file path for local testing
   const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
