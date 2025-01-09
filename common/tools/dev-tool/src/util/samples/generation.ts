@@ -309,6 +309,10 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.exclude;
   delete tsconfig.compilerOptions.composite;
   delete tsconfig.compilerOptions.noEmit;
+  delete tsconfig.compilerOptions.declaration;
+  delete tsconfig.compilerOptions.declarationMap;
+  delete tsconfig.compilerOptions.inlineSources;
+  delete tsconfig.compilerOptions.sourceMap;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
   tsconfig.compilerOptions.resolveJsonModule = true;
