@@ -19,7 +19,7 @@ import {
   VirtualMachineExtensionsGetResponse,
   VirtualMachineExtensionsListOptionalParams,
   VirtualMachineExtensionsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualMachineExtensions. */
 export interface VirtualMachineExtensions {

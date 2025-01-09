@@ -21,7 +21,7 @@ import {
   AvailabilitySetsDeleteOptionalParams,
   AvailabilitySetsGetOptionalParams,
   AvailabilitySetsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailabilitySets. */

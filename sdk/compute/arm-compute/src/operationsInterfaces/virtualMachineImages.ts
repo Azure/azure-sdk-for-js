@@ -19,7 +19,7 @@ import {
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualMachineImages. */
 export interface VirtualMachineImages {

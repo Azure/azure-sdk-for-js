@@ -17,7 +17,7 @@ import {
   VirtualMachineImagesEdgeZoneListPublishersResponse,
   VirtualMachineImagesEdgeZoneListSkusOptionalParams,
   VirtualMachineImagesEdgeZoneListSkusResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualMachineImagesEdgeZone. */
 export interface VirtualMachineImagesEdgeZone {

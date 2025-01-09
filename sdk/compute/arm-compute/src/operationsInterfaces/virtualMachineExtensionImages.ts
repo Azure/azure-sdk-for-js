@@ -13,7 +13,7 @@ import {
   VirtualMachineExtensionImagesListTypesResponse,
   VirtualMachineExtensionImagesListVersionsOptionalParams,
   VirtualMachineExtensionImagesListVersionsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualMachineExtensionImages. */
 export interface VirtualMachineExtensionImages {

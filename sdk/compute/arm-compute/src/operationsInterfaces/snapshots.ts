@@ -24,7 +24,7 @@ import {
   SnapshotsGrantAccessOptionalParams,
   SnapshotsGrantAccessResponse,
   SnapshotsRevokeAccessOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Snapshots. */

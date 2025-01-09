@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VirtualMachineImages } from "../operationsInterfaces/index.js";
+import { VirtualMachineImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
@@ -24,7 +24,7 @@ import {
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing VirtualMachineImages operations. */
 export class VirtualMachineImagesImpl implements VirtualMachineImages {

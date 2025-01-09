@@ -87,7 +87,7 @@ import {
   CloudServiceUpdate as CloudServiceUpdateMapper,
   RoleInstances as RoleInstancesMapper,
   UpdateDomain as UpdateDomainMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

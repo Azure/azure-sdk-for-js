@@ -24,7 +24,7 @@ import {
   DisksGrantAccessOptionalParams,
   DisksGrantAccessResponse,
   DisksRevokeAccessOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Disks. */

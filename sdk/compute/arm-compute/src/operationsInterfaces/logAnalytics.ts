@@ -14,7 +14,7 @@ import {
   ThrottledRequestsInput,
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportThrottledRequestsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a LogAnalytics. */
 export interface LogAnalytics {

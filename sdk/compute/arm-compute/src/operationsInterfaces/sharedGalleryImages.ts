@@ -12,7 +12,7 @@ import {
   SharedGalleryImagesListOptionalParams,
   SharedGalleryImagesGetOptionalParams,
   SharedGalleryImagesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SharedGalleryImages. */

@@ -12,7 +12,7 @@ import {
   CommunityGalleryImageVersionsListOptionalParams,
   CommunityGalleryImageVersionsGetOptionalParams,
   CommunityGalleryImageVersionsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunityGalleryImageVersions. */

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ProximityPlacementGroups } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ProximityPlacementGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   ProximityPlacementGroup,
   ProximityPlacementGroupsListBySubscriptionNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   ProximityPlacementGroupsGetResponse,
   ProximityPlacementGroupsListBySubscriptionNextResponse,
   ProximityPlacementGroupsListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProximityPlacementGroups operations. */

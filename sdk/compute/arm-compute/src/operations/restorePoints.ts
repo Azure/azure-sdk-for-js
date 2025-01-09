@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RestorePoints } from "../operationsInterfaces/index.js";
+import { RestorePoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   RestorePoint,
   RestorePointsCreateOptionalParams,
@@ -24,7 +24,7 @@ import {
   RestorePointsDeleteOptionalParams,
   RestorePointsGetOptionalParams,
   RestorePointsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing RestorePoints operations. */
 export class RestorePointsImpl implements RestorePoints {
