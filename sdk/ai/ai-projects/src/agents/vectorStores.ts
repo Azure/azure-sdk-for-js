@@ -14,7 +14,7 @@ import type {
   VectorStoreOutput,
 } from "../customization/outputModels.js";
 import { createPoller } from "./poller.js";
-import type { CreateVectorStoreResponse, CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
+import type { CreateVectorStoreResponse } from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -150,7 +150,7 @@ export async function deleteVectorStore(
  */
 export function createVectorStoreAndPoll(
   context: Client,
-  options: CreateVectorStoreWithPollingOptionalParams = {},
+  options: CreateVectorStoreOptionalParams = {},
 ): PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput> {
   return createPoller<VectorStoreOutput>({
     initOperation: async () => {

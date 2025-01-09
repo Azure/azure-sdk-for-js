@@ -16,7 +16,6 @@ import { createPoller } from "./poller.js";
 import type {
   CreateVectorStoreFileOptionalParams,
   CreateVectorStoreFileResponse,
-  CreateVectorStoreFileWithPollingOptionalParams,
   DeleteVectorStoreFileOptionalParams,
   GetVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
@@ -135,7 +134,7 @@ export async function deleteVectorStoreFile(
 export function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
-  options: CreateVectorStoreFileWithPollingOptionalParams = {},
+  options: CreateVectorStoreFileOptionalParams = {},
 ): PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput> {
   return createPoller<VectorStoreFileOutput>({
     initOperation: async () => {

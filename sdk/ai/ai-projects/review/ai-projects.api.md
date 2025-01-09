@@ -116,13 +116,13 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
     // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreResponse" needs to be exported by the entry point index.d.ts
     createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
+    createVectorStoreAndPoll: (options?: CreateVectorStoreOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
     // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileResponse" needs to be exported by the entry point index.d.ts
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => CreateVectorStoreFileResponse;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileBatchResponse" needs to be exported by the entry point index.d.ts
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => CreateVectorStoreFileBatchResponse;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
@@ -153,7 +153,7 @@ export interface AgentsOperations {
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "UploadFileResponse" needs to be exported by the entry point index.d.ts
     uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => UploadFileResponse;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileWithPollingOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
+    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
 }
 
 // @public
@@ -350,7 +350,7 @@ export interface CreateRunOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions {
+export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions, PollingOptionsParams {
 }
 
 // @public
@@ -361,11 +361,7 @@ export interface CreateVectorStoreFileBatchOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams extends CreateVectorStoreFileBatchOptionalParams, PollingOptionsParams {
-}
-
-// @public
-export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions {
+export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions, PollingOptionsParams {
 }
 
 // @public
@@ -376,15 +372,7 @@ export interface CreateVectorStoreFileOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileWithPollingOptionalParams extends CreateVectorStoreFileOptions, PollingOptionsParams, OperationOptions {
-}
-
-// @public
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {
-}
-
-// @public
-export interface CreateVectorStoreWithPollingOptionalParams extends CreateVectorStoreOptionalParams, PollingOptionsParams {
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions, PollingOptionsParams {
 }
 
 // @public
@@ -1745,12 +1733,8 @@ export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOption
 }
 
 // @public
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
     fileName?: string;
-}
-
-// @public
-export interface UploadFileWithPollingOptionalParams extends UploadFileOptionalParams, PollingOptionsParams {
 }
 
 // @public

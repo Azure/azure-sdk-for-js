@@ -94,16 +94,13 @@ import type {
   UpdateVectorStoreOptionalParams,
   DeleteVectorStoreOptionalParams,
   CreateVectorStoreOptionalParams,
-  CreateVectorStoreWithPollingOptionalParams,
   CreateVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
   GetVectorStoreFileOptionalParams,
   DeleteVectorStoreFileOptionalParams,
-  CreateVectorStoreFileWithPollingOptionalParams,
   CreateVectorStoreFileBatchOptionalParams,
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
-  CreateVectorStoreFileBatchWithPollingOptionalParams,
   CreateAgentOptionalParams,
   ListAgentsOptionalParams,
   GetAgentOptionalParams,
@@ -113,7 +110,6 @@ import type {
   GetFileContentOptionalParams,
   ListFilesOptionalParams,
   UploadFileOptionalParams,
-  UploadFileWithPollingOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
   UploadFileResponse,
@@ -236,7 +232,7 @@ export interface AgentsOperations {
   uploadFileAndPoll: (
     data: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
-    options?: UploadFileWithPollingOptionalParams,
+    options?: UploadFileOptionalParams,
   ) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -275,7 +271,7 @@ export interface AgentsOperations {
 
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
-    options?: CreateVectorStoreWithPollingOptionalParams,
+    options?: CreateVectorStoreOptionalParams,
   ) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
 
   /** Create a vector store file by attching a file to a vector store. */
@@ -306,7 +302,7 @@ export interface AgentsOperations {
   /** Create a vector store file by attaching a file to a vector store and poll. */
   createVectorStoreFileAndPoll: (
     vectorStoreId: string,
-    options?: CreateVectorStoreFileWithPollingOptionalParams,
+    options?: CreateVectorStoreFileOptionalParams,
   ) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
 
   /** Create a vector store file batch. */
@@ -335,7 +331,7 @@ export interface AgentsOperations {
   /** Create a vector store file batch and poll. */
   createVectorStoreFileBatchAndPoll: (
     vectorStoreId: string,
-    options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
+    options?: CreateVectorStoreFileBatchOptionalParams,
   ) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
 
   /** Gets a single run step from a thread run. */
@@ -411,7 +407,7 @@ function getAgents(context: Client): AgentsOperations {
     uploadFileAndPoll: (
       content: ReadableStream | NodeJS.ReadableStream,
       purpose: FilePurpose,
-      options?: UploadFileWithPollingOptionalParams,
+      options?: UploadFileOptionalParams,
     ) => uploadFileAndPoll(context, content, purpose, options),
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
@@ -429,7 +425,7 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, options),
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) =>
       deleteVectorStore(context, vectorStoreId, options),
-    createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) =>
+    createVectorStoreAndPoll: (options?: CreateVectorStoreOptionalParams) =>
       createVectorStoreAndPoll(context, options),
 
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) =>
@@ -448,7 +444,7 @@ function getAgents(context: Client): AgentsOperations {
     ) => deleteVectorStoreFile(context, vectorStoreId, fileId, options),
     createVectorStoreFileAndPoll: (
       vectorStoreId: string,
-      options?: CreateVectorStoreFileWithPollingOptionalParams,
+      options?: CreateVectorStoreFileOptionalParams,
     ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
 
     createVectorStoreFileBatch: (
@@ -472,7 +468,7 @@ function getAgents(context: Client): AgentsOperations {
     ) => listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
     createVectorStoreFileBatchAndPoll: (
       vectorStoreId: string,
-      options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
+      options?: CreateVectorStoreFileBatchOptionalParams,
     ) => createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),
 
     getRunStep: (

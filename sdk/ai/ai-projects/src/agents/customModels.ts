@@ -23,7 +23,7 @@ import type {
   CreateVectorStoreFileBatchOptions,
   CreateVectorStoreFileOptions,
 } from "./vectorStoresModels.js";
-import { OperationState, PollerLike } from "@azure/core-lro";
+import type { OperationState, PollerLike } from "@azure/core-lro";
 
 /**
  * Optional request parameters support passing headers, abort signal, etc.
@@ -199,14 +199,7 @@ export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
-
-/**
- * Optional parameters for creating vector store with polling.
- */
-export interface CreateVectorStoreWithPollingOptionalParams
-  extends CreateVectorStoreOptionalParams,
-    PollingOptionsParams {}
+export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions, PollingOptionsParams {}
 
 /**
  * Optional parameters for listing vector stores.
@@ -250,7 +243,7 @@ export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> &
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
-    OperationOptions {}
+    OperationOptions, PollingOptionsParams {}
 
 /**
  * Optional parameters for getting a vector store file.
@@ -261,14 +254,6 @@ export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
  * Optional parameters for deleting a vector store file.
  */
 export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
-
-/**
- * Optional parameters for creating a vector store file with polling.
- */
-export interface CreateVectorStoreFileWithPollingOptionalParams
-  extends CreateVectorStoreFileOptions,
-    PollingOptionsParams,
-    OperationOptions {}
 
 /**
  * Optional parameters for listing vector store file batches.
@@ -305,13 +290,7 @@ export type CreateVectorStoreFileBatchResponse = PromiseLike<VectorStoreFileBatc
  */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
-    OperationOptions {}
-
-/**
- * Optional parameters for creating a vector store file batch with polling.
- */
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams
-  extends CreateVectorStoreFileBatchOptionalParams,
+    OperationOptions,
     PollingOptionsParams {}
 
 /**
@@ -364,17 +343,10 @@ export interface GetFileContentOptionalParams extends OperationOptions {}
 /**
  * Optional parameters for uploading a file.
  */
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
   /** The name of the file. */
   fileName?: string;
 }
-
-/**
- * Optional parameters for uploading a file with polling.
- */
-export interface UploadFileWithPollingOptionalParams
-  extends UploadFileOptionalParams,
-    PollingOptionsParams {}
 
 /**
  * Response for uploading a file.

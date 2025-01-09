@@ -12,7 +12,6 @@ import type {
   CancelVectorStoreFileBatchOptionalParams,
   CreateVectorStoreFileBatchOptionalParams,
   CreateVectorStoreFileBatchResponse,
-  CreateVectorStoreFileBatchWithPollingOptionalParams,
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
 } from "./customModels.js";
@@ -122,7 +121,7 @@ export async function listVectorStoreFileBatchFiles(
 export function createVectorStoreFileBatchAndPoll(
   context: Client,
   vectorStoreId: string,
-  options: CreateVectorStoreFileBatchWithPollingOptionalParams = {},
+  options: CreateVectorStoreFileBatchOptionalParams = {},
 ): PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput> {
   return createPoller<VectorStoreFileBatchOutput>({
     initOperation: async () => {

@@ -14,8 +14,8 @@ import type {
   GetFileContentOptionalParams,
   GetFileOptionalParams,
   ListFilesOptionalParams,
+  UploadFileOptionalParams,
   UploadFileResponse,
-  UploadFileWithPollingOptionalParams,
 } from "./customModels.js";
 import { createPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
@@ -58,7 +58,7 @@ export function uploadFile(
   context: Client,
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
+  options: UploadFileOptionalParams = {},
 ): UploadFileResponse {
   const initialResult = uploadFileInternal(context, content, purpose, options);
   const poller = createPoller<OpenAIFileOutput>({
@@ -84,7 +84,7 @@ export function uploadFileAndPoll(
   context: Client,
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
+  options: UploadFileOptionalParams = {},
 ): PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput> {
    return createPoller<OpenAIFileOutput>({
     initOperation: async () => {
@@ -149,7 +149,7 @@ export async function uploadFileInternal(
   context: Client,
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
-  options: UploadFileWithPollingOptionalParams = {},
+  options: UploadFileOptionalParams = {},
 ): Promise<OpenAIFileOutput> {
   const uploadFileOptions: GeneratedParameters.UploadFileParameters = {
     ...operationOptionsToRequestParameters(options),

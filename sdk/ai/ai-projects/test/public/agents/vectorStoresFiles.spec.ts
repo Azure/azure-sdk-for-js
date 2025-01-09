@@ -152,7 +152,6 @@ describe("Agents - vector stores files", () => {
     readable.push(null); // end the stream
     const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
-    console.log(`File status ${file.status}`)
 
     // Create vector store file and poll
     const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, {
