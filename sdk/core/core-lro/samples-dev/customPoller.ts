@@ -5,8 +5,7 @@
  * @summary demnostrates how to create a custom poller.
  */
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { delay } from "@azure/core-util";
 
 const DEFAULT_POLL_INTERVAL_IN_MS = 2000;
@@ -29,7 +28,7 @@ async function pollOperation<T>({
 }: {
   state: RestorableOperationState<T, OperationState<T>>;
   setDelay: (interval: number) => void;
-  options?: { abortSignal?: AbortSignalLike };
+  options?: { abortSignal?: AbortSignal };
 }): Promise<void> {
   if (options?.abortSignal?.aborted) {
     throw new Error("aborted");
@@ -108,7 +107,7 @@ function createPoller<T>({
     submitted: async () => {
       await statePromise;
     },
-    pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
+    pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignal }) => {
       resultPromise ??= (async () => {
         await statePromise;
         if (!state) {
@@ -153,7 +152,7 @@ function createPoller<T>({
       });
       return resultPromise;
     },
-    async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<OperationState<T>> {
+    async poll(pollOptions?: { abortSignal?: AbortSignal }): Promise<OperationState<T>> {
       await statePromise;
       if (!state) {
         throw new Error("Poller should be initialized but it is not!");

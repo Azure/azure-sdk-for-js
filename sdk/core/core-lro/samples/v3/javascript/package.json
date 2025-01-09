@@ -31,7 +31,6 @@
   "dependencies": {
     "@azure/core-lro": "latest",
     "dotenv": "latest",
-    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.11.0"
   }
 }
