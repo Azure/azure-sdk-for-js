@@ -273,6 +273,7 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.compilerOptions.noEmit;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
+  tsconfig.compilerOptions.resolveJsonModule = true;
 
   tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
   tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
