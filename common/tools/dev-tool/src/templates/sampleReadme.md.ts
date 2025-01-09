@@ -164,6 +164,7 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
  */
 async function urlExists(url: string): Promise<boolean> {
   const res = await fetch(url);
+  await res.text();
   return res.ok;
 }
 
