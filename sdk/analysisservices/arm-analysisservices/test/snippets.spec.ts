@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureAnalysisServices } from "@azure/arm-analysisservices";
-import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
