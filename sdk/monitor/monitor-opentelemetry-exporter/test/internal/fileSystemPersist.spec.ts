@@ -172,7 +172,8 @@ describe("FileSystemPersist", () => {
       const success1 = await persister.push(firstBatch);
       assert.strictEqual(success1, true);
       // wait 1 ms so that we don't overwrite previous file
-      await sleep(1);
+      await sleep(100);
+      
       const success2 = await persister.push(secondBatch);
       assert.strictEqual(success2, true);
       const value1 = await persister.shift();

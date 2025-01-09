@@ -30,7 +30,7 @@ let instance: LongIntervalStatsbeatMetrics | null = null;
  * @internal
  */
 class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
-  private statsCollectionLongInterval: number = 60000; // 1 day
+  private statsCollectionLongInterval: number = 86400000; // 1 day
   // Custom dimensions
   private cikey: string;
   private runtimeVersion: string;
