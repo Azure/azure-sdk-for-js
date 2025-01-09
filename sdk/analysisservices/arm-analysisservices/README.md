@@ -61,6 +61,7 @@ const client = new AzureAnalysisServices(new DefaultAzureCredential(), subscript
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
 import { AzureAnalysisServices } from "@azure/arm-analysisservices";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
