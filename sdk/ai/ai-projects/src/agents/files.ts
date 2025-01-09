@@ -69,6 +69,9 @@ export function uploadFile(
       return getFile(context, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: OpenAIFileOutput) => {
+      return result.status === "failed" && result.statusDetails ? new Error(`Operation failed: ${result.statusDetails}`) : undefined;
+    },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 
@@ -94,6 +97,9 @@ export function uploadFileAndPoll(
       return getFile(context, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: OpenAIFileOutput) => {
+      return result.status === "failed" && result.statusDetails ? new Error(`Operation failed: ${result.statusDetails}`) : undefined;
+    },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 }

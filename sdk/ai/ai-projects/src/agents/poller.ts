@@ -11,11 +11,13 @@ export function createPoller<T>({
   initOperation,
   pollOperation,
   getOperationStatus,
+  getOperationError,
   intervalInMs,
 }: {
   initOperation: () => Promise<T>;
   pollOperation: (currentResult: T) => Promise<T>;
   getOperationStatus: (result: T) => OperationStatus;
+  getOperationError?: (result: T) => Error | undefined;
   intervalInMs?: number;
 }): PollerLike<OperationState<T>, T>{
   let state: OperationState<T>;
@@ -92,7 +94,7 @@ export function createPoller<T>({
           case "canceled":
             throw new Error("Operation cancelled");
           case "failed":
-            throw new Error("Operation failed");
+            throw state.error ?? new Error("Operation failed");
           case "notStarted":
           case "running":
             throw new Error("Polling completed without succeeding or failing");
@@ -115,7 +117,7 @@ export function createPoller<T>({
         case "canceled":
           throw new Error("Operation was canceled");
         case "failed":
-          throw new Error("Operation failed")
+          throw state.error ?? new Error("Operation failed");
       }
 
       // Poll
@@ -126,6 +128,7 @@ export function createPoller<T>({
       state = {
         result,
         status: getOperationStatus(result),
+        error: getOperationError ? getOperationError(result) : undefined,
       }
 
       await handleProgressEvents();
@@ -133,7 +136,7 @@ export function createPoller<T>({
         case "canceled":
           throw new Error("Operation was canceled");
         case "failed":
-          throw new Error("Operation failed")
+          throw state.error ?? new Error("Operation failed");
       }
       return state;
     },

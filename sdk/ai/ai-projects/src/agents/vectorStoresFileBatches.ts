@@ -46,7 +46,8 @@ export function createVectorStoreFileBatch(
     pollOperation: async (currentResult: VectorStoreFileBatchOutput) => {
       return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
     },
-    getOperationStatus: getLroOperationStatus
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 
   return {

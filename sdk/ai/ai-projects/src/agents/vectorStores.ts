@@ -69,7 +69,8 @@ export function createVectorStore(
     pollOperation: async (currentResult: VectorStoreOutput) => {
       return getVectorStore(context, currentResult.id, options);
     },
-    getOperationStatus: getLroOperationStatus
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 
   return {

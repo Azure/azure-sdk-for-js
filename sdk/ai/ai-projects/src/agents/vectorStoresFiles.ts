@@ -73,7 +73,11 @@ export function createVectorStoreFile(
     pollOperation: async (currentResult: VectorStoreFileOutput) => {
       return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
     },
-    getOperationStatus: getLroOperationStatus
+    getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: VectorStoreFileOutput) => {
+      return result.status === "failed" && result.lastError ? new Error(`Operation failed with code ${result.lastError.code}: ${result.lastError.message}`) : undefined;
+    },
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 
   return {
@@ -144,6 +148,9 @@ export function createVectorStoreFileAndPoll(
       return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: VectorStoreFileOutput) => {
+      return result.status === "failed" && result.lastError ? new Error(`Operation failed with code ${result.lastError.code}: ${result.lastError.message}`) : undefined;
+    },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 }
