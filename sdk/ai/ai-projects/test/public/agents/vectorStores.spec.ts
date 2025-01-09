@@ -97,10 +97,23 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should create vector store and poll", async function () {
+  it("should create vector store and poll (through original method)", async function () {
     // Create vector store
-    const poller = agents.createVectorStoreAndPoll();
-    const vectorStore = await poller.pollUntilDone();
+    const vectorStore = await agents.createVectorStoreAndPoll();
+    assert.isNotNull(vectorStore);
+    assert.notEqual(vectorStore.status, "in_progress");
+    console.log(
+      `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
+    );
+
+    // Delete vector store
+    await agents.deleteVectorStore(vectorStore.id);
+    console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+  });
+
+  it("should create vector store and poll (through creation method)", async function () {
+    // Create vector store
+    const vectorStore = await agents.createVectorStore().poller;
     assert.isNotNull(vectorStore);
     assert.notEqual(vectorStore.status, "in_progress");
     console.log(

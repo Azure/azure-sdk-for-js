@@ -5,6 +5,7 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { Readable } from "stream";
 
 describe("Agents - files", () => {
   let recorder: Recorder;
@@ -32,52 +33,51 @@ describe("Agents - files", () => {
   });
 
   it("should upload file", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
     assert.isNotEmpty(file);
   });
 
-  it("should upload file and poll", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const poller = agents.uploadFileAndPoll(fileContent, "assistants", {
-      fileName: "fileName",
-      pollingOptions: { sleepIntervalInMs: 1000 },
-    });
-    const file = await poller.pollUntilDone();
+  it("should upload file and poll (through original method)", async function () {
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await agents.uploadFileAndPoll(readable, "assistants", { fileName: "filename.txt", pollingOptions: { sleepIntervalInMs: 2000 } });
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
 
+  it("should upload file and poll (through creation method)", async function () {
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" }).poller;
+    assert.notInclude(["uploaded", "pending", "running"], file.status);
+    assert.isNotEmpty(file);
+  });
+
+
   it("should delete file", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await agents.uploadFile(readable, "assistants", { fileName: "fileName.txt" });
     const deleted = await agents.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
 
   it("should retrieve file", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName" });
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await agents.uploadFile(readable, "assistants", { fileName: "fileName.txt" });
     const _file = await agents.getFile(file.id);
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);
