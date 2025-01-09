@@ -258,7 +258,7 @@ export async function createReadme(
   });
 }
 
-export async function createTsconfigJson(projectInfo: ProjectInfo): Promise<string> {
+export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> {
   const tsconfigFilePath = path.join(projectInfo.path, "tsconfig.samples.json");
   type SerializableConfig = Omit<Config, "compilerOptions"> & {
     compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
@@ -273,7 +273,7 @@ export async function createTsconfigJson(projectInfo: ProjectInfo): Promise<stri
   delete tsconfig.compilerOptions.noEmit;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
-  
+
   tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
   tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
   return JSON.stringify(tsconfig, undefined, 2);
@@ -362,7 +362,7 @@ export async function makeSamplesFactory(
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
-              file("tsconfig.json", () => createTsconfigJson(projectInfo)),
+              file("tsconfig.json", () => createTsconfig(projectInfo)),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
