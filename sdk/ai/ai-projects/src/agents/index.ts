@@ -116,9 +116,13 @@ import type {
   UploadFileWithPollingOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
+  UploadFileResponse,
+  CreateVectorStoreResponse,
+  CreateVectorStoreFileResponse,
+  CreateVectorStoreFileBatchResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /**
  * Agents Interface Contains operations for creating, listing, updating, and deleting agents, threads, runs, messages, and files.
@@ -226,14 +230,14 @@ export interface AgentsOperations {
     data: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options?: UploadFileOptionalParams,
-  ) => Promise<OpenAIFileOutput>;
+  ) => UploadFileResponse;
 
   /** Uploads a file for use by other operations. */
   uploadFileAndPoll: (
     data: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options?: UploadFileWithPollingOptionalParams,
-  ) => PollerLike<PollOperationState<OpenAIFileOutput>, OpenAIFileOutput>;
+  ) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
@@ -252,7 +256,7 @@ export interface AgentsOperations {
     options?: DeleteVectorStoreOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
-  createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+  createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,
@@ -272,13 +276,13 @@ export interface AgentsOperations {
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
     options?: CreateVectorStoreWithPollingOptionalParams,
-  ) => PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
+  ) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
 
   /** Create a vector store file by attching a file to a vector store. */
   createVectorStoreFile: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileOptionalParams,
-  ) => Promise<VectorStoreFileOutput>;
+  ) => CreateVectorStoreFileResponse;
   /** Retrieves a vector store file. */
   getVectorStoreFile: (
     vectorStoreId: string,
@@ -303,13 +307,13 @@ export interface AgentsOperations {
   createVectorStoreFileAndPoll: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileWithPollingOptionalParams,
-  ) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
+  ) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
 
   /** Create a vector store file batch. */
   createVectorStoreFileBatch: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileBatchOptionalParams,
-  ) => Promise<VectorStoreFileBatchOutput>;
+  ) => CreateVectorStoreFileBatchResponse;
   /** Retrieve a vector store file batch. */
   getVectorStoreFileBatch: (
     vectorStoreId: string,
@@ -332,7 +336,7 @@ export interface AgentsOperations {
   createVectorStoreFileBatchAndPoll: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileBatchWithPollingOptionalParams,
-  ) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
+  ) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
 
   /** Gets a single run step from a thread run. */
   getRunStep: (
