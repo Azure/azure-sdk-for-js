@@ -253,7 +253,9 @@ ${await (async () => {
     if (res.ok) {
       return `[apiref]: ${link}`;
     }
-    log.warn(`failed to reach api referrence ${link} ${res.status}-${res.statusText} so not adding it.`);
+    log.warn(
+      `failed to reach api referrence ${link} ${res.status}-${res.statusText} so not adding it.`,
+    );
   }
   return "";
 })()}
