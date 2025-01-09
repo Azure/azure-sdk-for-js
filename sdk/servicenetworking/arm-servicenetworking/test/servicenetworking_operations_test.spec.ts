@@ -87,6 +87,7 @@ describe("ServiceNetworking test", () => {
 
   it("trafficControllerInterface delete test", async function () {
     const resArray = new Array();
+    await client.trafficControllerInterface.beginDeleteAndWait(resourceGroup, trafficControllerName, testPollingOptions)
     for await (let item of client.trafficControllerInterface.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
