@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an attestation at subscription scope.
  *
  * @summary Creates or updates an attestation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_CreateSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_CreateSubscriptionScope.json
  */
 async function createAttestationAtSubscriptionScope() {
   const subscriptionId =
@@ -28,14 +28,15 @@ async function createAttestationAtSubscriptionScope() {
   const parameters: Attestation = {
     complianceState: "Compliant",
     policyAssignmentId:
-      "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5"
+      "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.attestations.beginCreateOrUpdateAtSubscriptionAndWait(
-    attestationName,
-    parameters
-  );
+  const result =
+    await client.attestations.beginCreateOrUpdateAtSubscriptionAndWait(
+      attestationName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -43,7 +44,7 @@ async function createAttestationAtSubscriptionScope() {
  * This sample demonstrates how to Creates or updates an attestation at subscription scope.
  *
  * @summary Creates or updates an attestation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_CreateSubscriptionScope_AllProperties.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_CreateSubscriptionScope_AllProperties.json
  */
 async function createAttestationAtSubscriptionScopeWithAllProperties() {
   const subscriptionId =
@@ -58,22 +59,23 @@ async function createAttestationAtSubscriptionScopeWithAllProperties() {
       {
         description: "The results of the security audit.",
         sourceUri:
-          "https://gist.github.com/contoso/9573e238762c60166c090ae16b814011"
-      }
+          "https://gist.github.com/contoso/9573e238762c60166c090ae16b814011",
+      },
     ],
     expiresOn: new Date("2021-06-15T00:00:00Z"),
     metadata: { departmentId: "NYC-MARKETING-1" },
     owner: "55a32e28-3aa5-4eea-9b5a-4cd85153b966",
     policyAssignmentId:
       "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
-    policyDefinitionReferenceId: "0b158b46-ff42-4799-8e39-08a5c23b4551"
+    policyDefinitionReferenceId: "0b158b46-ff42-4799-8e39-08a5c23b4551",
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.attestations.beginCreateOrUpdateAtSubscriptionAndWait(
-    attestationName,
-    parameters
-  );
+  const result =
+    await client.attestations.beginCreateOrUpdateAtSubscriptionAndWait(
+      attestationName,
+      parameters,
+    );
   console.log(result);
 }
 

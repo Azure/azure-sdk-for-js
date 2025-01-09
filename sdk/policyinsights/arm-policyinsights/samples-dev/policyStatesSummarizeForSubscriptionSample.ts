@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PolicyStatesSummarizeForSubscriptionOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,21 +21,19 @@ dotenv.config();
  * This sample demonstrates how to Summarizes policy states for the resources under the subscription.
  *
  * @summary Summarizes policy states for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionScope.json
  */
 async function summarizeAtSubscriptionScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 5;
-  const options: PolicyStatesSummarizeForSubscriptionOptionalParams = { queryOptions: { top: top } };
+  const options: PolicyStatesSummarizeForSubscriptionOptionalParams = { top };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const result = await client.policyStates.summarizeForSubscription(
     policyStatesSummaryResource,
     subscriptionId,
-    options
+    options,
   );
   console.log(result);
 }
@@ -44,24 +42,23 @@ async function summarizeAtSubscriptionScope() {
  * This sample demonstrates how to Summarizes policy states for the resources under the subscription.
  *
  * @summary Summarizes policy states for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeSubscriptionScopeForPolicyGroup.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionScopeForPolicyGroup.json
  */
 async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 1;
   const filter = "'group1' IN PolicyDefinitionGroupNames";
   const options: PolicyStatesSummarizeForSubscriptionOptionalParams = {
-    queryOptions: { top: top, filter: filter }
+    top,
+    filter,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const result = await client.policyStates.summarizeForSubscription(
     policyStatesSummaryResource,
     subscriptionId,
-    options
+    options,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing remediation at resource group scope.
  *
  * @summary Deletes an existing remediation at resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_DeleteResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_DeleteResourceGroupScope.json
  */
 async function deleteRemediationAtResourceGroupScope() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteRemediationAtResourceGroupScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.remediations.deleteAtResourceGroup(
     resourceGroupName,
-    remediationName
+    remediationName,
   );
   console.log(result);
 }

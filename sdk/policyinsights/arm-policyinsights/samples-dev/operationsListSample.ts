@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists available operations.
  *
  * @summary Lists available operations.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-04-01/examples/Operations_ListOperations.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Operations_ListOperations.json
  */
 async function listOperations() {
   const subscriptionId =

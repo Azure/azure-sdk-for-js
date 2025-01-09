@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PolicyEventsListQueryResultsForResourceGroupOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,22 +21,20 @@ dotenv.config();
  * This sample demonstrates how to Queries policy events for the resources under the resource group.
  *
  * @summary Queries policy events for the resources under the resource group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupScope.json
  */
 async function queryAtResourceGroupScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -47,27 +45,25 @@ async function queryAtResourceGroupScope() {
  * This sample demonstrates how to Queries policy events for the resources under the resource group.
  *
  * @summary Queries policy events for the resources under the resource group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceGroupScopeNextLink.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupScopeNextLink.json
  */
 async function queryAtResourceGroupScopeWithNextLink() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForResourceGroupOptionalParams = {
-    queryOptions: { skipToken: skipToken }
+    skipToken,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

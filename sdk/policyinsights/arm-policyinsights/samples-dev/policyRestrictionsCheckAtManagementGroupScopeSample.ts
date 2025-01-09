@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckManagementGroupRestrictionsRequest,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,21 +21,18 @@ dotenv.config();
  * This sample demonstrates how to Checks what restrictions Azure Policy will place on resources within a management group.
  *
  * @summary Checks what restrictions Azure Policy will place on resources within a management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-03-01/examples/PolicyRestrictions_CheckAtManagementGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtManagementGroupScope.json
  */
 async function checkPolicyRestrictionsAtManagementGroupScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const parameters: CheckManagementGroupRestrictionsRequest = {
-    pendingFields: [{ field: "type" }]
+    pendingFields: [{ field: "type" }],
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const result = await client.policyRestrictions.checkAtManagementGroupScope(
     managementGroupId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

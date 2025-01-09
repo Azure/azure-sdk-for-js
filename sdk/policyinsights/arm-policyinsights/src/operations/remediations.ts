@@ -79,7 +79,7 @@ import {
   RemediationsListDeploymentsAtResourceGroupNextResponse,
   RemediationsListForResourceGroupNextResponse,
   RemediationsListDeploymentsAtResourceNextResponse,
-  RemediationsListForResourceNextResponse
+  RemediationsListForResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -104,12 +104,12 @@ export class RemediationsImpl implements Remediations {
   public listDeploymentsAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment> {
     const iter = this.listDeploymentsAtManagementGroupPagingAll(
       managementGroupId,
       remediationName,
-      options
+      options,
     );
     return {
       next() {
@@ -126,9 +126,9 @@ export class RemediationsImpl implements Remediations {
           managementGroupId,
           remediationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -136,7 +136,7 @@ export class RemediationsImpl implements Remediations {
     managementGroupId: string,
     remediationName: string,
     options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemediationDeployment[]> {
     let result: RemediationsListDeploymentsAtManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -144,7 +144,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listDeploymentsAtManagementGroup(
         managementGroupId,
         remediationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -156,7 +156,7 @@ export class RemediationsImpl implements Remediations {
         managementGroupId,
         remediationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -168,12 +168,12 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtManagementGroupPagingAll(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
   ): AsyncIterableIterator<RemediationDeployment> {
     for await (const page of this.listDeploymentsAtManagementGroupPagingPage(
       managementGroupId,
       remediationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -186,11 +186,11 @@ export class RemediationsImpl implements Remediations {
    */
   public listForManagementGroup(
     managementGroupId: string,
-    options?: RemediationsListForManagementGroupOptionalParams
+    options?: RemediationsListForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<Remediation> {
     const iter = this.listForManagementGroupPagingAll(
       managementGroupId,
-      options
+      options,
     );
     return {
       next() {
@@ -206,16 +206,16 @@ export class RemediationsImpl implements Remediations {
         return this.listForManagementGroupPagingPage(
           managementGroupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForManagementGroupPagingPage(
     managementGroupId: string,
     options?: RemediationsListForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Remediation[]> {
     let result: RemediationsListForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -230,7 +230,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listForManagementGroupNext(
         managementGroupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -241,11 +241,11 @@ export class RemediationsImpl implements Remediations {
 
   private async *listForManagementGroupPagingAll(
     managementGroupId: string,
-    options?: RemediationsListForManagementGroupOptionalParams
+    options?: RemediationsListForManagementGroupOptionalParams,
   ): AsyncIterableIterator<Remediation> {
     for await (const page of this.listForManagementGroupPagingPage(
       managementGroupId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -258,11 +258,11 @@ export class RemediationsImpl implements Remediations {
    */
   public listDeploymentsAtSubscription(
     remediationName: string,
-    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment> {
     const iter = this.listDeploymentsAtSubscriptionPagingAll(
       remediationName,
-      options
+      options,
     );
     return {
       next() {
@@ -278,23 +278,23 @@ export class RemediationsImpl implements Remediations {
         return this.listDeploymentsAtSubscriptionPagingPage(
           remediationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listDeploymentsAtSubscriptionPagingPage(
     remediationName: string,
     options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemediationDeployment[]> {
     let result: RemediationsListDeploymentsAtSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listDeploymentsAtSubscription(
         remediationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -305,7 +305,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listDeploymentsAtSubscriptionNext(
         remediationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -316,11 +316,11 @@ export class RemediationsImpl implements Remediations {
 
   private async *listDeploymentsAtSubscriptionPagingAll(
     remediationName: string,
-    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
   ): AsyncIterableIterator<RemediationDeployment> {
     for await (const page of this.listDeploymentsAtSubscriptionPagingPage(
       remediationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -331,7 +331,7 @@ export class RemediationsImpl implements Remediations {
    * @param options The options parameters.
    */
   public listForSubscription(
-    options?: RemediationsListForSubscriptionOptionalParams
+    options?: RemediationsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Remediation> {
     const iter = this.listForSubscriptionPagingAll(options);
     return {
@@ -346,13 +346,13 @@ export class RemediationsImpl implements Remediations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listForSubscriptionPagingPage(
     options?: RemediationsListForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Remediation[]> {
     let result: RemediationsListForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -373,7 +373,7 @@ export class RemediationsImpl implements Remediations {
   }
 
   private async *listForSubscriptionPagingAll(
-    options?: RemediationsListForSubscriptionOptionalParams
+    options?: RemediationsListForSubscriptionOptionalParams,
   ): AsyncIterableIterator<Remediation> {
     for await (const page of this.listForSubscriptionPagingPage(options)) {
       yield* page;
@@ -389,12 +389,12 @@ export class RemediationsImpl implements Remediations {
   public listDeploymentsAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment> {
     const iter = this.listDeploymentsAtResourceGroupPagingAll(
       resourceGroupName,
       remediationName,
-      options
+      options,
     );
     return {
       next() {
@@ -411,9 +411,9 @@ export class RemediationsImpl implements Remediations {
           resourceGroupName,
           remediationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -421,7 +421,7 @@ export class RemediationsImpl implements Remediations {
     resourceGroupName: string,
     remediationName: string,
     options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemediationDeployment[]> {
     let result: RemediationsListDeploymentsAtResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -429,7 +429,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listDeploymentsAtResourceGroup(
         resourceGroupName,
         remediationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -441,7 +441,7 @@ export class RemediationsImpl implements Remediations {
         resourceGroupName,
         remediationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -453,12 +453,12 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtResourceGroupPagingAll(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
   ): AsyncIterableIterator<RemediationDeployment> {
     for await (const page of this.listDeploymentsAtResourceGroupPagingPage(
       resourceGroupName,
       remediationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -471,7 +471,7 @@ export class RemediationsImpl implements Remediations {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: RemediationsListForResourceGroupOptionalParams
+    options?: RemediationsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Remediation> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -488,16 +488,16 @@ export class RemediationsImpl implements Remediations {
         return this.listForResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RemediationsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Remediation[]> {
     let result: RemediationsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -512,7 +512,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -523,11 +523,11 @@ export class RemediationsImpl implements Remediations {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RemediationsListForResourceGroupOptionalParams
+    options?: RemediationsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<Remediation> {
     for await (const page of this.listForResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -542,12 +542,12 @@ export class RemediationsImpl implements Remediations {
   public listDeploymentsAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceOptionalParams
+    options?: RemediationsListDeploymentsAtResourceOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment> {
     const iter = this.listDeploymentsAtResourcePagingAll(
       resourceId,
       remediationName,
-      options
+      options,
     );
     return {
       next() {
@@ -564,9 +564,9 @@ export class RemediationsImpl implements Remediations {
           resourceId,
           remediationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -574,7 +574,7 @@ export class RemediationsImpl implements Remediations {
     resourceId: string,
     remediationName: string,
     options?: RemediationsListDeploymentsAtResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemediationDeployment[]> {
     let result: RemediationsListDeploymentsAtResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -582,7 +582,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listDeploymentsAtResource(
         resourceId,
         remediationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -594,7 +594,7 @@ export class RemediationsImpl implements Remediations {
         resourceId,
         remediationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -606,12 +606,12 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtResourcePagingAll(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceOptionalParams
+    options?: RemediationsListDeploymentsAtResourceOptionalParams,
   ): AsyncIterableIterator<RemediationDeployment> {
     for await (const page of this.listDeploymentsAtResourcePagingPage(
       resourceId,
       remediationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -624,7 +624,7 @@ export class RemediationsImpl implements Remediations {
    */
   public listForResource(
     resourceId: string,
-    options?: RemediationsListForResourceOptionalParams
+    options?: RemediationsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Remediation> {
     const iter = this.listForResourcePagingAll(resourceId, options);
     return {
@@ -639,14 +639,14 @@ export class RemediationsImpl implements Remediations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForResourcePagingPage(resourceId, options, settings);
-      }
+      },
     };
   }
 
   private async *listForResourcePagingPage(
     resourceId: string,
     options?: RemediationsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Remediation[]> {
     let result: RemediationsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -661,7 +661,7 @@ export class RemediationsImpl implements Remediations {
       result = await this._listForResourceNext(
         resourceId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -672,11 +672,11 @@ export class RemediationsImpl implements Remediations {
 
   private async *listForResourcePagingAll(
     resourceId: string,
-    options?: RemediationsListForResourceOptionalParams
+    options?: RemediationsListForResourceOptionalParams,
   ): AsyncIterableIterator<Remediation> {
     for await (const page of this.listForResourcePagingPage(
       resourceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -691,11 +691,11 @@ export class RemediationsImpl implements Remediations {
   private _listDeploymentsAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
   ): Promise<RemediationsListDeploymentsAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, options },
-      listDeploymentsAtManagementGroupOperationSpec
+      listDeploymentsAtManagementGroupOperationSpec,
     );
   }
 
@@ -708,11 +708,11 @@ export class RemediationsImpl implements Remediations {
   cancelAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsCancelAtManagementGroupOptionalParams
+    options?: RemediationsCancelAtManagementGroupOptionalParams,
   ): Promise<RemediationsCancelAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, options },
-      cancelAtManagementGroupOperationSpec
+      cancelAtManagementGroupOperationSpec,
     );
   }
 
@@ -723,11 +723,11 @@ export class RemediationsImpl implements Remediations {
    */
   private _listForManagementGroup(
     managementGroupId: string,
-    options?: RemediationsListForManagementGroupOptionalParams
+    options?: RemediationsListForManagementGroupOptionalParams,
   ): Promise<RemediationsListForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      listForManagementGroupOperationSpec
+      listForManagementGroupOperationSpec,
     );
   }
 
@@ -742,11 +742,11 @@ export class RemediationsImpl implements Remediations {
     managementGroupId: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams
+    options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, parameters, options },
-      createOrUpdateAtManagementGroupOperationSpec
+      createOrUpdateAtManagementGroupOperationSpec,
     );
   }
 
@@ -759,11 +759,11 @@ export class RemediationsImpl implements Remediations {
   getAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsGetAtManagementGroupOptionalParams
+    options?: RemediationsGetAtManagementGroupOptionalParams,
   ): Promise<RemediationsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, options },
-      getAtManagementGroupOperationSpec
+      getAtManagementGroupOperationSpec,
     );
   }
 
@@ -776,11 +776,11 @@ export class RemediationsImpl implements Remediations {
   deleteAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsDeleteAtManagementGroupOptionalParams
+    options?: RemediationsDeleteAtManagementGroupOptionalParams,
   ): Promise<RemediationsDeleteAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, options },
-      deleteAtManagementGroupOperationSpec
+      deleteAtManagementGroupOperationSpec,
     );
   }
 
@@ -791,11 +791,11 @@ export class RemediationsImpl implements Remediations {
    */
   private _listDeploymentsAtSubscription(
     remediationName: string,
-    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
   ): Promise<RemediationsListDeploymentsAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { remediationName, options },
-      listDeploymentsAtSubscriptionOperationSpec
+      listDeploymentsAtSubscriptionOperationSpec,
     );
   }
 
@@ -806,11 +806,11 @@ export class RemediationsImpl implements Remediations {
    */
   cancelAtSubscription(
     remediationName: string,
-    options?: RemediationsCancelAtSubscriptionOptionalParams
+    options?: RemediationsCancelAtSubscriptionOptionalParams,
   ): Promise<RemediationsCancelAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { remediationName, options },
-      cancelAtSubscriptionOperationSpec
+      cancelAtSubscriptionOperationSpec,
     );
   }
 
@@ -819,11 +819,11 @@ export class RemediationsImpl implements Remediations {
    * @param options The options parameters.
    */
   private _listForSubscription(
-    options?: RemediationsListForSubscriptionOptionalParams
+    options?: RemediationsListForSubscriptionOptionalParams,
   ): Promise<RemediationsListForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listForSubscriptionOperationSpec
+      listForSubscriptionOperationSpec,
     );
   }
 
@@ -836,11 +836,11 @@ export class RemediationsImpl implements Remediations {
   createOrUpdateAtSubscription(
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { remediationName, parameters, options },
-      createOrUpdateAtSubscriptionOperationSpec
+      createOrUpdateAtSubscriptionOperationSpec,
     );
   }
 
@@ -851,11 +851,11 @@ export class RemediationsImpl implements Remediations {
    */
   getAtSubscription(
     remediationName: string,
-    options?: RemediationsGetAtSubscriptionOptionalParams
+    options?: RemediationsGetAtSubscriptionOptionalParams,
   ): Promise<RemediationsGetAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { remediationName, options },
-      getAtSubscriptionOperationSpec
+      getAtSubscriptionOperationSpec,
     );
   }
 
@@ -866,11 +866,11 @@ export class RemediationsImpl implements Remediations {
    */
   deleteAtSubscription(
     remediationName: string,
-    options?: RemediationsDeleteAtSubscriptionOptionalParams
+    options?: RemediationsDeleteAtSubscriptionOptionalParams,
   ): Promise<RemediationsDeleteAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { remediationName, options },
-      deleteAtSubscriptionOperationSpec
+      deleteAtSubscriptionOperationSpec,
     );
   }
 
@@ -883,11 +883,11 @@ export class RemediationsImpl implements Remediations {
   private _listDeploymentsAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
   ): Promise<RemediationsListDeploymentsAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, options },
-      listDeploymentsAtResourceGroupOperationSpec
+      listDeploymentsAtResourceGroupOperationSpec,
     );
   }
 
@@ -900,11 +900,11 @@ export class RemediationsImpl implements Remediations {
   cancelAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsCancelAtResourceGroupOptionalParams
+    options?: RemediationsCancelAtResourceGroupOptionalParams,
   ): Promise<RemediationsCancelAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, options },
-      cancelAtResourceGroupOperationSpec
+      cancelAtResourceGroupOperationSpec,
     );
   }
 
@@ -915,11 +915,11 @@ export class RemediationsImpl implements Remediations {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: RemediationsListForResourceGroupOptionalParams
+    options?: RemediationsListForResourceGroupOptionalParams,
   ): Promise<RemediationsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -934,11 +934,11 @@ export class RemediationsImpl implements Remediations {
     resourceGroupName: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, parameters, options },
-      createOrUpdateAtResourceGroupOperationSpec
+      createOrUpdateAtResourceGroupOperationSpec,
     );
   }
 
@@ -951,11 +951,11 @@ export class RemediationsImpl implements Remediations {
   getAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsGetAtResourceGroupOptionalParams
+    options?: RemediationsGetAtResourceGroupOptionalParams,
   ): Promise<RemediationsGetAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, options },
-      getAtResourceGroupOperationSpec
+      getAtResourceGroupOperationSpec,
     );
   }
 
@@ -968,11 +968,11 @@ export class RemediationsImpl implements Remediations {
   deleteAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsDeleteAtResourceGroupOptionalParams
+    options?: RemediationsDeleteAtResourceGroupOptionalParams,
   ): Promise<RemediationsDeleteAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, options },
-      deleteAtResourceGroupOperationSpec
+      deleteAtResourceGroupOperationSpec,
     );
   }
 
@@ -985,11 +985,11 @@ export class RemediationsImpl implements Remediations {
   private _listDeploymentsAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceOptionalParams
+    options?: RemediationsListDeploymentsAtResourceOptionalParams,
   ): Promise<RemediationsListDeploymentsAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, options },
-      listDeploymentsAtResourceOperationSpec
+      listDeploymentsAtResourceOperationSpec,
     );
   }
 
@@ -1002,11 +1002,11 @@ export class RemediationsImpl implements Remediations {
   cancelAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsCancelAtResourceOptionalParams
+    options?: RemediationsCancelAtResourceOptionalParams,
   ): Promise<RemediationsCancelAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, options },
-      cancelAtResourceOperationSpec
+      cancelAtResourceOperationSpec,
     );
   }
 
@@ -1017,11 +1017,11 @@ export class RemediationsImpl implements Remediations {
    */
   private _listForResource(
     resourceId: string,
-    options?: RemediationsListForResourceOptionalParams
+    options?: RemediationsListForResourceOptionalParams,
   ): Promise<RemediationsListForResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, options },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -1036,11 +1036,11 @@ export class RemediationsImpl implements Remediations {
     resourceId: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtResourceOptionalParams
+    options?: RemediationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, parameters, options },
-      createOrUpdateAtResourceOperationSpec
+      createOrUpdateAtResourceOperationSpec,
     );
   }
 
@@ -1053,11 +1053,11 @@ export class RemediationsImpl implements Remediations {
   getAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsGetAtResourceOptionalParams
+    options?: RemediationsGetAtResourceOptionalParams,
   ): Promise<RemediationsGetAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, options },
-      getAtResourceOperationSpec
+      getAtResourceOperationSpec,
     );
   }
 
@@ -1070,11 +1070,11 @@ export class RemediationsImpl implements Remediations {
   deleteAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsDeleteAtResourceOptionalParams
+    options?: RemediationsDeleteAtResourceOptionalParams,
   ): Promise<RemediationsDeleteAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, options },
-      deleteAtResourceOperationSpec
+      deleteAtResourceOperationSpec,
     );
   }
 
@@ -1090,11 +1090,11 @@ export class RemediationsImpl implements Remediations {
     managementGroupId: string,
     remediationName: string,
     nextLink: string,
-    options?: RemediationsListDeploymentsAtManagementGroupNextOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupNextOptionalParams,
   ): Promise<RemediationsListDeploymentsAtManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, remediationName, nextLink, options },
-      listDeploymentsAtManagementGroupNextOperationSpec
+      listDeploymentsAtManagementGroupNextOperationSpec,
     );
   }
 
@@ -1107,11 +1107,11 @@ export class RemediationsImpl implements Remediations {
   private _listForManagementGroupNext(
     managementGroupId: string,
     nextLink: string,
-    options?: RemediationsListForManagementGroupNextOptionalParams
+    options?: RemediationsListForManagementGroupNextOptionalParams,
   ): Promise<RemediationsListForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, nextLink, options },
-      listForManagementGroupNextOperationSpec
+      listForManagementGroupNextOperationSpec,
     );
   }
 
@@ -1125,11 +1125,11 @@ export class RemediationsImpl implements Remediations {
   private _listDeploymentsAtSubscriptionNext(
     remediationName: string,
     nextLink: string,
-    options?: RemediationsListDeploymentsAtSubscriptionNextOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionNextOptionalParams,
   ): Promise<RemediationsListDeploymentsAtSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { remediationName, nextLink, options },
-      listDeploymentsAtSubscriptionNextOperationSpec
+      listDeploymentsAtSubscriptionNextOperationSpec,
     );
   }
 
@@ -1140,11 +1140,11 @@ export class RemediationsImpl implements Remediations {
    */
   private _listForSubscriptionNext(
     nextLink: string,
-    options?: RemediationsListForSubscriptionNextOptionalParams
+    options?: RemediationsListForSubscriptionNextOptionalParams,
   ): Promise<RemediationsListForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listForSubscriptionNextOperationSpec
+      listForSubscriptionNextOperationSpec,
     );
   }
 
@@ -1160,11 +1160,11 @@ export class RemediationsImpl implements Remediations {
     resourceGroupName: string,
     remediationName: string,
     nextLink: string,
-    options?: RemediationsListDeploymentsAtResourceGroupNextOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupNextOptionalParams,
   ): Promise<RemediationsListDeploymentsAtResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, remediationName, nextLink, options },
-      listDeploymentsAtResourceGroupNextOperationSpec
+      listDeploymentsAtResourceGroupNextOperationSpec,
     );
   }
 
@@ -1177,11 +1177,11 @@ export class RemediationsImpl implements Remediations {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RemediationsListForResourceGroupNextOptionalParams
+    options?: RemediationsListForResourceGroupNextOptionalParams,
   ): Promise<RemediationsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -1197,11 +1197,11 @@ export class RemediationsImpl implements Remediations {
     resourceId: string,
     remediationName: string,
     nextLink: string,
-    options?: RemediationsListDeploymentsAtResourceNextOptionalParams
+    options?: RemediationsListDeploymentsAtResourceNextOptionalParams,
   ): Promise<RemediationsListDeploymentsAtResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceId, remediationName, nextLink, options },
-      listDeploymentsAtResourceNextOperationSpec
+      listDeploymentsAtResourceNextOperationSpec,
     );
   }
 
@@ -1214,96 +1214,93 @@ export class RemediationsImpl implements Remediations {
   private _listForResourceNext(
     resourceId: string,
     nextLink: string,
-    options?: RemediationsListForResourceNextOptionalParams
+    options?: RemediationsListForResourceNextOptionalParams,
   ): Promise<RemediationsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceId, nextLink, options },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listDeploymentsAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+const listDeploymentsAtManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.RemediationDeploymentsListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.top, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupId,
-    Parameters.remediationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.top, Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupId,
+      Parameters.remediationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const cancelAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.managementGroupId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
-    Parameters.managementGroupId
+    Parameters.managementGroupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     201: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
@@ -1311,264 +1308,252 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.managementGroupId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.managementGroupId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.managementGroupId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationDeploymentsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     201: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationDeploymentsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     201: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
@@ -1576,337 +1561,333 @@ const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationDeploymentsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     201: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Remediation
+      bodyMapper: Mappers.Remediation,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listDeploymentsAtManagementGroupNextOperationSpec: coreClient.OperationSpec = {
+const listDeploymentsAtManagementGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.RemediationDeploymentsListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.nextLink,
+      Parameters.managementGroupId,
+      Parameters.remediationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.nextLink,
     Parameters.managementGroupId,
-    Parameters.remediationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RemediationListResult
+const listDeploymentsAtSubscriptionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.RemediationDeploymentsListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.nextLink,
-    Parameters.managementGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDeploymentsAtSubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.remediationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.remediationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listDeploymentsAtResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listDeploymentsAtResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.RemediationDeploymentsListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.remediationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.remediationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RemediationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsAtResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationDeploymentsListResult
+      bodyMapper: Mappers.RemediationDeploymentsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
     Parameters.nextLink,
-    Parameters.remediationName
+    Parameters.remediationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemediationListResult
+      bodyMapper: Mappers.RemediationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

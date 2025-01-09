@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function queryAtSubscriptionScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForSubscription(
-    policyTrackedResourcesResource
+    policyTrackedResourcesResource,
   )) {
     resArray.push(item);
   }
@@ -53,15 +53,14 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName'";
-  const options: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { top: top, filter: filter }
-  };
+  const options: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams =
+    { top, filter };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForSubscription(
     policyTrackedResourcesResource,
-    options
+    options,
   )) {
     resArray.push(item);
   }

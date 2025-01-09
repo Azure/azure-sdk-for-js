@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PolicyState,
   PolicyStatesResource,
@@ -37,7 +37,7 @@ import {
   PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams,
   PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse,
   PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
-  PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse
+  PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export interface PolicyStates {
   listQueryResultsForManagementGroup(
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the resources under the subscription.
@@ -67,7 +67,7 @@ export interface PolicyStates {
   listQueryResultsForSubscription(
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the resources under the resource group.
@@ -82,7 +82,7 @@ export interface PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the resource.
@@ -95,7 +95,7 @@ export interface PolicyStates {
   listQueryResultsForResource(
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
-    options?: PolicyStatesListQueryResultsForResourceOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the subscription level policy set definition.
@@ -110,7 +110,7 @@ export interface PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the subscription level policy definition.
@@ -125,7 +125,7 @@ export interface PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the subscription level policy assignment.
@@ -140,7 +140,7 @@ export interface PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Queries policy states for the resource group level policy assignment.
@@ -157,7 +157,7 @@ export interface PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState>;
   /**
    * Summarizes policy states for the resources under the management group.
@@ -170,7 +170,7 @@ export interface PolicyStates {
   summarizeForManagementGroup(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     managementGroupName: string,
-    options?: PolicyStatesSummarizeForManagementGroupOptionalParams
+    options?: PolicyStatesSummarizeForManagementGroupOptionalParams,
   ): Promise<PolicyStatesSummarizeForManagementGroupResponse>;
   /**
    * Summarizes policy states for the resources under the subscription.
@@ -183,7 +183,7 @@ export interface PolicyStates {
   summarizeForSubscription(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
-    options?: PolicyStatesSummarizeForSubscriptionOptionalParams
+    options?: PolicyStatesSummarizeForSubscriptionOptionalParams,
   ): Promise<PolicyStatesSummarizeForSubscriptionResponse>;
   /**
    * Summarizes policy states for the resources under the resource group.
@@ -198,7 +198,7 @@ export interface PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesSummarizeForResourceGroupOptionalParams
+    options?: PolicyStatesSummarizeForResourceGroupOptionalParams,
   ): Promise<PolicyStatesSummarizeForResourceGroupResponse>;
   /**
    * Summarizes policy states for the resource.
@@ -211,7 +211,7 @@ export interface PolicyStates {
   summarizeForResource(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     resourceId: string,
-    options?: PolicyStatesSummarizeForResourceOptionalParams
+    options?: PolicyStatesSummarizeForResourceOptionalParams,
   ): Promise<PolicyStatesSummarizeForResourceResponse>;
   /**
    * Triggers a policy evaluation scan for all the resources under the subscription
@@ -220,8 +220,8 @@ export interface PolicyStates {
    */
   beginTriggerSubscriptionEvaluation(
     subscriptionId: string,
-    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers a policy evaluation scan for all the resources under the subscription
    * @param subscriptionId Microsoft Azure subscription ID.
@@ -229,7 +229,7 @@ export interface PolicyStates {
    */
   beginTriggerSubscriptionEvaluationAndWait(
     subscriptionId: string,
-    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
+    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams,
   ): Promise<void>;
   /**
    * Triggers a policy evaluation scan for all the resources under the resource group.
@@ -240,8 +240,8 @@ export interface PolicyStates {
   beginTriggerResourceGroupEvaluation(
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers a policy evaluation scan for all the resources under the resource group.
    * @param subscriptionId Microsoft Azure subscription ID.
@@ -251,7 +251,7 @@ export interface PolicyStates {
   beginTriggerResourceGroupEvaluationAndWait(
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
+    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams,
   ): Promise<void>;
   /**
    * Summarizes policy states for the subscription level policy set definition.
@@ -266,7 +266,7 @@ export interface PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams,
   ): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse>;
   /**
    * Summarizes policy states for the subscription level policy definition.
@@ -281,7 +281,7 @@ export interface PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams
+    options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams,
   ): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse>;
   /**
    * Summarizes policy states for the subscription level policy assignment.
@@ -296,7 +296,7 @@ export interface PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): Promise<PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
   /**
    * Summarizes policy states for the resource group level policy assignment.
@@ -313,8 +313,6 @@ export interface PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse
-  >;
+    options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
 }

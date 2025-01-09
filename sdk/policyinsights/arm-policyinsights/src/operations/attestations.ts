@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Attestation,
   AttestationsListForSubscriptionNextOptionalParams,
@@ -43,7 +47,7 @@ import {
   AttestationsDeleteAtResourceOptionalParams,
   AttestationsListForSubscriptionNextResponse,
   AttestationsListForResourceGroupNextResponse,
-  AttestationsListForResourceNextResponse
+  AttestationsListForResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +68,7 @@ export class AttestationsImpl implements Attestations {
    * @param options The options parameters.
    */
   public listForSubscription(
-    options?: AttestationsListForSubscriptionOptionalParams
+    options?: AttestationsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Attestation> {
     const iter = this.listForSubscriptionPagingAll(options);
     return {
@@ -79,13 +83,13 @@ export class AttestationsImpl implements Attestations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listForSubscriptionPagingPage(
     options?: AttestationsListForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Attestation[]> {
     let result: AttestationsListForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +110,7 @@ export class AttestationsImpl implements Attestations {
   }
 
   private async *listForSubscriptionPagingAll(
-    options?: AttestationsListForSubscriptionOptionalParams
+    options?: AttestationsListForSubscriptionOptionalParams,
   ): AsyncIterableIterator<Attestation> {
     for await (const page of this.listForSubscriptionPagingPage(options)) {
       yield* page;
@@ -120,7 +124,7 @@ export class AttestationsImpl implements Attestations {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: AttestationsListForResourceGroupOptionalParams
+    options?: AttestationsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Attestation> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -137,16 +141,16 @@ export class AttestationsImpl implements Attestations {
         return this.listForResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AttestationsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Attestation[]> {
     let result: AttestationsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +165,7 @@ export class AttestationsImpl implements Attestations {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -172,11 +176,11 @@ export class AttestationsImpl implements Attestations {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AttestationsListForResourceGroupOptionalParams
+    options?: AttestationsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<Attestation> {
     for await (const page of this.listForResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -189,7 +193,7 @@ export class AttestationsImpl implements Attestations {
    */
   public listForResource(
     resourceId: string,
-    options?: AttestationsListForResourceOptionalParams
+    options?: AttestationsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Attestation> {
     const iter = this.listForResourcePagingAll(resourceId, options);
     return {
@@ -204,14 +208,14 @@ export class AttestationsImpl implements Attestations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForResourcePagingPage(resourceId, options, settings);
-      }
+      },
     };
   }
 
   private async *listForResourcePagingPage(
     resourceId: string,
     options?: AttestationsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Attestation[]> {
     let result: AttestationsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -226,7 +230,7 @@ export class AttestationsImpl implements Attestations {
       result = await this._listForResourceNext(
         resourceId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -237,11 +241,11 @@ export class AttestationsImpl implements Attestations {
 
   private async *listForResourcePagingAll(
     resourceId: string,
-    options?: AttestationsListForResourceOptionalParams
+    options?: AttestationsListForResourceOptionalParams,
   ): AsyncIterableIterator<Attestation> {
     for await (const page of this.listForResourcePagingPage(
       resourceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -252,11 +256,11 @@ export class AttestationsImpl implements Attestations {
    * @param options The options parameters.
    */
   private _listForSubscription(
-    options?: AttestationsListForSubscriptionOptionalParams
+    options?: AttestationsListForSubscriptionOptionalParams,
   ): Promise<AttestationsListForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listForSubscriptionOperationSpec
+      listForSubscriptionOperationSpec,
     );
   }
 
@@ -269,30 +273,29 @@ export class AttestationsImpl implements Attestations {
   async beginCreateOrUpdateAtSubscription(
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
       AttestationsCreateOrUpdateAtSubscriptionResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -301,8 +304,8 @@ export class AttestationsImpl implements Attestations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -310,19 +313,22 @@ export class AttestationsImpl implements Attestations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { attestationName, parameters, options },
-      createOrUpdateAtSubscriptionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { attestationName, parameters, options },
+      spec: createOrUpdateAtSubscriptionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtSubscriptionResponse,
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -337,12 +343,12 @@ export class AttestationsImpl implements Attestations {
   async beginCreateOrUpdateAtSubscriptionAndWait(
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse> {
     const poller = await this.beginCreateOrUpdateAtSubscription(
       attestationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -354,11 +360,11 @@ export class AttestationsImpl implements Attestations {
    */
   getAtSubscription(
     attestationName: string,
-    options?: AttestationsGetAtSubscriptionOptionalParams
+    options?: AttestationsGetAtSubscriptionOptionalParams,
   ): Promise<AttestationsGetAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { attestationName, options },
-      getAtSubscriptionOperationSpec
+      getAtSubscriptionOperationSpec,
     );
   }
 
@@ -369,11 +375,11 @@ export class AttestationsImpl implements Attestations {
    */
   deleteAtSubscription(
     attestationName: string,
-    options?: AttestationsDeleteAtSubscriptionOptionalParams
+    options?: AttestationsDeleteAtSubscriptionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { attestationName, options },
-      deleteAtSubscriptionOperationSpec
+      deleteAtSubscriptionOperationSpec,
     );
   }
 
@@ -384,11 +390,11 @@ export class AttestationsImpl implements Attestations {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: AttestationsListForResourceGroupOptionalParams
+    options?: AttestationsListForResourceGroupOptionalParams,
   ): Promise<AttestationsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -403,30 +409,29 @@ export class AttestationsImpl implements Attestations {
     resourceGroupName: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
       AttestationsCreateOrUpdateAtResourceGroupResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -435,8 +440,8 @@ export class AttestationsImpl implements Attestations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -444,19 +449,22 @@ export class AttestationsImpl implements Attestations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, attestationName, parameters, options },
-      createOrUpdateAtResourceGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, attestationName, parameters, options },
+      spec: createOrUpdateAtResourceGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtResourceGroupResponse,
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -473,13 +481,13 @@ export class AttestationsImpl implements Attestations {
     resourceGroupName: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse> {
     const poller = await this.beginCreateOrUpdateAtResourceGroup(
       resourceGroupName,
       attestationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -493,11 +501,11 @@ export class AttestationsImpl implements Attestations {
   getAtResourceGroup(
     resourceGroupName: string,
     attestationName: string,
-    options?: AttestationsGetAtResourceGroupOptionalParams
+    options?: AttestationsGetAtResourceGroupOptionalParams,
   ): Promise<AttestationsGetAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, attestationName, options },
-      getAtResourceGroupOperationSpec
+      getAtResourceGroupOperationSpec,
     );
   }
 
@@ -510,11 +518,11 @@ export class AttestationsImpl implements Attestations {
   deleteAtResourceGroup(
     resourceGroupName: string,
     attestationName: string,
-    options?: AttestationsDeleteAtResourceGroupOptionalParams
+    options?: AttestationsDeleteAtResourceGroupOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, attestationName, options },
-      deleteAtResourceGroupOperationSpec
+      deleteAtResourceGroupOperationSpec,
     );
   }
 
@@ -525,11 +533,11 @@ export class AttestationsImpl implements Attestations {
    */
   private _listForResource(
     resourceId: string,
-    options?: AttestationsListForResourceOptionalParams
+    options?: AttestationsListForResourceOptionalParams,
   ): Promise<AttestationsListForResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, options },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -544,30 +552,29 @@ export class AttestationsImpl implements Attestations {
     resourceId: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>,
       AttestationsCreateOrUpdateAtResourceResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttestationsCreateOrUpdateAtResourceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -576,8 +583,8 @@ export class AttestationsImpl implements Attestations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -585,19 +592,22 @@ export class AttestationsImpl implements Attestations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceId, attestationName, parameters, options },
-      createOrUpdateAtResourceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceId, attestationName, parameters, options },
+      spec: createOrUpdateAtResourceOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AttestationsCreateOrUpdateAtResourceResponse,
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -614,13 +624,13 @@ export class AttestationsImpl implements Attestations {
     resourceId: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtResourceResponse> {
     const poller = await this.beginCreateOrUpdateAtResource(
       resourceId,
       attestationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -634,11 +644,11 @@ export class AttestationsImpl implements Attestations {
   getAtResource(
     resourceId: string,
     attestationName: string,
-    options?: AttestationsGetAtResourceOptionalParams
+    options?: AttestationsGetAtResourceOptionalParams,
   ): Promise<AttestationsGetAtResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, attestationName, options },
-      getAtResourceOperationSpec
+      getAtResourceOperationSpec,
     );
   }
 
@@ -651,11 +661,11 @@ export class AttestationsImpl implements Attestations {
   deleteAtResource(
     resourceId: string,
     attestationName: string,
-    options?: AttestationsDeleteAtResourceOptionalParams
+    options?: AttestationsDeleteAtResourceOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceId, attestationName, options },
-      deleteAtResourceOperationSpec
+      deleteAtResourceOperationSpec,
     );
   }
 
@@ -666,11 +676,11 @@ export class AttestationsImpl implements Attestations {
    */
   private _listForSubscriptionNext(
     nextLink: string,
-    options?: AttestationsListForSubscriptionNextOptionalParams
+    options?: AttestationsListForSubscriptionNextOptionalParams,
   ): Promise<AttestationsListForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listForSubscriptionNextOperationSpec
+      listForSubscriptionNextOperationSpec,
     );
   }
 
@@ -683,11 +693,11 @@ export class AttestationsImpl implements Attestations {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AttestationsListForResourceGroupNextOptionalParams
+    options?: AttestationsListForResourceGroupNextOptionalParams,
   ): Promise<AttestationsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -700,11 +710,11 @@ export class AttestationsImpl implements Attestations {
   private _listForResourceNext(
     resourceId: string,
     nextLink: string,
-    options?: AttestationsListForResourceNextOptionalParams
+    options?: AttestationsListForResourceNextOptionalParams,
   ): Promise<AttestationsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceId, nextLink, options },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 }
@@ -712,332 +722,321 @@ export class AttestationsImpl implements Attestations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     201: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     202: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     204: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     201: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     202: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     204: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     201: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     202: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     204: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Attestation
+      bodyMapper: Mappers.Attestation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.attestationName
+    Parameters.attestationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttestationListResult
+      bodyMapper: Mappers.AttestationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

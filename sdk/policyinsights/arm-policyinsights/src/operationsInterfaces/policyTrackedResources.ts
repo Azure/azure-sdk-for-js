@@ -13,7 +13,7 @@ import {
   PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
-  PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+  PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface PolicyTrackedResources {
   listQueryResultsForManagementGroup(
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource>;
   /**
    * Queries policy tracked resources under the subscription.
@@ -39,7 +39,7 @@ export interface PolicyTrackedResources {
    */
   listQueryResultsForSubscription(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource>;
   /**
    * Queries policy tracked resources under the resource group.
@@ -51,7 +51,7 @@ export interface PolicyTrackedResources {
   listQueryResultsForResourceGroup(
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource>;
   /**
    * Queries policy tracked resources under the resource.
@@ -63,6 +63,6 @@ export interface PolicyTrackedResources {
   listQueryResultsForResource(
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource>;
 }

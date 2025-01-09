@@ -24,7 +24,7 @@ import {
   ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-  ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
+  ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
 } from "../models";
 
 /** Class containing ComponentPolicyStates operations. */
@@ -49,11 +49,11 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
   listQueryResultsForSubscription(
     subscriptionId: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, componentPolicyStatesResource, options },
-      listQueryResultsForSubscriptionOperationSpec
+      listQueryResultsForSubscriptionOperationSpec,
     );
   }
 
@@ -69,16 +69,16 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         resourceGroupName,
         componentPolicyStatesResource,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupOperationSpec
+      listQueryResultsForResourceGroupOperationSpec,
     );
   }
 
@@ -92,11 +92,11 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
   listQueryResultsForResource(
     resourceId: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, componentPolicyStatesResource, options },
-      listQueryResultsForResourceOperationSpec
+      listQueryResultsForResourceOperationSpec,
     );
   }
 
@@ -112,16 +112,16 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
     subscriptionId: string,
     policyDefinitionName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         policyDefinitionName,
         componentPolicyStatesResource,
-        options
+        options,
       },
-      listQueryResultsForPolicyDefinitionOperationSpec
+      listQueryResultsForPolicyDefinitionOperationSpec,
     );
   }
 
@@ -137,18 +137,16 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
     subscriptionId: string,
     policyAssignmentName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
-  > {
+    options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  ): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         policyAssignmentName,
         componentPolicyStatesResource,
-        options
+        options,
       },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec
+      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -166,19 +164,17 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
     resourceGroupName: string,
     policyAssignmentName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
-  > {
+    options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
         componentPolicyStatesResource,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec
+      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec,
     );
   }
 }
@@ -186,191 +182,189 @@ export class ComponentPolicyStatesImpl implements ComponentPolicyStates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
+      bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion1,
     Parameters.top1,
     Parameters.orderBy1,
     Parameters.select1,
-    Parameters.from1,
-    Parameters.to1,
-    Parameters.filter1,
-    Parameters.apply1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.componentPolicyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.top1,
-    Parameters.orderBy1,
-    Parameters.select1,
-    Parameters.from1,
-    Parameters.to1,
-    Parameters.filter1,
-    Parameters.apply1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.componentPolicyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.top1,
-    Parameters.orderBy1,
-    Parameters.select1,
-    Parameters.from1,
+    Parameters.fromParam1,
     Parameters.to1,
     Parameters.filter1,
     Parameters.apply1,
-    Parameters.expand1
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId1,
+    Parameters.componentPolicyStatesResource,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      },
+    },
+    queryParameters: [
+      Parameters.apiVersion1,
+      Parameters.top1,
+      Parameters.orderBy1,
+      Parameters.select1,
+      Parameters.fromParam1,
+      Parameters.to1,
+      Parameters.filter1,
+      Parameters.apply1,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId1,
+      Parameters.componentPolicyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.top1,
+    Parameters.orderBy1,
+    Parameters.select1,
+    Parameters.fromParam1,
+    Parameters.to1,
+    Parameters.filter1,
+    Parameters.apply1,
+    Parameters.expand1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.componentPolicyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.top1,
-    Parameters.orderBy1,
-    Parameters.select1,
-    Parameters.from1,
-    Parameters.to1,
-    Parameters.filter1,
-    Parameters.apply1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
     Parameters.componentPolicyStatesResource,
-    Parameters.policyDefinitionName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
+const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.top1,
-    Parameters.orderBy1,
-    Parameters.select1,
-    Parameters.from1,
-    Parameters.to1,
-    Parameters.filter1,
-    Parameters.apply1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.componentPolicyStatesResource,
-    Parameters.policyAssignmentName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPolicyStatesQueryResults
+    queryParameters: [
+      Parameters.apiVersion1,
+      Parameters.top1,
+      Parameters.orderBy1,
+      Parameters.select1,
+      Parameters.fromParam1,
+      Parameters.to1,
+      Parameters.filter1,
+      Parameters.apply1,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.componentPolicyStatesResource,
+      Parameters.policyDefinitionName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.top1,
-    Parameters.orderBy1,
-    Parameters.select1,
-    Parameters.from1,
-    Parameters.to1,
-    Parameters.filter1,
-    Parameters.apply1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.componentPolicyStatesResource,
-    Parameters.policyAssignmentName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [
+      Parameters.apiVersion1,
+      Parameters.top1,
+      Parameters.orderBy1,
+      Parameters.select1,
+      Parameters.fromParam1,
+      Parameters.to1,
+      Parameters.filter1,
+      Parameters.apply1,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.componentPolicyStatesResource,
+      Parameters.policyAssignmentName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ComponentPolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      },
+    },
+    queryParameters: [
+      Parameters.apiVersion1,
+      Parameters.top1,
+      Parameters.orderBy1,
+      Parameters.select1,
+      Parameters.fromParam1,
+      Parameters.to1,
+      Parameters.filter1,
+      Parameters.apply1,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.componentPolicyStatesResource,
+      Parameters.policyAssignmentName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

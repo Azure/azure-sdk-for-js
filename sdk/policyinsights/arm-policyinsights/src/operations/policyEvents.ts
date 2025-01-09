@@ -47,7 +47,7 @@ import {
   PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse,
   PolicyEventsListQueryResultsForPolicyDefinitionNextResponse,
   PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse,
-  PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
+  PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -73,12 +73,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   public listQueryResultsForManagementGroup(
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForManagementGroupPagingAll(
       policyEventsResource,
       managementGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -95,9 +95,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           policyEventsResource,
           managementGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -105,7 +105,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -113,7 +113,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       result = await this._listQueryResultsForManagementGroup(
         policyEventsResource,
         managementGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -125,7 +125,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         managementGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -137,12 +137,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForManagementGroupPagingAll(
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForManagementGroupPagingPage(
       policyEventsResource,
       managementGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -158,12 +158,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   public listQueryResultsForSubscription(
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForSubscriptionPagingAll(
       policyEventsResource,
       subscriptionId,
-      options
+      options,
     );
     return {
       next() {
@@ -180,9 +180,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           policyEventsResource,
           subscriptionId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -190,7 +190,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -198,7 +198,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       result = await this._listQueryResultsForSubscription(
         policyEventsResource,
         subscriptionId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -210,7 +210,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         subscriptionId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -222,12 +222,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForSubscriptionPagingAll(
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForSubscriptionPagingPage(
       policyEventsResource,
       subscriptionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -245,13 +245,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForResourceGroupPagingAll(
       policyEventsResource,
       subscriptionId,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -269,9 +269,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           subscriptionId,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -280,7 +280,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -289,7 +289,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         subscriptionId,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -302,7 +302,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -315,13 +315,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourceGroupPagingPage(
       policyEventsResource,
       subscriptionId,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -337,12 +337,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   public listQueryResultsForResource(
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
-    options?: PolicyEventsListQueryResultsForResourceOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForResourcePagingAll(
       policyEventsResource,
       resourceId,
-      options
+      options,
     );
     return {
       next() {
@@ -359,9 +359,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           policyEventsResource,
           resourceId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -369,7 +369,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -377,7 +377,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       result = await this._listQueryResultsForResource(
         policyEventsResource,
         resourceId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -389,7 +389,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         resourceId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -401,12 +401,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForResourcePagingAll(
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
-    options?: PolicyEventsListQueryResultsForResourceOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourcePagingPage(
       policyEventsResource,
       resourceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -424,13 +424,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForPolicySetDefinitionPagingAll(
       policyEventsResource,
       subscriptionId,
       policySetDefinitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -448,9 +448,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           subscriptionId,
           policySetDefinitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -459,7 +459,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForPolicySetDefinitionResponse;
     let continuationToken = settings?.continuationToken;
@@ -468,7 +468,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         subscriptionId,
         policySetDefinitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -481,7 +481,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         policySetDefinitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -494,13 +494,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForPolicySetDefinitionPagingPage(
       policyEventsResource,
       subscriptionId,
       policySetDefinitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -518,13 +518,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForPolicyDefinitionPagingAll(
       policyEventsResource,
       subscriptionId,
       policyDefinitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -542,9 +542,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           subscriptionId,
           policyDefinitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -553,7 +553,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForPolicyDefinitionResponse;
     let continuationToken = settings?.continuationToken;
@@ -562,7 +562,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         subscriptionId,
         policyDefinitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -575,7 +575,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         policyDefinitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -588,13 +588,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForPolicyDefinitionPagingPage(
       policyEventsResource,
       subscriptionId,
       policyDefinitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -612,14 +612,15 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
-    const iter = this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
-      policyEventsResource,
-      subscriptionId,
-      policyAssignmentName,
-      options
-    );
+    const iter =
+      this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
+        policyEventsResource,
+        subscriptionId,
+        policyAssignmentName,
+        options,
+      );
     return {
       next() {
         return iter.next();
@@ -636,9 +637,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           subscriptionId,
           policyAssignmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -647,7 +648,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse;
     let continuationToken = settings?.continuationToken;
@@ -656,7 +657,7 @@ export class PolicyEventsImpl implements PolicyEvents {
         policyEventsResource,
         subscriptionId,
         policyAssignmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -664,13 +665,14 @@ export class PolicyEventsImpl implements PolicyEvents {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
-        policyEventsResource,
-        subscriptionId,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result =
+        await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
+          policyEventsResource,
+          subscriptionId,
+          policyAssignmentName,
+          continuationToken,
+          options,
+        );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -682,13 +684,13 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
       policyEventsResource,
       subscriptionId,
       policyAssignmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -708,15 +710,16 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent> {
-    const iter = this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
-      policyEventsResource,
-      subscriptionId,
-      resourceGroupName,
-      policyAssignmentName,
-      options
-    );
+    const iter =
+      this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
+        policyEventsResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options,
+      );
     return {
       next() {
         return iter.next();
@@ -734,9 +737,9 @@ export class PolicyEventsImpl implements PolicyEvents {
           resourceGroupName,
           policyAssignmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -746,32 +749,34 @@ export class PolicyEventsImpl implements PolicyEvents {
     resourceGroupName: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
-        policyEventsResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        options
-      );
+      result =
+        await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
+          policyEventsResource,
+          subscriptionId,
+          resourceGroupName,
+          policyAssignmentName,
+          options,
+        );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
-        policyEventsResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result =
+        await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
+          policyEventsResource,
+          subscriptionId,
+          resourceGroupName,
+          policyAssignmentName,
+          continuationToken,
+          options,
+        );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -784,14 +789,14 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
       policyEventsResource,
       subscriptionId,
       resourceGroupName,
       policyAssignmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -807,11 +812,11 @@ export class PolicyEventsImpl implements PolicyEvents {
   private _listQueryResultsForManagementGroup(
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, managementGroupName, options },
-      listQueryResultsForManagementGroupOperationSpec
+      listQueryResultsForManagementGroupOperationSpec,
     );
   }
 
@@ -825,11 +830,11 @@ export class PolicyEventsImpl implements PolicyEvents {
   private _listQueryResultsForSubscription(
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, subscriptionId, options },
-      listQueryResultsForSubscriptionOperationSpec
+      listQueryResultsForSubscriptionOperationSpec,
     );
   }
 
@@ -845,11 +850,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, subscriptionId, resourceGroupName, options },
-      listQueryResultsForResourceGroupOperationSpec
+      listQueryResultsForResourceGroupOperationSpec,
     );
   }
 
@@ -863,11 +868,11 @@ export class PolicyEventsImpl implements PolicyEvents {
   private _listQueryResultsForResource(
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
-    options?: PolicyEventsListQueryResultsForResourceOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, resourceId, options },
-      listQueryResultsForResourceOperationSpec
+      listQueryResultsForResourceOperationSpec,
     );
   }
 
@@ -883,16 +888,16 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyEventsResource,
         subscriptionId,
         policySetDefinitionName,
-        options
+        options,
       },
-      listQueryResultsForPolicySetDefinitionOperationSpec
+      listQueryResultsForPolicySetDefinitionOperationSpec,
     );
   }
 
@@ -908,11 +913,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, subscriptionId, policyDefinitionName, options },
-      listQueryResultsForPolicyDefinitionOperationSpec
+      listQueryResultsForPolicyDefinitionOperationSpec,
     );
   }
 
@@ -928,13 +933,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, subscriptionId, policyAssignmentName, options },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec
+      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -952,19 +955,17 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyEventsResource,
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec
+      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -981,11 +982,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupNextOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, managementGroupName, nextLink, options },
-      listQueryResultsForManagementGroupNextOperationSpec
+      listQueryResultsForManagementGroupNextOperationSpec,
     );
   }
 
@@ -1002,11 +1003,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionNextOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, subscriptionId, nextLink, options },
-      listQueryResultsForSubscriptionNextOperationSpec
+      listQueryResultsForSubscriptionNextOperationSpec,
     );
   }
 
@@ -1025,7 +1026,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupNextOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1033,9 +1034,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         resourceGroupName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupNextOperationSpec
+      listQueryResultsForResourceGroupNextOperationSpec,
     );
   }
 
@@ -1052,11 +1053,11 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForResourceNextOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
       { policyEventsResource, resourceId, nextLink, options },
-      listQueryResultsForResourceNextOperationSpec
+      listQueryResultsForResourceNextOperationSpec,
     );
   }
 
@@ -1075,7 +1076,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policySetDefinitionName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1083,9 +1084,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         policySetDefinitionName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForPolicySetDefinitionNextOperationSpec
+      listQueryResultsForPolicySetDefinitionNextOperationSpec,
     );
   }
 
@@ -1104,7 +1105,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policyDefinitionName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams,
   ): Promise<PolicyEventsListQueryResultsForPolicyDefinitionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1112,9 +1113,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         subscriptionId,
         policyDefinitionName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForPolicyDefinitionNextOperationSpec
+      listQueryResultsForPolicyDefinitionNextOperationSpec,
     );
   }
 
@@ -1133,19 +1134,17 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     policyAssignmentName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse
-  > {
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams,
+  ): Promise<PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         policyEventsResource,
         subscriptionId,
         policyAssignmentName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec
+      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec,
     );
   }
 
@@ -1166,10 +1165,8 @@ export class PolicyEventsImpl implements PolicyEvents {
     resourceGroupName: string,
     policyAssignmentName: string,
     nextLink: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
-  > {
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
+  ): Promise<PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         policyEventsResource,
@@ -1177,443 +1174,448 @@ export class PolicyEventsImpl implements PolicyEvents {
         resourceGroupName,
         policyAssignmentName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec
+      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.policyEventsResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.policyEventsResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+      bodyMapper: Mappers.PolicyEventsQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
+    Parameters.fromParam,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken,
-    Parameters.expand
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.policyEventsResource,
+    Parameters.subscriptionId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyEventsQueryResults,
+    },
+    default: {
+      bodyMapper: Mappers.QueryFailure,
+    },
+  },
+  queryParameters: [
+    Parameters.top,
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.orderBy,
+    Parameters.select,
+    Parameters.fromParam,
+    Parameters.to,
+    Parameters.apply,
+    Parameters.skipToken,
+    Parameters.expand,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.policyEventsResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
     Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policySetDefinitionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyDefinitionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policySetDefinitionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyDefinitionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.nextLink,
-    Parameters.policyEventsResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+      bodyMapper: Mappers.PolicyEventsQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
     Parameters.nextLink,
-    Parameters.policyEventsResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
     Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policySetDefinitionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyDefinitionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policySetDefinitionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyEventsQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyDefinitionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyEventsQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.policyEventsResource,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

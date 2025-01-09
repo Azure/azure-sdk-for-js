@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,24 +21,22 @@ dotenv.config();
  * This sample demonstrates how to Queries policy events for the resource group level policy assignment.
  *
  * @summary Queries policy events for the resource group level policy assignment.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScope.json
  */
 async function queryAtResourceGroupLevelPolicyAssignmentScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
-    policyAssignmentName
+    policyAssignmentName,
   )) {
     resArray.push(item);
   }
@@ -49,29 +47,26 @@ async function queryAtResourceGroupLevelPolicyAssignmentScope() {
  * This sample demonstrates how to Queries policy events for the resource group level policy assignment.
  *
  * @summary Queries policy events for the resource group level policy assignment.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScopeNextLink.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScopeNextLink.json
  */
 async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
-  const options: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams = {
-    queryOptions: { skipToken: skipToken }
-  };
+  const options: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams =
+    { skipToken };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
     policyAssignmentName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

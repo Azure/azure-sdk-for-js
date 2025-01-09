@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PolicyState,
   PolicyStatesResource,
@@ -68,7 +72,7 @@ import {
   PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse,
   PolicyStatesListQueryResultsForPolicyDefinitionNextResponse,
   PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse,
-  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
+  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -95,12 +99,12 @@ export class PolicyStatesImpl implements PolicyStates {
   public listQueryResultsForManagementGroup(
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForManagementGroupPagingAll(
       policyStatesResource,
       managementGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -117,9 +121,9 @@ export class PolicyStatesImpl implements PolicyStates {
           policyStatesResource,
           managementGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -127,7 +131,7 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
     options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -135,7 +139,7 @@ export class PolicyStatesImpl implements PolicyStates {
       result = await this._listQueryResultsForManagementGroup(
         policyStatesResource,
         managementGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -147,7 +151,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         managementGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -159,12 +163,12 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForManagementGroupPagingAll(
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForManagementGroupPagingPage(
       policyStatesResource,
       managementGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -181,12 +185,12 @@ export class PolicyStatesImpl implements PolicyStates {
   public listQueryResultsForSubscription(
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForSubscriptionPagingAll(
       policyStatesResource,
       subscriptionId,
-      options
+      options,
     );
     return {
       next() {
@@ -203,9 +207,9 @@ export class PolicyStatesImpl implements PolicyStates {
           policyStatesResource,
           subscriptionId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -213,7 +217,7 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -221,7 +225,7 @@ export class PolicyStatesImpl implements PolicyStates {
       result = await this._listQueryResultsForSubscription(
         policyStatesResource,
         subscriptionId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -233,7 +237,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         subscriptionId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -245,12 +249,12 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForSubscriptionPagingAll(
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForSubscriptionPagingPage(
       policyStatesResource,
       subscriptionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -269,13 +273,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForResourceGroupPagingAll(
       policyStatesResource,
       subscriptionId,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -293,9 +297,9 @@ export class PolicyStatesImpl implements PolicyStates {
           subscriptionId,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -304,7 +308,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -313,7 +317,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         subscriptionId,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -326,7 +330,7 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -339,13 +343,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForResourceGroupPagingPage(
       policyStatesResource,
       subscriptionId,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -362,12 +366,12 @@ export class PolicyStatesImpl implements PolicyStates {
   public listQueryResultsForResource(
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
-    options?: PolicyStatesListQueryResultsForResourceOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForResourcePagingAll(
       policyStatesResource,
       resourceId,
-      options
+      options,
     );
     return {
       next() {
@@ -384,9 +388,9 @@ export class PolicyStatesImpl implements PolicyStates {
           policyStatesResource,
           resourceId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -394,7 +398,7 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
     options?: PolicyStatesListQueryResultsForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -402,7 +406,7 @@ export class PolicyStatesImpl implements PolicyStates {
       result = await this._listQueryResultsForResource(
         policyStatesResource,
         resourceId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -414,7 +418,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         resourceId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -426,12 +430,12 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForResourcePagingAll(
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
-    options?: PolicyStatesListQueryResultsForResourceOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForResourcePagingPage(
       policyStatesResource,
       resourceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -450,13 +454,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForPolicySetDefinitionPagingAll(
       policyStatesResource,
       subscriptionId,
       policySetDefinitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -474,9 +478,9 @@ export class PolicyStatesImpl implements PolicyStates {
           subscriptionId,
           policySetDefinitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -485,7 +489,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForPolicySetDefinitionResponse;
     let continuationToken = settings?.continuationToken;
@@ -494,7 +498,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         subscriptionId,
         policySetDefinitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -507,7 +511,7 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         policySetDefinitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -520,13 +524,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForPolicySetDefinitionPagingPage(
       policyStatesResource,
       subscriptionId,
       policySetDefinitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -545,13 +549,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
     const iter = this.listQueryResultsForPolicyDefinitionPagingAll(
       policyStatesResource,
       subscriptionId,
       policyDefinitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -569,9 +573,9 @@ export class PolicyStatesImpl implements PolicyStates {
           subscriptionId,
           policyDefinitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -580,7 +584,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForPolicyDefinitionResponse;
     let continuationToken = settings?.continuationToken;
@@ -589,7 +593,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         subscriptionId,
         policyDefinitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -602,7 +606,7 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         policyDefinitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -615,13 +619,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForPolicyDefinitionPagingPage(
       policyStatesResource,
       subscriptionId,
       policyDefinitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -640,14 +644,15 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
-    const iter = this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
-      policyStatesResource,
-      subscriptionId,
-      policyAssignmentName,
-      options
-    );
+    const iter =
+      this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
+        policyStatesResource,
+        subscriptionId,
+        policyAssignmentName,
+        options,
+      );
     return {
       next() {
         return iter.next();
@@ -664,9 +669,9 @@ export class PolicyStatesImpl implements PolicyStates {
           subscriptionId,
           policyAssignmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -675,7 +680,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse;
     let continuationToken = settings?.continuationToken;
@@ -684,7 +689,7 @@ export class PolicyStatesImpl implements PolicyStates {
         policyStatesResource,
         subscriptionId,
         policyAssignmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -692,13 +697,14 @@ export class PolicyStatesImpl implements PolicyStates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
-        policyStatesResource,
-        subscriptionId,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result =
+        await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
+          policyStatesResource,
+          subscriptionId,
+          policyAssignmentName,
+          continuationToken,
+          options,
+        );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -710,13 +716,13 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
       policyStatesResource,
       subscriptionId,
       policyAssignmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -737,15 +743,16 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyState> {
-    const iter = this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
-      policyStatesResource,
-      subscriptionId,
-      resourceGroupName,
-      policyAssignmentName,
-      options
-    );
+    const iter =
+      this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
+        policyStatesResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options,
+      );
     return {
       next() {
         return iter.next();
@@ -763,9 +770,9 @@ export class PolicyStatesImpl implements PolicyStates {
           resourceGroupName,
           policyAssignmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -775,32 +782,34 @@ export class PolicyStatesImpl implements PolicyStates {
     resourceGroupName: string,
     policyAssignmentName: string,
     options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyState[]> {
     let result: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        options
-      );
+      result =
+        await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
+          policyStatesResource,
+          subscriptionId,
+          resourceGroupName,
+          policyAssignmentName,
+          options,
+        );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result =
+        await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
+          policyStatesResource,
+          subscriptionId,
+          resourceGroupName,
+          policyAssignmentName,
+          continuationToken,
+          options,
+        );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -813,14 +822,14 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): AsyncIterableIterator<PolicyState> {
     for await (const page of this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
       policyStatesResource,
       subscriptionId,
       resourceGroupName,
       policyAssignmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -837,11 +846,11 @@ export class PolicyStatesImpl implements PolicyStates {
   private _listQueryResultsForManagementGroup(
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, managementGroupName, options },
-      listQueryResultsForManagementGroupOperationSpec
+      listQueryResultsForManagementGroupOperationSpec,
     );
   }
 
@@ -856,11 +865,11 @@ export class PolicyStatesImpl implements PolicyStates {
   summarizeForManagementGroup(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     managementGroupName: string,
-    options?: PolicyStatesSummarizeForManagementGroupOptionalParams
+    options?: PolicyStatesSummarizeForManagementGroupOptionalParams,
   ): Promise<PolicyStatesSummarizeForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { policyStatesSummaryResource, managementGroupName, options },
-      summarizeForManagementGroupOperationSpec
+      summarizeForManagementGroupOperationSpec,
     );
   }
 
@@ -875,11 +884,11 @@ export class PolicyStatesImpl implements PolicyStates {
   private _listQueryResultsForSubscription(
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, subscriptionId, options },
-      listQueryResultsForSubscriptionOperationSpec
+      listQueryResultsForSubscriptionOperationSpec,
     );
   }
 
@@ -894,11 +903,11 @@ export class PolicyStatesImpl implements PolicyStates {
   summarizeForSubscription(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
-    options?: PolicyStatesSummarizeForSubscriptionOptionalParams
+    options?: PolicyStatesSummarizeForSubscriptionOptionalParams,
   ): Promise<PolicyStatesSummarizeForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { policyStatesSummaryResource, subscriptionId, options },
-      summarizeForSubscriptionOperationSpec
+      summarizeForSubscriptionOperationSpec,
     );
   }
 
@@ -915,11 +924,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, subscriptionId, resourceGroupName, options },
-      listQueryResultsForResourceGroupOperationSpec
+      listQueryResultsForResourceGroupOperationSpec,
     );
   }
 
@@ -936,16 +945,16 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesSummarizeForResourceGroupOptionalParams
+    options?: PolicyStatesSummarizeForResourceGroupOptionalParams,
   ): Promise<PolicyStatesSummarizeForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesSummaryResource,
         subscriptionId,
         resourceGroupName,
-        options
+        options,
       },
-      summarizeForResourceGroupOperationSpec
+      summarizeForResourceGroupOperationSpec,
     );
   }
 
@@ -960,11 +969,11 @@ export class PolicyStatesImpl implements PolicyStates {
   private _listQueryResultsForResource(
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
-    options?: PolicyStatesListQueryResultsForResourceOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, resourceId, options },
-      listQueryResultsForResourceOperationSpec
+      listQueryResultsForResourceOperationSpec,
     );
   }
 
@@ -979,11 +988,11 @@ export class PolicyStatesImpl implements PolicyStates {
   summarizeForResource(
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     resourceId: string,
-    options?: PolicyStatesSummarizeForResourceOptionalParams
+    options?: PolicyStatesSummarizeForResourceOptionalParams,
   ): Promise<PolicyStatesSummarizeForResourceResponse> {
     return this.client.sendOperationRequest(
       { policyStatesSummaryResource, resourceId, options },
-      summarizeForResourceOperationSpec
+      summarizeForResourceOperationSpec,
     );
   }
 
@@ -994,25 +1003,24 @@ export class PolicyStatesImpl implements PolicyStates {
    */
   async beginTriggerSubscriptionEvaluation(
     subscriptionId: string,
-    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1021,8 +1029,8 @@ export class PolicyStatesImpl implements PolicyStates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1030,20 +1038,20 @@ export class PolicyStatesImpl implements PolicyStates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, options },
-      triggerSubscriptionEvaluationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, options },
+      spec: triggerSubscriptionEvaluationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1056,11 +1064,11 @@ export class PolicyStatesImpl implements PolicyStates {
    */
   async beginTriggerSubscriptionEvaluationAndWait(
     subscriptionId: string,
-    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams
+    options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginTriggerSubscriptionEvaluation(
       subscriptionId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1074,25 +1082,24 @@ export class PolicyStatesImpl implements PolicyStates {
   async beginTriggerResourceGroupEvaluation(
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1101,8 +1108,8 @@ export class PolicyStatesImpl implements PolicyStates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1110,20 +1117,20 @@ export class PolicyStatesImpl implements PolicyStates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, resourceGroupName, options },
-      triggerResourceGroupEvaluationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, resourceGroupName, options },
+      spec: triggerResourceGroupEvaluationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1138,12 +1145,12 @@ export class PolicyStatesImpl implements PolicyStates {
   async beginTriggerResourceGroupEvaluationAndWait(
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams
+    options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginTriggerResourceGroupEvaluation(
       subscriptionId,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1161,16 +1168,16 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
         subscriptionId,
         policySetDefinitionName,
-        options
+        options,
       },
-      listQueryResultsForPolicySetDefinitionOperationSpec
+      listQueryResultsForPolicySetDefinitionOperationSpec,
     );
   }
 
@@ -1187,16 +1194,16 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams,
   ): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesSummaryResource,
         subscriptionId,
         policySetDefinitionName,
-        options
+        options,
       },
-      summarizeForPolicySetDefinitionOperationSpec
+      summarizeForPolicySetDefinitionOperationSpec,
     );
   }
 
@@ -1213,11 +1220,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, subscriptionId, policyDefinitionName, options },
-      listQueryResultsForPolicyDefinitionOperationSpec
+      listQueryResultsForPolicyDefinitionOperationSpec,
     );
   }
 
@@ -1234,16 +1241,16 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams
+    options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams,
   ): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesSummaryResource,
         subscriptionId,
         policyDefinitionName,
-        options
+        options,
       },
-      summarizeForPolicyDefinitionOperationSpec
+      summarizeForPolicyDefinitionOperationSpec,
     );
   }
 
@@ -1260,13 +1267,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, subscriptionId, policyAssignmentName, options },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec
+      listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -1283,18 +1288,16 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesSummaryResource: PolicyStatesSummaryResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesSummaryResource,
         subscriptionId,
         policyAssignmentName,
-        options
+        options,
       },
-      summarizeForSubscriptionLevelPolicyAssignmentOperationSpec
+      summarizeForSubscriptionLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -1313,19 +1316,17 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec
+      listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -1344,19 +1345,17 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse
-  > {
+    options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesSummaryResource,
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
-        options
+        options,
       },
-      summarizeForResourceGroupLevelPolicyAssignmentOperationSpec
+      summarizeForResourceGroupLevelPolicyAssignmentOperationSpec,
     );
   }
 
@@ -1374,11 +1373,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupNextOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, managementGroupName, nextLink, options },
-      listQueryResultsForManagementGroupNextOperationSpec
+      listQueryResultsForManagementGroupNextOperationSpec,
     );
   }
 
@@ -1396,11 +1395,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionNextOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, subscriptionId, nextLink, options },
-      listQueryResultsForSubscriptionNextOperationSpec
+      listQueryResultsForSubscriptionNextOperationSpec,
     );
   }
 
@@ -1420,7 +1419,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupNextOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1428,9 +1427,9 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         resourceGroupName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupNextOperationSpec
+      listQueryResultsForResourceGroupNextOperationSpec,
     );
   }
 
@@ -1448,11 +1447,11 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceNextOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
       { policyStatesResource, resourceId, nextLink, options },
-      listQueryResultsForResourceNextOperationSpec
+      listQueryResultsForResourceNextOperationSpec,
     );
   }
 
@@ -1472,7 +1471,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policySetDefinitionName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1480,9 +1479,9 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         policySetDefinitionName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForPolicySetDefinitionNextOperationSpec
+      listQueryResultsForPolicySetDefinitionNextOperationSpec,
     );
   }
 
@@ -1502,7 +1501,7 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policyDefinitionName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams,
   ): Promise<PolicyStatesListQueryResultsForPolicyDefinitionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -1510,9 +1509,9 @@ export class PolicyStatesImpl implements PolicyStates {
         subscriptionId,
         policyDefinitionName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForPolicyDefinitionNextOperationSpec
+      listQueryResultsForPolicyDefinitionNextOperationSpec,
     );
   }
 
@@ -1532,19 +1531,17 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     policyAssignmentName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse
-  > {
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams,
+  ): Promise<PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
         subscriptionId,
         policyAssignmentName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec
+      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec,
     );
   }
 
@@ -1566,10 +1563,8 @@ export class PolicyStatesImpl implements PolicyStates {
     resourceGroupName: string,
     policyAssignmentName: string,
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
-  > {
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
+  ): Promise<PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -1577,255 +1572,248 @@ export class PolicyStatesImpl implements PolicyStates {
         resourceGroupName,
         policyAssignmentName,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec
+      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const summarizeForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SummarizeResults
+      bodyMapper: Mappers.SummarizeResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
     Parameters.managementGroupName,
-    Parameters.policyStatesSummaryResource
+    Parameters.policyStatesSummaryResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+      bodyMapper: Mappers.PolicyStatesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const summarizeForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SummarizeResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesSummaryResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const summarizeForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SummarizeResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesSummaryResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
+    Parameters.fromParam,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken,
-    Parameters.expand
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId1,
+    Parameters.policyStatesResource,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const summarizeForSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SummarizeResults,
+    },
+    default: {
+      bodyMapper: Mappers.QueryFailure,
+    },
+  },
+  queryParameters: [
+    Parameters.top,
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId1,
+    Parameters.policyStatesSummaryResource,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId1,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const summarizeForResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SummarizeResults,
+    },
+    default: {
+      bodyMapper: Mappers.QueryFailure,
+    },
+  },
+  queryParameters: [
+    Parameters.top,
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId1,
+    Parameters.policyStatesSummaryResource,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyStatesQueryResults,
+    },
+    default: {
+      bodyMapper: Mappers.QueryFailure,
+    },
+  },
+  queryParameters: [
+    Parameters.top,
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.orderBy,
+    Parameters.select,
+    Parameters.fromParam,
+    Parameters.to,
+    Parameters.apply,
+    Parameters.skipToken,
+    Parameters.expand,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.policyStatesResource
+    Parameters.policyStatesResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const summarizeForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SummarizeResults
+      bodyMapper: Mappers.SummarizeResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.policyStatesSummaryResource
+    Parameters.policyStatesSummaryResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const triggerSubscriptionEvaluationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1833,17 +1821,16 @@ const triggerSubscriptionEvaluationOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const triggerResourceGroupEvaluationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1851,436 +1838,441 @@ const triggerResourceGroupEvaluationOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policySetDefinitionName,
-    Parameters.policyStatesResource
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policySetDefinitionName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const summarizeForPolicySetDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SummarizeResults
+      bodyMapper: Mappers.SummarizeResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId1,
     Parameters.authorizationNamespace,
     Parameters.policySetDefinitionName,
-    Parameters.policyStatesSummaryResource
+    Parameters.policyStatesSummaryResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyDefinitionName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyDefinitionName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const summarizeForPolicyDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SummarizeResults
+      bodyMapper: Mappers.SummarizeResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [
     Parameters.top,
     Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
+    Parameters.apiVersion1,
+    Parameters.fromParam,
+    Parameters.to,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId1,
     Parameters.authorizationNamespace,
     Parameters.policyDefinitionName,
-    Parameters.policyStatesSummaryResource
+    Parameters.policyStatesSummaryResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SummarizeResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SummarizeResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesSummaryResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.fromParam,
+      Parameters.to,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesSummaryResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.from,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SummarizeResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.orderBy,
+      Parameters.select,
+      Parameters.fromParam,
+      Parameters.to,
+      Parameters.apply,
+      Parameters.skipToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SummarizeResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.from,
-    Parameters.to
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesSummaryResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    queryParameters: [
+      Parameters.top,
+      Parameters.filter,
+      Parameters.apiVersion1,
+      Parameters.fromParam,
+      Parameters.to,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesSummaryResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.nextLink,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.nextLink,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+      bodyMapper: Mappers.PolicyStatesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
     Parameters.nextLink,
-    Parameters.policyStatesResource
+    Parameters.policyStatesResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policySetDefinitionName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policySetDefinitionName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyDefinitionName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyDefinitionName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyStatesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.subscriptionId1,
+      Parameters.authorizationNamespace,
+      Parameters.policyAssignmentName,
+      Parameters.policyStatesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

@@ -18,17 +18,16 @@ dotenv.config();
  * This sample demonstrates how to Triggers a policy evaluation scan for all the resources under the subscription
  *
  * @summary Triggers a policy evaluation scan for all the resources under the subscription
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_TriggerSubscriptionEvaluation.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_TriggerSubscriptionEvaluation.json
  */
 async function triggerEvaluationsForAllResourcesInASubscription() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyStates.beginTriggerSubscriptionEvaluationAndWait(
-    subscriptionId
-  );
+  const client = new PolicyInsightsClient(credential);
+  const result =
+    await client.policyStates.beginTriggerSubscriptionEvaluationAndWait(
+      subscriptionId,
+    );
   console.log(result);
 }
 
