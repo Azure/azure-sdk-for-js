@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve the automation keys for an account.

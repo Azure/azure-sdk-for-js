@@ -674,7 +674,7 @@ export class DocumentModelAdministrationClient {
       ctx: OperationContext,
       options: PollerOptions<State> & OperationOptions,
       args: [flatResponse: unknown, error?: unknown],
-    ) {
+    ): void | undefined {
       const retryAfterHeader = rawResponse.headers.get("retry-after");
       // Convert the header value to milliseconds. If the header is not a valid number, then it is an HTTP
       // date.
@@ -896,7 +896,6 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentClassifier(
     classifierId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
     return this._tracing.withSpan(
@@ -966,7 +965,6 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentClassifier(
     classifierId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(

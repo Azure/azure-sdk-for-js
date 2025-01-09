@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.

@@ -33,7 +33,7 @@ export async function main() {
     phoneNumbers = ["<to-phone-number-1>", "<to-phone-number-2>"];
   }
 
-  // send add opt out request
+  // send remove opt out request
   const optOutRemoveResults = await client.optOuts.remove(
     from,
     phoneNumbers);

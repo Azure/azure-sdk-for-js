@@ -68,6 +68,9 @@ async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
 
 const IGNORE_CODE_COMMENT = "// dev-tool snippets ignore";
 const IGNORE_MARKDOWN_COMMENT = "<!-- dev-tool snippets ignore -->";
+const TS_PRESERVE_WHITESPACE = /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/g;
+const TS_IGNORE = /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g;
+const UNIX_EOL = "\n";
 
 /**
  * Finds all the snippet locations in a project.
@@ -285,8 +288,13 @@ async function parseSnippetDefinitions(
       )
         .replace(
           // Need to get rid of any ts-ignores that were added because of unused symbols
-          /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g,
-          EOL,
+          TS_IGNORE,
+          UNIX_EOL,
+        )
+        .replace(
+          // Need to get rid of any ts-ignores that were added because of unused symbols
+          TS_PRESERVE_WHITESPACE,
+          UNIX_EOL + UNIX_EOL,
         )
         .trim();
 

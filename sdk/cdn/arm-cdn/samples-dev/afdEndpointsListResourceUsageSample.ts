@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks the quota and actual usage of endpoints under the given Azure Front Door profile.

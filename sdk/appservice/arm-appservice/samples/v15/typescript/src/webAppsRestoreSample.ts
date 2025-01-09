@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RestoreRequest, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Restores a specific backup to another app (or deployment slot, if specified).

@@ -13,9 +13,7 @@ import {
   AzureDatabricksManagementClient
 } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates vNet Peering for workspace.

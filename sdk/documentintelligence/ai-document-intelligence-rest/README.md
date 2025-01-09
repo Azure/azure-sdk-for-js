@@ -128,7 +128,7 @@ Continue creating the poller from initial response
 ```ts
 import {
   getLongRunningPoller,
-  AnalyzeResultOperationOutput,
+  AnalyzeOperationOutput,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
@@ -136,7 +136,7 @@ if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 const poller = getLongRunningPoller(client, initialResponse);
-const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
 console.log(result);
 // {
 //   status: 'succeeded',
@@ -365,7 +365,7 @@ if (isUnexpected(initialResponse)) {
 
 const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
 
-const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
 const figures = result.analyzeResult?.figures;
 assert.isArray(figures);
 assert.isNotEmpty(figures?.[0]);

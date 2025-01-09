@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureVMwareSolutionAPI } from "../src/azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPI } from "../src/azureVMwareSolutionAPI.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,8 +43,8 @@ describe("avs test", () => {
   let resourceGroup: string;
   let privateCloudName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -83,7 +81,7 @@ describe("avs test", () => {
       testPollingOptions
     );
     assert.equal(res.name, privateCloudName);
-  }).timeout(36000000);
+  });
 
   it.skip("privateClouds get test", async function () {
     const res = await client.privateClouds.get(resourceGroup, privateCloudName);
@@ -107,7 +105,7 @@ describe("avs test", () => {
 
   it.skip("privateClouds delete test", async function () {
     const resArray = new Array();
-    const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName, testPollingOptions)
+    await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName, testPollingOptions);
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
