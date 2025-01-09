@@ -40,7 +40,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
           this.hashedLastResult = hashedResult;
         }
       }
-    } 
+    }
     return { result: buffer, headers: response.headers };
   }
 }

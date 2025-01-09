@@ -472,7 +472,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults(): boolean {
-    return !this.err && (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended);
+    return (
+      !this.err &&
+      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
+    );
   }
 
   /**
@@ -630,6 +633,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             };
 
             try {
+              // TODO: fix when handling splits
               await Promise.all(
                 documentProducers.map((producer) => bufferDocumentProducer(producer)),
               );
@@ -677,7 +681,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return;
         }
 
-        if(this.state === ParallelQueryExecutionContextBase.STATES.ended || this.bufferedDocumentProducersQueue.size() === 0) {
+        if (
+          this.state === ParallelQueryExecutionContextBase.STATES.ended ||
+          this.bufferedDocumentProducersQueue.size() === 0
+        ) {
           this.sem.leave();
           resolve();
           return;
@@ -685,14 +692,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         try {
           if (isOrderBy) {
-            
             while (
               this.unfilledDocumentProducersQueue.isEmpty() &&
               this.bufferedDocumentProducersQueue.size() > 0
             ) {
-              
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const result = await documentProducer.fetchNextItem();
+              const { result, headers } = await documentProducer.fetchNextItem();
+              this._mergeWithActiveResponseHeaders(headers);
               if (result) {
                 this.buffer.push(result);
               }
@@ -707,17 +713,21 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           } else {
             while (this.bufferedDocumentProducersQueue.size() > 0) {
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const { result } = await documentProducer.fetchBufferedItems();
+              const { result, headers } = await documentProducer.fetchBufferedItems();
+              this._mergeWithActiveResponseHeaders(headers);
               this.buffer.push(...result);
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
             }
           }
-        // no more buffers to fetch
-        if (this.unfilledDocumentProducersQueue.size() === 0 && this.bufferedDocumentProducersQueue.size() === 0) {
-          this.state = ParallelQueryExecutionContextBase.STATES.ended;
-        }
+          // no more buffers to fetch
+          if (
+            this.unfilledDocumentProducersQueue.size() === 0 &&
+            this.bufferedDocumentProducersQueue.size() === 0
+          ) {
+            this.state = ParallelQueryExecutionContextBase.STATES.ended;
+          }
         } catch (err) {
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();

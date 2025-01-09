@@ -46,17 +46,17 @@ export class OrderByEndpointComponent implements ExecutionContext {
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    if(response === undefined || response.result === undefined) {
-      return {result: undefined, headers: response.headers};
+    if (response === undefined || response.result === undefined) {
+      return { result: undefined, headers: response.headers };
     }
     for (const item of response.result) {
-      if(this.emitRawOrderByPayload) {
+      if (this.emitRawOrderByPayload) {
         buffer.push(item);
-      }else {
+      } else {
         buffer.push(item.payload);
       }
     }
 
-    return {result: buffer, headers: response.headers};
-    }
+    return { result: buffer, headers: response.headers };
   }
+}

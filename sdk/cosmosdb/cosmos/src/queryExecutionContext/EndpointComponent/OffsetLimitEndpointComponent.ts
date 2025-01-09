@@ -46,8 +46,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     if (response === undefined || response.result === undefined) {
       return { result: undefined, headers: response.headers };
     }
-    
-   for (const item of response.result) {
+
+    for (const item of response.result) {
       if (this.offset > 0) {
         this.offset--;
       } else if (this.limit > 0) {
