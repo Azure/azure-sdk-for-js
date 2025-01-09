@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "fs-extra";
+import { stat as statFile } from "fs/promises";
 import path from "node:path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
@@ -12,7 +13,13 @@ import {
   MIN_SUPPORTED_NODE_VERSION,
   SampleConfiguration,
 } from "./configuration";
-import { AZSDK_META_TAG_PREFIX, DEV_SAMPLES_BASE, OutputKind, SampleGenerationInfo } from "./info";
+import {
+  AZSDK_META_TAG_PREFIX,
+  DEFAULT_TYPESCRIPT_CONFIG,
+  DEV_SAMPLES_BASE,
+  OutputKind,
+  SampleGenerationInfo,
+} from "./info";
 import { processSources } from "./processor";
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
@@ -258,8 +265,39 @@ export async function createReadme(
   });
 }
 
+// Helper for writing JSON files with a terminating newline
+function jsonify(value: unknown) {
+  let output = JSON.stringify(value, undefined, 2);
+  if (!output.endsWith("\n")) {
+    output += "\n";
+  }
+  return output;
+}
+
+/**
+ * Checks if a file exists.
+ * @param filePath - The path to the file
+ * @returns Whether the file exists
+ */
+async function fileExists(filePath: string) {
+  try {
+    await statFile(filePath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+/**
+ * Creates a tsconfig file for the samples.
+ * @param projectInfo - The project information
+ * @returns The contents of a tsconfig file for the samples
+ */
 export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> {
   const tsconfigFilePath = path.join(projectInfo.path, "tsconfig.samples.json");
+  if (!(await fileExists(tsconfigFilePath))) {
+    return jsonify(DEFAULT_TYPESCRIPT_CONFIG);
+  }
   type SerializableConfig = Omit<Config, "compilerOptions"> & {
     compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
       moduleResolution?: string;
@@ -277,7 +315,7 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
 
   tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
   tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
-  return JSON.stringify(tsconfig, undefined, 2);
+  return jsonify(tsconfig);
 }
 
 /**
@@ -321,15 +359,6 @@ export async function makeSamplesFactory(
   if (hadError) {
     throw new Error("Instantiation of sample metadata information failed with errors.");
   }
-
-  // Helper for writing JSON files with a terminating newline
-  const jsonify = (value: unknown) => {
-    let output = JSON.stringify(value, undefined, 2);
-    if (!output.endsWith("\n")) {
-      output += "\n";
-    }
-    return output;
-  };
 
   /**
    * Helper to remove azsdk- directives from the resulting module code.
