@@ -4715,6 +4715,8 @@ export interface CloudServiceVaultSecretGroup {
 export interface CloudServiceVaultCertificate {
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. */
   certificateUrl?: string;
+  /** Flag indicating if the certificate provided is a bootstrap certificate to be used by the Key Vault Extension to fetch the remaining certificates. */
+  isBootstrapCertificate?: boolean;
 }
 
 /** Network Profile for the cloud service. */

@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithMultiRole.json
  */
 async function createNewCloudServiceWithMultipleRoles() {
   const subscriptionId =
@@ -84,7 +84,7 @@ async function createNewCloudServiceWithMultipleRoles() {
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole_WithZones.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithMultiRole_WithZones.json
  */
 async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone() {
   const subscriptionId =
@@ -147,7 +147,7 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithSingleRole.json
  */
 async function createNewCloudServiceWithSingleRole() {
   const subscriptionId =
@@ -205,7 +205,7 @@ async function createNewCloudServiceWithSingleRole() {
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
  */
 async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
   const subscriptionId =
@@ -246,6 +246,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
               {
                 certificateUrl:
                   "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}",
+                isBootstrapCertificate: true,
               },
             ],
           },
@@ -278,7 +279,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
  */
 async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
   const subscriptionId =
