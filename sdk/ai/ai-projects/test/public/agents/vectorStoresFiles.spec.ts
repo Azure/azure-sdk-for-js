@@ -5,7 +5,6 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { Readable } from "stream";
 
 describe("Agents - vector stores files", () => {
   let recorder: Recorder;
@@ -33,11 +32,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -61,11 +62,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -93,11 +96,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -119,11 +124,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -146,11 +153,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
@@ -179,11 +188,13 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
-    const file = await agents.uploadFile(readable, "assistants", { fileName: "filename.txt" });
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll

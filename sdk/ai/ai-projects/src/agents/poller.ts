@@ -5,7 +5,7 @@ import { delay } from "@azure/core-util";
 import type { PollerLike, OperationState, OperationStatus, } from "@azure/core-lro";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
-const DEFAULT_POLL_INTERVAL_IN_MS = 2000;
+const DEFAULT_POLL_INTERVAL_IN_MS = 1000;
 
 export function createPoller<T>({
   initOperation,
