@@ -6,24 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
+import { PrivateEndpointConnectionOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionUpdateOptionalParams,
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
   PrivateEndpointConnectionDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PrivateEndpointConnectionOperations operations. */
 export class PrivateEndpointConnectionOperationsImpl

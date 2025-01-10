@@ -5,7 +5,7 @@
  * This sample demonstrates how the updateRegistration() method can be used to update a device registration using
  * Notification Hubs. This sample shows using the getRegistrationById() method to retrieve an existing registration.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *

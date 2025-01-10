@@ -59,9 +59,9 @@
       "disableDocsMs": true,
       "productName": "Health Deidentification Service",
       "productSlugs": [],
-      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "apiRefLink": "https://learn.microsoft.com/javascript/api/",
       "requiredResources": {
-        "De-identification Service": "https://docs.microsoft.com/javascript/api/"
+        "De-identification Service": "https://learn.microsoft.com/javascript/api/"
       }
     }
   },
