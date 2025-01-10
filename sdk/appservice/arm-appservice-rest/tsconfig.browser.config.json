@@ -7,9 +7,7 @@
     "./test/**/*.spec.ts",
     "./test/**/*.mts"
   ],
-  "exclude": [
-    "./test/**/node/**/*.ts"
-  ],
+  "exclude": ["./test/**/node/**/*.ts"],
   "compilerOptions": {
     "outDir": "./dist-test/browser",
     "rootDir": ".",
