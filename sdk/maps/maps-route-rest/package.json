@@ -37,7 +37,6 @@
     "requiredResources": {
       "Azure Maps Resource": "https://learn.microsoft.com/azure/azure-maps/how-to-create-template"
     },
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/maps-route",
     "disableDocsMs": true
   },
   "//metadata": {

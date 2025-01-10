@@ -96,8 +96,7 @@
     "productSlugs": [
       "azure"
     ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview"
+    "disableDocsMs": true
   },
   "type": "module",
   "tshy": {

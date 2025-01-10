@@ -100,8 +100,7 @@
     "productSlugs": [
       "azure"
     ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview"
+    "disableDocsMs": true
   },
   "type": "module",
   "tshy": {
