@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createRecorder } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("My test", () => {
