@@ -27,7 +27,7 @@ function compare(key: string) {
   };
 }
 
-describe("CrossPartition", function (this: Suite) {
+describe("Cross-Partition", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate-Query", function () {
