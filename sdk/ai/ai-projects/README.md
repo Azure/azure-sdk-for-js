@@ -9,7 +9,7 @@ Use the AI Projects client library (in preview) to:
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 
-| [Samples][samples]
+| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
@@ -95,7 +95,7 @@ const client = AIProjectsClient.fromConnectionString(
 
 Your Azure AI Foundry project has a "Management center". When you enter it, you will see a tab named "Connected resources" under your project. The `.connections` operations on the client allow you to enumerate the connections and get connection properties. Connection properties include the resource URL and authentication credentials, among other things.
 
-Below are code examples of the connection operations. Full samples can be found under the "connections" folder in the [package samples][samples].
+Below are code examples of the connection operations. Full samples can be found under the "connections" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples).
 
 #### Get properties of all connections
 
@@ -137,7 +137,7 @@ console.log(connection);
 
 ### Agents (Preview)
 
-Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples][samples] for additional Agent samples.
+Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) for additional Agent samples.
 
 Agents are actively being developed. A sign-up form for private preview is coming soon.
 
@@ -722,7 +722,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [Samples](samples) folder, containing fully runnable code.
+Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
 
 ## Contributing
 
@@ -743,7 +743,6 @@ additional questions or comments.
 
 <!-- LINKS -->
 
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
