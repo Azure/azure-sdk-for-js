@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient
 } from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.

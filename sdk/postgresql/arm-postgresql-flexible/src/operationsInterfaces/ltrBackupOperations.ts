@@ -12,7 +12,7 @@ import {
   LtrBackupOperationsListByServerOptionalParams,
   LtrBackupOperationsGetOptionalParams,
   LtrBackupOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LtrBackupOperations. */

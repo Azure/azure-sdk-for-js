@@ -111,6 +111,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [wcfrelayslistbynamespacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relay/arm-relay/samples/v3/javascript/wcfRelaysListByNamespaceSample.js
 [wcfrelayslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relay/arm-relay/samples/v3/javascript/wcfRelaysListKeysSample.js
 [wcfrelaysregeneratekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relay/arm-relay/samples/v3/javascript/wcfRelaysRegenerateKeysSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relay/arm-relay/README.md

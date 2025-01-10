@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managesharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/manageSharesSample.ts
 [receiveroperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/receiverOperationsSample.ts
 [senderoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/senderOperationsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

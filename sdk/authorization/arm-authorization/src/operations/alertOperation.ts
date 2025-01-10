@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AlertOperation } from "../operationsInterfaces";
+import { AlertOperation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClient } from "../authorizationManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
 import {
   AlertOperationGetOptionalParams,
   AlertOperationGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AlertOperation operations. */
 export class AlertOperationImpl implements AlertOperation {

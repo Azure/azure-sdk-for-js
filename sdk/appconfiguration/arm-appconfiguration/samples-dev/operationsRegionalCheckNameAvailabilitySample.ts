@@ -13,9 +13,7 @@ import {
   AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks whether the configuration store name is available for use.

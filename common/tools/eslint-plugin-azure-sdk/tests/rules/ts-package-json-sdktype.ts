@@ -87,7 +87,7 @@ const examplePackageGood = `{
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "dependencies": {
@@ -240,7 +240,7 @@ const examplePackageBad = `{
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "dependencies": {

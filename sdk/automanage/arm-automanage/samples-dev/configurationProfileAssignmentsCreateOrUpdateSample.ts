@@ -13,9 +13,7 @@ import {
   AutomanageClient
 } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an association between a VM and Automanage configuration profile

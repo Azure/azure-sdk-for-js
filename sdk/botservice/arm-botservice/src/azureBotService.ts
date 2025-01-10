@@ -26,7 +26,7 @@ import {
   OperationResultsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Bots,
   Channels,
@@ -39,8 +39,8 @@ import {
   OperationResults,
   PrivateEndpointConnections,
   PrivateLinkResources
-} from "./operationsInterfaces";
-import { AzureBotServiceOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureBotServiceOptionalParams } from "./models/index.js";
 
 export class AzureBotService extends coreClient.ServiceClient {
   $host: string;

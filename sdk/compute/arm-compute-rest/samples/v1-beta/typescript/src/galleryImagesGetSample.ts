@@ -3,13 +3,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryImagesGetParameters
-} from "@azure-rest/arm-compute";
+import createComputeManagementClient, { GalleryImagesGetParameters } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image definition.
@@ -25,7 +21,7 @@ async function getAGalleryImage() {
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const options: GalleryImagesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -33,7 +29,7 @@ async function getAGalleryImage() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

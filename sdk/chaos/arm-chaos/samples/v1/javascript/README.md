@@ -91,6 +91,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [targetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/javascript/targetsDeleteSample.js
 [targetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/javascript/targetsGetSample.js
 [targetslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/javascript/targetsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/chaos/arm-chaos/README.md
