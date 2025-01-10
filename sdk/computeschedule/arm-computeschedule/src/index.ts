@@ -62,8 +62,5 @@ export {
   ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
 } from "./api/index.js";
-export {
-  OperationsOperations,
-  ScheduledActionsOperations,
-} from "./classic/index.js";
+export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
