@@ -209,9 +209,52 @@ export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputP
 }
 
 // @public
+export interface AzureFunctionBinding {
+    storageQueue: AzureFunctionStorageQueue;
+    type: "storage_queue";
+}
+
+// @public
+export interface AzureFunctionBindingOutput {
+    storageQueue: AzureFunctionStorageQueueOutput;
+    type: "storage_queue";
+}
+
+// @public
+export interface AzureFunctionDefinition {
+    function: FunctionDefinition;
+    inputBinding: AzureFunctionBinding;
+    outputBinding: AzureFunctionBinding;
+}
+
+// @public
+export interface AzureFunctionDefinitionOutput {
+    function: FunctionDefinitionOutput;
+    inputBinding: AzureFunctionBindingOutput;
+    outputBinding: AzureFunctionBindingOutput;
+}
+
+// @public
+export interface AzureFunctionStorageQueue {
+    queueName: string;
+    queueServiceEndpoint: string;
+}
+
+// @public
+export interface AzureFunctionStorageQueueOutput {
+    queueName: string;
+    queueServiceEndpoint: string;
+}
+
+// @public
 export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
-    // Warning: (ae-forgotten-export) The symbol "AzureFunctionDefinition" needs to be exported by the entry point index.d.ts
     azureFunction: AzureFunctionDefinition;
+    type: "azure_function";
+}
+
+// @public
+export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
+    azureFunction: AzureFunctionDefinitionOutput;
     type: "azure_function";
 }
 
@@ -457,6 +500,12 @@ export interface FileSearchRankingOptions {
 export interface FileSearchRankingOptionsOutput {
     ranker: string;
     scoreThreshold: number;
+}
+
+// @public
+export interface FileSearchToolCallContentOutput {
+    text: string;
+    type: "text";
 }
 
 // @public
@@ -999,9 +1048,108 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 }
 
 // @public
+export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetailsParent {
+    type: "anonymous";
+}
+
+// @public
+export interface OpenApiAnonymousAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    type: "anonymous";
+}
+
+// @public
+export type OpenApiAuthDetails = OpenApiAuthDetailsParent | OpenApiAnonymousAuthDetails | OpenApiConnectionAuthDetails | OpenApiManagedAuthDetails;
+
+// @public
+export type OpenApiAuthDetailsOutput = OpenApiAuthDetailsOutputParent | OpenApiAnonymousAuthDetailsOutput | OpenApiConnectionAuthDetailsOutput | OpenApiManagedAuthDetailsOutput;
+
+// @public
+export interface OpenApiAuthDetailsOutputParent {
+    // (undocumented)
+    type: OpenApiAuthTypeOutput;
+}
+
+// @public
+export interface OpenApiAuthDetailsParent {
+    // (undocumented)
+    type: OpenApiAuthType;
+}
+
+// @public
+export type OpenApiAuthType = string;
+
+// @public
+export type OpenApiAuthTypeOutput = string;
+
+// @public
+export interface OpenApiConnectionAuthDetails extends OpenApiAuthDetailsParent {
+    securityScheme: OpenApiConnectionSecurityScheme;
+    type: "connection";
+}
+
+// @public
+export interface OpenApiConnectionAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    securityScheme: OpenApiConnectionSecuritySchemeOutput;
+    type: "connection";
+}
+
+// @public
+export interface OpenApiConnectionSecurityScheme {
+    connectionId: string;
+}
+
+// @public
+export interface OpenApiConnectionSecuritySchemeOutput {
+    connectionId: string;
+}
+
+// @public
+export interface OpenApiFunctionDefinition {
+    auth: OpenApiAuthDetails;
+    description?: string;
+    name: string;
+    spec: unknown;
+}
+
+// @public
+export interface OpenApiFunctionDefinitionOutput {
+    auth: OpenApiAuthDetailsOutput;
+    description?: string;
+    name: string;
+    spec: any;
+}
+
+// @public
+export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
+    securityScheme: OpenApiManagedSecurityScheme;
+    type: "managed_identity";
+}
+
+// @public
+export interface OpenApiManagedAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    securityScheme: OpenApiManagedSecuritySchemeOutput;
+    type: "managed_identity";
+}
+
+// @public
+export interface OpenApiManagedSecurityScheme {
+    audience: string;
+}
+
+// @public
+export interface OpenApiManagedSecuritySchemeOutput {
+    audience: string;
+}
+
+// @public
 export interface OpenApiToolDefinition extends ToolDefinitionParent {
-    // Warning: (ae-forgotten-export) The symbol "OpenApiFunctionDefinition" needs to be exported by the entry point index.d.ts
     openapi: OpenApiFunctionDefinition;
+    type: "openapi";
+}
+
+// @public
+export interface OpenApiToolDefinitionOutput extends ToolDefinitionOutputParent {
+    openapi: OpenApiFunctionDefinitionOutput;
     type: "openapi";
 }
 
@@ -1056,15 +1204,27 @@ export interface RequiredToolCallOutputParent {
 export type ResponseFormat = string;
 
 // @public
+export interface ResponseFormatJsonSchema {
+    description?: string;
+    name: string;
+    schema: unknown;
+}
+
+// @public
+export interface ResponseFormatJsonSchemaOutput {
+    description?: string;
+    name: string;
+    schema: any;
+}
+
+// @public
 export interface ResponseFormatJsonSchemaType {
-    // Warning: (ae-forgotten-export) The symbol "ResponseFormatJsonSchema" needs to be exported by the entry point index.d.ts
     jsonSchema: ResponseFormatJsonSchema;
     type: "json_schema";
 }
 
 // @public
 export interface ResponseFormatJsonSchemaTypeOutput {
-    // Warning: (ae-forgotten-export) The symbol "ResponseFormatJsonSchemaOutput" needs to be exported by the entry point index.d.ts
     jsonSchema: ResponseFormatJsonSchemaOutput;
     type: "json_schema";
 }
@@ -1272,9 +1432,16 @@ export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputPa
 }
 
 // @public
+export interface RunStepFileSearchToolCallResultOutput {
+    content?: Array<FileSearchToolCallContentOutput>;
+    fileId: string;
+    fileName: string;
+    score: number;
+}
+
+// @public
 export interface RunStepFileSearchToolCallResultsOutput {
     rankingOptions?: FileSearchRankingOptionsOutput;
-    // Warning: (ae-forgotten-export) The symbol "RunStepFileSearchToolCallResultOutput" needs to be exported by the entry point index.d.ts
     results: Array<RunStepFileSearchToolCallResultOutput>;
 }
 
@@ -1513,9 +1680,6 @@ export interface ToolConnectionOutput {
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | AzureFunctionToolDefinition;
 
-// Warning: (ae-forgotten-export) The symbol "OpenApiToolDefinitionOutput" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "AzureFunctionToolDefinitionOutput" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
 
