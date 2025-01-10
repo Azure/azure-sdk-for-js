@@ -176,7 +176,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
       return this.generateAggregateResponse(aggregateHeaders);
-       
     }
   }
 
