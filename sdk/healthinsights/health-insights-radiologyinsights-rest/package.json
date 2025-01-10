@@ -99,7 +99,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api"
   },
   "type": "module",
   "tshy": {

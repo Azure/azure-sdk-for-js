@@ -131,7 +131,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [ispcustomerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/typescript/src/ispCustomersListBySubscriptionSample.ts
 [ispcustomersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/typescript/src/ispCustomersUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/connectedcache/arm-connectedcache/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
