@@ -151,7 +151,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vaultspurgedeletedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/typescript/src/vaultsPurgeDeletedSample.ts
 [vaultsupdateaccesspolicysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/typescript/src/vaultsUpdateAccessPolicySample.ts
 [vaultsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/typescript/src/vaultsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/arm-keyvault/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

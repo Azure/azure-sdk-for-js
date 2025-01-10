@@ -101,7 +101,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/appservice"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/appservice"
   },
   "type": "module",
   "tshy": {

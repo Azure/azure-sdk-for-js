@@ -16,7 +16,7 @@
  * For more information about setting up the container for training with
  * labels, see the following service documentation:
  *
- * https://docs.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-without-labels
+ * https://learn.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-without-labels
  *
  * @summary train a custom model with unlabeled inputs (form documents only)
  */

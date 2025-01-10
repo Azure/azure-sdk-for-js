@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [trafficcontrollerinterfacelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1/javascript/trafficControllerInterfaceListByResourceGroupSample.js
 [trafficcontrollerinterfacelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1/javascript/trafficControllerInterfaceListBySubscriptionSample.js
 [trafficcontrollerinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1/javascript/trafficControllerInterfaceUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking/README.md

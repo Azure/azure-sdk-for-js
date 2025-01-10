@@ -18,20 +18,20 @@ import {
   OperationsImpl,
   LedgerImpl,
   ManagedCCFOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Ledger,
   ManagedCCFOperations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ConfidentialLedgerClientOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityOperationResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ConfidentialLedgerClient extends coreClient.ServiceClient {
   $host: string;
