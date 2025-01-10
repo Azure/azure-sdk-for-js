@@ -8,7 +8,7 @@ import type {
   Container,
   ContainerDefinition,
   OperationInput,
-  PatchOperation
+  PatchOperation,
 } from "../../../src";
 import {
   CosmosClient,
@@ -541,20 +541,17 @@ describe("Client Side Encryption", function (this: Suite) {
 
     const queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
-      " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
+        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
+    // null parameters should also work with other add methods
     queryBuilder.addStringParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addArrayParameter(
-      "@sensitive_ArrayFormat",
-      testDoc.sensitive_ArrayFormat,
-      "/sensitive_ArrayFormat",
-    );
+    queryBuilder.addNullParameter("@sensitive_ArrayFormat", "/sensitive_ArrayFormat");
     queryBuilder.addIntegerParameter(
       "@sensitive_IntFormat",
       testDoc.sensitive_IntFormat,
@@ -598,10 +595,15 @@ describe("Client Side Encryption", function (this: Suite) {
     await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
 
     // query on non encrypted property
-    const querySpec = {
-      query: `SELECT * FROM c WHERE c.nonsensitive = '${expectedDoc.nonsensitive}'`,
-    };
-    await validateQueryResults(encryptionContainer, querySpec, expectedDocList);
+    queryBuilder = new EncryptionQueryBuilder(
+      `SELECT * FROM c WHERE c.nonsensitive = @nonsensitive`,
+    );
+    queryBuilder.addUnencryptedParameter(
+      "@nonsensitive",
+      expectedDoc.nonsensitive,
+      "/nonsensitive",
+    );
+    await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
 
     // response should be null without using addIntegerParameter method
     queryBuilder = new EncryptionQueryBuilder(
