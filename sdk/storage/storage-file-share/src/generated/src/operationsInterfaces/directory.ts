@@ -31,12 +31,9 @@ import {
 export interface Directory {
   /**
    * Creates a new directory under the specified share or parent directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   create(
-    fileAttributes: string,
     options?: DirectoryCreateOptionalParams
   ): Promise<DirectoryCreateResponse>;
   /**
@@ -58,12 +55,9 @@ export interface Directory {
   ): Promise<DirectoryDeleteResponse>;
   /**
    * Sets properties on the directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   setProperties(
-    fileAttributes: string,
     options?: DirectorySetPropertiesOptionalParams
   ): Promise<DirectorySetPropertiesResponse>;
   /**
