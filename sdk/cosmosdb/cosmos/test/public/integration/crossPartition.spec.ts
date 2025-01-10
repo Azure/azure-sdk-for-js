@@ -234,13 +234,16 @@ describe("Cross-Partition", function (this: Suite) {
       expectedIteratorCalls?: number;
     }): Promise<void> {
       options.populateQueryMetrics = true;
+      console.log("executeQueryAndValidateResults: ");
       const queryIterator = container.items.query(query, options);
+      console.log("queryIterator: ", queryIterator);
       const fetchAllResponse = await validateFetchAll(
         queryIterator,
         options,
         expectedOrderIds,
         expectedCount,
       );
+      console.log("fetchAllResponse: ", fetchAllResponse);
       if (expectedRus) {
         const percentDifference =
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
