@@ -97,8 +97,7 @@ export async function makeSampleGenerationInfo(
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
 
-  const baseName = projectInfo.name.split("/").slice(-1)[0];
-
+  const [scope, baseName] = projectInfo.name.split("/");
   log.debug("Determined project baseName:", baseName);
 
   // A helper to handle configuration errors.
@@ -139,6 +138,7 @@ export async function makeSampleGenerationInfo(
 
   return {
     ...sampleConfiguration,
+    scope,
     baseName,
     packageKeywords:
       projectInfo.packageJson.keywords ??

@@ -14,9 +14,9 @@ import ContainerServiceManagementClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
+ * This sample demonstrates how to See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  *
- * @summary See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
+ * @summary See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersStart.json
  */
 async function startManagedCluster() {

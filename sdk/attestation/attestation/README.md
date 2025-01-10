@@ -17,7 +17,7 @@ Key links:
 - [Source code][source_code]
 - [Package (NPM)][attestation_npm]
 - [API reference documentation][api_reference]
-- [Product documentation](https://docs.microsoft.com/azure/attestation/)
+- [Product documentation](https://learn.microsoft.com/azure/attestation/)
 
 ## Getting started
 
@@ -43,7 +43,7 @@ npm install @azure/attestation
 
 ### Authenticate the client
 
-In order to interact with the Microsoft Azure Attestation service, you'll need to create an instance of the [Attestation Client][attestation_client] or [Attestation Administration Client][attestation_admin_client] class. You need a **attestation instance url**, which will either be the  "Attest URI"
+In order to interact with the Microsoft Azure Attestation service, you'll need to create an instance of the [Attestation Client][attestation_client] or [Attestation Administration Client][attestation_admin_client] class. You need a **attestation instance url**, which will either be the "Attest URI"
 shown in the portal, or will be one of the shared attestation providers.
 You will also need client credentials to use the Attestation Administration Client or call the `attestTpm` API. Client credentials require **(client id, client secret, tenant id)** to instantiate a client object.
 
@@ -135,7 +135,7 @@ The [`AttestationResponse`][attestation_response] object contains two main attri
 
 Each attestation service instance has a policy applied to it which defines additional criteria which the customer has defined.
 
-For more information on attestation policies, see [Attestation Policy](https://docs.microsoft.com/azure/attestation/author-sign-policy)
+For more information on attestation policies, see [Attestation Policy](https://learn.microsoft.com/azure/attestation/author-sign-policy)
 
 ### Policy Management certificate management
 
@@ -163,7 +163,7 @@ RuntimeData refers to data which is presented to the Intel SGX Quote generation 
 
 InitTime data refers to data which is used to configure the SGX enclave being attested.
 
-> Note that InitTime data is not supported on Azure [DCsv2-Series](https://docs.microsoft.com/azure/virtual-machines/dcv2-series) virtual machines.
+> Note that InitTime data is not supported on Azure [DCsv2-Series](https://learn.microsoft.com/azure/virtual-machines/dcv2-series) virtual machines.
 
 ### Additional concepts
 
@@ -182,7 +182,7 @@ azure credentials (`DefaultAzureCredential`).
 
 ```ts
 const credentials = new DefaultAzureCredential();
-const client = new AttestationClient(endpoint, {credentials: credentials});
+const client = new AttestationClient(endpoint, { credentials: credentials });
 
 // Retrieve the set of attestation policy signers from the attestation client.
 const attestationSigners = await client.getAttestationSigners();
@@ -200,14 +200,13 @@ const attestationSigners = await client.getAttestationSigners();
 
 Creates an instance of the Attestation Administration Client at uri `endpoint`.
 
-Note that the administration client *requires* Azure credentials.
+Note that the administration client _requires_ Azure credentials.
 
 ```ts
-  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
+const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
-  // Retrieve the SGX policy from the specified attestation instance.
-  const policyResponse = await client.getPolicy(KnownAttestationType.SgxEnclave);
-
+// Retrieve the SGX policy from the specified attestation instance.
+const policyResponse = await client.getPolicy(KnownAttestationType.SgxEnclave);
 ```
 
 ### Get attestation policy
@@ -273,10 +272,7 @@ If a client wishes to ensure that the attestation policy document was not modifi
 To verify the hash, clients can create an attestation policy token (a helper class which represents the token used to set the attestation policy) and verify the hash generated from that token:
 
 ```js
-const expectedPolicy = createAttestationPolicyToken(
-  `<Policy Document>`,
-  privateKey,
-  certificate);
+const expectedPolicy = createAttestationPolicyToken(`<Policy Document>`, privateKey, certificate);
 
 // Use your favorite SHA256 hash generator function to create a hash of the
 // stringized JWS.
@@ -308,7 +304,7 @@ This example assumes that you have an existing `AttestationClient` object which 
 
 ```ts
 const attestationResult = await client.attestOpenEnclave(report, {
-  runTimeData: binaryRuntimeData
+  runTimeData: binaryRuntimeData,
 });
 ```
 
@@ -318,7 +314,7 @@ the attest API call:
 
 ```ts
 const attestationResult = await client.attestOpenEnclave(report, {
-  runTimeJson: binaryRuntimeData
+  runTimeJson: binaryRuntimeData,
 });
 ```
 
@@ -326,7 +322,7 @@ Similarly, if you are using the Intel SDK to generate a "quote", you can validat
 
 ```ts
 const attestationResult = await client.attestSgxEnclave(quote, {
-  runTimeData: binaryRuntimeData
+  runTimeData: binaryRuntimeData,
 });
 ```
 
@@ -341,12 +337,11 @@ the `attestSgxEnclave` or `attestOpenEnclave` APIs
 
 ```ts
 const credentials = new DefaultAzureCredential();
-const client = new AttestationClient(endpoint, {credentials: credentials});
+const client = new AttestationClient(endpoint, { credentials: credentials });
 
 const attestationSigners = await client.getAttestationSigners();
 
 console.log(`There are ${attestationSigners.length} signers`);
-
 ```
 
 ## Troubleshooting
@@ -373,11 +368,11 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-Additional troubleshooting information for the MAA service can be found [here](https://docs.microsoft.com/azure/attestation/troubleshoot-guide)
+Additional troubleshooting information for the MAA service can be found [here](https://learn.microsoft.com/azure/attestation/troubleshoot-guide)
 
 ## Next steps
 
-For more information about the Microsoft Azure Attestation service, please see our [documentation page](https://docs.microsoft.com/azure/attestation/).
+For more information about the Microsoft Azure Attestation service, please see our [documentation page](https://learn.microsoft.com/azure/attestation/).
 
 ## Contributing
 
@@ -398,20 +393,20 @@ section of the project.
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/attestation
-[azure_identity]: https://docs.microsoft.com/javascript/api/@azure/identity
-[defaultazurecredential]: https://docs.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
+[azure_identity]: https://learn.microsoft.com/javascript/api/@azure/identity
+[defaultazurecredential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
 [attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.4/interfaces/policyresult.html
-[attestation_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient
-[attestation_admin_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
-[attestation_response]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationresponse
-[attestation_policy_result_parameters]: https://docs.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
-[attest_sgx]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient#attestSgxEnclave_Uint8Array__AttestSgxEnclaveOptions_
+[attestation_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationclient
+[attestation_admin_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
+[attestation_response]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationresponse
+[attestation_policy_result_parameters]: https://learn.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
+[attest_sgx]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationclient#attestSgxEnclave_Uint8Array__AttestSgxEnclaveOptions_
 [attestation_npm]: https://www.npmjs.com/package/@azure/attestation
-[api_reference]: https://docs.microsoft.com/javascript/api/@azure/attestation
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
+[api_reference]: https://learn.microsoft.com/javascript/api/@azure/attestation
+[style-guide-msft]: https://learn.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
 [microsoft_code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [json_web_token]: https://tools.ietf.org/html/rfc7519

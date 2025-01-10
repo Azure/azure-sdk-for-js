@@ -71,7 +71,7 @@
       "azure-service-bus"
     ],
     "requiredResources": {
-      "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
+      "Azure Service Bus": "https://learn.microsoft.com/azure/service-bus-messaging"
     },
     "skip": [
       "receiveMessagesLoop.js",

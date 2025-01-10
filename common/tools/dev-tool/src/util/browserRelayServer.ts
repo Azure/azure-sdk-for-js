@@ -124,8 +124,8 @@ async function isRelayAlive(options: TestCredentialServerOptions = {}): Promise<
     const res = await fetch(
       `http://${options.listenHost ?? "localhost"}:${options.port ?? 4895}/health`,
     );
-
     if (res.ok) {
+      await res.text();
       printer("Browser relay is already alive");
       return true;
     } else {
