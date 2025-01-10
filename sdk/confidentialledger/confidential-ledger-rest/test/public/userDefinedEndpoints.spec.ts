@@ -25,6 +25,5 @@ describe("Get userdefned endpoint", () => {
     // If using a test app, it needs to be the oid.
     const response = await client.path("/app/userDefinedEndpoints").get();
     assert.equal(response.status, "200");
-
   });
 });

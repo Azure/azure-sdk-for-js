@@ -160,7 +160,7 @@ export interface Routes {
   (path: "/app/users"): ListUsers;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
   (path: "/app/users/{userId}", userId: string): DeleteUser;
-    /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: delete, get, patch */
+  /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: delete, get, patch */
   (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
 }
 
