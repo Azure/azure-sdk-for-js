@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { VectorDbClient } from "./vectorDbClient.js";
-import {
-  _organizationsCreateOrUpdateDeserialize,
-  _organizationsDeleteDeserialize,
-} from "./api/organizations/index.js";
+import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/organizations/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -79,15 +76,15 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}":
-    {
-      deserializer: _organizationsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}":
     {
-      deserializer: _organizationsDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}":
+    {
+      deserializer: _createOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 

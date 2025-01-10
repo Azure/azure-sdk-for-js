@@ -2,25 +2,16 @@
 // Licensed under the MIT License.
 
 export {
-  OperationsListOptionalParams,
-  OrganizationsGetOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./options.js";
 export {
   createVectorDb,
   VectorDbContext,
   VectorDbClientOptionalParams,
 } from "./vectorDbContext.js";
-export { operationsList } from "./operations/index.js";
-export {
-  organizationsGet,
-  organizationsCreateOrUpdate,
-  organizationsUpdate,
-  organizationsDelete,
-  organizationsListByResourceGroup,
-  organizationsListBySubscription,
-} from "./organizations/index.js";

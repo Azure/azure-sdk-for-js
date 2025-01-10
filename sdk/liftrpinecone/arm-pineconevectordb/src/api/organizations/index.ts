@@ -19,11 +19,11 @@ import {
   _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
 } from "../../models/models.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -32,262 +32,8 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _organizationsGetSend(
+export function _listBySubscriptionSend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  options: OrganizationsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _organizationsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OrganizationResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return organizationResourceDeserializer(result.body);
-}
-
-/** Get a OrganizationResource */
-export async function organizationsGet(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  options: OrganizationsGetOptionalParams = { requestOptions: {} },
-): Promise<OrganizationResource> {
-  const result = await _organizationsGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    organizationname,
-    options,
-  );
-  return _organizationsGetDeserialize(result);
-}
-
-export function _organizationsCreateOrUpdateSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  resource: OrganizationResource,
-  options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: organizationResourceSerializer(resource),
-    });
-}
-
-export async function _organizationsCreateOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OrganizationResource> {
-  const expectedStatuses = ["200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return organizationResourceDeserializer(result.body);
-}
-
-/** Create a OrganizationResource */
-export function organizationsCreateOrUpdate(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  resource: OrganizationResource,
-  options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
-  return getLongRunningPoller(context, _organizationsCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _organizationsCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationname,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
-}
-
-export function _organizationsUpdateSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  properties: OrganizationResourceUpdate,
-  options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      body: organizationResourceUpdateSerializer(properties),
-    });
-}
-
-export async function _organizationsUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OrganizationResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return organizationResourceDeserializer(result.body);
-}
-
-/** Update a OrganizationResource */
-export async function organizationsUpdate(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  properties: OrganizationResourceUpdate,
-  options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
-): Promise<OrganizationResource> {
-  const result = await _organizationsUpdateSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    organizationname,
-    properties,
-    options,
-  );
-  return _organizationsUpdateDeserialize(result);
-}
-
-export function _organizationsDeleteSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _organizationsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete a OrganizationResource */
-export function organizationsDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  organizationname: string,
-  options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _organizationsDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _organizationsDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationname,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _organizationsListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: OrganizationsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _organizationsListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_OrganizationResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _organizationResourceListResultDeserializer(result.body);
-}
-
-/** List OrganizationResource resources by resource group */
-export function organizationsListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: OrganizationsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<OrganizationResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _organizationsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _organizationsListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
-}
-
-export function _organizationsListBySubscriptionSend(
-  context: Client,
-  subscriptionId: string,
   options: OrganizationsListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
@@ -295,12 +41,19 @@ export function _organizationsListBySubscriptionSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Pinecone.VectorDb/organizations",
-      subscriptionId,
+      context.subscriptionId,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _organizationsListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OrganizationResourceListResult> {
   const expectedStatuses = ["200"];
@@ -312,18 +65,274 @@ export async function _organizationsListBySubscriptionDeserialize(
 }
 
 /** List OrganizationResource resources by subscription ID */
-export function organizationsListBySubscription(
+export function listBySubscription(
   context: Client,
-  subscriptionId: string,
   options: OrganizationsListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<OrganizationResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _organizationsListBySubscriptionSend(context, subscriptionId, options),
-    _organizationsListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _listByResourceGroupSend(
+  context: Client,
+  resourceGroupName: string,
+  options: OrganizationsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations",
+      context.subscriptionId,
+      resourceGroupName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _listByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_OrganizationResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _organizationResourceListResultDeserializer(result.body);
+}
+
+/** List OrganizationResource resources by resource group */
+export function listByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  options: OrganizationsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<OrganizationResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByResourceGroupSend(context, resourceGroupName, options),
+    _listByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _$deleteSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
+      context.subscriptionId,
+      resourceGroupName,
+      organizationname,
+    )
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Delete a OrganizationResource */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, organizationname, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  properties: OrganizationResourceUpdate,
+  options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
+      context.subscriptionId,
+      resourceGroupName,
+      organizationname,
+    )
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+      body: organizationResourceUpdateSerializer(properties),
+    });
+}
+
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OrganizationResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return organizationResourceDeserializer(result.body);
+}
+
+/** Update a OrganizationResource */
+export async function update(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  properties: OrganizationResourceUpdate,
+  options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
+): Promise<OrganizationResource> {
+  const result = await _updateSend(
+    context,
+    resourceGroupName,
+    organizationname,
+    properties,
+    options,
+  );
+  return _updateDeserialize(result);
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  resource: OrganizationResource,
+  options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
+      context.subscriptionId,
+      resourceGroupName,
+      organizationname,
+    )
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+      body: organizationResourceSerializer(resource),
+    });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OrganizationResource> {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return organizationResourceDeserializer(result.body);
+}
+
+/** Create a OrganizationResource */
+export function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  resource: OrganizationResource,
+  options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(context, resourceGroupName, organizationname, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  options: OrganizationsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
+      context.subscriptionId,
+      resourceGroupName,
+      organizationname,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OrganizationResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return organizationResourceDeserializer(result.body);
+}
+
+/** Get a OrganizationResource */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  organizationname: string,
+  options: OrganizationsGetOptionalParams = { requestOptions: {} },
+): Promise<OrganizationResource> {
+  const result = await _getSend(context, resourceGroupName, organizationname, options);
+  return _getDeserialize(result);
 }

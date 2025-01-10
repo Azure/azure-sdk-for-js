@@ -18,16 +18,21 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _operationsListSend(
+export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Pinecone.VectorDb/operations")
-    .get({ ...operationOptionsToRequestParameters(options) });
+  return context.path("/providers/Pinecone.VectorDb/operations").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
-export async function _operationsListDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
@@ -39,14 +44,14 @@ export async function _operationsListDeserialize(
 }
 
 /** List the operations for the provider */
-export function operationsList(
+export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _operationsListSend(context, options),
-    _operationsListDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

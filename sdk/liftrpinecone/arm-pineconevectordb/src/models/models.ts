@@ -358,7 +358,7 @@ export enum KnownManagedServiceIdentityType {
   /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
   /** System and user assigned managed identity. */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -612,11 +612,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -648,5 +648,5 @@ export type ActionType = string;
 /** The available API versions. */
 export enum KnownVersions {
   /** 2024-10-22-preview version */
-  v2024_10_22_preview = "2024-10-22-preview",
+  V2024_10_22_Preview = "2024-10-22-preview",
 }

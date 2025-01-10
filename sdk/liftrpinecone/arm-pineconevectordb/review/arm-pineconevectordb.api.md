@@ -39,9 +39,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -55,9 +55,9 @@ export enum KnownMarketplaceSubscriptionStatus {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -82,7 +82,7 @@ export enum KnownSingleSignOnType {
 
 // @public
 export enum KnownVersions {
-    v2024_10_22_preview = "2024-10-22-preview"
+    V2024_10_22_Preview = "2024-10-22-preview"
 }
 
 // @public

@@ -44,13 +44,13 @@ export {
   KnownVersions,
 } from "./models/index.js";
 export {
-  OperationsListOptionalParams,
-  OrganizationsGetOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+  OperationsListOptionalParams,
   VectorDbClientOptionalParams,
 } from "./api/index.js";
 export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
