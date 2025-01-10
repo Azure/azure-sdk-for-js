@@ -59,27 +59,13 @@ describe("snippets", function () {
   });
 
   it("createAgent", async function () {
-    // Begin snippet
     const agent = await client.agents.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful assistant",
     });
-    // End snippet
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("toolSet", async function () {
-    const filePath1 = path.resolve("./data/nifty500QuarterlyResults.csv");
-    const fileStream1 = fs.createReadStream(filePath1);
-    const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants");
-
-    const filePath2 = path.resolve("./data/sampleFileForUpload.txt");
-    const fileStream2 = fs.createReadStream(filePath2);
-    const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants");
-  
-    const vectorStore = await client.agents.createVectorStore({ fileIds: [fileSearchFile.id]});
-
-    // Begin snippet
     const toolSet = new ToolSet();
     toolSet.addFileSearchTool([vectorStore.id]);
     toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
@@ -91,17 +77,9 @@ describe("snippets", function () {
       toolResources: toolSet.toolResources,
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteVectorStore(vectorStore.id);
-    await client.agents.deleteFile(codeInterpreterFile.id);
-    await client.agents.deleteFile(fileSearchFile.id); 
   });
 
   it("fileSearch", async function () {
-    const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
-    // Begin snippet
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.agents.uploadFile(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.txt",
@@ -123,16 +101,9 @@ describe("snippets", function () {
       toolResources: fileSearchTool.resources,
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteVectorStore(vectorStore.id);
-    await client.agents.deleteFile(file.id);
   });
 
   it("codeInterpreter", async function () {
-    const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-    // Begin snippet
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
       fileName: "localFile",
@@ -149,14 +120,9 @@ describe("snippets", function () {
       toolResources: codeInterpreterTool.resources,
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteFile(localFile.id);
   });
 
   it("bingGrounding", async function () {
-    // Begin snippet
     const bingConnection = await client.connections.getConnection(
       process.env.BING_CONNECTION_NAME ?? "<connection-name>",
     );
@@ -172,13 +138,9 @@ describe("snippets", function () {
       tools: [bingTool.definition],
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
   })
 
   it("AISearch", async function () {
-    // Begin snippet
     const connectionName = process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
     const connection = await client.connections.getConnection(connectionName);
   
@@ -191,13 +153,9 @@ describe("snippets", function () {
       toolResources: azureAISearchTool.resources,
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("functionTools", async function () {
-    // Begin snippet
     class FunctionToolExecutor {
       private functionTools: { func: Function, definition: FunctionToolDefinition }[];
 
@@ -275,22 +233,13 @@ describe("snippets", function () {
         tools: functionTools
       });
     console.log(`Created agent, agent ID: ${agent.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("createThread", async function () {
-    // Begin snippet
     const thread = await client.agents.createThread();
-    // End snippet
-  
-    await client.agents.deleteThread(thread.id);
   }); 
 
   it("threadWithTool", async function () {
-    const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-    // Begin snippet
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.agents.uploadFile(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",
@@ -314,34 +263,17 @@ describe("snippets", function () {
     // Create thread with file resources.
     // If the agent has multiple threads, only this thread can search this file.
     const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteVectorStore(vectorStore.id);
-    await client.agents.deleteFile(file.id);
   }); 
 
   it("createMessage", async function () {
-    const thread = await client.agents.createThread();
-    // Begin snippet
     const message = await client.agents.createMessage(thread.id, {
       role: "user",
       content: "hello, world!",
     });
     console.log(`Created message, message ID: ${message.id}`);
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
   }); 
 
   it("messageWithFileSearch", async function () {
-    const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
-    const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants");
-    const thread = await client.agents.createThread();
-  
-    // Begin snippet
     const fileSearchTool = ToolUtility.createFileSearchTool();
     const message = await client.agents.createMessage(thread.id, {
       role: "user",
@@ -351,18 +283,9 @@ describe("snippets", function () {
         tools: [fileSearchTool.definition],
       },
     });
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteFile(file.id);
   }); 
 
   it("messageWithCodeInterpreter", async function () {
-    const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-    const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants");
-
-    // Begin snippet
     // notice that CodeInterpreter must be enabled in the agent creation,
     // otherwise the agent will not be able to see the file attachment for code interpretation
     const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
@@ -386,21 +309,9 @@ describe("snippets", function () {
       },
     });
     console.log(`Created message, message ID: ${message.id}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteFile(file.id);
   }); 
 
   it("createRun", async function () {
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-    });
-    const thread = await client.agents.createThread();
-
-    // Begin snippet
     let run = await client.agents.createRun(thread.id, agent.id);
 
     // Poll the run as long as run status is queued or in progress
@@ -413,51 +324,17 @@ describe("snippets", function () {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       run = await client.agents.getRun(thread.id, run.id);
     }
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("createThreadAndRun", async function () {
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-    });
-    const thread = await client.agents.createThread();
-
-    // Begin snippet
     const run = await client.agents.createThreadAndRun(thread.id, agent.id);
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("createRunStream", async function () {
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-    });
-    const thread = await client.agents.createThread();
-
-    // Begin snippet
     const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("eventHandling", async function () {
-    const agent = await client.agents.createAgent("gpt-4-1106-preview", {
-      name: "my-assistant",
-      instructions: "You are helpful agent",
-    });
-    const thread = await client.agents.createThread();
-    await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
-   
-    // Begin snippet
     const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
@@ -488,16 +365,9 @@ describe("snippets", function () {
           break;
       }
     }
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
   });
 
   it("listMessages", async function () {
-    const thread = await client.agents.createThread();
-    await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
-
-    // Begin snippet
     const messages = await client.agents.listMessages(thread.id);
 
     // The messages are following in the reverse order,
@@ -509,47 +379,9 @@ describe("snippets", function () {
         console.log(`${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`);
       }
     }
-    // End snippet
-
-    await client.agents.deleteThread(thread.id);
   });
 
   it("retrieveFile", async function () {
-    const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-    const localFileStream = fs.createReadStream(filePath);
-    const localFile = await client.agents.uploadFile(localFileStream, "assistants");
-
-    const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
-
-    const agent = await client.agents.createAgent("gpt-4o-mini", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [codeInterpreterTool.definition],
-      toolResources: codeInterpreterTool.resources,
-    });
-
-    const thread = await client.agents.createThread();
-  
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content:
-        "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
-    });
-
-    let run = await client.agents.createRun(thread.id, agent.id);
-    while (run.status === "queued" || run.status === "in_progress") {
-      await delay(1000);
-      run = await client.agents.getRun(thread.id, run.id);
-    }
-    if (run.status === "failed") {
-      // Check if you got "Rate limit is exceeded.", then you want to get more quota
-      console.log(`Run failed: ${run.lastError}`);
-    }
-    console.log(`Run finished with status: ${run.status}`);
-  
-    await client.agents.deleteFile(localFile.id);
-  
-    // Begin snippet
     const messages = await client.agents.listMessages(thread.id);
   
     // Get most recent message from the assistant
@@ -578,18 +410,9 @@ describe("snippets", function () {
       console.error("Failed to retrieve file content: fileContent is undefined");
     }
     console.log(`Saved image file to: ${imageFileName}`);
-    // End snippet
-
-    await client.agents.deleteAgent(agent.id);
-    await client.agents.deleteThread(thread.id);
   });
 
   it("teardown", async function () {
-    const vectorStore = await client.agents.createVectorStore();
-    const file = await client.agents.uploadFile();
-    const agent = await client.agents.createAgent("gpt-4o");
-
-    // Begin snippet
     await client.agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 
@@ -598,11 +421,9 @@ describe("snippets", function () {
 
     client.agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
-    // End snippet
   });
 
   it("tracing", async function () {
-    // Begin snippet
     const provider = new NodeTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
     provider.register();
@@ -625,7 +446,6 @@ describe("snippets", function () {
     await tracer.startActiveSpan("main", async (span) => {
         client.telemetry.updateSettings({enableContentRecording: true})
     // ...
-    // End snippet
     })
   });
 

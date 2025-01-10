@@ -146,13 +146,10 @@ Agents are actively being developed. A sign-up form for private preview is comin
 Here is an example of how to create an Agent:
 
 ```ts snippet:createAgent
-// Begin snippet
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful assistant",
 });
-// End snippet
-await client.agents.deleteAgent(agent.id);
 ```
 
 To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
@@ -162,14 +159,6 @@ You can use `ToolSet` to do this:
 ```ts snippet:toolSet
 import { ToolSet } from "@azure/ai-projects";
 
-const filePath1 = path.resolve("./data/nifty500QuarterlyResults.csv");
-const fileStream1 = fs.createReadStream(filePath1);
-const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants");
-const filePath2 = path.resolve("./data/sampleFileForUpload.txt");
-const fileStream2 = fs.createReadStream(filePath2);
-const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants");
-const vectorStore = await client.agents.createVectorStore({ fileIds: [fileSearchFile.id] });
-// Begin snippet
 const toolSet = new ToolSet();
 toolSet.addFileSearchTool([vectorStore.id]);
 toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
@@ -180,11 +169,6 @@ const agent = await client.agents.createAgent("gpt-4o", {
   toolResources: toolSet.toolResources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteVectorStore(vectorStore.id);
-await client.agents.deleteFile(codeInterpreterFile.id);
-await client.agents.deleteFile(fileSearchFile.id);
 ```
 
 #### Create Agent with File Search
@@ -194,8 +178,6 @@ To perform file search by an Agent, we first need to upload a file, create a vec
 ```ts snippet:fileSearch
 import { ToolUtility } from "@azure/ai-projects";
 
-const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
-// Begin snippet
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.agents.uploadFile(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.txt",
@@ -214,10 +196,6 @@ const agent = await client.agents.createAgent("gpt-4o", {
   toolResources: fileSearchTool.resources,
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteVectorStore(vectorStore.id);
-await client.agents.deleteFile(file.id);
 ```
 
 #### Create Agent with Code Interpreter
@@ -227,8 +205,6 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 ```ts snippet:codeInterpreter
 import { ToolUtility } from "@azure/ai-projects";
 
-const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-// Begin snippet
 const localFileStream = fs.createReadStream(filePath);
 const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
   fileName: "localFile",
@@ -243,9 +219,6 @@ const agent = await client.agents.createAgent("gpt-4o-mini", {
   toolResources: codeInterpreterTool.resources,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteFile(localFile.id);
 ```
 
 #### Create Agent with Bing Grounding
@@ -257,7 +230,6 @@ Here is an example:
 ```ts snippet:bingGrounding
 import { ToolUtility, connectionToolType } from "@azure/ai-projects";
 
-// Begin snippet
 const bingConnection = await client.connections.getConnection(
   process.env.BING_CONNECTION_NAME ?? "<connection-name>",
 );
@@ -269,8 +241,6 @@ const agent = await client.agents.createAgent("gpt-4o", {
   tools: [bingTool.definition],
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Agent with Azure AI Search
@@ -282,7 +252,6 @@ Here is an example to integrate Azure AI Search:
 ```ts snippet:AISearch
 import { ToolUtility } from "@azure/ai-projects";
 
-// Begin snippet
 const connectionName =
   process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
 const connection = await client.connections.getConnection(connectionName);
@@ -294,8 +263,6 @@ const agent = await client.agents.createAgent("gpt-4-0125-preview", {
   toolResources: azureAISearchTool.resources,
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Agent with Function Call
@@ -313,7 +280,6 @@ import {
   ToolOutput,
 } from "@azure/ai-projects";
 
-// Begin snippet
 class FunctionToolExecutor {
   private functionTools: {
     func: Function;
@@ -410,8 +376,6 @@ const agent = await client.agents.createAgent("gpt-4o", {
   tools: functionTools,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
 ```
 
 #### Create Thread
@@ -419,10 +383,7 @@ await client.agents.deleteAgent(agent.id);
 For each session or conversation, a thread is required. Here is an example:
 
 ```ts snippet:createThread
-// Begin snippet
 const thread = await client.agents.createThread();
-// End snippet
-await client.agents.deleteThread(thread.id);
 ```
 
 #### Create Thread with Tool Resource
@@ -432,8 +393,6 @@ In some scenarios, you might need to assign specific resources to individual thr
 ```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-projects";
 
-const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-// Begin snippet
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.agents.uploadFile(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.csv",
@@ -453,11 +412,6 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 // Create thread with file resources.
 // If the agent has multiple threads, only this thread can search this file.
 const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
-// End snippet
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteVectorStore(vectorStore.id);
-await client.agents.deleteFile(file.id);
 ```
 
 #### Create Message
@@ -465,15 +419,11 @@ await client.agents.deleteFile(file.id);
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
 
 ```ts snippet:createMessage
-const thread = await client.agents.createThread();
-// Begin snippet
 const message = await client.agents.createMessage(thread.id, {
   role: "user",
   content: "hello, world!",
 });
 console.log(`Created message, message ID: ${message.id}`);
-// End snippet
-await client.agents.deleteThread(thread.id);
 ```
 
 #### Create Message with File Search Attachment
@@ -483,11 +433,6 @@ To attach a file to a message for content searching, you use `ToolUtility.create
 ```ts snippet:messageWithFileSearch
 import { ToolUtility } from "@azure/ai-projects";
 
-const filePath = path.resolve(__dirname, "./data/sampleFileForUpload.txt");
-const localFileStream = fs.createReadStream(filePath);
-const file = await client.agents.uploadFile(localFileStream, "assistants");
-const thread = await client.agents.createThread();
-// Begin snippet
 const fileSearchTool = ToolUtility.createFileSearchTool();
 const message = await client.agents.createMessage(thread.id, {
   role: "user",
@@ -497,9 +442,6 @@ const message = await client.agents.createMessage(thread.id, {
     tools: [fileSearchTool.definition],
   },
 });
-// End snippet
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteFile(file.id);
 ```
 
 #### Create Message with Code Interpreter Attachment
@@ -511,10 +453,6 @@ Here is an example:
 ```ts snippet:messageWithCodeInterpreter
 import { ToolUtility } from "@azure/ai-projects";
 
-const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-const localFileStream = fs.createReadStream(filePath);
-const file = await client.agents.uploadFile(localFileStream, "assistants");
-// Begin snippet
 // notice that CodeInterpreter must be enabled in the agent creation,
 // otherwise the agent will not be able to see the file attachment for code interpretation
 const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
@@ -536,10 +474,6 @@ const message = await client.agents.createMessage(thread.id, {
   },
 });
 console.log(`Created message, message ID: ${message.id}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteFile(file.id);
 ```
 
 #### Create Run, Run_and_Process, or Stream
@@ -547,12 +481,6 @@ await client.agents.deleteFile(file.id);
 Here is an example of `createRun` and poll until the run is completed:
 
 ```ts snippet:createRun
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-});
-const thread = await client.agents.createThread();
-// Begin snippet
 let run = await client.agents.createRun(thread.id, agent.id);
 // Poll the run as long as run status is queued or in progress
 while (
@@ -564,9 +492,6 @@ while (
   await new Promise((resolve) => setTimeout(resolve, 1000));
   run = await client.agents.getRun(thread.id, run.id);
 }
-// End snippet
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteAgent(agent.id);
 ```
 
 To have the SDK poll on your behalf, use the `createThreadAndRun` method.
@@ -574,16 +499,7 @@ To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 Here is an example:
 
 ```ts snippet:createThreadAndRun
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-});
-const thread = await client.agents.createThread();
-// Begin snippet
 const run = await client.agents.createThreadAndRun(thread.id, agent.id);
-// End snippet
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteAgent(agent.id);
 ```
 
 With streaming, polling also need not be considered.
@@ -591,16 +507,7 @@ With streaming, polling also need not be considered.
 Here is an example:
 
 ```ts snippet:createRunStream
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-});
-const thread = await client.agents.createThread();
-// Begin snippet
 const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-// End snippet
-await client.agents.deleteThread(thread.id);
-await client.agents.deleteAgent(agent.id);
 ```
 
 Event handling can be done as follows:
@@ -615,13 +522,6 @@ import {
   DoneEvent,
 } from "@azure/ai-projects";
 
-const agent = await client.agents.createAgent("gpt-4-1106-preview", {
-  name: "my-assistant",
-  instructions: "You are helpful agent",
-});
-const thread = await client.agents.createThread();
-await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
-// Begin snippet
 const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
@@ -651,8 +551,6 @@ for await (const eventMessage of streamEventMessages) {
       break;
   }
 }
-// End snippet
-await client.agents.deleteAgent(agent.id);
 ```
 
 #### Retrieve Message
@@ -662,9 +560,6 @@ To retrieve messages from agents, use the following example:
 ```ts snippet:listMessages
 import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "../src/index.js";
 
-const thread = await client.agents.createThread();
-await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
-// Begin snippet
 const messages = await client.agents.listMessages(thread.id);
 // The messages are following in the reverse order,
 // we will iterate them and output only text contents.
@@ -677,8 +572,6 @@ for (const dataPoint of messages.data.reverse()) {
     );
   }
 }
-// End snippet
-await client.agents.deleteThread(thread.id);
 ```
 
 ### Retrieve File
@@ -688,42 +581,12 @@ Files uploaded by Agents cannot be retrieved back. If your use case needs to acc
 Here is an example retrieving file ids from messages:
 
 ```ts snippet:retrieveFile
-import { ToolUtility } from "@azure/ai-projects";
-import { delay } from "@azure/core-util";
 import {
   isOutputOfType,
   MessageTextContentOutput,
   MessageImageFileContentOutput,
 } from "../src/index.js";
 
-const filePath = path.resolve(__dirname, "./data/nifty500QuarterlyResults.csv");
-const localFileStream = fs.createReadStream(filePath);
-const localFile = await client.agents.uploadFile(localFileStream, "assistants");
-const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
-const agent = await client.agents.createAgent("gpt-4o-mini", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [codeInterpreterTool.definition],
-  toolResources: codeInterpreterTool.resources,
-});
-const thread = await client.agents.createThread();
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content:
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
-});
-let run = await client.agents.createRun(thread.id, agent.id);
-while (run.status === "queued" || run.status === "in_progress") {
-  await delay(1000);
-  run = await client.agents.getRun(thread.id, run.id);
-}
-if (run.status === "failed") {
-  // Check if you got "Rate limit is exceeded.", then you want to get more quota
-  console.log(`Run failed: ${run.lastError}`);
-}
-console.log(`Run finished with status: ${run.status}`);
-await client.agents.deleteFile(localFile.id);
-// Begin snippet
 const messages = await client.agents.listMessages(thread.id);
 // Get most recent message from the assistant
 const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
@@ -751,9 +614,6 @@ if (fileContent) {
   console.error("Failed to retrieve file content: fileContent is undefined");
 }
 console.log(`Saved image file to: ${imageFileName}`);
-// End snippet
-await client.agents.deleteAgent(agent.id);
-await client.agents.deleteThread(thread.id);
 ```
 
 #### Teardown
@@ -761,10 +621,6 @@ await client.agents.deleteThread(thread.id);
 To remove resources after completing tasks, use the following functions:
 
 ```ts snippet:teardown
-const vectorStore = await client.agents.createVectorStore();
-const file = await client.agents.uploadFile();
-const agent = await client.agents.createAgent("gpt-4o");
-// Begin snippet
 await client.agents.deleteVectorStore(vectorStore.id);
 console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 await client.agents.deleteFile(file.id);
@@ -811,7 +667,6 @@ import {
 import { trace } from "@opentelemetry/api";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
-// Begin snippet
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 provider.register();
@@ -830,7 +685,6 @@ if (appInsightsConnectionString) {
 await tracer.startActiveSpan("main", async (span) => {
   client.telemetry.updateSettings({ enableContentRecording: true });
   // ...
-  // End snippet
 });
 ```
 
