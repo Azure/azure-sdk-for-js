@@ -4,6 +4,12 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
+
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -22,12 +28,6 @@ steps:
       arguments: -ChangedServices "$(ChangedServices)"
       pwsh: true
     displayName: Spell check public API
-
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
 
   - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:

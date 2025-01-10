@@ -71,8 +71,8 @@ export class KeyVaultSettingsClient {
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param options - options used to configure Key Vault API requests.
-
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
@@ -129,6 +129,7 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
     const { settings } = await this.client.getSettings(this.vaultUrl, options);
     return { settings: settings?.map(makeSetting) ?? [] };

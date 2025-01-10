@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AuthorizationManagementClient } from "../src/authorizationManagementClient";
+import { AuthorizationManagementClient } from "../src/authorizationManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -41,20 +39,18 @@ describe("Authorization test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AuthorizationManagementClient;
-  let location: string;
   let resourceGroup: string;
   let resourcename: string;
   let roleDefinitionId: string;
   let scope: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AuthorizationManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
     roleDefinitionId = "roleDefinitionId";
@@ -65,7 +61,7 @@ describe("Authorization test", () => {
     await recorder.stop();
   });
 
-  it("roleDefinitions create test", async function () {
+  it.skip("roleDefinitions create test", async function () {
     const res = await client.roleDefinitions.createOrUpdate(
       scope,
       roleDefinitionId,
@@ -74,12 +70,12 @@ describe("Authorization test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("roleDefinitions get test", async function () {
+  it.skip("roleDefinitions get test", async function () {
     const res = await client.roleDefinitions.get(scope, roleDefinitionId);
     assert.equal(res.name, resourcename);
   });
 
-  it.only("roleDefinitions list test", async function () {
+  it("roleDefinitions list test", async function () {
     const resArray = new Array();
     for await (let item of client.roleDefinitions.list(scope)) {
       resArray.push(item);
@@ -87,10 +83,9 @@ describe("Authorization test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("roleDefinitions delete test", async function () {
+  it.skip("roleDefinitions delete test", async function () {
     const resArray = new Array();
-    const res = await client.roleDefinitions.delete(scope, resourcename
-    )
+    await client.roleDefinitions.delete(scope, resourcename);
     for await (let item of client.roleDefinitions.list(scope)) {
       resArray.push(item);
     }

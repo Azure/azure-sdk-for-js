@@ -1,14 +1,10 @@
 # Release History
 
-## 4.3.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.4 (2025-01-10)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix parsing of connection string to extract port number properly.
 
 ## 4.3.3 (2024-11-07)
 
@@ -36,6 +32,7 @@
 ## 4.3.0 (2024-05-20)
 
 ### Breaking Changes
+
 - Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.
 - Moved unit tests from mocha to vitest.
 
@@ -79,7 +76,7 @@
 
 ### Features Added
 
-- Changed `TokenProvider` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
+- Changed `TokenProvider` to use native crypto libraries. This changes the signature from `getToken` from being sync to async.
 
 ### Breaking Changes
 

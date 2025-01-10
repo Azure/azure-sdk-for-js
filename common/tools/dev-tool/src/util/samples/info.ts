@@ -154,7 +154,7 @@ export interface ModuleInfo {
  */
 export interface SampleReadmeConfiguration extends SampleGenerationInfo {
   /**
-   * YAML frontmatter used for publication on docs.microsoft.com.
+   * YAML frontmatter used for publication on learn.microsoft.com.
    */
   frontmatter: unknown;
   /**

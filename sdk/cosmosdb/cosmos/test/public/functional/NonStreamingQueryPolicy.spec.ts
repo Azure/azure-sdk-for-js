@@ -20,7 +20,7 @@ describe("Vector search feature", async () => {
       database = await getTestDatabase("vector embedding database");
     });
 
-    it("validate VectorEmbeddingPolicy", async function () {
+    it("validate-VectorEmbeddingPolicy", async function () {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },

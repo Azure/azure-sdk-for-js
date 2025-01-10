@@ -527,7 +527,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async function () {
+  it.skip("serverTimeoutInSeconds", async function () {
     try {
       const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(

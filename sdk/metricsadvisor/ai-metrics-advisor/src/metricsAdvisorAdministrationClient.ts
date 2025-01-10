@@ -3,7 +3,6 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -1495,6 +1494,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```
    */
   public listDataSourceCredential(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListDataSourceCredentialsOptions = {},
   ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     const iter = this.listItemsOfDataSourceCredentials(options);

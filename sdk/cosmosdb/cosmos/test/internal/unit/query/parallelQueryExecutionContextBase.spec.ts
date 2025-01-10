@@ -233,7 +233,7 @@ describe("parallelQueryExecutionContextBase", function () {
         // Call bufferDocumentProducers
         await (context as any).bufferDocumentProducers();
       } catch (err) {
-        console.log("error thrown from should propagate:",err);
+        console.log("error thrown from should propagate:", err);
         assert.equal(err.code, 404);
         assert.equal(releaseSpy.callCount, 2);
         assert.equal(context["bufferedDocumentProducersQueue"].size(), 0);
@@ -251,19 +251,24 @@ describe("parallelQueryExecutionContextBase", function () {
         callCount++;
         if (callCount === 1) {
           return {
-        code: StatusCodes.Gone,
-        body: {
-          message: "Partition key range split",
-        },
-        headers: { "x-ms-request-charge": "0" },
-          
-        }} else {
+            code: StatusCodes.Gone,
+            body: {
+              message: "Partition key range split",
+            },
+            headers: { "x-ms-request-charge": "0" },
+          };
+        } else {
           return {
-        resources: [createMockPartitionKeyRange("0", "", "AA"), createMockPartitionKeyRange("1", "AA", "BB"), createMockPartitionKeyRange("2", "BB", "FF")],
-        headers: { "x-ms-request-charge": "1.23" },
-        code: 200,
+            resources: [
+              createMockPartitionKeyRange("0", "", "AA"),
+              createMockPartitionKeyRange("1", "AA", "BB"),
+              createMockPartitionKeyRange("2", "BB", "FF"),
+            ],
+            headers: { "x-ms-request-charge": "1.23" },
+            code: 200,
+          };
         }
-      }});
+      });
       sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
@@ -371,7 +376,6 @@ describe("parallelQueryExecutionContextBase", function () {
 
       assert.equal(context["buffer"].length, 2);
     });
-
   });
 
   describe("drainBufferedItems", function () {
