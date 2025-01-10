@@ -99,8 +99,7 @@
     "productSlugs": [
       "azure"
     ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview"
+    "disableDocsMs": true
   },
   "type": "module",
   "tshy": {

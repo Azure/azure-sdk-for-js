@@ -94,7 +94,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/modelVersion.js
 [paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/paging.js
 [rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/rehydratePolling.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-text
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-language-text
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/README.md
