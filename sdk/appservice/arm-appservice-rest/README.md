@@ -46,23 +46,23 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 Use the returned token credential to authenticate the client:
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { WebSiteManagementClient } from "@azure-rest/arm-appcontainers";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new WebSiteManagementClient(new DefaultAzureCredential());
+const client = WebSiteManagementClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { WebSiteManagementClient } from "@azure-rest/arm-appcontainers";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new WebSiteManagementClient(credential);
+const client = WebSiteManagementClient(credential);
 ```
 
 ## Examples
@@ -73,7 +73,7 @@ The following section shows you how to initialize and authenticate your client, 
 
 ```ts snippet:ListAppServicePlans
 import { DefaultAzureCredential } from "@azure/identity";
-import { WebSiteManagementClient, paginate } from "@azure-rest/arm-appcontainers";
+import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 
 const subscriptionId = process.env.SUBSCRIPTION_ID as string;
 const credential = new DefaultAzureCredential();

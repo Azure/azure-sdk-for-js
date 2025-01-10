@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementClient, paginate } from "@azure-rest/arm-appcontainers";
+import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new WebSiteManagementClient(new DefaultAzureCredential());
+    // @ts-ignore
+    const client = WebSiteManagementClient(new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -16,7 +17,8 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new WebSiteManagementClient(credential);
+    // @ts-ignore
+    const client = WebSiteManagementClient(credential);
   });
 
   it("ListAppServicePlans", async () => {
