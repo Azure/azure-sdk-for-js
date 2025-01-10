@@ -171,6 +171,11 @@ describe("Aggregate Query", function (this: Suite) {
     );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
+
+    // Adding these to test the new flag enableQueryControl in FeedOptions
+    options.enableQueryControl = true;
+    const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+    await validateFetchAll(queryIteratorWithEnableQueryControl, expectedResults);
   };
 
   it("SELECT VALUE AVG", async function () {

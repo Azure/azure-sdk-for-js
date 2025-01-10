@@ -5,6 +5,7 @@ import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../com
 import assert from "assert";
 import groupBySnapshot from "./groupBy.snapshot";
 import type { Context } from "mocha";
+// import type { QueryIterator } from "../../../../src";
 
 const options = {
   maxItemCount: 100,
@@ -525,7 +526,7 @@ const items = [
   },
 ];
 
-describe("Cross partition GROUP BY", () => {
+describe("CrosspartitionGROUPBY", () => {
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
     partitionKey: {
@@ -543,6 +544,11 @@ describe("Cross partition GROUP BY", () => {
   const snapshot = (actual: unknown): void => {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
+
+  // const validateFetchAll = async function (queryIterator: QueryIterator<any>): Promise<void> {
+  //   const result = await queryIterator.fetchAll();
+  //   snapshot(result.resources.sort((a, b) => a.age - b.age));
+  // };
 
   beforeEach(function (this: Context) {
     currentTestTitle = this.currentTest.fullTitle();

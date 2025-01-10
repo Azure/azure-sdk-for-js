@@ -27,7 +27,7 @@ function compare(key: string) {
   };
 }
 
-describe("Cross-Partition", function (this: Suite) {
+describe("CrossPartition", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate-Query", function () {
@@ -234,16 +234,13 @@ describe("Cross-Partition", function (this: Suite) {
       expectedIteratorCalls?: number;
     }): Promise<void> {
       options.populateQueryMetrics = true;
-      console.log("executeQueryAndValidateResults: ");
       const queryIterator = container.items.query(query, options);
-      console.log("queryIterator: ", queryIterator);
       const fetchAllResponse = await validateFetchAll(
         queryIterator,
         options,
         expectedOrderIds,
         expectedCount,
       );
-      console.log("fetchAllResponse: ", fetchAllResponse);
       if (expectedRus) {
         const percentDifference =
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
@@ -265,6 +262,16 @@ describe("Cross-Partition", function (this: Suite) {
       );
       queryIterator.reset();
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
+
+      // Adding these to test the new flag enableQueryControl in FeedOptions
+      options.enableQueryControl = true;
+      const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+      await validateFetchAll(
+        queryIteratorWithEnableQueryControl,
+        options,
+        expectedOrderIds,
+        expectedCount,
+      );
     };
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async function () {
