@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlQuerySpec, SqlParameter, JSONArray, JSONObject } from "../queryExecutionContext";
+import {
+  SqlQuerySpec,
+  SqlParameter,
+  JSONArray,
+  JSONObject,
+  JSONValue,
+} from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
 
 export interface EncryptionSqlParameter extends SqlParameter {
@@ -54,6 +60,17 @@ export class EncryptionQueryBuilder {
       path: path,
     });
   }
+
+  /** Adds null parameter to query */
+  public addNullParameter(name: string, path: string): void {
+    this.parameters.push({ name: name, value: null, path: path });
+  }
+
+  /** Adds unencrypted parameter to query */
+  public addUnencryptedParameter(name: string, value: JSONValue, path: string): void {
+    this.parameters.push({ name: name, value: value, path: path });
+  }
+
   /*
    * @internal
    */

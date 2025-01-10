@@ -60,6 +60,7 @@ import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuild
 import { EncryptionQueryBuilder } from "../../encryption";
 import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
 import { Resource } from "../Resource";
+import { TypeMarker } from "../../encryption/enums/TypeMarker";
 
 /**
  * @hidden
@@ -206,12 +207,15 @@ export class Items {
     // returns copy to avoid encryption of original parameters passed
     encryptionParameters = copyObject(encryptionParameters);
     for (const parameter of encryptionParameters) {
-      const value = await this.container.encryptionProcessor.encryptQueryParameter(
-        parameter.path,
-        parameter.value,
-        parameter.path === "/id",
-        parameter.type,
-      );
+      let value: any;
+      if (parameter.type !== undefined || parameter.type !== TypeMarker.Null) {
+        value = await this.container.encryptionProcessor.encryptQueryParameter(
+          parameter.path,
+          parameter.value,
+          parameter.path === "/id",
+          parameter.type,
+        );
+      }
       sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
     }
     return sqlQuerySpec;

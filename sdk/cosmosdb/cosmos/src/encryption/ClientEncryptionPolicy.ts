@@ -44,7 +44,12 @@ export class ClientEncryptionPolicy {
   }
 
   private validateClientEncryptionIncludedPath(includedPath: ClientEncryptionIncludedPath) {
-    if (includedPath.path === undefined || includedPath.path === null || includedPath.path === "" || includedPath.path === "/") {
+    if (
+      includedPath.path === undefined ||
+      includedPath.path === null ||
+      includedPath.path === "" ||
+      includedPath.path === "/"
+    ) {
       throw new ErrorResponse("Path needs to be defined in ClientEncryptionIncludedPath.");
     }
     if (
@@ -63,7 +68,7 @@ export class ClientEncryptionPolicy {
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
     }
-    if (includedPath.path.split("/").filter(segment => segment.length > 0).length > 1) {
+    if (includedPath.path.split("/").filter((segment) => segment.length > 0).length > 1) {
       throw new ErrorResponse("Only top-level paths are currently supported for encryption");
     }
   }

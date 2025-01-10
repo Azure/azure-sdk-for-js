@@ -1103,8 +1103,10 @@ export class EncryptionQueryBuilder {
     addDateParameter(name: string, value: Date, path: string): void;
     addFloatParameter(name: string, value: number, path: string): void;
     addIntegerParameter(name: string, value: number, path: string): void;
+    addNullParameter(name: string, path: string): void;
     addObjectParameter(name: string, value: JSONObject, path: string): void;
     addStringParameter(name: string, value: string, path: string): void;
+    addUnencryptedParameter(name: string, value: JSONValue, path: string): void;
 }
 
 // @public
