@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Operation, _OperationListResult } from "../../models/models.js";
-import { ComputeScheduleContext as Client } from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  ComputeScheduleContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
+import {
+  _OperationListResult,
+  _operationListResultDeserializer,
+  Operation,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _operationsListSend(
   context: Client,
@@ -32,25 +38,7 @@ export async function _operationsListDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        name: p["name"],
-        isDataAction: p["isDataAction"],
-        display: !p.display
-          ? undefined
-          : {
-              provider: p.display?.["provider"],
-              resource: p.display?.["resource"],
-              operation: p.display?.["operation"],
-              description: p.display?.["description"],
-            },
-        origin: p["origin"],
-        actionType: p["actionType"],
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _operationListResultDeserializer(result.body);
 }
 
 /** List the operations for the provider */

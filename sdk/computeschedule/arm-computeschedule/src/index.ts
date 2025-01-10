@@ -7,10 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  ComputeScheduleClient,
-  ComputeScheduleClientOptionalParams,
-} from "./computeScheduleClient.js";
+export { ComputeScheduleClient } from "./computeScheduleClient.js";
 export {
   SubmitDeallocateRequest,
   Schedule,
@@ -50,6 +47,10 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
+} from "./models/index.js";
+export {
+  ComputeScheduleClientOptionalParams,
   OperationsListOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
@@ -60,6 +61,9 @@ export {
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-} from "./models/index.js";
-export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
+} from "./api/index.js";
+export {
+  OperationsOperations,
+  ScheduledActionsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

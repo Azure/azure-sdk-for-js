@@ -6,6 +6,18 @@ export {
   ComputeScheduleContext,
   ComputeScheduleClientOptionalParams,
 } from "./computeScheduleContext.js";
+export {
+  OperationsListOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
+} from "./options.js";
 export { operationsList } from "./operations/index.js";
 export {
   scheduledActionsVirtualMachinesSubmitDeallocate,

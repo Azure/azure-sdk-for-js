@@ -5,68 +5,39 @@ import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
+ * This sample demonstrates how to virtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at datetime in future.
  *
- * @summary virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitHibernate_MaximumSet_Gen.json
+ * @summary virtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at datetime in future.
+ * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesSubmitHibernate.json
  */
-async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitHibernate() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
-  const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitHibernate("bgxeayimbxqzev", {
-    schedule: {
-      deadLine: "2024-07-12T18:06:53.361Z",
-      timeZone: "zlcujrtgxtgyik",
-      deadlineType: "Unknown",
-    },
-    executionParameters: {
-      optimizationPreference: "Cost",
-      retryPolicy: { retryCount: 30, retryWindowInMinutes: 27 },
-    },
-    resources: {
-      ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
-      ],
-    },
-    correlationid: "23519o2f-1dca-4610-afb4-dd25eec1f34",
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
- *
- * @summary virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitHibernate_MinimumSet_Gen.json
- */
-async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
+  const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.virtualMachinesSubmitHibernate(
-    "fvjciwudfbndlqumcgqs",
+    "eastus2euap",
     {
       schedule: {
-        deadLine: "2024-07-12T18:06:53.361Z",
-        timeZone: "zlcujrtgxtgyik",
-        deadlineType: "Unknown",
+        deadline: "2024-11-01T17:52:54.215Z",
+        timezone: "UTC",
+        deadlineType: "InitiateAt",
       },
-      executionParameters: {},
+      executionParameters: {
+        retryPolicy: { retryCount: 2, retryWindowInMinutes: 27 },
+      },
       resources: {
         ids: [
           "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
         ],
       },
-      correlationid: "23519o2f-1dca-4610-afb4-dd25eec1f34",
+      correlationid: "23480d2f-1dca-4610-afb4-dd25eec1f34r",
     },
   );
   console.log(result);
 }
 
 async function main() {
-  scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  scheduledActionsVirtualMachinesSubmitHibernate();
 }
 
 main().catch(console.error);

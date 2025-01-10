@@ -9,17 +9,19 @@ export interface SubmitDeallocateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function submitDeallocateRequestSerializer(
   item: SubmitDeallocateRequest,
-): Record<string, unknown> {
+): any {
   return {
-    schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    schedule: scheduleSerializer(item["schedule"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -27,28 +29,34 @@ export function submitDeallocateRequestSerializer(
 /** The schedule details for the user request */
 export interface Schedule {
   /** The deadline for the operation */
-  deadLine: string;
+  deadline?: string;
+  /** The deadline for the operation */
+  deadLine?: string;
   /** The timezone for the operation */
-  timeZone: string;
+  timezone?: string;
+  /** The timezone for the operation */
+  timeZone?: string;
   /** The deadlinetype of the operation, this can either be InitiateAt or CompleteBy */
   deadlineType: DeadlineType;
 }
 
-export function scheduleSerializer(item: Schedule): Record<string, unknown> {
+export function scheduleSerializer(item: Schedule): any {
   return {
+    deadline: item["deadline"],
     deadLine: item["deadLine"],
+    timezone: item["timezone"],
     timeZone: item["timeZone"],
     deadlineType: item["deadlineType"],
   };
 }
 
-/** Known values of {@link DeadlineType} that the service accepts. */
+/** The types of deadlines supported by ScheduledActions */
 export enum KnownDeadlineType {
-  /** Unknown */
+  /** Default value of Unknown. */
   Unknown = "Unknown",
-  /** InitiateAt */
+  /** Initiate the operation at the given deadline. */
   InitiateAt = "InitiateAt",
-  /** CompleteBy */
+  /** Complete the operation by the given deadline. */
   CompleteBy = "CompleteBy",
 }
 
@@ -57,9 +65,9 @@ export enum KnownDeadlineType {
  * {@link KnownDeadlineType} can be used interchangeably with DeadlineType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **InitiateAt** \
- * **CompleteBy**
+ * **Unknown**: Default value of Unknown. \
+ * **InitiateAt**: Initiate the operation at the given deadline. \
+ * **CompleteBy**: Complete the operation by the given deadline.
  */
 export type DeadlineType = string;
 
@@ -71,20 +79,22 @@ export interface ExecutionParameters {
   retryPolicy?: RetryPolicy;
 }
 
-export function executionParametersSerializer(item: ExecutionParameters): Record<string, unknown> {
+export function executionParametersSerializer(item: ExecutionParameters): any {
   return {
     optimizationPreference: item["optimizationPreference"],
-    retryPolicy: !item.retryPolicy ? item.retryPolicy : retryPolicySerializer(item.retryPolicy),
+    retryPolicy: !item["retryPolicy"]
+      ? item["retryPolicy"]
+      : retryPolicySerializer(item["retryPolicy"]),
   };
 }
 
-/** Known values of {@link OptimizationPreference} that the service accepts. */
+/** The preferences customers can select to optimize their requests to ScheduledActions */
 export enum KnownOptimizationPreference {
-  /** Cost */
+  /** Optimize while considering cost savings */
   Cost = "Cost",
-  /** Availability */
+  /** Optimize while considering availability of resources */
   Availability = "Availability",
-  /** CostAvailabilityBalanced */
+  /** Optimize while considering a balance of cost and availability */
   CostAvailabilityBalanced = "CostAvailabilityBalanced",
 }
 
@@ -93,9 +103,9 @@ export enum KnownOptimizationPreference {
  * {@link KnownOptimizationPreference} can be used interchangeably with OptimizationPreference,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Cost** \
- * **Availability** \
- * **CostAvailabilityBalanced**
+ * **Cost**: Optimize while considering cost savings \
+ * **Availability**: Optimize while considering availability of resources \
+ * **CostAvailabilityBalanced**: Optimize while considering a balance of cost and availability
  */
 export type OptimizationPreference = string;
 
@@ -107,7 +117,14 @@ export interface RetryPolicy {
   retryWindowInMinutes?: number;
 }
 
-export function retryPolicySerializer(item: RetryPolicy): Record<string, unknown> {
+export function retryPolicySerializer(item: RetryPolicy): any {
+  return {
+    retryCount: item["retryCount"],
+    retryWindowInMinutes: item["retryWindowInMinutes"],
+  };
+}
+
+export function retryPolicyDeserializer(item: any): RetryPolicy {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
@@ -120,9 +137,11 @@ export interface Resources {
   ids: string[];
 }
 
-export function resourcesSerializer(item: Resources): Record<string, unknown> {
+export function resourcesSerializer(item: Resources): any {
   return {
-    ids: item["ids"],
+    ids: item["ids"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -138,6 +157,27 @@ export interface DeallocateResourceOperationResponse {
   results?: ResourceOperation[];
 }
 
+export function deallocateResourceOperationResponseDeserializer(
+  item: any,
+): DeallocateResourceOperationResponse {
+  return {
+    description: item["description"],
+    type: item["type"],
+    location: item["location"],
+    results: !item["results"]
+      ? item["results"]
+      : resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
+export function resourceOperationArrayDeserializer(
+  result: Array<ResourceOperation>,
+): any[] {
+  return result.map((item) => {
+    return resourceOperationDeserializer(item);
+  });
+}
+
 /** High level response from an operation on a resource */
 export interface ResourceOperation {
   /** Unique identifier for the resource involved in the operation, eg ArmId */
@@ -150,22 +190,35 @@ export interface ResourceOperation {
   operation?: ResourceOperationDetails;
 }
 
+export function resourceOperationDeserializer(item: any): ResourceOperation {
+  return {
+    resourceId: item["resourceId"],
+    errorCode: item["errorCode"],
+    errorDetails: item["errorDetails"],
+    operation: !item["operation"]
+      ? item["operation"]
+      : resourceOperationDetailsDeserializer(item["operation"]),
+  };
+}
+
 /** The details of a response from an operation on a resource */
 export interface ResourceOperationDetails {
   /** Operation identifier for the unique operation */
   operationId: string;
   /** Unique identifier for the resource involved in the operation, eg ArmId */
-  resourceId: string;
+  resourceId?: string;
   /** Type of operation performed on the resources */
-  opType: ResourceOperationType;
+  opType?: ResourceOperationType;
   /** Subscription id attached to the request */
-  subscriptionId: string;
+  subscriptionId?: string;
   /** Deadline for the operation */
-  deadline: string;
+  deadline?: string;
   /** Type of deadline of the operation */
-  deadlineType: DeadlineType;
+  deadlineType?: DeadlineType;
   /** Current state of the operation */
-  state: OperationState;
+  state?: OperationState;
+  /** Timezone for the operation */
+  timezone?: string;
   /** Timezone for the operation */
   timeZone?: string;
   /** Operation level errors if they exist */
@@ -176,15 +229,38 @@ export interface ResourceOperationDetails {
   retryPolicy?: RetryPolicy;
 }
 
-/** Known values of {@link ResourceOperationType} that the service accepts. */
+export function resourceOperationDetailsDeserializer(
+  item: any,
+): ResourceOperationDetails {
+  return {
+    operationId: item["operationId"],
+    resourceId: item["resourceId"],
+    opType: item["opType"],
+    subscriptionId: item["subscriptionId"],
+    deadline: item["deadline"],
+    deadlineType: item["deadlineType"],
+    state: item["state"],
+    timezone: item["timezone"],
+    timeZone: item["timeZone"],
+    resourceOperationError: !item["resourceOperationError"]
+      ? item["resourceOperationError"]
+      : resourceOperationErrorDeserializer(item["resourceOperationError"]),
+    completedAt: item["completedAt"],
+    retryPolicy: !item["retryPolicy"]
+      ? item["retryPolicy"]
+      : retryPolicyDeserializer(item["retryPolicy"]),
+  };
+}
+
+/** The kind of operation types that can be performed on resources using ScheduledActions */
 export enum KnownResourceOperationType {
-  /** Unknown */
+  /** The default value for this enum type */
   Unknown = "Unknown",
-  /** Start */
+  /** Start operations on the resources */
   Start = "Start",
-  /** Deallocate */
+  /** Deallocate operations on the resources */
   Deallocate = "Deallocate",
-  /** Hibernate */
+  /** Hibernate operations on the resources */
   Hibernate = "Hibernate",
 }
 
@@ -193,32 +269,32 @@ export enum KnownResourceOperationType {
  * {@link KnownResourceOperationType} can be used interchangeably with ResourceOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Start** \
- * **Deallocate** \
- * **Hibernate**
+ * **Unknown**: The default value for this enum type \
+ * **Start**: Start operations on the resources \
+ * **Deallocate**: Deallocate operations on the resources \
+ * **Hibernate**: Hibernate operations on the resources
  */
 export type ResourceOperationType = string;
 
-/** Known values of {@link OperationState} that the service accepts. */
+/** Values that define the states of operations in Scheduled Actions */
 export enum KnownOperationState {
-  /** Unknown */
+  /** The default value for the operation state enum */
   Unknown = "Unknown",
-  /** PendingScheduling */
+  /** Operations that are pending scheduling */
   PendingScheduling = "PendingScheduling",
-  /** Scheduled */
+  /** Operations that have been scheduled */
   Scheduled = "Scheduled",
-  /** PendingExecution */
+  /** Operations that are waiting to be executed */
   PendingExecution = "PendingExecution",
-  /** Executing */
+  /** Operations that are in the process of being executed */
   Executing = "Executing",
-  /** Succeeded */
+  /** Operations that suceeded */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Operations that have failed */
   Failed = "Failed",
-  /** Cancelled */
+  /** Operations that have been Cancelled by the user */
   Cancelled = "Cancelled",
-  /** Blocked */
+  /** Operations that are blocked */
   Blocked = "Blocked",
 }
 
@@ -227,15 +303,15 @@ export enum KnownOperationState {
  * {@link KnownOperationState} can be used interchangeably with OperationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **PendingScheduling** \
- * **Scheduled** \
- * **PendingExecution** \
- * **Executing** \
- * **Succeeded** \
- * **Failed** \
- * **Cancelled** \
- * **Blocked**
+ * **Unknown**: The default value for the operation state enum \
+ * **PendingScheduling**: Operations that are pending scheduling \
+ * **Scheduled**: Operations that have been scheduled \
+ * **PendingExecution**: Operations that are waiting to be executed \
+ * **Executing**: Operations that are in the process of being executed \
+ * **Succeeded**: Operations that suceeded \
+ * **Failed**: Operations that have failed \
+ * **Cancelled**: Operations that have been Cancelled by the user \
+ * **Blocked**: Operations that are blocked
  */
 export type OperationState = string;
 
@@ -247,6 +323,15 @@ export interface ResourceOperationError {
   errorDetails: string;
 }
 
+export function resourceOperationErrorDeserializer(
+  item: any,
+): ResourceOperationError {
+  return {
+    errorCode: item["errorCode"],
+    errorDetails: item["errorDetails"],
+  };
+}
+
 /** This is the request for hibernate */
 export interface SubmitHibernateRequest {
   /** The schedule for the request */
@@ -255,17 +340,19 @@ export interface SubmitHibernateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function submitHibernateRequestSerializer(
   item: SubmitHibernateRequest,
-): Record<string, unknown> {
+): any {
   return {
-    schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    schedule: scheduleSerializer(item["schedule"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -282,6 +369,19 @@ export interface HibernateResourceOperationResponse {
   results?: ResourceOperation[];
 }
 
+export function hibernateResourceOperationResponseDeserializer(
+  item: any,
+): HibernateResourceOperationResponse {
+  return {
+    description: item["description"],
+    type: item["type"],
+    location: item["location"],
+    results: !item["results"]
+      ? item["results"]
+      : resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
 /** This is the request for start */
 export interface SubmitStartRequest {
   /** The schedule for the request */
@@ -290,15 +390,17 @@ export interface SubmitStartRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
-export function submitStartRequestSerializer(item: SubmitStartRequest): Record<string, unknown> {
+export function submitStartRequestSerializer(item: SubmitStartRequest): any {
   return {
-    schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    schedule: scheduleSerializer(item["schedule"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -315,22 +417,37 @@ export interface StartResourceOperationResponse {
   results?: ResourceOperation[];
 }
 
+export function startResourceOperationResponseDeserializer(
+  item: any,
+): StartResourceOperationResponse {
+  return {
+    description: item["description"],
+    type: item["type"],
+    location: item["location"],
+    results: !item["results"]
+      ? item["results"]
+      : resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
 /** The ExecuteDeallocateRequest request for executeDeallocate operations */
 export interface ExecuteDeallocateRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function executeDeallocateRequestSerializer(
   item: ExecuteDeallocateRequest,
-): Record<string, unknown> {
+): any {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -341,16 +458,18 @@ export interface ExecuteHibernateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function executeHibernateRequestSerializer(
   item: ExecuteHibernateRequest,
-): Record<string, unknown> {
+): any {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -361,14 +480,16 @@ export interface ExecuteStartRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
-export function executeStartRequestSerializer(item: ExecuteStartRequest): Record<string, unknown> {
+export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
-    resources: resourcesSerializer(item.resources),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
+    resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationid"],
   };
 }
@@ -377,15 +498,17 @@ export function executeStartRequestSerializer(item: ExecuteStartRequest): Record
 export interface GetOperationStatusRequest {
   /** The list of operation ids to get the status of */
   operationIds: string[];
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function getOperationStatusRequestSerializer(
   item: GetOperationStatusRequest,
-): Record<string, unknown> {
+): any {
   return {
-    operationIds: item["operationIds"],
+    operationIds: item["operationIds"].map((p: any) => {
+      return p;
+    }),
     correlationid: item["correlationid"],
   };
 }
@@ -396,19 +519,29 @@ export interface GetOperationStatusResponse {
   results: ResourceOperation[];
 }
 
+export function getOperationStatusResponseDeserializer(
+  item: any,
+): GetOperationStatusResponse {
+  return {
+    results: resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
 /** This is the request to cancel running operations in scheduled actions using the operation ids */
 export interface CancelOperationsRequest {
   /** The list of operation ids to cancel operations on */
   operationIds: string[];
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
 export function cancelOperationsRequestSerializer(
   item: CancelOperationsRequest,
-): Record<string, unknown> {
+): any {
   return {
-    operationIds: item["operationIds"],
+    operationIds: item["operationIds"].map((p: any) => {
+      return p;
+    }),
     correlationid: item["correlationid"],
   };
 }
@@ -419,6 +552,14 @@ export interface CancelOperationsResponse {
   results: ResourceOperation[];
 }
 
+export function cancelOperationsResponseDeserializer(
+  item: any,
+): CancelOperationsResponse {
+  return {
+    results: resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
 /** This is the request to get errors per vm operations */
 export interface GetOperationErrorsRequest {
   /** The list of operation ids to query errors of */
@@ -427,9 +568,11 @@ export interface GetOperationErrorsRequest {
 
 export function getOperationErrorsRequestSerializer(
   item: GetOperationErrorsRequest,
-): Record<string, unknown> {
+): any {
   return {
-    operationIds: item["operationIds"],
+    operationIds: item["operationIds"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -437,6 +580,22 @@ export function getOperationErrorsRequestSerializer(
 export interface GetOperationErrorsResponse {
   /** An array of operationids and their corresponding errors if any */
   results: OperationErrorsResult[];
+}
+
+export function getOperationErrorsResponseDeserializer(
+  item: any,
+): GetOperationErrorsResponse {
+  return {
+    results: operationErrorsResultArrayDeserializer(item["results"]),
+  };
+}
+
+export function operationErrorsResultArrayDeserializer(
+  result: Array<OperationErrorsResult>,
+): any[] {
+  return result.map((item) => {
+    return operationErrorsResultDeserializer(item);
+  });
 }
 
 /** This is the first level of operation errors from the request when clients get errors per vm operation */
@@ -457,6 +616,30 @@ export interface OperationErrorsResult {
   requestErrorDetails?: string;
 }
 
+export function operationErrorsResultDeserializer(
+  item: any,
+): OperationErrorsResult {
+  return {
+    operationId: item["operationId"],
+    creationTime: item["creationTime"],
+    activationTime: item["activationTime"],
+    completedAt: item["completedAt"],
+    operationErrors: !item["operationErrors"]
+      ? item["operationErrors"]
+      : operationErrorDetailsArrayDeserializer(item["operationErrors"]),
+    requestErrorCode: item["requestErrorCode"],
+    requestErrorDetails: item["requestErrorDetails"],
+  };
+}
+
+export function operationErrorDetailsArrayDeserializer(
+  result: Array<OperationErrorDetails>,
+): any[] {
+  return result.map((item) => {
+    return operationErrorDetailsDeserializer(item);
+  });
+}
+
 /** This defines a list of operation errors associated with a unique operationId */
 export interface OperationErrorDetails {
   /** The error code of the operation */
@@ -464,9 +647,26 @@ export interface OperationErrorDetails {
   /** The error details of the operation */
   errorDetails: string;
   /** The timestamp of the error occurence */
-  timeStamp: string;
-  /** CRP operationid of the operation for deeper analysis */
-  crpOperationId: string;
+  timestamp?: string;
+  /** The timestamp of the error occurence */
+  timeStamp?: string;
+  /** The compute operationid of the Start/Deallocate/Hibernate request */
+  azureOperationName?: string;
+  /** The compute operationid of the Start/Deallocate/Hibernate request */
+  crpOperationId?: string;
+}
+
+export function operationErrorDetailsDeserializer(
+  item: any,
+): OperationErrorDetails {
+  return {
+    errorCode: item["errorCode"],
+    errorDetails: item["errorDetails"],
+    timestamp: item["timestamp"],
+    timeStamp: item["timeStamp"],
+    azureOperationName: item["azureOperationName"],
+    crpOperationId: item["crpOperationId"],
+  };
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -477,6 +677,21 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
@@ -484,11 +699,23 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
 }
 
 /** Localized display information for and operation. */
@@ -503,14 +730,23 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
-  User = "user",
-  /** system */
-  System = "system",
-  /** user,system */
-  UserSystem = "user,system",
+  /** Indicates the operation is initiated by a user. */
+  user = "user",
+  /** Indicates the operation is initiated by a system. */
+  system = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  "user,system" = "user,system",
 }
 
 /**
@@ -518,15 +754,15 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
-/** Known values of {@link ActionType} that the service accepts. */
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export enum KnownActionType {
-  /** Internal */
+  /** Actions are for internal-only APIs. */
   Internal = "Internal",
 }
 
@@ -535,6 +771,12 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**
+ * **Internal**: Actions are for internal-only APIs.
  */
 export type ActionType = string;
+
+/** ComputeSchedule API versions */
+export enum KnownVersions {
+  /** 2024-10-01 version */
+  "2024-10-01" = "2024-10-01",
+}

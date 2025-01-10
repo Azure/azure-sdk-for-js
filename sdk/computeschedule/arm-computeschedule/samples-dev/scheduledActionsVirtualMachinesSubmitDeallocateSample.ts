@@ -5,71 +5,39 @@ import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
+ * This sample demonstrates how to virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
  *
- * @summary virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MaximumSet_Gen.json
+ * @summary virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
+ * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesSubmitDeallocate.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitDeallocate() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
+  const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.virtualMachinesSubmitDeallocate(
-    "ibfxsvilwrgqttuslbduzdtxcckdet",
+    "eastus2euap",
     {
       schedule: {
-        deadLine: "2024-07-12T18:06:53.361Z",
-        timeZone: "zlcujrtgxtgyik",
-        deadlineType: "Unknown",
+        deadline: "2024-11-01T17:52:54.215Z",
+        timezone: "UTC",
+        deadlineType: "InitiateAt",
       },
       executionParameters: {
-        optimizationPreference: "Cost",
-        retryPolicy: { retryCount: 30, retryWindowInMinutes: 27 },
+        retryPolicy: { retryCount: 4, retryWindowInMinutes: 27 },
       },
       resources: {
         ids: [
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource2",
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
         ],
       },
-      correlationid: "23519o2f-1dca-4610-afb4-dd25eec1f34",
-    },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
- *
- * @summary virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MinimumSet_Gen.json
- */
-async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
-  const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitDeallocate(
-    "qwfcdtmshnlownbkyh",
-    {
-      schedule: {
-        deadLine: "2024-07-12T18:06:53.361Z",
-        timeZone: "zlcujrtgxtgyik",
-        deadlineType: "Unknown",
-      },
-      executionParameters: {},
-      resources: {
-        ids: [
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource2",
-        ],
-      },
-      correlationid: "23519o2f-1dca-4610-afb4-dd25eec1f34",
+      correlationid: "23480d2f-1dca-4610-afb4-dd25eec1f34r",
     },
   );
   console.log(result);
 }
 
 async function main() {
-  scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  scheduledActionsVirtualMachinesSubmitDeallocate();
 }
 
 main().catch(console.error);
