@@ -2,20 +2,40 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectsClient, ToolSet, ToolUtility, connectionToolType, FunctionToolDefinition, RequiredToolCallOutput, FunctionToolDefinitionOutput, ToolOutput, DoneEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "@azure/ai-projects";
+import {
+  AIProjectsClient,
+  ToolSet,
+  ToolUtility,
+  connectionToolType,
+  FunctionToolDefinition,
+  RequiredToolCallOutput,
+  FunctionToolDefinitionOutput,
+  ToolOutput,
+  DoneEvent,
+  MessageDeltaChunk,
+  MessageDeltaTextContent,
+  MessageStreamEvent,
+  RunStreamEvent,
+  ThreadRunOutput,
+} from "@azure/ai-projects";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 import * as fs from "fs";
 import path from "node:path";
-import { MessageContentOutput, isOutputOfType, MessageTextContentOutput, MessageImageFileContentOutput } from "../src/index.js";
+import {
+  MessageContentOutput,
+  isOutputOfType,
+  MessageTextContentOutput,
+  MessageImageFileContentOutput,
+} from "../src/index.js";
 import { delay } from "@azure/core-util";
 import { trace } from "@opentelemetry/api";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter"
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import {
-    ConsoleSpanExporter,
-    NodeTracerProvider,
-    SimpleSpanProcessor,
+  ConsoleSpanExporter,
+  NodeTracerProvider,
+  SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -27,13 +47,14 @@ describe("snippets", function () {
   });
 
   it("setup", async function () {
-    const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
+    const connectionString =
+      process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
     const client = AIProjectsClient.fromConnectionString(
       connectionString,
       new DefaultAzureCredential(),
     );
   });
-  
+
   it("listConnections", async function () {
     const connections = await client.connections.listConnections();
     for (const connection of connections) {
@@ -85,7 +106,7 @@ describe("snippets", function () {
       fileName: "sample_file_for_upload.txt",
     });
     console.log(`Uploaded file, ID: ${file.id}`);
-  
+
     const vectorStore = await client.agents.createVectorStore({
       fileIds: [file.id],
       name: "my_vector_store",
@@ -138,14 +159,15 @@ describe("snippets", function () {
       tools: [bingTool.definition],
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-  })
+  });
 
   it("AISearch", async function () {
-    const connectionName = process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
+    const connectionName =
+      process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
     const connection = await client.connections.getConnection(connectionName);
-  
+
     const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
-  
+
     const agent = await client.agents.createAgent("gpt-4-0125-preview", {
       name: "my-agent",
       instructions: "You are a helpful agent",
@@ -157,46 +179,63 @@ describe("snippets", function () {
 
   it("functionTools", async function () {
     class FunctionToolExecutor {
-      private functionTools: { func: Function, definition: FunctionToolDefinition }[];
+      private functionTools: { func: Function; definition: FunctionToolDefinition }[];
 
       constructor() {
-        this.functionTools = [{
-          func: this.getUserFavoriteCity,
-          ...ToolUtility.createFunctionTool({
-            name: "getUserFavoriteCity",
-            description: "Gets the user's favorite city.",
-            parameters: {}
-          })
-        }, {
-          func: this.getCityNickname,
-          ...ToolUtility.createFunctionTool({
-            name: "getCityNickname",
-            description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
-            parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" } } }
-          })
-        }, {
-          func: this.getWeather,
-          ...ToolUtility.createFunctionTool({
-            name: "getWeather",
-            description: "Gets the weather for a location.",
-            parameters: { type: "object", properties: { location: { type: "string", description: "The city and state, e.g. Seattle, Wa" }, unit: { type: "string", enum: ['c', 'f'] } } }
-          })
-        }];
+        this.functionTools = [
+          {
+            func: this.getUserFavoriteCity,
+            ...ToolUtility.createFunctionTool({
+              name: "getUserFavoriteCity",
+              description: "Gets the user's favorite city.",
+              parameters: {},
+            }),
+          },
+          {
+            func: this.getCityNickname,
+            ...ToolUtility.createFunctionTool({
+              name: "getCityNickname",
+              description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
+              parameters: {
+                type: "object",
+                properties: {
+                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
+                },
+              },
+            }),
+          },
+          {
+            func: this.getWeather,
+            ...ToolUtility.createFunctionTool({
+              name: "getWeather",
+              description: "Gets the weather for a location.",
+              parameters: {
+                type: "object",
+                properties: {
+                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
+                  unit: { type: "string", enum: ["c", "f"] },
+                },
+              },
+            }),
+          },
+        ];
       }
 
       private getUserFavoriteCity(): {} {
-        return { "location": "Seattle, WA" };
+        return { location: "Seattle, WA" };
       }
 
       private getCityNickname(location: string): {} {
-        return { "nickname": "The Emerald City" };
+        return { nickname: "The Emerald City" };
       }
 
       private getWeather(location: string, unit: string): {} {
-        return { "weather": unit === "f" ? "72f" : "22c" };
+        return { weather: unit === "f" ? "72f" : "22c" };
       }
 
-      public invokeTool(toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput): ToolOutput | undefined {
+      public invokeTool(
+        toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+      ): ToolOutput | undefined {
         console.log(`Function tool call - ${toolCall.function.name}`);
         const args = [];
         if (toolCall.function.parameters) {
@@ -212,32 +251,38 @@ describe("snippets", function () {
             return undefined;
           }
         }
-        const result = this.functionTools.find((tool) => tool.definition.function.name === toolCall.function.name)?.func(...args);
-        return result ? {
-          toolCallId: toolCall.id,
-          output: JSON.stringify(result)
-        } : undefined;
+        const result = this.functionTools
+          .find((tool) => tool.definition.function.name === toolCall.function.name)
+          ?.func(...args);
+        return result
+          ? {
+              toolCallId: toolCall.id,
+              output: JSON.stringify(result),
+            }
+          : undefined;
       }
 
       public getFunctionDefinitions(): FunctionToolDefinition[] {
-        return this.functionTools.map(tool => {return tool.definition});
+        return this.functionTools.map((tool) => {
+          return tool.definition;
+        });
       }
     }
 
     const functionToolExecutor = new FunctionToolExecutor();
     const functionTools = functionToolExecutor.getFunctionDefinitions();
-    const agent = await client.agents.createAgent("gpt-4o",
-      {
-        name: "my-agent",
-        instructions: "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
-        tools: functionTools
-      });
+    const agent = await client.agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions:
+        "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
+      tools: functionTools,
+    });
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
   it("createThread", async function () {
     const thread = await client.agents.createThread();
-  }); 
+  });
 
   it("threadWithTool", async function () {
     const localFileStream = fs.createReadStream(filePath);
@@ -263,7 +308,7 @@ describe("snippets", function () {
     // Create thread with file resources.
     // If the agent has multiple threads, only this thread can search this file.
     const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
-  }); 
+  });
 
   it("createMessage", async function () {
     const message = await client.agents.createMessage(thread.id, {
@@ -271,7 +316,7 @@ describe("snippets", function () {
       content: "hello, world!",
     });
     console.log(`Created message, message ID: ${message.id}`);
-  }); 
+  });
 
   it("messageWithFileSearch", async function () {
     const fileSearchTool = ToolUtility.createFileSearchTool();
@@ -283,7 +328,7 @@ describe("snippets", function () {
         tools: [fileSearchTool.definition],
       },
     });
-  }); 
+  });
 
   it("messageWithCodeInterpreter", async function () {
     // notice that CodeInterpreter must be enabled in the agent creation,
@@ -309,7 +354,7 @@ describe("snippets", function () {
       },
     });
     console.log(`Created message, message ID: ${message.id}`);
-  }); 
+  });
 
   it("createRun", async function () {
     let run = await client.agents.createRun(thread.id, agent.id);
@@ -339,16 +384,16 @@ describe("snippets", function () {
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`)
+          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           {
             const messageDelta = eventMessage.data as MessageDeltaChunk;
             messageDelta.delta.content.forEach((contentPart) => {
               if (contentPart.type === "text") {
-                const textContent = contentPart as MessageDeltaTextContent
-                const textValue = textContent.text?.value || "No text"
-                console.log(`Text delta received:: ${textValue}`)
+                const textContent = contentPart as MessageDeltaTextContent;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
               }
             });
           }
@@ -373,17 +418,20 @@ describe("snippets", function () {
     // The messages are following in the reverse order,
     // we will iterate them and output only text contents.
     for (const dataPoint of messages.data.reverse()) {
-      const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
+      const lastMessageContent: MessageContentOutput =
+        dataPoint.content[dataPoint.content.length - 1];
       console.log(lastMessageContent);
       if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
-        console.log(`${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`);
+        console.log(
+          `${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`,
+        );
       }
     }
   });
 
   it("retrieveFile", async function () {
     const messages = await client.agents.listMessages(thread.id);
-  
+
     // Get most recent message from the assistant
     const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
     if (assistantMessage) {
@@ -393,12 +441,14 @@ describe("snippets", function () {
       if (textContent) {
         console.log(`Last message: ${textContent.text.value}`);
       }
-    } 
-    
+    }
+
     const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
     const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
 
-    const fileContent = await (await client.agents.getFileContent(imageFile.fileId).asNodeStream()).body;
+    const fileContent = await (
+      await client.agents.getFileContent(imageFile.fileId).asNodeStream()
+    ).body;
     if (fileContent) {
       const chunks: Buffer[] = [];
       for await (const chunk of fileContent) {
@@ -430,7 +480,8 @@ describe("snippets", function () {
 
     const tracer = trace.getTracer("Agents Sample", "1.0.0");
 
-    let appInsightsConnectionString = process.env.APP_INSIGHTS_CONNECTION_STRING ?? "<appInsightsConnectionString>";
+    let appInsightsConnectionString =
+      process.env.APP_INSIGHTS_CONNECTION_STRING ?? "<appInsightsConnectionString>";
 
     if (appInsightsConnectionString == "<appInsightsConnectionString>") {
       appInsightsConnectionString = await client.telemetry.getConnectionString();
@@ -438,15 +489,15 @@ describe("snippets", function () {
 
     if (appInsightsConnectionString) {
       const exporter = new AzureMonitorTraceExporter({
-        connectionString: appInsightsConnectionString
+        connectionString: appInsightsConnectionString,
       });
       provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
     }
 
     await tracer.startActiveSpan("main", async (span) => {
-        client.telemetry.updateSettings({enableContentRecording: true})
-    // ...
-    })
+      client.telemetry.updateSettings({ enableContentRecording: true });
+      // ...
+    });
   });
 
   it("exceptions", async function () {
