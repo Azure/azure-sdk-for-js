@@ -154,7 +154,7 @@ export interface AgentsOperations {
 }
 
 // @public
-export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | DoneEvent;
+export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
 
 // @public
 export interface AgentThreadCreationOptions {
