@@ -51,16 +51,16 @@ export {
 } from "./models/index.js";
 export {
   ComputeScheduleClientOptionalParams,
-  OperationsListOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+  OperationsListOptionalParams,
 } from "./api/index.js";
 export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

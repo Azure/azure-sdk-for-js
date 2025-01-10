@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getScheduledActionsOperations,
   ScheduledActionsOperations,
 } from "./classic/scheduledActions/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createComputeSchedule,
   ComputeScheduleContext,
@@ -31,17 +31,17 @@ export class ComputeScheduleClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createComputeSchedule(credential, {
+    this._client = createComputeSchedule(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.scheduledActions = getScheduledActionsOperations(this._client);
     this.operations = getOperationsOperations(this._client);
-    this.scheduledActions = getScheduledActionsOperations(this._client, subscriptionId);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for ScheduledActions */
+  /** The operation groups for scheduledActions */
   public readonly scheduledActions: ScheduledActionsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }
