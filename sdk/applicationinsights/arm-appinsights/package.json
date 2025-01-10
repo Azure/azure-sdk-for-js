@@ -32,6 +32,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.5.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.1.8",
     "@vitest/coverage-istanbul": "^2.1.8",
