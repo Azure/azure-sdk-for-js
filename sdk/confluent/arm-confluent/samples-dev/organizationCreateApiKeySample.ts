@@ -13,9 +13,7 @@ import {
   ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment

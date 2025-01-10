@@ -71,7 +71,8 @@ message containing additional information and [Docker error code](https://docs.d
 In rare cases, transient error (such as connection reset) can happen during blob upload which may lead a `RestError` being thrown with a message similar to
 `{"errors":[{"code":"BLOB_UPLOAD_INVALID","message":"blob upload invalid"}]}`, resulting in a failed upload. In this case upload should to be restarted from the beginning.
 
-The following code snippet shows how to access detailed error information:   
+The following code snippet shows how to access detailed error information:
+
 ```ts
 const config = Buffer.from(`{"hello":"world"}`);
 
@@ -80,7 +81,11 @@ try {
   console.log(`Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`);
 } catch (e) {
   // isRestError is exported by @azure/core-rest-pipeline
-  if(isRestError(e) && e.statusCode === 404 && (e.details as any).errors.some((error: any) => error.code === "BLOB_UPLOAD_INVALID")) {
+  if (
+    isRestError(e) &&
+    e.statusCode === 404 &&
+    (e.details as any).errors.some((error: any) => error.code === "BLOB_UPLOAD_INVALID")
+  ) {
     // Retry upload
   } else {
     throw e;
@@ -92,11 +97,11 @@ try {
 
 [`resterror`]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts
 [azure logger client library]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger
-[logging reference]: https://docs.microsoft.com/javascript/api/overview/azure/logger-readme
-[anonymous pull access]: https://docs.microsoft.com/azure/container-registry/anonymous-pull-access
-[troubleshoot registry login]: https://docs.microsoft.com/azure/container-registry/container-registry-troubleshoot-login
+[logging reference]: https://learn.microsoft.com/javascript/api/overview/azure/logger-readme
+[anonymous pull access]: https://learn.microsoft.com/azure/container-registry/anonymous-pull-access
+[troubleshoot registry login]: https://learn.microsoft.com/azure/container-registry/container-registry-troubleshoot-login
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential
 [enable client logging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/TROUBLESHOOTING.md#enable-client-logging
-[troubleshoot network issues with registry]: https://docs.microsoft.com/azure/container-registry/container-registry-troubleshoot-access
+[troubleshoot network issues with registry]: https://learn.microsoft.com/azure/container-registry/container-registry-troubleshoot-access
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcontainerregistry%2Fcontainer-registry%TROUBLESHOOTING.png)
