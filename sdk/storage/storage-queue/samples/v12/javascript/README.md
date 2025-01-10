@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listqueues]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/javascript/listQueues.js
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/javascript/proxyAuth.js
 [custompipeline]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/javascript/customPipeline.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-queue
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/storage-queue
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
+[createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/README.md

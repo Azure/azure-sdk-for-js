@@ -19,7 +19,7 @@ import {
   DatastoresUpdateOptionalParams,
   DatastoresUpdateResponse,
   DatastoresDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Datastores. */

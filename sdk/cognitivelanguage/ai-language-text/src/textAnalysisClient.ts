@@ -189,7 +189,7 @@ export class TextAnalysisClient {
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
@@ -211,7 +211,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
    * for more information on language detection.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -234,7 +234,7 @@ export class TextAnalysisClient {
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
@@ -255,7 +255,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
    * for more information on language detection.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -290,7 +290,7 @@ export class TextAnalysisClient {
    * in the text and the latter is the original text after all such Pii entities
    * have been redacted from it.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
@@ -324,7 +324,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
    * for more information on opinion mining.
    *
    * #### Personally identifiable information
@@ -349,7 +349,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
    * for more information on personally identifiable information.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -376,7 +376,7 @@ export class TextAnalysisClient {
    * in the text and the latter is the original text after all such Pii entities
    * have been redacted from it.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
@@ -406,7 +406,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
    * for more information on opinion mining.
    *
    * #### Personally identifiable information
@@ -432,7 +432,7 @@ export class TextAnalysisClient {
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
    * for more information on personally identifiable information.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -444,7 +444,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    found in {@link https://learn.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
    *    the input text.
    * @param options - optional action parameters and settings for the operation
@@ -534,7 +534,7 @@ export class TextAnalysisClient {
    * The results array contains the results for those input actions where each
    * item also has a `kind` field that specifies the type of the results.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
@@ -577,7 +577,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    found in {@link https://learn.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
    *    the input text.
    * @param options - optional settings for the operation
@@ -599,7 +599,7 @@ export class TextAnalysisClient {
    * The results array contains the results for those input actions where each
    * item also has a `kind` field that specifies the type of the results.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
