@@ -31,6 +31,7 @@ interface NativeBrokerPluginControl {
  * import { nativeBrokerPlugin } from "@azure/identity-broker";
  *
  * useIdentityPlugin(nativeBrokerPlugin);
+ *
  * const credential = new InteractiveBrowserCredential({
  *   brokerOptions: {
  *     enabled: true,

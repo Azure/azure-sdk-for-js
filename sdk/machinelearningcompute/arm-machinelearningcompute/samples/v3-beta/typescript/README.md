@@ -95,7 +95,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [patchoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/typescript/src/patchOperationalizationCluster.ts
 [putoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/typescript/src/putOperationalizationCluster.ts
 [updatesystemservicesinanoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/typescript/src/updateSystemServicesInAnOperationalizationCluster.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearningcompute?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearningcompute?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearningcompute/arm-machinelearningcompute/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

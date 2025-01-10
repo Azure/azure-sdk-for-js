@@ -13,9 +13,7 @@ import {
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This method provides the list of available skus for the given subscription, resource group and location.

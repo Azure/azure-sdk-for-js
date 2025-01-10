@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the enrollment accounts for a department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.

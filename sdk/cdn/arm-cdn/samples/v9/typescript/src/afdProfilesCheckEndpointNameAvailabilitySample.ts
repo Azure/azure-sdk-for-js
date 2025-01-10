@@ -13,9 +13,7 @@ import {
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.

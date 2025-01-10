@@ -350,7 +350,7 @@ export interface AesCbcDecryptParameters {
    */
   /**
    * The ciphertext to decrypt. Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using an HMAC, for example.
-   * See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    */
   ciphertext: Uint8Array;
   /**

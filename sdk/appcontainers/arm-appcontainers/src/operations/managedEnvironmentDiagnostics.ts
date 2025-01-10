@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedEnvironmentDiagnostics } from "../operationsInterfaces";
+import { ManagedEnvironmentDiagnostics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   ManagedEnvironmentDiagnosticsListDetectorsOptionalParams,
   ManagedEnvironmentDiagnosticsListDetectorsResponse,
   ManagedEnvironmentDiagnosticsGetDetectorOptionalParams,
   ManagedEnvironmentDiagnosticsGetDetectorResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ManagedEnvironmentDiagnostics operations. */
 export class ManagedEnvironmentDiagnosticsImpl
