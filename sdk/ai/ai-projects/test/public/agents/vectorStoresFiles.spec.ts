@@ -130,7 +130,7 @@ describe("Agents - vector stores files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "fileName.txt" });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
@@ -147,7 +147,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should create a vector store file and poll.", async function () {
+  it("should create a vector store file and poll (through original method)", async function () {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -163,10 +163,44 @@ describe("Agents - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const poller = agents.createVectorStoreFileAndPoll(vectorStore.id, {
+    const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, {
       fileId: file.id,
     });
-    const vectorStoreFile = await poller.pollUntilDone();
+    assert.isNotNull(vectorStoreFile);
+    assert.isNotEmpty(vectorStoreFile.id);
+    assert.notEqual(vectorStoreFile.status, "in_progress");
+    console.log(
+      `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+    );
+
+    // Clean up
+    await agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
+    await agents.deleteFile(file.id);
+    console.log(`Deleted file, file ID: ${file.id}`);
+    await agents.deleteVectorStore(vectorStore.id);
+    console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+  });
+
+  it("should create a vector store file and poll (through creation method)", async function () {
+    // Create vector store
+    const vectorStore = await agents.createVectorStore();
+    console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+
+    // Upload file
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
+    console.log(`Uploaded file, file ID: ${file.id}`);
+
+    // Create vector store file and poll
+    const vectorStoreFile = await agents.createVectorStoreFile(vectorStore.id, {
+      fileId: file.id,
+    }).poller;
     assert.isNotNull(vectorStoreFile);
     assert.isNotEmpty(vectorStoreFile.id);
     assert.notEqual(vectorStoreFile.status, "in_progress");

@@ -37,19 +37,24 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
-  // Set up abort controller (optional)
-  // Polling can then be stopped using abortController.abort()
-  const abortController = new AbortController();
-
-  // Create vector store file
+  // Create vector store file and poll
   const vectorStoreFileOptions = {
     fileId: file.id,
-    pollingOptions: { sleepIntervalInMs: 2000, abortSignal: abortController.signal },
+    pollingOptions: { sleepIntervalInMs: 2000 },
   };
-  const poller = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions);
-  const vectorStoreFile = await poller.pollUntilDone();
+  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, vectorStoreFileOptions).poller;
   console.log(
     `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+  );
+
+  // Alternatively, polling can be done using .poll() and .pollUntilDone() methods.
+  // This approach allows for more control over the polling process.
+  // (Optionally) an AbortController can be used to stop polling if needed.
+  const abortController = new AbortController();
+  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, vectorStoreFileOptions).poller;
+  const _vectorStoreFile = await vectorStoreFilePoller.pollUntilDone({ abortSignal: abortController.signal });
+  console.log(
+    `Created vector store file with status ${_vectorStoreFile.status}, vector store file ID: ${_vectorStoreFile.id}`,
   );
 
   // Delete file
