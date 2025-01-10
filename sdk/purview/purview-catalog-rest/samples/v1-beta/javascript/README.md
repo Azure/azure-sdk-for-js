@@ -47,7 +47,7 @@ npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" node typedefs.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [typedefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-catalog-rest/samples/v1-beta/javascript/typedefs.js
-[apiref]: https://docs.microsoft.com/rest/api/purview/
+[apiref]: https://learn.microsoft.com/rest/api/purview/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest/README.md

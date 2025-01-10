@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GetPrivateDnsZoneSuffix } from "../operationsInterfaces";
+import { GetPrivateDnsZoneSuffix } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
   GetPrivateDnsZoneSuffixExecuteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GetPrivateDnsZoneSuffix operations. */
 export class GetPrivateDnsZoneSuffixImpl implements GetPrivateDnsZoneSuffix {

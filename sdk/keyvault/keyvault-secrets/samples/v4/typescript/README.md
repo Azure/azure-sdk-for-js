@@ -37,7 +37,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
+If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -81,8 +81,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
 [listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
+[createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

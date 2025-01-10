@@ -11,7 +11,7 @@ import { logger } from "../logger.js";
 
 /**
  * The sync token header, as described here:
- * https://docs.microsoft.com/azure/azure-app-configuration/rest-api-consistency
+ * https://learn.microsoft.com/azure/azure-app-configuration/rest-api-consistency
  * @internal
  */
 export const SyncTokenHeaderName = "sync-token";
@@ -45,7 +45,7 @@ export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
  * caching and load balancing within App Configuration).
  *
  * (protocol and format described here)
- * https://docs.microsoft.com/azure/azure-app-configuration/rest-api-consistency
+ * https://learn.microsoft.com/azure/azure-app-configuration/rest-api-consistency
  *
  * @internal
  */
