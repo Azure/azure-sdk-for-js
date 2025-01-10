@@ -20,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes role instances in a cloud service.
  *
  * @summary Deletes role instances in a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
  */
 async function deleteCloudServiceRoleInstancesInACloudService() {
   const subscriptionId =

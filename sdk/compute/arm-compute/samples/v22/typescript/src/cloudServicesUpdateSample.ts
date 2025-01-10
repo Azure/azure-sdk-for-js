@@ -20,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a cloud service.
  *
  * @summary Update a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Update_ToIncludeTags.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Update_ToIncludeTags.json
  */
 async function updateExistingCloudServiceToAddTags() {
   const subscriptionId =

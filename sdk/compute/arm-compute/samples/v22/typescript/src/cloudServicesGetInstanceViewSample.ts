@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the status of a cloud service.
  *
  * @summary Gets the status of a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Get_InstanceViewWithMultiRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Get_InstanceViewWithMultiRole.json
  */
 async function getCloudServiceInstanceViewWithMultipleRoles() {
   const subscriptionId =
