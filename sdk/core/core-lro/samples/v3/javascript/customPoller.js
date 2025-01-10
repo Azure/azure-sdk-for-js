@@ -39,6 +39,9 @@ async function pollOperation({ setDelay, state, options }) {
   }
 }
 
+/**
+ * This function deserializes the state of the poller.
+ */
 function deserializeState(serializedState) {
   try {
     return JSON.parse(serializedState).state;
@@ -47,6 +50,9 @@ function deserializeState(serializedState) {
   }
 }
 
+/**
+ * Creates a poller for the operation.
+ */
 function createPoller({ intervalInMs, restoreFrom }) {
   let statePromise;
   let state;
@@ -93,27 +99,16 @@ function createPoller({ intervalInMs, restoreFrom }) {
           throw new Error("Poller should be initialized but it is not!");
         }
         const { abortSignal: inputAbortSignal } = pollOptions || {};
-        // In the future we can use AbortSignal.any() instead
-        function abortListener() {
-          abortController.abort();
-        }
-        const abortSignal = abortController.signal;
-        if (inputAbortSignal?.aborted) {
-          abortController.abort();
-        } else if (!abortSignal.aborted) {
-          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
-        }
+        const abortSignal = inputAbortSignal
+          ? AbortSignal.any([inputAbortSignal, abortController.signal])
+          : abortController.signal;
 
-        try {
-          if (!poller.isDone) {
+        if (!poller.isDone) {
+          await poller.poll({ abortSignal });
+          while (!poller.isDone) {
+            await delay(currentPollIntervalInMs, { abortSignal });
             await poller.poll({ abortSignal });
-            while (!poller.isDone) {
-              await delay(currentPollIntervalInMs, { abortSignal });
-              await poller.poll({ abortSignal });
-            }
           }
-        } finally {
-          inputAbortSignal?.removeEventListener("abort", abortListener);
         }
         switch (state.status) {
           case "succeeded":

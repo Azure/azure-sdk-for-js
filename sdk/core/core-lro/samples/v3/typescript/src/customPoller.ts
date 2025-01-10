@@ -31,6 +31,9 @@ async function initOperation<T>(): Promise<RestorableOperationState<T, Operation
   return { status: "running", config: { id: "1" } };
 }
 
+/**
+ * This type represents the options that can be passed to pollOperation.
+ */
 type PollOperationOptions<T> = {
   state: RestorableOperationState<T, OperationState<T>>;
   setDelay: (interval: number) => void;
@@ -67,6 +70,9 @@ async function pollOperation<T>({
   }
 }
 
+/**
+ * This function deserializes the state of the poller.
+ */
 function deserializeState<T, TState extends OperationState<T>>(
   serializedState: string,
 ): RestorableOperationState<T, TState> {
@@ -77,13 +83,27 @@ function deserializeState<T, TState extends OperationState<T>>(
   }
 }
 
+/**
+ * This type represents the options that can be passed to createPoller.
+ */
+interface CreatePollerOptions {
+  /**
+   * The serialized state of the poller.
+   */
+  restoreFrom?: string;
+  /**
+   * The interval in milliseconds to wait between polls.
+   */
+  intervalInMs?: number;
+}
+
+/**
+ * Creates a poller for the operation.
+ */
 function createPoller<T>({
   intervalInMs,
   restoreFrom,
-}: {
-  restoreFrom?: string;
-  intervalInMs?: number;
-}): PollerLike<OperationState<T>, T> {
+}: CreatePollerOptions): PollerLike<OperationState<T>, T> {
   let statePromise: Promise<OperationState<T>>;
   let state: RestorableOperationState<T, OperationState<T>>;
   if (restoreFrom) {
@@ -131,27 +151,16 @@ function createPoller<T>({
           throw new Error("Poller should be initialized but it is not!");
         }
         const { abortSignal: inputAbortSignal } = pollOptions || {};
-        // In the future we can use AbortSignal.any() instead
-        function abortListener(): void {
-          abortController.abort();
-        }
-        const abortSignal = abortController.signal;
-        if (inputAbortSignal?.aborted) {
-          abortController.abort();
-        } else if (!abortSignal.aborted) {
-          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
-        }
+        const abortSignal = inputAbortSignal
+          ? AbortSignal.any([inputAbortSignal, abortController.signal])
+          : abortController.signal;
 
-        try {
-          if (!poller.isDone) {
+        if (!poller.isDone) {
+          await poller.poll({ abortSignal });
+          while (!poller.isDone) {
+            await delay(currentPollIntervalInMs, { abortSignal });
             await poller.poll({ abortSignal });
-            while (!poller.isDone) {
-              await delay(currentPollIntervalInMs, { abortSignal });
-              await poller.poll({ abortSignal });
-            }
           }
-        } finally {
-          inputAbortSignal?.removeEventListener("abort", abortListener);
         }
         switch (state.status) {
           case "succeeded":
