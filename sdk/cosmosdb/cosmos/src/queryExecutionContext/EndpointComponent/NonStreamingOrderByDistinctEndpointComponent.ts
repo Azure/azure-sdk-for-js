@@ -6,7 +6,6 @@ import { getInitialHeader } from "../headerUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { hashObject } from "../../utils/hashObject";
 import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import type { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap";
 import { OrderByComparator } from "../orderByComparator";
@@ -54,58 +53,6 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       },
       this.priorityQueueBufferSize,
     );
-  }
-
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    let resHeaders = getInitialHeader();
-    // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
-    if (this.priorityQueueBufferSize <= 0) {
-      return {
-        result: undefined,
-        headers: resHeaders,
-      };
-    }
-
-    // If there are more results in backend, keep filling map.
-    if (this.executionContext.hasMoreResults()) {
-      // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode,
-      )) as NonStreamingOrderByResponse;
-      resHeaders = headers;
-      if (result) {
-        // make hash of result object and update the map if required.
-        const key = await hashObject(result?.payload);
-        this.aggregateMap.set(key, result);
-      }
-
-      // return {} to signal that there are more results to fetch.
-      if (this.executionContext.hasMoreResults()) {
-        return {
-          result: {},
-          headers: resHeaders,
-        };
-      }
-    }
-
-    // If all results are fetched from backend, prepare final results
-    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
-      this.isCompleted = true;
-      await this.buildFinalResultArray();
-    }
-
-    // Return results from final array.
-    if (this.finalResultArray.length > 0) {
-      return {
-        result: this.finalResultArray.shift(),
-        headers: resHeaders,
-      };
-    }
-    // Signal that there are no more results.
-    return {
-      result: undefined,
-      headers: resHeaders,
-    };
   }
 
   /**

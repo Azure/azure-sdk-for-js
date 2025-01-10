@@ -17,24 +17,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
   ) {}
-  /**
-   * Execute a provided function on the next element in the OrderByEndpointComponent.
-   */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
-    if (this.emitRawOrderByPayload) {
-      return {
-        result: item !== undefined ? item : undefined,
-        headers,
-      };
-    } else {
-      return {
-        result: item !== undefined ? item.payload : undefined,
-        headers,
-      };
-    }
-  }
-
+  
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.

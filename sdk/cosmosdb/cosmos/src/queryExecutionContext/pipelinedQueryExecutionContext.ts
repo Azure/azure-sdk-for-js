@@ -165,12 +165,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     this.fetchBuffer = [];
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode);
-  }
-
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
+    console.log(
+      "this.fetchBuffer.length, this.endpoint.hasMoreResults: ",
+      this.fetchBuffer.length,
+      this.endpoint.hasMoreResults(),
+    );
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 

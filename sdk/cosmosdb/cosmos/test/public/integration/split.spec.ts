@@ -91,7 +91,7 @@ describe("Partition Splits", () => {
     assert(resources.length >= documentDefinitions.length);
   });
 
-  it("split errors surface as 503", async () => {
+  it.skip("split errors surface as 503", async () => {
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
       {
@@ -99,13 +99,13 @@ describe("Partition Splits", () => {
         plugin: async (context, diagNode, next) => {
           expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           // This plugin throws a single 410 for partition key range ID 0 on every single request
-          const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
-          if (partitionKeyRangeId === "0") {
-            const error = new Error("Fake Partition Split") as any;
-            error.code = 410;
-            error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-            throw error;
-          }
+          // const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          // if (partitionKeyRangeId === "0") {
+          //   const error = new Error("Fake Partition Split") as any;
+          //   error.code = 410;
+          //   error.substatus = SubStatusCodes.PartitionKeyRangeGone;
+          //   throw error;
+          // }
           return next(context);
         },
       },

@@ -16,9 +16,6 @@ import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import type { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { addDignosticChild } from "../utils/diagnostics";
-import { MetadataLookUpType } from "../CosmosDiagnostics";
-import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -132,13 +129,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
         }
-
         // Create one documentProducer for each partitionTargetRange
         filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
           // TODO: any partitionTargetRange
           // no async callback
+          const queryRange = QueryRange.parsePartitionKeyRange(partitionTargetRange);
           targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange),
+            this._createTargetPartitionQueryExecutionContext(
+              partitionTargetRange,
+              undefined,
+              queryRange.min,
+              queryRange.max,
+              false,
+            ),
           );
         });
 
@@ -212,68 +215,52 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
   }
 
-  // TODO: P0 Code smell - can barely tell what this is doing
-  /**
-   * Removes the current document producer from the priqueue,
-   * replaces that document producer with child document producers,
-   * then reexecutes the originFunction with the corrrected executionContext
-   */
-  private async _repairExecutionContext(
+  private async _enqueueReplacementDocumentProducers(
     diagnosticNode: DiagnosticNodeInternal,
-    originFunction: any,
+    documentProducer: DocumentProducer,
   ): Promise<void> {
-    // TODO: any
     // Get the replacement ranges
-    // Removing the invalid documentProducer from the orderByPQ
-    const parentDocumentProducer = this.bufferedDocumentProducersQueue.deq();
-    try {
-      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
-        parentDocumentProducer,
-        diagnosticNode,
+    const replacementPartitionKeyRanges = await this._getReplacementPartitionKeyRanges(
+      documentProducer,
+      diagnosticNode,
+    );
+
+    if (replacementPartitionKeyRanges.length === 0) {
+      throw new Error("PartitionKeyRangeGone error but no replacement partition key ranges");
+    } else if (replacementPartitionKeyRanges.length === 1) {
+      // Partition is gone due to Merge
+      // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
+      const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
+        replacementPartitionKeyRanges[0],
+        documentProducer.continuationToken,
+        documentProducer.startEpk,
+        documentProducer.endEpk,
+        true,
       );
 
-      const replacementDocumentProducers: DocumentProducer[] = [];
+      this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
+    } else {
       // Create the replacement documentProducers
+      const replacementDocumentProducers: DocumentProducer[] = [];
       replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
+        const queryRange = QueryRange.parsePartitionKeyRange(partitionKeyRange);
         // Create replacment document producers with the parent's continuationToken
         const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
           partitionKeyRange,
-          parentDocumentProducer.continuationToken,
+          documentProducer.continuationToken,
+          queryRange.min,
+          queryRange.max,
+          false,
         );
         replacementDocumentProducers.push(replacementDocumentProducer);
       });
-      // We need to check if the documentProducers even has anything left to fetch from before enqueing them
-      const checkAndEnqueueDocumentProducer = async (
-        documentProducerToCheck: DocumentProducer,
-        checkNextDocumentProducerCallback: any,
-      ): Promise<void> => {
-        try {
-          if (documentProducerToCheck.hasMoreResults()) {
-            this.unfilledDocumentProducersQueue.enq(documentProducerToCheck);
-          }
-          await checkNextDocumentProducerCallback();
-        } catch (err: any) {
-          this.err = err;
-          return;
+
+      // add document producers to the queue
+      replacementDocumentProducers.forEach((replacementDocumentProducer) => {
+        if (replacementDocumentProducer.hasMoreResults()) {
+          this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
         }
-      };
-      const checkAndEnqueueDocumentProducers = async (rdp: DocumentProducer[]): Promise<any> => {
-        if (rdp.length > 0) {
-          // We still have a replacementDocumentProducer to check
-          const replacementDocumentProducer = rdp.shift();
-          await checkAndEnqueueDocumentProducer(replacementDocumentProducer, async () => {
-            await checkAndEnqueueDocumentProducers(rdp);
-          });
-        } else {
-          // reexecutes the originFunction with the corrrected executionContext
-          return originFunction();
-        }
-      };
-      // Invoke the recursive function to get the ball rolling
-      await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
-    } catch (err: any) {
-      this.err = err;
-      throw err;
+      });
     }
   }
 
@@ -284,186 +271,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       "substatus" in error &&
       error["substatus"] === SubStatusCodes.PartitionKeyRangeGone
     );
-  }
-
-  /**
-   * Checks to see if the executionContext needs to be repaired.
-   * if so it repairs the execution context and executes the ifCallback,
-   * else it continues with the current execution context and executes the elseCallback
-   */
-  private async _repairExecutionContextIfNeeded(
-    diagnosticNode: DiagnosticNodeInternal,
-    ifCallback: any,
-    elseCallback: any,
-  ): Promise<void> {
-    // Check if split happened
-    try {
-      elseCallback();
-    } catch (err: any) {
-      if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
-        // Split has happened so we need to repair execution context before continueing
-        return addDignosticChild(
-          (childNode) => this._repairExecutionContext(childNode, ifCallback),
-          diagnosticNode,
-          DiagnosticNodeType.QUERY_REPAIR_NODE,
-        );
-      } else {
-        // Something actually bad happened ...
-        this.err = err;
-        throw err;
-      }
-    }
-  }
-
-  /**
-   * Fetches the next element in the ParallelQueryExecutionContextBase.
-   */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    if (this.err) {
-      // if there is a prior error return error
-      throw this.err;
-    }
-    return new Promise<Response<any>>((resolve, reject) => {
-      this.sem.take(() => {
-        if (!this.diagnosticNodeWrapper.consumed) {
-          diagnosticNode.addChildNode(
-            this.diagnosticNodeWrapper.diagnosticNode,
-            CosmosDbDiagnosticLevel.debug,
-            MetadataLookUpType.QueryPlanLookUp,
-          );
-          this.diagnosticNodeWrapper.diagnosticNode = undefined;
-          this.diagnosticNodeWrapper.consumed = true;
-        } else {
-          this.diagnosticNodeWrapper.diagnosticNode = diagnosticNode;
-        }
-
-        // NOTE: lock must be released before invoking quitting
-        if (this.err) {
-          // release the lock before invoking callback
-          this.sem.leave();
-          // if there is a prior error return error
-          this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(this.err);
-          return;
-        }
-
-        if (this.unfilledDocumentProducersQueue.size() === 0) {
-          // there is no more results
-          this.state = ParallelQueryExecutionContextBase.STATES.ended;
-          // release the lock before invoking callback
-          this.sem.leave();
-          return resolve({
-            result: undefined,
-            headers: this._getAndResetActiveResponseHeaders(),
-          });
-        }
-
-        const ifCallback = (): void => {
-          // Release the semaphore to avoid deadlock
-          this.sem.leave();
-          // Reexcute the function
-          return resolve(this.nextItem(diagnosticNode));
-        };
-        const elseCallback = async (): Promise<void> => {
-          let documentProducer: DocumentProducer;
-          try {
-            documentProducer = this.unfilledDocumentProducersQueue.deq();
-          } catch (e: any) {
-            // if comparing elements of the priority queue throws exception
-            // set that error and return error
-            this.err = e;
-            // release the lock before invoking callback
-            this.sem.leave();
-            this.err.headers = this._getAndResetActiveResponseHeaders();
-            reject(this.err);
-            return;
-          }
-
-          let item: any;
-          let headers: CosmosHeaders;
-          try {
-            // const response = await documentProducer.nextItem(diagnosticNode);
-            const response = await documentProducer.fetchNextItem();
-            item = response.result;
-            headers = response.headers;
-            this._mergeWithActiveResponseHeaders(headers);
-            if (item === undefined) {
-              // this should never happen
-              // because the documentProducer already has buffered an item
-              // assert item !== undefined
-              this.err = new Error(
-                `Extracted DocumentProducer from the priority queue \
-                                            doesn't have any buffered item!`,
-              );
-              // release the lock before invoking callback
-              this.sem.leave();
-              return resolve({
-                result: undefined,
-                headers: this._getAndResetActiveResponseHeaders(),
-              });
-            }
-          } catch (err: any) {
-            this.err = new Error(
-              `Extracted DocumentProducer from the priority queue fails to get the \
-                                    buffered item. Due to ${JSON.stringify(err)}`,
-            );
-            this.err.headers = this._getAndResetActiveResponseHeaders();
-            // release the lock before invoking callback
-            this.sem.leave();
-            reject(this.err);
-            return;
-          }
-
-          // we need to put back the document producer to the queue if it has more elements.
-          // the lock will be released after we know document producer must be put back in the queue or not
-          try {
-            const { result: afterItem, headers: otherHeaders } =
-              // await documentProducer.current(diagnosticNode);
-              await documentProducer.fetchNextItem();
-
-            this._mergeWithActiveResponseHeaders(otherHeaders);
-            if (afterItem === undefined) {
-              // no more results is left in this document producer
-            } else {
-              try {
-                const headItem = documentProducer.fetchResults[0];
-                if (typeof headItem === "undefined") {
-                  throw new Error(
-                    "Extracted DocumentProducer from PQ is invalid state with no result!",
-                  );
-                }
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
-              } catch (e: any) {
-                // if comparing elements in priority queue throws exception
-                // set error
-                this.err = e;
-              }
-            }
-          } catch (err: any) {
-            if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
-              // We want the document producer enqueued
-              // So that later parts of the code can repair the execution context
-              this.unfilledDocumentProducersQueue.enq(documentProducer);
-            } else {
-              // Something actually bad happened
-              this.err = err;
-              reject(this.err);
-            }
-          } finally {
-            // release the lock before returning
-            this.sem.leave();
-          }
-          // invoke the callback on the item
-          return resolve({
-            result: item,
-            headers: this._getAndResetActiveResponseHeaders(),
-          });
-        };
-        this._repairExecutionContextIfNeeded(diagnosticNode, ifCallback, elseCallback).catch(
-          reject,
-        );
-      });
-    });
   }
 
   /**
@@ -484,6 +291,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
     continuationToken?: any,
+    startEpk?: string,
+    endEpk?: string,
+    populateEpkRangeHeaders?: boolean,
   ): DocumentProducer {
     // TODO: any
     // creates target partition range Query Execution Context
@@ -514,6 +324,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       partitionKeyTargetRange,
       options,
       this.correlatedActivityId,
+      startEpk,
+      endEpk,
+      populateEpkRangeHeaders,
     );
   }
   protected async drainBufferedItems(): Promise<Response<any>> {
@@ -605,53 +418,65 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducers.push(documentProducer);
           }
 
-          const ifCallback = (): void => {
-            this.sem.leave();
-            resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
-          };
+          // const ifCallback = (): void => {
+          //   this.sem.leave();
+          //   resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
+          // };
 
-          const elseCallback = async (): Promise<void> => {
-            const bufferDocumentProducer = async (
-              documentProducer: DocumentProducer,
-            ): Promise<void> => {
-              try {
-                await documentProducer.bufferMore(this.getDiagnosticNode());
-                // if buffer of document producer is filled, add it to the buffered document producers queue
-                const nextItem = documentProducer.peakNextItem();
-                if (nextItem !== undefined) {
-                  this.bufferedDocumentProducersQueue.enq(documentProducer);
-                } else if (documentProducer.hasMoreResults()) {
-                  this.unfilledDocumentProducersQueue.enq(documentProducer);
-                }
-              } catch (err) {
+          // const elseCallback = async (): Promise<void> => {
+          const bufferDocumentProducer = async (
+            documentProducer: DocumentProducer,
+          ): Promise<void> => {
+            try {
+              await documentProducer.bufferMore(this.getDiagnosticNode());
+              // if buffer of document producer is filled, add it to the buffered document producers queue
+              const nextItem = documentProducer.peakNextItem();
+              if (nextItem !== undefined) {
+                this.bufferedDocumentProducersQueue.enq(documentProducer);
+              } else if (documentProducer.hasMoreResults()) {
+                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              }
+            } catch (err) {
+              if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
+                // We want the document producer enqueued
+                // So that later parts of the code can repair the execution context
+                // refresh the partition key ranges and ctreate new document producers and add it to the queue
+
+                await this._enqueueReplacementDocumentProducers(
+                  this.getDiagnosticNode(),
+                  documentProducer,
+                );
+                resolve();
+              } else {
                 this.err = err;
                 this.sem.leave();
                 this.err.headers = this._getAndResetActiveResponseHeaders();
                 reject(err);
                 // TODO: repair execution context  may cause issue
               }
-            };
-
-            try {
-              // TODO: fix when handling splits
-              await Promise.all(
-                documentProducers.map((producer) => bufferDocumentProducer(producer)),
-              );
-            } catch (err) {
-              this.err = err;
-              this.err.headers = this._getAndResetActiveResponseHeaders();
-              reject(err);
-              return;
-            } finally {
-              this.sem.leave();
             }
-            resolve();
           };
-          this._repairExecutionContextIfNeeded(
-            this.getDiagnosticNode(),
-            ifCallback,
-            elseCallback,
-          ).catch(reject);
+
+          try {
+            // TODO: fix when handling splits
+            await Promise.all(
+              documentProducers.map((producer) => bufferDocumentProducer(producer)),
+            );
+          } catch (err) {
+            this.err = err;
+            this.err.headers = this._getAndResetActiveResponseHeaders();
+            reject(err);
+            return;
+          } finally {
+            this.sem.leave();
+          }
+          resolve();
+          // };
+          // this._repairExecutionContextIfNeeded(
+          //   this.getDiagnosticNode(),
+          //   ifCallback,
+          //   elseCallback,
+          // ).catch(reject);
         } catch (err) {
           this.sem.leave();
 
