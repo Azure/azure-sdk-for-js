@@ -5,7 +5,6 @@ import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../com
 import assert from "assert";
 import groupBySnapshot from "./groupBy.snapshot";
 import type { Context } from "mocha";
-// import type { QueryIterator } from "../../../../src";
 
 const items = [
   {
