@@ -2339,6 +2339,8 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   sender: string;
   /** The recipient Email Address */
   recipient: string;
+  /** The Internet Message Id of the email been sent */
+  internetMessageId: string;
   /** The Id of the email been sent */
   messageId: string;
   /** The status of the email. Any value other than Delivered is considered failed. */
@@ -2351,6 +2353,8 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 
 /** Detailed information about the status if any */
 export interface AcsEmailDeliveryReportStatusDetails {
+  /** Recipient Mail Server Host Name */
+  recipientMailServerHostName: string;
   /** Detailed status message */
   statusMessage: string;
 }

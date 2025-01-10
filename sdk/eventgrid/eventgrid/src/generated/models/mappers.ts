@@ -6809,6 +6809,13 @@ export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper
           name: "String"
         }
       },
+      internetMessageId: {
+        serializedName: "internetMessageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       messageId: {
         serializedName: "messageId",
         required: true,
@@ -6846,6 +6853,13 @@ export const AcsEmailDeliveryReportStatusDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AcsEmailDeliveryReportStatusDetails",
     modelProperties: {
+      recipientMailServerHostName: {
+        serializedName: "recipientMailServerHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       statusMessage: {
         serializedName: "statusMessage",
         required: true,
