@@ -137,7 +137,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [policysetdefinitionslistbuiltinsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policy/arm-policy/samples/v5/typescript/src/policySetDefinitionsListBuiltInSample.ts
 [policysetdefinitionslistbymanagementgroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policy/arm-policy/samples/v5/typescript/src/policySetDefinitionsListByManagementGroupSample.ts
 [policysetdefinitionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/policy/arm-policy/samples/v5/typescript/src/policySetDefinitionsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-policy?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-policy?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

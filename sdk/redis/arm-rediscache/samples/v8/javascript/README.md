@@ -125,6 +125,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [redislistupgradenotificationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redis/arm-rediscache/samples/v8/javascript/redisListUpgradeNotificationsSample.js
 [redisregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redis/arm-rediscache/samples/v8/javascript/redisRegenerateKeySample.js
 [redisupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redis/arm-rediscache/samples/v8/javascript/redisUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-rediscache?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-rediscache?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redis/arm-rediscache/README.md

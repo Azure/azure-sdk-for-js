@@ -13,9 +13,9 @@ const ContainerServiceManagementClient = require("@azure-rest/arm-containerservi
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+ * This sample demonstrates how to AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://learn.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
  *
- * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+ * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://learn.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/RunCommandRequest.json
  */
 async function submitNewCommand() {

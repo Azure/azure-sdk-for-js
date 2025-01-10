@@ -268,10 +268,11 @@ describe("#LiveMetrics", () => {
     assert.ok(autoCollect.getMeterProvider());
   });
 
-  it("should not collect when disabled", async () => {
+  it("should not collect when disabled", () => {
     autoCollect.deactivateMetrics();
-    await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    setTimeout(() => {
+      assert.ok(exportStub.notCalled);
+    }, 120);
   });
 
   it("entra authentication", () => {

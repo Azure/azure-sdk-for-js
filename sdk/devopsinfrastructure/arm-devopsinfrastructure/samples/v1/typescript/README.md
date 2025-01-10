@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [resourcedetailslistbypoolsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/resourceDetailsListByPoolSample.ts
 [skulistbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/skuListByLocationSample.ts
 [subscriptionusagesusagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/subscriptionUsagesUsagesSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devopsinfrastructure?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devopsinfrastructure?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
