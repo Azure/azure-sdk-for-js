@@ -1,6 +1,6 @@
 # Release History
 
-## 1.18.2 (Unreleased)
+## 1.18.3 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,13 @@
 
 ### Bugs Fixed
 
-- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
-
 ### Other Changes
+
+## 1.18.2 (2025-01-10)
+
+### Bugs Fixed
+
+- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
 
 ## 1.18.1 (2024-11-26)
 

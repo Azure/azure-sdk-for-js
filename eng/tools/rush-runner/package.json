@@ -4,9 +4,9 @@
   "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
     "build": "npm run format && npm run lint && npm run typecheck && npm run test",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"test/**/*.js\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"src/**/*.js\" \"test/**/*.js\"",
     "typecheck": "tsc",
-    "lint": "eslint index.js test",
+    "lint": "eslint index.js src test",
     "test": "vitest"
   },
   "devDependencies": {

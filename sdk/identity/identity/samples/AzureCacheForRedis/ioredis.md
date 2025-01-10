@@ -12,23 +12,24 @@
 
 - Configuration of Role and Role Assignments is required before using the sample code in this document.
 - **Dependency Requirements:**
-    Add the following dependencies to *package.json*:
+  Add the following dependencies to _package.json_:
 
-    ```
-    "dependencies": {
-      "@azure/identity": "^3.2.2",
-      "ioredis": "^5.3.2"
-    }
-    ```
+  ```
+  "dependencies": {
+    "@azure/identity": "^3.2.2",
+    "ioredis": "^5.3.2"
+  }
+  ```
+
 - Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 #### Samples Guidance
 
-* [Authenticate with Microsoft Entra ID - Hello World](#authenticate-with-azure-ad-hello-world):
-   This sample is recommended for users getting started to use Microsoft Entra authentication with Azure Cache for Redis.
-* [Authenticate with Microsoft Entra ID - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
-   This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Microsoft Entra ID upon token expiry.
-* [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
+- [Authenticate with Microsoft Entra ID - Hello World](#authenticate-with-azure-ad-hello-world):
+  This sample is recommended for users getting started to use Microsoft Entra authentication with Azure Cache for Redis.
+- [Authenticate with Microsoft Entra ID - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
+  This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Microsoft Entra ID upon token expiry.
+- [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with a token cache. The token cache stores and proactively refreshes the Microsoft Entra access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
 #### Authenticate with Microsoft Entra ID: Hello World
@@ -48,11 +49,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-function extractUsernameFromToken(accessToken: AccessToken): string{
+function extractUsernameFromToken(accessToken: AccessToken): string {
   const base64Metadata = accessToken.token.split(".")[1];
-  const { oid } = JSON.parse(
-    Buffer.from(base64Metadata, "base64").toString("utf8"),
-  );
+  const { oid } = JSON.parse(Buffer.from(base64Metadata, "base64").toString("utf8"));
   return oid;
 }
 
@@ -60,11 +59,9 @@ async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
   const redisScope = "https://redis.azure.com/.default";
-  
+
   // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
-  let accessToken = await credential.getToken(
-    redisScope
-  );
+  let accessToken = await credential.getToken(redisScope);
 
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
@@ -74,7 +71,7 @@ async function main() {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
-    keepAlive: 0
+    keepAlive: 0,
   });
 
   // Set a value against your key in the Azure Redis Cache.
@@ -94,13 +91,13 @@ main().catch((err) => {
 
 **Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch a Microsoft Entra access token. The samples also use the service principal name as the username. The other supported `TokenCredential` implementations that can be used from the [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library are as follows:
 
-* [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
-* [Client Secret Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
-* [Managed Identity Credential](https://docs.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
-* [Username Password Credential](https://docs.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
-* [Azure CLI Credential](https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
-* [Interactive Browser Credential](https://docs.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
-* [Device Code Credential](https://docs.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
+- [Client Certificate Credential](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
+- [Client Secret Credential](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
+- [Managed Identity Credential](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
+- [Username Password Credential](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
+- [Azure CLI Credential](https://learn.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
+- [Interactive Browser Credential](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
+- [Device Code Credential](https://learn.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
 
 #### Authenticate with Microsoft Entra ID: Handle Reauthentication
 
@@ -118,17 +115,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    const redisScope = "https://redis.azure.com/.default";
+  const redisScope = "https://redis.azure.com/.default";
 
-    // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
-    return credential.getToken(redisScope);
+  // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
+  return credential.getToken(redisScope);
 }
 
-function extractUsernameFromToken(accessToken: AccessToken): string{
+function extractUsernameFromToken(accessToken: AccessToken): string {
   const base64Metadata = accessToken.token.split(".")[1];
-  const { oid } = JSON.parse(
-    Buffer.from(base64Metadata, "base64").toString("utf8"),
-  );
+  const { oid } = JSON.parse(Buffer.from(base64Metadata, "base64").toString("utf8"));
   return oid;
 }
 
@@ -144,7 +139,7 @@ async function main() {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
-    keepAlive: 0
+    keepAlive: 0,
   });
 
   for (let i = 0; i < 3; i++) {
@@ -156,7 +151,7 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+      if (accessToken.expiresOnTimestamp <= Date.now() || redis.status === "end" || "close") {
         redis.disconnect();
         redis = new Redis({
           username: extractUsernameFromToken(accessToken),
@@ -165,7 +160,7 @@ async function main() {
             host: process.env.REDIS_HOSTNAME,
             port: 6380,
           },
-          keepAlive: 0
+          keepAlive: 0,
         });
       }
     }
@@ -195,24 +190,22 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 function randomNumber(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 async function returnPassword(credential: TokenCredential) {
-    const redisScope = "https://redis.azure.com/.default";
+  const redisScope = "https://redis.azure.com/.default";
 
-    // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
-    let accessToken = await credential.getToken(redisScope);
-    return accessToken;
+  // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
+  let accessToken = await credential.getToken(redisScope);
+  return accessToken;
 }
 
-function extractUsernameFromToken(accessToken: AccessToken): string{
+function extractUsernameFromToken(accessToken: AccessToken): string {
   const base64Metadata = accessToken.token.split(".")[1];
-  const { oid } = JSON.parse(
-    Buffer.from(base64Metadata, "base64").toString("utf8"),
-  );
+  const { oid } = JSON.parse(Buffer.from(base64Metadata, "base64").toString("utf8"));
   return oid;
 }
 
@@ -224,16 +217,19 @@ async function main() {
 
   async function updateToken() {
     accessTokenCache = await returnPassword(credential);
-    let randomTimestamp = randomNumber(120000,300000);
-    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
-    if(redis){
+    let randomTimestamp = randomNumber(120000, 300000);
+    id = setTimeout(
+      updateToken,
+      accessTokenCache.expiresOnTimestamp - randomTimestamp - Date.now(),
+    );
+    if (redis) {
       await redis.auth(extractUsernameFromToken(accessToken), accessTokenCache.token);
     }
   }
 
   await updateToken();
 
-  let accessToken: AccessToken | undefined = {...accessTokenCache};
+  let accessToken: AccessToken | undefined = { ...accessTokenCache };
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
     username: extractUsernameFromToken(accessToken),
@@ -242,7 +238,7 @@ async function main() {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
-    keepAlive: 0
+    keepAlive: 0,
   });
 
   for (let i = 0; i < 3; i++) {
@@ -254,9 +250,9 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+      if (accessToken.expiresOnTimestamp <= Date.now() || redis.status === "end" || "close") {
         redis.disconnect();
-        accessToken = {...accessTokenCache};
+        accessToken = { ...accessTokenCache };
         redis = new Redis({
           username: extractUsernameFromToken(accessToken),
           password: accessToken.token,
@@ -264,7 +260,7 @@ async function main() {
             host: process.env.REDIS_HOSTNAME,
             port: 6380,
           },
-          keepAlive: 0
+          keepAlive: 0,
         });
       }
     }
@@ -280,12 +276,13 @@ main().catch((err) => {
 ```
 
 #### Troubleshooting
+
 ##### Invalid Username Password Pair Error
 
 In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-* In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
-* Under the **Authentication** -> **Microsoft Entra Authentication** category, the **Enable Microsoft Entra Authentication** box is selected. If not, select it and select the **Save** button.
+- In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
+- Under the **Authentication** -> **Microsoft Entra Authentication** category, the **Enable Microsoft Entra Authentication** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 

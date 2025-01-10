@@ -60,11 +60,13 @@ export class AzureSdkInstrumentation extends InstrumentationBase {
  * as well as network calls
  *
  * Example usage:
- * ```ts
- * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
- * openTelemetryInstrumentation.registerInstrumentations({
+ * ```ts snippet:instrumentation_usage
+ * import { registerInstrumentations } from "@opentelemetry/instrumentation";
+ * import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+ *
+ * registerInstrumentations({
  *   instrumentations: [createAzureSdkInstrumentation()],
- * })
+ * });
  * ```
  *
  * @remarks

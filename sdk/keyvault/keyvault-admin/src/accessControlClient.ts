@@ -65,6 +65,7 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AccessControlClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;

@@ -120,7 +120,7 @@
       "azure-communication-services"
     ],
     "requiredResources": {
-      "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+      "Azure Communication Services account": "https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     },
     "skip": [
       "purchasePhoneNumber.js",

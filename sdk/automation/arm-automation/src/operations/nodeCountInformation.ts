@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NodeCountInformation } from "../operationsInterfaces";
+import { NodeCountInformation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AutomationClient } from "../automationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AutomationClient } from "../automationClient.js";
 import {
   CountType,
   NodeCountInformationGetOptionalParams,
   NodeCountInformationGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing NodeCountInformation operations. */
 export class NodeCountInformationImpl implements NodeCountInformation {

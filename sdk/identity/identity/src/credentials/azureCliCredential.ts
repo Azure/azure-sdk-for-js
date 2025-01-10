@@ -26,10 +26,10 @@ export const cliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env.SystemRoot) {
-        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+      if (!process.env["SYSTEMROOT"]) {
+        throw new Error("Azure CLI credential expects a 'SYSTEMROOT' environment variable");
       }
-      return process.env.SystemRoot;
+      return process.env["SYSTEMROOT"];
     } else {
       return "/bin";
     }

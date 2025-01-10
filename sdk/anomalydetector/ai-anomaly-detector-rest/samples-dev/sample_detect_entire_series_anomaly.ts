@@ -7,19 +7,18 @@
  * @summary detects anomaly points on entire series.
  */
 
-import AnomalyDetector, {
+import type {
   DetectUnivariateEntireSeriesParameters,
-  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
+import AnomalyDetector, { isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import { parse } from "csv-parse/sync";
 import * as fs from "node:fs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
@@ -27,16 +26,16 @@ const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
-  let result = Array<TimeSeriesPoint>();
-  let input = fs.readFileSync(path).toString();
-  let parsed = parse(input, { skip_empty_lines: true });
+  const result = Array<TimeSeriesPoint>();
+  const input = fs.readFileSync(path).toString();
+  const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   // create client
   const credential = new AzureKeyCredential(apiKey);
   const client = AnomalyDetector(endpoint, credential);

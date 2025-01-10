@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get per subscription settings needed to host bot in compute resource such as Azure App Service

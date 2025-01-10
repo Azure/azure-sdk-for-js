@@ -122,11 +122,11 @@
       "azure-metrics-advisor"
     ],
     "requiredResources": {
-      "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services account": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "skipFolder": false,
     "disableDocsMs": false,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
   },
   "type": "module",
   "tshy": {
