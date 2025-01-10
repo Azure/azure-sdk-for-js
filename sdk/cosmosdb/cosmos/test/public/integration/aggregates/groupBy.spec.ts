@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition } from "../../../../src";
+import type { Container, ContainerDefinition, FeedOptions } from "../../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import assert from "assert";
 import groupBySnapshot from "./groupBy.snapshot";
 import type { Context } from "mocha";
 // import type { QueryIterator } from "../../../../src";
-
-const options = {
-  maxItemCount: 100,
-};
 
 const items = [
   {
@@ -525,35 +521,16 @@ const items = [
     address: { city: "Atlanta", state: "GA", zip: 30301 },
   },
 ];
+let container: Container;
 
-describe("CrosspartitionGROUPBY", () => {
+describe("Cross partition GROUP BY", () => {
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
     partitionKey: {
       paths: ["/id"],
     },
   };
-
   const containerOptions = { offerThroughput: 25100 };
-
-  let container: Container;
-
-  let currentTestTitle: string;
-  let snapshotNumber: number;
-
-  const snapshot = (actual: unknown): void => {
-    assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
-  };
-
-  // const validateFetchAll = async function (queryIterator: QueryIterator<any>): Promise<void> {
-  //   const result = await queryIterator.fetchAll();
-  //   snapshot(result.resources.sort((a, b) => a.age - b.age));
-  // };
-
-  beforeEach(function (this: Context) {
-    currentTestTitle = this.currentTest.fullTitle();
-    snapshotNumber = 1;
-  });
 
   before(async () => {
     await removeAllDatabases();
@@ -564,6 +541,31 @@ describe("CrosspartitionGROUPBY", () => {
       containerOptions,
     );
     await bulkInsertItems(container, items);
+  });
+
+  const options: FeedOptions = {
+    maxItemCount: 100,
+  };
+  runCrosspartitionGROUPBYTests(options);
+
+  const optionsWithEnableQueryControl: FeedOptions = {
+    maxItemCount: 100,
+    enableQueryControl: true,
+  };
+  runCrosspartitionGROUPBYTests(optionsWithEnableQueryControl);
+});
+
+function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
+  let currentTestTitle: string;
+  let snapshotNumber: number;
+
+  const snapshot = (actual: unknown): void => {
+    assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
+  };
+
+  beforeEach(function (this: Context) {
+    currentTestTitle = this.currentTest.fullTitle();
+    snapshotNumber = 1;
   });
 
   it("by number", async () => {
@@ -779,4 +781,4 @@ describe("CrosspartitionGROUPBY", () => {
     assert(result.resources.length === 1);
     assert(result.requestCharge > 0);
   });
-});
+}
