@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import fs from "node:fs";
+import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { AzureKeyCredential } from "@azure/core-auth";
 import type {
@@ -10,8 +10,8 @@ import type {
   DetectUnivariateEntireSeriesParameters,
   DetectUnivariateLastPointParameters,
   TimeSeriesPoint,
-} from "@azure-rest/ai-anomaly-detector";
-import { AnomalyDetector, isUnexpected } from "@azure-rest/ai-anomaly-detector";
+} from "../src/index.js";
+import AnomalyDetector, { isUnexpected } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
@@ -22,7 +22,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     function read_series_from_file(path: string): Array<TimeSeriesPoint> {
       const result = Array<TimeSeriesPoint>();
-      const input = fs.readFileSync(path).toString();
+      const input = readFileSync(path).toString();
       const parsed = parse(input, { skip_empty_lines: true });
       parsed.forEach(function (e: Array<string>) {
         result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
@@ -70,7 +70,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     function read_series_from_file(path: string): Array<TimeSeriesPoint> {
       const result = Array<TimeSeriesPoint>();
-      const input = fs.readFileSync(path).toString();
+      const input = readFileSync(path).toString();
       const parsed = parse(input, { skip_empty_lines: true });
       parsed.forEach(function (e: Array<string>) {
         result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
@@ -115,7 +115,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     function read_series_from_file(path: string): Array<TimeSeriesPoint> {
       const result = Array<TimeSeriesPoint>();
-      const input = fs.readFileSync(path).toString();
+      const input = readFileSync(path).toString();
       const parsed = parse(input, { skip_empty_lines: true });
       parsed.forEach(function (e: Array<string>) {
         result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
