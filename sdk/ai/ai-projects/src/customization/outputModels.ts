@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
-
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinitionOutputParent {
   type: string;
@@ -27,9 +25,10 @@ export interface FileSearchToolDefinitionDetailsOutput {
   /**
    * The maximum number of results the file search tool should output. The default is 20 for gpt-4* models and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
    *
-   * Note that the file search tool may output fewer than `max_num_results` results. See the file search tool documentation for more information.
+   * Note that the file search tool may output fewer than `maxNumResults` results. See the file search tool documentation for more information.
    */
   maxNumResults?: number;
+  /** Ranking options for file search. */
   rankingOptions?: FileSearchRankingOptionsOutput;
 }
 
@@ -67,7 +66,7 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
   bingGrounding: ToolConnectionListOutput;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `microsoft_fabric`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionListOutput {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -84,10 +83,10 @@ export interface ToolConnectionOutput {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-  /** The object type, which is always 'microsoft_fabric'. */
-  type: "microsoft_fabric";
+  /** The object type, which is always 'fabric_aiskill'. */
+  type: "fabric_aiskill";
   /** The list of connections used by the Microsoft Fabric tool. */
-  microsoftFabric: ToolConnectionListOutput;
+  fabricAISkill: ToolConnectionListOutput;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -104,13 +103,106 @@ export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputP
   type: "azure_ai_search";
 }
 
+/** The input definition information for an OpenAPI tool as used to configure an agent. */
+export interface OpenApiToolDefinitionOutput extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinitionOutput;
+}
+
+/** The input definition information for an openapi function. */
+export interface OpenApiFunctionDefinitionOutput {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The openapi function shape, described as a JSON Schema object. */
+  spec: any;
+  /** Open API authentication details */
+  auth: OpenApiAuthDetailsOutput;
+}
+
+/** authentication details for OpenApiFunctionDefinition */
+export interface OpenApiAuthDetailsOutputParent {
+  type: OpenApiAuthTypeOutput;
+}
+
+/** Security details for OpenApi anonymous authentication */
+export interface OpenApiAnonymousAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+  /** The object type, which is always 'anonymous'. */
+  type: "anonymous";
+}
+
+/** Security details for OpenApi connection authentication */
+export interface OpenApiConnectionAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+  /** The object type, which is always 'connection'. */
+  type: "connection";
+  /** Connection auth security details */
+  securityScheme: OpenApiConnectionSecuritySchemeOutput;
+}
+
+/** Security scheme for OpenApi managed_identity authentication */
+export interface OpenApiConnectionSecuritySchemeOutput {
+  /** Connection id for Connection auth type */
+  connectionId: string;
+}
+
+/** Security details for OpenApi managed_identity authentication */
+export interface OpenApiManagedAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+  /** The object type, which is always 'managed_identity'. */
+  type: "managed_identity";
+  /** Connection auth security details */
+  securityScheme: OpenApiManagedSecuritySchemeOutput;
+}
+
+/** Security scheme for OpenApi managed_identity authentication */
+export interface OpenApiManagedSecuritySchemeOutput {
+  /** Authentication scope for managed_identity auth type */
+  audience: string;
+}
+
+/** The input definition information for a azure function tool as used to configure an agent. */
+export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'azure_function'. */
+  type: "azure_function";
+  /** The definition of the concrete function that the function tool should call. */
+  azureFunction: AzureFunctionDefinitionOutput;
+}
+
+/** The definition of Azure function. */
+export interface AzureFunctionDefinitionOutput {
+  /** The definition of azure function and its parameters. */
+  function: FunctionDefinitionOutput;
+  /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
+  inputBinding: AzureFunctionBindingOutput;
+  /** Output storage queue. The function writes output to this queue when the input items are processed. */
+  outputBinding: AzureFunctionBindingOutput;
+}
+
+/** The structure for keeping storage queue name and URI. */
+export interface AzureFunctionBindingOutput {
+  /** The type of binding, which is always 'storage_queue'. */
+  type: "storage_queue";
+  /** Storage queue. */
+  storageQueue: AzureFunctionStorageQueueOutput;
+}
+
+/** The structure for keeping storage queue name and URI. */
+export interface AzureFunctionStorageQueueOutput {
+  /** URI to the Azure Storage Queue service allowing you to manipulate a queue. */
+  queueServiceEndpoint: string;
+  /** The name of an Azure function storage queue. */
+  queueName: string;
+}
+
 /**
  * A set of resources that are used by the agent's tools. The resources are specific to the type of
  * tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search`
  * tool requires a list of vector store IDs.
  */
 export interface ToolResourcesOutput {
-  /** Resources to be used by the `code_interpreter tool` consisting of file IDs. */
+  /** Resources to be used by the `code_interpreter` tool consisting of file IDs. */
   codeInterpreter?: CodeInterpreterToolResourceOutput;
   /** Resources to be used by the `file_search` tool consisting of vector store IDs. */
   fileSearch?: FileSearchToolResourceOutput;
@@ -125,7 +217,7 @@ export interface CodeInterpreterToolResourceOutput {
    * associated with the tool.
    */
   fileIds?: string[];
-  /** The data sources to be used. This option is mutually exclusive with fileIds. */
+  /** The data sources to be used. This option is mutually exclusive with the `fileIds` property. */
   dataSources?: Array<VectorStoreDataSourceOutput>;
 }
 
@@ -136,7 +228,11 @@ export interface CodeInterpreterToolResourceOutput {
 export interface VectorStoreDataSourceOutput {
   /** Asset URI. */
   uri: string;
-  /** The asset type * */
+  /**
+   * The asset type
+   *
+   * Possible values: "uri_asset", "id_asset"
+   */
   type: VectorStoreDataSourceAssetTypeOutput;
 }
 
@@ -148,9 +244,9 @@ export interface FileSearchToolResourceOutput {
    */
   vectorStoreIds?: string[];
   /**
-   * The list of vector store configuration objects from Azure. This list is limited to one
-   * element. The only element of this list contains
-   * the list of azure asset IDs used by the search tool.
+   * The list of vector store configuration objects from Azure.
+   * This list is limited to one element.
+   * The only element of this list contains the list of azure asset IDs used by the search tool.
    */
   vectorStores?: Array<VectorStoreConfigurationsOutput>;
 }
@@ -199,7 +295,25 @@ export interface AgentsApiResponseFormatOutput {
    *
    * Possible values: "text", "json_object"
    */
-  type?: ApiResponseFormatOutput;
+  type?: ResponseFormatOutput;
+}
+
+/** The type of response format being defined: `json_schema` */
+export interface ResponseFormatJsonSchemaTypeOutput {
+  /** Type */
+  type: "json_schema";
+  /** The JSON schema, describing response format. */
+  jsonSchema: ResponseFormatJsonSchemaOutput;
+}
+
+/** A description of what the response format is for, used by the model to determine how to respond in the format. */
+export interface ResponseFormatJsonSchemaOutput {
+  /** A description of what the response format is for, used by the model to determine how to respond in the format. */
+  description?: string;
+  /** The name of a schema. */
+  name: string;
+  /** The JSON schema object, describing the response format. */
+  schema: any;
 }
 
 /** Represents an agent that can call the model and use tools. */
@@ -272,7 +386,7 @@ export interface MessageAttachmentOutput {
   /** The ID of the file to attach to the message. */
   fileId?: string;
   /** Azure asset ID. */
-  dataSources?: Array<VectorStoreDataSourceOutput>;
+  dataSource?: VectorStoreDataSourceOutput;
   /** The tools to add to this file. */
   tools: MessageAttachmentToolDefinitionOutput[];
 }
@@ -474,7 +588,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "microsoft_fabric", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -548,7 +662,7 @@ export interface ThreadRunOutput {
   /** Override the tools the agent can use for this run. This is useful for modifying the behavior on a per-run basis */
   toolResources?: UpdateToolResourcesOptionsOutput | null;
   /** Determines if tools can be executed in parallel within the run. */
-  parallelToolCalls?: boolean;
+  parallelToolCalls: boolean;
 }
 
 /** An abstract representation of a required action for an agent thread run to continue. */
@@ -570,7 +684,7 @@ export interface SubmitToolOutputsDetailsOutput {
   toolCalls: Array<RequiredToolCallOutput>;
 }
 
-/** An abstract representation a a tool invocation needed by the model to continue a run. */
+/** An abstract representation of a tool invocation needed by the model to continue a run. */
 export interface RequiredToolCallOutputParent {
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
@@ -599,6 +713,16 @@ export interface RunErrorOutput {
   code: string;
   /** The human-readable text associated with the error. */
   message: string;
+}
+
+/** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
+export interface IncompleteRunDetailsOutput {
+  /**
+   * The reason why the run is incomplete. This indicates which specific token limit was reached during the run.
+   *
+   * Possible values: "max_completion_tokens", "max_prompt_tokens"
+   */
+  reason: IncompleteDetailsReasonOutput;
 }
 
 /** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
@@ -787,8 +911,38 @@ export interface RunStepCodeInterpreterImageReferenceOutput {
 export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
   /** The object type, which is always 'file_search'. */
   type: "file_search";
-  /** Reserved for future use. */
-  fileSearch: Record<string, string>;
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
+  /** For now, this is always going to be an empty object. */
+  fileSearch: RunStepFileSearchToolCallResultsOutput;
+}
+
+/** The results of the file search. */
+export interface RunStepFileSearchToolCallResultsOutput {
+  /** Ranking options for file search. */
+  rankingOptions?: FileSearchRankingOptionsOutput;
+  /** The array of a file search results */
+  results: Array<RunStepFileSearchToolCallResultOutput>;
+}
+
+/**   File search tool call result. */
+export interface RunStepFileSearchToolCallResultOutput {
+  /** The ID of the file that result was found in. */
+  fileId: string;
+  /** The name of the file that result was found in. */
+  fileName: string;
+  /** The score of the result. All values must be a floating point number between 0 and 1. */
+  score: number;
+  /** The content of the result that was found. The content is only included if requested via the include query parameter. */
+  content?: Array<FileSearchToolCallContentOutput>;
+}
+
+/** The file search result content object. */
+export interface FileSearchToolCallContentOutput {
+  /** The type of the content. */
+  type: "text";
+  /** The text content of the file. */
+  text: string;
 }
 
 /**
@@ -829,10 +983,10 @@ export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputPa
  * executed Microsoft Fabric operations.
  */
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-  /** The object type, which is always 'microsoft_fabric'. */
-  type: "microsoft_fabric";
+  /** The object type, which is always 'fabric_aiskill'. */
+  type: "fabric_aiskill";
   /** Reserved for future use. */
-  microsoftFabric: Record<string, string>;
+  fabricAISkill: Record<string, string>;
 }
 
 /**
@@ -1070,12 +1224,12 @@ export interface VectorStoreFileOutput {
   chunkingStrategy: VectorStoreChunkingStrategyResponseOutput;
 }
 
-/** Details on the error that may have ocurred while processing a file for this vector store */
+/** Details on the error that may have occurred while processing a file for this vector store */
 export interface VectorStoreFileErrorOutput {
   /**
    * One of `server_error` or `rate_limit_exceeded`.
    *
-   * Possible values: "internal_error", "file_not_found", "parsing_error", "unhandled_mime_type"
+   * Possible values: "server_error", "invalid_file", "unsupported_file"
    */
   code: VectorStoreFileErrorCodeOutput;
   /** A human-readable description of the error. */
@@ -1233,7 +1387,7 @@ export interface EvaluationOutput {
   readonly id: string;
   /** Data for evaluation. */
   data: InputDataOutput;
-  /** Display Name for evaluation. It helps to find evaluation easily in AI Foundry. It does not need to be unique. */
+  /** Display Name for evaluation. It helps to find the evaluation easily in AI Foundry. It does not need to be unique. */
   displayName?: string;
   /** Description of the evaluation. It can be used to store additional information about the evaluation and is mutable. */
   description?: string;
@@ -1294,6 +1448,14 @@ export interface EvaluatorConfigurationOutput {
   initParams?: Record<string, any>;
   /** Data parameters of the evaluator. */
   dataMapping?: Record<string, string>;
+}
+
+/** Paged collection of Evaluation items */
+export interface PagedEvaluationOutput {
+  /** The Evaluation items on this page */
+  value: Array<EvaluationOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Evaluation Schedule Definition */
@@ -1359,6 +1521,14 @@ export interface CronTriggerOutput extends TriggerOutputParent {
   expression: string;
 }
 
+/** Paged collection of EvaluationSchedule items */
+export interface PagedEvaluationScheduleOutput {
+  /** The EvaluationSchedule items on this page */
+  value: Array<EvaluationScheduleOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** An abstract representation of an input tool definition that an agent can use. */
 export type ToolDefinitionOutput =
   | ToolDefinitionOutputParent
@@ -1368,7 +1538,15 @@ export type ToolDefinitionOutput =
   | BingGroundingToolDefinitionOutput
   | MicrosoftFabricToolDefinitionOutput
   | SharepointToolDefinitionOutput
-  | AzureAISearchToolDefinitionOutput;
+  | AzureAISearchToolDefinitionOutput
+  | OpenApiToolDefinitionOutput
+  | AzureFunctionToolDefinitionOutput;
+/** authentication details for OpenApiFunctionDefinition */
+export type OpenApiAuthDetailsOutput =
+  | OpenApiAuthDetailsOutputParent
+  | OpenApiAnonymousAuthDetailsOutput
+  | OpenApiConnectionAuthDetailsOutput
+  | OpenApiManagedAuthDetailsOutput;
 /** An abstract representation of a single item of thread message content. */
 export type MessageContentOutput =
   | MessageContentOutputParent
@@ -1381,7 +1559,7 @@ export type MessageTextAnnotationOutput =
   | MessageTextFilePathAnnotationOutput;
 /** An abstract representation of a required action for an agent thread run to continue. */
 export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
-/** An abstract representation a a tool invocation needed by the model to continue a run. */
+/** An abstract representation of a tool invocation needed by the model to continue a run. */
 export type RequiredToolCallOutput = RequiredToolCallOutputParent | RequiredFunctionToolCallOutput;
 /** An abstract representation of the details for a run step. */
 export type RunStepDetailsOutput =
@@ -1421,17 +1599,20 @@ export type InputDataOutput =
   | DatasetOutput;
 /** Abstract data class for input data configuration. */
 export type TriggerOutput = TriggerOutputParent | RecurrenceTriggerOutput | CronTriggerOutput;
+/** Alias for OpenApiAuthTypeOutput */
+export type OpenApiAuthTypeOutput = string;
 /** Alias for VectorStoreDataSourceAssetTypeOutput */
-export type VectorStoreDataSourceAssetTypeOutput = "uri_asset" | "id_asset";
+export type VectorStoreDataSourceAssetTypeOutput = string;
 /** Alias for AgentsApiResponseFormatModeOutput */
 export type AgentsApiResponseFormatModeOutput = string;
-/** Alias for ApiResponseFormatOutput */
-export type ApiResponseFormatOutput = string;
+/** Alias for ResponseFormatOutput */
+export type ResponseFormatOutput = string;
 /** Alias for AgentsApiResponseFormatOptionOutput */
 export type AgentsApiResponseFormatOptionOutput =
   | string
   | AgentsApiResponseFormatModeOutput
-  | AgentsApiResponseFormatOutput;
+  | AgentsApiResponseFormatOutput
+  | ResponseFormatJsonSchemaTypeOutput;
 /** Alias for MessageRoleOutput */
 export type MessageRoleOutput = string;
 /** Alias for MessageAttachmentToolDefinitionOutput */
@@ -1455,8 +1636,8 @@ export type AgentsApiToolChoiceOptionOutput =
   | AgentsNamedToolChoiceOutput;
 /** Alias for RunStatusOutput */
 export type RunStatusOutput = string;
-/** Alias for IncompleteRunDetailsOutput */
-export type IncompleteRunDetailsOutput = string;
+/** Alias for IncompleteDetailsReasonOutput */
+export type IncompleteDetailsReasonOutput = string;
 /** Alias for RunStepTypeOutput */
 export type RunStepTypeOutput = string;
 /** Alias for RunStepStatusOutput */
@@ -1488,11 +1669,7 @@ export type ConnectionTypeOutput =
   | "CognitiveSearch";
 /** Authentication type used by Azure AI service to connect to another service */
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
-/** Paged collection of Evaluation items */
-export type PagedEvaluationOutput = Paged<EvaluationOutput>;
 /** Alias for FrequencyOutput */
 export type FrequencyOutput = string;
 /** Alias for WeekDaysOutput */
 export type WeekDaysOutput = string;
-/** Paged collection of EvaluationSchedule items */
-export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;

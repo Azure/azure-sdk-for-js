@@ -170,8 +170,8 @@ function validateCreateMessageParameters(options: CreateMessageParameters): void
     }
     if (options.body.attachments) {
       options.body.attachments.forEach((value) => {
-        if (value.data_sources) {
-          validateVectorStoreDataType(value.data_sources);
+        if (value.data_source) {
+          validateVectorStoreDataType([value.data_source]);
         }
       });
     }

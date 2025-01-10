@@ -68,7 +68,7 @@ export interface PollingOptions {
   sleepIntervalInMs?: number;
 
   /**
-   * An AbortSignalLike object (as defined by @azure/abort-controller) that can be used to cancel the polling operation.
+   * An AbortSignalLike object (as defined by \@azure/abort-controller) that can be used to cancel the polling operation.
    */
   abortSignal?: AbortSignalLike;
 }
