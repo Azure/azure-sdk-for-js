@@ -93,7 +93,7 @@ export async function main(): Promise<void> {
   // Save the newly created file
   console.log(`Saving new files...`);
   const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
-  console.log(`Image file ID : ${imageFile}`);
+  console.log(`Image file ID : ${imageFile.fileId}`);
   const imageFileName = path.resolve(
     "./data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png",
   );
