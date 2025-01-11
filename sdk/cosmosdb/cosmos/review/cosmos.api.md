@@ -30,7 +30,7 @@ export interface Agent {
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 // @public (undocumented)
-export type BulkOperationResponse = BulkOperationResult[] & {
+export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
@@ -1303,6 +1303,8 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    // Warning: (ae-forgotten-export) The symbol "BulkStreamer" needs to be exported by the entry point index.d.ts
+    getBulkStreamer(options?: RequestOptions, bulkOptions?: BulkOptions): BulkStreamer;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -1478,8 +1480,6 @@ export interface OperationResponse {
     resourceBody?: JSONObject;
     // (undocumented)
     statusCode: number;
-    // (undocumented)
-    subStatusCode: number;
 }
 
 // @public (undocumented)

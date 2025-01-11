@@ -41,7 +41,7 @@ export class BulkExecutionRetryPolicy implements RetryPolicy {
     }
     if (err.code === StatusCodes.Gone) {
       this.retriesOn410++;
-      if (this.retriesOn410 > this.MaxRetriesOn410) {
+      if (this.retriesOn410 >= this.MaxRetriesOn410) {
         return false;
       }
       if (
