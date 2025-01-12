@@ -17,7 +17,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
   ) {}
-  
+
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.

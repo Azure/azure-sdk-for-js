@@ -23,7 +23,6 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
     assert.equal(component["priorityQueueBufferSize"], bufferSize);
   });
 
-
   it("should handle fetchMore method correctly", async () => {
     let id = 1;
     let item = 1;

@@ -11,7 +11,6 @@ import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
-
 interface GroupByResult {
   groupByItems: any[];
   payload: any;
@@ -27,7 +26,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];
   private completed: boolean = false;
-
 
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
