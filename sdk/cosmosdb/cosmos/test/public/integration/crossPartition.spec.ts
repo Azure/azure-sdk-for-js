@@ -139,7 +139,6 @@ describe("Cross-Partition", function (this: Suite) {
         expectedCount ||
         (expectedOrderIds && expectedOrderIds.length) ||
         documentDefinitions.length;
-      console.log("validateFetchNextAndHasMoreResults: ");
       while (queryIterator.hasMoreResults()) {
         const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
         totalIteratorCalls++;
@@ -172,7 +171,6 @@ describe("Cross-Partition", function (this: Suite) {
       if (expectedIteratorCalls) {
         assert.equal(totalIteratorCalls, expectedIteratorCalls);
       }
-      console.log("totalFetchedResults: ", totalFetchedResults);
       // no more results
       validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
       assert.equal(

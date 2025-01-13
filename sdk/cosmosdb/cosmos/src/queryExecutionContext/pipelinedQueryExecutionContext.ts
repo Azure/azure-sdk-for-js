@@ -182,7 +182,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {    
+  ): Promise<Response<any>> {
     try {
       if (this.fetchBuffer.length >= this.pageSize) {
         const temp = this.fetchBuffer.slice(0, this.pageSize);
