@@ -196,6 +196,7 @@
     "test/public/functional/globalEndpointManager.spec.ts",
     "test/public/functional/item/item.spec.ts",
     "test/public/functional/item/bulk.item.spec.ts",
+    "test/public/functional/item/bulkStreamer.item.spec.ts",
     "test/public/functional/item/batch.item.spec.ts",
     "test/public/functional/item/itemIdEncoding.spec.ts",
     "test/public/functional/endpointComponent/NonStreamingOrderByEndpointComponent.spec.ts",

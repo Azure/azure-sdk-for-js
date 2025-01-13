@@ -5,4 +5,4 @@ export { ItemBulkOperationContext } from "./ItemBulkOperationContext";
 export { ItemBulkOperation } from "./ItemBulkOperation";
 export { BulkResponse } from "./BulkResponse";
 export { BulkOperationResult } from "./BulkOperationResult";
-export { BulkExecutorCache } from "./BulkExecutorCache";
+export { BulkStreamerCache } from "./BulkStreamerCache";

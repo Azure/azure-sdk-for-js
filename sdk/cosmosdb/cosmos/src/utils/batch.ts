@@ -34,12 +34,13 @@ export interface Batch {
   operations: Operation[];
 }
 
-export type BulkOperationResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
+export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
+
+export type BulkStreamerResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
 
 export interface OperationResponse {
   statusCode: number;
   requestCharge: number;
-  subStatusCode: number;
   eTag?: string;
   resourceBody?: JSONObject;
 }

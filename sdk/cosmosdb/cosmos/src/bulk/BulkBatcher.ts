@@ -22,7 +22,7 @@ import { getCurrentTimestampInMs } from "../utils/time";
 export class BulkBatcher {
   private batchOperationsList: ItemBulkOperation[];
   private currentSize: number;
-  private dispatched: boolean;
+  private toBeDispatched: boolean;
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
@@ -46,6 +46,7 @@ export class BulkBatcher {
     this.diagnosticNode = diagnosticNode;
     this.orderedResponse = orderedResponse;
     this.currentSize = 0;
+    this.toBeDispatched = false;
   }
 
   /**
@@ -53,7 +54,7 @@ export class BulkBatcher {
    * Returns false if the batch is full or already dispatched.
    */
   public tryAdd(operation: ItemBulkOperation): boolean {
-    if (this.dispatched) {
+    if (this.toBeDispatched) {
       return false;
     }
     if (!operation) {
@@ -87,6 +88,7 @@ export class BulkBatcher {
    * Handles retries for failed operations and updates the ordered response.
    */
   public async dispatch(partitionMetric: BulkPartitionMetric): Promise<void> {
+    this.toBeDispatched = true;
     const startTime = getCurrentTimestampInMs();
     try {
       const response: BulkResponse = await this.executor(
@@ -119,7 +121,6 @@ export class BulkBatcher {
             errorResponse,
             this.diagnosticNode,
           );
-
           if (shouldRetry) {
             await this.retrier(
               operation,
@@ -130,6 +131,10 @@ export class BulkBatcher {
             );
             continue;
           }
+        }
+        // ensure the length of the ordered response is sufficient to store the result
+        if (this.orderedResponse.length <= operation.operationIndex) {
+          this.orderedResponse.length = operation.operationIndex + 1;
         }
         // Update ordered response and mark operation as complete
         this.orderedResponse[operation.operationIndex] = bulkOperationResult;
@@ -143,7 +148,6 @@ export class BulkBatcher {
     } finally {
       // Clean up batch state
       this.batchOperationsList = [];
-      this.dispatched = true;
     }
   }
 }

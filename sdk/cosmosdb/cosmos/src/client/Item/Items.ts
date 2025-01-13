@@ -4,25 +4,40 @@
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import type { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isItemResourceValid,
+  ResourceType,
+  StatusCodes,
+  SubStatusCodes,
+} from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import type { FeedOptions, RequestOptions, Response } from "../../request";
-import type { Container } from "../Container";
+import type { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import type {
+  Batch,
   OperationResponse,
   OperationInput,
   BulkOptions,
   BulkOperationResponse,
+  Operation,
 } from "../../utils/batch";
-import { decorateBatchOperation } from "../../utils/batch";
-import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import type { PartitionKey } from "../../documents";
-import { PartitionKeyRangeCache } from "../../routing";
+import {
+  isKeyInRange,
+  prepareOperations,
+  decorateBatchOperation,
+  splitBatchBasedOnBodySize,
+} from "../../utils/batch";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
+import { hashPartitionKey } from "../../utils/hashing/hash";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
@@ -30,9 +45,15 @@ import type {
 import { changeFeedIteratorBuilder } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
+import {
+  getEmptyCosmosDiagnostics,
+  withDiagnostics,
+  addDignosticChild,
+} from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { BulkStreamer } from "../../bulk/BulkStreamer";
 
 /**
  * @hidden
@@ -416,6 +437,21 @@ export class Items {
     }, this.clientContext);
   }
 
+  /** New bulk api contract */
+  public getBulkStreamer(
+    options: RequestOptions = {},
+    bulkOptions: BulkOptions = {},
+  ): BulkStreamer {
+    const bulkStreamerCache = this.clientContext.getBulkStreamerCache();
+    const bulkStreamer = bulkStreamerCache.getOrCreateStreamer(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+    );
+    bulkStreamer.initializeBulk(options, bulkOptions);
+    return bulkStreamer;
+  }
+
   /**
    * Execute bulk operations on items.
    *
@@ -450,22 +486,216 @@ export class Items {
     options?: RequestOptions,
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const bulkExecutorCache = this.clientContext.getBulkExecutorCache();
-      const bulkExecutor = bulkExecutorCache.getOrCreateExecutor(
-        this.container,
-        this.clientContext,
-        this.partitionKeyRangeCache,
-      );
-      const orderedResponse = await bulkExecutor.executeBulk(
-        operations,
+      const partitionKeyRanges = (
+        await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
+      ).getOrderedParitionKeyRanges();
+
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
-        options,
-        bulkOptions,
+        this.container,
       );
-      const response: any = orderedResponse;
+      const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
+        return {
+          min: keyRange.minInclusive,
+          max: keyRange.maxExclusive,
+          rangeId: keyRange.id,
+          indexes: [] as number[],
+          operations: [] as Operation[],
+        };
+      });
+
+      this.groupOperationsBasedOnPartitionKey(operations, partitionKeyDefinition, options, batches);
+
+      const path = getPathFromLink(this.container.url, ResourceType.item);
+
+      const orderedResponses: OperationResponse[] = [];
+      // split batches based on cumulative size of operations
+      const batchMap = batches
+        .filter((batch: Batch) => batch.operations.length)
+        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch));
+
+      await Promise.all(
+        this.executeBatchOperations(
+          batchMap,
+          path,
+          bulkOptions,
+          options,
+          diagnosticNode,
+          orderedResponses,
+          partitionKeyDefinition,
+        ),
+      );
+      const response: any = orderedResponses;
       response.diagnostics = diagnosticNode.toDiagnostic(this.clientContext.getClientConfig());
       return response;
     }, this.clientContext);
+  }
+
+  private executeBatchOperations(
+    batchMap: Batch[],
+    path: string,
+    bulkOptions: BulkOptions,
+    options: RequestOptions,
+    diagnosticNode: DiagnosticNodeInternal,
+    orderedResponses: OperationResponse[],
+    partitionKeyDefinition: PartitionKeyDefinition,
+  ): Promise<void>[] {
+    return batchMap.map(async (batch: Batch) => {
+      if (batch.operations.length > 100) {
+        throw new Error("Cannot run bulk request with more than 100 operations per partition");
+      }
+      try {
+        const response = await addDignosticChild(
+          async (childNode: DiagnosticNodeInternal) =>
+            this.clientContext.bulk({
+              body: batch.operations,
+              partitionKeyRangeId: batch.rangeId,
+              path,
+              resourceId: this.container.url,
+              bulkOptions,
+              options,
+              diagnosticNode: childNode,
+            }),
+          diagnosticNode,
+          DiagnosticNodeType.BATCH_REQUEST,
+        );
+        response.result.forEach((operationResponse: OperationResponse, index: number) => {
+          orderedResponses[batch.indexes[index]] = operationResponse;
+        });
+      } catch (err: any) {
+        // In the case of 410 errors, we need to recompute the partition key ranges
+        // and redo the batch request, however, 410 errors occur for unsupported
+        // partition key types as well since we don't support them, so for now we throw
+        if (err.code === StatusCodes.Gone) {
+          const isPartitionSplit =
+            err.substatus === SubStatusCodes.PartitionKeyRangeGone ||
+            err.substatus === SubStatusCodes.CompletingSplit;
+
+          if (isPartitionSplit) {
+            const queryRange = new QueryRange(batch.min, batch.max, true, false);
+            const overlappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
+              this.container.url,
+              queryRange,
+              diagnosticNode,
+              true,
+            );
+            if (overlappingRanges.length < 1) {
+              throw new Error("Partition split/merge detected but no overlapping ranges found.");
+            }
+            // Handles both merge (overlappingRanges.length === 1) and split (overlappingRanges.length > 1) cases.
+            if (overlappingRanges.length >= 1) {
+              // const splitBatches: Batch[] = [];
+              const newBatches: Batch[] = this.createNewBatches(
+                overlappingRanges,
+                batch,
+                partitionKeyDefinition,
+              );
+
+              await Promise.all(
+                this.executeBatchOperations(
+                  newBatches,
+                  path,
+                  bulkOptions,
+                  options,
+                  diagnosticNode,
+                  orderedResponses,
+                  partitionKeyDefinition,
+                ),
+              );
+            }
+          } else {
+            throw new Error(
+              "Partition key error. An operation has an unsupported partitionKey type" +
+                err.message,
+            );
+          }
+        } else {
+          throw new Error(`Bulk request errored with: ${err.message}`);
+        }
+      }
+    });
+  }
+
+  /**
+   * Function to create new batches based of partition key Ranges.
+   *
+   * @param overlappingRanges - Overlapping partition key ranges.
+   * @param batch - Batch to be split.
+   * @param partitionKeyDefinition - PartitionKey definition of container.
+   * @returns Array of new batches.
+   */
+  private createNewBatches(
+    overlappingRanges: PartitionKeyRange[],
+    batch: Batch,
+    partitionKeyDefinition: PartitionKeyDefinition,
+  ): Batch[] {
+    const newBatches: Batch[] = overlappingRanges.map((keyRange: PartitionKeyRange) => {
+      return {
+        min: keyRange.minInclusive,
+        max: keyRange.maxExclusive,
+        rangeId: keyRange.id,
+        indexes: [] as number[],
+        operations: [] as Operation[],
+      };
+    });
+    let indexValue = 0;
+    batch.operations.forEach((operation) => {
+      const partitionKey = JSON.parse(operation.partitionKey);
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey is not expected during grouping of bulk operations.",
+        ),
+        partitionKeyDefinition,
+      );
+      const batchForKey = assertNotUndefined(
+        newBatches.find((newBatch: Batch) => {
+          return isKeyInRange(newBatch.min, newBatch.max, hashed);
+        }),
+        "No suitable Batch found.",
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(batch.indexes[indexValue]);
+      indexValue++;
+    });
+    return newBatches;
+  }
+
+  /**
+   * Function to create batches based of partition key Ranges.
+   * @param operations - operations to group
+   * @param partitionDefinition - PartitionKey definition of container.
+   * @param options - Request options for bulk request.
+   * @param batches - Groups to be filled with operations.
+   */
+  private groupOperationsBasedOnPartitionKey(
+    operations: OperationInput[],
+    partitionDefinition: PartitionKeyDefinition,
+    options: RequestOptions | undefined,
+    batches: Batch[],
+  ) {
+    operations.forEach((operationInput, index: number) => {
+      const { operation, partitionKey } = prepareOperations(
+        operationInput,
+        partitionDefinition,
+        options,
+      );
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey is not expected during grouping of bulk operations.",
+        ),
+        partitionDefinition,
+      );
+      const batchForKey = assertNotUndefined(
+        batches.find((batch: Batch) => {
+          return isKeyInRange(batch.min, batch.max, hashed);
+        }),
+        "No suitable Batch found.",
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(index);
+    });
   }
 
   /**
