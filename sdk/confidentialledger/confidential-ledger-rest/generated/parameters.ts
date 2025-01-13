@@ -9,7 +9,7 @@ import {
   Bundle,
   JSRuntimeOptions,
   Role,
-} from "./models";
+} from "./models.js";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
