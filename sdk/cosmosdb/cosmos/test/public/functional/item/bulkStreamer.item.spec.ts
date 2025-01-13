@@ -12,7 +12,7 @@ import {
   StatusCodes,
   ErrorResponse,
 } from "../../../../src";
-import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers";
+import { addEntropy, getTestContainer, removeAllDatabases, testForDiagnostics } from "../../common/TestHelpers";
 import type { OperationInput } from "../../../../src";
 import { BulkOperationType } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
@@ -23,10 +23,11 @@ import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 import { SubStatusCodes } from "../../../../src/common";
 
-describe("new streamer bulk operations", async function () {
+describe("newstreamerbulkoperations", async function () {
   describe("Check size based splitting of batches", function () {
     let container: Container;
     before(async function () {
+      await removeAllDatabases();
       container = await getTestContainer("bulk container", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -36,7 +37,9 @@ describe("new streamer bulk operations", async function () {
       });
     });
     after(async () => {
-      await container.database.delete();
+      if (container) {
+        await container.database.delete();
+      }
     });
     it("Check case when cumulative size of all operations is less than threshold", async function () {
       const operations: OperationInput[] = [...Array(10).keys()].map(
@@ -98,6 +101,7 @@ describe("new streamer bulk operations", async function () {
       let replaceItemId: string;
       let deleteItemId: string;
       before(async function () {
+        await removeAllDatabases();
         container = await getTestContainer("bulk container", undefined, {
           partitionKey: {
             paths: ["/key"],
@@ -125,7 +129,9 @@ describe("new streamer bulk operations", async function () {
         });
       });
       after(async () => {
-        await container.database.delete();
+        if (container) {
+          await container.database.delete();
+        }
       });
       it("multi partition container handles create, upsert, replace, delete", async function () {
         const operations = [
@@ -232,6 +238,7 @@ describe("new streamer bulk operations", async function () {
       let readItemId: string;
       let replaceItemId: string;
       before(async function () {
+        await removeAllDatabases();
         container = await getTestContainer("bulk container");
         deleteItemId = addEntropy("item2");
         readItemId = addEntropy("item2");
@@ -246,6 +253,12 @@ describe("new streamer bulk operations", async function () {
           key: "B",
           class: "2010",
         });
+      });
+
+      after(async () => {
+        if (container) {
+          await container.database.delete();
+        }
       });
       it("deletes operation with default partition", async function () {
         const operation: OperationInput = {
@@ -322,7 +335,9 @@ describe("new streamer bulk operations", async function () {
           "Read Items id should match",
         );
         // cleanup
-        await splitContainer.database.delete();
+        if (splitContainer) {
+          await splitContainer.database.delete();
+        }
       });
 
       it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
@@ -382,7 +397,9 @@ describe("new streamer bulk operations", async function () {
         assert.equal(response[3].statusCode, 200);
 
         // cleanup
-        await splitContainer.database.delete();
+        if (splitContainer) {
+          await splitContainer.database.delete();
+        }
       });
 
       async function getSplitContainer(): Promise<Container> {
@@ -1019,6 +1036,7 @@ describe("new streamer bulk operations", async function () {
       let createItemId: string;
       let upsertItemId: string;
       before(async function () {
+        await removeAllDatabases();
         container = await getTestContainer("bulk container", undefined, {
           partitionKey: {
             paths: ["/nested/key"],
@@ -1028,6 +1046,11 @@ describe("new streamer bulk operations", async function () {
         });
         createItemId = addEntropy("createItem");
         upsertItemId = addEntropy("upsertItem");
+      });
+      after(async () => {
+        if (container) {
+          await container.database.delete();
+        }
       });
       it("creates an item with nested object partition key", async function () {
         const operations: OperationInput[] = [
@@ -1084,6 +1107,7 @@ describe("new streamer bulk operations", async function () {
           diagnosticLevel: CosmosDbDiagnosticLevel.debug,
           plugins,
         });
+        await removeAllDatabases();
         container = await getTestContainer("bulk split container", client, {
           partitionKey: {
             paths: ["/key"],
@@ -1099,7 +1123,6 @@ describe("new streamer bulk operations", async function () {
           });
         }
       });
-
       it("check multiple partition splits during bulk", async function () {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
@@ -1119,7 +1142,9 @@ describe("new streamer bulk operations", async function () {
           assert.strictEqual(res.resourceBody.id, "item" + index, "Read Items id should match");
         });
         // Delete database after use
-        await container.database.delete();
+        if (container) {
+          await container.database.delete();
+        }
       });
     });
   });
@@ -1129,6 +1154,7 @@ describe("new streamer bulk operations", async function () {
     let replaceItemId: string;
     let deleteItemId: string;
     before(async function () {
+      await removeAllDatabases();
       container = await getTestContainer("bulk container for diagnostics", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -1156,7 +1182,9 @@ describe("new streamer bulk operations", async function () {
       });
     });
     after(async () => {
-      await container.database.delete();
+      if (container) {
+        await container.database.delete();
+      }
     });
     it("test diagnostics for bulk", async function () {
       const operations = [

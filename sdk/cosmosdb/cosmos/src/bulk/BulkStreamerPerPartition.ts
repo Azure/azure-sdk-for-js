@@ -39,7 +39,6 @@ export class BulkStreamerPerPartition {
   private congestionControlDelayInMs: number = 100;
   private congestionDegreeOfConcurrency = 1;
   private congestionControlAlgorithm: BulkCongestionAlgorithm;
-  // private semaphoreForSplit: semaphore.Semaphore;
 
   constructor(
     executor: ExecuteCallback,
