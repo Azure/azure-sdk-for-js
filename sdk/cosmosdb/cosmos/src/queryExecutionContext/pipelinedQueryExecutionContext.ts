@@ -167,6 +167,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
+    console.log(
+      "this.fetchBuffer.length, this.endpoint.hasMoreResults: ",
+      this.fetchBuffer.length,
+      this.endpoint.hasMoreResults(),
+    );
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 

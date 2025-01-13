@@ -27,10 +27,10 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function (this: Suite) {
+describe("Cross-Partition", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
-  describe("Validate Query", function () {
+  describe("Validate-Query", function () {
     const documentDefinitions = generateDocuments(20);
 
     const containerDefinition: ContainerDefinition = {
@@ -101,8 +101,10 @@ describe("Cross Partition", function (this: Suite) {
       expectedOrderIds: string[],
       expectedCount: number,
     ): Promise<FeedResponse<any>> {
+      console.log("validateFetchAll: ");
       options.continuation = undefined;
       const response = await queryIterator.fetchAll();
+      console.log("validateFetchAll response: ", response);
       const { resources: results } = response;
       assert.equal(
         results.length,
@@ -201,6 +203,7 @@ describe("Cross Partition", function (this: Suite) {
         documentDefinitions.length;
       const results: any[] = [];
       let completed = false;
+      console.log("validateAsyncIterator: ");
       for await (const { resources: items } of queryIterator.getAsyncIterator()) {
         assert.equal(completed, false, "iterator called after all results returned");
         results.push(...items);
@@ -209,6 +212,7 @@ describe("Cross Partition", function (this: Suite) {
         }
       }
       assert.equal(completed, true, "AsyncIterator should see all expected results");
+      console.log("validateAsyncIterator results: ", results);
       validateResults(results, expectedOrderIds, expecetedCount);
     };
 
@@ -228,13 +232,16 @@ describe("Cross Partition", function (this: Suite) {
       expectedIteratorCalls?: number;
     }): Promise<void> {
       options.populateQueryMetrics = true;
+      console.log("executeQueryAndValidateResults: ");
       const queryIterator = container.items.query(query, options);
+      console.log("queryIterator: ", queryIterator);
       const fetchAllResponse = await validateFetchAll(
         queryIterator,
         options,
         expectedOrderIds,
         expectedCount,
       );
+      console.log("fetchAllResponse: ", fetchAllResponse);
       if (expectedRus) {
         const percentDifference =
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
@@ -273,7 +280,7 @@ describe("Cross Partition", function (this: Suite) {
       });
     });
 
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function () {
+    it("Validate-Parallel-Query As String With maxDegreeOfParallelism: -1", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options: FeedOptions = {
