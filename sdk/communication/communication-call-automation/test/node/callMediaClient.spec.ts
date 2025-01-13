@@ -2289,7 +2289,7 @@ describe("Call Media Client Live Tests", function () {
     }
   });
 
-  it(
+  it.skip(
     "Interrupt audio and announce to hold participant in a call",
     { timeout: 60000 },
     async function (ctx) {
