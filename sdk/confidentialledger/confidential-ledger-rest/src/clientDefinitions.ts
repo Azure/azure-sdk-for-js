@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { GetUserDefinedEndpoint } from "./generated/clientDefinitions.js";
-import {
+import type {
   GetConstitutionParameters,
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
@@ -18,7 +18,7 @@ import {
   GetUserParameters,
   CreateOrUpdateUserParameters,
 } from "./parameters.js";
-import {
+import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
@@ -48,7 +48,7 @@ import {
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export { GetUserDefinedEndpoint };
 

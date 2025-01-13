@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ConstitutionOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
@@ -192,4 +192,7 @@ export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-export { GetUserDefinedEndpoint200Response, GetUserDefinedEndpointDefaultResponse } from "./generated/responses.js";
+export {
+  GetUserDefinedEndpoint200Response,
+  GetUserDefinedEndpointDefaultResponse,
+} from "./generated/responses.js";
