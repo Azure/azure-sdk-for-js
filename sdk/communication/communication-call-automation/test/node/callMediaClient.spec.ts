@@ -2324,7 +2324,9 @@ describe("Call Media Client Live Tests", function () {
       const holdAudioStartedEvent = await waitForEvent("HoldAudioStarted", callConnectionId, 8000);
       assert.isDefined(holdAudioStartedEvent);
 
-      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(
+        3000,
+      );
       const participantHold: CallParticipant = await callConnection.getParticipant(testUser2);
       assert.isDefined(participantHold);
       assert.isTrue(participantHold.isOnHold);
@@ -2350,7 +2352,9 @@ describe("Call Media Client Live Tests", function () {
       const holdAudioResumedEvent = await waitForEvent("HoldAudioResumed", callConnectionId, 8000);
       assert.isDefined(holdAudioResumedEvent);
 
-      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(
+        3000,
+      );
 
       await callConnection.getCallMedia().unhold(testUser2);
 
@@ -2361,7 +2365,9 @@ describe("Call Media Client Live Tests", function () {
       );
       assert.isDefined(holdAudioCompletedEvent);
 
-      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+      await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(
+        3000,
+      );
       const participantUnhold = await callConnection.getParticipant(testUser2);
       assert.isDefined(participantUnhold);
       assert.isFalse(participantUnhold.isOnHold);
