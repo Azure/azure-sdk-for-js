@@ -20,7 +20,7 @@ import {
   CredentialSetUpdateParameters,
   CredentialSetsUpdateOptionalParams,
   CredentialSetsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CredentialSets. */

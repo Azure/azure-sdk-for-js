@@ -13,9 +13,7 @@ import {
   CosmosDBForPostgreSQL
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
