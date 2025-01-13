@@ -388,6 +388,38 @@ export interface GetUserDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface GetUserDefinedEndpoint {
+    get(options?: GetUserDefinedEndpointParameters): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "CreateUserDefinedEndpointParameters" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CreateUserDefinedEndpoint201Response" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CreateUserDefinedEndpointDefaultResponse" needs to be exported by the entry point index.d.ts
+    put(options: CreateUserDefinedEndpointParameters): StreamableMethod<CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse>;
+}
+
+// @public
+export interface GetUserDefinedEndpoint200Response extends HttpResponse {
+    // Warning: (ae-forgotten-export) The symbol "BundleOutput" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    body: BundleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
+    // Warning: (ae-forgotten-export) The symbol "ConfidentialLedgerErrorOutput_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput_2;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetUserDefinedEndpointParameters = RequestParameters;
+
+// @public (undocumented)
 export type GetUserParameters = RequestParameters;
 
 // @public (undocumented)
@@ -712,6 +744,7 @@ export interface Routes {
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;
     (path: "/app/users"): ListUsers;
     (path: "/app/users/{userId}", userId: string): DeleteUser;
+    (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
 }
 
 // @public

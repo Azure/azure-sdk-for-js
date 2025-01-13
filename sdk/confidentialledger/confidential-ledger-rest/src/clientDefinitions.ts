@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GetUserDefinedEndpoint } from "../dist/esm/index.js";
+import { GetUserDefinedEndpoint } from "./generated/clientDefinitions.js";
 import {
   GetConstitutionParameters,
   ListConsortiumMembersParameters,
@@ -49,6 +49,8 @@ import {
   CreateOrUpdateUserDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export { GetUserDefinedEndpoint };
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */

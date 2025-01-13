@@ -191,3 +191,5 @@ export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
+
+export { GetUserDefinedEndpoint200Response, GetUserDefinedEndpointDefaultResponse } from "./generated/responses.js";
