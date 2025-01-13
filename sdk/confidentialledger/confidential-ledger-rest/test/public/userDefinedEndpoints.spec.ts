@@ -23,7 +23,11 @@ describe("Get userdefned endpoint", () => {
 
   it("should obtain user defined endpoints", { skip: !env.AZURE_CLIENT_OID }, async () => {
     // If using a test app, it needs to be the oid.
-    const response = await client.path("/app/userDefinedEndpoints").get();
-    assert.equal(response.status, "200");
+    const result = await client.path("/app/userDefinedEndpoints").get();
+    assert.equal(result.status, "200");
+    
+    if (isUnexpected(result)) {
+        throw result.body;
+    }
   });
 });
