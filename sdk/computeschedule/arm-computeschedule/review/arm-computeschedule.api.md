@@ -156,9 +156,14 @@ export enum KnownResourceOperationType {
 }
 
 // @public
+export enum KnownVersions {
+    "V2024-10-01" = "2024-10-01"
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -174,10 +179,12 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationErrorDetails {
-    crpOperationId: string;
+    azureOperationName?: string;
+    crpOperationId?: string;
     errorCode: string;
     errorDetails: string;
-    timeStamp: string;
+    timeStamp?: string;
+    timestamp?: string;
 }
 
 // @public
@@ -232,16 +239,17 @@ export interface ResourceOperation {
 // @public
 export interface ResourceOperationDetails {
     completedAt?: string;
-    deadline: string;
-    deadlineType: DeadlineType;
+    deadline?: string;
+    deadlineType?: DeadlineType;
     operationId: string;
-    opType: ResourceOperationType;
-    resourceId: string;
+    opType?: ResourceOperationType;
+    resourceId?: string;
     resourceOperationError?: ResourceOperationError;
     retryPolicy?: RetryPolicy;
-    state: OperationState;
-    subscriptionId: string;
+    state?: OperationState;
+    subscriptionId?: string;
     timeZone?: string;
+    timezone?: string;
 }
 
 // @public
@@ -266,9 +274,11 @@ export interface RetryPolicy {
 
 // @public
 export interface Schedule {
-    deadLine: string;
+    deadLine?: string;
+    deadline?: string;
     deadlineType: DeadlineType;
-    timeZone: string;
+    timeZone?: string;
+    timezone?: string;
 }
 
 // @public

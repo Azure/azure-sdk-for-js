@@ -13,7 +13,6 @@ trigger:
     include:
       - sdk/computeschedule/arm-computeschedule
       - sdk/computeschedule/ci.mgmt.yml
-
 pr:
   branches:
     include:
@@ -27,7 +26,6 @@ pr:
     include:
       - sdk/computeschedule/arm-computeschedule
       - sdk/computeschedule/ci.mgmt.yml
-
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
