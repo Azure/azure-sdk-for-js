@@ -7,5 +7,5 @@ import type { Response } from "../request";
 export interface ExecutionContext {
   nextItem?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
-  fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>; // TODO: code smell
+  fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
 }
