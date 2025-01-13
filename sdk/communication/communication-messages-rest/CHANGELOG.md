@@ -1,8 +1,12 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.0.1-beta.1 (Unreleased)
 
 ### Features Added
+
+- Added Interactive Message.
+- Added Reaction Message.
+- Added Sticker Message.
 
 ### Breaking Changes
 

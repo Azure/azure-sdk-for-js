@@ -21,10 +21,13 @@ export interface MessagesServiceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  { apiVersion = "2024-08-30", ...options }: MessagesServiceClientOptions = {},
+  {
+    apiVersion = "2025-01-15-preview",
+    ...options
+  }: MessagesServiceClientOptions = {},
 ): MessagesServiceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-communication-messages-rest/2.0.0`;
+  const userAgentInfo = `azsdk-js-communication-messages-rest/2.0.1-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
