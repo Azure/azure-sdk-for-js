@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 
-import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import type {
@@ -49,16 +49,16 @@ describe("Pool Operations Test", () => {
    * Provision helper resources needed for testing pools
    */
 
-  beforeEach(async function (ctx: VitestTestContext) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Create Batch Pool successfully", async function () {
+  it("Create Batch Pool successfully", async () => {
     // Use assert to test your assumptions
 
     const poolParams: CreatePoolParameters = {
@@ -186,7 +186,7 @@ describe("Pool Operations Test", () => {
     );
   });
 
-  it("should update pool parameters successfully", async function () {
+  it("should update pool parameters successfully", async () => {
     const updateOptions: ReplacePoolPropertiesParameters = {
       body: {
         metadata: [{ name: "foo", value: "bar" }],
@@ -544,21 +544,21 @@ describe("Pool Operations Test", () => {
     assert.isAtLeast(listPoolUsageResult.body?.value?.length ?? 0, 0); // No pool activity during this test
   });
 
-  it("should delete a pool successfully", async function () {
+  it("should delete a pool successfully", async () => {
     const deleteResult = await batchClient
       .path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL))
       .delete();
     assert.equal(deleteResult.status, "202");
   });
 
-  it("should delete a second pool successfully", async function () {
+  it("should delete a second pool successfully", async () => {
     const deleteResult = await batchClient
       .path("/pools/{poolId}", recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL))
       .delete();
     assert.equal(deleteResult.status, "202");
   });
 
-  it("should delete a third pool successfully", async function () {
+  it("should delete a third pool successfully", async () => {
     const deleteResult = await batchClient
       .path("/pools/{poolId}", recorder.variable("TEST_POOL3", TEST_POOL3))
       .delete();
