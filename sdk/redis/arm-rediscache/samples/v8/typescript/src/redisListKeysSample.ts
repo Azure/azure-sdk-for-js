@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve a Redis cache's access keys. This operation requires write permission to the cache resource.
  *
  * @summary Retrieve a Redis cache's access keys. This operation requires write permission to the cache resource.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListKeys.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListKeys.json
  */
 async function redisCacheListKeys() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

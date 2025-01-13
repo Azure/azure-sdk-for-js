@@ -13,15 +13,13 @@ import {
   RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the redis cache.
  *
  * @summary Update the state of specified private endpoint connection associated with the redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCachePutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCachePutPrivateEndpointConnection.json
  */
 async function redisCachePutPrivateEndpointConnection() {
   const subscriptionId =

@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a single firewall rule in a specified redis cache.
  *
  * @summary Gets a single firewall rule in a specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheFirewallRuleGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFirewallRuleGet.json
  */
 async function redisCacheFirewallRuleGet() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
