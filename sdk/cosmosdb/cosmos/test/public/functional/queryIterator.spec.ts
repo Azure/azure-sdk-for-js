@@ -40,6 +40,7 @@ describe("Correlated Activity Id", function () {
   });
 
   before(async () => {
+    await removeAllDatabases();
     container = await getTestContainer("Test", client, {
       partitionKey: "/name",
       throughput: 10000,
@@ -250,6 +251,8 @@ describe("Correlated Activity Id", function () {
     }
   });
   after(async function () {
-    await removeAllDatabases();
+    if (container) {
+      await container.database.delete();
+    }
   });
 });
