@@ -72,10 +72,19 @@ export class BulkStreamer {
     );
   }
 
-  addBulkOperation(operationInput: OperationInput): void {
-    const operationPromise = this.addOperation(operationInput);
-    this.operationPromises.push(operationPromise);
+  /** add an operation or a list of operations to Bulk Streamer */
+  addBulkOperation(operationInput: OperationInput | OperationInput[]): void {
+    if (Array.isArray(operationInput)) {
+      operationInput.forEach(operation => {
+        const operationPromise = this.addOperation(operation);
+        this.operationPromises.push(operationPromise);
+      });
+    } else {
+      const operationPromise = this.addOperation(operationInput);
+      this.operationPromises.push(operationPromise);
+    }
   }
+
 
   private async addOperation(operation: OperationInput): Promise<BulkOperationResult> {
     if (!operation) {
