@@ -15,12 +15,12 @@ import {
   QueryIterator,
   PartitionKeyRange,
   Resource,
-  //  StatusCodes,
+  StatusCodes,
 } from "../../../src";
 import { expect, assert } from "chai";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext";
 import sinon from "sinon";
-// import { SubStatusCodes } from "../../../src/common";
+import { SubStatusCodes } from "../../../src/common";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID
@@ -120,7 +120,7 @@ const correlatedActivityId = "sample-activity-id"; // Example correlated activit
 
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
-describe("PartitionMerge", function () {
+describe("Partition-Merge", function () {
   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
     "parent1",
@@ -188,6 +188,79 @@ describe("PartitionMerge", function () {
         assert.equal(docProd.endEpk, mockPartitionKeyRange2.maxExclusive);
       }
       assert.equal(docProd.populateEpkRangeHeaders, false);
+    });
+  });
+
+  it("Correct parent epk ranges are picked up in the newly created child document producers and _enqueueReplacementDocumentProducers function should be called if partition is gone due to merge", async function () {
+    const parentDocProd1 = context["unfilledDocumentProducersQueue"].peek();
+
+    // Stub the bufferMore method of the document producers to throw a Gone error
+    context["unfilledDocumentProducersQueue"].forEach((docProd) => {
+      sinon.stub(docProd, "bufferMore").rejects({
+        code: StatusCodes.Gone,
+        substatus: SubStatusCodes.PartitionKeyRangeGone,
+        message: "Partition key range is gone",
+      });
+    });
+    const parentDocumentProducer1StartEpk = parentDocProd1.startEpk;
+    const parentDocumentProducer1EndEpk = parentDocProd1.endEpk;
+
+    // Mocking the _getReplacementPartitionKeyRanges function to return a single partition key range
+    const getReplacementPartitionKeyRangesStub = sinon
+      .stub(context as any, "_getReplacementPartitionKeyRanges")
+      .resolves([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]);
+
+    // Creating a spy on the _enqueueReplacementDocumentProducers function
+    const enqueueSpy = sinon.spy(context as any, "_enqueueReplacementDocumentProducers");
+
+    try {
+      // The query fails because the fetchMore method of the first document producer throws a Gone error
+      await context.fetchMore(context["diagnosticNodeWrapper"]["diagnosticNode"]);
+      assert.fail("Expected query to fail");
+    } catch (err) {
+      assert(err);
+    }
+
+    // Assert that the _enqueueReplacementDocumentProducers function was called once
+    assert(enqueueSpy.calledOnce);
+    enqueueSpy.restore();
+
+    // Assert that the priority queue has 2 document producers. One parent and one newly created child
+    assert.equal(context["unfilledDocumentProducersQueue"].size(), 2);
+
+    // Assert that the newly created document producer has the correct start and end EPKs from Parent and populateEpkRangeHeaders is true
+    context["unfilledDocumentProducersQueue"].forEach((docProd) => {
+      if (docProd.targetPartitionKeyRange.id === "child1") {
+        assert.equal(docProd.startEpk, parentDocumentProducer1StartEpk);
+        assert.equal(docProd.endEpk, parentDocumentProducer1EndEpk);
+        assert.equal(docProd.populateEpkRangeHeaders, true);
+      }
+    });
+
+    // Removing the child document producer from the priority queue
+    context["unfilledDocumentProducersQueue"].deq();
+
+    // Assert that the priority queue has 1 document producer
+    assert.equal(context["unfilledDocumentProducersQueue"].size(), 1);
+
+    const parentDocProd2 = context["unfilledDocumentProducersQueue"].peek();
+
+    const parentDocumentProducer2StartEpk = parentDocProd2.startEpk;
+    const parentDocumentProducer2EndEpk = parentDocProd2.endEpk;
+
+    // Restoring and mocking again the _getReplacementPartitionKeyRanges function
+    getReplacementPartitionKeyRangesStub.restore();
+    sinon
+      .stub(context as any, "_getReplacementPartitionKeyRanges")
+      .resolves([createMockPartitionKeyRange("child2", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "FF")]);
+
+    // Assert that the newly created document producer has the correct start and end EPKs from Parent and populateEpkRangeHeaders is true
+    context["unfilledDocumentProducersQueue"].forEach((docProd) => {
+      if (docProd.targetPartitionKeyRange.id === "child2") {
+        assert.equal(docProd.startEpk, parentDocumentProducer2StartEpk);
+        assert.equal(docProd.endEpk, parentDocumentProducer2EndEpk);
+        assert.equal(docProd.populateEpkRangeHeaders, true);
+      }
     });
   });
 });

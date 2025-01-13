@@ -101,10 +101,8 @@ describe("Cross-Partition", function (this: Suite) {
       expectedOrderIds: string[],
       expectedCount: number,
     ): Promise<FeedResponse<any>> {
-      console.log("validateFetchAll: ");
       options.continuation = undefined;
       const response = await queryIterator.fetchAll();
-      console.log("validateFetchAll response: ", response);
       const { resources: results } = response;
       assert.equal(
         results.length,
@@ -192,6 +190,52 @@ describe("Cross-Partition", function (this: Suite) {
       );
     };
 
+    const validateFetchNextAndHasMoreResultsWithEnableQueryControl = async function (
+      queryIterator: QueryIterator<any>,
+      expectedOrderIds: string[],
+      expectedCount: number,
+    ): Promise<void> {
+      let totalExecuteNextRequestCharge = 0;
+      let totalIteratorCalls = 0;
+      let totalFetchedResults: any[] = [];
+      const expectedLength =
+        expectedCount ||
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length;
+      while (queryIterator.hasMoreResults()) {
+        const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
+        totalIteratorCalls++;
+        assert(queryMetrics, "expected response have query metrics");
+
+        if (totalFetchedResults.length > expectedLength) {
+          break;
+        }
+        if (results) {
+          totalFetchedResults = totalFetchedResults.concat(results);
+        }
+        totalExecuteNextRequestCharge += requestCharge;
+        assert(requestCharge >= 0);
+
+        if (totalFetchedResults.length < expectedLength) {
+          assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+        } else {
+          // no more results
+          assert.equal(
+            expectedLength,
+            totalFetchedResults.length,
+            "executeNext: didn't fetch all the results",
+          );
+        }
+      }
+      // no more results
+      validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
+      assert.equal(
+        queryIterator.hasMoreResults(),
+        false,
+        "hasMoreResults: no more results is left",
+      );
+    };
+
     const validateAsyncIterator = async function (
       queryIterator: QueryIterator<any>,
       expectedOrderIds: any[],
@@ -203,7 +247,6 @@ describe("Cross-Partition", function (this: Suite) {
         documentDefinitions.length;
       const results: any[] = [];
       let completed = false;
-      console.log("validateAsyncIterator: ");
       for await (const { resources: items } of queryIterator.getAsyncIterator()) {
         assert.equal(completed, false, "iterator called after all results returned");
         results.push(...items);
@@ -212,7 +255,6 @@ describe("Cross-Partition", function (this: Suite) {
         }
       }
       assert.equal(completed, true, "AsyncIterator should see all expected results");
-      console.log("validateAsyncIterator results: ", results);
       validateResults(results, expectedOrderIds, expecetedCount);
     };
 
@@ -232,16 +274,13 @@ describe("Cross-Partition", function (this: Suite) {
       expectedIteratorCalls?: number;
     }): Promise<void> {
       options.populateQueryMetrics = true;
-      console.log("executeQueryAndValidateResults: ");
       const queryIterator = container.items.query(query, options);
-      console.log("queryIterator: ", queryIterator);
       const fetchAllResponse = await validateFetchAll(
         queryIterator,
         options,
         expectedOrderIds,
         expectedCount,
       );
-      console.log("fetchAllResponse: ", fetchAllResponse);
       if (expectedRus) {
         const percentDifference =
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
@@ -270,6 +309,12 @@ describe("Cross-Partition", function (this: Suite) {
       await validateFetchAll(
         queryIteratorWithEnableQueryControl,
         options,
+        expectedOrderIds,
+        expectedCount,
+      );
+      queryIteratorWithEnableQueryControl.reset();
+      await validateFetchNextAndHasMoreResultsWithEnableQueryControl(
+        queryIteratorWithEnableQueryControl,
         expectedOrderIds,
         expectedCount,
       );
