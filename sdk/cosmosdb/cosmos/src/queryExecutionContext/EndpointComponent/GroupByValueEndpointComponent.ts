@@ -53,7 +53,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of (response.result as GroupByResult[])) {
+    for (const item of response.result as GroupByResult[]) {
       if (item) {
         let grouping: string = emptyGroup;
         let payload: any = item;

@@ -7,7 +7,7 @@ import { OrderByComparator } from "../orderByComparator";
 import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import type { CosmosHeaders } from "../headerUtils";
-import {getInitialHeader} from "../headerUtils";
+import { getInitialHeader } from "../headerUtils";
 
 /**
  * @hidden

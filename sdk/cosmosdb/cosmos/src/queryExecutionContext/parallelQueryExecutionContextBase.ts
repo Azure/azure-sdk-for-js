@@ -377,6 +377,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           reject(this.err);
           return;
         }
+        this.updateStates(this.err);
 
         if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
           this.sem.leave();
@@ -452,13 +453,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 this.sem.leave();
                 this.err.headers = this._getAndResetActiveResponseHeaders();
                 reject(err);
-                // TODO: repair execution context  may cause issue
               }
             }
           };
 
           try {
-            // TODO: fix when handling splits
             await Promise.all(
               documentProducers.map((producer) => bufferDocumentProducer(producer)),
             );
@@ -479,13 +478,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // ).catch(reject);
         } catch (err) {
           this.sem.leave();
-
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();
-
           reject(err);
-
-          return;
         }
       });
     });
@@ -540,19 +535,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result, headers } = await documentProducer.fetchBufferedItems();
               this._mergeWithActiveResponseHeaders(headers);
-              this.buffer.push(...result);
+              if (result) {
+                this.buffer.push(...result);
+              }
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
             }
           }
-          // no more buffers to fetch
-          if (
-            this.unfilledDocumentProducersQueue.size() === 0 &&
-            this.bufferedDocumentProducersQueue.size() === 0
-          ) {
-            this.state = ParallelQueryExecutionContextBase.STATES.ended;
-          }
+          this.updateStates(this.err);
         } catch (err) {
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();
@@ -566,5 +557,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         return;
       });
     });
+  }
+
+  private updateStates(error: any): void {
+    if (error) {
+      this.err = error;
+      this.state = ParallelQueryExecutionContextBase.STATES.ended;
+      return;
+    }
+
+    if (this.state === ParallelQueryExecutionContextBase.STATES.started) {
+      this.state = ParallelQueryExecutionContextBase.STATES.inProgress;
+    }
+
+    const hasNoActiveProducers =
+      this.unfilledDocumentProducersQueue.size() === 0 &&
+      this.bufferedDocumentProducersQueue.size() === 0;
+
+    if (hasNoActiveProducers) {
+      this.state = ParallelQueryExecutionContextBase.STATES.ended;
+    }
   }
 }
