@@ -6,6 +6,7 @@ import type { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
+import type { CosmosHeaders } from "../headerUtils";
 import { getInitialHeader } from "../headerUtils";
 
 /**
@@ -44,7 +45,25 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     );
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  /**
+   * Determine if there are still remaining resources to processs.
+   * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
+   */
+  public hasMoreResults(): boolean {
+    return this.priorityQueueBufferSize > 0 && this.executionContext.hasMoreResults();
+  }
+
+  /**
+   * Fetches the next batch of the result from the target container.
+   * @param diagnosticNode - The diagnostic information for the request.
+   */
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    if (this.isCompleted) {
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
+    }
     let resHeaders = getInitialHeader();
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
@@ -53,53 +72,39 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         headers: resHeaders,
       };
     }
-
     // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
-      const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
-      resHeaders = headers;
-      if (item !== undefined) {
-        this.nonStreamingOrderByPQ.enqueue(item);
+      const response = await this.executionContext.fetchMore(diagnosticNode);
+      resHeaders = response.headers;
+      if (response === undefined || response.result === undefined) {
+        this.isCompleted = true;
+        if (!this.nonStreamingOrderByPQ.isEmpty()) {
+          return this.buildFinalResultArray(resHeaders);
+        }
+        return { result: undefined, headers: resHeaders };
       }
 
-      // If the backend has more results to fetch, return {} to signal that there are more results to fetch.
-      if (this.executionContext.hasMoreResults()) {
-        return {
-          result: {},
-          headers: resHeaders,
-        };
+      for (const item of response.result) {
+        if (item !== undefined) {
+          this.nonStreamingOrderByPQ.enqueue(item);
+        }
       }
     }
-    // If all results are fetched from backend, prepare final results
-    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
-      // Set isCompleted to true.
-      this.isCompleted = true;
-      // Reverse the priority queue to get the results in the correct order
-      this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
-      // For offset limit case we set the size of priority queue to offset + limit
-      // and we drain offset number of items from the priority queue
-      while (
-        this.offset < this.priorityQueueBufferSize &&
-        this.offset > 0 &&
-        !this.nonStreamingOrderByPQ.isEmpty()
-      ) {
-        this.nonStreamingOrderByPQ.dequeue();
-        this.offset--;
-      }
-    }
-    // If pq is not empty, return the result from pq.
-    if (!this.nonStreamingOrderByPQ.isEmpty()) {
-      let item;
-      if (this.emitRawOrderByPayload) {
-        item = this.nonStreamingOrderByPQ.dequeue();
-      } else {
-        item = this.nonStreamingOrderByPQ.dequeue()?.payload;
-      }
+
+    // If the backend has more results to fetch, return [] to signal that there are more results to fetch.
+    if (this.executionContext.hasMoreResults()) {
       return {
-        result: item,
+        result: [],
         headers: resHeaders,
       };
     }
+
+    // If all results are fetched from backend, prepare final results
+    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
+      this.isCompleted = true;
+      return this.buildFinalResultArray(resHeaders);
+    }
+
     // If pq is empty, return undefined to signal that there are no more results.
     return {
       result: undefined,
@@ -107,14 +112,38 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     };
   }
 
-  /**
-   * Determine if there are still remaining resources to processs.
-   * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
-   */
-  public hasMoreResults(): boolean {
-    return (
-      this.priorityQueueBufferSize > 0 &&
-      (this.executionContext.hasMoreResults() || !this.nonStreamingOrderByPQ.isEmpty())
-    );
+  private async buildFinalResultArray(resHeaders: CosmosHeaders): Promise<Response<any>> {
+    // Set isCompleted to true.
+    this.isCompleted = true;
+    // Reverse the priority queue to get the results in the correct order
+    this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
+    // For offset limit case we set the size of priority queue to offset + limit
+    // and we drain offset number of items from the priority queue
+    while (
+      this.offset < this.priorityQueueBufferSize &&
+      this.offset > 0 &&
+      !this.nonStreamingOrderByPQ.isEmpty()
+    ) {
+      this.nonStreamingOrderByPQ.dequeue();
+      this.offset--;
+    }
+
+    // If pq is not empty, return the result from pq.
+    if (!this.nonStreamingOrderByPQ.isEmpty()) {
+      const buffer: any[] = [];
+      if (this.emitRawOrderByPayload) {
+        while (!this.nonStreamingOrderByPQ.isEmpty()) {
+          buffer.push(this.nonStreamingOrderByPQ.dequeue());
+        }
+      } else {
+        while (!this.nonStreamingOrderByPQ.isEmpty()) {
+          buffer.push(this.nonStreamingOrderByPQ.dequeue()?.payload);
+        }
+      }
+      return {
+        result: buffer,
+        headers: resHeaders,
+      };
+    }
   }
 }
