@@ -472,7 +472,7 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       errorMessage = e.message;
     }
-    let expectedErrorMessage = new RegExp(
+    const expectedErrorMessage = new RegExp(
       `pending certificate not found: ${certificateName}`,
       /* case insensitive */ "i",
     );
