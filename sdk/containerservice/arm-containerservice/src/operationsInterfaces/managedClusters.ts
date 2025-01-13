@@ -73,7 +73,7 @@ import {
   RebalanceLoadBalancersRequestBody,
   ManagedClustersRebalanceLoadBalancersOptionalParams,
   ManagedClustersRebalanceLoadBalancersResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedClusters. */

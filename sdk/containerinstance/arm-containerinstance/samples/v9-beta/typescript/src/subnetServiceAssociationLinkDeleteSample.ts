@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete container group virtual network association links. The operation does not delete other resources provided by the user.
