@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RunCommandInput, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Run command on a virtual machine in a VM scale set.

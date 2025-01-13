@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ComputeManagementClient } from "../src/computeManagementClient";
-import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
+import { ComputeManagementClient } from "../src/computeManagementClient.js";
+import { NetworkManagementClient, VirtualNetwork, NetworkInterface, Subnet } from "@azure/arm-network";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -48,8 +46,8 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -57,7 +55,7 @@ describe("Compute test", () => {
     client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus2euap";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "czwjstest";
     availabilitySetName = "availabilitySets123";
     network_name = "networknamexx1";
     subnet_name = "subnetnamexx1";
@@ -77,7 +75,7 @@ describe("Compute test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
       resourceGroupName,
       network_name,
       parameter,
@@ -87,7 +85,7 @@ describe("Compute test", () => {
     const subnet_parameter: Subnet = {
       addressPrefix: "10.0.0.0/24",
     };
-    const subnet__create_info = await network_client.subnets.beginCreateOrUpdateAndWait(
+    await network_client.subnets.beginCreateOrUpdateAndWait(
       resourceGroupName,
       network_name,
       subnet_name,
@@ -121,7 +119,7 @@ describe("Compute test", () => {
         },
       ],
     };
-    const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
+    await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
       group_name,
       nic_name,
       parameter,
@@ -168,7 +166,7 @@ describe("Compute test", () => {
   });
 
   it("availabilitySets delete test", async function () {
-    const res = await client.availabilitySets.delete(resourceGroupName, availabilitySetName);
+    await client.availabilitySets.delete(resourceGroupName, availabilitySetName);
     const resArray = new Array();
     for await (const item of client.availabilitySets.list(resourceGroupName)) {
       resArray.push(item);
@@ -253,7 +251,7 @@ describe("Compute test", () => {
   });
 
   it("virtualMachines update test", async function () {
-    const res = await client.virtualMachines.beginUpdateAndWait(resourceGroupName, virtual_machine_name, {
+    await client.virtualMachines.beginUpdateAndWait(resourceGroupName, virtual_machine_name, {
       networkProfile: {
         networkInterfaces: [
           {
@@ -275,8 +273,8 @@ describe("Compute test", () => {
   });
 
   it("virtualMachines delete test", async function () {
-    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName, virtual_machine_name, testPollingOptions);
     const resArray = new Array();
+    await client.virtualMachines.beginDeleteAndWait(resourceGroupName, virtual_machine_name, testPollingOptions);
     for await (const item of client.virtualMachines.list(resourceGroupName)) {
       resArray.push(item);
     }
