@@ -19,7 +19,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import path from "node:path";
 dotenv.config();
 
 const connectionString =
@@ -32,7 +31,7 @@ export async function main(): Promise<void> {
   );
 
   // Upload file
-  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
