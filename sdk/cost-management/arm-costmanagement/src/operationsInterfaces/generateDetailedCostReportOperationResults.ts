@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GenerateDetailedCostReportOperationResultsGetOptionalParams,
   GenerateDetailedCostReportOperationResultsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GenerateDetailedCostReportOperationResults. */
 export interface GenerateDetailedCostReportOperationResults {

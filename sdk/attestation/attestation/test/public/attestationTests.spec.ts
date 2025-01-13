@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder } from "@azure-tools/test-recorder";
 
+import { Recorder } from "@azure-tools/test-recorder";
 import type { EndpointType } from "../utils/recordedClient.js";
 import {
   createRecordedAdminClient,
@@ -13,15 +13,15 @@ import * as base64url from "../utils/base64url.js";
 import { KnownAttestationType } from "../../src/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
-describe("[AAD] Attestation Client", function () {
+describe("[AAD] Attestation Client", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -136,33 +136,33 @@ describe("[AAD] Attestation Client", function () {
     "RHZvOGgyazVkdTFpV0RkQmtBbiswaWlBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0" +
     "tLQoA";
 
-  it("#AttestOpenEnclaveShared", async function () {
+  it("#AttestOpenEnclaveShared", async () => {
     await testOpenEnclave("Shared");
   });
 
-  it("#AttestOpenEnclaveAad", async function () {
+  it("#AttestOpenEnclaveAad", async () => {
     await testOpenEnclave("AAD");
   });
 
-  it("#AttestOpenEnclaveIsolated", async function () {
+  it("#AttestOpenEnclaveIsolated", async () => {
     await testOpenEnclave("Isolated");
   });
 
-  it("#AttestSgxEnclaveShared", async function () {
+  it("#AttestSgxEnclaveShared", async () => {
     await testSgxEnclave("Shared");
   });
 
-  it("#AttestSgxEnclaveAad", async function () {
+  it("#AttestSgxEnclaveAad", async () => {
     await testSgxEnclave("AAD");
   });
 
-  it("#AttestSgxEnclaveIsolated", async function () {
+  it("#AttestSgxEnclaveIsolated", async () => {
     await testSgxEnclave("Isolated");
   });
 
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
-  it("#attestTpm", async function () {
+  it("#attestTpm", async () => {
     const client = createRecordedClient(recorder, "AAD", true);
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 
