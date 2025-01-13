@@ -84,7 +84,7 @@ describe("PipelineQueryExecutionContext", function () {
       );
       // Mock the endpoint's fetchMore method to return 3 documents in every call
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           return {
             result: [
               createMockDocument("1", "doc1", "value1"),
@@ -123,7 +123,7 @@ describe("PipelineQueryExecutionContext", function () {
       );
       let i = 0;
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           if (i < 3) {
             i++;
             return {
@@ -166,7 +166,7 @@ describe("PipelineQueryExecutionContext", function () {
       );
       let i = 0;
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           if (i < 1) {
             i++;
             return {
@@ -207,7 +207,7 @@ describe("PipelineQueryExecutionContext", function () {
         false,
       );
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           return {
             result: undefined,
             headers: {},
@@ -237,7 +237,7 @@ describe("PipelineQueryExecutionContext", function () {
       );
       let i = 0;
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           if (i < 1) {
             i++;
             return {
@@ -282,7 +282,7 @@ describe("PipelineQueryExecutionContext", function () {
         true,
       );
       context["endpoint"] = {
-        fetchMore: async (diagnosticNode: any) => {
+        fetchMore: async () => {
           return {
             result: [
               createMockDocument("1", "doc1", "value1"),

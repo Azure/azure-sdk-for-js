@@ -429,7 +429,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducer: DocumentProducer,
           ): Promise<void> => {
             try {
-              await documentProducer.bufferMore(this.getDiagnosticNode());
+              await documentProducer.bufferMore(diagnosticNode);
               // if buffer of document producer is filled, add it to the buffered document producers queue
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
@@ -443,10 +443,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 // So that later parts of the code can repair the execution context
                 // refresh the partition key ranges and ctreate new document producers and add it to the queue
 
-                await this._enqueueReplacementDocumentProducers(
-                  this.getDiagnosticNode(),
-                  documentProducer,
-                );
+                await this._enqueueReplacementDocumentProducers(diagnosticNode, documentProducer);
                 resolve();
               } else {
                 this.err = err;
