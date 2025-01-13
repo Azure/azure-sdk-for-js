@@ -433,6 +433,7 @@ export const Constants: {
         ContentEncoding: string;
         CharacterSet: string;
         UserAgent: string;
+        XMSUserAgent: string;
         IfModifiedSince: string;
         IfMatch: string;
         IfNoneMatch: string;
