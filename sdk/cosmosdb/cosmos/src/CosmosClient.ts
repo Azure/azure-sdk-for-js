@@ -70,8 +70,14 @@ export class CosmosClient {
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    } else if (optionsOrConnectionString.connectionString) {
+      const { endpoint, key } = parseConnectionString(optionsOrConnectionString.connectionString);
+      optionsOrConnectionString.endpoint = endpoint;
+      optionsOrConnectionString.key = key;
     }
-
+    if (!optionsOrConnectionString.endpoint) {
+      throw new Error("Invalid endpoint specified");
+    }
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
@@ -97,6 +103,7 @@ export class CosmosClient {
 
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
       optionsOrConnectionString.userAgentSuffix,
+      optionsOrConnectionString.hostFramework,
     );
 
     const globalEndpointManager = new GlobalEndpointManager(
@@ -271,5 +278,14 @@ export class CosmosClient {
     if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
       this.endpointRefresher.unref();
     }
+  }
+
+  /**
+   * Update the host framework. If provided host framework will be used to generate the defualt SDK user agent.
+   * @param hostFramework - A custom string.
+   * @hidden
+   */
+  public async updateHostFramework(hostFramework: string): Promise<void> {
+    this.clientContext.updateHostFramework(hostFramework);
   }
 }
