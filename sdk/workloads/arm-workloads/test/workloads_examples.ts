@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { WorkloadsClient } from "../src/workloadsClient"
-import { Monitor } from "../src/models";
+import { WorkloadsClient } from "../src/workloadsClient.js"
+import { Monitor } from "../src/models/index.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -48,22 +46,22 @@ describe("workloads test", () => {
   let sapVirtualInstanceName: string;
   let location: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    resourceGroup = "myjstest";
-    monitorName = "myMonitor";
-    sapVirtualInstanceName = "O13";
-    location = "eastus2"
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      resourceGroup = "myjstest";
+      monitorName = "myMonitor";
+      sapVirtualInstanceName = "O13";
+      location = "eastus2"
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   //create monitors
   it("Workloads create test", async function () {
@@ -163,7 +161,6 @@ describe("workloads test", () => {
 
   //delete monitors
   it("Workloads delete test", async function () {
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -173,7 +170,6 @@ describe("workloads test", () => {
 
   //delete svi
   it.skip("svi delete test", async function () {
-    const res = await client.sAPVirtualInstances.beginDeleteAndWait(resourceGroup, sapVirtualInstanceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
