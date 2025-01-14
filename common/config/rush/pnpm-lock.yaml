@@ -2607,55 +2607,55 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid@file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-PD56aZA2FrCuvAMh9+MS2TwmNcJgMrNAzvaRfx+wBzt5wHrWSXWGtU1O1QyeM3HRWvsx5sMTxiflKw6YNVa3ig==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-HDgQwU6NCxxgmh84EBgMyzdicHx39dso+Wc9GVOR1sS4/O3P7TM15UomoAeiTxKWxIgZBsvjLtL+U2Reu1xyQg==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-authorization@file:projects/arm-authorization.tgz':
-    resolution: {integrity: sha512-k0lSi/F3DOyg+nE+uHnQrcX14JcA7SFqojyC/w1UyXRywgKlfWw8cm+Fps7EMNLkVqzNGFpCQQFjctgTXBGw6Q==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-4R1UfsebEzt2b/hK4mGRlUB4qYkF9qLrdUf4bJy3MRzhXwRLnPDwO0UcHQadD4fnoONW0E/MJAFc3uOt/WG7vA==, tarball: file:projects/arm-authorization.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-automanage@file:projects/arm-automanage.tgz':
-    resolution: {integrity: sha512-gIv/PCbg19wHwiXLkXbatjtOxJVPCkfJtDan4xQQjHXdK6549EYiC4eeYzy/sNWfpF7NmodW+saObfl8BELwPQ==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-Y6D6rLzH4wt38kZLGx+OYbraVF+rRmQiM796PtQImS0hgBULKliq1pi3oU0L4UN991eEkDlwaapf31fQZh/JgA==, tarball: file:projects/arm-automanage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-automation@file:projects/arm-automation.tgz':
-    resolution: {integrity: sha512-DYAwYoZOswRcjMbF8RYjfB+u68LhzckfjxGWGyPE332IhJHJIj+LKpGDoRAH1JlIu7nACJsBhElGD6jRwlhAlA==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-8Dopkf/qw7AOx/DSQxd2Kw7MVBORcsCnWIgtorrPzKjESPpbFd/KyGjPQ7X0geW+2tcfDp2T7PLtkW8CL62eEQ==, tarball: file:projects/arm-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-avs@file:projects/arm-avs.tgz':
-    resolution: {integrity: sha512-My7rydT8HIfnTtYq6Ib88N7JGVuUNo+t74xVgAfv8LHHTPIe+3mGdMCPRntkv+qXMcZvlVUx7x4x47SNh2rZVA==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-wR71/JR7Oz/5U0AL6ttKi32b4blSVYQtmQscr5jwNI5OY1gqNGItcvAx1HrL8LcTlmQ0ZxLudi77I/dehOnvag==, tarball: file:projects/arm-avs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azureadexternalidentities@file:projects/arm-azureadexternalidentities.tgz':
-    resolution: {integrity: sha512-tAnASWfl/QHthiOl0Ut/Vkz8C4IevlqKwwC2UY2ptWEH57RSp1NSkCWn82SIv1tItYbLZ1xqC97nOVZEVCVC3w==, tarball: file:projects/arm-azureadexternalidentities.tgz}
+    resolution: {integrity: sha512-rY8anXxMj+nGBp+w0RykFvmVLSegL8pU5cWH1qp4HWuBc88nGCqvltxymvh5w0/IJz770tjzZwJ9UAJacEaLig==, tarball: file:projects/arm-azureadexternalidentities.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azurestack@file:projects/arm-azurestack.tgz':
-    resolution: {integrity: sha512-EJBsJteFl0XnsNo7YVZtlZ60+qvzHdki4NwGV9oB/GSpTGm96Z56sTHRKBkax+ochWRGtaQnROFYrooKWrcJpg==, tarball: file:projects/arm-azurestack.tgz}
+    resolution: {integrity: sha512-PsIwMRHAJA1aUJbL6XoEojSrp2yfw3b3u9eFZWWwPMzO6mEbVO/h/Q8fUNpwUbnDA14O8AIw/jFC3e96SMnN1w==, tarball: file:projects/arm-azurestack.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azurestackhci@file:projects/arm-azurestackhci.tgz':
-    resolution: {integrity: sha512-8CVRoh6m+rO3RCtiy6IpaGoAtAbaZWLVT8BLwE7XQUiyDfi3jNaWnBUbZmKVJ83LomSdYBYXQCr5wnWus1HfiQ==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-yMhbE9fs6pajsrJ0DiL5YXV51TQtMT0wPNodb8o3zLmqSoldtDS3hmjvI2B9DxP42kQ4mutvNdrfQGZg1lFZ6Q==, tarball: file:projects/arm-azurestackhci.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-baremetalinfrastructure@file:projects/arm-baremetalinfrastructure.tgz':
-    resolution: {integrity: sha512-e1Uq4wcVQjn7MN+7dJsxfFFGtSxFAVbjSLCQIx9egoEJZ7bejMSU/oErA0TJtaOIFRaN5rLxGhBFLv6a7LFnJQ==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    resolution: {integrity: sha512-twqtvgMZ4e7UgkVOcSc03qo/TA3dfIEDEmYSSFOxcbElCIQXu6N2m7mk6Cq/XEXMPYkXZgwzUBPrys85pFSEuw==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-ojmUUZIRJJcd7WtFU90Mrz3ThZB7fZlcMLCDFjzS/ZL0tTae7J1XL6KjTfsZJUkGb81etIRqFjOazytPHtK73g==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-BzB1I2O47TVQBQyrPl4R1ph4frK5KnawVL76OH4ol6tIHZRmgBlQ7MWLDiawiWIxM4VHFg6yYgAzDgrJJM+GlA==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
-    resolution: {integrity: sha512-vptaeXMZQzFieZKSD2Be3qTH+nxFbCwQuHmYkIG+SrNKEnFkijyRrf7sZoO8USOlWZLkiL8p+I5VjgM1+OpcYw==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-VT2QWRjy/0LEOjE9SbnOf/HYjbG8MIyKPnDY4uzton8Rp+Nl6SINd3SxAmWt0KCeSBSdyCW8Q9gJS2jGRAgwvw==, tarball: file:projects/arm-billing.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billingbenefits@file:projects/arm-billingbenefits.tgz':
-    resolution: {integrity: sha512-R4l815tS1k9Ko7Kk1g57o1zLvd3SxmmRRFWdTjcSpor1gxAlIMH6BbRRW5p+6i+o0Y4T1ZRZk88jp476VrmMWQ==, tarball: file:projects/arm-billingbenefits.tgz}
+    resolution: {integrity: sha512-2fGS10irsUHukhJHyuL02Y8qdEcHVdJn12futyBta1Fg9uCGSBr4X25rKU+JURZjaSMe5eX+isIb7Ub8uoDgSA==, tarball: file:projects/arm-billingbenefits.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-botservice@file:projects/arm-botservice.tgz':
-    resolution: {integrity: sha512-OfTfmSGKdE9GNTaKnkrHFj7MkrpF41ubMSXR2eT6hnmY24LmVr8ynzC3gmO5US6yJruNaljoWddTWuw+0sllaQ==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-rTHRIM3Q7hmrWBYmhNA+gFW+iFRqJMfw9sduEU0DL42kxyunWGzXYq0GB464GAuGI+K2tZMRP8Rfp/jU05VKug==, tarball: file:projects/arm-botservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cdn@file:projects/arm-cdn.tgz':
@@ -3547,7 +3547,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/batch@file:projects/batch.tgz':
-    resolution: {integrity: sha512-D2HxCf4Ng9SdTAqHY54j94Sb+ksmCFT4y9WK7CfoHeFy4xp5B3gdFxV/D1MTFqRXGEkb1cibarcbGeA7NNDzFg==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-FbX6dyyyrdB9TGJzof19ZXB3ESOzW7OoRFaIxj5Qfz6LRo+hY3yYN9kCoBJVxeNHLLJ4uTte5ucB3yWrsg2tIQ==, tarball: file:projects/batch.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
@@ -3699,7 +3699,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-jWj69WgiFoOogXXtzLYIS2ifYXlETD9SjSSoqCmcPRjD5wrI+Yy0eHqnoz/gb0kD+lrxRw3+xR9R5xI5Qa+O5w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-ROCLZAorKhg/hIo1K/jOnIJ/yxo4ihG7WdPSbDfzY1H3gs9jtUMXRs2lpGIIpHCmx3g/PNHp/aAGhq8suiuKjw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
@@ -5397,8 +5397,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-config-prettier@9.1.0:
-    resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
+  eslint-config-prettier@10.0.1:
+    resolution: {integrity: sha512-lZBts941cyJyeaooiKxAtzoPHTN+GbQTJFAIdQbRhA4/8whaAraEh47Whw/ZFfrjNSnlAxqfm9i0XVAEkULjCw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -10885,7 +10885,6 @@ snapshots:
 
   '@rush-temp/arm-authorization@file:projects/arm-authorization.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -10947,7 +10946,6 @@ snapshots:
 
   '@rush-temp/arm-automation@file:projects/arm-automation.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -10979,7 +10977,6 @@ snapshots:
 
   '@rush-temp/arm-avs@file:projects/arm-avs.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -10987,7 +10984,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -11012,7 +11008,6 @@ snapshots:
 
   '@rush-temp/arm-azureadexternalidentities@file:projects/arm-azureadexternalidentities.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -11072,7 +11067,6 @@ snapshots:
 
   '@rush-temp/arm-azurestackhci@file:projects/arm-azurestackhci.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -11080,7 +11074,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -11105,7 +11098,6 @@ snapshots:
 
   '@rush-temp/arm-baremetalinfrastructure@file:projects/arm-baremetalinfrastructure.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -11144,7 +11136,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -11176,7 +11167,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -11201,7 +11191,6 @@ snapshots:
 
   '@rush-temp/arm-billingbenefits@file:projects/arm-billingbenefits.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -11232,7 +11221,6 @@ snapshots:
 
   '@rush-temp/arm-botservice@file:projects/arm-botservice.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -17566,7 +17554,7 @@ snapshots:
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.17.0
-      eslint-config-prettier: 9.1.0(eslint@9.17.0)
+      eslint-config-prettier: 10.0.1(eslint@9.17.0)
       eslint-plugin-markdown: 5.1.0(eslint@9.17.0)
       eslint-plugin-n: 17.15.1(eslint@9.17.0)
       eslint-plugin-no-only-tests: 3.3.0
@@ -22035,7 +22023,7 @@ snapshots:
       eslint: 9.17.0
       semver: 7.6.3
 
-  eslint-config-prettier@9.1.0(eslint@9.17.0):
+  eslint-config-prettier@10.0.1(eslint@9.17.0):
     dependencies:
       eslint: 9.17.0
 
