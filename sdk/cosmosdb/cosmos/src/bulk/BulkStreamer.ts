@@ -24,7 +24,7 @@ import type { RetryPolicy } from "../retry/RetryPolicy";
 
 /**
  * BulkStreamer for bulk operations in a container.
- * It maintains one @see {@link BulkStreamer} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
+ * It maintains one @see {@link BulkStreamerPerPartition} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
  * at the Streamer / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
  * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the streamer dispatches a batch
  * the batch will create a request and call the execute callback (executeRequest), if conditions are met, it might call the retry callback (reBatchOperation).
@@ -93,7 +93,7 @@ export class BulkStreamer {
     const streamerForPartition = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    const itemOperation = new ItemBulkOperation(this.operationIndex, operation, context);
+    const itemOperation = new ItemBulkOperation(this.operationIndex++, operation, context);
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
