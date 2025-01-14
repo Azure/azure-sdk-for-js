@@ -2681,7 +2681,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
-    resolution: {integrity: sha512-5bjNARdrAOZd7H6XOMI3Bh86u5ALUwWTq+DVrHuCdTnt6ey41sl6pp1vSrdJ4J3XZcH9lue7VEfWUTZ2qire8w==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-J7dLLXeu2Fevn8SlKPSQt2SWNlP8JEt2Os8x+Jp8CitAJGtP8cJtNAS2ua3kxnkC/V3P2oRLlsLdT227f2y5Ug==, tarball: file:projects/arm-chaos.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cognitiveservices@file:projects/arm-cognitiveservices.tgz':
@@ -11379,7 +11379,7 @@ snapshots:
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
+      '@azure/abort-controller': 2.1.2
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
