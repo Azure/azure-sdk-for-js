@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { MicrosoftVoiceServices } from "../src/microsoftVoiceServices";
+import { MicrosoftVoiceServices } from "../src/microsoftVoiceServices.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,21 +43,21 @@ describe("voiceservices test", () => {
   let resourceGroup: string;
   let communicationsGatewayName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "westcentralus";
-    resourceGroup = "czwjstest";
-    communicationsGatewayName = "mycgtest6";// if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "westcentralus";
+      resourceGroup = "czwjstest";
+      communicationsGatewayName = "mycgtest6";// if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("communicationsGateways create test", async function () {
     const res = await client.communicationsGateways.beginCreateOrUpdateAndWait(
@@ -111,7 +109,6 @@ describe("voiceservices test", () => {
 
   it("communicationsGateways delete test", async function () {
     const resArray = new Array();
-    const res = await client.communicationsGateways.beginDeleteAndWait(resourceGroup, communicationsGatewayName, testPollingOptions)
     for await (let item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
