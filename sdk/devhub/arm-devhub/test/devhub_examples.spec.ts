@@ -39,7 +39,6 @@ describe("devhub test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DeveloperHubServiceClient;
-  let location: string;
   let resourceGroup: string;
 
   beforeEach(async function (ctx) {
@@ -49,7 +48,6 @@ describe("devhub test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new DeveloperHubServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
   });
 
