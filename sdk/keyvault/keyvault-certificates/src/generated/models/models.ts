@@ -5,10 +5,7 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /** The certificate list result. */
 export interface _CertificateListResult {
-  /**
-   * A response message containing a list of certificates in the key vault along with a link to the next page of
-   * certificates.
-   */
+  /** A response message containing a list of certificates in the key vault along with a link to the next page of certificates. */
   readonly value?: CertificateItem[];
   /** The URL to get the next set of certificates. */
   readonly nextLink?: string;
@@ -72,18 +69,10 @@ export interface CertificateAttributes {
   readonly created?: Date;
   /** Last updated time in UTC. */
   readonly updated?: Date;
-  /**
-   * softDelete data retention days. Value should be >=7 and <=90 when softDelete
-   * enabled, otherwise 0.
-   */
+  /** softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0. */
   readonly recoverableDays?: number;
-  /**
-   * Reflects the deletion recovery level currently in effect for certificates in
-   * the current vault. If it contains 'Purgeable', the certificate can be
-   * permanently deleted by a privileged user; otherwise, only the system can purge
-   * the certificate, at the end of the retention interval.
-   */
-  readonly recoveryLevel?: string;
+  /** Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval. */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
 export function certificateAttributesSerializer(
@@ -91,8 +80,12 @@ export function certificateAttributesSerializer(
 ): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime() / 1000,
-    exp: !item["expires"] ? item["expires"] : item["expires"].getTime() / 1000,
+    nbf: !item["notBefore"]
+      ? item["notBefore"]
+      : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"]
+      ? item["expires"]
+      : (item["expires"].getTime() / 1000) | 0,
   };
 }
 
@@ -103,12 +96,49 @@ export function certificateAttributesDeserializer(
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
+    created: !item["created"]
+      ? item["created"]
+      : new Date(item["created"] * 1000),
+    updated: !item["updated"]
+      ? item["updated"]
+      : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
   };
 }
+
+/** Reflects the deletion recovery level currently in effect for secrets in the current vault. If it contains 'Purgeable', the secret can be permanently deleted by a privileged user; otherwise, only the system can purge the secret, at the end of the retention interval. */
+export enum KnownDeletionRecoveryLevel {
+  /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
+  Purgeable = "Purgeable",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverablePurgeable = "Recoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered */
+  Recoverable = "Recoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. */
+  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. */
+  CustomizedRecoverable = "CustomizedRecoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled. */
+  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+}
+
+/**
+ * Reflects the deletion recovery level currently in effect for secrets in the current vault. If it contains 'Purgeable', the secret can be permanently deleted by a privileged user; otherwise, only the system can purge the secret, at the end of the retention interval. \
+ * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) \
+ * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered \
+ * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. \
+ * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. \
+ * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
+ */
+export type DeletionRecoveryLevel = string;
 
 /** The key vault error exception. */
 export interface KeyVaultError {
@@ -142,10 +172,7 @@ export function errorDeserializer(item: any): ErrorModel {
   };
 }
 
-/**
- * A Deleted Certificate consisting of its previous id, attributes and its tags,
- * as well as information on when it will be purged.
- */
+/** A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedCertificateBundle {
   /** The certificate id. */
   readonly id?: string;
@@ -159,19 +186,13 @@ export interface DeletedCertificateBundle {
   readonly policy?: CertificatePolicy;
   /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /**
-   * The content type of the secret. eg. 'application/x-pem-file' or
-   * 'application/x-pkcs12',
-   */
+  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', */
   contentType?: string;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs */
   tags?: Record<string, string>;
-  /**
-   * The url of the recovery object, used to identify and recover the deleted
-   * certificate.
-   */
+  /** The url of the recovery object, used to identify and recover the deleted certificate. */
   recoveryId?: string;
   /** The time when the certificate is scheduled to be purged, in UTC */
   readonly scheduledPurgeDate?: Date;
@@ -207,10 +228,10 @@ export function deletedCertificateBundleDeserializer(
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -281,10 +302,7 @@ export function certificatePolicyDeserializer(item: any): CertificatePolicy {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /**
-   * Indicates if the private key can be exported. Release policy must be provided
-   * when creating the first version of an exportable key.
-   */
+  /** Indicates if the private key can be exported. Release policy must be provided when creating the first version of an exportable key. */
   exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
@@ -553,10 +571,7 @@ export function lifetimeActionArrayDeserializer(
   });
 }
 
-/**
- * Action and its trigger that will be performed by Key Vault over the lifetime of
- * a certificate.
- */
+/** Action and its trigger that will be performed by Key Vault over the lifetime of a certificate. */
 export interface LifetimeAction {
   /** The condition that will execute the action. */
   trigger?: Trigger;
@@ -588,11 +603,7 @@ export function lifetimeActionDeserializer(item: any): LifetimeAction {
 export interface Trigger {
   /** Percentage of lifetime at which to trigger. Value should be between 1 and 99. */
   lifetimePercentage?: number;
-  /**
-   * Days before expiry to attempt renewal. Value should be between 1 and
-   * validity_in_months multiplied by 27. If validity_in_months is 36, then value
-   * should be between 1 and 972 (36 * 27).
-   */
+  /** Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27). */
   daysBeforeExpiry?: number;
 }
 
@@ -631,20 +642,11 @@ export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /** Parameters for the issuer of the X509 component of a certificate. */
 export interface IssuerParameters {
-  /**
-   * Name of the referenced issuer object or reserved names; for example, 'Self' or
-   * 'Unknown'.
-   */
+  /** Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'. */
   name?: string;
-  /**
-   * Certificate type as supported by the provider (optional); for example 'OV-SSL',
-   * 'EV-SSL'
-   */
+  /** Certificate type as supported by the provider (optional); for example 'OV-SSL', 'EV-SSL' */
   certificateType?: string;
-  /**
-   * Indicates if the certificates generated under this policy should be published
-   * to certificate transparency logs.
-   */
+  /** Indicates if the certificates generated under this policy should be published to certificate transparency logs. */
   certificateTransparency?: boolean;
 }
 
@@ -729,10 +731,7 @@ export function contactDeserializer(item: any): Contact {
 
 /** The certificate issuer list result. */
 export interface _CertificateIssuerListResult {
-  /**
-   * A response message containing a list of certificate issuers in the key vault along with a link to the next page of
-   * certificate issuers.
-   */
+  /** A response message containing a list of certificate issuers in the key vault along with a link to the next page of certificate issuers. */
   readonly value?: CertificateIssuerItem[];
   /** The URL to get the next set of certificate issuers. */
   readonly nextLink?: string;
@@ -917,8 +916,12 @@ export function issuerAttributesSerializer(item: IssuerAttributes): any {
 export function issuerAttributesDeserializer(item: any): IssuerAttributes {
   return {
     enabled: item["enabled"],
-    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
+    created: !item["created"]
+      ? item["created"]
+      : new Date(item["created"] * 1000),
+    updated: !item["updated"]
+      ? item["updated"]
+      : new Date(item["updated"] * 1000),
   };
 }
 
@@ -1011,10 +1014,7 @@ export interface CertificateOperation {
   readonly id?: string;
   /** Parameters for the issuer of the X509 component of a certificate. */
   issuerParameters?: IssuerParameters;
-  /**
-   * The certificate signing request (CSR) that is being used in the certificate
-   * operation.
-   */
+  /** The certificate signing request (CSR) that is being used in the certificate operation. */
   csr?: Uint8Array;
   /** Indicates if cancellation was requested on the certificate operation. */
   cancellationRequested?: boolean;
@@ -1054,15 +1054,9 @@ export function certificateOperationDeserializer(
 
 /** The certificate import parameters. */
 export interface CertificateImportParameters {
-  /**
-   * Base64 encoded representation of the certificate object to import. This
-   * certificate needs to contain the private key.
-   */
+  /** Base64 encoded representation of the certificate object to import. This certificate needs to contain the private key. */
   base64EncodedCertificate: string;
-  /**
-   * If the private key in base64EncodedCertificate is encrypted, the password used
-   * for encryption.
-   */
+  /** If the private key in base64EncodedCertificate is encrypted, the password used for encryption. */
   password?: string;
   /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
@@ -1102,10 +1096,7 @@ export interface CertificateBundle {
   readonly policy?: CertificatePolicy;
   /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /**
-   * The content type of the secret. eg. 'application/x-pem-file' or
-   * 'application/x-pkcs12',
-   */
+  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', */
   contentType?: string;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
@@ -1233,10 +1224,7 @@ export function certificateRestoreParametersSerializer(
 
 /** A list of certificates that have been deleted in this vault. */
 export interface _DeletedCertificateListResult {
-  /**
-   * A response message containing a list of deleted certificates in the vault along with a link to the next page of
-   * deleted certificates.
-   */
+  /** A response message containing a list of deleted certificates in the vault along with a link to the next page of deleted certificates. */
   readonly value?: DeletedCertificateItem[];
   /** The URL to get the next set of deleted certificates. */
   readonly nextLink?: string;
@@ -1296,10 +1284,10 @@ export function deletedCertificateItemDeserializer(
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -1310,114 +1298,3 @@ export enum KnownVersions {
   /** The 7.6-preview.1 API version. */
   "v7.6_preview.1" = "7.6-preview.1",
 }
-
-/**
- * Reflects the deletion recovery level currently in effect for certificates in
- * the current vault. If it contains 'Purgeable', the certificate can be
- * permanently deleted by a privileged user; otherwise, only the system can purge
- * the certificate, at the end of the retention interval.
- */
-export enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without
-   * the possibility for recovery. This level corresponds to no protection being
-   * available against a Delete operation; the data is irretrievably lost upon
-   * accepting a Delete operation at the entity level or higher (vault, resource
-   * group, subscription etc.)
-   */
-  Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval (90 days),
-   * unless a Purge operation is requested, or the subscription is cancelled. System
-   * wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval(90 days) and
-   * while the subscription is still available. System wil permanently delete it
-   * after 90 days, if not recovered
-   */
-  Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within
-   * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
-   * not permitted, and in which the subscription itself  cannot be permanently
-   * canceled. System wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
-   * < 90). This level guarantees the recoverability of the deleted entity during
-   * the retention interval, unless a Purge operation is requested, or the
-   * subscription is cancelled.
-   */
-  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge when 7<=
-   * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
-   * deleted entity during the retention interval and while the subscription is
-   * still available.
-   */
-  CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable,
-   * immediate and permanent deletion (i.e. purge) is not permitted, and in which
-   * the subscription itself cannot be permanently canceled when 7<=
-   * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
-   * deleted entity during the retention interval, and also reflects the fact that
-   * the subscription itself cannot be cancelled.
-   */
-  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-}
-
-/**
- * Reflects the deletion recovery level currently in effect for certificates in
- * the current vault. If it contains 'Purgeable', the certificate can be
- * permanently deleted by a privileged user; otherwise, only the system can purge
- * the certificate, at the end of the retention interval. \
- * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without
- * the possibility for recovery. This level corresponds to no protection being
- * available against a Delete operation; the data is irretrievably lost upon
- * accepting a Delete operation at the entity level or higher (vault, resource
- * group, subscription etc.) \
- * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval (90 days),
- * unless a Purge operation is requested, or the subscription is cancelled. System
- * wil permanently delete it after 90 days, if not recovered \
- * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval(90 days) and
- * while the subscription is still available. System wil permanently delete it
- * after 90 days, if not recovered \
- * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within
- * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
- * not permitted, and in which the subscription itself  cannot be permanently
- * canceled. System wil permanently delete it after 90 days, if not recovered \
- * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
- * < 90). This level guarantees the recoverability of the deleted entity during
- * the retention interval, unless a Purge operation is requested, or the
- * subscription is cancelled. \
- * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge when 7<=
- * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
- * deleted entity during the retention interval and while the subscription is
- * still available. \
- * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable,
- * immediate and permanent deletion (i.e. purge) is not permitted, and in which
- * the subscription itself cannot be permanently canceled when 7<=
- * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
- * deleted entity during the retention interval, and also reflects the fact that
- * the subscription itself cannot be cancelled.
- */
-export type DeletionRecoveryLevel = string;

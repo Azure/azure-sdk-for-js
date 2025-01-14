@@ -11,6 +11,8 @@ export { KeyVaultClient } from "./keyVaultClient.js";
 export {
   CertificateItem,
   CertificateAttributes,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
   KeyVaultError,
   ErrorModel,
   DeletedCertificateBundle,
@@ -51,8 +53,6 @@ export {
   CertificateRestoreParameters,
   DeletedCertificateItem,
   KnownVersions,
-  KnownDeletionRecoveryLevel,
-  DeletionRecoveryLevel,
 } from "./models/index.js";
 export {
   KeyVaultClientOptionalParams,

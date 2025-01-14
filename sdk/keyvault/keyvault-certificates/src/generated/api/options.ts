@@ -5,10 +5,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GetCertificatesOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;
@@ -31,10 +28,7 @@ export interface DeleteCertificateContactsOptionalParams
 
 /** Optional parameters. */
 export interface GetCertificateIssuersOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
@@ -60,10 +54,7 @@ export interface ImportCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetCertificateVersionsOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
@@ -103,10 +94,7 @@ export interface RestoreCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetDeletedCertificatesOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;

@@ -6,10 +6,7 @@ import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-/**
- * The key vault client performs cryptographic key operations and vault operations
- * against the Key Vault service.
- */
+/** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
 export interface KeyVaultContext extends Client {}
 
 /** Optional parameters for the client. */
@@ -19,10 +16,7 @@ export interface KeyVaultClientOptionalParams extends ClientOptions {
   apiVersion?: string;
 }
 
-/**
- * The key vault client performs cryptographic key operations and vault operations
- * against the Key Vault service.
- */
+/** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
 export function createKeyVault(
   vaultBaseUrl: string,
   credential: TokenCredential,

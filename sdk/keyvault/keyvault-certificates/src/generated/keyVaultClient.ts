@@ -91,10 +91,7 @@ export class KeyVaultClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /**
-   * The key vault client performs cryptographic key operations and vault operations
-   * against the Key Vault service.
-   */
+  /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
   constructor(
     vaultBaseUrl: string,
     credential: TokenCredential,
@@ -111,21 +108,14 @@ export class KeyVaultClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /**
-   * The GetCertificates operation returns the set of certificates resources in the
-   * specified key vault. This operation requires the certificates/list permission.
-   */
+  /** The GetCertificates operation returns the set of certificates resources in the specified key vault. This operation requires the certificates/list permission. */
   getCertificates(
     options: GetCertificatesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<CertificateItem> {
     return getCertificates(this._client, options);
   }
 
-  /**
-   * Deletes all versions of a certificate object along with its associated policy.
-   * Delete certificate cannot be used to remove individual versions of a
-   * certificate object. This operation requires the certificates/delete permission.
-   */
+  /** Deletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object. This operation requires the certificates/delete permission. */
   deleteCertificate(
     certificateName: string,
     options: DeleteCertificateOptionalParams = { requestOptions: {} },
@@ -133,10 +123,7 @@ export class KeyVaultClient {
     return deleteCertificate(this._client, certificateName, options);
   }
 
-  /**
-   * Sets the certificate contacts for the specified key vault. This operation
-   * requires the certificates/managecontacts permission.
-   */
+  /** Sets the certificate contacts for the specified key vault. This operation requires the certificates/managecontacts permission. */
   setCertificateContacts(
     contacts: Contacts,
     options: SetCertificateContactsOptionalParams = { requestOptions: {} },
@@ -144,42 +131,28 @@ export class KeyVaultClient {
     return setCertificateContacts(this._client, contacts, options);
   }
 
-  /**
-   * The GetCertificateContacts operation returns the set of certificate contact
-   * resources in the specified key vault. This operation requires the
-   * certificates/managecontacts permission.
-   */
+  /** The GetCertificateContacts operation returns the set of certificate contact resources in the specified key vault. This operation requires the certificates/managecontacts permission. */
   getCertificateContacts(
     options: GetCertificateContactsOptionalParams = { requestOptions: {} },
   ): Promise<Contacts> {
     return getCertificateContacts(this._client, options);
   }
 
-  /**
-   * Deletes the certificate contacts for a specified key vault certificate. This
-   * operation requires the certificates/managecontacts permission.
-   */
+  /** Deletes the certificate contacts for a specified key vault certificate. This operation requires the certificates/managecontacts permission. */
   deleteCertificateContacts(
     options: DeleteCertificateContactsOptionalParams = { requestOptions: {} },
   ): Promise<Contacts> {
     return deleteCertificateContacts(this._client, options);
   }
 
-  /**
-   * The GetCertificateIssuers operation returns the set of certificate issuer
-   * resources in the specified key vault. This operation requires the
-   * certificates/manageissuers/getissuers permission.
-   */
+  /** The GetCertificateIssuers operation returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission. */
   getCertificateIssuers(
     options: GetCertificateIssuersOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<CertificateIssuerItem> {
     return getCertificateIssuers(this._client, options);
   }
 
-  /**
-   * The SetCertificateIssuer operation adds or updates the specified certificate
-   * issuer. This operation requires the certificates/setissuers permission.
-   */
+  /** The SetCertificateIssuer operation adds or updates the specified certificate issuer. This operation requires the certificates/setissuers permission. */
   setCertificateIssuer(
     issuerName: string,
     parameter: CertificateIssuerSetParameters,
@@ -188,11 +161,7 @@ export class KeyVaultClient {
     return setCertificateIssuer(this._client, issuerName, parameter, options);
   }
 
-  /**
-   * The UpdateCertificateIssuer operation performs an update on the specified
-   * certificate issuer entity. This operation requires the certificates/setissuers
-   * permission.
-   */
+  /** The UpdateCertificateIssuer operation performs an update on the specified certificate issuer entity. This operation requires the certificates/setissuers permission. */
   updateCertificateIssuer(
     issuerName: string,
     parameter: CertificateIssuerUpdateParameters,
@@ -206,11 +175,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * The GetCertificateIssuer operation returns the specified certificate issuer
-   * resources in the specified key vault. This operation requires the
-   * certificates/manageissuers/getissuers permission.
-   */
+  /** The GetCertificateIssuer operation returns the specified certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission. */
   getCertificateIssuer(
     issuerName: string,
     options: GetCertificateIssuerOptionalParams = { requestOptions: {} },
@@ -218,11 +183,7 @@ export class KeyVaultClient {
     return getCertificateIssuer(this._client, issuerName, options);
   }
 
-  /**
-   * The DeleteCertificateIssuer operation permanently removes the specified
-   * certificate issuer from the vault. This operation requires the
-   * certificates/manageissuers/deleteissuers permission.
-   */
+  /** The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from the vault. This operation requires the certificates/manageissuers/deleteissuers permission. */
   deleteCertificateIssuer(
     issuerName: string,
     options: DeleteCertificateIssuerOptionalParams = { requestOptions: {} },
@@ -230,10 +191,7 @@ export class KeyVaultClient {
     return deleteCertificateIssuer(this._client, issuerName, options);
   }
 
-  /**
-   * If this is the first version, the certificate resource is created. This
-   * operation requires the certificates/create permission.
-   */
+  /** If this is the first version, the certificate resource is created. This operation requires the certificates/create permission. */
   createCertificate(
     certificateName: string,
     parameters: CertificateCreateParameters,
@@ -247,13 +205,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * Imports an existing valid certificate, containing a private key, into Azure Key
-   * Vault. This operation requires the certificates/import permission. The
-   * certificate to be imported can be in either PFX or PEM format. If the
-   * certificate is in PEM format the PEM file must contain the key as well as x509
-   * certificates. Key Vault will only accept a key in PKCS#8 format.
-   */
+  /** Imports an existing valid certificate, containing a private key, into Azure Key Vault. This operation requires the certificates/import permission. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. Key Vault will only accept a key in PKCS#8 format. */
   importCertificate(
     certificateName: string,
     parameters: CertificateImportParameters,
@@ -267,11 +219,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * The GetCertificateVersions operation returns the versions of a certificate in
-   * the specified key vault. This operation requires the certificates/list
-   * permission.
-   */
+  /** The GetCertificateVersions operation returns the versions of a certificate in the specified key vault. This operation requires the certificates/list permission. */
   getCertificateVersions(
     certificateName: string,
     options: GetCertificateVersionsOptionalParams = { requestOptions: {} },
@@ -279,11 +227,7 @@ export class KeyVaultClient {
     return getCertificateVersions(this._client, certificateName, options);
   }
 
-  /**
-   * The GetCertificatePolicy operation returns the specified certificate policy
-   * resources in the specified key vault. This operation requires the
-   * certificates/get permission.
-   */
+  /** The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission. */
   getCertificatePolicy(
     certificateName: string,
     options: GetCertificatePolicyOptionalParams = { requestOptions: {} },
@@ -291,10 +235,7 @@ export class KeyVaultClient {
     return getCertificatePolicy(this._client, certificateName, options);
   }
 
-  /**
-   * Set specified members in the certificate policy. Leave others as null. This
-   * operation requires the certificates/update permission.
-   */
+  /** Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission. */
   updateCertificatePolicy(
     certificateName: string,
     certificatePolicy: CertificatePolicy,
@@ -308,11 +249,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * The UpdateCertificate operation applies the specified update on the given
-   * certificate; the only elements updated are the certificate's attributes. This
-   * operation requires the certificates/update permission.
-   */
+  /** The UpdateCertificate operation applies the specified update on the given certificate; the only elements updated are the certificate's attributes. This operation requires the certificates/update permission. */
   updateCertificate(
     certificateName: string,
     certificateVersion: string,
@@ -328,10 +265,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * Gets information about a specific certificate. This operation requires the
-   * certificates/get permission.
-   */
+  /** Gets information about a specific certificate. This operation requires the certificates/get permission. */
   getCertificate(
     certificateName: string,
     certificateVersion: string,
@@ -345,10 +279,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * Updates a certificate creation operation that is already in progress. This
-   * operation requires the certificates/update permission.
-   */
+  /** Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission. */
   updateCertificateOperation(
     certificateName: string,
     certificateOperation: CertificateOperationUpdateParameter,
@@ -362,10 +293,7 @@ export class KeyVaultClient {
     );
   }
 
-  /**
-   * Gets the creation operation associated with a specified certificate. This
-   * operation requires the certificates/get permission.
-   */
+  /** Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission. */
   getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptionalParams = { requestOptions: {} },
@@ -373,11 +301,7 @@ export class KeyVaultClient {
     return getCertificateOperation(this._client, certificateName, options);
   }
 
-  /**
-   * Deletes the creation operation for a specified certificate that is in the
-   * process of being created. The certificate is no longer created. This operation
-   * requires the certificates/update permission.
-   */
+  /** Deletes the creation operation for a specified certificate that is in the process of being created. The certificate is no longer created. This operation requires the certificates/update permission. */
   deleteCertificateOperation(
     certificateName: string,
     options: DeleteCertificateOperationOptionalParams = { requestOptions: {} },
@@ -385,11 +309,7 @@ export class KeyVaultClient {
     return deleteCertificateOperation(this._client, certificateName, options);
   }
 
-  /**
-   * The MergeCertificate operation performs the merging of a certificate or
-   * certificate chain with a key pair currently available in the service. This
-   * operation requires the certificates/create permission.
-   */
+  /** The MergeCertificate operation performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission. */
   mergeCertificate(
     certificateName: string,
     parameters: CertificateMergeParameters,
@@ -398,11 +318,7 @@ export class KeyVaultClient {
     return mergeCertificate(this._client, certificateName, parameters, options);
   }
 
-  /**
-   * Requests that a backup of the specified certificate be downloaded to the
-   * client. All versions of the certificate will be downloaded. This operation
-   * requires the certificates/backup permission.
-   */
+  /** Requests that a backup of the specified certificate be downloaded to the client. All versions of the certificate will be downloaded. This operation requires the certificates/backup permission. */
   backupCertificate(
     certificateName: string,
     options: BackupCertificateOptionalParams = { requestOptions: {} },
@@ -410,10 +326,7 @@ export class KeyVaultClient {
     return backupCertificate(this._client, certificateName, options);
   }
 
-  /**
-   * Restores a backed up certificate, and all its versions, to a vault. This
-   * operation requires the certificates/restore permission.
-   */
+  /** Restores a backed up certificate, and all its versions, to a vault. This operation requires the certificates/restore permission. */
   restoreCertificate(
     parameters: CertificateRestoreParameters,
     options: RestoreCertificateOptionalParams = { requestOptions: {} },
@@ -421,25 +334,14 @@ export class KeyVaultClient {
     return restoreCertificate(this._client, parameters, options);
   }
 
-  /**
-   * The GetDeletedCertificates operation retrieves the certificates in the current
-   * vault which are in a deleted state and ready for recovery or purging. This
-   * operation includes deletion-specific information. This operation requires the
-   * certificates/get/list permission. This operation can only be enabled on
-   * soft-delete enabled vaults.
-   */
+  /** The GetDeletedCertificates operation retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults. */
   getDeletedCertificates(
     options: GetDeletedCertificatesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<DeletedCertificateItem> {
     return getDeletedCertificates(this._client, options);
   }
 
-  /**
-   * The GetDeletedCertificate operation retrieves the deleted certificate
-   * information plus its attributes, such as retention interval, scheduled
-   * permanent deletion and the current deletion recovery level. This operation
-   * requires the certificates/get permission.
-   */
+  /** The GetDeletedCertificate operation retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the current deletion recovery level. This operation requires the certificates/get permission. */
   getDeletedCertificate(
     certificateName: string,
     options: GetDeletedCertificateOptionalParams = { requestOptions: {} },
@@ -447,12 +349,7 @@ export class KeyVaultClient {
     return getDeletedCertificate(this._client, certificateName, options);
   }
 
-  /**
-   * The PurgeDeletedCertificate operation performs an irreversible deletion of the
-   * specified certificate, without possibility for recovery. The operation is not
-   * available if the recovery level does not specify 'Purgeable'. This operation
-   * requires the certificate/purge permission.
-   */
+  /** The PurgeDeletedCertificate operation performs an irreversible deletion of the specified certificate, without possibility for recovery. The operation is not available if the recovery level does not specify 'Purgeable'. This operation requires the certificate/purge permission. */
   purgeDeletedCertificate(
     certificateName: string,
     options: PurgeDeletedCertificateOptionalParams = { requestOptions: {} },
@@ -460,13 +357,7 @@ export class KeyVaultClient {
     return purgeDeletedCertificate(this._client, certificateName, options);
   }
 
-  /**
-   * The RecoverDeletedCertificate operation performs the reversal of the Delete
-   * operation. The operation is applicable in vaults enabled for soft-delete, and
-   * must be issued during the retention interval (available in the deleted
-   * certificate's attributes). This operation requires the certificates/recover
-   * permission.
-   */
+  /** The RecoverDeletedCertificate operation performs the reversal of the Delete operation. The operation is applicable in vaults enabled for soft-delete, and must be issued during the retention interval (available in the deleted certificate's attributes). This operation requires the certificates/recover permission. */
   recoverDeletedCertificate(
     certificateName: string,
     options: RecoverDeletedCertificateOptionalParams = { requestOptions: {} },

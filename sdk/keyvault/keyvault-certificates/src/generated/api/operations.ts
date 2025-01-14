@@ -111,10 +111,7 @@ export async function _getCertificatesDeserialize(
   return _certificateListResultDeserializer(result.body);
 }
 
-/**
- * The GetCertificates operation returns the set of certificates resources in the
- * specified key vault. This operation requires the certificates/list permission.
- */
+/** The GetCertificates operation returns the set of certificates resources in the specified key vault. This operation requires the certificates/list permission. */
 export function getCertificates(
   context: Client,
   options: GetCertificatesOptionalParams = { requestOptions: {} },
@@ -124,7 +121,7 @@ export function getCertificates(
     () => _getCertificatesSend(context, options),
     _getCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value" },
   );
 }
 
@@ -149,11 +146,7 @@ export async function _deleteCertificateDeserialize(
   return deletedCertificateBundleDeserializer(result.body);
 }
 
-/**
- * Deletes all versions of a certificate object along with its associated policy.
- * Delete certificate cannot be used to remove individual versions of a
- * certificate object. This operation requires the certificates/delete permission.
- */
+/** Deletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object. This operation requires the certificates/delete permission. */
 export async function deleteCertificate(
   context: Client,
   certificateName: string,
@@ -191,10 +184,7 @@ export async function _setCertificateContactsDeserialize(
   return contactsDeserializer(result.body);
 }
 
-/**
- * Sets the certificate contacts for the specified key vault. This operation
- * requires the certificates/managecontacts permission.
- */
+/** Sets the certificate contacts for the specified key vault. This operation requires the certificates/managecontacts permission. */
 export async function setCertificateContacts(
   context: Client,
   contacts: Contacts,
@@ -224,11 +214,7 @@ export async function _getCertificateContactsDeserialize(
   return contactsDeserializer(result.body);
 }
 
-/**
- * The GetCertificateContacts operation returns the set of certificate contact
- * resources in the specified key vault. This operation requires the
- * certificates/managecontacts permission.
- */
+/** The GetCertificateContacts operation returns the set of certificate contact resources in the specified key vault. This operation requires the certificates/managecontacts permission. */
 export async function getCertificateContacts(
   context: Client,
   options: GetCertificateContactsOptionalParams = { requestOptions: {} },
@@ -257,10 +243,7 @@ export async function _deleteCertificateContactsDeserialize(
   return contactsDeserializer(result.body);
 }
 
-/**
- * Deletes the certificate contacts for a specified key vault certificate. This
- * operation requires the certificates/managecontacts permission.
- */
+/** Deletes the certificate contacts for a specified key vault certificate. This operation requires the certificates/managecontacts permission. */
 export async function deleteCertificateContacts(
   context: Client,
   options: DeleteCertificateContactsOptionalParams = { requestOptions: {} },
@@ -292,11 +275,7 @@ export async function _getCertificateIssuersDeserialize(
   return _certificateIssuerListResultDeserializer(result.body);
 }
 
-/**
- * The GetCertificateIssuers operation returns the set of certificate issuer
- * resources in the specified key vault. This operation requires the
- * certificates/manageissuers/getissuers permission.
- */
+/** The GetCertificateIssuers operation returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission. */
 export function getCertificateIssuers(
   context: Client,
   options: GetCertificateIssuersOptionalParams = { requestOptions: {} },
@@ -306,7 +285,7 @@ export function getCertificateIssuers(
     () => _getCertificateIssuersSend(context, options),
     _getCertificateIssuersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value" },
   );
 }
 
@@ -335,10 +314,7 @@ export async function _setCertificateIssuerDeserialize(
   return issuerBundleDeserializer(result.body);
 }
 
-/**
- * The SetCertificateIssuer operation adds or updates the specified certificate
- * issuer. This operation requires the certificates/setissuers permission.
- */
+/** The SetCertificateIssuer operation adds or updates the specified certificate issuer. This operation requires the certificates/setissuers permission. */
 export async function setCertificateIssuer(
   context: Client,
   issuerName: string,
@@ -379,11 +355,7 @@ export async function _updateCertificateIssuerDeserialize(
   return issuerBundleDeserializer(result.body);
 }
 
-/**
- * The UpdateCertificateIssuer operation performs an update on the specified
- * certificate issuer entity. This operation requires the certificates/setissuers
- * permission.
- */
+/** The UpdateCertificateIssuer operation performs an update on the specified certificate issuer entity. This operation requires the certificates/setissuers permission. */
 export async function updateCertificateIssuer(
   context: Client,
   issuerName: string,
@@ -420,11 +392,7 @@ export async function _getCertificateIssuerDeserialize(
   return issuerBundleDeserializer(result.body);
 }
 
-/**
- * The GetCertificateIssuer operation returns the specified certificate issuer
- * resources in the specified key vault. This operation requires the
- * certificates/manageissuers/getissuers permission.
- */
+/** The GetCertificateIssuer operation returns the specified certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission. */
 export async function getCertificateIssuer(
   context: Client,
   issuerName: string,
@@ -455,11 +423,7 @@ export async function _deleteCertificateIssuerDeserialize(
   return issuerBundleDeserializer(result.body);
 }
 
-/**
- * The DeleteCertificateIssuer operation permanently removes the specified
- * certificate issuer from the vault. This operation requires the
- * certificates/manageissuers/deleteissuers permission.
- */
+/** The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from the vault. This operation requires the certificates/manageissuers/deleteissuers permission. */
 export async function deleteCertificateIssuer(
   context: Client,
   issuerName: string,
@@ -498,10 +462,7 @@ export async function _createCertificateDeserialize(
   return certificateOperationDeserializer(result.body);
 }
 
-/**
- * If this is the first version, the certificate resource is created. This
- * operation requires the certificates/create permission.
- */
+/** If this is the first version, the certificate resource is created. This operation requires the certificates/create permission. */
 export async function createCertificate(
   context: Client,
   certificateName: string,
@@ -542,13 +503,7 @@ export async function _importCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * Imports an existing valid certificate, containing a private key, into Azure Key
- * Vault. This operation requires the certificates/import permission. The
- * certificate to be imported can be in either PFX or PEM format. If the
- * certificate is in PEM format the PEM file must contain the key as well as x509
- * certificates. Key Vault will only accept a key in PKCS#8 format.
- */
+/** Imports an existing valid certificate, containing a private key, into Azure Key Vault. This operation requires the certificates/import permission. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. Key Vault will only accept a key in PKCS#8 format. */
 export async function importCertificate(
   context: Client,
   certificateName: string,
@@ -588,11 +543,7 @@ export async function _getCertificateVersionsDeserialize(
   return _certificateListResultDeserializer(result.body);
 }
 
-/**
- * The GetCertificateVersions operation returns the versions of a certificate in
- * the specified key vault. This operation requires the certificates/list
- * permission.
- */
+/** The GetCertificateVersions operation returns the versions of a certificate in the specified key vault. This operation requires the certificates/list permission. */
 export function getCertificateVersions(
   context: Client,
   certificateName: string,
@@ -603,7 +554,7 @@ export function getCertificateVersions(
     () => _getCertificateVersionsSend(context, certificateName, options),
     _getCertificateVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value" },
   );
 }
 
@@ -628,11 +579,7 @@ export async function _getCertificatePolicyDeserialize(
   return certificatePolicyDeserializer(result.body);
 }
 
-/**
- * The GetCertificatePolicy operation returns the specified certificate policy
- * resources in the specified key vault. This operation requires the
- * certificates/get permission.
- */
+/** The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission. */
 export async function getCertificatePolicy(
   context: Client,
   certificateName: string,
@@ -671,10 +618,7 @@ export async function _updateCertificatePolicyDeserialize(
   return certificatePolicyDeserializer(result.body);
 }
 
-/**
- * Set specified members in the certificate policy. Leave others as null. This
- * operation requires the certificates/update permission.
- */
+/** Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission. */
 export async function updateCertificatePolicy(
   context: Client,
   certificateName: string,
@@ -720,11 +664,7 @@ export async function _updateCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * The UpdateCertificate operation applies the specified update on the given
- * certificate; the only elements updated are the certificate's attributes. This
- * operation requires the certificates/update permission.
- */
+/** The UpdateCertificate operation applies the specified update on the given certificate; the only elements updated are the certificate's attributes. This operation requires the certificates/update permission. */
 export async function updateCertificate(
   context: Client,
   certificateName: string,
@@ -768,10 +708,7 @@ export async function _getCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * Gets information about a specific certificate. This operation requires the
- * certificates/get permission.
- */
+/** Gets information about a specific certificate. This operation requires the certificates/get permission. */
 export async function getCertificate(
   context: Client,
   certificateName: string,
@@ -812,10 +749,7 @@ export async function _updateCertificateOperationDeserialize(
   return certificateOperationDeserializer(result.body);
 }
 
-/**
- * Updates a certificate creation operation that is already in progress. This
- * operation requires the certificates/update permission.
- */
+/** Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission. */
 export async function updateCertificateOperation(
   context: Client,
   certificateName: string,
@@ -852,10 +786,7 @@ export async function _getCertificateOperationDeserialize(
   return certificateOperationDeserializer(result.body);
 }
 
-/**
- * Gets the creation operation associated with a specified certificate. This
- * operation requires the certificates/get permission.
- */
+/** Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission. */
 export async function getCertificateOperation(
   context: Client,
   certificateName: string,
@@ -890,11 +821,7 @@ export async function _deleteCertificateOperationDeserialize(
   return certificateOperationDeserializer(result.body);
 }
 
-/**
- * Deletes the creation operation for a specified certificate that is in the
- * process of being created. The certificate is no longer created. This operation
- * requires the certificates/update permission.
- */
+/** Deletes the creation operation for a specified certificate that is in the process of being created. The certificate is no longer created. This operation requires the certificates/update permission. */
 export async function deleteCertificateOperation(
   context: Client,
   certificateName: string,
@@ -933,11 +860,7 @@ export async function _mergeCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * The MergeCertificate operation performs the merging of a certificate or
- * certificate chain with a key pair currently available in the service. This
- * operation requires the certificates/create permission.
- */
+/** The MergeCertificate operation performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission. */
 export async function mergeCertificate(
   context: Client,
   certificateName: string,
@@ -974,11 +897,7 @@ export async function _backupCertificateDeserialize(
   return backupCertificateResultDeserializer(result.body);
 }
 
-/**
- * Requests that a backup of the specified certificate be downloaded to the
- * client. All versions of the certificate will be downloaded. This operation
- * requires the certificates/backup permission.
- */
+/** Requests that a backup of the specified certificate be downloaded to the client. All versions of the certificate will be downloaded. This operation requires the certificates/backup permission. */
 export async function backupCertificate(
   context: Client,
   certificateName: string,
@@ -1016,10 +935,7 @@ export async function _restoreCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * Restores a backed up certificate, and all its versions, to a vault. This
- * operation requires the certificates/restore permission.
- */
+/** Restores a backed up certificate, and all its versions, to a vault. This operation requires the certificates/restore permission. */
 export async function restoreCertificate(
   context: Client,
   parameters: CertificateRestoreParameters,
@@ -1055,13 +971,7 @@ export async function _getDeletedCertificatesDeserialize(
   return _deletedCertificateListResultDeserializer(result.body);
 }
 
-/**
- * The GetDeletedCertificates operation retrieves the certificates in the current
- * vault which are in a deleted state and ready for recovery or purging. This
- * operation includes deletion-specific information. This operation requires the
- * certificates/get/list permission. This operation can only be enabled on
- * soft-delete enabled vaults.
- */
+/** The GetDeletedCertificates operation retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults. */
 export function getDeletedCertificates(
   context: Client,
   options: GetDeletedCertificatesOptionalParams = { requestOptions: {} },
@@ -1071,7 +981,7 @@ export function getDeletedCertificates(
     () => _getDeletedCertificatesSend(context, options),
     _getDeletedCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value" },
   );
 }
 
@@ -1096,12 +1006,7 @@ export async function _getDeletedCertificateDeserialize(
   return deletedCertificateBundleDeserializer(result.body);
 }
 
-/**
- * The GetDeletedCertificate operation retrieves the deleted certificate
- * information plus its attributes, such as retention interval, scheduled
- * permanent deletion and the current deletion recovery level. This operation
- * requires the certificates/get permission.
- */
+/** The GetDeletedCertificate operation retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the current deletion recovery level. This operation requires the certificates/get permission. */
 export async function getDeletedCertificate(
   context: Client,
   certificateName: string,
@@ -1136,12 +1041,7 @@ export async function _purgeDeletedCertificateDeserialize(
   return;
 }
 
-/**
- * The PurgeDeletedCertificate operation performs an irreversible deletion of the
- * specified certificate, without possibility for recovery. The operation is not
- * available if the recovery level does not specify 'Purgeable'. This operation
- * requires the certificate/purge permission.
- */
+/** The PurgeDeletedCertificate operation performs an irreversible deletion of the specified certificate, without possibility for recovery. The operation is not available if the recovery level does not specify 'Purgeable'. This operation requires the certificate/purge permission. */
 export async function purgeDeletedCertificate(
   context: Client,
   certificateName: string,
@@ -1176,13 +1076,7 @@ export async function _recoverDeletedCertificateDeserialize(
   return certificateBundleDeserializer(result.body);
 }
 
-/**
- * The RecoverDeletedCertificate operation performs the reversal of the Delete
- * operation. The operation is applicable in vaults enabled for soft-delete, and
- * must be issued during the retention interval (available in the deleted
- * certificate's attributes). This operation requires the certificates/recover
- * permission.
- */
+/** The RecoverDeletedCertificate operation performs the reversal of the Delete operation. The operation is applicable in vaults enabled for soft-delete, and must be issued during the retention interval (available in the deleted certificate's attributes). This operation requires the certificates/recover permission. */
 export async function recoverDeletedCertificate(
   context: Client,
   certificateName: string,

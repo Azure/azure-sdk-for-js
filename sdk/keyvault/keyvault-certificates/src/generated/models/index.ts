@@ -4,6 +4,8 @@
 export {
   CertificateItem,
   CertificateAttributes,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
   KeyVaultError,
   ErrorModel,
   DeletedCertificateBundle,
@@ -44,6 +46,4 @@ export {
   CertificateRestoreParameters,
   DeletedCertificateItem,
   KnownVersions,
-  KnownDeletionRecoveryLevel,
-  DeletionRecoveryLevel,
 } from "./models.js";
