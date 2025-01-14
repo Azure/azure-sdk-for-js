@@ -93,7 +93,7 @@ describe("DeviceUpdate test", () => {
 
   it("accounts delete test", async function () {
     const resArray = new Array();
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, resourcename
+    await client.accounts.beginDeleteAndWait(resourceGroup, resourcename
     )
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
