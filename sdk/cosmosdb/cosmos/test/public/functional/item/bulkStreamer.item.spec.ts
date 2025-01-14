@@ -12,7 +12,12 @@ import {
   StatusCodes,
   ErrorResponse,
 } from "../../../../src";
-import { addEntropy, getTestContainer, removeAllDatabases, testForDiagnostics } from "../../common/TestHelpers";
+import {
+  addEntropy,
+  getTestContainer,
+  removeAllDatabases,
+  testForDiagnostics,
+} from "../../common/TestHelpers";
 import type { OperationInput } from "../../../../src";
 import { BulkOperationType } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
@@ -23,7 +28,7 @@ import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 import { SubStatusCodes } from "../../../../src/common";
 
-describe("newstreamerbulkoperations", async function () {
+describe("new streamer bulk operations", async function () {
   describe("Check size based splitting of batches", function () {
     let container: Container;
     before(async function () {

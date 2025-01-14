@@ -18,7 +18,12 @@ import {
   StatusCodes,
   ErrorResponse,
 } from "../../../../src";
-import { addEntropy, getTestContainer, removeAllDatabases, testForDiagnostics } from "../../common/TestHelpers";
+import {
+  addEntropy,
+  getTestContainer,
+  removeAllDatabases,
+  testForDiagnostics,
+} from "../../common/TestHelpers";
 import type { OperationInput } from "../../../../src";
 import { BulkOperationType } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
