@@ -9,7 +9,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@azure/async-iterator-polyfill": "^1.0.0",
     "@azure/storage-blob": "^12.26.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-commonjs": "^28.0.2",
