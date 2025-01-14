@@ -1,6 +1,6 @@
 import { existsSync, lstatSync } from "node:fs";
 import { resolve } from "node:path";
-import { SourceFile } from "ts-morph";
+import { CallExpression, SourceFile, SyntaxKind } from "ts-morph";
 
 export default function fixSourceFile(sourceFile: SourceFile): void {
   const sourceLinesToRemove = [
@@ -17,6 +17,27 @@ export default function fixSourceFile(sourceFile: SourceFile): void {
       if (statement.getText() === line) {
         statement.remove();
       }
+    }
+  }
+
+  // Find all 'it' call expressions and check for 'timeout'
+  const itCalls = sourceFile
+    .getDescendantsOfKind(SyntaxKind.CallExpression)
+    .filter((callExpr: CallExpression) => callExpr.getExpression().getText() === "it");
+
+  for (const itCall of itCalls) {
+    const timeoutCall = itCall
+      .getDescendantsOfKind(SyntaxKind.CallExpression)
+      .find((callExpr: CallExpression) => callExpr.getExpression().getText() === "timeout");
+
+    if (timeoutCall) {
+      const timeoutValue = timeoutCall.getArguments()[0].getText();
+      const itArguments = itCall.getArguments();
+      const testName = itArguments[0].getText();
+      const testFunction = itArguments[1].getText();
+
+      // Replace the 'it' call with the new format
+      itCall.replaceWithText(`it(${testName}, { timeout: ${timeoutValue} }, ${testFunction});`);
     }
   }
 
