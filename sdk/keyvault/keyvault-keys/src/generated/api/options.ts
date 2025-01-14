@@ -23,19 +23,13 @@ export interface GetKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetKeyVersionsOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Optional parameters. */
 export interface GetKeysOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
@@ -68,10 +62,7 @@ export interface ReleaseOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetDeletedKeysOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 

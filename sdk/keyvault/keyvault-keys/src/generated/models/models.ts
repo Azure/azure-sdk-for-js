@@ -11,10 +11,7 @@ export interface KeyCreateParameters {
   keySize?: number;
   /** The public exponent for a RSA key. */
   publicExponent?: number;
-  /**
-   * Json web key operations. For more information on possible key operations, see
-   * JsonWebKeyOperation.
-   */
+  /** Json web key operations. For more information on possible key operations, see JsonWebKeyOperation. */
   keyOps?: JsonWebKeyOperation[];
   /** The attributes of a key managed by the key vault service. */
   keyAttributes?: KeyAttributes;
@@ -47,10 +44,7 @@ export function keyCreateParametersSerializer(item: KeyCreateParameters): any {
   };
 }
 
-/**
- * JsonWebKey Key Type (kty), as defined in
- * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
- */
+/** JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. */
 export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
@@ -67,8 +61,7 @@ export enum KnownJsonWebKeyType {
 }
 
 /**
- * JsonWebKey Key Type (kty), as defined in
- * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. \
+ * JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. \
  * {@link KnownJsonWebKeyType} can be used interchangeably with JsonWebKeyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -129,22 +122,11 @@ export interface KeyAttributes {
   readonly created?: Date;
   /** Last updated time in UTC. */
   readonly updated?: Date;
-  /**
-   * softDelete data retention days. Value should be >=7 and <=90 when softDelete
-   * enabled, otherwise 0.
-   */
+  /** softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0. */
   readonly recoverableDays?: number;
-  /**
-   * Reflects the deletion recovery level currently in effect for keys in the
-   * current vault. If it contains 'Purgeable' the key can be permanently deleted by
-   * a privileged user; otherwise, only the system can purge the key, at the end of
-   * the retention interval.
-   */
-  readonly recoveryLevel?: string;
-  /**
-   * Indicates if the private key can be exported. Release policy must be provided
-   * when creating the first version of an exportable key.
-   */
+  /** Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval. */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
+  /** Indicates if the private key can be exported. Release policy must be provided when creating the first version of an exportable key. */
   exportable?: boolean;
   /** The underlying HSM Platform. */
   readonly hsmPlatform?: string;
@@ -153,8 +135,12 @@ export interface KeyAttributes {
 export function keyAttributesSerializer(item: KeyAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime() / 1000,
-    exp: !item["expires"] ? item["expires"] : item["expires"].getTime() / 1000,
+    nbf: !item["notBefore"]
+      ? item["notBefore"]
+      : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"]
+      ? item["expires"]
+      : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
   };
 }
@@ -164,14 +150,51 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
+    created: !item["created"]
+      ? item["created"]
+      : new Date(item["created"] * 1000),
+    updated: !item["updated"]
+      ? item["updated"]
+      : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
     exportable: item["exportable"],
     hsmPlatform: item["hsmPlatform"],
   };
 }
+
+/** Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval. */
+export enum KnownDeletionRecoveryLevel {
+  /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
+  Purgeable = "Purgeable",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverablePurgeable = "Recoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered */
+  Recoverable = "Recoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. */
+  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. */
+  CustomizedRecoverable = "CustomizedRecoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled. */
+  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+}
+
+/**
+ * Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval. \
+ * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) \
+ * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered \
+ * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. \
+ * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. \
+ * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
+ */
+export type DeletionRecoveryLevel = string;
 
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
@@ -201,15 +224,9 @@ export type JsonWebKeyCurveName = string;
 export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
-  /**
-   * Defines the mutability state of the policy. Once marked immutable, this flag
-   * cannot be reset and the policy cannot be changed under any circumstances.
-   */
+  /** Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances. */
   immutable?: boolean;
-  /**
-   * Blob encoding the policy rules under which the key can be released. Blob must
-   * be base64 URL encoded.
-   */
+  /** Blob encoding the policy rules under which the key can be released. Blob must be base64 URL encoded. */
   encodedPolicy?: Uint8Array;
 }
 
@@ -243,10 +260,7 @@ export interface KeyBundle {
   attributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * True if the key's lifetime is managed by key vault. If this is a key backing a
-   * certificate, then managed will be true.
-   */
+  /** True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
   /** The policy rules under which the key can be exported. */
   releasePolicy?: KeyReleasePolicy;
@@ -270,15 +284,9 @@ export function keyBundleDeserializer(item: any): KeyBundle {
 export interface JsonWebKey {
   /** Key identifier. */
   kid?: string;
-  /**
-   * JsonWebKey Key Type (kty), as defined in
-   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
-   */
+  /** JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. */
   kty?: JsonWebKeyType;
-  /**
-   * Json web key operations. For more information on possible key operations, see
-   * JsonWebKeyOperation.
-   */
+  /** Json web key operations. For more information on possible key operations, see JsonWebKeyOperation. */
   keyOps?: string[];
   /** RSA modulus. */
   n?: Uint8Array;
@@ -408,38 +416,6 @@ export function jsonWebKeyDeserializer(item: any): JsonWebKey {
   };
 }
 
-/** The key vault error exception. */
-export interface KeyVaultError {
-  /** The key vault server error. */
-  readonly error?: ErrorModel;
-}
-
-export function keyVaultErrorDeserializer(item: any): KeyVaultError {
-  return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-  };
-}
-
-/** The key vault server error. */
-export interface ErrorModel {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The key vault server error. */
-  readonly innerError?: ErrorModel;
-}
-
-export function errorDeserializer(item: any): ErrorModel {
-  return {
-    code: item["code"],
-    message: item["message"],
-    innerError: !item["innererror"]
-      ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
-  };
-}
-
 /** The key import parameters. */
 export interface KeyImportParameters {
   /** Whether to import as a hardware key (HSM) or software key. */
@@ -476,10 +452,7 @@ export interface DeletedKeyBundle {
   attributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * True if the key's lifetime is managed by key vault. If this is a key backing a
-   * certificate, then managed will be true.
-   */
+  /** True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
   /** The policy rules under which the key can be exported. */
   releasePolicy?: KeyReleasePolicy;
@@ -505,19 +478,16 @@ export function deletedKeyBundleDeserializer(item: any): DeletedKeyBundle {
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
 /** The key update parameters. */
 export interface KeyUpdateParameters {
-  /**
-   * Json web key operations. For more information on possible key operations, see
-   * JsonWebKeyOperation.
-   */
+  /** Json web key operations. For more information on possible key operations, see JsonWebKeyOperation. */
   keyOps?: JsonWebKeyOperation[];
   /** The attributes of a key managed by the key vault service. */
   keyAttributes?: KeyAttributes;
@@ -575,10 +545,7 @@ export interface KeyItem {
   attributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * True if the key's lifetime is managed by key vault. If this is a key backing a
-   * certificate, then managed will be true.
-   */
+  /** True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
 }
 
@@ -627,20 +594,11 @@ export interface KeyOperationsParameters {
   algorithm: JsonWebKeyEncryptionAlgorithm;
   /** The value to operate on. */
   value: Uint8Array;
-  /**
-   * Cryptographically random, non-repeating initialization vector for symmetric
-   * algorithms.
-   */
+  /** Cryptographically random, non-repeating initialization vector for symmetric algorithms. */
   iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using
-   * authenticated crypto algorithms.
-   */
+  /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated
-   * algorithm.
-   */
+  /** The tag to authenticate when performing decryption with an authenticated algorithm. */
   tag?: Uint8Array;
 }
 
@@ -662,17 +620,9 @@ export function keyOperationsParametersSerializer(
 
 /** An algorithm used for encryption and decryption. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
-  /**
-   * RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in
-   * https://tools.ietf.org/html/rfc3447, with the default parameters specified by
-   * RFC 3447 in Section A.2.1. Those default parameters are using a hash function
-   * of SHA-1 and a mask generation function of MGF1 with SHA-1.
-   */
+  /** RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https://tools.ietf.org/html/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. */
   RSA_OAEP = "RSA-OAEP",
-  /**
-   * RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256
-   * and a mask generation function of MGF1 with SHA-256.
-   */
+  /** RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. */
   RSA_OAEP256 = "RSA-OAEP-256",
   /** RSAES-PKCS1-V1_5 key encryption, as described in https://tools.ietf.org/html/rfc3447. */
   RSA1_5 = "RSA1_5",
@@ -711,12 +661,8 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  * {@link KnownJsonWebKeyEncryptionAlgorithm} can be used interchangeably with JsonWebKeyEncryptionAlgorithm,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **RSA-OAEP**: RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in
- * https:\//tools.ietf.org\/html\/rfc3447, with the default parameters specified by
- * RFC 3447 in Section A.2.1. Those default parameters are using a hash function
- * of SHA-1 and a mask generation function of MGF1 with SHA-1. \
- * **RSA-OAEP-256**: RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256
- * and a mask generation function of MGF1 with SHA-256. \
+ * **RSA-OAEP**: RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https:\//tools.ietf.org\/html\/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. \
+ * **RSA-OAEP-256**: RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. \
  * **RSA1_5**: RSAES-PKCS1-V1_5 key encryption, as described in https:\//tools.ietf.org\/html\/rfc3447. \
  * **A128GCM**: 128-bit AES-GCM. \
  * **A192GCM**: 192-bit AES-GCM. \
@@ -741,20 +687,11 @@ export interface KeyOperationResult {
   readonly kid?: string;
   /** The result of the operation. */
   readonly result?: Uint8Array;
-  /**
-   * Cryptographically random, non-repeating initialization vector for symmetric
-   * algorithms.
-   */
+  /** Cryptographically random, non-repeating initialization vector for symmetric algorithms. */
   readonly iv?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated
-   * algorithm.
-   */
+  /** The tag to authenticate when performing decryption with an authenticated algorithm. */
   readonly authenticationTag?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using
-   * authenticated crypto algorithms.
-   */
+  /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   readonly additionalAuthenticatedData?: Uint8Array;
 }
 
@@ -786,10 +723,7 @@ export function keyOperationResultDeserializer(item: any): KeyOperationResult {
 
 /** The key operations parameters. */
 export interface KeySignParameters {
-  /**
-   * The signing/verification algorithm identifier. For more information on possible
-   * algorithm types, see JsonWebKeySignatureAlgorithm.
-   */
+  /** The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
   algorithm: JsonWebKeySignatureAlgorithm;
   /** The value to operate on. */
   value: Uint8Array;
@@ -802,101 +736,54 @@ export function keySignParametersSerializer(item: KeySignParameters): any {
   };
 }
 
-/**
- * The signing/verification algorithm identifier. For more information on possible
- * algorithm types, see JsonWebKeySignatureAlgorithm.
- */
+/** The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
 export enum KnownJsonWebKeySignatureAlgorithm {
-  /**
-   * RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
   PS256 = "PS256",
-  /**
-   * RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
   PS384 = "PS384",
-  /**
-   * RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   PS512 = "PS512",
-  /**
-   * RSASSA-PKCS1-v1_5 using SHA-256, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PKCS1-v1_5 using SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
   RS256 = "RS256",
-  /**
-   * RSASSA-PKCS1-v1_5 using SHA-384, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PKCS1-v1_5 using SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
   RS384 = "RS384",
-  /**
-   * RSASSA-PKCS1-v1_5 using SHA-512, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   RS512 = "RS512",
   /** Reserved */
   RSNULL = "RSNULL",
-  /**
-   * ECDSA using P-256 and SHA-256, as described in
-   * https://tools.ietf.org/html/rfc7518.
-   */
+  /** ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518. */
   ES256 = "ES256",
-  /**
-   * ECDSA using P-384 and SHA-384, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** ECDSA using P-384 and SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
   ES384 = "ES384",
-  /**
-   * ECDSA using P-521 and SHA-512, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   ES512 = "ES512",
-  /**
-   * ECDSA using P-256K and SHA-256, as described in
-   * https://tools.ietf.org/html/rfc7518
-   */
+  /** ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
   ES256_K = "ES256K",
 }
 
 /**
- * The signing/verification algorithm identifier. For more information on possible
- * algorithm types, see JsonWebKeySignatureAlgorithm. \
+ * The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. \
  * {@link KnownJsonWebKeySignatureAlgorithm} can be used interchangeably with JsonWebKeySignatureAlgorithm,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PS256**: RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **PS384**: RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **PS512**: RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **RS256**: RSASSA-PKCS1-v1_5 using SHA-256, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **RS384**: RSASSA-PKCS1-v1_5 using SHA-384, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **RS512**: RSASSA-PKCS1-v1_5 using SHA-512, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
+ * **PS256**: RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **PS384**: RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **PS512**: RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **RS256**: RSASSA-PKCS1-v1_5 using SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **RS384**: RSASSA-PKCS1-v1_5 using SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **RS512**: RSASSA-PKCS1-v1_5 using SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RSNULL**: Reserved \
- * **ES256**: ECDSA using P-256 and SHA-256, as described in
- * https:\//tools.ietf.org\/html\/rfc7518. \
- * **ES384**: ECDSA using P-384 and SHA-384, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **ES512**: ECDSA using P-521 and SHA-512, as described in
- * https:\//tools.ietf.org\/html\/rfc7518 \
- * **ES256K**: ECDSA using P-256K and SHA-256, as described in
- * https:\//tools.ietf.org\/html\/rfc7518
+ * **ES256**: ECDSA using P-256 and SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518. \
+ * **ES384**: ECDSA using P-384 and SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **ES512**: ECDSA using P-521 and SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **ES256K**: ECDSA using P-256K and SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518
  */
 export type JsonWebKeySignatureAlgorithm = string;
 
 /** The key verify parameters. */
 export interface KeyVerifyParameters {
-  /**
-   * The signing/verification algorithm. For more information on possible algorithm
-   * types, see JsonWebKeySignatureAlgorithm.
-   */
+  /** The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
   algorithm: JsonWebKeySignatureAlgorithm;
   /** The digest used for signing. */
   digest: Uint8Array;
@@ -979,10 +866,7 @@ export function keyReleaseResultDeserializer(item: any): KeyReleaseResult {
 
 /** A list of keys that have been deleted in this vault. */
 export interface _DeletedKeyListResult {
-  /**
-   * A response message containing a list of deleted keys in the key vault along with a link to the next page of
-   * deleted keys.
-   */
+  /** A response message containing a list of deleted keys in the key vault along with a link to the next page of deleted keys. */
   readonly value?: DeletedKeyItem[];
   /** The URL to get the next set of deleted keys. */
   readonly nextLink?: string;
@@ -1007,10 +891,7 @@ export function deletedKeyItemArrayDeserializer(
   });
 }
 
-/**
- * The deleted key item containing the deleted key metadata and information about
- * deletion.
- */
+/** The deleted key item containing the deleted key metadata and information about deletion. */
 export interface DeletedKeyItem {
   /** Key identifier. */
   kid?: string;
@@ -1018,10 +899,7 @@ export interface DeletedKeyItem {
   attributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * True if the key's lifetime is managed by key vault. If this is a key backing a
-   * certificate, then managed will be true.
-   */
+  /** True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
   /** The url of the recovery object, used to identify and recover the deleted key. */
   recoveryId?: string;
@@ -1042,10 +920,10 @@ export function deletedKeyItemDeserializer(item: any): DeletedKeyItem {
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -1053,12 +931,7 @@ export function deletedKeyItemDeserializer(item: any): DeletedKeyItem {
 export interface KeyRotationPolicy {
   /** The key policy id. */
   readonly id?: string;
-  /**
-   * Actions that will be performed by Key Vault over the lifetime of a key. For
-   * preview, lifetimeActions can only have two items at maximum: one for rotate,
-   * one for notify. Notification time would be default to 30 days before expiry and
-   * it is not configurable.
-   */
+  /** Actions that will be performed by Key Vault over the lifetime of a key. For preview, lifetimeActions can only have two items at maximum: one for rotate, one for notify. Notification time would be default to 30 days before expiry and it is not configurable. */
   lifetimeActions?: LifetimeActions[];
   /** The key rotation policy attributes. */
   attributes?: KeyRotationPolicyAttributes;
@@ -1103,10 +976,7 @@ export function lifetimeActionsArrayDeserializer(
   });
 }
 
-/**
- * Action and its trigger that will be performed by Key Vault over the lifetime of
- * a key.
- */
+/** Action and its trigger that will be performed by Key Vault over the lifetime of a key. */
 export interface LifetimeActions {
   /** The condition that will execute the action. */
   trigger?: LifetimeActionsTrigger;
@@ -1138,15 +1008,9 @@ export function lifetimeActionsDeserializer(item: any): LifetimeActions {
 
 /** A condition to be satisfied for an action to be executed. */
 export interface LifetimeActionsTrigger {
-  /**
-   * Time after creation to attempt to rotate. It only applies to rotate. It will be
-   * in ISO 8601 duration format. Example: 90 days : "P90D"
-   */
+  /** Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeAfterCreate?: string;
-  /**
-   * Time before expiry to attempt to rotate or notify. It will be in ISO 8601
-   * duration format. Example: 90 days : "P90D"
-   */
+  /** Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeBeforeExpiry?: string;
 }
 
@@ -1191,11 +1055,7 @@ export type KeyRotationPolicyAction = "Rotate" | "Notify";
 
 /** The key rotation policy attributes. */
 export interface KeyRotationPolicyAttributes {
-  /**
-   * The expiryTime will be applied on the new key version. It should be at least 28
-   * days. It will be in ISO 8601 Format. Examples: 90 days: P90D, 3 months: P3M, 48
-   * hours: PT48H, 1 year and 10 days: P1Y10D
-   */
+  /** The expiryTime will be applied on the new key version. It should be at least 28 days. It will be in ISO 8601 Format. Examples: 90 days: P90D, 3 months: P3M, 48 hours: PT48H, 1 year and 10 days: P1Y10D */
   expiryTime?: string;
   /** The key rotation policy created time in UTC. */
   readonly created?: Date;
@@ -1214,8 +1074,12 @@ export function keyRotationPolicyAttributesDeserializer(
 ): KeyRotationPolicyAttributes {
   return {
     expiryTime: item["expiryTime"],
-    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
+    created: !item["created"]
+      ? item["created"]
+      : new Date(item["created"] * 1000),
+    updated: !item["updated"]
+      ? item["updated"]
+      : new Date(item["updated"] * 1000),
   };
 }
 
@@ -1253,114 +1117,3 @@ export enum KnownVersions {
   /** The 7.6-preview.1 API version. */
   "v7.6_preview.1" = "7.6-preview.1",
 }
-
-/**
- * Reflects the deletion recovery level currently in effect for certificates in
- * the current vault. If it contains 'Purgeable', the certificate can be
- * permanently deleted by a privileged user; otherwise, only the system can purge
- * the certificate, at the end of the retention interval.
- */
-export enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without
-   * the possibility for recovery. This level corresponds to no protection being
-   * available against a Delete operation; the data is irretrievably lost upon
-   * accepting a Delete operation at the entity level or higher (vault, resource
-   * group, subscription etc.)
-   */
-  Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval (90 days),
-   * unless a Purge operation is requested, or the subscription is cancelled. System
-   * wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval(90 days) and
-   * while the subscription is still available. System wil permanently delete it
-   * after 90 days, if not recovered
-   */
-  Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within
-   * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
-   * not permitted, and in which the subscription itself  cannot be permanently
-   * canceled. System wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
-   * < 90). This level guarantees the recoverability of the deleted entity during
-   * the retention interval, unless a Purge operation is requested, or the
-   * subscription is cancelled.
-   */
-  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge when 7<=
-   * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
-   * deleted entity during the retention interval and while the subscription is
-   * still available.
-   */
-  CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable,
-   * immediate and permanent deletion (i.e. purge) is not permitted, and in which
-   * the subscription itself cannot be permanently canceled when 7<=
-   * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
-   * deleted entity during the retention interval, and also reflects the fact that
-   * the subscription itself cannot be cancelled.
-   */
-  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-}
-
-/**
- * Reflects the deletion recovery level currently in effect for certificates in
- * the current vault. If it contains 'Purgeable', the certificate can be
- * permanently deleted by a privileged user; otherwise, only the system can purge
- * the certificate, at the end of the retention interval. \
- * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without
- * the possibility for recovery. This level corresponds to no protection being
- * available against a Delete operation; the data is irretrievably lost upon
- * accepting a Delete operation at the entity level or higher (vault, resource
- * group, subscription etc.) \
- * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval (90 days),
- * unless a Purge operation is requested, or the subscription is cancelled. System
- * wil permanently delete it after 90 days, if not recovered \
- * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval(90 days) and
- * while the subscription is still available. System wil permanently delete it
- * after 90 days, if not recovered \
- * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within
- * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
- * not permitted, and in which the subscription itself  cannot be permanently
- * canceled. System wil permanently delete it after 90 days, if not recovered \
- * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
- * < 90). This level guarantees the recoverability of the deleted entity during
- * the retention interval, unless a Purge operation is requested, or the
- * subscription is cancelled. \
- * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge when 7<=
- * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
- * deleted entity during the retention interval and while the subscription is
- * still available. \
- * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable,
- * immediate and permanent deletion (i.e. purge) is not permitted, and in which
- * the subscription itself cannot be permanently canceled when 7<=
- * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
- * deleted entity during the retention interval, and also reflects the fact that
- * the subscription itself cannot be cancelled.
- */
-export type DeletionRecoveryLevel = string;
