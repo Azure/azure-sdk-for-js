@@ -38,25 +38,21 @@ export interface SecretAttributes {
   readonly created?: Date;
   /** Last updated time in UTC. */
   readonly updated?: Date;
-  /**
-   * softDelete data retention days. Value should be >=7 and <=90 when softDelete
-   * enabled, otherwise 0.
-   */
+  /** softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0. */
   readonly recoverableDays?: number;
-  /**
-   * Reflects the deletion recovery level currently in effect for secrets in the
-   * current vault. If it contains 'Purgeable', the secret can be permanently
-   * deleted by a privileged user; otherwise, only the system can purge the secret,
-   * at the end of the retention interval.
-   */
-  readonly recoveryLevel?: string;
+  /** Reflects the deletion recovery level currently in effect for secrets in the current vault. If it contains 'Purgeable', the secret can be permanently deleted by a privileged user; otherwise, only the system can purge the secret, at the end of the retention interval. */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
 export function secretAttributesSerializer(item: SecretAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime() / 1000,
-    exp: !item["expires"] ? item["expires"] : item["expires"].getTime() / 1000,
+    nbf: !item["notBefore"]
+      ? item["notBefore"]
+      : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"]
+      ? item["expires"]
+      : (item["expires"].getTime() / 1000) | 0,
   };
 }
 
@@ -65,12 +61,49 @@ export function secretAttributesDeserializer(item: any): SecretAttributes {
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
+    created: !item["created"]
+      ? item["created"]
+      : new Date(item["created"] * 1000),
+    updated: !item["updated"]
+      ? item["updated"]
+      : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
   };
 }
+
+/** Reflects the deletion recovery level currently in effect for secrets in the current vault. If it contains 'Purgeable', the secret can be permanently deleted by a privileged user; otherwise, only the system can purge the secret, at the end of the retention interval. */
+export enum KnownDeletionRecoveryLevel {
+  /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
+  Purgeable = "Purgeable",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverablePurgeable = "Recoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered */
+  Recoverable = "Recoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered */
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. */
+  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. */
+  CustomizedRecoverable = "CustomizedRecoverable",
+  /** Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled. */
+  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+}
+
+/**
+ * Reflects the deletion recovery level currently in effect for secrets in the current vault. If it contains 'Purgeable', the secret can be permanently deleted by a privileged user; otherwise, only the system can purge the secret, at the end of the retention interval. \
+ * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) \
+ * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered \
+ * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. \
+ * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7 <= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. \
+ * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
+ */
+export type DeletionRecoveryLevel = string;
 
 /** A secret consisting of a value, id and its attributes. */
 export interface SecretBundle {
@@ -84,15 +117,9 @@ export interface SecretBundle {
   attributes?: SecretAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * If this is a secret backing a KV certificate, then this field specifies the
-   * corresponding key backing the KV certificate.
-   */
+  /** If this is a secret backing a KV certificate, then this field specifies the corresponding key backing the KV certificate. */
   readonly kid?: string;
-  /**
-   * True if the secret's lifetime is managed by key vault. If this is a secret
-   * backing a certificate, then managed will be true.
-   */
+  /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
 }
 
@@ -110,42 +137,7 @@ export function secretBundleDeserializer(item: any): SecretBundle {
   };
 }
 
-/** The key vault error exception. */
-export interface KeyVaultError {
-  /** The key vault server error. */
-  readonly error?: ErrorModel;
-}
-
-export function keyVaultErrorDeserializer(item: any): KeyVaultError {
-  return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-  };
-}
-
-/** The key vault server error. */
-export interface ErrorModel {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The key vault server error. */
-  readonly innerError?: ErrorModel;
-}
-
-export function errorDeserializer(item: any): ErrorModel {
-  return {
-    code: item["code"],
-    message: item["message"],
-    innerError: !item["innererror"]
-      ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
-  };
-}
-
-/**
- * A Deleted Secret consisting of its previous id, attributes and its tags, as
- * well as information on when it will be purged.
- */
+/** A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedSecretBundle {
   /** The secret value. */
   value?: string;
@@ -157,15 +149,9 @@ export interface DeletedSecretBundle {
   attributes?: SecretAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
-  /**
-   * If this is a secret backing a KV certificate, then this field specifies the
-   * corresponding key backing the KV certificate.
-   */
+  /** If this is a secret backing a KV certificate, then this field specifies the corresponding key backing the KV certificate. */
   readonly kid?: string;
-  /**
-   * True if the secret's lifetime is managed by key vault. If this is a secret
-   * backing a certificate, then managed will be true.
-   */
+  /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
   /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
@@ -191,10 +177,10 @@ export function deletedSecretBundleDeserializer(
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -222,10 +208,7 @@ export function secretUpdateParametersSerializer(
 
 /** The secret list result. */
 export interface _SecretListResult {
-  /**
-   * A response message containing a list of secrets in the key vault along with a link to the next page of
-   * secrets.
-   */
+  /** A response message containing a list of secrets in the key vault along with a link to the next page of secrets. */
   readonly value?: SecretItem[];
   /** The URL to get the next set of secrets. */
   readonly nextLink?: string;
@@ -256,10 +239,7 @@ export interface SecretItem {
   tags?: Record<string, string>;
   /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * True if the secret's lifetime is managed by key vault. If this is a key backing
-   * a certificate, then managed will be true.
-   */
+  /** True if the secret's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
 }
 
@@ -277,10 +257,7 @@ export function secretItemDeserializer(item: any): SecretItem {
 
 /** The deleted secret list result */
 export interface _DeletedSecretListResult {
-  /**
-   * A response message containing a list of deleted secrets in the key vault along with a link to the next page of
-   * deleted secrets.
-   */
+  /** A response message containing a list of deleted secrets in the key vault along with a link to the next page of deleted secrets. */
   readonly value?: DeletedSecretItem[];
   /** The URL to get the next set of deleted secrets. */
   readonly nextLink?: string;
@@ -315,10 +292,7 @@ export interface DeletedSecretItem {
   tags?: Record<string, string>;
   /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * True if the secret's lifetime is managed by key vault. If this is a key backing
-   * a certificate, then managed will be true.
-   */
+  /** True if the secret's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true. */
   readonly managed?: boolean;
   /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
@@ -340,10 +314,10 @@ export function deletedSecretItemDeserializer(item: any): DeletedSecretItem {
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
-      : new Date(item["scheduledPurgeDate"]),
+      : new Date(item["scheduledPurgeDate"] * 1000),
     deletedDate: !item["deletedDate"]
       ? item["deletedDate"]
-      : new Date(item["deletedDate"]),
+      : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -382,114 +356,3 @@ export enum KnownVersions {
   /** The 7.6-preview.1 API version. */
   "v7.6_preview.1" = "7.6-preview.1",
 }
-
-/**
- * Reflects the deletion recovery level currently in effect for secrets in the
- * current vault. If it contains 'Purgeable', the secret can be permanently
- * deleted by a privileged user; otherwise, only the system can purge the secret,
- * at the end of the retention interval.
- */
-export enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without
-   * the possibility for recovery. This level corresponds to no protection being
-   * available against a Delete operation; the data is irretrievably lost upon
-   * accepting a Delete operation at the entity level or higher (vault, resource
-   * group, subscription etc.)
-   */
-  Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval (90 days),
-   * unless a Purge operation is requested, or the subscription is cancelled. System
-   * wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval(90 days) and
-   * while the subscription is still available. System wil permanently delete it
-   * after 90 days, if not recovered
-   */
-  Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within
-   * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
-   * not permitted, and in which the subscription itself  cannot be permanently
-   * canceled. System wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
-   * < 90). This level guarantees the recoverability of the deleted entity during
-   * the retention interval, unless a Purge operation is requested, or the
-   * subscription is cancelled.
-   */
-  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge when 7<=
-   * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
-   * deleted entity during the retention interval and while the subscription is
-   * still available.
-   */
-  CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable,
-   * immediate and permanent deletion (i.e. purge) is not permitted, and in which
-   * the subscription itself cannot be permanently canceled when 7<=
-   * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
-   * deleted entity during the retention interval, and also reflects the fact that
-   * the subscription itself cannot be cancelled.
-   */
-  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-}
-
-/**
- * Reflects the deletion recovery level currently in effect for secrets in the
- * current vault. If it contains 'Purgeable', the secret can be permanently
- * deleted by a privileged user; otherwise, only the system can purge the secret,
- * at the end of the retention interval. \
- * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without
- * the possibility for recovery. This level corresponds to no protection being
- * available against a Delete operation; the data is irretrievably lost upon
- * accepting a Delete operation at the entity level or higher (vault, resource
- * group, subscription etc.) \
- * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval (90 days),
- * unless a Purge operation is requested, or the subscription is cancelled. System
- * wil permanently delete it after 90 days, if not recovered \
- * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge). This level guarantees the
- * recoverability of the deleted entity during the retention interval(90 days) and
- * while the subscription is still available. System wil permanently delete it
- * after 90 days, if not recovered \
- * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within
- * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
- * not permitted, and in which the subscription itself  cannot be permanently
- * canceled. System wil permanently delete it after 90 days, if not recovered \
- * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
- * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
- * < 90). This level guarantees the recoverability of the deleted entity during
- * the retention interval, unless a Purge operation is requested, or the
- * subscription is cancelled. \
- * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility
- * for immediate and permanent deletion (i.e. purge when 7<=
- * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
- * deleted entity during the retention interval and while the subscription is
- * still available. \
- * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable,
- * immediate and permanent deletion (i.e. purge) is not permitted, and in which
- * the subscription itself cannot be permanently canceled when 7<=
- * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
- * deleted entity during the retention interval, and also reflects the fact that
- * the subscription itself cannot be cancelled.
- */
-export type DeletionRecoveryLevel = string;

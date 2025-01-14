@@ -17,28 +17,19 @@ export interface GetSecretOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetSecretsOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Optional parameters. */
 export interface GetSecretVersionsOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Optional parameters. */
 export interface GetDeletedSecretsOptionalParams extends OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service
-   * will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 

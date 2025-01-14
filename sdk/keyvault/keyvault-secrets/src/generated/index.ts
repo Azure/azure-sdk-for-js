@@ -11,9 +11,9 @@ export { KeyVaultClient } from "./keyVaultClient.js";
 export {
   SecretSetParameters,
   SecretAttributes,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
   SecretBundle,
-  KeyVaultError,
-  ErrorModel,
   DeletedSecretBundle,
   SecretUpdateParameters,
   SecretItem,
@@ -21,8 +21,6 @@ export {
   BackupSecretResult,
   SecretRestoreParameters,
   KnownVersions,
-  KnownDeletionRecoveryLevel,
-  DeletionRecoveryLevel,
 } from "./models/index.js";
 export {
   KeyVaultClientOptionalParams,

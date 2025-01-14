@@ -72,11 +72,7 @@ export async function _setSecretDeserialize(
   return secretBundleDeserializer(result.body);
 }
 
-/**
- * The SET operation adds a secret to the Azure Key Vault. If the named secret
- * already exists, Azure Key Vault creates a new version of that secret. This
- * operation requires the secrets/set permission.
- */
+/** The SET operation adds a secret to the Azure Key Vault. If the named secret already exists, Azure Key Vault creates a new version of that secret. This operation requires the secrets/set permission. */
 export async function setSecret(
   context: Client,
   secretName: string,
@@ -108,11 +104,7 @@ export async function _deleteSecretDeserialize(
   return deletedSecretBundleDeserializer(result.body);
 }
 
-/**
- * The DELETE operation applies to any secret stored in Azure Key Vault. DELETE
- * cannot be applied to an individual version of a secret. This operation requires
- * the secrets/delete permission.
- */
+/** The DELETE operation applies to any secret stored in Azure Key Vault. DELETE cannot be applied to an individual version of a secret. This operation requires the secrets/delete permission. */
 export async function deleteSecret(
   context: Client,
   secretName: string,
@@ -148,12 +140,7 @@ export async function _updateSecretDeserialize(
   return secretBundleDeserializer(result.body);
 }
 
-/**
- * The UPDATE operation changes specified attributes of an existing stored secret.
- * Attributes that are not specified in the request are left unchanged. The value
- * of a secret itself cannot be changed. This operation requires the secrets/set
- * permission.
- */
+/** The UPDATE operation changes specified attributes of an existing stored secret. Attributes that are not specified in the request are left unchanged. The value of a secret itself cannot be changed. This operation requires the secrets/set permission. */
 export async function updateSecret(
   context: Client,
   secretName: string,
@@ -193,10 +180,7 @@ export async function _getSecretDeserialize(
   return secretBundleDeserializer(result.body);
 }
 
-/**
- * The GET operation is applicable to any secret stored in Azure Key Vault. This
- * operation requires the secrets/get permission.
- */
+/** The GET operation is applicable to any secret stored in Azure Key Vault. This operation requires the secrets/get permission. */
 export async function getSecret(
   context: Client,
   secretName: string,
@@ -235,12 +219,7 @@ export async function _getSecretsDeserialize(
   return _secretListResultDeserializer(result.body);
 }
 
-/**
- * The Get Secrets operation is applicable to the entire vault. However, only the
- * base secret identifier and its attributes are provided in the response.
- * Individual secret versions are not listed in the response. This operation
- * requires the secrets/list permission.
- */
+/** The Get Secrets operation is applicable to the entire vault. However, only the base secret identifier and its attributes are provided in the response. Individual secret versions are not listed in the response. This operation requires the secrets/list permission. */
 export function getSecrets(
   context: Client,
   options: GetSecretsOptionalParams = { requestOptions: {} },
@@ -278,11 +257,7 @@ export async function _getSecretVersionsDeserialize(
   return _secretListResultDeserializer(result.body);
 }
 
-/**
- * The full secret identifier and attributes are provided in the response. No
- * values are returned for the secrets. This operations requires the secrets/list
- * permission.
- */
+/** The full secret identifier and attributes are provided in the response. No values are returned for the secrets. This operations requires the secrets/list permission. */
 export function getSecretVersions(
   context: Client,
   secretName: string,
@@ -320,11 +295,7 @@ export async function _getDeletedSecretsDeserialize(
   return _deletedSecretListResultDeserializer(result.body);
 }
 
-/**
- * The Get Deleted Secrets operation returns the secrets that have been deleted
- * for a vault enabled for soft-delete. This operation requires the secrets/list
- * permission.
- */
+/** The Get Deleted Secrets operation returns the secrets that have been deleted for a vault enabled for soft-delete. This operation requires the secrets/list permission. */
 export function getDeletedSecrets(
   context: Client,
   options: GetDeletedSecretsOptionalParams = { requestOptions: {} },
@@ -359,10 +330,7 @@ export async function _getDeletedSecretDeserialize(
   return deletedSecretBundleDeserializer(result.body);
 }
 
-/**
- * The Get Deleted Secret operation returns the specified deleted secret along
- * with its attributes. This operation requires the secrets/get permission.
- */
+/** The Get Deleted Secret operation returns the specified deleted secret along with its attributes. This operation requires the secrets/get permission. */
 export async function getDeletedSecret(
   context: Client,
   secretName: string,
@@ -393,11 +361,7 @@ export async function _purgeDeletedSecretDeserialize(
   return;
 }
 
-/**
- * The purge deleted secret operation removes the secret permanently, without the
- * possibility of recovery. This operation can only be enabled on a soft-delete
- * enabled vault. This operation requires the secrets/purge permission.
- */
+/** The purge deleted secret operation removes the secret permanently, without the possibility of recovery. This operation can only be enabled on a soft-delete enabled vault. This operation requires the secrets/purge permission. */
 export async function purgeDeletedSecret(
   context: Client,
   secretName: string,
@@ -428,11 +392,7 @@ export async function _recoverDeletedSecretDeserialize(
   return secretBundleDeserializer(result.body);
 }
 
-/**
- * Recovers the deleted secret in the specified vault. This operation can only be
- * performed on a soft-delete enabled vault. This operation requires the
- * secrets/recover permission.
- */
+/** Recovers the deleted secret in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation requires the secrets/recover permission. */
 export async function recoverDeletedSecret(
   context: Client,
   secretName: string,
@@ -463,11 +423,7 @@ export async function _backupSecretDeserialize(
   return backupSecretResultDeserializer(result.body);
 }
 
-/**
- * Requests that a backup of the specified secret be downloaded to the client. All
- * versions of the secret will be downloaded. This operation requires the
- * secrets/backup permission.
- */
+/** Requests that a backup of the specified secret be downloaded to the client. All versions of the secret will be downloaded. This operation requires the secrets/backup permission. */
 export async function backupSecret(
   context: Client,
   secretName: string,
@@ -501,10 +457,7 @@ export async function _restoreSecretDeserialize(
   return secretBundleDeserializer(result.body);
 }
 
-/**
- * Restores a backed up secret, and all its versions, to a vault. This operation
- * requires the secrets/restore permission.
- */
+/** Restores a backed up secret, and all its versions, to a vault. This operation requires the secrets/restore permission. */
 export async function restoreSecret(
   context: Client,
   parameters: SecretRestoreParameters,

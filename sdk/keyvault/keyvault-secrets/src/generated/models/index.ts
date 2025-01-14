@@ -4,9 +4,9 @@
 export {
   SecretSetParameters,
   SecretAttributes,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
   SecretBundle,
-  KeyVaultError,
-  ErrorModel,
   DeletedSecretBundle,
   SecretUpdateParameters,
   SecretItem,
@@ -14,6 +14,4 @@ export {
   BackupSecretResult,
   SecretRestoreParameters,
   KnownVersions,
-  KnownDeletionRecoveryLevel,
-  DeletionRecoveryLevel,
 } from "./models.js";
