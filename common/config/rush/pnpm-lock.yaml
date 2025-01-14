@@ -270,7 +270,7 @@ importers:
         version: file:projects/arm-datadog.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-datafactory':
         specifier: file:./projects/arm-datafactory.tgz
-        version: file:projects/arm-datafactory.tgz
+        version: file:projects/arm-datafactory.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-datalake-analytics':
         specifier: file:./projects/arm-datalake-analytics.tgz
         version: file:projects/arm-datalake-analytics.tgz
@@ -2807,7 +2807,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-ih/+XoljaydHhxKI2AWkLQlx6fN9bknlzn3OLNppMosFZmH0g20fvzN7uUhbo8jIEHe7HTyfu6NSX+eg7OmeTQ==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-Ljnciv4+ESxjA+6lZr6NXHJc1xPJV+hw0WPYTz0Fd3dCL7Mh7UhwBnHzFrIdwIngTIIMhsu6jxmAKY/9ekec8A==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -12401,25 +12401,37 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
+  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.70
-      chai: 4.5.0
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      mocha: 10.8.2
-      ts-node: 10.9.2(@types/node@18.19.70)(typescript@5.7.2)
+      playwright: 1.49.1
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.7.2
+      vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
     dependencies:

@@ -46,7 +46,6 @@ describe("Datafactory test", () => {
   let resourceGroup: string;
   let factoryName: string;
   let factory: Factory;
-  let sessionId: string;
   let pipelineName: string;
   let datasetName: string;
   let linkedServiceName: string;
@@ -106,7 +105,7 @@ describe("Datafactory test", () => {
       }, testPollingOptions
     );
 
-    return sessionId = String(res.sessionId)
+    assert.ok(res);
   });
 
   it("linkedService create test", async function () {
