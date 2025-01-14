@@ -6,22 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { WorkloadsClient } from "../src/workloadsClient.js"
-import { Monitor } from "../src/models/index.js";
-import { assert } from "vitest";
+import { WorkloadsClient } from "../src/workloadsClient.js";
+import type { Monitor } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -47,42 +43,54 @@ describe("workloads test", () => {
   let location: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      resourceGroup = "myjstest";
-      monitorName = "myMonitor";
-      sapVirtualInstanceName = "O13";
-      location = "eastus2"
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
+    monitorName = "myMonitor";
+    sapVirtualInstanceName = "O13";
+    location = "eastus2";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  //create monitors
-  it("Workloads create test", async function () {
+  // create monitors
+  it("Workloads create test", async () => {
     monitorParameter = {
       appLocation: "eastus2",
       location: "eastus2",
       logAnalyticsWorkspaceArmId:
-        "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+        "/subscriptions/" +
+        subscriptionId +
+        "/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
       managedResourceGroupConfiguration: { name: "myManagedRg" },
       monitorSubnet:
-        "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
+        "/subscriptions/" +
+        subscriptionId +
+        "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
       routingPreference: "RouteAll",
-      tags: { key: "value" }
+      tags: { key: "value" },
     };
-    const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter, testPollingOptions)
+    const res = await client.monitors.beginCreateAndWait(
+      resourceGroup,
+      monitorName,
+      monitorParameter,
+      testPollingOptions,
+    );
     assert.equal(res.name, monitorName);
   });
 
-  //create svi
-  it.skip("svi create test", async function () {
-    const subnetId = "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex"
+  // create svi
+  it.skip("svi create test", { timeout: 3600000 }, async () => {
+    const subnetId =
+      "/subscriptions/" +
+      subscriptionId +
+      "/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex";
     const res = await client.sAPVirtualInstances.beginCreateAndWait(
       resourceGroup,
       sapVirtualInstanceName,
@@ -102,7 +110,7 @@ describe("workloads test", () => {
                   offer: "RHEL-SAP-HA",
                   publisher: "RedHat",
                   sku: "82sapha-gen2",
-                  version: "latest"
+                  version: "latest",
                 },
                 osProfile: {
                   adminUsername: "testuser",
@@ -111,12 +119,12 @@ describe("workloads test", () => {
                     osType: "Linux",
                     sshKeyPair: {
                       publicKey: "",
-                      privateKey: ""
-                    }
-                  }
+                      privateKey: "",
+                    },
+                  },
                 },
-                vmSize: "Standard_E32ds_v4"
-              }
+                vmSize: "Standard_E32ds_v4",
+              },
             },
             osSapConfiguration: { sapFqdn: "sap.test.com" },
           },
@@ -125,53 +133,53 @@ describe("workloads test", () => {
           sapProduct: "S4HANA",
           tags: {},
           managedResourceGroupConfiguration: {
-            "name": "mrg-Y13-bf4ab3"
-          }
+            name: "mrg-Y13-bf4ab3",
+          },
         },
         updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-      }
+      },
     );
     assert.equal(res.name, monitorName);
-  }).timeout(3600000);
+  });
 
-  //get svi
-  it.skip("svi get test", async function () {
-    //get monitors from workloads
+  // get svi
+  it.skip("svi get test", async () => {
+    // get monitors from workloads
     const res = await client.sAPVirtualInstances.get(resourceGroup, sapVirtualInstanceName);
     assert.equal(res.name, sapVirtualInstanceName);
   });
 
-  //get monitors
-  it("Workloads get test", async function () {
-    //get monitors from workloads
+  // get monitors
+  it("Workloads get test", async () => {
+    // get monitors from workloads
     const res = await client.monitors.get(resourceGroup, monitorName);
     assert.equal(res.name, monitorName);
   });
 
-  //list Workloads
-  it("Workloads list test", async function () {
-    //list monitors from workloads
-    const res = await client.monitors.list()
+  // list Workloads
+  it("Workloads list test", async () => {
+    // list monitors from workloads
+    const res = await client.monitors.list();
     const resArray = [];
-    for await (let item of res) {
+    for await (const item of res) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  //delete monitors
-  it("Workloads delete test", async function () {
+  // delete monitors
+  it("Workloads delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  //delete svi
-  it.skip("svi delete test", async function () {
+  // delete svi
+  it.skip("svi delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
