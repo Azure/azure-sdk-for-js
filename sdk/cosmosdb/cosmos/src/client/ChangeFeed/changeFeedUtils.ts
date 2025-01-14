@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { ErrorResponse } from "../../request";
-import type { PartitionKeyRange } from "../Container";
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { Constants } from "../../common";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import type { QueryRange } from "../../routing";
-import { FeedRangeInternal } from "./FeedRange";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PartitionKeyRange } from "../Container/index.js";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
+import { Constants } from "../../common/index.js";
+import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
+import type { QueryRange } from "../../routing/index.js";
+import { FeedRangeInternal } from "./FeedRange.js";
 
 /**
  * @hidden

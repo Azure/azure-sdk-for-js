@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
-import type { Context } from "mocha";
+
+import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
+import type { Container, ContainerDefinition } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import groupBySnapshot from "./groupBy.snapshot.js";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const options = {
   maxItemCount: 100,
@@ -544,12 +545,12 @@ describe("Cross partition GROUP BY", () => {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (this: Context) {
-    currentTestTitle = this.currentTest.fullTitle();
+  beforeEach((ctx) => {
+    currentTestTitle = getTaskFullTitle(ctx);
     snapshotNumber = 1;
   });
 
-  before(async () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "GROUP BY Query",

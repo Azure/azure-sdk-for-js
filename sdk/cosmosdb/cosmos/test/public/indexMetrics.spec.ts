@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import type { Suite } from "mocha";
-import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics";
-describe("Test Index Metrics Writer", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics/index.js";
+import { describe, it, assert } from "vitest";
 
-  it("test writeIndexMetrics", async function () {
+describe("Test Index Metrics Writer", { timeout: 20000 }, () => {
+  it("test writeIndexMetrics", async () => {
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
     IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
       "eyJVdGlsaXplZFNpbmdsZUluZGV4ZXMiOlt7IkZpbHRlckV4cHJlc3Npb24iOiIiLCJJbmRleFNwZWMiOiJcL25hbWVcLz8iLCJGaWx0ZXJQcmVjaXNlU2V0Ijp0cnVlLCJJbmRleFByZWNpc2VTZXQiOnRydWUsIkluZGV4SW1wYWN0U2NvcmUiOiJIaWdoIn1dLCJQb3RlbnRpYWxTaW5nbGVJbmRleGVzIjpbXSwiVXRpbGl6ZWRDb21wb3NpdGVJbmRleGVzIjpbXSwiUG90ZW50aWFsQ29tcG9zaXRlSW5kZXhlcyI6W119",
@@ -30,8 +28,8 @@ describe("Test Index Metrics Writer", function (this: Suite) {
   });
 });
 
-describe("Test Index Utilization Info", function (this: Suite) {
-  it("test tryCreateFromDelimitedBase64String", async function () {
+describe("Test Index Utilization Info", () => {
+  it("test tryCreateFromDelimitedBase64String", async () => {
     const delimitedString =
       "eyJVdGlsaXplZFNpbmdsZUluZGV4ZXMiOlt7IkZpbHRlckV4cHJlc3Npb24iOiIiLCJJbmRleFNwZWMiOiJcL25hbWVcLz8iLCJGaWx0ZXJQcmVjaXNlU2V0Ijp0cnVlLCJJbmRleFByZWNpc2VTZXQiOnRydWUsIkluZGV4SW1wYWN0U2NvcmUiOiJIaWdoIn1dLCJQb3RlbnRpYWxTaW5nbGVJbmRleGVzIjpbXSwiVXRpbGl6ZWRDb21wb3NpdGVJbmRleGVzIjpbXSwiUG90ZW50aWFsQ29tcG9zaXRlSW5kZXhlcyI6W119";
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
@@ -47,7 +45,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
     assert.equal(result.result?.UtilizedSingleIndexes[0].IndexImpactScore, "High");
   });
 
-  it("test tryCreateFromDelimitedBase64String with invalid string", async function () {
+  it("test tryCreateFromDelimitedBase64String with invalid string", async () => {
     const delimitedString = "invalid";
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
 
@@ -60,7 +58,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
     assert.equal(result.result, IndexUtilizationInfo.Empty);
   });
 
-  it("test tryCreateFromDelimitedBase64String with empty string", async function () {
+  it("test tryCreateFromDelimitedBase64String with empty string", async () => {
     const delimitedString = "";
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
 
@@ -73,14 +71,14 @@ describe("Test Index Utilization Info", function (this: Suite) {
     assert.equal(result.result, IndexUtilizationInfo.Empty);
   });
 
-  it("test createFromString with empty string", async function () {
+  it("test createFromString with empty string", async () => {
     const delimitedString = "";
     const result = IndexUtilizationInfo.createFromString(delimitedString, true);
 
     assert.equal(result, IndexUtilizationInfo.Empty);
   });
 
-  it("test createFromString with invalid string", async function () {
+  it("test createFromString with invalid string", async () => {
     const delimitedString = "invalid";
 
     const result = IndexUtilizationInfo.createFromString(delimitedString, true);
@@ -88,7 +86,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
     assert.equal(result, IndexUtilizationInfo.Empty);
   });
 
-  it("test createFromString with valid string", async function () {
+  it("test createFromString with valid string", async () => {
     const delimitedString =
       "eyJVdGlsaXplZFNpbmdsZUluZGV4ZXMiOlt7IkZpbHRlckV4cHJlc3Npb24iOiIiLCJJbmRleFNwZWMiOiJcL25hbWVcLz8iLCJGaWx0ZXJQcmVjaXNlU2V0Ijp0cnVlLCJJbmRleFByZWNpc2VTZXQiOnRydWUsIkluZGV4SW1wYWN0U2NvcmUiOiJIaWdoIn1dLCJQb3RlbnRpYWxTaW5nbGVJbmRleGVzIjpbXSwiVXRpbGl6ZWRDb21wb3NpdGVJbmRleGVzIjpbXSwiUG90ZW50aWFsQ29tcG9zaXRlSW5kZXhlcyI6W119";
 

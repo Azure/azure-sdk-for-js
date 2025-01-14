@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export { Trigger } from "./Trigger";
-export { Triggers } from "./Triggers";
-export { TriggerDefinition } from "./TriggerDefinition";
-export { TriggerResponse } from "./TriggerResponse";
+export { Trigger } from "./Trigger.js";
+export { Triggers } from "./Triggers.js";
+export { TriggerDefinition } from "./TriggerDefinition.js";
+export { TriggerResponse } from "./TriggerResponse.js";

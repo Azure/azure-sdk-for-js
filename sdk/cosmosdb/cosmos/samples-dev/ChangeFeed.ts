@@ -5,10 +5,9 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-import { finish, handleError, logSampleHeader } from "./Shared/handleError";
+import { finish, handleError, logSampleHeader } from "./Shared/handleError.js";
 import { CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

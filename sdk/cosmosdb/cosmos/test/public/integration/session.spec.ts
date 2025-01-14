@@ -1,29 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ClientContext, Container, PluginConfig } from "../../../src";
-import { PluginOn } from "../../../src";
-import { OperationType, ResourceType } from "../../../src/common";
-import { ConsistencyLevel } from "../../../src";
-import { CosmosClient } from "../../../src";
-import type { SessionContainer } from "../../../src/session/sessionContainer";
-import { endpoint } from "../../public/common/_testConfig";
-import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../../public/common/TestHelpers";
-import type { RequestContext } from "../../../src";
-import type { Response } from "../../../src/request/Response";
-import { expect } from "chai";
 
-describe("New session token", function () {
-  it("preserves tokens", async function () {
+import type { ClientContext, Container, PluginConfig } from "../../../src/index.js";
+import { PluginOn } from "../../../src/index.js";
+import { OperationType, ResourceType } from "../../../src/common/index.js";
+import { ConsistencyLevel } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { SessionContainer } from "../../../src/session/sessionContainer.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import {
+  addEntropy,
+  getTestDatabase,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers.js";
+import type { RequestContext } from "../../../src/index.js";
+import type { Response } from "../../../src/request/Response.js";
+import { describe, it, assert, expect, beforeEach } from "vitest";
+
+describe("New session token", () => {
+  it("preserves tokens", async () => {
     let response: Response<any>;
     let rqContext: RequestContext;
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, diagNode, next) => {
+        plugin: async (
+          context: RequestContext,
+          diagNode: any,
+          next: (context: RequestContext) => Promise<Response<any>>,
+        ) => {
           expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           rqContext = context;
           response = await next(context);
@@ -73,8 +79,8 @@ describe("New session token", function () {
   });
 });
 
-describe("Integrated Cache Staleness", async function (this: Suite) {
-  beforeEach(async function () {
+describe("Integrated Cache Staleness", async () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
   const dbId = addEntropy("maxIntegratedCacheTestDB");
@@ -87,7 +93,11 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     plugins: [
       {
         on: "request",
-        plugin: async (context, diagNode, next) => {
+        plugin: async (
+          context: RequestContext,
+          diagNode: any,
+          next: (context: RequestContext) => Promise<Response<any>>,
+        ) => {
           expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           if (
             context.resourceType === ResourceType.item &&
@@ -144,7 +154,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     id: containerId,
   });
 
-  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async function () {
+  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async () => {
     assert.ok(container.items.create({ id: "1" }));
     container.item("1").read(itemRequestFeedOptions);
     container.items
@@ -164,18 +174,17 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     container.items.query(querySpec, itemRequestFeedOptions).fetchAll();
 
     // Should fail: maxIntegratedCacheStalenessInMs cannot be 0
-    this.dedicatedGatewayMaxAge = 0;
-    await container.read(this.dedicatedGatewayMaxAge);
+    await container.read({ maxIntegratedCacheStalenessInMs: 0 });
   });
 });
 
 // This test has to be run against sqlx endpoint
-describe.skip("Bypass integrated cache", function (this: Suite) {
-  beforeEach(async function () {
+describe.skip("Bypass integrated cache", () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("Should pass with bypass integrated cache set", async function () {
+  it("Should pass with bypass integrated cache set", async () => {
     const dbId = addEntropy("bypassIntegratedCacheTestDB");
     const containerId = addEntropy("bypassIntegratedCacheTestContainer");
     const client = new CosmosClient({
@@ -201,12 +210,12 @@ describe.skip("Bypass integrated cache", function (this: Suite) {
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now
-describe.skip("Session Token", function (this: Suite) {
-  beforeEach(async function () {
+describe.skip("Session Token", () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("retries session not found successfully", async function () {
+  it("retries session not found successfully", async () => {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -222,7 +231,11 @@ describe.skip("Session Token", function (this: Suite) {
       plugins: [
         {
           on: "request",
-          plugin: async (context, diagNode, next) => {
+          plugin: async (
+            context: RequestContext,
+            diagNode: any,
+            next: (context: RequestContext) => Promise<Response<any>>,
+          ) => {
             expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
             // Simulate a "Session Not Found" error by manually making the client session token *way* ahead of any available session on the server
             // This is just a way to simulate the error. Getting this to happen in practice is difficult and only usually occurs cross region where there is significant replication lag
@@ -260,7 +273,7 @@ describe.skip("Session Token", function (this: Suite) {
   });
 });
 
-async function createItem(container: Container) {
+async function createItem(container: Container): Promise<string> {
   const {
     resource: { id },
   } = await container.items.create({

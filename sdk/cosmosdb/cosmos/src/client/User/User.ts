@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createUserUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import type { RequestOptions } from "../../request";
-import type { Database } from "../Database";
-import { Permission, Permissions } from "../Permission";
-import type { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import { Permission, Permissions } from "../Permission/index.js";
+import type { UserDefinition } from "./UserDefinition.js";
+import { UserResponse } from "./UserResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to read, replace, and delete Users.

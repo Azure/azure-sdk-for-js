@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
-import type { Suite } from "mocha";
-import assert from "assert";
+import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth.js";
+import { describe, it, assert } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
-  it("should find exact match", async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  it("should find exact match", async () => {
     const token = getAuthorizationTokenUsingResourceTokens(
       {
         foo: "bar",
@@ -19,7 +16,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     assert.strictEqual(token, "bar");
   });
 
-  it("should only allow container tokens", async function () {
+  it("should only allow container tokens", async () => {
     const token = getAuthorizationTokenUsingResourceTokens(
       {
         "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344": "token",
