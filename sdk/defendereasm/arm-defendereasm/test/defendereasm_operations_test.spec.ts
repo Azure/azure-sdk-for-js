@@ -86,6 +86,7 @@ describe("DefenderEasm test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
+    await client.workspaces.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
