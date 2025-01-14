@@ -57,12 +57,12 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
  *
  * #### API Key
  *
- * ```js
- * import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+ * ```ts snippet:ReadmeSampleCreateClient_Node
+ * import { AzureKeyCredential } from "@azure/core-auth";
+ * import { TextAnalysisClient } from "@azure/ai-language-text";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
- *
  * const client = new TextAnalysisClient(endpoint, credential);
  * ```
  *
@@ -71,13 +71,12 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
  * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
  * package for more information about authenticating with Azure Active Directory.
  *
- * ```js
- * import { TextAnalysisClient } from "@azure/ai-language-text";
+ * ```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { TextAnalysisClient } from "@azure/ai-language-text";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
  * const client = new TextAnalysisClient(endpoint, credential);
  * ```
  */
@@ -97,12 +96,12 @@ export class TextAnalysisClient {
    *
    * ### Example
    *
-   * ```js
-   * import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+   * ```ts snippet:ReadmeSampleCreateClient_Node
+   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new AzureKeyCredential("<api key>");
-   *
    * const client = new TextAnalysisClient(endpoint, credential);
    * ```
    *
@@ -124,13 +123,12 @@ export class TextAnalysisClient {
    * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
    * package for more information about authenticating with Azure Active Directory.
    *
-   * ```js
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * ```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new DefaultAzureCredential();
-   *
    * const client = new TextAnalysisClient(endpoint, credential);
    * ```
    *
@@ -196,17 +194,29 @@ export class TextAnalysisClient {
    *
    * #### Language detection
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const countryHint = "us";
-   * const results = await client.analyze("LanguageDetection", documents, countryHint);
+   * ```ts snippet:Sample_LanguageDetection
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
    *
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { name, confidenceScore, iso6391Name } = result.primaryLanguage;
+   * const documents = [
+   *   "This document is written in English.",
+   *   "Este es un document escrito en Español.",
+   *   "这是一个用中文写的文件",
+   *   "Dies ist ein Dokument in deutsche Sprache.",
+   *   "Detta är ett dokument skrivet på engelska.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const result = await client.analyze("LanguageDetection", documents, "us", {
+   *   modelVersion: "2022-04-10-preview",
+   * });
+   *
+   * for (const doc of result) {
+   *   if (!doc.error) {
+   *     console.log(
+   *       `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
+   *     );
    *   }
    * }
    * ```
@@ -241,16 +251,29 @@ export class TextAnalysisClient {
    *
    * #### Language detection
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const countryHint = "us";
-   * const results = await client.analyze("LanguageDetection", documents, countryHint);
+   * ```ts snippet:Sample_LanguageDetection
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { name, confidenceScore, iso6391Name } = result.primaryLanguage;
+   * const documents = [
+   *   "This document is written in English.",
+   *   "Este es un document escrito en Español.",
+   *   "这是一个用中文写的文件",
+   *   "Dies ist ein Dokument in deutsche Sprache.",
+   *   "Detta är ett dokument skrivet på engelska.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const result = await client.analyze("LanguageDetection", documents, "us", {
+   *   modelVersion: "2022-04-10-preview",
+   * });
+   *
+   * for (const doc of result) {
+   *   if (!doc.error) {
+   *     console.log(
+   *       `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
+   *     );
    *   }
    * }
    * ```
@@ -297,29 +320,34 @@ export class TextAnalysisClient {
    *
    * #### Opinion mining
    *
-   * ```js
-   * const documents = [{
-   *  id: "1",
-   *  text: "The food and service aren't the best",
-   *  language: "en"
-   * }];
-   * const results = await client.analyze("SentimentAnalysis", documents, {
-   *   includeOpinionMining: true,
-   * });
+   * ```ts snippet:Sample_SentimentAnalysis
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { sentiment, confidenceScores, sentences } = result;
-   *     for (const { sentiment, confidenceScores, opinions } of sentences) {
-   *       for (const { target, assessments } of opinions) {
-   *         const { text, sentiment, confidenceScores } = target;
-   *         for (const { text, sentiment } of assessments) {
-   *           // Do something
-   *         }
-   *       }
+   * const documents = [
+   *   "I had the best day of my life.",
+   *   "This was a waste of my time. The speaker put me to sleep.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const results = await client.analyze("SentimentAnalysis", documents);
+   *
+   * for (let i = 0; i < results.length; i++) {
+   *   const result = results[i];
+   *   console.log(`- Document ${result.id}`);
+   *   if (!result.error) {
+   *     console.log(`\tDocument text: ${documents[i]}`);
+   *     console.log(`\tOverall Sentiment: ${result.sentiment}`);
+   *     console.log("\tSentiment confidence scores: ", result.confidenceScores);
+   *     console.log("\tSentences");
+   *     for (const { sentiment, confidenceScores, text } of result.sentences) {
+   *       console.log(`\t- Sentence text: ${text}`);
+   *       console.log(`\t  Sentence sentiment: ${sentiment}`);
+   *       console.log("\t  Confidence scores:", confidenceScores);
    *     }
+   *   } else {
+   *     console.error(`  Error: ${result.error}`);
    *   }
    * }
    * ```
@@ -329,22 +357,27 @@ export class TextAnalysisClient {
    *
    * #### Personally identifiable information
    *
-   * ```js
-   * const documents = [<input documents>];
-   * const categoriesFilter = [KnownPiiCategory.USSocialSecurityNumber];
-   * const domainFilter = KnownPiiDomain.Phi;
-   * const results = await client.analyze("PiiEntityRecognition", documents, {
-   *   domainFilter, categoriesFilter
+   * ```ts snippet:Sample_PIIEntityRecognition
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const documents = ["My phone number is 555-5555"];
+   *
+   * const [result] = await client.analyze("PiiEntityRecognition", documents, "en", {
+   *   domainFilter: KnownPiiEntityDomain.Phi,
+   *   categoriesFilter: [
+   *     KnownPiiEntityCategory.PhoneNumber,
+   *     KnownPiiEntityCategory.USSocialSecurityNumber,
+   *   ],
    * });
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { entities, redactedText } = result;
-   *     for (const { text, category, confidenceScore, length, offset } of entities) {
-   *       // Do something
-   *     }
+   * if (!result.error) {
+   *   console.log(`Redacted text: "${result.redactedText}"`);
+   *   console.log("Pii Entities: ");
+   *   for (const entity of result.entities) {
+   *     console.log(`\t- "${entity.text}" of type ${entity.category}`);
    *   }
    * }
    * ```
@@ -383,25 +416,34 @@ export class TextAnalysisClient {
    *
    * #### Opinion mining
    *
-   * ```js
-   * const documents = ["The food and service aren't the best"];
-   * const results = await client.analyze("SentimentAnalysis", documents, {
-   *   includeOpinionMining: true,
-   * });
+   * ```ts snippet:Sample_SentimentAnalysis
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { sentiment, confidenceScores, sentences } = result;
-   *     for (const { sentiment, confidenceScores, opinions } of sentences) {
-   *       for (const { target, assessments } of opinions) {
-   *         const { text, sentiment, confidenceScores } = target;
-   *         for (const { text, sentiment } of assessments) {
-   *           // Do something
-   *         }
-   *       }
+   * const documents = [
+   *   "I had the best day of my life.",
+   *   "This was a waste of my time. The speaker put me to sleep.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const results = await client.analyze("SentimentAnalysis", documents);
+   *
+   * for (let i = 0; i < results.length; i++) {
+   *   const result = results[i];
+   *   console.log(`- Document ${result.id}`);
+   *   if (!result.error) {
+   *     console.log(`\tDocument text: ${documents[i]}`);
+   *     console.log(`\tOverall Sentiment: ${result.sentiment}`);
+   *     console.log("\tSentiment confidence scores: ", result.confidenceScores);
+   *     console.log("\tSentences");
+   *     for (const { sentiment, confidenceScores, text } of result.sentences) {
+   *       console.log(`\t- Sentence text: ${text}`);
+   *       console.log(`\t  Sentence sentiment: ${sentiment}`);
+   *       console.log("\t  Confidence scores:", confidenceScores);
    *     }
+   *   } else {
+   *     console.error(`  Error: ${result.error}`);
    *   }
    * }
    * ```
@@ -411,23 +453,27 @@ export class TextAnalysisClient {
    *
    * #### Personally identifiable information
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const languageCode = "en";
-   * const categoriesFilter = [KnownPiiCategory.USSocialSecurityNumber];
-   * const domainFilter = KnownPiiDomain.Phi;
-   * const results = await client.analyze("PiiEntityRecognition", documents, languageCode, {
-   *   domainFilter, categoriesFilter
+   * ```ts snippet:Sample_PIIEntityRecognition
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const documents = ["My phone number is 555-5555"];
+   *
+   * const [result] = await client.analyze("PiiEntityRecognition", documents, "en", {
+   *   domainFilter: KnownPiiEntityDomain.Phi,
+   *   categoriesFilter: [
+   *     KnownPiiEntityCategory.PhoneNumber,
+   *     KnownPiiEntityCategory.USSocialSecurityNumber,
+   *   ],
    * });
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { entities, redactedText } = result;
-   *     for (const { text, category, confidenceScore, length, offset } of entities) {
-   *       // Do something
-   *     }
+   * if (!result.error) {
+   *   console.log(`Redacted text: "${result.redactedText}"`);
+   *   console.log("Pii Entities: ");
+   *   for (const entity of result.entities) {
+   *     console.log(`\t- "${entity.text}" of type ${entity.category}`);
    *   }
    * }
    * ```
@@ -541,31 +587,100 @@ export class TextAnalysisClient {
    *
    * #### Key phrase extraction and Pii entity recognition
    *
-   * ```js
-   * const poller = await client.beginAnalyzeBatch(
-   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
-   *  documents
-   * );
+   * ```ts snippet:Sample_ActionBatching
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
+   *
+   * const documents = [
+   *   "Microsoft was founded by Bill Gates and Paul Allen.",
+   *   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
+   *   "I need to take my cat to the veterinarian.",
+   *   "The employee's SSN is 555-55-5555.",
+   *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const actions: AnalyzeBatchAction[] = [
+   *   {
+   *     kind: "EntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "PiiEntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "KeyPhraseExtraction",
+   *     modelVersion: "latest",
+   *   },
+   * ];
+   * const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+   *
+   * poller.onProgress(() => {
+   *   console.log(
+   *     `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+   *   );
+   * });
+   *
+   * console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
+   *
+   * console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
+   *
    * const actionResults = await poller.pollUntilDone();
    *
    * for await (const actionResult of actionResults) {
-   *  if (actionResult.error) {
-   *    throw new Error(`Unexpected error`);
-   *  }
-   *  switch (actionResult.kind) {
-   *    case "KeyPhraseExtraction": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *    case "PiiEntityRecognition": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *  }
+   *   if (actionResult.error) {
+   *     const { code, message } = actionResult.error;
+   *     throw new Error(`Unexpected error (${code}): ${message}`);
+   *   }
+   *   switch (actionResult.kind) {
+   *     case "KeyPhraseExtraction": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tKey phrases:");
+   *           for (const phrase of doc.keyPhrases) {
+   *             console.log(`\t- ${phrase}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "EntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tEntities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "PiiEntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tPii Entities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     default: {
+   *       throw new Error(`Unexpected action results: ${actionResult.kind}`);
+   *     }
+   *   }
    * }
    * ```
    *
@@ -606,31 +721,100 @@ export class TextAnalysisClient {
    *
    * #### Keyphrase extraction and Pii entity recognition
    *
-   * ```js
-   * const poller = await client.beginAnalyzeBatch(
-   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
-   *  documents
-   * );
+   * ```ts snippet:Sample_ActionBatching
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { AzureKeyCredential } from "@azure/core-auth";
+   *
+   * const documents = [
+   *   "Microsoft was founded by Bill Gates and Paul Allen.",
+   *   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
+   *   "I need to take my cat to the veterinarian.",
+   *   "The employee's SSN is 555-55-5555.",
+   *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   *
+   * const actions: AnalyzeBatchAction[] = [
+   *   {
+   *     kind: "EntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "PiiEntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "KeyPhraseExtraction",
+   *     modelVersion: "latest",
+   *   },
+   * ];
+   * const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+   *
+   * poller.onProgress(() => {
+   *   console.log(
+   *     `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+   *   );
+   * });
+   *
+   * console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
+   *
+   * console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
+   *
    * const actionResults = await poller.pollUntilDone();
    *
    * for await (const actionResult of actionResults) {
-   *  if (actionResult.error) {
-   *    throw new Error(`Unexpected error`);
-   *  }
-   *  switch (actionResult.kind) {
-   *    case "KeyPhraseExtraction": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *    case "PiiEntityRecognition": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *  }
+   *   if (actionResult.error) {
+   *     const { code, message } = actionResult.error;
+   *     throw new Error(`Unexpected error (${code}): ${message}`);
+   *   }
+   *   switch (actionResult.kind) {
+   *     case "KeyPhraseExtraction": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tKey phrases:");
+   *           for (const phrase of doc.keyPhrases) {
+   *             console.log(`\t- ${phrase}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "EntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tEntities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "PiiEntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tPii Entities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     default: {
+   *       throw new Error(`Unexpected action results: ${actionResult.kind}`);
+   *     }
+   *   }
    * }
    * ```
    *
@@ -724,16 +908,6 @@ export class TextAnalysisClient {
    *                          result of `poller.toString()`
    * @param options - optional settings for the operation
    *
-   * # Example
-   *
-   * `client.beginAnalyzeBatch` returns a promise that will resolve to a poller.
-   * The state of the poller can be serialized and used to create another as follows:
-   *
-   * ```js
-   * const serializedState = poller.toString();
-   * const rehydratedPoller = await client.createAnalyzeBatchPoller(serializedState);
-   * const actionResults = await rehydratedPoller.pollUntilDone();
-   * ```
    */
   async restoreAnalyzeBatchPoller(
     serializedState: string,
