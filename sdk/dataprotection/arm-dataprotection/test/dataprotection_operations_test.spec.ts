@@ -92,6 +92,7 @@ describe("DataProtection test", () => {
 
   it("backupVaults delete test", async function () {
     const resArray = new Array();
+    await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName, testPollingOptions)
     for await (let item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
