@@ -199,6 +199,27 @@ async function request<T>(
   );
 }
 
+async function bulkRequest<T>(
+  requestContext: RequestContext,
+  diagnosticNode: DiagnosticNodeInternal,
+): Promise<CosmosResponse<T>> {
+  if (requestContext.body) {
+    requestContext.body = bodyFromData(requestContext.body);
+    if (!requestContext.body) {
+      throw new Error("parameter data must be a javascript object, string, or Buffer");
+    }
+  }
+
+  return addDignosticChild(
+    async (childNode: DiagnosticNodeInternal) => {
+      return executeRequest(childNode, requestContext);
+    },
+    diagnosticNode,
+    DiagnosticNodeType.REQUEST_ATTEMPTS,
+  );
+}
+
 export const RequestHandler = {
   request,
+  bulkRequest,
 };

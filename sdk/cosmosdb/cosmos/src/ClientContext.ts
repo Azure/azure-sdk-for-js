@@ -848,7 +848,7 @@ export class ClientContext {
       const response = await executePlugins(
         diagnosticNode,
         request,
-        RequestHandler.request,
+        RequestHandler.bulkRequest,
         PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
