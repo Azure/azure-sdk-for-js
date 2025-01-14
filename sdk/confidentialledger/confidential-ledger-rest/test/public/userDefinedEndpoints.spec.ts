@@ -3,12 +3,11 @@
 
 import type { ConfidentialLedgerClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
-import type { Recorder } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Get userdefned endpoint", () => {
+describe("Get UserDefinedEndpoints", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
@@ -21,13 +20,13 @@ describe("Get userdefned endpoint", () => {
     await recorder.stop();
   });
 
-  it("should obtain user defined endpoints", { skip: !env.AZURE_CLIENT_OID }, async () => {
-    // If using a test app, it needs to be the oid.
+  it("should get user defined endpoints", async () => {
     const result = await client.path("/app/userDefinedEndpoints").get();
+
     assert.equal(result.status, "200");
-    
+
     if (isUnexpected(result)) {
-        throw result.body;
+      throw result.body;
     }
   });
 });
