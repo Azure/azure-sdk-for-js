@@ -13,9 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { WorkloadsClient } from "../src/workloadsClient.js"
 import { Monitor } from "../src/models/index.js";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
