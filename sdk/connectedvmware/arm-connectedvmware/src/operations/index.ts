@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./resourcePools";
-export * from "./clusters";
-export * from "./hosts";
-export * from "./datastores";
-export * from "./vCenters";
-export * from "./virtualMachineTemplates";
-export * from "./virtualNetworks";
-export * from "./inventoryItems";
-export * from "./virtualMachineInstances";
-export * from "./vmInstanceHybridIdentityMetadataOperations";
-export * from "./vMInstanceGuestAgents";
+export * from "./operations.js";
+export * from "./resourcePools.js";
+export * from "./clusters.js";
+export * from "./hosts.js";
+export * from "./datastores.js";
+export * from "./vCenters.js";
+export * from "./virtualMachineTemplates.js";
+export * from "./virtualNetworks.js";
+export * from "./inventoryItems.js";
+export * from "./virtualMachineInstances.js";
+export * from "./vmInstanceHybridIdentityMetadataOperations.js";
+export * from "./vMInstanceGuestAgents.js";

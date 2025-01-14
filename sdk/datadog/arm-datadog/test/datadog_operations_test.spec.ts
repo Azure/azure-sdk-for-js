@@ -39,9 +39,6 @@ describe("Datadog test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftDatadogClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -50,10 +47,6 @@ describe("Datadog test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MicrosoftDatadogClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "West US 2";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {

@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified express route circuit.
@@ -28,7 +28,7 @@ async function deleteExpressRouteCircuit() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

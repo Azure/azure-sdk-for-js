@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Hosts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Hosts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Host,
   HostsListNextOptionalParams,
@@ -36,7 +36,7 @@ import {
   HostsDeleteOptionalParams,
   HostsListNextResponse,
   HostsListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Hosts operations. */
