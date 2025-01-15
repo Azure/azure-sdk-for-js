@@ -16,9 +16,6 @@ export class BulkPartitionMetric {
   }
 
   add(numberOfDoc: number, timeTakenInMs: number, numOfThrottles: number): void {
-    if (this.numberOfItemsOperatedOn) {
-      this.numberOfItemsOperatedOn = 0;
-    }
     this.numberOfItemsOperatedOn += numberOfDoc;
     this.timeTakenInMs += timeTakenInMs;
     this.numberOfThrottles += numOfThrottles;

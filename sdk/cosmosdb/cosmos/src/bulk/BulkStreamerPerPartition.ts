@@ -64,7 +64,6 @@ export class BulkStreamerPerPartition {
       this.limiterSemaphore,
       this.partitionMetric,
       this.oldPartitionMetric,
-      this.congestionDegreeOfConcurrency,
     );
 
     this.lock = semaphore(1);
@@ -140,7 +139,9 @@ export class BulkStreamerPerPartition {
 
   private runCongestionControlTimer(): void {
     this.congestionControlTimer = setInterval(() => {
-      this.congestionControlAlgorithm.run();
+      this.congestionDegreeOfConcurrency = this.congestionControlAlgorithm.run(
+        this.congestionDegreeOfConcurrency,
+      );
     }, this.congestionControlDelayInMs);
   }
 

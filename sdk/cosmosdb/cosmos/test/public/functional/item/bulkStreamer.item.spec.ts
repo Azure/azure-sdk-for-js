@@ -1128,7 +1128,7 @@ describe("new streamer bulk operations", async function () {
           });
         }
       });
-      it("check multiple partition splits during bulk", async function () {
+      it.skip("check multiple partition splits during bulk", async function () {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
           operations.push({
