@@ -97,7 +97,7 @@ export class BulkStreamer {
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
-  //TODO: come with better name
+  // TODO: come with better name
   async finishBulk(): Promise<BulkStreamerResponse> {
     let orderedOperationsResult: BulkOperationResult[];
 
@@ -226,11 +226,9 @@ export class BulkStreamer {
   }
 
   private async reBatchOperation(operation: ItemBulkOperation): Promise<void> {
-    // console.log("Rebatching operation", operation);
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput);
     operation.operationContext.reRouteOperation(partitionKeyRangeId);
     const streamer = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId);
-    // console.log("Rebatching operation to streamer", streamer);
     streamer.add(operation);
   }
 

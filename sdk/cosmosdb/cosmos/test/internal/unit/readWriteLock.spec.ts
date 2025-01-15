@@ -1,4 +1,5 @@
-// import { ReadWriteLock } from '../../../src/bulk/Limiter';
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import { ReadWriteLock } from "../../../src/bulk/Limiter";
