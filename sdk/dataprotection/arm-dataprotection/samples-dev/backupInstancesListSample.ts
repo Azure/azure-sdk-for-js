@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a backup instances belonging to a backup vault
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a backup instances belonging to a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListBackupInstances.json
  */
-async function listBackupInstancesInAVault() {
+async function listBackupInstancesInAVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -39,7 +37,7 @@ async function listBackupInstancesInAVault() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBackupInstancesInAVault();
 }
 

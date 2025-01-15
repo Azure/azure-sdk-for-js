@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Remove all linked integration runtimes under specific data factory in a self-hosted integration runtime.

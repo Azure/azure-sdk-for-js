@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a run of a pipeline.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a run of a pipeline.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_CreateRun.json
  */
-async function pipelinesCreateRun() {
+async function pipelinesCreateRun(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -50,7 +48,7 @@ async function pipelinesCreateRun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelinesCreateRun();
 }
 

@@ -14,9 +14,7 @@ import {
   MicrosoftDatadogClient
 } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Configures single-sign-on for this resource.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Configures single-sign-on for this resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/SingleSignOnConfigurations_CreateOrUpdate.json
  */
-async function singleSignOnConfigurationsCreateOrUpdate() {
+async function singleSignOnConfigurationsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +50,7 @@ async function singleSignOnConfigurationsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   singleSignOnConfigurationsCreateOrUpdate();
 }
 

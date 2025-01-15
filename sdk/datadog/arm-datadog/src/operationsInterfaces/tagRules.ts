@@ -14,7 +14,7 @@ import {
   TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
   TagRulesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TagRules. */

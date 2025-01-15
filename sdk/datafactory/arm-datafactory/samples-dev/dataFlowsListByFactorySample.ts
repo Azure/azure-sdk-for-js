@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists data flows.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists data flows.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_ListByFactory.json
  */
-async function dataFlowsListByFactory() {
+async function dataFlowsListByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -39,7 +37,7 @@ async function dataFlowsListByFactory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataFlowsListByFactory();
 }
 

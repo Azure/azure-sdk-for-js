@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query activity runs based on input filter conditions.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Query activity runs based on input filter conditions.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ActivityRuns_QueryByPipelineRun.json
  */
-async function activityRunsQueryByPipelineRun() {
+async function activityRunsQueryByPipelineRun(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -46,7 +44,7 @@ async function activityRunsQueryByPipelineRun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   activityRunsQueryByPipelineRun();
 }
 

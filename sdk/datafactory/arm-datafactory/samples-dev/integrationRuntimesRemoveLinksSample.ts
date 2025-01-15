@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Remove all linked integration runtimes under specific data factory in a self-hosted integration runtime.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Remove all linked integration runtimes under specific data factory in a self-hosted integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_RemoveLinks.json
  */
-async function integrationRuntimesUpgrade() {
+async function integrationRuntimesUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -45,7 +43,7 @@ async function integrationRuntimesUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimesUpgrade();
 }
 

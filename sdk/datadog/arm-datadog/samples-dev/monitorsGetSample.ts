@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the properties of a specific monitor resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the properties of a specific monitor resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_Get.json
  */
-async function monitorsGet() {
+async function monitorsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function monitorsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsGet();
 }
 
