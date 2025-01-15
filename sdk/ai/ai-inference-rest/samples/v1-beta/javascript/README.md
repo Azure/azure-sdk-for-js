@@ -16,6 +16,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [chatCompletions.js][chatcompletions]             | Get chat completions.                                         |
 | [embeddings.js][embeddings]                       | Get embeddings.                                               |
 | [getModelInfo.js][getmodelinfo]                   | Get model info.                                               |
+| [imageEmbeddings.js][imageembeddings]             | Get image embeddings.                                         |
 | [imageFileCompletions.js][imagefilecompletions]   | Get chat completions with image file.                         |
 | [streamChatCompletions.js][streamchatcompletions] | List chat completions.                                        |
 | [streamingToolCall.js][streamingtoolcall]         | Get chat completions with streaming and function call.        |
@@ -64,6 +65,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/chatCompletions.js
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/embeddings.js
 [getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/getModelInfo.js
+[imageembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/imageEmbeddings.js
 [imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/imageFileCompletions.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/streamChatCompletions.js
 [streamingtoolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/streamingToolCall.js
