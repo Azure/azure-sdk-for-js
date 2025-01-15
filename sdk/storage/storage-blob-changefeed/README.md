@@ -15,8 +15,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
-- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
+- [Product documentation](https://learn.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples)
 
 ## Getting started
@@ -31,7 +31,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
+- A [Storage Account](https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
 
@@ -80,7 +80,7 @@ const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 const changeFeedClient = new BlobChangeFeedClient(
   // When using AnonymousCredential, following url should include a valid SAS or support public access
   `https://${account}.blob.core.windows.net`,
-  sharedKeyCredential
+  sharedKeyCredential,
 );
 ```
 
@@ -116,10 +116,7 @@ for await (const eventPage of changeFeedClient.listChanges().byPage()) {
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents = [];
-const firstPage = await changeFeedClient
-  .listChanges()
-  .byPage({ maxPageSize: 10 })
-  .next();
+const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
 for (const event of firstPage.value.events) {
   changeFeedEvents.push(event);
 }

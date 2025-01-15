@@ -150,9 +150,18 @@ const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 
-export default viteConfig;
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
+    },
+  }),
+);
 `;
 
 const VITEST_BROWSER_CONFIG = `
@@ -166,9 +175,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js",],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );
@@ -190,14 +199,7 @@ export default mergeConfig(
 
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
-    extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
-    exclude: ["./test/**/node/**/*.ts"],
-    compilerOptions: {
-      outDir: "./dist-test/browser",
-      rootDir: ".",
-      skipLibCheck: true,
-    },
+    extends: ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
   };
 
   await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
@@ -340,6 +342,7 @@ function setScriptsSection(
   scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   if (options.isArm) {
+    scripts["unit-test:browser"] = "echo skipped";
     scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
   }
 

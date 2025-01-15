@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { DataboundariesManegementClient } from "./databoundariesManegementClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { DataboundariesManegementClient } from "./databoundariesManegementClient.js";
+export * from "./operationsInterfaces/index.js";

@@ -107,7 +107,7 @@
       "azure-container-registry"
     ],
     "requiredResources": {
-      "Azure Container Registry": "https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal"
+      "Azure Container Registry": "https://learn.microsoft.com/azure/container-registry/container-registry-get-started-portal"
     }
   },
   "type": "module",

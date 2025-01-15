@@ -13,9 +13,7 @@ import {
   ContainerInstanceManagementClient,
 } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Executes a command for a specific container instance in a specified resource group and container group.

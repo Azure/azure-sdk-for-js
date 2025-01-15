@@ -24,15 +24,12 @@
 
 import { AttestationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import { X509 } from "jsrsasign";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
-async function getOpenIdMetadata() {
+async function getOpenIdMetadata(): Promise<void> {
   writeBanner("getOpenIdMetadata");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
@@ -48,7 +45,7 @@ async function getOpenIdMetadata() {
   console.log("OpenID Certificate endpoint: ", defaultOpenIdMetadata.jwks_uri);
 }
 
-async function getOpenIdMetadataAnonymously() {
+async function getOpenIdMetadataAnonymously(): Promise<void> {
   writeBanner("getOpenIdMetadata - Anonymously.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
@@ -64,7 +61,7 @@ async function getOpenIdMetadataAnonymously() {
   console.log("OpenID Certificate endpoint: ", defaultOpenIdMetadata.jwks_uri);
 }
 
-async function getSigningCertificates() {
+async function getSigningCertificates(): Promise<void> {
   writeBanner("getSigningCertificates");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
@@ -88,7 +85,7 @@ async function getSigningCertificates() {
   });
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await getOpenIdMetadata();
   await getOpenIdMetadataAnonymously();
   await getSigningCertificates();

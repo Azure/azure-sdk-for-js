@@ -93,7 +93,7 @@ async function main(): Promise<void> {
   if (isUnexpected(dataSources)) {
     throw dataSources.body.error;
   }
-  const iter = paginate(client, dataSources)
+  const iter = paginate(client, dataSources);
 
   const items: DataSourceOutput[] = [];
 
