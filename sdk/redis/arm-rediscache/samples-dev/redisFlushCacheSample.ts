@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes all of the keys in a cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFlush.json
  */
-async function redisCacheFlush() {
+async function redisCacheFlush(): Promise<void> {
   const subscriptionId =
     process.env["REDIS_SUBSCRIPTION_ID"] || "subcription-id";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function redisCacheFlush() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheFlush();
 }
 

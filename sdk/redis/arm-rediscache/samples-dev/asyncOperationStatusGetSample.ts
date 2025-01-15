@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary For checking the ongoing status of an operation
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAsyncOperationStatus.json
  */
-async function redisCacheAsyncOperationStatus() {
+async function redisCacheAsyncOperationStatus(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const location = "East US";
   const operationId = "c7ba2bf5-5939-4d79-b037-2964ccf097da";
@@ -28,7 +28,7 @@ async function redisCacheAsyncOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheAsyncOperationStatus();
 }
 

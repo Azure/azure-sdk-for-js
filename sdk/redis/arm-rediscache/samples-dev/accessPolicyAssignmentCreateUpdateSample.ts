@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Adds the access policy assignment to the specified users
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyAssignmentCreateUpdate.json
  */
-async function redisCacheAccessPolicyAssignmentCreateUpdate() {
+async function redisCacheAccessPolicyAssignmentCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
@@ -42,7 +42,7 @@ async function redisCacheAccessPolicyAssignmentCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheAccessPolicyAssignmentCreateUpdate();
 }
 

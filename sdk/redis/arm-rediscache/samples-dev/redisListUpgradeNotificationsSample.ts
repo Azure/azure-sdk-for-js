@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets any upgrade notifications for a Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListUpgradeNotifications.json
  */
-async function redisCacheListUpgradeNotifications() {
+async function redisCacheListUpgradeNotifications(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -36,7 +36,7 @@ async function redisCacheListUpgradeNotifications() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheListUpgradeNotifications();
 }
 

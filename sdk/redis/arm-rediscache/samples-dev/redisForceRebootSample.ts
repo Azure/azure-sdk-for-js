@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheForceReboot.json
  */
-async function redisCacheForceReboot() {
+async function redisCacheForceReboot(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -40,7 +40,7 @@ async function redisCacheForceReboot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheForceReboot();
 }
 

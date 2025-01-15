@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available REST API operations of the Microsoft.Cache provider.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheOperations.json
  */
-async function redisCacheOperations() {
+async function redisCacheOperations(): Promise<void> {
   const subscriptionId =
     process.env["REDIS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function redisCacheOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheOperations();
 }
 
