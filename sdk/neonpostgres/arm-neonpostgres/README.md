@@ -2,13 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Postgres client.
 
-
-
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/neonpostgres/arm-neonpostgres)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-neonpostgres)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-neonpostgres?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-neonpostgres?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/neonpostgres/arm-neonpostgres/samples)
 
 ## Getting started
@@ -47,7 +45,7 @@ npm install @azure/identity
 
 You will also need to **register a new AAD application and grant access to Azure Postgres** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
 const { PostgresClient } = require("@azure/arm-neonpostgres");
@@ -65,8 +63,8 @@ const client = new PostgresClient(new DefaultAzureCredential(), subscriptionId);
 // const client = new PostgresClient(credential, subscriptionId);
 ```
 
-
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts

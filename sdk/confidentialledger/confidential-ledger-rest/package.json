@@ -46,7 +46,7 @@
       "Azure Confidential Compute": "https://azure.microsoft.com/solutions/confidential-compute"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
+    "apiRefLink": "https://learn.microsoft.com/azure/confidential-ledger"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",

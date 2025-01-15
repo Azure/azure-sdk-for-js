@@ -13,9 +13,7 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a task run for a container registry with the specified parameters.

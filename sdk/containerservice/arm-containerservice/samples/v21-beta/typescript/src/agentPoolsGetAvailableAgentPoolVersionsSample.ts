@@ -10,14 +10,12 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
+ * This sample demonstrates how to See [supported Kubernetes versions](https://learn.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
  *
- * @summary See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
+ * @summary See [supported Kubernetes versions](https://learn.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsGetAgentPoolAvailableVersions.json
  */
 async function getAvailableVersionsForAgentPool() {

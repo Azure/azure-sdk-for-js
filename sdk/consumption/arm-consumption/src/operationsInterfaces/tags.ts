@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TagsGetOptionalParams, TagsGetResponse } from "../models";
+import { TagsGetOptionalParams, TagsGetResponse } from "../models/index.js";
 
 /** Interface representing a Tags. */
 export interface Tags {

@@ -113,7 +113,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [replicaslistbyconfigurationstoresample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/typescript/src/replicasListByConfigurationStoreSample.ts
 [snapshotscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/typescript/src/snapshotsCreateSample.ts
 [snapshotsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/typescript/src/snapshotsGetSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/arm-appconfiguration/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

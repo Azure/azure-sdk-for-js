@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftVoiceServices } from "@azure/arm-voiceservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List TestLine resources by CommunicationsGateway
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List TestLine resources by CommunicationsGateway
  * x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/TestLines_ListByCommunicationsGateway.json
  */
-async function listTestLineResource() {
+async function listTestLineResource(): Promise<void> {
   const subscriptionId =
     process.env["VOICESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function listTestLineResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTestLineResource();
 }
 

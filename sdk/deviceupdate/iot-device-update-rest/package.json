@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Iot Device Update instance": "https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update"
+      "Azure Iot Device Update instance": "https://learn.microsoft.com/azure/iot-hub-device-update/understand-device-update"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update"
   },
   "browser": "./dist/browser/index.js",
   "scripts": {

@@ -10,7 +10,7 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 ### Create an App Configuration resource
 
-You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
+You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://learn.microsoft.com/cli/azure) to create an Azure App Configuration resource.
 
 Example (Azure CLI):
 
@@ -24,13 +24,13 @@ We recommend the [@azure/identity][identity] package which provides a set of cre
 
 - Register a new AAD application and give permissions to access Azure App Configuration on behalf of the signed-in user
 
-  - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+  - Register a new application in the Azure Active Directory(in the azure-portal) - https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
   - In the `API permissions` section, select `Add a permission` and choose `APIs my organization uses`.
   - Pick `Azure App Configuration` and select the checkboxes and then click `Add permissions`. This would allow the application to access Azure App Configuration on behalf of the signed-in user.
 
 - Grant access to Azure App Configuration data with RBAC in the Azure Portal
 
-  - RBAC roles for azure-app-configuration - https://docs.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration.
+  - RBAC roles for azure-app-configuration - https://learn.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration.
   - In the azure portal, go to your app-config account and assign **App Configuration Data Owner** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your app config account in the azure-portal).
 
 ## Running the sample

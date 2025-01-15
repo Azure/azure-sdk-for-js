@@ -296,6 +296,8 @@ export async function isProxyToolActive(): Promise<boolean> {
       `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
     );
 
+    await response.text();
+
     if (!response.ok) {
       return false;
     }

@@ -26,15 +26,12 @@
 
 import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import { X509 } from "jsrsasign";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
-async function getPolicyManagementCertificates() {
+async function getPolicyManagementCertificates(): Promise<void> {
   writeBanner("Get Current Attestation Policy Management Certificates.");
 
   // Use the specified attestion URL.
@@ -57,7 +54,7 @@ async function getPolicyManagementCertificates() {
   });
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await getPolicyManagementCertificates();
 }
 

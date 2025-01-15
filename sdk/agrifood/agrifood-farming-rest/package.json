@@ -44,7 +44,7 @@
       "azure-farmbeats"
     ],
     "requiredResources": {
-      "Azure FarmBeats Service instance": "https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
+      "Azure FarmBeats Service instance": "https://learn.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
     }
   },
   "browser": "./dist/browser/index.js",
@@ -73,7 +73,7 @@
     "unit-test": "dev-tool run vendored cross-env TEST_MODE=playback && npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "autoPublish": false,

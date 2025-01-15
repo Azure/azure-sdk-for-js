@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [namespaceactivities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/samples/v1/javascript/namespaceActivities.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
-[createinstance_azureeventgridcustomtopic,configuredtousethecloudevent1.0schema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
-[createinstance_azureservicebusqueue]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal
+[createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
+[createinstance_azureeventgridcustomtopic,configuredtousethecloudevent1.0schema]: https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
+[createinstance_azureservicebusqueue]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/README.md

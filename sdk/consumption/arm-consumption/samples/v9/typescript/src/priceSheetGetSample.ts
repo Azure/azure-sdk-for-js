@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the price sheet for a subscription. Price sheet is available via this API only for May 1, 2014 or later.

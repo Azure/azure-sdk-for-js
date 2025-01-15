@@ -13,9 +13,7 @@ import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the state of specified Content Filters associated with the Azure OpenAI account.

@@ -42,6 +42,7 @@
   ],
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "LICENSE",
     "README.md"
   ],

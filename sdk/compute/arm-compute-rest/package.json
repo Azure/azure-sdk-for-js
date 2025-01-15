@@ -101,7 +101,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview"
   },
   "type": "module",
   "tshy": {

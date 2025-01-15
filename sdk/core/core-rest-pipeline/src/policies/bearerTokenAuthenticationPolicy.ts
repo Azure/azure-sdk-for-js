@@ -64,7 +64,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 }
 
 /**
- * Options to override the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+ * Options to override the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
  */
 export interface ChallengeCallbacks {
   /**
@@ -93,7 +93,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    */
   scopes: string | string[];
   /**
-   * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+   * Allows for the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
    * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */

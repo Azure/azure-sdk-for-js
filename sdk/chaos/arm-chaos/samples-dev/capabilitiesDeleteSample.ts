@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Capability that extends a Target resource.

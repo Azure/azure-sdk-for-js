@@ -7,13 +7,8 @@
  */
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  delay,
-  env,
-  isPlaybackMode,
-  Recorder,
-  RecorderStartOptions,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { delay, env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { ApiManagementClient } from "../src/apiManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -85,7 +80,7 @@ describe("Apimanagement test", () => {
 
   it("apiManagementService listByResourceGroup test", async () => {
     const resArray = new Array();
-    for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -96,8 +91,8 @@ describe("Apimanagement test", () => {
     while (count < 20) {
       count++;
       const res = await client.apiManagementService.get(resourceGroupName, serviceName);
-      if (res.provisioningState == "Succeeded") {
-        const res = await client.apiManagementService.beginUpdateAndWait(
+      if (res.provisioningState === "Succeeded") {
+        const updateResult = await client.apiManagementService.beginUpdateAndWait(
           resourceGroupName,
           serviceName,
           {
@@ -107,7 +102,7 @@ describe("Apimanagement test", () => {
           },
           testPollingOptions,
         );
-        assert.equal(res.type, "Microsoft.ApiManagement/service");
+        assert.equal(updateResult.type, "Microsoft.ApiManagement/service");
         break;
       } else {
         // The resource is activating
@@ -122,7 +117,7 @@ describe("Apimanagement test", () => {
 
   it("backend list test", async () => {
     const resArray = new Array();
-    for await (let item of client.backend.listByService(resourceGroupName, serviceName, {
+    for await (const item of client.backend.listByService(resourceGroupName, serviceName, {
       top: 1,
     })) {
       resArray.push(item);
@@ -132,7 +127,7 @@ describe("Apimanagement test", () => {
 
   it("backend delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.backend.listByService(resourceGroupName, serviceName)) {
+    for await (const item of client.backend.listByService(resourceGroupName, serviceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -143,9 +138,11 @@ describe("Apimanagement test", () => {
     while (count < 20) {
       count++;
       const res = await client.apiManagementService.get(resourceGroupName, serviceName);
-      if (res.provisioningState == "Succeeded") {
+      if (res.provisioningState === "Succeeded") {
         const resArray = new Array();
-        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+        for await (const item of client.apiManagementService.listByResourceGroup(
+          resourceGroupName,
+        )) {
           resArray.push(item);
         }
         assert.equal(resArray.length, 0);

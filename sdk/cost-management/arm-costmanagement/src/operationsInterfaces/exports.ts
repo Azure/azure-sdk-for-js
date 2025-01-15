@@ -18,7 +18,7 @@ import {
   ExportsExecuteOptionalParams,
   ExportsGetExecutionHistoryOptionalParams,
   ExportsGetExecutionHistoryResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Exports. */
 export interface Exports {

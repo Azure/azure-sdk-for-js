@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Cognitive Services account.

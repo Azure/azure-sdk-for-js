@@ -12,7 +12,7 @@ import {
   TargetTypesListOptionalParams,
   TargetTypesGetOptionalParams,
   TargetTypesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TargetTypes. */

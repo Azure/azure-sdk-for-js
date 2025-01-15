@@ -22,7 +22,7 @@ package.
 
 - AAD Application with `Owner` permissions to an Azure subscription
 - PowerShell 7
-- [Azure Powershell cmdlets](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
+- [Azure Powershell cmdlets](https://learn.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
 - Node 12.x
 - Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool)
 

@@ -25,7 +25,7 @@ Each package folder contains a package-specific `README.md` file. Most of these 
 
 ## Package Samples and How-To Guides
 
-Each package folder contains a subfolder called `samples` with additional code samples in the `typescript` and `javascript` subfolder. Corresponding files (i.e. `samples/typescript/src/helloWorld.ts` and `samples/javascript/helloWorld.js`) in the TypeScript and JavaScript directories are functionally equivalent. These samples may be viewed in GitHub or browsed on [the Sample Browser at docs.microsoft.com/samples](https://docs.microsoft.com/samples/browse/?products=azure&languages=typescript%2Cjavascript) by selecting the product and language combination that you wish to view samples for.
+Each package folder contains a subfolder called `samples` with additional code samples in the `typescript` and `javascript` subfolder. Corresponding files (i.e. `samples/typescript/src/helloWorld.ts` and `samples/javascript/helloWorld.js`) in the TypeScript and JavaScript directories are functionally equivalent. These samples may be viewed in GitHub or browsed on [the Sample Browser at learn.microsoft.com/samples](https://learn.microsoft.com/samples/browse/?products=azure&languages=typescript%2Cjavascript) by selecting the product and language combination that you wish to view samples for.
 
 ## Global Samples
 
@@ -44,4 +44,4 @@ For more information on package bundling, see [`/documentation/Bundling.md`](htt
 
 ## Sample Applications
 
-Sometimes we want to illustrate how several APIs or even packages work together in a context of a more complete program. For these cases, we created sample applications. These application samples are located in other repositories and, like the package-specific samples, may be viewed on [https://docs.microsoft.com/samples/](https://docs.microsoft.com/samples/).
+Sometimes we want to illustrate how several APIs or even packages work together in a context of a more complete program. For these cases, we created sample applications. These application samples are located in other repositories and, like the package-specific samples, may be viewed on [https://learn.microsoft.com/samples/](https://learn.microsoft.com/samples/).

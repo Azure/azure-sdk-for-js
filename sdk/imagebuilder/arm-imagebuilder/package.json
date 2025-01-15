@@ -111,6 +111,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview"
   }
 }

@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webappsstopnetworktraceslotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid/samples/v2/javascript/webAppsStopNetworkTraceSlotSample.js
 [webappsstopwebsitenetworktracesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid/samples/v2/javascript/webAppsStopWebSiteNetworkTraceSample.js
 [webappsstopwebsitenetworktraceslotsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid/samples/v2/javascript/webAppsStopWebSiteNetworkTraceSlotSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appservice-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appservice-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid/README.md

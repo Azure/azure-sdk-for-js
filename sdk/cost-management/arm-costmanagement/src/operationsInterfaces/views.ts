@@ -21,7 +21,7 @@ import {
   ViewsCreateOrUpdateByScopeOptionalParams,
   ViewsCreateOrUpdateByScopeResponse,
   ViewsDeleteByScopeOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Views. */

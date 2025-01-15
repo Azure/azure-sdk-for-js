@@ -85,7 +85,7 @@
       "backupAndRestore.js"
     ],
     "requiredResources": {
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
     },
     "customSnippets": {
       "prerequisites": "samples-dev/snippets/_prerequisites.md"

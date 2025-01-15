@@ -81,7 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [oucontainerlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/domainservices/arm-domainservices/samples/v4/typescript/src/ouContainerListSample.ts
 [oucontaineroperationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/domainservices/arm-domainservices/samples/v4/typescript/src/ouContainerOperationsListSample.ts
 [oucontainerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/domainservices/arm-domainservices/samples/v4/typescript/src/ouContainerUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-domainservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-domainservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/domainservices/arm-domainservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

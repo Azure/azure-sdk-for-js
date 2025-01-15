@@ -4,21 +4,19 @@
 /**
  * Demonstrates how to train a model on multivariate data and use this model to detect anomalies.
  *
- * @summary detect multivaariate anomalies.
+ * @summary detect multivariate anomalies.
  */
 
-import AnomalyDetector, {
+import type {
   DetectMultivariateBatchAnomalyParameters,
   TrainMultivariateModelParameters,
   ListMultivariateModelsParameters,
-  paginate,
-  isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
+import AnomalyDetector, { paginate, isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
@@ -29,7 +27,7 @@ function sleep(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   // create client
   const credential = new AzureKeyCredential(apiKey);
   const client = AnomalyDetector(endpoint, credential);
@@ -86,8 +84,8 @@ export async function main() {
   }
   let modelStatus = modelResponse.body.modelInfo.status;
 
-  while (modelStatus != "READY" && modelStatus != "FAILED") {
-    await sleep(2000).then(() => {});
+  while (modelStatus !== "READY" && modelStatus !== "FAILED") {
+    await sleep(2000);
     modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
 
     if (isUnexpected(modelResponse)) {
@@ -99,7 +97,7 @@ export async function main() {
     modelStatus = modelResponse.body.modelInfo.status;
   }
 
-  if (modelStatus == "FAILED") {
+  if (modelStatus === "FAILED") {
     console.log("Training failed.\nErrors:");
     for (const error of modelResponse.body.modelInfo.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
@@ -139,8 +137,8 @@ export async function main() {
 
   let resultStatus = getDetectionResultResponse.body.summary.status;
 
-  while (resultStatus != "READY" && resultStatus != "FAILED") {
-    await sleep(1000).then(() => {});
+  while (resultStatus !== "READY" && resultStatus !== "FAILED") {
+    await sleep(1000);
     getDetectionResultResponse = await client
       .path("/multivariate/detect-batch/{resultId}", resultId)
       .get();
@@ -151,10 +149,10 @@ export async function main() {
     resultStatus = getDetectionResultResponse.body.summary.status;
   }
 
-  if (resultStatus == "FAILED") {
+  if (resultStatus === "FAILED") {
     console.log("Detection failed.");
     console.log("Errors:");
-    for (let error of getDetectionResultResponse.body.summary.errors || []) {
+    for (const error of getDetectionResultResponse.body.summary.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;

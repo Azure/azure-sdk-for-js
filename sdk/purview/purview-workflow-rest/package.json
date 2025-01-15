@@ -100,8 +100,7 @@
     "productSlugs": [
       "azure"
     ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/purview-workflow?view=azure-node-preview"
+    "disableDocsMs": true
   },
   "type": "module",
   "tshy": {

@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.

@@ -18,7 +18,7 @@ require("dotenv").config();
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
   const url = process.env["AZURE_MANAGEDHSM_URI"];
@@ -50,7 +50,7 @@ async function main() {
   console.log(roleDefinition);
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
-  // Please refer to https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
+  // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
   const roleAssignmentName = uuid.v4();
   const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   if (!clientObjectId) {

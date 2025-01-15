@@ -101,7 +101,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/aks"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/aks"
   },
   "type": "module",
   "tshy": {

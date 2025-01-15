@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/purview/"
   },
   "browser": "./dist/browser/index.js",
   "scripts": {

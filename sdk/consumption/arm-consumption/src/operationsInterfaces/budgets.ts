@@ -15,7 +15,7 @@ import {
   BudgetsCreateOrUpdateOptionalParams,
   BudgetsCreateOrUpdateResponse,
   BudgetsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Budgets. */

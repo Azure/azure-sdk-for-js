@@ -75,7 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scheduledactionsvirtualmachinessubmitdeallocatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computeschedule/arm-computeschedule/samples/v1-beta/typescript/src/scheduledActionsVirtualMachinesSubmitDeallocateSample.ts
 [scheduledactionsvirtualmachinessubmithibernatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computeschedule/arm-computeschedule/samples/v1-beta/typescript/src/scheduledActionsVirtualMachinesSubmitHibernateSample.ts
 [scheduledactionsvirtualmachinessubmitstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computeschedule/arm-computeschedule/samples/v1-beta/typescript/src/scheduledActionsVirtualMachinesSubmitStartSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-computeschedule?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computeschedule?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computeschedule/arm-computeschedule/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

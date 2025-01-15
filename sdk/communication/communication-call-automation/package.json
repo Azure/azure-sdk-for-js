@@ -66,7 +66,7 @@
     ],
     "disableDocsMs": true,
     "requiredResources": {
-      "Azure Communication Services Resource": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+      "Azure Communication Services Resource": "https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
   },
   "dependencies": {

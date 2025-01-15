@@ -70,7 +70,7 @@
       "azure-monitor"
     ],
     "requiredResources": {
-      "Azure Application Insights workspace instance": "https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview"
+      "Azure Application Insights workspace instance": "https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview"
     }
   },
   "devDependencies": {

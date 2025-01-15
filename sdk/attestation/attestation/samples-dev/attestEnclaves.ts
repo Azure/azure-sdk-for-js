@@ -25,13 +25,10 @@
  */
 import { AttestationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
 import { decodeString } from "./utils/base64url.js";
-
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
 // runtimeData is a Base64Url encoded blob. The sgxQuote contains the SHA256
 // hash of this blob inside the binary quote data, that can be used to verify
@@ -146,7 +143,7 @@ const _openEnclaveReport =
   "RHZvOGgyazVkdTFpV0RkQmtBbiswaWlBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0" +
   "tLQoA";
 
-async function attestOpenEnclave() {
+async function attestOpenEnclave(): Promise<void> {
   writeBanner("Attest Open Enclave.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
@@ -173,7 +170,7 @@ async function attestOpenEnclave() {
   }
 }
 
-async function attestOpenEnclaveSharedAnonymously() {
+async function attestOpenEnclaveSharedAnonymously(): Promise<void> {
   writeBanner("Attest Open Enclave - Anonymously");
 
   let location = process.env.ATTESTATION_LOCATION_SHORT_NAME;
@@ -202,7 +199,7 @@ async function attestOpenEnclaveSharedAnonymously() {
   }
 }
 
-async function attestOpenEnclaveWithRuntimeData() {
+async function attestOpenEnclaveWithRuntimeData(): Promise<void> {
   writeBanner("Attest Open Enclave With Runtime Data.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
@@ -245,7 +242,7 @@ async function attestOpenEnclaveWithRuntimeData() {
   }
 }
 
-async function attestOpenEnclaveWithRuntimeJson() {
+async function attestOpenEnclaveWithRuntimeJson(): Promise<void> {
   writeBanner("Attest Open Enclave With Runtime JSON.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
@@ -296,7 +293,7 @@ async function attestOpenEnclaveWithRuntimeJson() {
   }
 }
 
-async function attestOpenEnclaveWithExperimentalPolicy() {
+async function attestOpenEnclaveWithExperimentalPolicy(): Promise<void> {
   writeBanner("Attest Open Enclave with Experimental Policy.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
@@ -347,7 +344,7 @@ issuancerules
   }
 }
 
-async function attestOpenEnclaveWithExperimentalPolicyFailure() {
+async function attestOpenEnclaveWithExperimentalPolicyFailure(): Promise<void> {
   writeBanner("Attest Open Enclave with Failing Experimental Policy.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
@@ -413,7 +410,7 @@ function bytesToString(content: Uint8Array): string {
   return decode(content);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await attestOpenEnclave();
   await attestOpenEnclaveSharedAnonymously();
   await attestOpenEnclaveWithRuntimeData();

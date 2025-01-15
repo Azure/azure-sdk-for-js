@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts stopped compute on all cluster nodes.

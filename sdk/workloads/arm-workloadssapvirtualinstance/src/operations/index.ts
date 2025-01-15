@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./sAPVirtualInstances";
-export * from "./sAPCentralInstances";
-export * from "./sAPDatabaseInstances";
-export * from "./sAPApplicationServerInstances";
-export * from "./operations";
+export * from "./sAPVirtualInstances.js";
+export * from "./sAPCentralInstances.js";
+export * from "./sAPDatabaseInstances.js";
+export * from "./sAPApplicationServerInstances.js";
+export * from "./operations.js";

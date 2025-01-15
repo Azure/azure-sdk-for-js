@@ -117,7 +117,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/botservice/arm-botservice/samples/v4/typescript/src/privateEndpointConnectionsListSample.ts
 [privatelinkresourceslistbybotresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/botservice/arm-botservice/samples/v4/typescript/src/privateLinkResourcesListByBotResourceSample.ts
 [qnamakerendpointkeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/botservice/arm-botservice/samples/v4/typescript/src/qnAMakerEndpointKeysGetSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-botservice?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-botservice?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/botservice/arm-botservice/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

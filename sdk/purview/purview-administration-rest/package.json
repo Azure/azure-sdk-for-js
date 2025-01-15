@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Purview instance": "https://docs.microsoft.com/azure/purview/create-catalog-portal"
+      "Azure Purview instance": "https://learn.microsoft.com/azure/purview/create-catalog-portal"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/purview/"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",

@@ -127,6 +127,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schemasdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/javascript/schemasDeleteSample.js
 [schemasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/javascript/schemasGetSample.js
 [schemaslistbyschemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/javascript/schemasListBySchemaRegistrySample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/README.md

@@ -13,9 +13,7 @@ import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update specified deployments associated with the Cognitive Services account.

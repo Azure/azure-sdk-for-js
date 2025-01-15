@@ -106,9 +106,9 @@
     "disableDocsMs": true,
     "productName": "Monitor Ingestion",
     "productSlugs": [],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "requiredResources": {
-      "Azure Monitor": "https://docs.microsoft.com/azure/azure-monitor/"
+      "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
   "type": "module",

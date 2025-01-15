@@ -6,13 +6,14 @@ import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
-describe("snippets", function () {
-  it("AdvisorManagementClientAuth_Node", async function () {
+describe("snippets", () => {
+  it("AdvisorManagementClientAuth_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const client = new AdvisorManagementClient(new DefaultAzureCredential(), subscriptionId);
   });
 
-  it("AdvisorManagementClientAuth_Browser", async function () {
+  it("AdvisorManagementClientAuth_Browser", async () => {
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
@@ -20,7 +21,7 @@ describe("snippets", function () {
     const client = new AdvisorManagementClient(credential, subscriptionId);
   });
 
-  it("setLogLevel", async function () {
+  it("setLogLevel", async () => {
     setLogLevel("info");
   });
 });

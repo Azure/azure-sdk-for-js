@@ -10,14 +10,12 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+ * This sample demonstrates how to See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
- * @summary See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+ * @summary See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersRotateClusterCertificates.json
  */
 async function rotateClusterCertificates() {

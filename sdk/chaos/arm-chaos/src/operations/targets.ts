@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Targets } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Targets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ChaosManagementClient } from "../chaosManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ChaosManagementClient } from "../chaosManagementClient.js";
 import {
   Target,
   TargetsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsCreateOrUpdateResponse,
   TargetsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Targets operations. */

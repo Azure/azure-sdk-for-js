@@ -104,8 +104,8 @@
       "azure-mixed-reality-remote-rendering"
     ],
     "requiredResources": {
-      "Azure Remote Rendering account": "https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account",
-      "Azure Storage account": "https://docs.microsoft.com/azure/storage/common/storage-account-create"
+      "Azure Remote Rendering account": "https://learn.microsoft.com/azure/remote-rendering/how-tos/create-an-account",
+      "Azure Storage account": "https://learn.microsoft.com/azure/storage/common/storage-account-create"
     }
   },
   "type": "module",

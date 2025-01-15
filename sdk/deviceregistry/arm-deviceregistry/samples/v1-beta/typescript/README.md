@@ -139,7 +139,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schemasdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/typescript/src/schemasDeleteSample.ts
 [schemasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/typescript/src/schemasGetSample.ts
 [schemaslistbyschemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1-beta/typescript/src/schemasListBySchemaRegistrySample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -11,7 +11,7 @@ import {
   BalancesGetByBillingAccountResponse,
   BalancesGetForBillingPeriodByBillingAccountOptionalParams,
   BalancesGetForBillingPeriodByBillingAccountResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Balances. */
 export interface Balances {

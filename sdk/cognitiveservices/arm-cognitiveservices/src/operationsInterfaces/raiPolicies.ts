@@ -17,7 +17,7 @@ import {
   RaiPoliciesCreateOrUpdateResponse,
   RaiPoliciesDeleteOptionalParams,
   RaiPoliciesDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RaiPolicies. */

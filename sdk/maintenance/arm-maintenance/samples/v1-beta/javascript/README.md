@@ -115,6 +115,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scheduledeventacknowledgesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/scheduledEventAcknowledgeSample.js
 [updateslistparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/updatesListParentSample.js
 [updateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/updatesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maintenance/arm-maintenance/README.md

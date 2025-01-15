@@ -26,7 +26,7 @@ import {
   WebPubSubReplicasImpl,
   WebPubSubReplicaSharedPrivateLinkResourcesImpl,
   WebPubSubSharedPrivateLinkResourcesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   WebPubSub,
@@ -39,8 +39,8 @@ import {
   WebPubSubReplicas,
   WebPubSubReplicaSharedPrivateLinkResources,
   WebPubSubSharedPrivateLinkResources,
-} from "./operationsInterfaces";
-import { WebPubSubManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { WebPubSubManagementClientOptionalParams } from "./models/index.js";
 
 export class WebPubSubManagementClient extends coreClient.ServiceClient {
   $host: string;

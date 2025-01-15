@@ -29,7 +29,7 @@ import {
   UpdateMonitorRequest as UpdateMonitorRequestMapper,
   ProviderInstance as ProviderInstanceMapper,
   SapLandscapeMonitor as SapLandscapeMonitorMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

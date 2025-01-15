@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/purview-sharing)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest/samples)
 
 ## Getting started

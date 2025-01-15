@@ -12,7 +12,7 @@ import {
   PriceSheetDownloadResponse,
   PriceSheetDownloadByBillingProfileOptionalParams,
   PriceSheetDownloadByBillingProfileResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PriceSheet. */
 export interface PriceSheet {

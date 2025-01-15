@@ -54,7 +54,7 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
       const response = await bulkStreamer.finishBulk();
       // Create
       response.forEach((res, index) =>
@@ -72,7 +72,7 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
       const response = await bulkStreamer.finishBulk();
       // Create
       response.forEach((res, index) =>
@@ -91,7 +91,7 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
       const response = await bulkStreamer.finishBulk();
       // Create
       response.forEach((res, index) =>
@@ -167,7 +167,7 @@ describe("new streamer bulk operations", async function () {
           },
         ];
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
@@ -192,7 +192,7 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
         // Create
         response.forEach((res, index) =>
@@ -210,7 +210,7 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
         // Create
         response.forEach((res, index) =>
@@ -229,7 +229,7 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
         // Create
         response.forEach((res, index) =>
@@ -272,7 +272,7 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperation(operation);
+        bulkStreamer.addBulkOperations(operation);
         const deleteResponse = await bulkStreamer.finishBulk();
         assert.equal(deleteResponse[0].statusCode, 204);
       });
@@ -283,7 +283,7 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperation(operation);
+        bulkStreamer.addBulkOperations(operation);
         const readResponse = await bulkStreamer.finishBulk();
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
@@ -308,8 +308,8 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperation(createOp);
-        bulkStreamer.addBulkOperation(readOp);
+        bulkStreamer.addBulkOperations(createOp);
+        bulkStreamer.addBulkOperations(readOp);
         const readResponse = await bulkStreamer.finishBulk();
         assert.strictEqual(readResponse[0].statusCode, 201);
         assert.strictEqual(readResponse[0].resourceBody.id, id, "Created item's id should match");
@@ -330,7 +330,7 @@ describe("new streamer bulk operations", async function () {
           partitionKey: "B",
         };
         const bulkStreamer = splitContainer.items.getBulkStreamer();
-        bulkStreamer.addBulkOperation(operation);
+        bulkStreamer.addBulkOperations(operation);
         const readResponse = await bulkStreamer.finishBulk();
 
         assert.strictEqual(readResponse[0].statusCode, 200);
@@ -386,7 +386,7 @@ describe("new streamer bulk operations", async function () {
         });
 
         const bulkStreamer = splitContainer.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
 
         // Create
@@ -499,7 +499,7 @@ describe("new streamer bulk operations", async function () {
           }
           const bulkStreamer = container.items.getBulkStreamer({}, dataset.bulkOperationOptions);
           dataset.operations.forEach((operation) =>
-            bulkStreamer.addBulkOperation(operation.operation),
+            bulkStreamer.addBulkOperations(operation.operation),
           );
           const response = await bulkStreamer.finishBulk();
           dataset.operations.forEach(({ description, expectedOutput }, index) => {
@@ -1079,7 +1079,7 @@ describe("new streamer bulk operations", async function () {
           },
         ];
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const createResponse = await bulkStreamer.finishBulk();
         assert.equal(createResponse[0].statusCode, 201);
       });
@@ -1139,7 +1139,7 @@ describe("new streamer bulk operations", async function () {
         }
 
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
         const response = await bulkStreamer.finishBulk();
 
         response.forEach((res, index) => {
@@ -1223,7 +1223,7 @@ describe("new streamer bulk operations", async function () {
       await testForDiagnostics(
         async () => {
           const bulkStreamer = container.items.getBulkStreamer();
-          operations.forEach((operation) => bulkStreamer.addBulkOperation(operation));
+          operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
           return bulkStreamer.finishBulk();
         },
         {

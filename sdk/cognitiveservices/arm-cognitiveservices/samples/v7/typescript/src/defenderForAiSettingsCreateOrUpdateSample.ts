@@ -13,9 +13,7 @@ import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or Updates the specified Defender for AI setting.

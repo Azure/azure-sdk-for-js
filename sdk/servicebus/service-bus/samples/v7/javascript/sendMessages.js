@@ -6,7 +6,7 @@
  * Queue/Topic. You can send all messages at once with risk of the operation failing if they don't fit
  * in a batch or you can use one or batch objects directly to safely send all your messages.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
+ * See https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
  * to learn about Queues, Topics and Subscriptions.
  *
  *
