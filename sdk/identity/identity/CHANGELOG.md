@@ -2,6 +2,8 @@
 
 ## 4.6.0 (2025-01-16)
 
+### Other Changes
+
 - Update `@azure/msal-browser` to 4.0.1 [#32565](https://github.com/Azure/azure-sdk-for-js/pull/32565)
 
 ## 4.5.0 (2024-10-15)
