@@ -269,7 +269,7 @@ export interface OperatorInformation {
 /** Represents metadata describing the operator of a phone number */
 export interface OperatorDetails {
   /** Name of the phone operator */
-  name: string;
+  name?: string;
   /** Mobile Network Code */
   mobileNetworkCode?: string;
   /** Mobile Country Code */
