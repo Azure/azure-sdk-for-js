@@ -73,7 +73,7 @@ export class BulkStreamer {
   }
 
   /** add an operation or a list of operations to Bulk Streamer */
-  addBulkOperation(operationInput: OperationInput | OperationInput[]): void {
+  addBulkOperations(operationInput: OperationInput | OperationInput[]): void {
     if (Array.isArray(operationInput)) {
       operationInput.forEach((operation) => {
         const operationPromise = this.addOperation(operation);
