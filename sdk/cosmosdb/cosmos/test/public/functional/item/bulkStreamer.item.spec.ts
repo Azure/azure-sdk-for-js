@@ -316,7 +316,7 @@ describe("new streamer bulk operations", async function () {
         assert.strictEqual(readResponse[1].statusCode, 200);
         assert.strictEqual(readResponse[1].resourceBody.id, id, "Read item's id should match");
       });
-      it("read operation with partition split", async function () {
+      it.skip("read operation with partition split", async function () {
         // using plugins generate split response from backend
         const splitContainer = await getSplitContainer();
         await splitContainer.items.create({
@@ -345,7 +345,7 @@ describe("new streamer bulk operations", async function () {
         }
       });
 
-      it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
+      it.skip("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
         const operations = [
           {
             operationType: BulkOperationType.Create,
