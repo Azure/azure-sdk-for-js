@@ -73,7 +73,7 @@ describe("createRestError", () => {
     assert.equal(error.code, "code");
     assert.equal(error.message, "error message");
   });
-  
+
   it("should create a rest error from an error response with an undefined body", () => {
     const response = {
       status: "400",
