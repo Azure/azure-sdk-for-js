@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type semaphore from "semaphore";
 import { Constants } from "../common";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric";
-
+import { Limiter } from "./Limiter";
 /**
  * This class implements a congestion control algorithm which dynamically adjusts the degree
  * of concurrency based on the throttling and number of processed items.
@@ -14,7 +12,7 @@ import type { BulkPartitionMetric } from "./BulkPartitionMetric";
 
 export class BulkCongestionAlgorithm {
   // The semaphore to control the degree of concurrency.
-  private limiterSemaphore: semaphore.Semaphore;
+  private limiter: Limiter;
   // captures metrics upto previous requests for a partition.
   private oldPartitionMetric: BulkPartitionMetric;
   // captures metrics upto current request for a partition.
@@ -27,12 +25,12 @@ export class BulkCongestionAlgorithm {
   private congestionDecreaseFactor: number = 5;
 
   constructor(
-    limiterSemaphore: semaphore.Semaphore,
+    limiter: Limiter,
     partitionMetric: BulkPartitionMetric,
     oldPartitionMetric: BulkPartitionMetric,
     currentDegreeOfConcurrency: number,
   ) {
-    this.limiterSemaphore = limiterSemaphore;
+    this.limiter = limiter;
     this.oldPartitionMetric = oldPartitionMetric;
     this.partitionMetric = partitionMetric;
     this.currentDegreeOfConcurrency = currentDegreeOfConcurrency;
@@ -68,7 +66,7 @@ export class BulkCongestionAlgorithm {
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiterSemaphore.take(() => {});
+      this.limiter.take(() => {});
     }
 
     this.currentDegreeOfConcurrency -= decreaseCount;
@@ -81,8 +79,8 @@ export class BulkCongestionAlgorithm {
       this.currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
       Constants.BulkMaxDegreeOfConcurrency
     ) {
-      if (this.limiterSemaphore.current > 0) {
-        this.limiterSemaphore.leave(this.congestionIncreaseFactor);
+      if (this.limiter.current() > 0) {
+        this.limiter.leave(this.congestionIncreaseFactor);
       }
       this.currentDegreeOfConcurrency += this.congestionIncreaseFactor;
     }

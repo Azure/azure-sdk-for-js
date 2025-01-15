@@ -35,6 +35,20 @@ export class BulkResponse {
   }
 
   /**
+   * Generate empty response object
+   */
+  static createEmptyResponse(
+    operations: ItemBulkOperation[],
+    statusCode: StatusCode,
+    subStatusCode: SubStatusCode,
+    headers: CosmosHeaders,
+  ): BulkResponse {
+    const bulkResponse = new BulkResponse(statusCode, subStatusCode, headers, operations);
+    bulkResponse.createAndPopulateResults(operations, 0);
+    return bulkResponse;
+  }
+
+  /**
    * static method to create BulkResponse from Response object
    */
   static fromResponseMessage(
