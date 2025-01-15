@@ -387,7 +387,7 @@ Now you can use this bundled output file inside an html page via a script tag:
 First, you need to install [parcel](https://parceljs.org/) globally:
 
 ```sh
-npm install -g parcel-bundler
+npm install -g parcel
 ```
 
 Once this is done, you can use parcel by configuring your project in the way that parcel expects.
