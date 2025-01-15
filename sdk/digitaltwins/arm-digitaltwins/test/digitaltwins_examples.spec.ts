@@ -44,20 +44,20 @@ describe("DigitalTwins test", () => {
   let resourceName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new AzureDigitalTwinsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourceName = "myDigitalTwinsService";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new AzureDigitalTwinsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourceName = "myDigitalTwinsService";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("DigitalTwins create test", async function () {
     const res = await client.digitalTwins.beginCreateOrUpdateAndWait(
@@ -83,6 +83,7 @@ describe("DigitalTwins test", () => {
 
   it("DigitalTwins delete test", async function () {
     const resArray = new Array();
+    await client.digitalTwins.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.digitalTwins.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
