@@ -13,9 +13,7 @@ import {
   IotDpsClient
 } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSVerifyCertificate.json
  */
-async function dpsVerifyCertificate() {
+async function dpsVerifyCertificate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -48,7 +46,7 @@ async function dpsVerifyCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsVerifyCertificate();
 }
 

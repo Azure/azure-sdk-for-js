@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { DevTestLabsClient } from "../src/devTestLabsClient";
+import { DevTestLabsClient } from "../src/devTestLabsClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,8 +44,8 @@ describe("DevTestLabs test", () => {
   let name: string;
 
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -58,7 +56,7 @@ describe("DevTestLabs test", () => {
     name = "mylabsxxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -90,8 +88,8 @@ describe("DevTestLabs test", () => {
   });
 
   it("labs delete test", async function () {
-    const res = await client.labs.beginDeleteAndWait(resourceGroup, name, testPollingOptions);
     const resArray = new Array();
+    await client.labs.beginDeleteAndWait(resourceGroup, name);
     for await (let item of client.labs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

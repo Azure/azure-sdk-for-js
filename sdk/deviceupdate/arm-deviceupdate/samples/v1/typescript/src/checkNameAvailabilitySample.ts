@@ -13,9 +13,7 @@ import {
   DeviceUpdate
 } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks ADU resource name availability.

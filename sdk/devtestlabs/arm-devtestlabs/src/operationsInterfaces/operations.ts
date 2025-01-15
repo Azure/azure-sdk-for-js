@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsGetOptionalParams, OperationsGetResponse } from "../models";
+import { OperationsGetOptionalParams, OperationsGetResponse } from "../models/index.js";
 
 /** Interface representing a Operations. */
 export interface Operations {

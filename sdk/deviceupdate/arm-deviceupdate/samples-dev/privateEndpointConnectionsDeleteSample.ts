@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the device update account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified private endpoint connection associated with the device update account.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_Delete.json
  */
-async function privateEndpointConnectionDelete() {
+async function privateEndpointConnectionDelete(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function privateEndpointConnectionDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionDelete();
 }
 

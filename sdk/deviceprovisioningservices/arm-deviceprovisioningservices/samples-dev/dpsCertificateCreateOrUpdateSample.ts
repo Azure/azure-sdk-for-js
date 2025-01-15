@@ -13,9 +13,7 @@ import {
   IotDpsClient
 } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add new certificate or update an existing certificate.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Add new certificate or update an existing certificate.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSCertificateCreateOrUpdate.json
  */
-async function dpsCreateOrUpdateCertificate() {
+async function dpsCreateOrUpdateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -46,7 +44,7 @@ async function dpsCreateOrUpdateCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsCreateOrUpdateCertificate();
 }
 

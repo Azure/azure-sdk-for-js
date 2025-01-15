@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of a long running operation, such as create, update or delete a provisioning service.

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to (INTERNAL - DO NOT USE) List all private endpoint connection proxies in a device update account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary (INTERNAL - DO NOT USE) List all private endpoint connection proxies in a device update account.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_ListByAccount.json
  */
-async function privateEndpointConnectionProxyList() {
+async function privateEndpointConnectionProxyList(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function privateEndpointConnectionProxyList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionProxyList();
 }
 

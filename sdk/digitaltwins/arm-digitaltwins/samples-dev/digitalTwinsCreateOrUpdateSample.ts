@@ -13,9 +13,7 @@ import {
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the metadata of a DigitalTwinsInstance. The usual pattern to modify a property is to retrieve the DigitalTwinsInstance and security metadata, and then combine them with the modified values in a new body to update the DigitalTwinsInstance.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update the metadata of a DigitalTwinsInstance. The usual pattern to modify a property is to retrieve the DigitalTwinsInstance and security metadata, and then combine them with the modified values in a new body to update the DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPut_example.json
  */
-async function putADigitalTwinsInstanceResource() {
+async function putADigitalTwinsInstanceResource(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -50,7 +48,7 @@ async function putADigitalTwinsInstanceResource() {
  * @summary Create or update the metadata of a DigitalTwinsInstance. The usual pattern to modify a property is to retrieve the DigitalTwinsInstance and security metadata, and then combine them with the modified values in a new body to update the DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPut_WithIdentity_example.json
  */
-async function putADigitalTwinsInstanceResourceWithIdentity() {
+async function putADigitalTwinsInstanceResourceWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -85,7 +83,7 @@ async function putADigitalTwinsInstanceResourceWithIdentity() {
  * @summary Create or update the metadata of a DigitalTwinsInstance. The usual pattern to modify a property is to retrieve the DigitalTwinsInstance and security metadata, and then combine them with the modified values in a new body to update the DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPut_WithPublicNetworkAccess.json
  */
-async function putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty() {
+async function putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -109,7 +107,7 @@ async function putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty()
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putADigitalTwinsInstanceResource();
   putADigitalTwinsInstanceResourceWithIdentity();
   putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();

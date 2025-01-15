@@ -40,7 +40,7 @@ import {
   VirtualMachinesImpl,
   VirtualMachineSchedulesImpl,
   VirtualNetworksImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   ProviderOperations,
   Labs,
@@ -67,8 +67,8 @@ import {
   VirtualMachines,
   VirtualMachineSchedules,
   VirtualNetworks
-} from "./operationsInterfaces";
-import { DevTestLabsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DevTestLabsClientOptionalParams } from "./models/index.js";
 
 export class DevTestLabsClient extends coreClient.ServiceClient {
   $host: string;

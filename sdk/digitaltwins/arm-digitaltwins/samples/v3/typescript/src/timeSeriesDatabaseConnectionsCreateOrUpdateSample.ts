@@ -13,9 +13,7 @@ import {
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a time series database connection.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a time series database connection.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/TimeSeriesDatabaseConnectionsPut_WithUserIdentity_example.json
  */
-async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity() {
+async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -70,7 +68,7 @@ async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInsta
  * @summary Create or update a time series database connection.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/TimeSeriesDatabaseConnectionsPut_example.json
  */
-async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance() {
+async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -110,7 +108,7 @@ async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInsta
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity();
   createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
 }
