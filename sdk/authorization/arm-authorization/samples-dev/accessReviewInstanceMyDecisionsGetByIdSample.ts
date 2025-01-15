@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get my single access review instance decision.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/GetAccessReviewInstanceMyDecisionById.json
  */
-async function getAccessReviews() {
+async function getAccessReviews(): Promise<void> {
   const scheduleDefinitionId = "488a6d0e-0a63-4946-86e3-1f5bbc934661";
   const id = "4135f961-be78-4005-8101-c72a5af307a2";
   const decisionId = "fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
@@ -32,7 +32,7 @@ async function getAccessReviews() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccessReviews();
 }
 

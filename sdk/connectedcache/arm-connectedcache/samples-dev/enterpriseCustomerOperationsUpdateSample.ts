@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates an existing enterpriseCustomers
  * x-ms-original-file: 2023-05-01-preview/EnterpriseCustomerOperations_Update_MaximumSet_Gen.json
  */
-async function enterpriseCustomerOperationsUpdate() {
+async function enterpriseCustomerOperationsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function enterpriseCustomerOperationsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enterpriseCustomerOperationsUpdate();
 }
 

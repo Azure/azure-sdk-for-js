@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a Connection Setting registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetConnection.json
  */
-async function listConnectionSettingWithSecrets() {
+async function listConnectionSettingWithSecrets(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function listConnectionSettingWithSecrets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConnectionSettingWithSecrets();
 }
 

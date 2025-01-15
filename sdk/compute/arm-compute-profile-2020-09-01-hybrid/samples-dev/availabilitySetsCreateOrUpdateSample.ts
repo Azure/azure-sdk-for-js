@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update an availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnAvailabilitySet.json
  */
-async function createAnAvailabilitySet() {
+async function createAnAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function createAnAvailabilitySet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAnAvailabilitySet();
 }
 

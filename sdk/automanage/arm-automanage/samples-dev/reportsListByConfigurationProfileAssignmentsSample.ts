@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of reports within a given configuration profile assignment
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listReportsByconfigurationProfileAssignment.json
  */
-async function listReportsByConfigurationProfilesAssignment() {
+async function listReportsByConfigurationProfilesAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function listReportsByConfigurationProfilesAssignment() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listReportsByConfigurationProfilesAssignment();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a role assignment on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentDeleteByInvoiceSection.json
  */
-async function billingRoleAssignmentDeleteByInvoiceSection() {
+async function billingRoleAssignmentDeleteByInvoiceSection(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2018-09-30";
   const billingProfileName = "BKM6-54VH-BG7-PGB";
@@ -36,7 +36,7 @@ async function billingRoleAssignmentDeleteByInvoiceSection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleAssignmentDeleteByInvoiceSection();
 }
 

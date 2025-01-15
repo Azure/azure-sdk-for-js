@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Implements virtual network GET method.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/GetVirtualNetwork.json
  */
-async function getVirtualNetwork() {
+async function getVirtualNetwork(): Promise<void> {
   const subscriptionId =
     process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -37,7 +37,7 @@ async function getVirtualNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualNetwork();
 }
 

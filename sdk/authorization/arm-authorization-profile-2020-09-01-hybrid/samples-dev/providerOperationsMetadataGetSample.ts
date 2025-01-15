@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets provider operations metadata for the specified resource provider.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetProviderOperationsRP.json
  */
-async function getProviderOperationsMetadataForResourceProvider() {
+async function getProviderOperationsMetadataForResourceProvider(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function getProviderOperationsMetadataForResourceProvider() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getProviderOperationsMetadataForResourceProvider();
 }
 

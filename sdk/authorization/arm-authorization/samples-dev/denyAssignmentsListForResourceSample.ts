@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets deny assignments for a resource.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetDenyAssignmentsForResource.json
  */
-async function listDenyAssignmentsForResource() {
+async function listDenyAssignmentsForResource(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function listDenyAssignmentsForResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDenyAssignmentsForResource();
 }
 

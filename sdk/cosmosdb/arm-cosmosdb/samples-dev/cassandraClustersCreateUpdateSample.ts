@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraClusterCreate.json
  */
-async function cosmosDbManagedCassandraClusterCreate() {
+async function cosmosDbManagedCassandraClusterCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -63,7 +63,7 @@ async function cosmosDbManagedCassandraClusterCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraClusterCreate();
 }
 

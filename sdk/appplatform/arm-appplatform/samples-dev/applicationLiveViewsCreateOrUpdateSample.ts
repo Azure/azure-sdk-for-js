@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create the default Application Live View or update the existing Application Live View.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApplicationLiveViews_CreateOrUpdate.json
  */
-async function applicationLiveViewsCreateOrUpdate() {
+async function applicationLiveViewsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function applicationLiveViewsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationLiveViewsCreateOrUpdate();
 }
 

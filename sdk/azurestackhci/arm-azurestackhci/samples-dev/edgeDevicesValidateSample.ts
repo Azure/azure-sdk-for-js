@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary A long-running resource action.
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ValidateEdgeDevices.json
  */
-async function validateEdgeDevices() {
+async function validateEdgeDevices(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1";
   const edgeDeviceName = "default";
@@ -39,7 +39,7 @@ async function validateEdgeDevices() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateEdgeDevices();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks if specified environment exists.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_Head.json
  */
-async function environmentsHead() {
+async function environmentsHead(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function environmentsHead() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   environmentsHead();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete an automation account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/deleteAutomationAccount.json
  */
-async function deleteAutomationAccount() {
+async function deleteAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount9";
@@ -31,7 +31,7 @@ async function deleteAutomationAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAutomationAccount();
 }
 

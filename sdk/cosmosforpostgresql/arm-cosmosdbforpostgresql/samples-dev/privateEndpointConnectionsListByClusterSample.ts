@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets list of private endpoint connections on a cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsListByCluster.json
  */
-async function getsListOfPrivateEndpointConnectionsOnACluster() {
+async function getsListOfPrivateEndpointConnectionsOnACluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function getsListOfPrivateEndpointConnectionsOnACluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsListOfPrivateEndpointConnectionsOnACluster();
 }
 

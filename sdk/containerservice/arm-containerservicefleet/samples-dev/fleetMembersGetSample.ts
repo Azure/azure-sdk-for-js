@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a FleetMember
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/FleetMembers_Get.json
  */
-async function getsAFleetMemberResource() {
+async function getsAFleetMemberResource(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function getsAFleetMemberResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAFleetMemberResource();
 }
 

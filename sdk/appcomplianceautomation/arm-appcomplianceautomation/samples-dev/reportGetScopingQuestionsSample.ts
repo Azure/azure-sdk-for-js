@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service unregistered, automation removed.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_GetScopingQuestions.json
  */
-async function reportGetScopingQuestions() {
+async function reportGetScopingQuestions(): Promise<void> {
   const reportName = "testReportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -26,7 +26,7 @@ async function reportGetScopingQuestions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportGetScopingQuestions();
 }
 

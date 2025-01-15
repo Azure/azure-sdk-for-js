@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Show the event feed of all mutations done on all the Azure Cosmos DB SQL databases under the restorable account.  This helps in scenario where database was accidentally deleted to get the deletion time.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBRestorableSqlDatabaseList.json
  */
-async function cosmosDbRestorableSqlDatabaseList() {
+async function cosmosDbRestorableSqlDatabaseList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "2296c272-5d55-40d9-bc05-4d56dc2d7588";
@@ -36,7 +36,7 @@ async function cosmosDbRestorableSqlDatabaseList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbRestorableSqlDatabaseList();
 }
 

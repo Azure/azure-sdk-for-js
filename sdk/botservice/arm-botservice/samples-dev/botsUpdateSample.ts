@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateBot.json
  */
-async function updateBot() {
+async function updateBot(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -71,7 +71,7 @@ async function updateBot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateBot();
 }
 

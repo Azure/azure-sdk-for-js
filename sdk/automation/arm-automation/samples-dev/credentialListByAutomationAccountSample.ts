@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of credentials.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listCredentialsByAutomationAccount.json
  */
-async function listCredentialsByAutomationAccountFirst100() {
+async function listCredentialsByAutomationAccountFirst100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount20";
@@ -40,7 +40,7 @@ async function listCredentialsByAutomationAccountFirst100() {
  * @summary Retrieve a list of credentials.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listCredentialsByAutomationAccount_next100_using_nextLink.json
  */
-async function listCredentialsByAutomationAccountNext100() {
+async function listCredentialsByAutomationAccountNext100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount20";
@@ -56,7 +56,7 @@ async function listCredentialsByAutomationAccountNext100() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCredentialsByAutomationAccountFirst100();
   listCredentialsByAutomationAccountNext100();
 }

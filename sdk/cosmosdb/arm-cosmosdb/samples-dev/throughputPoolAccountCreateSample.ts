@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolAccountCreate.json
  */
-async function cosmosDbThroughputPoolAccountCreate() {
+async function cosmosDbThroughputPoolAccountCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -44,7 +44,7 @@ async function cosmosDbThroughputPoolAccountCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbThroughputPoolAccountCreate();
 }
 

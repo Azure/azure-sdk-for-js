@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The Available Credit or Payment on Account Balance for a billing profile. The credit balance can be used to settle due or past due invoices and is supported for billing accounts with agreement type Microsoft Customer Agreement. The payment on account balance is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/availableBalanceGetByBillingProfile.json
  */
-async function availableBalanceGetByBillingProfile() {
+async function availableBalanceGetByBillingProfile(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -31,7 +31,7 @@ async function availableBalanceGetByBillingProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   availableBalanceGetByBillingProfile();
 }
 

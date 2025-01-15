@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get a list of Experiment resources in a subscription.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentsInASubscription.json
  */
-async function listAllExperimentsInASubscription() {
+async function listAllExperimentsInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -36,7 +36,7 @@ async function listAllExperimentsInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllExperimentsInASubscription();
 }
 

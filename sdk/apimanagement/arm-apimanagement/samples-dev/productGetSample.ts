@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the details of the product specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetProduct.json
  */
-async function apiManagementGetProduct() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const productId = "unlimited";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.product.get(
-        resourceGroupName,
-        serviceName,
-        productId
-    );
-    console.log(result);
+async function apiManagementGetProduct(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const productId = "unlimited";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.product.get(
+    resourceGroupName,
+    serviceName,
+    productId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetProduct();
+async function main(): Promise<void> {
+  apiManagementGetProduct();
 }
 
 main().catch(console.error);

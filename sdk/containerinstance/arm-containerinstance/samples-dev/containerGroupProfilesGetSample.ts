@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the properties of the specified container group profile in the specified subscription and resource group. The operation returns the properties of container group profile including containers, image registry credentials, restart policy, IP address type, OS type, volumes, current revision number, etc.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfilesGetPriority.json
  */
-async function containerGroupProfilesGetWithPriority() {
+async function containerGroupProfilesGetWithPriority(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function containerGroupProfilesGetWithPriority() {
  * @summary Gets the properties of the specified container group profile in the specified subscription and resource group. The operation returns the properties of container group profile including containers, image registry credentials, restart policy, IP address type, OS type, volumes, current revision number, etc.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfilesGet.json
  */
-async function containerGroupProfilesGetSucceeded() {
+async function containerGroupProfilesGetSucceeded(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -62,7 +62,7 @@ async function containerGroupProfilesGetSucceeded() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerGroupProfilesGetWithPriority();
   containerGroupProfilesGetSucceeded();
 }

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a workspace for Grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Delete.json
  */
-async function grafanaDelete() {
+async function grafanaDelete(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function grafanaDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grafanaDelete();
 }
 

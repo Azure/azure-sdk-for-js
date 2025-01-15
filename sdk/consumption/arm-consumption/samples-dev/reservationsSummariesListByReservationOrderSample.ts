@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the reservations summaries for daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDaily.json
  */
-async function reservationSummariesDaily() {
+async function reservationSummariesDaily(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +51,7 @@ async function reservationSummariesDaily() {
  * @summary Lists the reservations summaries for daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthly.json
  */
-async function reservationSummariesMonthly() {
+async function reservationSummariesMonthly(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -69,7 +69,7 @@ async function reservationSummariesMonthly() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationSummariesDaily();
   reservationSummariesMonthly();
 }

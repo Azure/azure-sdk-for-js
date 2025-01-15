@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Move a hybrid worker to a different group.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/moveHybridRunbookWorker.json
  */
-async function moveAV2HybridWorkerToADifferentGroup() {
+async function moveAV2HybridWorkerToADifferentGroup(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "testaccount";
@@ -42,7 +42,7 @@ async function moveAV2HybridWorkerToADifferentGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   moveAV2HybridWorkerToADifferentGroup();
 }
 

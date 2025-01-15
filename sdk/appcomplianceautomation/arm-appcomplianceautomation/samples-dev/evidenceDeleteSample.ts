@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete an existent evidence from a specified report
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_Delete.json
  */
-async function evidenceDelete() {
+async function evidenceDelete(): Promise<void> {
   const reportName = "testReportName";
   const evidenceName = "evidence1";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function evidenceDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   evidenceDelete();
 }
 

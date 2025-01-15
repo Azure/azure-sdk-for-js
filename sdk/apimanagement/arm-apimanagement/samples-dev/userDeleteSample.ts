@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Deletes specific user.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteUser.json
  */
-async function apiManagementDeleteUser() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const userId = "5931a75ae4bbd512288c680b";
-    const ifMatch = "*";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.user.delete(
-        resourceGroupName,
-        serviceName,
-        userId,
-        ifMatch
-    );
-    console.log(result);
+async function apiManagementDeleteUser(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const userId = "5931a75ae4bbd512288c680b";
+  const ifMatch = "*";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.user.delete(
+    resourceGroupName,
+    serviceName,
+    userId,
+    ifMatch
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementDeleteUser();
+async function main(): Promise<void> {
+  apiManagementDeleteUser();
 }
 
 main().catch(console.error);

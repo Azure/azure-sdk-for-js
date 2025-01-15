@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a customer subscription under a registration.
  * x-ms-original-file: specification/azurestack/resource-manager/Microsoft.AzureStack/preview/2020-06-01-preview/examples/CustomerSubscription/Delete.json
  */
-async function deletesACustomerSubscriptionUnderARegistration() {
+async function deletesACustomerSubscriptionUnderARegistration(): Promise<void> {
   const subscriptionId = "dd8597b4-8739-4467-8b10-f8679f62bfbf";
   const resourceGroup = "azurestack";
   const registrationName = "testregistration";

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://learn.microsoft.com/azure/aks/node-image-upgrade
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsUpgradeNodeImageVersion.json
  */
-async function upgradeAgentPoolNodeImageVersion() {
+async function upgradeAgentPoolNodeImageVersion(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function upgradeAgentPoolNodeImageVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   upgradeAgentPoolNodeImageVersion();
 }
 

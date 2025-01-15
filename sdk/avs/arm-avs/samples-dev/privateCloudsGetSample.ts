@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_Get.json
  */
-async function privateCloudsGet() {
+async function privateCloudsGet(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function privateCloudsGet() {
  * @summary Get a PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_Get_Stretched.json
  */
-async function privateCloudsGetStretched() {
+async function privateCloudsGetStretched(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -54,7 +54,7 @@ async function privateCloudsGetStretched() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateCloudsGet();
   privateCloudsGetStretched();
 }

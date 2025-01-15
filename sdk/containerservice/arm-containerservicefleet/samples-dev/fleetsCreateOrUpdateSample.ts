@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a Fleet.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_CreateOrUpdate.json
  */
-async function createsAFleetResourceWithALongRunningOperation() {
+async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function createsAFleetResourceWithALongRunningOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAFleetResourceWithALongRunningOperation();
 }
 

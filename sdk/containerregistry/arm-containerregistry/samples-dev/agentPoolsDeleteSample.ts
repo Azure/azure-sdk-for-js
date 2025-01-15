@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a specified agent pool resource.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/AgentPoolsDelete.json
  */
-async function agentPoolsDelete() {
+async function agentPoolsDelete(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -39,7 +39,7 @@ async function agentPoolsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   agentPoolsDelete();
 }
 

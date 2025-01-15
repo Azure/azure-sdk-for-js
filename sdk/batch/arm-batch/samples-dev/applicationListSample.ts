@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the applications in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationList.json
  */
-async function applicationList() {
+async function applicationList(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -35,7 +35,7 @@ async function applicationList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationList();
 }
 

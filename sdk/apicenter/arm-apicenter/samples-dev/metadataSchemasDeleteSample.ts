@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes specified metadata schema.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_Delete.json
  */
-async function metadataSchemasDelete() {
+async function metadataSchemasDelete(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function metadataSchemasDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   metadataSchemasDelete();
 }
 

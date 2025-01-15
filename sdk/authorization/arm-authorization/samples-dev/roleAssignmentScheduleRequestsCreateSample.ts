@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a role assignment schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/PutRoleAssignmentScheduleRequest.json
  */
-async function putRoleAssignmentScheduleRequest() {
+async function putRoleAssignmentScheduleRequest(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleAssignmentScheduleRequestName =
@@ -54,7 +54,7 @@ async function putRoleAssignmentScheduleRequest() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putRoleAssignmentScheduleRequest();
 }
 

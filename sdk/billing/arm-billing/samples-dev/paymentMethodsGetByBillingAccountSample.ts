@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a payment method available for a billing account. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentMethodsGetByBillingAccount.json
  */
-async function paymentMethodGetAtBillingProfile() {
+async function paymentMethodGetAtBillingProfile(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000032:00000000-0000-0000-0000-000000000099_2019-05-31";
   const paymentMethodName = "21dd9edc-af71-4d62-80ce-37151d475326";
@@ -31,7 +31,7 @@ async function paymentMethodGetAtBillingProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   paymentMethodGetAtBillingProfile();
 }
 

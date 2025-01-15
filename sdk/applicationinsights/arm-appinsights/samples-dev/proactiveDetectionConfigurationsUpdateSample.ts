@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update the ProactiveDetection configuration for this configuration id.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/ProactiveDetectionConfigurationUpdate.json
  */
-async function proactiveDetectionConfigurationUpdate() {
+async function proactiveDetectionConfigurationUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const resourceName = "my-component";

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets a URL to download an invoice document. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesDownloadByBillingAccount.json
  */
-async function invoicesDownloadByBillingAccount() {
+async function invoicesDownloadByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const invoiceName = "G123456789";
@@ -39,7 +39,7 @@ async function invoicesDownloadByBillingAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesDownloadByBillingAccount();
 }
 

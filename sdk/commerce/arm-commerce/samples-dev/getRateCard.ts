@@ -17,7 +17,7 @@
 import { UsageManagementClient } from "@azure/arm-commerce";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getRateCard() {
+async function getRateCard(): Promise<void> {
   const subscriptionId = "6d61cc05-8f8f-4916-b1b9-f1d9c25aae27";
   const filter =
     "OfferDurableId eq 'MS-AZR-0003P' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'";

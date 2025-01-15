@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Proxies a Functions host call to the function app backed by the container app.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/FunctionsExtension_Post.json
  */
-async function invokeFunctionsHostUsingFunctionsExtensionApi() {
+async function invokeFunctionsHostUsingFunctionsExtensionApi(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,7 +37,7 @@ async function invokeFunctionsHostUsingFunctionsExtensionApi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invokeFunctionsHostUsingFunctionsExtensionApi();
 }
 

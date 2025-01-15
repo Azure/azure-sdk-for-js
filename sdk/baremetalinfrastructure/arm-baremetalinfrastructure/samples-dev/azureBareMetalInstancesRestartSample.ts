@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to restart an Azure Bare Metal Instance
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_Restart.json
  */
-async function restartAnAzureBareMetalInstance() {
+async function restartAnAzureBareMetalInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function restartAnAzureBareMetalInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restartAnAzureBareMetalInstance();
 }
 

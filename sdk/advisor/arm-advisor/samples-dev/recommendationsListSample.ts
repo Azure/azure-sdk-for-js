@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendations.json
  */
-async function listRecommendations() {
+async function listRecommendations(): Promise<void> {
   const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const top = 10;
   const options: RecommendationsListOptionalParams = { top };

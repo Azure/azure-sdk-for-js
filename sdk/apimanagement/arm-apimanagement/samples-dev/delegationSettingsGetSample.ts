@@ -18,23 +18,23 @@ import "dotenv/config";
  * @summary Get Delegation Settings for the Portal.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsGetDelegation.json
  */
-async function apiManagementPortalSettingsGetDelegation() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.delegationSettings.get(
-        resourceGroupName,
-        serviceName
-    );
-    console.log(result);
+async function apiManagementPortalSettingsGetDelegation(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.delegationSettings.get(
+    resourceGroupName,
+    serviceName
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementPortalSettingsGetDelegation();
+async function main(): Promise<void> {
+  apiManagementPortalSettingsGetDelegation();
 }
 
 main().catch(console.error);

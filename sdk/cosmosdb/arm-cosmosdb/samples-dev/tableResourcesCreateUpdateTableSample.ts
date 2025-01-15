@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB Table
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBTableCreateUpdate.json
  */
-async function cosmosDbTableReplace() {
+async function cosmosDbTableReplace(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -43,7 +43,7 @@ async function cosmosDbTableReplace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbTableReplace();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBUserDefinitionGet.json
  */
-async function cosmosDbMongoDbuserDefinitionGet() {
+async function cosmosDbMongoDbuserDefinitionGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoUserDefinitionId = "myMongoUserDefinitionId";
@@ -35,7 +35,7 @@ async function cosmosDbMongoDbuserDefinitionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbMongoDbuserDefinitionGet();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Organization accounts invitation details
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_InvitationsList.json
  */
-async function accessInvitationsList() {
+async function accessInvitationsList(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +45,7 @@ async function accessInvitationsList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accessInvitationsList();
 }
 

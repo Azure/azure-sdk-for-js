@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns a cloud specific manifest JSON file with latest version.
  * x-ms-original-file: specification/azurestack/resource-manager/Microsoft.AzureStack/preview/2020-06-01-preview/examples/CloudManifestFile/List.json
  */
-async function returnsThePropertiesOfACloudSpecificManifestFileWithLatestVersion() {
+async function returnsThePropertiesOfACloudSpecificManifestFileWithLatestVersion(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AzureStackManagementClient(credential, subscriptionId);

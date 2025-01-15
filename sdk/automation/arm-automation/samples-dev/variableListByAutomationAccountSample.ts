@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of variables.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listVariables_First100.json
  */
-async function listVariablesFirst100() {
+async function listVariablesFirst100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "sampleAccount9";
@@ -40,7 +40,7 @@ async function listVariablesFirst100() {
  * @summary Retrieve a list of variables.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listVariables_Next100.json
  */
-async function listVariablesNext100() {
+async function listVariablesNext100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "sampleAccount9";
@@ -56,7 +56,7 @@ async function listVariablesNext100() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVariablesFirst100();
   listVariablesNext100();
 }

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of accounts within a given subscription.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/listAutomationAccountsBySubscription.json
  */
-async function listAutomationAccountsByResourceGroup() {
+async function listAutomationAccountsByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
@@ -29,7 +29,7 @@ async function listAutomationAccountsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAutomationAccountsByResourceGroup();
 }
 

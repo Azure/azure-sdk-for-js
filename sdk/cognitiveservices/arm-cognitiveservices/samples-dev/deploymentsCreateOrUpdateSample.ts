@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update the state of specified deployments associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutDeployment.json
  */
-async function putDeployment() {
+async function putDeployment(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -46,7 +46,7 @@ async function putDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putDeployment();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the Batch service quotas for the specified subscription at the given location.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationGetQuotas.json
  */
-async function locationGetQuotas() {
+async function locationGetQuotas(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const locationName = "japaneast";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function locationGetQuotas() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   locationGetQuotas();
 }
 

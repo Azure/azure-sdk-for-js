@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/CertificateDelete.json
  */
-async function certificateDelete() {
+async function certificateDelete(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -34,7 +34,7 @@ async function certificateDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   certificateDelete();
 }
 

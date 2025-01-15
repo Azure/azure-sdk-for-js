@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a specific machine in the specified agent pool.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MachineGet.json
  */
-async function getAMachineInAnAgentPoolsByManagedCluster() {
+async function getAMachineInAnAgentPoolsByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function getAMachineInAnAgentPoolsByManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAMachineInAnAgentPoolsByManagedCluster();
 }
 

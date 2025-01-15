@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of configuration profile within a subscription
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listConfigurationProfilesBySubscription.json
  */
-async function listConfigurationProfilesBySubscription() {
+async function listConfigurationProfilesBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listConfigurationProfilesBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConfigurationProfilesBySubscription();
 }
 

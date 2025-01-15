@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to delete a budget.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/DeleteBudget.json
  */
-async function deleteBudget() {
+async function deleteBudget(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +30,7 @@ async function deleteBudget() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteBudget();
 }
 

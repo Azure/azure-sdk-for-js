@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates an email channel sign in url for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/CreateEmailSignInUrl.json
  */
-async function createUrl() {
+async function createUrl(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function createUrl() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createUrl();
 }
 

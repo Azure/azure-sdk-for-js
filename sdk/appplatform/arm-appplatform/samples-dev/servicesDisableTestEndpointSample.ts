@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Disable test endpoint functionality for a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_DisableTestEndpoint.json
  */
-async function servicesDisableTestEndpoint() {
+async function servicesDisableTestEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function servicesDisableTestEndpoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesDisableTestEndpoint();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the specified private link resource.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateLinkResourceGet.json
  */
-async function getPrivateLinkResource() {
+async function getPrivateLinkResource(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -34,7 +34,7 @@ async function getPrivateLinkResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateLinkResource();
 }
 

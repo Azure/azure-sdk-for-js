@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets a backup of an app by its ID.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetWebAppBackup.json
  */
-async function getWebAppBackup() {
+async function getWebAppBackup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,7 +36,7 @@ async function getWebAppBackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getWebAppBackup();
 }
 

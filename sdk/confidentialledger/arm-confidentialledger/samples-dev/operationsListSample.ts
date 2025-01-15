@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves a list of available API operations
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/Operations_Get.json
  */
-async function operationsGet() {
+async function operationsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function operationsGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsGet();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the commitmentPlans associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListCommitmentPlans.json
  */
-async function listCommitmentPlans() {
+async function listCommitmentPlans(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function listCommitmentPlans() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCommitmentPlans();
 }
 

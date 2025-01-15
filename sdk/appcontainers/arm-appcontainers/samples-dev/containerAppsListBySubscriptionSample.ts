@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the Container Apps in a given subscription.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_ListBySubscription.json
  */
-async function listContainerAppsBySubscription() {
+async function listContainerAppsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function listContainerAppsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listContainerAppsBySubscription();
 }
 

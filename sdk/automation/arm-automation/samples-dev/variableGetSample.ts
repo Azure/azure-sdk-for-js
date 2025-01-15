@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the variable identified by variable name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getVariable.json
  */
-async function getAVariable() {
+async function getAVariable(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "sampleAccount9";
@@ -33,7 +33,7 @@ async function getAVariable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAVariable();
 }
 

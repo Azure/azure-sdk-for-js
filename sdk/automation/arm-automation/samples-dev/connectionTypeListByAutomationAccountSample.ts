@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of connection types.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAllConnectionTypes_First100.json
  */
-async function getConnectionTypesFirst100() {
+async function getConnectionTypesFirst100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount25";
@@ -40,7 +40,7 @@ async function getConnectionTypesFirst100() {
  * @summary Retrieve a list of connection types.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAllConnectionTypes_Next100.json
  */
-async function getConnectionTypesNext100() {
+async function getConnectionTypesNext100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount25";
@@ -56,7 +56,7 @@ async function getConnectionTypesNext100() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getConnectionTypesFirst100();
   getConnectionTypesNext100();
 }

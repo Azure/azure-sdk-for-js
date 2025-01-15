@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the API portal custom domain.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApiPortalCustomDomains_Get.json
  */
-async function apiPortalCustomDomainsGet() {
+async function apiPortalCustomDomainsGet(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function apiPortalCustomDomainsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiPortalCustomDomainsGet();
 }
 

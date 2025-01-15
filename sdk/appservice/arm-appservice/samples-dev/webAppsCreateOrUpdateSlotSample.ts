@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CloneWebAppSlot.json
  */
-async function cloneWebAppSlot() {
+async function cloneWebAppSlot(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -59,7 +59,7 @@ async function cloneWebAppSlot() {
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateWebAppSlot.json
  */
-async function createOrUpdateWebAppSlot() {
+async function createOrUpdateWebAppSlot(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -84,7 +84,7 @@ async function createOrUpdateWebAppSlot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cloneWebAppSlot();
   createOrUpdateWebAppSlot();
 }

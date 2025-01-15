@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get access review history definition instances by definition Id
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/GetAccessReviewHistoryDefinitionInstances.json
  */
-async function getAccessReviewHistoryDefinitionInstances() {
+async function getAccessReviewHistoryDefinitionInstances(): Promise<void> {
   const scope = "subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a";
   const historyDefinitionId = "44724910-d7a5-4c29-b28f-db73e717165a";
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function getAccessReviewHistoryDefinitionInstances() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccessReviewHistoryDefinitionInstances();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns list of all operations.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const subscriptionId =
     process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function listOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listOperations();
 }
 

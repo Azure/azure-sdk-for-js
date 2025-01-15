@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List a workflow run repetition request history.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionRepetitionsRequestHistories_List.json
  */
-async function listRepetitionRequestHistory() {
+async function listRepetitionRequestHistory(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -45,7 +45,7 @@ async function listRepetitionRequestHistory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRepetitionRequestHistory();
 }
 

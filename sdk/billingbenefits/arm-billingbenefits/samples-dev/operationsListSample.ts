@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List all the operations.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/OperationsGet.json
  */
-async function operationsGet() {
+async function operationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const resArray = new Array();

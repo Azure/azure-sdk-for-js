@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get savings plan.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanItemGet.json
  */
-async function savingsPlanItemGet() {
+async function savingsPlanItemGet(): Promise<void> {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const savingsPlanId = "30000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ savingsPlanItemGet().catch(console.error);
  * @summary Get savings plan.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanItemExpandedGet.json
  */
-async function savingsPlanItemWithExpandedRenewPropertiesGet() {
+async function savingsPlanItemWithExpandedRenewPropertiesGet(): Promise<void> {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const savingsPlanId = "30000000-0000-0000-0000-000000000000";
   const expand = "renewProperties";

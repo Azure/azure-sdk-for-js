@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the Tables under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBTableList.json
  */
-async function cosmosDbTableList() {
+async function cosmosDbTableList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -34,7 +34,7 @@ async function cosmosDbTableList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbTableList();
 }
 

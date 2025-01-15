@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or Update access review schedule definition.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/PutAccessReviewScheduleDefinition.json
  */
-async function putAccessReview() {
+async function putAccessReview(): Promise<void> {
   const scope = "subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const scheduleDefinitionId = "fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const properties: AccessReviewScheduleDefinitionProperties = {};
@@ -35,7 +35,7 @@ async function putAccessReview() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putAccessReview();
 }
 

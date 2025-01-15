@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get status for an ongoing purge operation.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsPurgeStatus.json
  */
-async function componentPurge() {
+async function componentPurge(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = "OIAutoRest5123";
   const resourceName = "aztest5048";

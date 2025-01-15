@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Checks that the CommunicationService name is valid and is not already in use.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
-async function checkNameAvailabilityAvailable() {
+async function checkNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -46,7 +46,7 @@ async function checkNameAvailabilityAvailable() {
  * @summary Checks that the CommunicationService name is valid and is not already in use.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
-async function checkNameAvailabilityUnavailable() {
+async function checkNameAvailabilityUnavailable(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -65,7 +65,7 @@ async function checkNameAvailabilityUnavailable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailabilityAvailable();
   checkNameAvailabilityUnavailable();
 }

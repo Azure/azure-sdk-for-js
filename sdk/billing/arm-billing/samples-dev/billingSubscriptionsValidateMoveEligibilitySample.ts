@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Validates if charges for a subscription can be moved to a new invoice section. This operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionValidateMoveFailure.json
  */
-async function billingSubscriptionValidateMoveFailure() {
+async function billingSubscriptionValidateMoveFailure(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const billingSubscriptionName = "6b96d3f2-9008-4a9d-912f-f87744185aa3";
@@ -45,7 +45,7 @@ async function billingSubscriptionValidateMoveFailure() {
  * @summary Validates if charges for a subscription can be moved to a new invoice section. This operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionValidateMoveSuccess.json
  */
-async function billingSubscriptionValidateMoveSuccess() {
+async function billingSubscriptionValidateMoveSuccess(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const billingSubscriptionName = "6b96d3f2-9008-4a9d-912f-f87744185aa3";
@@ -63,7 +63,7 @@ async function billingSubscriptionValidateMoveSuccess() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionValidateMoveFailure();
   billingSubscriptionValidateMoveSuccess();
 }

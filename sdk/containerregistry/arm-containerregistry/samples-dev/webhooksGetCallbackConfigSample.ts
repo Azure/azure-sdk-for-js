@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the configuration of service URI and custom headers for the webhook.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/WebhookGetCallbackConfig.json
  */
-async function webhookGetCallbackConfig() {
+async function webhookGetCallbackConfig(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function webhookGetCallbackConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webhookGetCallbackConfig();
 }
 

@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/CreateVirtualMachineInstance.json
  */
-async function createVirtualMachine() {
+async function createVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const body: VirtualMachineInstance = {
@@ -53,7 +53,7 @@ async function createVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createVirtualMachine();
 }
 

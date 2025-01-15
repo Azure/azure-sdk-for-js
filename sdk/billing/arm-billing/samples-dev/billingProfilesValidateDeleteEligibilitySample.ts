@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Validates if the billing profile can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingProfilesValidateDeleteEligibilityFailure.json
  */
-async function billingProfilesValidateDeleteEligibilityFailure() {
+async function billingProfilesValidateDeleteEligibilityFailure(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -37,7 +37,7 @@ async function billingProfilesValidateDeleteEligibilityFailure() {
  * @summary Validates if the billing profile can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingProfilesValidateDeleteEligibilitySuccess.json
  */
-async function billingProfilesValidateDeleteEligibilitySuccess() {
+async function billingProfilesValidateDeleteEligibilitySuccess(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -50,7 +50,7 @@ async function billingProfilesValidateDeleteEligibilitySuccess() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingProfilesValidateDeleteEligibilityFailure();
   billingProfilesValidateDeleteEligibilitySuccess();
 }

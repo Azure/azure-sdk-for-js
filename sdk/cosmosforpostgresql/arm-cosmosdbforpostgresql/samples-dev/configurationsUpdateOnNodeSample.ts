@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates configuration of worker nodes in a cluster
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationUpdateNode.json
  */
-async function updateSingleConfigurationOfNodes() {
+async function updateSingleConfigurationOfNodes(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,7 +41,7 @@ async function updateSingleConfigurationOfNodes() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateSingleConfigurationOfNodes();
 }
 

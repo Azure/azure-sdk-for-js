@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all hubs in the specified subscription.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/HubsList.json
  */
-async function hubsList() {
+async function hubsList(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
   const client = new CustomerInsightsManagementClient(

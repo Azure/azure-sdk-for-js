@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a task run for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsCreate.json
  */
-async function taskRunsCreate() {
+async function taskRunsCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -56,7 +56,7 @@ async function taskRunsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   taskRunsCreate();
 }
 

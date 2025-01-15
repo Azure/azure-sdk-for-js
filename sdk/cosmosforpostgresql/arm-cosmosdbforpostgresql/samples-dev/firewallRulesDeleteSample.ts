@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a cluster firewall rule.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/FirewallRuleDelete.json
  */
-async function deleteTheFirewallRuleOfTheCluster() {
+async function deleteTheFirewallRuleOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function deleteTheFirewallRuleOfTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteTheFirewallRuleOfTheCluster();
 }
 

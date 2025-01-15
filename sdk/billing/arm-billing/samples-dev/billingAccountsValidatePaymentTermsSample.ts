@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Validates payment terms on a billing account with agreement type 'Microsoft Customer Agreement' and account type 'Enterprise'.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentTermInvalid.json
  */
-async function paymentTermInvalid() {
+async function paymentTermInvalid(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const parameters: PaymentTerm[] = [
@@ -43,7 +43,7 @@ async function paymentTermInvalid() {
  * @summary Validates payment terms on a billing account with agreement type 'Microsoft Customer Agreement' and account type 'Enterprise'.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentTermValid.json
  */
-async function paymentTermValid() {
+async function paymentTermValid(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const parameters: PaymentTerm[] = [
@@ -62,7 +62,7 @@ async function paymentTermValid() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   paymentTermInvalid();
   paymentTermValid();
 }

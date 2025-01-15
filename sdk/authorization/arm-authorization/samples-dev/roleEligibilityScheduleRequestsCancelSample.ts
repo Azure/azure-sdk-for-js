@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Cancels a pending role eligibility schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/CancelRoleEligibilityScheduleRequestByName.json
  */
-async function cancelRoleEligibilityScheduleRequestByName() {
+async function cancelRoleEligibilityScheduleRequestByName(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleRequestName =
@@ -32,7 +32,7 @@ async function cancelRoleEligibilityScheduleRequestByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cancelRoleEligibilityScheduleRequestByName();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitUtilizationSummaries/SavingsPlan-BillingAccount.json
  */
-async function savingsPlanUtilizationSummariesBillingAccount() {
+async function savingsPlanUtilizationSummariesBillingAccount(): Promise<void> {
   const billingAccountId = "12345";
   const filter =
     "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";
@@ -40,7 +40,7 @@ async function savingsPlanUtilizationSummariesBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   savingsPlanUtilizationSummariesBillingAccount();
 }
 

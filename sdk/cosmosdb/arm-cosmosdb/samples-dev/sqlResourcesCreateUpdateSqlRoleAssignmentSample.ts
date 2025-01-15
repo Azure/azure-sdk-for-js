@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB SQL Role Assignment.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlRoleAssignmentCreateUpdate.json
  */
-async function cosmosDbSqlRoleAssignmentCreateUpdate() {
+async function cosmosDbSqlRoleAssignmentCreateUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleAssignmentId = "myRoleAssignmentId";
@@ -29,13 +29,13 @@ async function cosmosDbSqlRoleAssignmentCreateUpdate() {
     process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const createUpdateSqlRoleAssignmentParameters: SqlRoleAssignmentCreateUpdateParameters =
-    {
-      principalId: "myPrincipalId",
-      roleDefinitionId:
-        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/sqlRoleDefinitions/myRoleDefinitionId",
-      scope:
-        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases/colls/redmond-purchases",
-    };
+  {
+    principalId: "myPrincipalId",
+    roleDefinitionId:
+      "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/sqlRoleDefinitions/myRoleDefinitionId",
+    scope:
+      "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases/colls/redmond-purchases",
+  };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result =
@@ -48,7 +48,7 @@ async function cosmosDbSqlRoleAssignmentCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlRoleAssignmentCreateUpdate();
 }
 

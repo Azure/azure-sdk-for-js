@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the specified Batch account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountGet.json
  */
-async function batchAccountGet() {
+async function batchAccountGet(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -38,7 +38,7 @@ async function batchAccountGet() {
  * @summary Gets information about the specified Batch account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateBatchAccountGet.json
  */
-async function privateBatchAccountGet() {
+async function privateBatchAccountGet(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -52,7 +52,7 @@ async function privateBatchAccountGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountGet();
   privateBatchAccountGet();
 }

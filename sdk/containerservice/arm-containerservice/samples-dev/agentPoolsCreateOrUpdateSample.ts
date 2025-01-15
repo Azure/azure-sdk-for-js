@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsAssociate_CRG.json
  */
-async function associateAgentPoolWithCapacityReservationGroup() {
+async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +51,7 @@ async function associateAgentPoolWithCapacityReservationGroup() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_Snapshot.json
  */
-async function createAgentPoolUsingAnAgentPoolSnapshot() {
+async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -87,7 +87,7 @@ async function createAgentPoolUsingAnAgentPoolSnapshot() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_EnableCustomCATrust.json
  */
-async function createAgentPoolWithCustomCaTrustEnabled() {
+async function createAgentPoolWithCustomCaTrustEnabled(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -119,7 +119,7 @@ async function createAgentPoolWithCustomCaTrustEnabled() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_DedicatedHostGroup.json
  */
-async function createAgentPoolWithDedicatedHostGroup() {
+async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -152,7 +152,7 @@ async function createAgentPoolWithDedicatedHostGroup() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_EnableEncryptionAtHost.json
  */
-async function createAgentPoolWithEncryptionAtHostEnabled() {
+async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -184,7 +184,7 @@ async function createAgentPoolWithEncryptionAtHostEnabled() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_Ephemeral.json
  */
-async function createAgentPoolWithEphemeralOSDisk() {
+async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -217,7 +217,7 @@ async function createAgentPoolWithEphemeralOSDisk() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_EnableFIPS.json
  */
-async function createAgentPoolWithFipsEnabledOS() {
+async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -249,7 +249,7 @@ async function createAgentPoolWithFipsEnabledOS() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_GPUMIG.json
  */
-async function createAgentPoolWithGpumig() {
+async function createAgentPoolWithGpumig(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -302,7 +302,7 @@ async function createAgentPoolWithGpumig() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_WasmWasi.json
  */
-async function createAgentPoolWithKrustletAndTheWasiRuntime() {
+async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -336,7 +336,7 @@ async function createAgentPoolWithKrustletAndTheWasiRuntime() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_CustomNodeConfig.json
  */
-async function createAgentPoolWithKubeletConfigAndLinuxOSConfig() {
+async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -388,7 +388,7 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_MessageOfTheDay.json
  */
-async function createAgentPoolWithMessageOfTheDay() {
+async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -422,7 +422,7 @@ async function createAgentPoolWithMessageOfTheDay() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_OSSKU.json
  */
-async function createAgentPoolWithOssku() {
+async function createAgentPoolWithOssku(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -475,7 +475,7 @@ async function createAgentPoolWithOssku() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_PPG.json
  */
-async function createAgentPoolWithPpg() {
+async function createAgentPoolWithPpg(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -508,7 +508,7 @@ async function createAgentPoolWithPpg() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_EnableUltraSSD.json
  */
-async function createAgentPoolWithUltraSsdEnabled() {
+async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -540,7 +540,7 @@ async function createAgentPoolWithUltraSsdEnabled() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines.json
  */
-async function createAgentPoolWithVirtualMachinesPoolType() {
+async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -578,7 +578,7 @@ async function createAgentPoolWithVirtualMachinesPoolType() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
  */
-async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled() {
+async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -622,7 +622,7 @@ async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_WindowsOSSKU.json
  */
-async function createAgentPoolWithWindowsOssku() {
+async function createAgentPoolWithWindowsOssku(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -654,7 +654,7 @@ async function createAgentPoolWithWindowsOssku() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_Spot.json
  */
-async function createSpotAgentPool() {
+async function createSpotAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -690,7 +690,7 @@ async function createSpotAgentPool() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_WindowsDisableOutboundNAT.json
  */
-async function createWindowsAgentPoolWithDisablingOutboundNat() {
+async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -723,7 +723,7 @@ async function createWindowsAgentPoolWithDisablingOutboundNat() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsCreate_Update.json
  */
-async function createOrUpdateAgentPool() {
+async function createOrUpdateAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -760,7 +760,7 @@ async function createOrUpdateAgentPool() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPools_Start.json
  */
-async function startAgentPool() {
+async function startAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -786,7 +786,7 @@ async function startAgentPool() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPools_Stop.json
  */
-async function stopAgentPool() {
+async function stopAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -812,7 +812,7 @@ async function stopAgentPool() {
  * @summary Creates or updates an agent pool in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPools_Update.json
  */
-async function updateAgentPool() {
+async function updateAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -843,7 +843,7 @@ async function updateAgentPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   associateAgentPoolWithCapacityReservationGroup();
   createAgentPoolUsingAnAgentPoolSnapshot();
   createAgentPoolWithCustomCaTrustEnabled();

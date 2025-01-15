@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get information about a report associated with a configuration profile assignment run
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getHCRPReport.json
  */
-async function getAReportForAHcrpConfigurationProfileAssignment() {
+async function getAReportForAHcrpConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function getAReportForAHcrpConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAReportForAHcrpConfigurationProfileAssignment();
 }
 

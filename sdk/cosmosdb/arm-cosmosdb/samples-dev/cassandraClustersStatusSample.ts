@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraStatus.json
  */
-async function cosmosDbManagedCassandraStatus() {
+async function cosmosDbManagedCassandraStatus(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function cosmosDbManagedCassandraStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraStatus();
 }
 

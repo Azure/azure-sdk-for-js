@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a Managed CCF with the specified Managed CCF parameters.
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Create.json
  */
-async function managedCcfCreate() {
+async function managedCcfCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -59,7 +59,7 @@ async function managedCcfCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedCcfCreate();
 }
 

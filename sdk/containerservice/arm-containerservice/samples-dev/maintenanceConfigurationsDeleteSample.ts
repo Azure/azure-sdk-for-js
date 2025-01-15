@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a maintenance configuration.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsDelete.json
  */
-async function deleteMaintenanceConfiguration() {
+async function deleteMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +42,7 @@ async function deleteMaintenanceConfiguration() {
  * @summary Deletes a maintenance configuration.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
-async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
+async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +60,7 @@ async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteMaintenanceConfiguration();
   deleteMaintenanceConfigurationForNodeOSUpgrade();
 }

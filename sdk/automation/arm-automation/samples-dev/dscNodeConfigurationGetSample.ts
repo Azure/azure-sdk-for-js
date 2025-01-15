@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the Dsc node configurations by node configuration.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getDscNodeConfiguration.json
  */
-async function getADscNodeConfiguration() {
+async function getADscNodeConfiguration(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -33,7 +33,7 @@ async function getADscNodeConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getADscNodeConfiguration();
 }
 

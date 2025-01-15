@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersDelete.json
  */
-async function deleteManagedCluster() {
+async function deleteManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function deleteManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteManagedCluster();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBRestorableDatabaseAccountList.json
  */
-async function cosmosDbRestorableDatabaseAccountList() {
+async function cosmosDbRestorableDatabaseAccountList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const location = "West US";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function cosmosDbRestorableDatabaseAccountList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbRestorableDatabaseAccountList();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all organizations under the specified subscription.
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListBySubscription.json
  */
-async function organizationListBySubscription() {
+async function organizationListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function organizationListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationListBySubscription();
 }
 

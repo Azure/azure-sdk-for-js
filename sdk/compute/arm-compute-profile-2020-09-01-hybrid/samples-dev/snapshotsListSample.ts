@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists snapshots under a subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/ListSnapshotsInASubscription.json
  */
-async function listAllSnapshotsInASubscription() {
+async function listAllSnapshotsInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listAllSnapshotsInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllSnapshotsInASubscription();
 }
 

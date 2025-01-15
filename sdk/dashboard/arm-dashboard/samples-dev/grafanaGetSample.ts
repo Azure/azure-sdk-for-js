@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the properties of a specific workspace for Grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Get.json
  */
-async function grafanaGet() {
+async function grafanaGet(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function grafanaGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grafanaGet();
 }
 

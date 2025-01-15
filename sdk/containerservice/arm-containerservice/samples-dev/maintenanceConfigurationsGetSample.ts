@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified maintenance configuration of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsGet.json
  */
-async function getMaintenanceConfiguration() {
+async function getMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +42,7 @@ async function getMaintenanceConfiguration() {
  * @summary Gets the specified maintenance configuration of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
  */
-async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow() {
+async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +60,7 @@ async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMaintenanceConfiguration();
   getMaintenanceConfigurationConfiguredWithMaintenanceWindow();
 }

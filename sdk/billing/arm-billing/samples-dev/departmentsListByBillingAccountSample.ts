@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the departments that a user has access to. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/departmentsListByBillingAccount.json
  */
-async function departmentsListByBillingAccount() {
+async function departmentsListByBillingAccount(): Promise<void> {
   const billingAccountName = "456598";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -31,7 +31,7 @@ async function departmentsListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   departmentsListByBillingAccount();
 }
 

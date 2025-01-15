@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get storage for a connectedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsStorages_Get.json
  */
-async function getAEnvironmentsStoragePropertiesBySubscription() {
+async function getAEnvironmentsStoragePropertiesBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -36,7 +36,7 @@ async function getAEnvironmentsStoragePropertiesBySubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAEnvironmentsStoragePropertiesBySubscription();
 }
 

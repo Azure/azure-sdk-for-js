@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB Mongo Role Definition with the given Id.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBRoleDefinitionGet.json
  */
-async function cosmosDbMongoRoleDefinitionGet() {
+async function cosmosDbMongoRoleDefinitionGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoRoleDefinitionId = "myMongoRoleDefinitionId";
@@ -35,7 +35,7 @@ async function cosmosDbMongoRoleDefinitionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbMongoRoleDefinitionGet();
 }
 

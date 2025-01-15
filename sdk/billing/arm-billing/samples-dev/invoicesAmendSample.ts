@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Regenerate an invoice by billing account name and invoice name. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesAmend.json
  */
-async function invoicesAmend() {
+async function invoicesAmend(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const invoiceName = "G123456789";
@@ -31,7 +31,7 @@ async function invoicesAmend() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesAmend();
 }
 

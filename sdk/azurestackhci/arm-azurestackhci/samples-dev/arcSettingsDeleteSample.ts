@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete ArcSetting resource details of HCI Cluster.
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/DeleteArcSetting.json
  */
-async function deleteArcSetting() {
+async function deleteArcSetting(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -36,7 +36,7 @@ async function deleteArcSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteArcSetting();
 }
 

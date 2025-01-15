@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersStart.json
  */
-async function startManagedCluster() {
+async function startManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function startManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startManagedCluster();
 }
 

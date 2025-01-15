@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get the child resources of a resource on which user has eligible access
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/GetEligibleChildResourcesByScope.json
  */
-async function getEligibleChildResourcesByScope() {
+async function getEligibleChildResourcesByScope(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const filter = "resourceType+eq+'resourcegroup'";
@@ -35,7 +35,7 @@ async function getEligibleChildResourcesByScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getEligibleChildResourcesByScope();
 }
 

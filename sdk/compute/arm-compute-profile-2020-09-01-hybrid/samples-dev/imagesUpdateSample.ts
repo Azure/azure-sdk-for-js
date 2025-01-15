@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/UpdateImage.json
  */
-async function updatesTagsOfAnImage() {
+async function updatesTagsOfAnImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function updatesTagsOfAnImage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updatesTagsOfAnImage();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlClientEncryptionKeyGet.json
  */
-async function cosmosDbClientEncryptionKeyGet() {
+async function cosmosDbClientEncryptionKeyGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "accountName";
@@ -35,7 +35,7 @@ async function cosmosDbClientEncryptionKeyGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbClientEncryptionKeyGet();
 }
 

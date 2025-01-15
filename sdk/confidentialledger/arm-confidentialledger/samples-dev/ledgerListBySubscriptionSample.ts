@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of all Confidential Ledgers.
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_ListBySub.json
  */
-async function confidentialLedgerListBySub() {
+async function confidentialLedgerListBySub(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -31,7 +31,7 @@ async function confidentialLedgerListBySub() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   confidentialLedgerListBySub();
 }
 

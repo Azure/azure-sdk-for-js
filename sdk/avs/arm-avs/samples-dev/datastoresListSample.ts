@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Datastore resources by Cluster
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Datastores_List.json
  */
-async function datastoresList() {
+async function datastoresList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function datastoresList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   datastoresList();
 }
 

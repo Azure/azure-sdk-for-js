@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Create or update a private scheduled action.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-createOrUpdate-private.json
  */
-async function createOrUpdatePrivateScheduledAction() {
+async function createOrUpdatePrivateScheduledAction(): Promise<void> {
   const name = "monthlyCostByResource";
   const ifMatch = "";
   const scheduledAction: ScheduledAction = {
@@ -54,7 +54,7 @@ async function createOrUpdatePrivateScheduledAction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdatePrivateScheduledAction();
 }
 

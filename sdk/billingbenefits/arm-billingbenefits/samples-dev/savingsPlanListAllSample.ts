@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List savings plans.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlansList.json
  */
-async function savingsPlansList() {
+async function savingsPlansList(): Promise<void> {
   const filter = "(properties%2farchived+eq+false)";
   const orderby = "properties/displayName asc";
   const skiptoken = 50;

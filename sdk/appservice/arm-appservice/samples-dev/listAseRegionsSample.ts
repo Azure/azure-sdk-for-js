@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for get a list of available ASE regions and its supported Skus.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListAseRegions.json
  */
-async function listAseregions() {
+async function listAseregions(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function listAseregions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAseregions();
 }
 

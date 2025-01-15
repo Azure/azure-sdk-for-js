@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB SQL database
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlDatabaseCreateUpdate.json
  */
-async function cosmosDbSqlDatabaseCreateUpdate() {
+async function cosmosDbSqlDatabaseCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -49,7 +49,7 @@ async function cosmosDbSqlDatabaseCreateUpdate() {
  * @summary Create or update an Azure Cosmos DB SQL database
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlDatabaseRestore.json
  */
-async function cosmosDbSqlDatabaseRestore() {
+async function cosmosDbSqlDatabaseRestore(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -80,7 +80,7 @@ async function cosmosDbSqlDatabaseRestore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlDatabaseCreateUpdate();
   cosmosDbSqlDatabaseRestore();
 }

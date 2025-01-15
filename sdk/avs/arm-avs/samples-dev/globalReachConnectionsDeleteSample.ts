@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a GlobalReachConnection
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/GlobalReachConnections_Delete.json
  */
-async function globalReachConnectionsDelete() {
+async function globalReachConnectionsDelete(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function globalReachConnectionsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalReachConnectionsDelete();
 }
 

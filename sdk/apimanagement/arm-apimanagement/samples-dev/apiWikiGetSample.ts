@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the details of the Wiki for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiWiki.json
  */
-async function apiManagementGetApiWiki() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "57d1f7558aa04f15146d9d8a";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiWiki.get(
-        resourceGroupName,
-        serviceName,
-        apiId
-    );
-    console.log(result);
+async function apiManagementGetApiWiki(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "57d1f7558aa04f15146d9d8a";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiWiki.get(
+    resourceGroupName,
+    serviceName,
+    apiId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetApiWiki();
+async function main(): Promise<void> {
+  apiManagementGetApiWiki();
 }
 
 main().catch(console.error);

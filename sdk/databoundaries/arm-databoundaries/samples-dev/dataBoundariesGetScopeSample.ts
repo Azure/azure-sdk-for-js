@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get data boundary at specified scope
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetScopedDataBoundary.json
  */
-async function getDataBoundaryAtScope() {
+async function getDataBoundaryAtScope(): Promise<void> {
   const scope =
     "subscriptions/11111111-1111-1111-1111-111111111111/resourcegroups/my-resource-group";
   const defaultParam = "default";
@@ -28,7 +28,7 @@ async function getDataBoundaryAtScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDataBoundaryAtScope();
 }
 

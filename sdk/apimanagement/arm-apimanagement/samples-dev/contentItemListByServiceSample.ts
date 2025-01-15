@@ -18,28 +18,28 @@ import "dotenv/config";
  * @summary Lists developer portal's content items specified by the provided content type.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypeContentItems.json
  */
-async function apiManagementListContentTypeContentItems() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const contentTypeId = "page";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.contentItem.listByService(
-        resourceGroupName,
-        serviceName,
-        contentTypeId
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListContentTypeContentItems(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const contentTypeId = "page";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.contentItem.listByService(
+    resourceGroupName,
+    serviceName,
+    contentTypeId
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListContentTypeContentItems();
+async function main(): Promise<void> {
+  apiManagementListContentTypeContentItems();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfile.json
  */
-async function createOrUpdateConfigurationProfile() {
+async function createOrUpdateConfigurationProfile(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
@@ -51,7 +51,7 @@ async function createOrUpdateConfigurationProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateConfigurationProfile();
 }
 

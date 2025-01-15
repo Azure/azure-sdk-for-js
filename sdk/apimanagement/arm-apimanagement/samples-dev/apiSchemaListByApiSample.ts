@@ -18,28 +18,28 @@ import "dotenv/config";
  * @summary Get the schema configuration at the API level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiSchemas.json
  */
-async function apiManagementListApiSchemas() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "59d5b28d1f7fab116c282650";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.apiSchema.listByApi(
-        resourceGroupName,
-        serviceName,
-        apiId
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListApiSchemas(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "59d5b28d1f7fab116c282650";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.apiSchema.listByApi(
+    resourceGroupName,
+    serviceName,
+    apiId
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListApiSchemas();
+async function main(): Promise<void> {
+  apiManagementListApiSchemas();
 }
 
 main().catch(console.error);

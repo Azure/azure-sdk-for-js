@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/EventsGetByBillingAccount.json
  */
-async function eventsGetByBillingAccount() {
+async function eventsGetByBillingAccount(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function eventsGetByBillingAccount() {
  * @summary Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/EventsGetByBillingAccountWithFilters.json
  */
-async function eventsGetByBillingAccountWithFilters() {
+async function eventsGetByBillingAccountWithFilters(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -63,7 +63,7 @@ async function eventsGetByBillingAccountWithFilters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventsGetByBillingAccount();
   eventsGetByBillingAccountWithFilters();
 }

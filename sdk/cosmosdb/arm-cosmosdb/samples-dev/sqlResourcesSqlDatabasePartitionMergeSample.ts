@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Merges the partitions of a SQL database
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlDatabasePartitionMerge.json
  */
-async function cosmosDbSqlDatabasePartitionMerge() {
+async function cosmosDbSqlDatabasePartitionMerge(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -36,7 +36,7 @@ async function cosmosDbSqlDatabasePartitionMerge() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlDatabasePartitionMerge();
 }
 

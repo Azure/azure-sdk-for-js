@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a customer by its ID. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/customersGet.json
  */
-async function customersGet() {
+async function customersGet(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -33,7 +33,7 @@ async function customersGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   customersGet();
 }
 

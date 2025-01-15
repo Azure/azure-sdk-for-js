@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all budgets for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/BudgetsList.json
  */
-async function budgetsList() {
+async function budgetsList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -32,7 +32,7 @@ async function budgetsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   budgetsList();
 }
 

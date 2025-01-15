@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the role assignments for the caller on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentListByBillingAccount.json
  */
-async function billingRoleAssignmentListByBillingAccount() {
+async function billingRoleAssignmentListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2018-09-30";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function billingRoleAssignmentListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleAssignmentListByBillingAccount();
 }
 

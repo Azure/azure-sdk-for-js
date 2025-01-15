@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation scoping configuration of the specific report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ScopingConfiguration_CreateOrUpdate.json
  */
-async function scopingConfigurationCreateOrUpdate() {
+async function scopingConfigurationCreateOrUpdate(): Promise<void> {
   const reportName = "testReportName";
   const scopingConfigurationName = "default";
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function scopingConfigurationCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scopingConfigurationCreateOrUpdate();
 }
 

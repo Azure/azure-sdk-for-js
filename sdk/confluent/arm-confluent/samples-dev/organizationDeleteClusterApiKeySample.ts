@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes API key of a kafka or schema registry cluster
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_DeleteClusterAPIKey.json
  */
-async function organizationDeleteClusterApiKey() {
+async function organizationDeleteClusterApiKey(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function organizationDeleteClusterApiKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationDeleteClusterApiKey();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available cost management REST API operations.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/OperationList.json
  */
-async function operationList() {
+async function operationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
@@ -28,7 +28,7 @@ async function operationList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationList();
 }
 

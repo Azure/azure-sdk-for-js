@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns all the Channel registrations of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListChannelsByBotService.json
  */
-async function listChannelsByResourceGroup() {
+async function listChannelsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listChannelsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listChannelsByResourceGroup();
 }
 

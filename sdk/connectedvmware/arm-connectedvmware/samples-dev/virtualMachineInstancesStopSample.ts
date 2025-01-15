@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary The operation to power off (stop) a virtual machine instance.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/StopVirtualMachineInstance.json
  */
-async function stopVirtualMachine() {
+async function stopVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const body: StopVirtualMachineOptions = { skipShutdown: true };
@@ -36,7 +36,7 @@ async function stopVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopVirtualMachine();
 }
 

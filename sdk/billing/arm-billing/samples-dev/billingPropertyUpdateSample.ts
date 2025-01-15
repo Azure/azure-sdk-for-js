@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyPatchCostCenter.json
  */
-async function billingPropertyPatchCostCenter() {
+async function billingPropertyPatchCostCenter(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -35,7 +35,7 @@ async function billingPropertyPatchCostCenter() {
  * @summary Updates the billing property of a subscription. Currently, cost center can be updated for billing accounts with agreement type Microsoft Customer Agreement and subscription service usage address can be updated for billing accounts with agreement type Microsoft Online Service Program.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyPatchSubscriptionServiceUsageAddress.json
  */
-async function billingPropertyPatchSubscriptionServiceUsageAddress() {
+async function billingPropertyPatchSubscriptionServiceUsageAddress(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -60,7 +60,7 @@ async function billingPropertyPatchSubscriptionServiceUsageAddress() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPropertyPatchCostCenter();
   billingPropertyPatchSubscriptionServiceUsageAddress();
 }

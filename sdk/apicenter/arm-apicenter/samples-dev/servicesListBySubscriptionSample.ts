@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists services within an Azure subscription.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_ListBySubscription.json
  */
-async function servicesListBySubscription() {
+async function servicesListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function servicesListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesListBySubscription();
 }
 

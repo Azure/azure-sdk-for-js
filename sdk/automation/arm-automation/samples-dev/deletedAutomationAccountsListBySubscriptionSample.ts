@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve deleted automation account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-01-31/examples/getDeletedAutomationAccount.json
  */
-async function getDeletedAutomationAccount() {
+async function getDeletedAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function getDeletedAutomationAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDeletedAutomationAccount();
 }
 

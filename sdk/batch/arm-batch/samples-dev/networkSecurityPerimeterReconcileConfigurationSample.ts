@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Reconciles the specified NSP configuration.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/NspConfigurationReconcile.json
  */
-async function reconcileNspConfiguration() {
+async function reconcileNspConfiguration(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -36,7 +36,7 @@ async function reconcileNspConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reconcileNspConfiguration();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an enrollment account by department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/enrollmentAccountByDepartment.json
  */
-async function enrollmentAccountByDepartment() {
+async function enrollmentAccountByDepartment(): Promise<void> {
   const billingAccountName = "6564892";
   const departmentName = "164821";
   const enrollmentAccountName = "257698";
@@ -32,7 +32,7 @@ async function enrollmentAccountByDepartment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enrollmentAccountByDepartment();
 }
 

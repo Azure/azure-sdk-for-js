@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified private endpoint connection associated with the Bot.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetPrivateEndpointConnection.json
  */
-async function getPrivateEndpointConnection() {
+async function getPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function getPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateEndpointConnection();
 }
 

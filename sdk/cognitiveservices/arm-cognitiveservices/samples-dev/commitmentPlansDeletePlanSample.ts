@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a Cognitive Services commitment plan from the resource group.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteSharedCommitmentPlan.json
  */
-async function deleteCommitmentPlan() {
+async function deleteCommitmentPlan(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -37,7 +37,7 @@ async function deleteCommitmentPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteCommitmentPlan();
 }
 

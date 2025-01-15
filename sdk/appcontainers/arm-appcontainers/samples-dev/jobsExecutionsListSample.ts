@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a Container Apps Job's executions
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_Executions_Get.json
  */
-async function getAContainerAppsJobExecutions() {
+async function getAContainerAppsJobExecutions(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,7 +36,7 @@ async function getAContainerAppsJobExecutions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAContainerAppsJobExecutions();
 }
 

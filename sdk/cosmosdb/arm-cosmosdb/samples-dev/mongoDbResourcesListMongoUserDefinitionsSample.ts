@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the list of all Azure Cosmos DB Mongo User Definition.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBUserDefinitionList.json
  */
-async function cosmosDbMongoDbuserDefinitionList() {
+async function cosmosDbMongoDbuserDefinitionList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function cosmosDbMongoDbuserDefinitionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbMongoDbuserDefinitionList();
 }
 

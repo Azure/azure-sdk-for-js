@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update container app resiliency policy.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AppResiliency_CreateOrUpdate.json
  */
-async function createOrUpdateAppResiliency() {
+async function createOrUpdateAppResiliency(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -70,7 +70,7 @@ async function createOrUpdateAppResiliency() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAppResiliency();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Create or update a certificate purchase order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/CreateAppServiceCertificateOrder.json
  */
-async function createCertificateOrder() {
+async function createCertificateOrder(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -59,7 +59,7 @@ async function createCertificateOrder() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createCertificateOrder();
 }
 

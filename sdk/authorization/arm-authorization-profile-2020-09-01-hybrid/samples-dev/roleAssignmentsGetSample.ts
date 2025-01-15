@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified role assignment.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleAssignmentByName.json
  */
-async function getRoleAssignmentByName() {
+async function getRoleAssignmentByName(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +30,7 @@ async function getRoleAssignmentByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleAssignmentByName();
 }
 

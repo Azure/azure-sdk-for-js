@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Download evidence file.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_Download.json
  */
-async function evidenceDownload() {
+async function evidenceDownload(): Promise<void> {
   const reportName = "testReportName";
   const evidenceName = "evidence1";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function evidenceDownload() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   evidenceDownload();
 }
 

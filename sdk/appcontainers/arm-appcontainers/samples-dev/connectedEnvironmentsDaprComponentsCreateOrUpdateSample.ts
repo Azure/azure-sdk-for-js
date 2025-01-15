@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a Dapr Component in a connected environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
  */
-async function createOrUpdateDaprComponent() {
+async function createOrUpdateDaprComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -63,7 +63,7 @@ async function createOrUpdateDaprComponent() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateDaprComponent();
 }
 

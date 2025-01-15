@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountWithExpandForPONumber.json
  */
-async function billingAccountWithExpandForPoNumber() {
+async function billingAccountWithExpandForPoNumber(): Promise<void> {
   const billingAccountName = "8608480";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -32,7 +32,7 @@ async function billingAccountWithExpandForPoNumber() {
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountWithRegistrationNumberWithDefaultType.json
  */
-async function billingAccountWithRegistrationNumberWithDefaultType() {
+async function billingAccountWithRegistrationNumberWithDefaultType(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function billingAccountWithRegistrationNumberWithDefaultType() {
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountWithRegistrationNumberWithType.json
  */
-async function billingAccountWithRegistrationNumberWithType() {
+async function billingAccountWithRegistrationNumberWithType(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function billingAccountWithRegistrationNumberWithType() {
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsGet.json
  */
-async function billingAccountsGet() {
+async function billingAccountsGet(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function billingAccountsGet() {
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsGetEA.json
  */
-async function billingAccountsGetEa() {
+async function billingAccountsGetEa(): Promise<void> {
   const billingAccountName = "6575495";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -91,7 +91,7 @@ async function billingAccountsGetEa() {
  * @summary Gets a billing account by its ID.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsGetWithExpand.json
  */
-async function billingAccountsGetWithExpand() {
+async function billingAccountsGetWithExpand(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -100,7 +100,7 @@ async function billingAccountsGetWithExpand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingAccountWithExpandForPoNumber();
   billingAccountWithRegistrationNumberWithDefaultType();
   billingAccountWithRegistrationNumberWithType();

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an enrollment account by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/enrollmentAccountGet.json
  */
-async function enrollmentAccountGet() {
+async function enrollmentAccountGet(): Promise<void> {
   const billingAccountName = "6564892";
   const enrollmentAccountName = "257698";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function enrollmentAccountGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enrollmentAccountGet();
 }
 

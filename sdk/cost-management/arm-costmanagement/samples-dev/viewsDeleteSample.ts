@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to delete a view.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateViewDelete.json
  */
-async function deletePrivateView() {
+async function deletePrivateView(): Promise<void> {
   const viewName = "TestView";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -26,7 +26,7 @@ async function deletePrivateView() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePrivateView();
 }
 

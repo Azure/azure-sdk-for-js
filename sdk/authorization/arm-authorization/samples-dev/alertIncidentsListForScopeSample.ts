@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets alert incidents for a resource scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertIncidents.json
  */
-async function getAlertIncidents() {
+async function getAlertIncidents(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "TooManyOwnersAssignedToResource";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getAlertIncidents() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertIncidents();
 }
 

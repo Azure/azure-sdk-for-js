@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/GetInformationAboutAManagedDisk.json
  */
-async function getInformationAboutAManagedDisk() {
+async function getInformationAboutAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function getInformationAboutAManagedDisk() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutAManagedDisk();
 }
 

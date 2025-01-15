@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersList_MeshRevisionProfiles.json
  */
-async function listMeshRevisionProfilesInALocation() {
+async function listMeshRevisionProfilesInALocation(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function listMeshRevisionProfilesInALocation() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listMeshRevisionProfilesInALocation();
 }
 

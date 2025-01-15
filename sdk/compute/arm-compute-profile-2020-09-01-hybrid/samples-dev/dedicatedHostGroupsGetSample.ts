@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves information about a dedicated host group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetADedicatedHostGroup.json
  */
-async function createADedicatedHostGroup() {
+async function createADedicatedHostGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function createADedicatedHostGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADedicatedHostGroup();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List SecuritySetting resources by Clusters
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ListSecuritySettingsByCluster.json
  */
-async function listSecuritySettings() {
+async function listSecuritySettings(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -37,7 +37,7 @@ async function listSecuritySettings() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecuritySettings();
 }
 

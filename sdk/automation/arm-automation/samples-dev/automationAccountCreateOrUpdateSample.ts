@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update automation account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/createOrUpdateAutomationAccount.json
  */
-async function createOrUpdateAutomationAccount() {
+async function createOrUpdateAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount9";
@@ -40,7 +40,7 @@ async function createOrUpdateAutomationAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAutomationAccount();
 }
 

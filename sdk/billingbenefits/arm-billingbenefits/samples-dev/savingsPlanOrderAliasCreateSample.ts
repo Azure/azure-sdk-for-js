@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a savings plan. Learn more about permissions needed at https://go.microsoft.com/fwlink/?linkid=2215851
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanOrderAliasCreate.json
  */
-async function savingsPlanOrderAliasCreate() {
+async function savingsPlanOrderAliasCreate(): Promise<void> {
   const savingsPlanOrderAliasName = "spAlias123";
   const body: SavingsPlanOrderAliasModel = {
     appliedScopeProperties: {},
@@ -49,7 +49,7 @@ savingsPlanOrderAliasCreate().catch(console.error);
  * @summary Create a savings plan. Learn more about permissions needed at https://go.microsoft.com/fwlink/?linkid=2215851
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanOrderAliasCreateSingleScope.json
  */
-async function savingsPlanOrderAliasCreateSingleScope() {
+async function savingsPlanOrderAliasCreateSingleScope(): Promise<void> {
   const savingsPlanOrderAliasName = "spAlias123";
   const body: SavingsPlanOrderAliasModel = {
     appliedScopeProperties: {

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a task with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate.json
  */
-async function tasksUpdate() {
+async function tasksUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -83,7 +83,7 @@ async function tasksUpdate() {
  * @summary Updates a task with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_QuickTask.json
  */
-async function tasksUpdateQuickTask() {
+async function tasksUpdateQuickTask(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -116,7 +116,7 @@ async function tasksUpdateQuickTask() {
  * @summary Updates a task with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
  */
-async function tasksUpdateWithKeyVaultCustomCredentials() {
+async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -181,7 +181,7 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
  * @summary Updates a task with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
  */
-async function tasksUpdateWithMsiCustomCredentials() {
+async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -234,7 +234,7 @@ async function tasksUpdateWithMsiCustomCredentials() {
  * @summary Updates a task with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
  */
-async function tasksUpdateWithOpaqueCustomCredentials() {
+async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -286,7 +286,7 @@ async function tasksUpdateWithOpaqueCustomCredentials() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tasksUpdate();
   tasksUpdateQuickTask();
   tasksUpdateWithKeyVaultCustomCredentials();

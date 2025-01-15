@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Generates a uri which can be used to retrieve review history data. This URI has a TTL of 1 day and can be retrieved by fetching the accessReviewHistoryDefinition object.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/PostAccessReviewHistoryDefinitionInstance.json
  */
-async function postAccessReviewHistoryDefinitionInstance() {
+async function postAccessReviewHistoryDefinitionInstance(): Promise<void> {
   const scope = "subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a";
   const historyDefinitionId = "44724910-d7a5-4c29-b28f-db73e717165a";
   const instanceId = "9038f4f3-3d8d-43c3-8ede-669ea082c43b";
@@ -32,7 +32,7 @@ async function postAccessReviewHistoryDefinitionInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   postAccessReviewHistoryDefinitionInstance();
 }
 

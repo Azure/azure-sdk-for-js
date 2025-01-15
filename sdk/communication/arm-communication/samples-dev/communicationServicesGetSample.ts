@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the CommunicationService and its properties.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/get.json
  */
-async function getResource() {
+async function getResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -37,7 +37,7 @@ async function getResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getResource();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all views by tenant and object.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateViewList.json
  */
-async function privateViewList() {
+async function privateViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
@@ -28,7 +28,7 @@ async function privateViewList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateViewList();
 }
 

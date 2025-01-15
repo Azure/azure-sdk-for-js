@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra table
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraTableThroughputUpdate.json
  */
-async function cosmosDbCassandraTableThroughputUpdate() {
+async function cosmosDbCassandraTableThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -45,7 +45,7 @@ async function cosmosDbCassandraTableThroughputUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraTableThroughputUpdate();
 }
 

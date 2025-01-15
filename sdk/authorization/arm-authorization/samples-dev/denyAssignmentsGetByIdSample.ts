@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a deny assignment by ID.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetDenyAssignmentById.json
  */
-async function getDenyAssignmentById() {
+async function getDenyAssignmentById(): Promise<void> {
   const denyAssignmentId =
     "subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/denyAssignments/daId";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getDenyAssignmentById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDenyAssignmentById();
 }
 

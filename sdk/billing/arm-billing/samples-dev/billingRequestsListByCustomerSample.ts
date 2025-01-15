@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The list of billing requests submitted for the customer.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsListByCustomer.json
  */
-async function billingRequestsListByCustomer() {
+async function billingRequestsListByCustomer(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -36,7 +36,7 @@ async function billingRequestsListByCustomer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRequestsListByCustomer();
 }
 

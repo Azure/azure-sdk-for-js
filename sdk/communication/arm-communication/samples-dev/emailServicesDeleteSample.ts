@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Operation to delete a EmailService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/emailServices/delete.json
  */
-async function deleteEmailServiceResource() {
+async function deleteEmailServiceResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -37,7 +37,7 @@ async function deleteEmailServiceResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteEmailServiceResource();
 }
 

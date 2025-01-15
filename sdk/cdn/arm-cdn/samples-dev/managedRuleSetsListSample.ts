@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all available managed rule sets.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafListManagedRuleSets.json
  */
-async function listPoliciesInAResourceGroup() {
+async function listPoliciesInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -29,7 +29,7 @@ async function listPoliciesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPoliciesInAResourceGroup();
 }
 

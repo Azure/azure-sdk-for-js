@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the billed or unbilled transactions by invoice section name for given start date and end date. Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is generated.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/transactionsListByInvoiceSection.json
  */
-async function transactionsListByInvoiceSection() {
+async function transactionsListByInvoiceSection(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -52,7 +52,7 @@ async function transactionsListByInvoiceSection() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   transactionsListByInvoiceSection();
 }
 

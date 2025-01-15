@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update the policies for a billing account of Enterprise Agreement type.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/policiesPutByBillingAccount.json
  */
-async function policiesPutByBillingAccount() {
+async function policiesPutByBillingAccount(): Promise<void> {
   const billingAccountName = "1234567";
   const parameters: BillingAccountPolicy = {
     properties: {
@@ -43,7 +43,7 @@ async function policiesPutByBillingAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   policiesPutByBillingAccount();
 }
 

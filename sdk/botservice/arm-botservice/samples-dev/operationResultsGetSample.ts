@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the operation result for a long running operation.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/OperationResultsGet.json
  */
-async function getOperationResult() {
+async function getOperationResult(): Promise<void> {
   const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subid";
   const operationResultId = "exampleid";
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function getOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperationResult();
 }
 

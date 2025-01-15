@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet.json
  */
-async function getPool() {
+async function getPool(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -40,7 +40,7 @@ async function getPool() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_AcceleratedNetworking.json
  */
-async function getPoolAcceleratedNetworking() {
+async function getPoolAcceleratedNetworking(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -62,7 +62,7 @@ async function getPoolAcceleratedNetworking() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_SecurityProfile.json
  */
-async function getPoolSecurityProfile() {
+async function getPoolSecurityProfile(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -84,7 +84,7 @@ async function getPoolSecurityProfile() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_UpgradePolicy.json
  */
-async function getPoolUpgradePolicy() {
+async function getPoolUpgradePolicy(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -106,7 +106,7 @@ async function getPoolUpgradePolicy() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_VirtualMachineConfiguration_Extensions.json
  */
-async function getPoolVirtualMachineConfigurationExtensions() {
+async function getPoolVirtualMachineConfigurationExtensions(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -128,7 +128,7 @@ async function getPoolVirtualMachineConfigurationExtensions() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_VirtualMachineConfiguration_MangedOSDisk.json
  */
-async function getPoolVirtualMachineConfigurationOSDisk() {
+async function getPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -150,7 +150,7 @@ async function getPoolVirtualMachineConfigurationOSDisk() {
  * @summary Gets information about the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolGet_VirtualMachineConfiguration_ServiceArtifactReference.json
  */
-async function getPoolVirtualMachineConfigurationServiceArtifactReference() {
+async function getPoolVirtualMachineConfigurationServiceArtifactReference(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -166,7 +166,7 @@ async function getPoolVirtualMachineConfigurationServiceArtifactReference() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPool();
   getPoolAcceleratedNetworking();
   getPoolSecurityProfile();

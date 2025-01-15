@@ -18,28 +18,28 @@ import "dotenv/config";
  * @summary Lists all revisions of an API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiRevisions.json
  */
-async function apiManagementListApiRevisions() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "57d2ef278aa04f0888cba3f3";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.apiRevision.listByService(
-        resourceGroupName,
-        serviceName,
-        apiId
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListApiRevisions(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "57d2ef278aa04f0888cba3f3";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.apiRevision.listByService(
+    resourceGroupName,
+    serviceName,
+    apiId
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListApiRevisions();
+async function main(): Promise<void> {
+  apiManagementListApiRevisions();
 }
 
 main().catch(console.error);

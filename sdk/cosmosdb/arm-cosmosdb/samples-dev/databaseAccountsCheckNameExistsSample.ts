@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountCheckNameExists.json
  */
-async function cosmosDbDatabaseAccountCheckNameExists() {
+async function cosmosDbDatabaseAccountCheckNameExists(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,7 +29,7 @@ async function cosmosDbDatabaseAccountCheckNameExists() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbDatabaseAccountCheckNameExists();
 }
 

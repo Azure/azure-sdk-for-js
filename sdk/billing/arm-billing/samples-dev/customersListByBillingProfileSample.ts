@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the customers that are billed to a billing profile. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/customersListByBillingProfile.json
  */
-async function customersListByBillingProfile() {
+async function customersListByBillingProfile(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -34,7 +34,7 @@ async function customersListByBillingProfile() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   customersListByBillingProfile();
 }
 

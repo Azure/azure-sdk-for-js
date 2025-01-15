@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List replicas for a Container App Revision.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Replicas_List.json
  */
-async function listContainerAppReplicas() {
+async function listContainerAppReplicas(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
@@ -36,7 +36,7 @@ async function listContainerAppReplicas() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listContainerAppReplicas();
 }
 

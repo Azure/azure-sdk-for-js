@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to restart a virtual machine instance.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/RestartVirtualMachineInstance.json
  */
-async function restartVirtualMachine() {
+async function restartVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function restartVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restartVirtualMachine();
 }
 

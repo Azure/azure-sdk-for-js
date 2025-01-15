@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBRestorableSqlContainerList.json
  */
-async function cosmosDbRestorableSqlContainerList() {
+async function cosmosDbRestorableSqlContainerList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const location = "WestUS";
   const instanceId = "98a570f2-63db-4117-91f0-366327b7b353";
@@ -42,7 +42,7 @@ async function cosmosDbRestorableSqlContainerList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbRestorableSqlContainerList();
 }
 

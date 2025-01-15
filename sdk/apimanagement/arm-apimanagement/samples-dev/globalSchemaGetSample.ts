@@ -18,21 +18,21 @@ import "dotenv/config";
  * @summary Gets the details of the Schema specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetGlobalSchema1.json
  */
-async function apiManagementGetSchema1() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const schemaId = "schema1";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.globalSchema.get(
-        resourceGroupName,
-        serviceName,
-        schemaId
-    );
-    console.log(result);
+async function apiManagementGetSchema1(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const schemaId = "schema1";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.globalSchema.get(
+    resourceGroupName,
+    serviceName,
+    schemaId
+  );
+  console.log(result);
 }
 
 /**
@@ -41,26 +41,26 @@ async function apiManagementGetSchema1() {
  * @summary Gets the details of the Schema specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetGlobalSchema2.json
  */
-async function apiManagementGetSchema2() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const schemaId = "schema2";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.globalSchema.get(
-        resourceGroupName,
-        serviceName,
-        schemaId
-    );
-    console.log(result);
+async function apiManagementGetSchema2(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const schemaId = "schema2";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.globalSchema.get(
+    resourceGroupName,
+    serviceName,
+    schemaId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetSchema1();
-    apiManagementGetSchema2();
+async function main(): Promise<void> {
+  apiManagementGetSchema1();
+  apiManagementGetSchema2();
 }
 
 main().catch(console.error);

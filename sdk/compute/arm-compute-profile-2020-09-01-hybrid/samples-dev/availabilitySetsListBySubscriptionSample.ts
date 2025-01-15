@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists all availability sets in a subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/ListAvailabilitySetsInASubscription.json
  */
-async function listAvailabilitySetsInASubscription() {
+async function listAvailabilitySetsInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const expand = "virtualMachines\\$ref";
@@ -35,7 +35,7 @@ async function listAvailabilitySetsInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAvailabilitySetsInASubscription();
 }
 

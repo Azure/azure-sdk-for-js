@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified deployment associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteDeployment.json
  */
-async function deleteDeployment() {
+async function deleteDeployment(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function deleteDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteDeployment();
 }
 

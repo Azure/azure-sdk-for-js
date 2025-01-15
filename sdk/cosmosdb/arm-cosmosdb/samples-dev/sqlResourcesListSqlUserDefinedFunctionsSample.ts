@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlUserDefinedFunctionList.json
  */
-async function cosmosDbSqlUserDefinedFunctionList() {
+async function cosmosDbSqlUserDefinedFunctionList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -38,7 +38,7 @@ async function cosmosDbSqlUserDefinedFunctionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlUserDefinedFunctionList();
 }
 

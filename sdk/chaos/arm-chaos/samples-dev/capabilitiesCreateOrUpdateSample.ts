@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a Capability resource that extends a Target resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateCapability.json
  */
-async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource() {
+async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -43,7 +43,7 @@ async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 

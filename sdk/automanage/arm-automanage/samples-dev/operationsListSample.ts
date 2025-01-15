@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available Automanage REST API operations.
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listOperations.json
  */
-async function listsAllOfTheAvailableAutomanageRestApiOperations() {
+async function listsAllOfTheAvailableAutomanageRestApiOperations(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function listsAllOfTheAvailableAutomanageRestApiOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllOfTheAvailableAutomanageRestApiOperations();
 }
 

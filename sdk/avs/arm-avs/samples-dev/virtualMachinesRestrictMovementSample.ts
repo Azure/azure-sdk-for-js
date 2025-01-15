@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Enable or disable DRS-driven VM movement restriction
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/VirtualMachines_RestrictMovement.json
  */
-async function virtualMachinesRestrictMovement() {
+async function virtualMachinesRestrictMovement(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function virtualMachinesRestrictMovement() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachinesRestrictMovement();
 }
 

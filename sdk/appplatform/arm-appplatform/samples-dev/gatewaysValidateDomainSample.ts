@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Check the domains are valid as well as not in use.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Gateways_ValidateDomain.json
  */
-async function gatewaysValidateDomain() {
+async function gatewaysValidateDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +41,7 @@ async function gatewaysValidateDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   gatewaysValidateDomain();
 }
 

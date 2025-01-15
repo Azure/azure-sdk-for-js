@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a Java Component in a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_CreateOrUpdate.json
  */
-async function createOrUpdateJavaComponent() {
+async function createOrUpdateJavaComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -59,7 +59,7 @@ async function createOrUpdateJavaComponent() {
  * @summary Creates or updates a Java Component in a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_CreateOrUpdate_ServiceBind.json
  */
-async function createOrUpdateJavaComponentWithServiceBinds() {
+async function createOrUpdateJavaComponentWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -98,7 +98,7 @@ async function createOrUpdateJavaComponentWithServiceBinds() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateJavaComponent();
   createOrUpdateJavaComponentWithServiceBinds();
 }

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the Analysis Services servers for the given subscription.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/listServers.json
  */
-async function listExistingServersUnderTheSubscription() {
+async function listExistingServersUnderTheSubscription(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const credential = new DefaultAzureCredential();
   const client = new AzureAnalysisServices(credential, subscriptionId);

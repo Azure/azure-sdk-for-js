@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of modules.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listModulesByAutomationAccount.json
  */
-async function listModulesByAutomationAccount() {
+async function listModulesByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -34,7 +34,7 @@ async function listModulesByAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listModulesByAutomationAccount();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all Update summaries under the HCI cluster
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/GetUpdateSummaries.json
  */
-async function getUpdateSummariesUnderClusterResource() {
+async function getUpdateSummariesUnderClusterResource(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "b8d594e5-51f3-4c11-9c54-a7771b81c712";
@@ -34,7 +34,7 @@ async function getUpdateSummariesUnderClusterResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getUpdateSummariesUnderClusterResource();
 }
 

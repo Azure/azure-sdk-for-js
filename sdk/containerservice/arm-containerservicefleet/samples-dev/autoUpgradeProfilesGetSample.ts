@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a AutoUpgradeProfile
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/AutoUpgradeProfiles_Get.json
  */
-async function getsAnAutoUpgradeProfileResource() {
+async function getsAnAutoUpgradeProfileResource(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function getsAnAutoUpgradeProfileResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAnAutoUpgradeProfileResource();
 }
 

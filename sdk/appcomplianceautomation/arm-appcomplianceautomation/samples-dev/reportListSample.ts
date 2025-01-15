@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation report list for the tenant.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_List.json
  */
-async function reportList() {
+async function reportList(): Promise<void> {
   const skipToken = "1";
   const top = 100;
   const offerGuid = "00000000-0000-0000-0000-000000000000";
@@ -41,7 +41,7 @@ async function reportList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportList();
 }
 

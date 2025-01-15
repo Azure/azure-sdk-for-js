@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stop a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_Stop.json
  */
-async function servicesStop() {
+async function servicesStop(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function servicesStop() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesStop();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get cluster by Id
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetClusterById.json
  */
-async function organizationGetClusterById() {
+async function organizationGetClusterById(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function organizationGetClusterById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationGetClusterById();
 }
 

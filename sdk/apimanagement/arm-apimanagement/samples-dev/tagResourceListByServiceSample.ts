@@ -18,26 +18,26 @@ import "dotenv/config";
  * @summary Lists a collection of resources associated with tags.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTagResources.json
  */
-async function apiManagementListTagResources() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.tagResource.listByService(
-        resourceGroupName,
-        serviceName
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListTagResources(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.tagResource.listByService(
+    resourceGroupName,
+    serviceName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListTagResources();
+async function main(): Promise<void> {
+  apiManagementListTagResources();
 }
 
 main().catch(console.error);

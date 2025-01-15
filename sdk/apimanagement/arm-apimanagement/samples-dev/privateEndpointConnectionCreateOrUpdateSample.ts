@@ -9,8 +9,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    PrivateEndpointConnectionRequest
+  ApiManagementClient,
+  PrivateEndpointConnectionRequest
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,36 +21,36 @@ import "dotenv/config";
  * @summary Creates a new Private Endpoint Connection or updates an existing one.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
  */
-async function apiManagementApproveOrRejectPrivateEndpointConnection() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const privateEndpointConnectionName = "privateEndpointConnectionName";
-    const privateEndpointConnectionRequest: PrivateEndpointConnectionRequest = {
-        id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/connectionName",
-        properties: {
-            privateLinkServiceConnectionState: {
-                description: "The Private Endpoint Connection is approved.",
-                status: "Approved"
-            }
-        }
-    };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.privateEndpointConnectionOperations.beginCreateOrUpdateAndWait(
-        resourceGroupName,
-        serviceName,
-        privateEndpointConnectionName,
-        privateEndpointConnectionRequest
-    );
-    console.log(result);
+async function apiManagementApproveOrRejectPrivateEndpointConnection(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const privateEndpointConnectionName = "privateEndpointConnectionName";
+  const privateEndpointConnectionRequest: PrivateEndpointConnectionRequest = {
+    id:
+      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/connectionName",
+    properties: {
+      privateLinkServiceConnectionState: {
+        description: "The Private Endpoint Connection is approved.",
+        status: "Approved"
+      }
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.privateEndpointConnectionOperations.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    serviceName,
+    privateEndpointConnectionName,
+    privateEndpointConnectionRequest
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementApproveOrRejectPrivateEndpointConnection();
+async function main(): Promise<void> {
+  apiManagementApproveOrRejectPrivateEndpointConnection();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the notebook workspace resources of an existing Cosmos DB account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBNotebookWorkspaceList.json
  */
-async function cosmosDbNotebookWorkspaceList() {
+async function cosmosDbNotebookWorkspaceList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -34,7 +34,7 @@ async function cosmosDbNotebookWorkspaceList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbNotebookWorkspaceList();
 }
 

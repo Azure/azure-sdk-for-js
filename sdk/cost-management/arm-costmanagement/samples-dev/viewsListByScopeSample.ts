@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all views at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ViewListByResourceGroup.json
  */
-async function resourceGroupViewList() {
+async function resourceGroupViewList(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function resourceGroupViewList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resourceGroupViewList();
 }
 

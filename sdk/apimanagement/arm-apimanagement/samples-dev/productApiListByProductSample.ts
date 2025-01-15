@@ -18,28 +18,28 @@ import "dotenv/config";
  * @summary Lists a collection of the APIs associated with a product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductApis.json
  */
-async function apiManagementListProductApis() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const productId = "5768181ea40f7eb6c49f6ac7";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.productApi.listByProduct(
-        resourceGroupName,
-        serviceName,
-        productId
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListProductApis(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const productId = "5768181ea40f7eb6c49f6ac7";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.productApi.listByProduct(
+    resourceGroupName,
+    serviceName,
+    productId
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListProductApis();
+async function main(): Promise<void> {
+  apiManagementListProductApis();
 }
 
 main().catch(console.error);

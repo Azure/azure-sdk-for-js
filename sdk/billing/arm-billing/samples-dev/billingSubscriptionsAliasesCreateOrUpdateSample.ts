@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a billing subscription by its alias ID.  The operation is supported for seat based billing subscriptions.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionAliasCreateOrUpdate.json
  */
-async function billingSubscriptionAliasCreateOrUpdate() {
+async function billingSubscriptionAliasCreateOrUpdate(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const aliasName = "c356b7c7-7545-4686-b843-c1a49cf853fc";
@@ -43,7 +43,7 @@ async function billingSubscriptionAliasCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionAliasCreateOrUpdate();
 }
 

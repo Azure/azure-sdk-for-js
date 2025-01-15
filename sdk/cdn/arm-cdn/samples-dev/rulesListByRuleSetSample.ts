@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the existing delivery rules within a rule set.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_ListByRuleSet.json
  */
-async function rulesListByRuleSet() {
+async function rulesListByRuleSet(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -36,7 +36,7 @@ async function rulesListByRuleSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   rulesListByRuleSet();
 }
 

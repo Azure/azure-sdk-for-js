@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list ServiceResource resources by parent
  * x-ms-original-file: 2024-03-01/Services_List.json
  */
-async function servicesList() {
+async function servicesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
@@ -23,7 +23,7 @@ async function servicesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesList();
 }
 

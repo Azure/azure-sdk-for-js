@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the Dsc node report list by node id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listDscNodeReportsByNode.json
  */
-async function listDscReportsByNodeId() {
+async function listDscReportsByNodeId(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -42,7 +42,7 @@ async function listDscReportsByNodeId() {
  * @summary Retrieve the Dsc node report list by node id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeReportsByNode.json
  */
-async function listPagedDscReportsByNodeId() {
+async function listPagedDscReportsByNodeId(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -60,7 +60,7 @@ async function listPagedDscReportsByNodeId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDscReportsByNodeId();
   listPagedDscReportsByNodeId();
 }

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update the state of specified private endpoint connection associated with the attestation provider.
  * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/AttestationProviderPutPrivateEndpointConnection.json
  */
-async function attestationProviderPutPrivateEndpointConnection() {
+async function attestationProviderPutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res7687";
   const providerName = "sto9699";

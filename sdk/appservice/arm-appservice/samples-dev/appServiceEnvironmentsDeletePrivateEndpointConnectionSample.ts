@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Deletes a private endpoint connection
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_DeletePrivateEndpointConnection.json
  */
-async function deletesAPrivateEndpointConnection() {
+async function deletesAPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,7 +37,7 @@ async function deletesAPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletesAPrivateEndpointConnection();
 }
 

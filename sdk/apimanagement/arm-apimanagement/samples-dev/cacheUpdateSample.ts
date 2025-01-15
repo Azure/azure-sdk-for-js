@@ -9,8 +9,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    CacheUpdateParameters
+  ApiManagementClient,
+  CacheUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,29 +21,29 @@ import "dotenv/config";
  * @summary Updates the details of the cache specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateCache.json
  */
-async function apiManagementUpdateCache() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const cacheId = "c1";
-    const ifMatch = "*";
-    const parameters: CacheUpdateParameters = { useFromLocation: "westindia" };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.cache.update(
-        resourceGroupName,
-        serviceName,
-        cacheId,
-        ifMatch,
-        parameters
-    );
-    console.log(result);
+async function apiManagementUpdateCache(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const cacheId = "c1";
+  const ifMatch = "*";
+  const parameters: CacheUpdateParameters = { useFromLocation: "westindia" };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.cache.update(
+    resourceGroupName,
+    serviceName,
+    cacheId,
+    ifMatch,
+    parameters
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementUpdateCache();
+async function main(): Promise<void> {
+  apiManagementUpdateCache();
 }
 
 main().catch(console.error);

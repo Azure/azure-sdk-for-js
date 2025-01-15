@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all Workbooks defined within a specified subscription and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksList2.json
  */
-async function workbooksList2() {
+async function workbooksList2(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ workbooksList2().catch(console.error);
  * @summary Get all Workbooks defined within a specified subscription and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksListSub.json
  */
-async function workbooksListSub() {
+async function workbooksListSub(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();

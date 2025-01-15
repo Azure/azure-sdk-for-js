@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets effective Network Security Perimeter Configuration for association
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/NetworkSecurityPerimeterConfigurationGet.json
  */
-async function namspaceNetworkSecurityPerimeterConfigurationList() {
+async function namspaceNetworkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function namspaceNetworkSecurityPerimeterConfigurationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   namspaceNetworkSecurityPerimeterConfigurationList();
 }
 

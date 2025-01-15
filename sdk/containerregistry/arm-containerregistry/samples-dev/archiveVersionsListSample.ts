@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all archive versions for the specified container registry, repository type and archive name.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveVersionList.json
  */
-async function archiveVersionList() {
+async function archiveVersionList(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function archiveVersionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   archiveVersionList();
 }
 

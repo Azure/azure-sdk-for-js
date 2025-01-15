@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or Update the module identified by module name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/createOrUpdateModule.json
  */
-async function createOrUpdateAModule() {
+async function createOrUpdateAModule(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -49,7 +49,7 @@ async function createOrUpdateAModule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAModule();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Return list of software update configuration machine runs
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfigurationMachineRun/listSoftwareUpdateConfigurationMachineRuns.json
  */
-async function listSoftwareUpdateConfigurationMachineRuns() {
+async function listSoftwareUpdateConfigurationMachineRuns(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -43,7 +43,7 @@ async function listSoftwareUpdateConfigurationMachineRuns() {
  * @summary Return list of software update configuration machine runs
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfigurationMachineRun/listSoftwareUpdateConfigurationMachineRunsByRun.json
  */
-async function listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpdateConfigurationRun() {
+async function listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpdateConfigurationRun(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -65,7 +65,7 @@ async function listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpd
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSoftwareUpdateConfigurationMachineRuns();
   listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpdateConfigurationRun();
 }

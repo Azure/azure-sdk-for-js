@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the user credentials of a Fleet.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_ListCredentialsResult.json
  */
-async function listsTheUserCredentialsOfAFleet() {
+async function listsTheUserCredentialsOfAFleet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function listsTheUserCredentialsOfAFleet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheUserCredentialsOfAFleet();
 }
 

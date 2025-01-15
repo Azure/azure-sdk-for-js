@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB SQL Role Assignment with the given Id.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlRoleAssignmentGet.json
  */
-async function cosmosDbSqlRoleAssignmentGet() {
+async function cosmosDbSqlRoleAssignmentGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleAssignmentId = "myRoleAssignmentId";
@@ -35,7 +35,7 @@ async function cosmosDbSqlRoleAssignmentGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlRoleAssignmentGet();
 }
 

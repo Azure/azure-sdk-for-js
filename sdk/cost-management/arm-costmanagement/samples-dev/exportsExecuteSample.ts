@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByBillingAccount.json
  */
-async function exportRunByBillingAccount() {
+async function exportRunByBillingAccount(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function exportRunByBillingAccount() {
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByDepartment.json
  */
-async function exportRunByDepartment() {
+async function exportRunByDepartment(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
   const exportName = "TestExport";
@@ -49,7 +49,7 @@ async function exportRunByDepartment() {
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByEnrollmentAccount.json
  */
-async function exportRunByEnrollmentAccount() {
+async function exportRunByEnrollmentAccount(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const exportName = "TestExport";
@@ -65,7 +65,7 @@ async function exportRunByEnrollmentAccount() {
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByManagementGroup.json
  */
-async function exportRunByManagementGroup() {
+async function exportRunByManagementGroup(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/TestMG";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function exportRunByManagementGroup() {
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByResourceGroup.json
  */
-async function exportRunByResourceGroup() {
+async function exportRunByResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const exportName = "TestExport";
@@ -96,7 +96,7 @@ async function exportRunByResourceGroup() {
  * @summary The operation to run an export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunBySubscription.json
  */
-async function exportRunBySubscription() {
+async function exportRunBySubscription(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
@@ -105,7 +105,7 @@ async function exportRunBySubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exportRunByBillingAccount();
   exportRunByDepartment();
   exportRunByEnrollmentAccount();

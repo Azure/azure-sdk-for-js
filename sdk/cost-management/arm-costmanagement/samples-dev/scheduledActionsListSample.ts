@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary List all private scheduled actions.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-list-private.json
  */
-async function privateScheduledActionsList() {
+async function privateScheduledActionsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
@@ -37,7 +37,7 @@ async function privateScheduledActionsList() {
  * @summary List all private scheduled actions.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-listWithFilter-private.json
  */
-async function privateScheduledActionsListFilterByViewId() {
+async function privateScheduledActionsListFilterByViewId(): Promise<void> {
   const filter =
     "properties/viewId eq '/providers/Microsoft.CostManagement/views/swaggerExample'";
   const options: ScheduledActionsListOptionalParams = { filter };
@@ -50,7 +50,7 @@ async function privateScheduledActionsListFilterByViewId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateScheduledActionsList();
   privateScheduledActionsListFilterByViewId();
 }

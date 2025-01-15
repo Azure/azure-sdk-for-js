@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all managed Cassandra clusters in this resource group.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraClusterListByResourceGroup.json
  */
-async function cosmosDbManagedCassandraClusterListByResourceGroup() {
+async function cosmosDbManagedCassandraClusterListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function cosmosDbManagedCassandraClusterListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraClusterListByResourceGroup();
 }
 

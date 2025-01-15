@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the certificate specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadCertificate.json
  */
-async function apiManagementHeadCertificate() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const certificateId = "templateCert1";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.certificate.getEntityTag(
-        resourceGroupName,
-        serviceName,
-        certificateId
-    );
-    console.log(result);
+async function apiManagementHeadCertificate(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const certificateId = "templateCert1";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.certificate.getEntityTag(
+    resourceGroupName,
+    serviceName,
+    certificateId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementHeadCertificate();
+async function main(): Promise<void> {
+  apiManagementHeadCertificate();
 }
 
 main().catch(console.error);

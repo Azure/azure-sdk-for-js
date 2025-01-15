@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a session pool with the given properties.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/SessionPools_CreateOrUpdate.json
  */
-async function createOrUpdateSessionPool() {
+async function createOrUpdateSessionPool(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -63,7 +63,7 @@ async function createOrUpdateSessionPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateSessionPool();
 }
 

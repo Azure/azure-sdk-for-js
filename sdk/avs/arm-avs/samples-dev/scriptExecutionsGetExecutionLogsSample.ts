@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Return the logs for a script execution resource
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/ScriptExecutions_GetExecutionLogs.json
  */
-async function scriptExecutionsGetExecutionLogs() {
+async function scriptExecutionsGetExecutionLogs(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +49,7 @@ async function scriptExecutionsGetExecutionLogs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scriptExecutionsGetExecutionLogs();
 }
 

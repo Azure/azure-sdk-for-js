@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets available upgrades for a service mesh in a cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersGet_MeshUpgradeProfile.json
  */
-async function getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluster() {
+async function getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluste
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluster();
 }
 

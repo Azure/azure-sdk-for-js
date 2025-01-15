@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountCreateMax.json
  */
-async function cosmosDbDatabaseAccountCreateMax() {
+async function cosmosDbDatabaseAccountCreateMax(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -107,7 +107,7 @@ async function cosmosDbDatabaseAccountCreateMax() {
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountCreateMin.json
  */
-async function cosmosDbDatabaseAccountCreateMin() {
+async function cosmosDbDatabaseAccountCreateMin(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -139,7 +139,7 @@ async function cosmosDbDatabaseAccountCreateMin() {
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
-async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
+async function cosmosDbRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -200,7 +200,7 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbDatabaseAccountCreateMax();
   cosmosDbDatabaseAccountCreateMin();
   cosmosDbRestoreDatabaseAccountCreateUpdateJson();

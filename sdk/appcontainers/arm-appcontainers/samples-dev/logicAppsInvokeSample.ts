@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Proxies a the API call to the logic app backed by the container app.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/LogicApps_ListCallbackURL.json
  */
-async function getWorkflowListCallBackUrl() {
+async function getWorkflowListCallBackUrl(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +38,7 @@ async function getWorkflowListCallBackUrl() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getWorkflowListCallBackUrl();
 }
 

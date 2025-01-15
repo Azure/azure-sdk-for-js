@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a collection of environments.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_List.json
  */
-async function environmentsListByWorkspace() {
+async function environmentsListByWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function environmentsListByWorkspace() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   environmentsListByWorkspace();
 }
 

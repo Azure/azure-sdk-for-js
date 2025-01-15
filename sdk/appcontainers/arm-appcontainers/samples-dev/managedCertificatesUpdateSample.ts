@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Patches a managed certificate. Oly patching of tags is supported
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedCertificates_Patch.json
  */
-async function patchManagedCertificate() {
+async function patchManagedCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,7 +43,7 @@ async function patchManagedCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchManagedCertificate();
 }
 

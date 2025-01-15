@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://learn.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/RunCommandRequest.json
  */
-async function submitNewCommand() {
+async function submitNewCommand(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function submitNewCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   submitNewCommand();
 }
 

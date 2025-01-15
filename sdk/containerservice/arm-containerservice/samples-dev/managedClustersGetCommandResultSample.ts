@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the results of a command which has been run on the Managed Cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/RunCommandResultFailed.json
  */
-async function commandFailedResult() {
+async function commandFailedResult(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +42,7 @@ async function commandFailedResult() {
  * @summary Gets the results of a command which has been run on the Managed Cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/RunCommandResultSucceed.json
  */
-async function commandSucceedResult() {
+async function commandSucceedResult(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +60,7 @@ async function commandSucceedResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   commandFailedResult();
   commandSucceedResult();
 }

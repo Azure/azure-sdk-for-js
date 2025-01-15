@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Provides the aggregate cost of a management group and all child management groups by specified billing period
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostForBillingPeriodByManagementGroup.json
  */
-async function aggregatedCostListForBillingPeriodByManagementGroup() {
+async function aggregatedCostListForBillingPeriodByManagementGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +33,7 @@ async function aggregatedCostListForBillingPeriodByManagementGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   aggregatedCostListForBillingPeriodByManagementGroup();
 }
 

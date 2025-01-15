@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get a domain.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/GetDomain.json
  */
-async function getDomain() {
+async function getDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function getDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDomain();
 }
 

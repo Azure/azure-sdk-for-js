@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a connected registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ConnectedRegistryUpdate.json
  */
-async function connectedRegistryUpdate() {
+async function connectedRegistryUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,7 +56,7 @@ async function connectedRegistryUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectedRegistryUpdate();
 }
 

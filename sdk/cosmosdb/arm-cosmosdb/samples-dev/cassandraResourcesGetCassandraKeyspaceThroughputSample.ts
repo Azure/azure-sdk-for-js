@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the RUs per second of the Cassandra Keyspace under an existing Azure Cosmos DB database account with the provided name.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraKeyspaceThroughputGet.json
  */
-async function cosmosDbCassandraKeyspaceThroughputGet() {
+async function cosmosDbCassandraKeyspaceThroughputGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -33,7 +33,7 @@ async function cosmosDbCassandraKeyspaceThroughputGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraKeyspaceThroughputGet();
 }
 

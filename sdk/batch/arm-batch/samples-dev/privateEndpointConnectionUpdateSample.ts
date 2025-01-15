@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates the properties of an existing private endpoint connection.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateEndpointConnectionUpdate.json
  */
-async function updatePrivateEndpointConnection() {
+async function updatePrivateEndpointConnection(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -46,7 +46,7 @@ async function updatePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updatePrivateEndpointConnection();
 }
 

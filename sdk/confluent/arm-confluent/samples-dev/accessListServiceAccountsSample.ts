@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Organization service accounts details
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_ServiceAccountsList.json
  */
-async function accessServiceAccountsList() {
+async function accessServiceAccountsList(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +41,7 @@ async function accessServiceAccountsList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accessServiceAccountsList();
 }
 

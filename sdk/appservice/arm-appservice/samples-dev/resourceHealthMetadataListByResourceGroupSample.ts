@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListResourceHealthMetadataByResourceGroup.json
  */
-async function listResourceHealthMetadataForAResourceGroup() {
+async function listResourceHealthMetadataForAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "4adb32ad-8327-4cbb-b775-b84b4465bb38";
@@ -35,7 +35,7 @@ async function listResourceHealthMetadataForAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listResourceHealthMetadataForAResourceGroup();
 }
 

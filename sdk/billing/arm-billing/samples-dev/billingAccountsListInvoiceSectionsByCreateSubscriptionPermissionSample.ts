@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the invoice sections for which the user has permission to create Azure subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoiceSectionsWithCreateSubscriptionPermissionList.json
  */
-async function invoiceSectionsWithCreateSubscriptionPermissionList() {
+async function invoiceSectionsWithCreateSubscriptionPermissionList(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function invoiceSectionsWithCreateSubscriptionPermissionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoiceSectionsWithCreateSubscriptionPermissionList();
 }
 

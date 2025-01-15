@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get list of configuration profile assignments
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listConfigurationProfileAssignmentsByClusterName.json
  */
-async function listConfigurationProfileAssignmentsByResourceGroupAndCluster() {
+async function listConfigurationProfileAssignmentsByResourceGroupAndCluster(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listConfigurationProfileAssignmentsByResourceGroupAndCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConfigurationProfileAssignmentsByResourceGroupAndCluster();
 }
 

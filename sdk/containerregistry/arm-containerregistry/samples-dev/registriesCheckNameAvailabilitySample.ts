@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryCheckNameAvailable.json
  */
-async function registryCheckNameAvailable() {
+async function registryCheckNameAvailable(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +46,7 @@ async function registryCheckNameAvailable() {
  * @summary Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryCheckNameNotAvailable.json
  */
-async function registryCheckNameNotAvailable() {
+async function registryCheckNameNotAvailable(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -65,7 +65,7 @@ async function registryCheckNameNotAvailable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   registryCheckNameAvailable();
   registryCheckNameNotAvailable();
 }
