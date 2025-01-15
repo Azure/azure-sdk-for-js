@@ -18,6 +18,8 @@
 
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
 
+- Update `@azure/msal-browser` to 4.x [#TODO](https://github.com/Azure/azure-sdk-for-js/pull/TODO)
+
 ## 4.5.0 (2024-10-15)
 
 ### Features Added
