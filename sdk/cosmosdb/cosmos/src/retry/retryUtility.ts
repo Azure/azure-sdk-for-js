@@ -131,7 +131,7 @@ export async function execute({
               err.substatus === SubStatusCodes.WriteForbidden))
         ) {
           retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
-        } else if (err.code === StatusCodes.TooManyRequests) {
+        } else if (err.code === StatusCodes.TooManyRequests && !isBulkRequest(requestContext)) {
           retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
         } else if (
           err.code === StatusCodes.NotFound &&
@@ -183,5 +183,15 @@ export async function execute({
     },
     diagnosticNode,
     DiagnosticNodeType.HTTP_REQUEST,
+  );
+}
+
+/**
+ * @hidden
+ */
+function isBulkRequest(requestContext: RequestContext): boolean {
+  return (
+    requestContext.operationType === "batch" &&
+    !requestContext.headers[Constants.HttpHeaders.IsBatchAtomic]
   );
 }
