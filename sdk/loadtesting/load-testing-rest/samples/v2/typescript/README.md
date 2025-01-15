@@ -1,24 +1,30 @@
 ---
 page_type: sample
 languages:
-  - javascript
+  - typescript
 products:
   - azure
-urlFragment: load-testing-javascript-beta
+urlFragment: load-testing-typescript
 ---
 
-# Azure Load Testing rest client library samples for JavaScript (Beta)
+# Azure Load Testing rest client library samples for TypeScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Load Testing rest in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Load Testing rest in some common scenarios.
 
 | **File Name**           | **Description**                  |
 | ----------------------- | -------------------------------- |
-| [sample.js][sample]     | creates and run a loadtest       |
-| [stopTest.js][stoptest] | creates, run and stop a loadtest |
+| [sample.ts][sample]     | creates and run a loadtest       |
+| [stopTest.ts][stoptest] | creates, run and stop a loadtest |
 
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -38,27 +44,34 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
-
-3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+2. Compile the samples:
 
 ```bash
-node sample.js
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/sample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION_ID="<subscription id>" node sample.js
+npx dev-tool run vendored cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION_ID="<subscription id>" node dist/sample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/sample.js
-[stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/stopTest.js
+[sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v2/typescript/src/sample.ts
+[stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v2/typescript/src/stopTest.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingserviceinstance]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html

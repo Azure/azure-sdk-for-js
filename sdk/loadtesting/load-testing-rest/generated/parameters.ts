@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   Test,
   TestAppComponents,
   TestServerMetricConfig,
@@ -11,6 +11,7 @@ import type {
   TestRunAppComponents,
   TestRunServerMetricConfig,
 } from "./models.js";
+
 
 /** Load test model */
 export type TestResourceMergeAndPatch = Partial<Test>;
@@ -27,8 +28,8 @@ export interface LoadTestAdministrationCreateOrUpdateTestMediaTypesParam {
 
 export type LoadTestAdministrationCreateOrUpdateTestParameters =
   LoadTestAdministrationCreateOrUpdateTestMediaTypesParam &
-    LoadTestAdministrationCreateOrUpdateTestBodyParam &
-    RequestParameters;
+  LoadTestAdministrationCreateOrUpdateTestBodyParam &
+  RequestParameters;
 export type LoadTestAdministrationDeleteTestParameters = RequestParameters;
 export type LoadTestAdministrationGetTestParameters = RequestParameters;
 
@@ -49,8 +50,8 @@ export interface LoadTestAdministrationListTestsQueryParam {
   queryParameters?: LoadTestAdministrationListTestsQueryParamProperties;
 }
 
-export type LoadTestAdministrationListTestsParameters = LoadTestAdministrationListTestsQueryParam &
-  RequestParameters;
+export type LoadTestAdministrationListTestsParameters =
+  LoadTestAdministrationListTestsQueryParam & RequestParameters;
 
 export interface LoadTestAdministrationUploadTestFileBodyParam {
   /**
@@ -58,7 +59,11 @@ export interface LoadTestAdministrationUploadTestFileBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+  | string
+  | Uint8Array
+  | ReadableStream<Uint8Array>
+  | NodeJS.ReadableStream;
 }
 
 export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
@@ -77,9 +82,9 @@ export interface LoadTestAdministrationUploadTestFileMediaTypesParam {
 
 export type LoadTestAdministrationUploadTestFileParameters =
   LoadTestAdministrationUploadTestFileQueryParam &
-    LoadTestAdministrationUploadTestFileMediaTypesParam &
-    LoadTestAdministrationUploadTestFileBodyParam &
-    RequestParameters;
+  LoadTestAdministrationUploadTestFileMediaTypesParam &
+  LoadTestAdministrationUploadTestFileBodyParam &
+  RequestParameters;
 export type LoadTestAdministrationGetTestFileParameters = RequestParameters;
 export type LoadTestAdministrationDeleteTestFileParameters = RequestParameters;
 export type LoadTestAdministrationListTestFilesParameters = RequestParameters;
@@ -98,11 +103,13 @@ export interface LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesPara
 
 export type LoadTestAdministrationCreateOrUpdateAppComponentsParameters =
   LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam &
-    LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam &
-    RequestParameters;
-export type LoadTestAdministrationGetAppComponentsParameters = RequestParameters;
+  LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam &
+  RequestParameters;
+export type LoadTestAdministrationGetAppComponentsParameters =
+  RequestParameters;
 /** Server metric configuration model. */
-export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
+export type TestServerMetricConfigResourceMergeAndPatch =
+  Partial<TestServerMetricConfig>;
 
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
@@ -116,9 +123,10 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTyp
 
 export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters =
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam &
-    LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam &
-    RequestParameters;
-export type LoadTestAdministrationGetServerMetricsConfigParameters = RequestParameters;
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam &
+  RequestParameters;
+export type LoadTestAdministrationGetServerMetricsConfigParameters =
+  RequestParameters;
 /** Load test run model */
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
 
@@ -143,9 +151,9 @@ export interface LoadTestRunCreateOrUpdateTestRunMediaTypesParam {
 
 export type LoadTestRunCreateOrUpdateTestRunParameters =
   LoadTestRunCreateOrUpdateTestRunQueryParam &
-    LoadTestRunCreateOrUpdateTestRunMediaTypesParam &
-    LoadTestRunCreateOrUpdateTestRunBodyParam &
-    RequestParameters;
+  LoadTestRunCreateOrUpdateTestRunMediaTypesParam &
+  LoadTestRunCreateOrUpdateTestRunBodyParam &
+  RequestParameters;
 export type LoadTestRunGetTestRunParameters = RequestParameters;
 export type LoadTestRunDeleteTestRunParameters = RequestParameters;
 export type LoadTestRunGetTestRunFileParameters = RequestParameters;
@@ -171,8 +179,8 @@ export interface LoadTestRunListTestRunsQueryParam {
   queryParameters?: LoadTestRunListTestRunsQueryParamProperties;
 }
 
-export type LoadTestRunListTestRunsParameters = LoadTestRunListTestRunsQueryParam &
-  RequestParameters;
+export type LoadTestRunListTestRunsParameters =
+  LoadTestRunListTestRunsQueryParam & RequestParameters;
 export type LoadTestRunStopTestRunParameters = RequestParameters;
 export type LoadTestRunListMetricNamespacesParameters = RequestParameters;
 
@@ -215,7 +223,8 @@ export interface LoadTestRunListMetricsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LoadTestRunListMetricsParameters = LoadTestRunListMetricsQueryParam &
+export type LoadTestRunListMetricsParameters =
+  LoadTestRunListMetricsQueryParam &
   LoadTestRunListMetricsMediaTypesParam &
   LoadTestRunListMetricsBodyParam &
   RequestParameters;
@@ -238,7 +247,8 @@ export interface LoadTestRunListMetricDimensionValuesQueryParam {
 export type LoadTestRunListMetricDimensionValuesParameters =
   LoadTestRunListMetricDimensionValuesQueryParam & RequestParameters;
 /** App Component model. */
-export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
+export type TestRunAppComponentsResourceMergeAndPatch =
+  Partial<TestRunAppComponents>;
 
 export interface LoadTestRunCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
@@ -252,11 +262,12 @@ export interface LoadTestRunCreateOrUpdateAppComponentsMediaTypesParam {
 
 export type LoadTestRunCreateOrUpdateAppComponentsParameters =
   LoadTestRunCreateOrUpdateAppComponentsMediaTypesParam &
-    LoadTestRunCreateOrUpdateAppComponentsBodyParam &
-    RequestParameters;
+  LoadTestRunCreateOrUpdateAppComponentsBodyParam &
+  RequestParameters;
 export type LoadTestRunGetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
-export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
+export type TestRunServerMetricConfigResourceMergeAndPatch =
+  Partial<TestRunServerMetricConfig>;
 
 export interface LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
@@ -270,6 +281,6 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
 
 export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters =
   LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam &
-    LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
-    RequestParameters;
+  LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
+  RequestParameters;
 export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;

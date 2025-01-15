@@ -1,18 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to run a test and stop execution
  *
  * @summary creates, run and stop a loadtest
  */
 
-import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
-import { DefaultAzureCredential } from "@azure/identity";
-import { v4 as uuidv4 } from "uuid";
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected } = require("@azure-rest/load-testing");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { randomUUID } = require("node:crypto");
 
 async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
-  const testId = uuidv4(); // ID to be assigned to a test
-  const testRunId = uuidv4(); // ID to be assigned to a testRun
+  const testId = randomUUID(); // ID to be assigned to a test
+  const testRunId = randomUUID(); // ID to be assigned to a testRun
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
@@ -33,8 +37,9 @@ async function main() {
     throw testCreationResult.body.error;
   }
 
-  if (testCreationResult.body.testId === undefined)
+  if (testCreationResult.body.testId === undefined) {
     throw new Error("Test ID returned as undefined.");
+  }
 
   // Patching the test run
   const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
@@ -42,7 +47,6 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 
@@ -50,15 +54,16 @@ async function main() {
     throw testRunCreationResult.body.error;
   }
 
-  if (testRunCreationResult.body.testRunId === undefined)
+  if (testRunCreationResult.body.testRunId === undefined) {
     throw new Error("Test Run ID returned as undefined.");
+  }
 
   // Checking the test run status
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   sleep(30000);
 
-  let stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
+  const stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 
   if (isUnexpected(stopTestRunResult)) {
     throw stopTestRunResult.body.error;

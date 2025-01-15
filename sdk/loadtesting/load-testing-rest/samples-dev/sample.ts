@@ -80,15 +80,11 @@ async function main(): Promise<void> {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: testCreationResult.body.testId,
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
             {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
               resourceName: "App-Service-Sample-Demo",
               resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
             },
         },
       },
@@ -104,7 +100,6 @@ async function main(): Promise<void> {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 
