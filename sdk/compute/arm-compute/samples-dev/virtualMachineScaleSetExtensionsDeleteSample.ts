@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to delete the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
+async function virtualMachineScaleSetExtensionDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
  * @summary The operation to delete the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionDeleteMinimumSetGen() {
+async function virtualMachineScaleSetExtensionDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function virtualMachineScaleSetExtensionDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetExtensionDeleteMaximumSetGen();
   virtualMachineScaleSetExtensionDeleteMinimumSetGen();
 }

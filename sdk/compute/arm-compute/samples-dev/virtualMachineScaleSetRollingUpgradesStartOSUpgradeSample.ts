@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen()
  * @summary Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +56,7 @@ async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen()
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen();
   virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen();
 }

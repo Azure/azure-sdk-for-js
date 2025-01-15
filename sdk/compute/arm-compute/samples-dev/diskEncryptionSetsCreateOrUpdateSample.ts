@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
-async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
+async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -48,7 +48,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
-async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
+async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -86,7 +86,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
-async function createADiskEncryptionSet() {
+async function createADiskEncryptionSet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -113,7 +113,7 @@ async function createADiskEncryptionSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
   createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
   createADiskEncryptionSet();

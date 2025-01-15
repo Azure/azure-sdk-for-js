@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the private link resources possible under disk access resource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
  */
-async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
+async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllPossiblePrivateLinkResourcesUnderDiskAccessResource();
 }
 

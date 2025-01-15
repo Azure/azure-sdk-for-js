@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/CommunityGallery_Create.json
  */
-async function createACommunityGallery() {
+async function createACommunityGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -53,7 +53,7 @@ async function createACommunityGallery() {
  * @summary Create or update a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
-async function createOrUpdateASimpleGalleryWithSharingProfile() {
+async function createOrUpdateASimpleGalleryWithSharingProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -80,7 +80,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
  * @summary Create or update a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
-async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
+async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -107,7 +107,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * @summary Create or update a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Create_WithManagedIdentity.json
  */
-async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
+async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -140,7 +140,7 @@ async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedMana
  * @summary Create or update a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Create.json
  */
-async function createOrUpdateASimpleGallery() {
+async function createOrUpdateASimpleGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -160,7 +160,7 @@ async function createOrUpdateASimpleGallery() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createACommunityGallery();
   createOrUpdateASimpleGalleryWithSharingProfile();
   createOrUpdateASimpleGalleryWithSoftDeletionEnabled();

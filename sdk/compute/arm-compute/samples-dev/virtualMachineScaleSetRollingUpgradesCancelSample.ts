@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Cancels the current virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen() {
  * @summary Cancels the current virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +56,7 @@ async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen();
   virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen();
 }

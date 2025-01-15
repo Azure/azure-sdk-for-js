@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets a list of virtual machine extension image versions.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
+async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -52,7 +52,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
  * @summary Gets a list of virtual machine extension image versions.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionImageListVersionsMinimumSetGen() {
+async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaa";
@@ -68,7 +68,7 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineExtensionImageListVersionsMaximumSetGen();
   virtualMachineExtensionImageListVersionsMinimumSetGen();
 }

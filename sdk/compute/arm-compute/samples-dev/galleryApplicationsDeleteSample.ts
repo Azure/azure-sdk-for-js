@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a gallery Application.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Delete.json
  */
-async function deleteAGalleryApplication() {
+async function deleteAGalleryApplication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function deleteAGalleryApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAGalleryApplication();
 }
 

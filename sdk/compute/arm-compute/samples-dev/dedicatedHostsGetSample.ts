@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Retrieves information about a dedicated host.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
-async function getADedicatedHost() {
+async function getADedicatedHost(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function getADedicatedHost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getADedicatedHost();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/CommunityGallery_Get.json
  */
-async function getACommunityGallery() {
+async function getACommunityGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function getACommunityGallery() {
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
-async function getAGalleryWithExpandSharingProfileGroups() {
+async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -63,7 +63,7 @@ async function getAGalleryWithExpandSharingProfileGroups() {
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
-async function getAGalleryWithSelectPermissions() {
+async function getAGalleryWithSelectPermissions(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -87,7 +87,7 @@ async function getAGalleryWithSelectPermissions() {
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithManagedIdentity.json
  */
-async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
+async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -105,7 +105,7 @@ async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get.json
  */
-async function getAGallery() {
+async function getAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -117,7 +117,7 @@ async function getAGallery() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACommunityGallery();
   getAGalleryWithExpandSharingProfileGroups();
   getAGalleryWithSelectPermissions();

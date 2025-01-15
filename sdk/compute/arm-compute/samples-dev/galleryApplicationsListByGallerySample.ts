@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List gallery Application Definitions in a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_ListByGallery.json
  */
-async function listGalleryApplicationsInAGallery() {
+async function listGalleryApplicationsInAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listGalleryApplicationsInAGallery() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listGalleryApplicationsInAGallery();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
  */
-async function virtualMachineCaptureMaximumSetGen() {
+async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -48,7 +48,7 @@ async function virtualMachineCaptureMaximumSetGen() {
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Capture_MinimumSet_Gen.json
  */
-async function virtualMachineCaptureMinimumSetGen() {
+async function virtualMachineCaptureMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -69,7 +69,7 @@ async function virtualMachineCaptureMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineCaptureMaximumSetGen();
   virtualMachineCaptureMinimumSetGen();
 }

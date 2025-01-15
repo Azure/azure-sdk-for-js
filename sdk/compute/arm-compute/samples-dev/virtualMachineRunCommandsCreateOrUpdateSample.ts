@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation to create or update the run command.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
  */
-async function createOrUpdateARunCommand() {
+async function createOrUpdateARunCommand(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -63,7 +63,7 @@ async function createOrUpdateARunCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateARunCommand();
 }
 

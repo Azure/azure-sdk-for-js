@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation to update a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
  */
-async function updateAVMByDetachingDataDisk() {
+async function updateAVMByDetachingDataDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -82,7 +82,7 @@ async function updateAVMByDetachingDataDisk() {
  * @summary The operation to update a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
  */
-async function updateAVMByForceDetachingDataDisk() {
+async function updateAVMByForceDetachingDataDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -143,7 +143,7 @@ async function updateAVMByForceDetachingDataDisk() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAVMByDetachingDataDisk();
   updateAVMByForceDetachingDataDisk();
 }

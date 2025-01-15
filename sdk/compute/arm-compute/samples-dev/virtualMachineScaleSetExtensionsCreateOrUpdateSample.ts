@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation to create or update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
+async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -59,7 +59,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
  * @summary The operation to create or update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
+async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -79,7 +79,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen();
   virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen();
 }

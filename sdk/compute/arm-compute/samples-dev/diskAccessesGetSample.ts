@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a disk access resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
  */
-async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
+async function getInformationAboutADiskAccessResourceWithPrivateEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
  * @summary Gets information about a disk access resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Get.json
  */
-async function getInformationAboutADiskAccessResource() {
+async function getInformationAboutADiskAccessResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +54,7 @@ async function getInformationAboutADiskAccessResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutADiskAccessResourceWithPrivateEndpoints();
   getInformationAboutADiskAccessResource();
 }

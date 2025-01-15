@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a remote desktop file for a role instance in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Get_RemoteDesktopFile.json
  */
-async function getCloudServiceRole() {
+async function getCloudServiceRole(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -35,7 +35,7 @@ async function getCloudServiceRole() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCloudServiceRole();
 }
 

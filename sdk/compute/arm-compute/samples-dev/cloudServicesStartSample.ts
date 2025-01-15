@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts the cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Start.json
  */
-async function startCloudService() {
+async function startCloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function startCloudService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startCloudService();
 }
 

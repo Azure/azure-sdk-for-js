@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a virtual machine image in an edge zone.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaa";
@@ -46,7 +46,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
  * @summary Gets a virtual machine image in an edge zone.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaa";
@@ -68,7 +68,7 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImagesEdgeZoneGetMaximumSetGen();
   virtualMachineImagesEdgeZoneGetMinimumSetGen();
 }

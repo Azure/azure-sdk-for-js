@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to restart a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Restart_MaximumSet_Gen.json
  */
-async function virtualMachineRestartMaximumSetGen() {
+async function virtualMachineRestartMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function virtualMachineRestartMaximumSetGen() {
  * @summary The operation to restart a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Restart_MinimumSet_Gen.json
  */
-async function virtualMachineRestartMinimumSetGen() {
+async function virtualMachineRestartMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +54,7 @@ async function virtualMachineRestartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineRestartMaximumSetGen();
   virtualMachineRestartMinimumSetGen();
 }

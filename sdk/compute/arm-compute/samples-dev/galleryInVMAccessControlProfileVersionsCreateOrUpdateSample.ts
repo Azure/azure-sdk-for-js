@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a gallery inVMAccessControlProfile version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
  */
-async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
+async function createOrUpdateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -30,33 +30,33 @@ async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const inVMAccessControlProfileVersionName = "1.0.0";
   const galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion =
-    {
-      defaultAccess: "Allow",
-      excludeFromLatest: false,
-      location: "West US",
-      mode: "Audit",
-      rules: {
-        identities: [
-          {
-            name: "WinPA",
-            exePath: "C:\\Windows\\System32\\cscript.exe",
-            groupName: "Administrators",
-            processName: "cscript",
-            userName: "SYSTEM",
-          },
-        ],
-        privileges: [
-          {
-            name: "GoalState",
-            path: "/machine",
-            queryParameters: { comp: "goalstate" },
-          },
-        ],
-        roleAssignments: [{ identities: ["WinPA"], role: "Provisioning" }],
-        roles: [{ name: "Provisioning", privileges: ["GoalState"] }],
-      },
-      targetLocations: [{ name: "West US" }, { name: "South Central US" }],
-    };
+  {
+    defaultAccess: "Allow",
+    excludeFromLatest: false,
+    location: "West US",
+    mode: "Audit",
+    rules: {
+      identities: [
+        {
+          name: "WinPA",
+          exePath: "C:\\Windows\\System32\\cscript.exe",
+          groupName: "Administrators",
+          processName: "cscript",
+          userName: "SYSTEM",
+        },
+      ],
+      privileges: [
+        {
+          name: "GoalState",
+          path: "/machine",
+          queryParameters: { comp: "goalstate" },
+        },
+      ],
+      roleAssignments: [{ identities: ["WinPA"], role: "Provisioning" }],
+      roles: [{ name: "Provisioning", privileges: ["GoalState"] }],
+    },
+    targetLocations: [{ name: "West US" }, { name: "South Central US" }],
+  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result =
@@ -70,7 +70,7 @@ async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAGalleryInVMAccessControlProfileVersion();
 }
 
