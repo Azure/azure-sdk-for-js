@@ -91,4 +91,4 @@ export type CreateOrUpdateUserParameters = CreateOrUpdateUserMediaTypesParam &
   CreateOrUpdateUserBodyParam &
   RequestParameters;
 
-export { GetUserDefinedEndpointParameters } from "./generated/parameters.js";
+export type { GetUserDefinedEndpointParameters } from "./generated/parameters.js";
