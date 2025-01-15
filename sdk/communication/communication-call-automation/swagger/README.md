@@ -188,6 +188,18 @@ directive:
   - rename-model:
       from: PlayResumed
       to: RestPlayResumed
+  - rename-model:
+      from: HoldAudioStarted
+      to: RestHoldAudioStarted
+  - rename-model:
+      from: HoldAudioPaused
+      to: RestHoldAudioPaused
+  - rename-model:
+      from: HoldAudioResumed
+      to: RestHoldAudioResumed
+  - rename-model:
+      from: HoldAudioCompleted
+      to: RestHoldAudioCompleted
 ```
 
 ```yaml
