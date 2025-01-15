@@ -53,6 +53,7 @@ import {
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { BulkStreamer } from "../../bulk/BulkStreamer";
 
 /**
  * @hidden
@@ -434,6 +435,21 @@ export class Items {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
+  }
+
+  /** New bulk api contract */
+  public getBulkStreamer(
+    options: RequestOptions = {},
+    bulkOptions: BulkOptions = {},
+  ): BulkStreamer {
+    const bulkStreamerCache = this.clientContext.getBulkStreamerCache();
+    const bulkStreamer = bulkStreamerCache.getOrCreateStreamer(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+    );
+    bulkStreamer.initializeBulk(options, bulkOptions);
+    return bulkStreamer;
   }
 
   /**
