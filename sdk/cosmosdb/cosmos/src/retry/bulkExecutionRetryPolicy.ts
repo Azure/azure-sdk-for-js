@@ -13,7 +13,6 @@ import type { RetryPolicy } from "./RetryPolicy";
  */
 export class BulkExecutionRetryPolicy implements RetryPolicy {
   retryAfterInMs: number;
-  retryForThrottle: boolean = false;
   private retriesOn410: number;
   private readonly MaxRetriesOn410 = 10;
   private readonly SubstatusCodeBatchResponseSizeExceeded = 3402;

@@ -114,9 +114,9 @@ export class BulkBatcher {
           const errorResponse = new ErrorResponse(
             null,
             bulkOperationResult.statusCode,
-
             bulkOperationResult.subStatusCode,
           );
+          errorResponse.retryAfterInMs = bulkOperationResult.retryAfter;
           const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(
             errorResponse,
             this.diagnosticNode,

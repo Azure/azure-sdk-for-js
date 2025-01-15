@@ -64,7 +64,7 @@ export class BulkCongestionAlgorithm {
     // decrease should not lead the degree of concurrency as 0.
     const decreaseCount = Math.min(
       this.congestionDecreaseFactor,
-      this.currentDegreeOfConcurrency / 2,
+      Math.floor(this.currentDegreeOfConcurrency / 2),
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
