@@ -18,7 +18,7 @@ export function createRestError(
   response?: PathUncheckedResponse,
 ): RestError {
   const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
-  const internalError = resp.body?.error || resp.body;
+  const internalError = resp.body?.error ?? resp.body;
   const message =
     typeof messageOrResponse === "string"
       ? messageOrResponse
