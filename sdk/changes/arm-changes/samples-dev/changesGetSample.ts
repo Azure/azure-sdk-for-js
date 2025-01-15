@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Obtains the specified change resource for the target resource
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/GetChange.json
  */
-async function getChange() {
+async function getChange(): Promise<void> {
   const subscriptionId = "subscriptionId1";
   const resourceGroupName = "resourceGroup1";
   const resourceProviderNamespace = "resourceProvider1";

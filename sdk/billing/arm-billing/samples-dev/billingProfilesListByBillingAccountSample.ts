@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the billing profiles that a user has access to. The operation is supported for billing accounts with agreement of type Microsoft Customer Agreement and Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingProfilesListByBillingAccount.json
  */
-async function billingProfilesListByBillingAccount() {
+async function billingProfilesListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function billingProfilesListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingProfilesListByBillingAccount();
 }
 

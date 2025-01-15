@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Provides the aggregate cost of a management group and all child management groups by current billing period.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostByManagementGroup.json
  */
-async function aggregatedCostByManagementGroup() {
+async function aggregatedCostByManagementGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +40,7 @@ async function aggregatedCostByManagementGroup() {
  * @summary Provides the aggregate cost of a management group and all child management groups by current billing period.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostByManagementGroupFilterByDate.json
  */
-async function aggregatedCostByManagementGroupFilterByDate() {
+async function aggregatedCostByManagementGroupFilterByDate(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -57,7 +57,7 @@ async function aggregatedCostByManagementGroupFilterByDate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   aggregatedCostByManagementGroup();
   aggregatedCostByManagementGroupFilterByDate();
 }

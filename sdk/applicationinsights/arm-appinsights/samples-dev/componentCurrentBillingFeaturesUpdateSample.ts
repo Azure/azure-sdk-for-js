@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update current billing features for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/CurrentBillingFeaturesUpdate.json
  */
-async function componentCurrentBillingFeaturesUpdate() {
+async function componentCurrentBillingFeaturesUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const resourceName = "my-component";

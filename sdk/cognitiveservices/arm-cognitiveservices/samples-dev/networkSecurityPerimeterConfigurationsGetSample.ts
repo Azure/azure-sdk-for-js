@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified NSP configurations for an account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetNetworkSecurityPerimeterConfigurations.json
  */
-async function getNetworkSecurityPerimeterConfigurations() {
+async function getNetworkSecurityPerimeterConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function getNetworkSecurityPerimeterConfigurations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getNetworkSecurityPerimeterConfigurations();
 }
 

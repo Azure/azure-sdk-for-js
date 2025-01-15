@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a private endpoint connection.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/PrivateEndpointConnectionGet.json
  */
-async function getsPrivateEndpointConnection() {
+async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,7 +35,7 @@ async function getsPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsPrivateEndpointConnection();
 }
 

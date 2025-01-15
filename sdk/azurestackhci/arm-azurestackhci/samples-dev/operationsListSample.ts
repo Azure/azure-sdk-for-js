@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all available Microsoft.AzureStackHCI provider operations
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/operations/stable/2024-04-01/examples/ListOperations.json
  */
-async function createCluster() {
+async function createCluster(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function createCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createCluster();
 }
 

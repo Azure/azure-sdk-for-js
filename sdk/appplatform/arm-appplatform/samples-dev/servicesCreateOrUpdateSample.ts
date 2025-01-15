@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a new Service or update an exiting Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate.json
  */
-async function servicesCreateOrUpdate() {
+async function servicesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +49,7 @@ async function servicesCreateOrUpdate() {
  * @summary Create a new Service or update an exiting Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate_Enterprise.json
  */
-async function servicesCreateOrUpdateEnterprise() {
+async function servicesCreateOrUpdateEnterprise(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -84,7 +84,7 @@ async function servicesCreateOrUpdateEnterprise() {
  * @summary Create a new Service or update an exiting Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate_VNetInjection.json
  */
-async function servicesCreateOrUpdateVNetInjection() {
+async function servicesCreateOrUpdateVNetInjection(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -122,7 +122,7 @@ async function servicesCreateOrUpdateVNetInjection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesCreateOrUpdate();
   servicesCreateOrUpdateEnterprise();
   servicesCreateOrUpdateVNetInjection();

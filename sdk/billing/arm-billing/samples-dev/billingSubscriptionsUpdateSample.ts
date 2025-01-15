@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates the properties of a billing subscription.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsUpdate.json
  */
-async function billingSubscriptionsUpdate() {
+async function billingSubscriptionsUpdate(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingSubscriptionName = "11111111-1111-1111-1111-111111111111";
@@ -38,7 +38,7 @@ async function billingSubscriptionsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsUpdate();
 }
 

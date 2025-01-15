@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage.json
  */
-async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
+async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -85,7 +85,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAPlatformImageScaleSetWithUnmanagedOsDisks.json
  */
-async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
+async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -158,7 +158,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetFromACustomImage.json
  */
-async function createAScaleSetFromACustomImage() {
+async function createAScaleSetFromACustomImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -222,7 +222,7 @@ async function createAScaleSetFromACustomImage() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScalesetWithDiskEncryptionSetResource.json
  */
-async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk() {
+async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -307,7 +307,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetFromWithFpgaNetworkInterface.json
  */
-async function createAScaleSetWithFpgaNetworkInterfaces() {
+async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -389,7 +389,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithEncryptionAtHost.json
  */
-async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() {
+async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -461,7 +461,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithAMarketplaceImagePlan.json
  */
-async function createAScaleSetWithAMarketplaceImagePlan() {
+async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -532,7 +532,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithAnAzureApplicationGateway.json
  */
-async function createAScaleSetWithAnAzureApplicationGateway() {
+async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -604,7 +604,7 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithAnAzureLoadBalancer.json
  */
-async function createAScaleSetWithAnAzureLoadBalancer() {
+async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -686,7 +686,7 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithAutomaticRepairs.json
  */
-async function createAScaleSetWithAutomaticRepairsEnabled() {
+async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -753,7 +753,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithBootDiagnostics.json
  */
-async function createAScaleSetWithBootDiagnostics() {
+async function createAScaleSetWithBootDiagnostics(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -826,7 +826,7 @@ async function createAScaleSetWithBootDiagnostics() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithEmptyDataDisksOnEachVm.json
  */
-async function createAScaleSetWithEmptyDataDisksOnEachVM() {
+async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -897,7 +897,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithDiffOsDiskUsingDiffDiskPlacement.json
  */
-async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
+async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -969,7 +969,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithDiffOsDisk.json
  */
-async function createAScaleSetWithEphemeralOSDisks() {
+async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1041,7 +1041,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithExtensionsTimeBudget.json
  */
-async function createAScaleSetWithExtensionTimeBudget() {
+async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1127,7 +1127,7 @@ async function createAScaleSetWithExtensionTimeBudget() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithManagedBootDiagnostics.json
  */
-async function createAScaleSetWithManagedBootDiagnostics() {
+async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1194,7 +1194,7 @@ async function createAScaleSetWithManagedBootDiagnostics() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithPasswordAuthentication.json
  */
-async function createAScaleSetWithPasswordAuthentication() {
+async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1260,7 +1260,7 @@ async function createAScaleSetWithPasswordAuthentication() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithPremiumStorage.json
  */
-async function createAScaleSetWithPremiumStorage() {
+async function createAScaleSetWithPremiumStorage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1326,7 +1326,7 @@ async function createAScaleSetWithPremiumStorage() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithSshAuthentication.json
  */
-async function createAScaleSetWithSshAuthentication() {
+async function createAScaleSetWithSshAuthentication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1403,7 +1403,7 @@ async function createAScaleSetWithSshAuthentication() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithTerminateScheduledEventEnabled.json
  */
-async function createAScaleSetWithTerminateScheduledEventsEnabled() {
+async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1472,7 +1472,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
  * @summary Create or update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAScaleSetWithVMsInDifferentZones.json
  */
-async function createAScaleSetWithVirtualMachinesInDifferentZones() {
+async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1538,7 +1538,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage();
   createAPlatformImageScaleSetWithUnmanagedOSDisks();
   createAScaleSetFromACustomImage();

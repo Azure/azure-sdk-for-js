@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates the specified Defender for AI setting.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/UpdateDefenderForAISetting.json
  */
-async function updateDefenderForAiSetting() {
+async function updateDefenderForAiSetting(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function updateDefenderForAiSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateDefenderForAiSetting();
 }
 

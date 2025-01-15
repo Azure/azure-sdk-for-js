@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update RUs per second of an Azure Cosmos DB Gremlin graph
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBGremlinGraphThroughputUpdate.json
  */
-async function cosmosDbGremlinGraphThroughputUpdate() {
+async function cosmosDbGremlinGraphThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -45,7 +45,7 @@ async function cosmosDbGremlinGraphThroughputUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbGremlinGraphThroughputUpdate();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get available Function app frameworks and their versions
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetFunctionAppStacks.json
  */
-async function getFunctionAppStacks() {
+async function getFunctionAppStacks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
@@ -28,7 +28,7 @@ async function getFunctionAppStacks() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getFunctionAppStacks();
 }
 

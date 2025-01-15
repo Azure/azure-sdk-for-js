@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Flush Virtual Network DNS settings for a VNET injected Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_FlushVnetDnsSetting.json
  */
-async function servicesFlushVnetDnsSetting() {
+async function servicesFlushVnetDnsSetting(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function servicesFlushVnetDnsSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesFlushVnetDnsSetting();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Send a test notification that an upgrade is available for this App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_TestUpgradeAvailableNotification.json
  */
-async function sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment() {
+async function sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +34,7 @@ async function sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnv
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment();
 }
 

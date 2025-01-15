@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified role eligibility schedule instance.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/GetRoleEligibilityScheduleInstanceByName.json
  */
-async function getRoleEligibilityScheduleInstanceByName() {
+async function getRoleEligibilityScheduleInstanceByName(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleInstanceName =
@@ -32,7 +32,7 @@ async function getRoleEligibilityScheduleInstanceByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleEligibilityScheduleInstanceByName();
 }
 

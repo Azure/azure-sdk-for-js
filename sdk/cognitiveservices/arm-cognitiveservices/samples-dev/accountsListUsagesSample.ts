@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get usages for the requested Cognitive Services account
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetUsages.json
  */
-async function getUsages() {
+async function getUsages(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "5a4f5c2e-6983-4ccb-bd34-2196d5b5bbd3";
@@ -37,7 +37,7 @@ async function getUsages() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getUsages();
 }
 

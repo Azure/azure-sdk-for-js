@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all private endpoint connections on a Cosmos DB account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBPrivateEndpointConnectionListGet.json
  */
-async function getsPrivateEndpointConnection() {
+async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -36,7 +36,7 @@ async function getsPrivateEndpointConnection() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsPrivateEndpointConnection();
 }
 

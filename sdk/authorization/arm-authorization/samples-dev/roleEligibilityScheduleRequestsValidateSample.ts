@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Validates a new role eligibility schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/ValidateRoleEligibilityScheduleRequestByName.json
  */
-async function validateRoleEligibilityScheduleRequestByName() {
+async function validateRoleEligibilityScheduleRequestByName(): Promise<void> {
   const scope = "subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleRequestName =
     "64caffb6-55c0-4deb-a585-68e948ea1ad6";
@@ -52,7 +52,7 @@ async function validateRoleEligibilityScheduleRequestByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateRoleEligibilityScheduleRequestByName();
 }
 

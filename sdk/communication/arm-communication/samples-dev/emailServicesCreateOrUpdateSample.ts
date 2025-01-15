@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a new EmailService or update an existing EmailService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/emailServices/createOrUpdate.json
  */
-async function createOrUpdateEmailServiceResource() {
+async function createOrUpdateEmailServiceResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -45,7 +45,7 @@ async function createOrUpdateEmailServiceResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateEmailServiceResource();
 }
 

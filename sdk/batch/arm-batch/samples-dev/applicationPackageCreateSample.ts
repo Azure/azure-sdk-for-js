@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates an application package record. The record contains a storageUrl where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used. If the auto storage account was configured to use storage keys, the URL returned will contain a SAS.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationPackageCreate.json
  */
-async function applicationPackageCreate() {
+async function applicationPackageCreate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -36,7 +36,7 @@ async function applicationPackageCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationPackageCreate();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the runbook draft identified by runbook name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/getRunbookDraft.json
  */
-async function getRunbookDraft() {
+async function getRunbookDraft(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "ContoseAutomationAccount";
@@ -33,7 +33,7 @@ async function getRunbookDraft() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRunbookDraft();
 }
 

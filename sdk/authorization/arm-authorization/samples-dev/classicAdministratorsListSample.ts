@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets service administrator, account administrator, and co-administrators for the subscription.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetClassicAdministrators.json
  */
-async function listClassicAdministrators() {
+async function listClassicAdministrators(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listClassicAdministrators() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listClassicAdministrators();
 }
 

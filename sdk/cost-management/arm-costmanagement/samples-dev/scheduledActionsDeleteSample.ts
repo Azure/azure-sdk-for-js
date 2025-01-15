@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a private scheduled action.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-delete-private.json
  */
-async function privateScheduledActionDelete() {
+async function privateScheduledActionDelete(): Promise<void> {
   const name = "monthlyCostByResource";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -26,7 +26,7 @@ async function privateScheduledActionDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateScheduledActionDelete();
 }
 

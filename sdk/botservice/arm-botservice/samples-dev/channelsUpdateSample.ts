@@ -25,7 +25,7 @@ import "dotenv/config";
  * @summary Updates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateAlexaChannel.json
  */
-async function updateAlexaChannel() {
+async function updateAlexaChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -55,7 +55,7 @@ async function updateAlexaChannel() {
  * @summary Updates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateChannel.json
  */
-async function updateChannel() {
+async function updateChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -85,7 +85,7 @@ async function updateChannel() {
  * @summary Updates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateDirectLineSpeechChannel.json
  */
-async function updateDirectLineSpeechChannel() {
+async function updateDirectLineSpeechChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -119,7 +119,7 @@ async function updateDirectLineSpeechChannel() {
  * @summary Updates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateLineChannel.json
  */
-async function updateLineChannel() {
+async function updateLineChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -150,7 +150,7 @@ async function updateLineChannel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAlexaChannel();
   updateChannel();
   updateDirectLineSpeechChannel();

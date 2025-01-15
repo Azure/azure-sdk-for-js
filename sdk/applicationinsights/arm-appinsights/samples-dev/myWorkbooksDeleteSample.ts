@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete a private workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2021-03-08/examples/MyWorkbookDelete.json
  */
-async function workbookDelete() {
+async function workbookDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";

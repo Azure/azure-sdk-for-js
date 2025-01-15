@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportByBillingAccountLegacyAndBillingPeriod.json
  */
-async function generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod() {
+async function generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345";
   const parameters: GenerateDetailedCostReportDefinition = {
     billingPeriod: "202008",
@@ -42,7 +42,7 @@ async function generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod(
  * @summary Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportByBillingProfileAndInvoiceId.json
  */
-async function generateDetailedCostReportByBillingProfileAndInvoiceId() {
+async function generateDetailedCostReportByBillingProfileAndInvoiceId(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: GenerateDetailedCostReportDefinition = {
@@ -64,7 +64,7 @@ async function generateDetailedCostReportByBillingProfileAndInvoiceId() {
  * @summary Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId.json
  */
-async function generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId() {
+async function generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: GenerateDetailedCostReportDefinition = {
@@ -87,7 +87,7 @@ async function generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomer
  * @summary Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportByCustomerAndTimePeriod.json
  */
-async function generateDetailedCostReportByCustomerAndTimePeriod() {
+async function generateDetailedCostReportByCustomerAndTimePeriod(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579";
   const parameters: GenerateDetailedCostReportDefinition = {
@@ -109,7 +109,7 @@ async function generateDetailedCostReportByCustomerAndTimePeriod() {
  * @summary Generates the detailed cost report for provided date range, billing period(only enterprise customers) or Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing a link to the operation created. A call on the operation will provide the status and if the operation is completed the blob file where generated detailed cost report is being stored.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportBySubscriptionAndTimePeriod.json
  */
-async function generateDetailedCostReportBySubscriptionAndTimePeriod() {
+async function generateDetailedCostReportBySubscriptionAndTimePeriod(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: GenerateDetailedCostReportDefinition = {
     metric: "ActualCost",
@@ -124,7 +124,7 @@ async function generateDetailedCostReportBySubscriptionAndTimePeriod() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod();
   generateDetailedCostReportByBillingProfileAndInvoiceId();
   generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId();

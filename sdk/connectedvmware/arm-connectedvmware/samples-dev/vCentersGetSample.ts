@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Implements vCenter GET method.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/GetVCenter.json
  */
-async function getVCenter() {
+async function getVCenter(): Promise<void> {
   const subscriptionId =
     process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -34,7 +34,7 @@ async function getVCenter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVCenter();
 }
 

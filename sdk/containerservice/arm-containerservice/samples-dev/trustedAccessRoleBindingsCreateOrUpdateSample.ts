@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a trusted access role binding
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
-async function createOrUpdateATrustedAccessRoleBinding() {
+async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +49,7 @@ async function createOrUpdateATrustedAccessRoleBinding() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateATrustedAccessRoleBinding();
 }
 

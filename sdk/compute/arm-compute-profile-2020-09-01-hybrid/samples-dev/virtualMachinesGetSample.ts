@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetVirtualMachine.json
  */
-async function getAVirtualMachine() {
+async function getAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function getAVirtualMachine() {
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetVirtualMachineAutoPlacedOnDedicatedHostGroup.json
  */
-async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -48,7 +48,7 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAVirtualMachine();
   getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }
