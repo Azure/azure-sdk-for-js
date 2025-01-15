@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -117,7 +117,7 @@
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
     "@azure/msal-node": "^2.15.0",
-    "@azure/msal-browser": "^3.26.1",
+    "@azure/msal-browser": "^4.0.1",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^8.0.0",
