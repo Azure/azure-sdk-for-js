@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Rollouts } from "../operationsInterfaces";
+import { Rollouts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureDeploymentManager } from "../azureDeploymentManager";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureDeploymentManager } from "../azureDeploymentManager.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   RolloutsCreateOrUpdateOptionalParams,
   RolloutsCreateOrUpdateResponse,
@@ -25,7 +25,7 @@ import {
   RolloutsRestartResponse,
   RolloutsListOptionalParams,
   RolloutsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Rollouts operations. */
 export class RolloutsImpl implements Rollouts {

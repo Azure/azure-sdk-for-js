@@ -13,9 +13,7 @@ import {
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List MSIX packages in hostpool.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List MSIX packages in hostpool.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixPackage_List.json
  */
-async function msixPackageList() {
+async function msixPackageList(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -51,7 +49,7 @@ async function msixPackageList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   msixPackageList();
 }
 

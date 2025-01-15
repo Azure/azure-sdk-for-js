@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to list the RegistrationTokens associated with the HostPool
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to list the RegistrationTokens associated with the HostPool
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPools_ListRegistrationToken_Post.json
  */
-async function hostPoolsListRegistrationTokenPost() {
+async function hostPoolsListRegistrationTokenPost(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -36,7 +34,7 @@ async function hostPoolsListRegistrationTokenPost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   hostPoolsListRegistrationTokenPost();
 }
 

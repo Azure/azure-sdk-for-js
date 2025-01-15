@@ -14,10 +14,10 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, WorkflowOperationsImpl } from "./operations";
-import { Operations, WorkflowOperations } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { OperationsImpl, WorkflowOperationsImpl } from "./operations/index.js";
+import { Operations, WorkflowOperations } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   DeveloperHubServiceClientOptionalParams,
   GitHubOAuthOptionalParams,
@@ -29,7 +29,7 @@ import {
   ArtifactGenerationProperties,
   GeneratePreviewArtifactsOptionalParams,
   GeneratePreviewArtifactsResponse
-} from "./models";
+} from "./models/index.js";
 
 export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   $host: string;

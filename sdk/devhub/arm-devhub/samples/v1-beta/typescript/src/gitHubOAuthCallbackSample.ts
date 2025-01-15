@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.

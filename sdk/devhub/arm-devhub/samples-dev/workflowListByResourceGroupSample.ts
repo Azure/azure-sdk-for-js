@@ -13,9 +13,7 @@ import {
   DeveloperHubServiceClient
 } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of workflows within a resource group.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets a list of workflows within a resource group.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_ListByResourceGroup.json
  */
-async function listWorkflows() {
+async function listWorkflows(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function listWorkflows() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkflows();
 }
 

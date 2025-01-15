@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WorkflowOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WorkflowOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DeveloperHubServiceClient } from "../developerHubServiceClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DeveloperHubServiceClient } from "../developerHubServiceClient.js";
 import {
   Workflow,
   WorkflowListNextOptionalParams,
@@ -32,7 +32,7 @@ import {
   WorkflowUpdateTagsResponse,
   WorkflowListNextResponse,
   WorkflowListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowOperations operations. */

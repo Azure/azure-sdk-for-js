@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { StartMenuItem, StartMenuItemsListOptionalParams } from "../models";
+import { StartMenuItem, StartMenuItemsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StartMenuItems. */

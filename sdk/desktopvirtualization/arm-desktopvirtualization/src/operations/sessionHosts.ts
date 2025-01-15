@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SessionHosts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SessionHosts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   SessionHost,
   SessionHostsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   SessionHostsUpdateOptionalParams,
   SessionHostsUpdateResponse,
   SessionHostsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SessionHosts operations. */
