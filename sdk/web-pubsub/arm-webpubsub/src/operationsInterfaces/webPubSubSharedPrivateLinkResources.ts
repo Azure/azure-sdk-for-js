@@ -16,7 +16,7 @@ import {
   WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse,
   WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubSharedPrivateLinkResources. */
