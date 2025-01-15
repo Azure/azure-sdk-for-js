@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Handle error responses with no body without causing a `TypeError`.
+
 ### Other Changes
 
 ## 2.3.2 (2025-01-10)
