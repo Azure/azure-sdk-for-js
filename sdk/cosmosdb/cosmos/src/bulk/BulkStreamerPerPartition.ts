@@ -12,6 +12,7 @@ import type { RequestOptions } from "../request/RequestOptions";
 import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
+import { Limiter } from "./Limiter";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -31,7 +32,7 @@ export class BulkStreamerPerPartition {
   private readonly lock: semaphore.Semaphore;
   private dispatchTimer: NodeJS.Timeout;
   private readonly orderedResponse: BulkOperationResult[] = [];
-  private limiterSemaphore: semaphore.Semaphore;
+  private limiterSemaphore: Limiter;
 
   private readonly oldPartitionMetric: BulkPartitionMetric;
   private readonly partitionMetric: BulkPartitionMetric;
@@ -43,7 +44,7 @@ export class BulkStreamerPerPartition {
   constructor(
     executor: ExecuteCallback,
     retrier: RetryCallback,
-    limiter: semaphore.Semaphore,
+    limiter: Limiter,
     options: RequestOptions,
     bulkOptions: BulkOptions,
     diagnosticNode: DiagnosticNodeInternal,
@@ -108,6 +109,7 @@ export class BulkStreamerPerPartition {
 
   private createBulkBatcher(): BulkBatcher {
     return new BulkBatcher(
+      this.limiterSemaphore,
       this.executor,
       this.retrier,
       this.options,

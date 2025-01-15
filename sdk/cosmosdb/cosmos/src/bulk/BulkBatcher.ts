@@ -12,6 +12,7 @@ import type { ItemBulkOperation } from "./ItemBulkOperation";
 import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { getCurrentTimestampInMs } from "../utils/time";
+import { Limiter } from "./Limiter";
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -31,6 +32,7 @@ export class BulkBatcher {
   private readonly orderedResponse: BulkOperationResult[];
 
   constructor(
+    private limiter: Limiter,
     executor: ExecuteCallback,
     retrier: RetryCallback,
     options: RequestOptions,
@@ -102,6 +104,12 @@ export class BulkBatcher {
       )
         ? 1
         : 0;
+      const splitOrMerge = response.results.some((result) => result.statusCode === StatusCodes.Gone)
+        ? 1
+        : 0;
+      if (splitOrMerge) {
+        await this.limiter.stopDispatch();
+      }
       partitionMetric.add(
         this.batchOperationsList.length,
         getCurrentTimestampInMs() - startTime,

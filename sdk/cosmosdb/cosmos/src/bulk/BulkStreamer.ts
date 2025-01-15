@@ -13,7 +13,6 @@ import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
 import { BulkStreamerPerPartition } from "./BulkStreamerPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import semaphore from "semaphore";
 import { Constants, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import { ItemBulkOperation } from "./ItemBulkOperation";
@@ -21,6 +20,7 @@ import { addDignosticChild } from "../utils/diagnostics";
 import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
+import { Limiter } from "./Limiter";
 
 /**
  * BulkStreamer for bulk operations in a container.
@@ -36,7 +36,7 @@ export class BulkStreamer {
   private readonly clientContext: ClientContext;
   private readonly partitionKeyRangeCache: PartitionKeyRangeCache;
   private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamerPerPartition>;
-  private readonly limitersByPartitionKeyRangeId: Map<string, semaphore.Semaphore>;
+  private readonly limitersByPartitionKeyRangeId: Map<string, Limiter>;
   private options: RequestOptions;
   private bulkOptions: BulkOptions;
   private orderedResponse: BulkOperationResult[] = [];
@@ -58,7 +58,7 @@ export class BulkStreamer {
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
   }
-
+  // TODO: mark hidden
   initializeBulk(options: RequestOptions, bulkOptions: BulkOptions): void {
     this.orderedResponse = [];
     this.options = options;
@@ -97,7 +97,7 @@ export class BulkStreamer {
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
-
+  //TODO: come with better name
   async finishBulk(): Promise<BulkStreamerResponse> {
     let orderedOperationsResult: BulkOperationResult[];
 
@@ -189,6 +189,16 @@ export class BulkStreamer {
     return new Promise<BulkResponse>((resolve, _reject) => {
       limiter.take(async () => {
         try {
+          // Check if any split/merge has happened on other batches belonging to same partition.
+          // If so, don't send this request, and re-batch the operations.
+          const stopDispatch = await limiter.isStopped();
+          if (stopDispatch) {
+            operations.map((operation) => {
+              this.reBatchOperation(operation);
+            });
+            // Return empty response as the request is not sent.
+            resolve(BulkResponse.createEmptyResponse(operations, 0, 0, {}));
+          }
           const response = await addDignosticChild(
             async (childNode: DiagnosticNodeInternal) =>
               this.clientContext.bulk({
@@ -207,7 +217,7 @@ export class BulkStreamer {
         } catch (error) {
           resolve(BulkResponse.fromResponseMessage(error, operations));
         } finally {
-          if (limiter.current > 0) {
+          if (limiter.current() > 0) {
             limiter.leave();
           }
         }
@@ -216,16 +226,18 @@ export class BulkStreamer {
   }
 
   private async reBatchOperation(operation: ItemBulkOperation): Promise<void> {
+    // console.log("Rebatching operation", operation);
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput);
     operation.operationContext.reRouteOperation(partitionKeyRangeId);
     const streamer = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId);
+    // console.log("Rebatching operation to streamer", streamer);
     streamer.add(operation);
   }
 
-  private getOrCreateLimiterForPartitionKeyRange(pkRangeId: string): semaphore.Semaphore {
+  private getOrCreateLimiterForPartitionKeyRange(pkRangeId: string): Limiter {
     let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
     if (!limiter) {
-      limiter = semaphore(Constants.BulkMaxDegreeOfConcurrency);
+      limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }
     return limiter;
