@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a managed private endpoint.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_Delete.json
  */
-async function managedVirtualNetworksDelete() {
+async function managedVirtualNetworksDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -38,7 +38,7 @@ async function managedVirtualNetworksDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedVirtualNetworksDelete();
 }
 

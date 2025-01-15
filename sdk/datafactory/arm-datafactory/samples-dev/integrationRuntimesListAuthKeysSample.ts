@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the authentication keys for an integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_ListAuthKeys.json
  */
-async function integrationRuntimesListAuthKeys() {
+async function integrationRuntimesListAuthKeys(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -36,7 +36,7 @@ async function integrationRuntimesListAuthKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimesListAuthKeys();
 }
 

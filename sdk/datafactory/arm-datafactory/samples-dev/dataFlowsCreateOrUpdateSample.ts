@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a data flow.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Create.json
  */
-async function dataFlowsCreate() {
+async function dataFlowsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -103,7 +103,7 @@ async function dataFlowsCreate() {
  * @summary Creates or updates a data flow.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Update.json
  */
-async function dataFlowsUpdate() {
+async function dataFlowsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -179,7 +179,7 @@ async function dataFlowsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataFlowsCreate();
   dataFlowsUpdate();
 }

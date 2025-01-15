@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Refresh the set password link and return a latest one.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/RefreshSetPassword_Get.json
  */
-async function monitorsRefreshSetPasswordLink() {
+async function monitorsRefreshSetPasswordLink(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function monitorsRefreshSetPasswordLink() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsRefreshSetPasswordLink();
 }
 

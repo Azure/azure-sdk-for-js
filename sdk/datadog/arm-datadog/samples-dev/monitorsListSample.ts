@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all monitors under the specified subscription.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_List.json
  */
-async function monitorsList() {
+async function monitorsList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function monitorsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsList();
 }
 

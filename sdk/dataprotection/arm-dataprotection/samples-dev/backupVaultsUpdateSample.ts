@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/PatchBackupVault.json
  */
-async function patchBackupVault() {
+async function patchBackupVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -52,7 +52,7 @@ async function patchBackupVault() {
  * @summary Updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/PatchBackupVaultWithCMK.json
  */
-async function patchBackupVaultWithCmk() {
+async function patchBackupVaultWithCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -90,7 +90,7 @@ async function patchBackupVaultWithCmk() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchBackupVault();
   patchBackupVaultWithCmk();
 }

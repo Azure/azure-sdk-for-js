@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a self-hosted integration runtime node.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimeNodes_Update.json
  */
-async function integrationRuntimeNodesUpdate() {
+async function integrationRuntimeNodesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -44,7 +44,7 @@ async function integrationRuntimeNodesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimeNodesUpdate();
 }
 

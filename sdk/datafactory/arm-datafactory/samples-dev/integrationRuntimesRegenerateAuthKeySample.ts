@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Regenerates the authentication key for an integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_RegenerateAuthKey.json
  */
-async function integrationRuntimesRegenerateAuthKey() {
+async function integrationRuntimesRegenerateAuthKey(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -43,7 +43,7 @@ async function integrationRuntimesRegenerateAuthKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimesRegenerateAuthKey();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the default api key.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/ApiKeys_GetDefaultKey.json
  */
-async function monitorsGetDefaultKey() {
+async function monitorsGetDefaultKey(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function monitorsGetDefaultKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsGetDefaultKey();
 }
 

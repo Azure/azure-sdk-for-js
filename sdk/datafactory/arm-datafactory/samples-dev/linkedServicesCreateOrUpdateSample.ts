@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a linked service.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/LinkedServices_Create.json
  */
-async function linkedServicesCreate() {
+async function linkedServicesCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -56,7 +56,7 @@ async function linkedServicesCreate() {
  * @summary Creates or updates a linked service.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/LinkedServices_Update.json
  */
-async function linkedServicesUpdate() {
+async function linkedServicesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -86,7 +86,7 @@ async function linkedServicesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   linkedServicesCreate();
   linkedServicesUpdate();
 }

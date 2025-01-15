@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a trigger.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
  */
-async function triggersCreate() {
+async function triggersCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -67,7 +67,7 @@ async function triggersCreate() {
  * @summary Creates or updates a trigger.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Update.json
  */
-async function triggersUpdate() {
+async function triggersUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -108,7 +108,7 @@ async function triggersUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggersCreate();
   triggersUpdate();
 }

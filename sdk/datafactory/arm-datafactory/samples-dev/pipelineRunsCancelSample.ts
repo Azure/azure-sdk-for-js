@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Cancel a pipeline run by its run ID.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/PipelineRuns_Cancel.json
  */
-async function pipelineRunsCancel() {
+async function pipelineRunsCancel(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -36,7 +36,7 @@ async function pipelineRunsCancel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelineRunsCancel();
 }
 

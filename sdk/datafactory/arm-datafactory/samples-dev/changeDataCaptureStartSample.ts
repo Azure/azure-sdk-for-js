@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts a change data capture.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ChangeDataCapture_Start.json
  */
-async function changeDataCaptureStart() {
+async function changeDataCaptureStart(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -36,7 +36,7 @@ async function changeDataCaptureStart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   changeDataCaptureStart();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the private link resources
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GetPrivateLinkResources.json
  */
-async function getPrivateLinkResourcesOfASite() {
+async function getPrivateLinkResourcesOfASite(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +34,7 @@ async function getPrivateLinkResourcesOfASite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateLinkResourcesOfASite();
 }
 

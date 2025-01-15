@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Force the integration runtime to synchronize credentials across integration runtime nodes, and this will override the credentials across all worker nodes with those available on the dispatcher node. If you already have the latest credential backup file, you should manually import it (preferred) on any self-hosted integration runtime node than using this API directly.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_SyncCredentials.json
  */
-async function integrationRuntimesSyncCredentials() {
+async function integrationRuntimesSyncCredentials(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -36,7 +36,7 @@ async function integrationRuntimesSyncCredentials() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimesSyncCredentials();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Execute a data flow debug command.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_ExecuteCommand.json
  */
-async function dataFlowDebugSessionExecuteCommand() {
+async function dataFlowDebugSessionExecuteCommand(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -43,7 +43,7 @@ async function dataFlowDebugSessionExecuteCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataFlowDebugSessionExecuteCommand();
 }
 

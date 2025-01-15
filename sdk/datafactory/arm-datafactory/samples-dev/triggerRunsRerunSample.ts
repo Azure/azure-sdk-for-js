@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Rerun single trigger instance by runId.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/TriggerRuns_Rerun.json
  */
-async function triggersRerun() {
+async function triggersRerun(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -38,7 +38,7 @@ async function triggersRerun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggersRerun();
 }
 

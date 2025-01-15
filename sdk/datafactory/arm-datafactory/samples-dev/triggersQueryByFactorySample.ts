@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Query triggers.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_QueryByFactory.json
  */
-async function triggersQueryByFactory() {
+async function triggersQueryByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -41,7 +41,7 @@ async function triggersQueryByFactory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggersQueryByFactory();
 }
 

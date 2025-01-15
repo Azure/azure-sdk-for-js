@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all Azure resources associated to the same Datadog organization as the target resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/LinkedResources_List.json
  */
-async function monitorsListLinkedResources() {
+async function monitorsListLinkedResources(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function monitorsListLinkedResources() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsListLinkedResources();
 }
 

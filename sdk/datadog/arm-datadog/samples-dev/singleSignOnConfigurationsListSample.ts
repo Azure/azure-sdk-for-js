@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the single sign-on configurations for a given monitor resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/SingleSignOnConfigurations_List.json
  */
-async function singleSignOnConfigurationsList() {
+async function singleSignOnConfigurationsList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function singleSignOnConfigurationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   singleSignOnConfigurationsList();
 }
 

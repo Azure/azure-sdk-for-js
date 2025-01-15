@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Refresh a SSIS integration runtime object metadata.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimeObjectMetadata_Refresh.json
  */
-async function integrationRuntimeObjectMetadataRefresh() {
+async function integrationRuntimeObjectMetadataRefresh(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -37,7 +37,7 @@ async function integrationRuntimeObjectMetadataRefresh() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimeObjectMetadataRefresh();
 }
 

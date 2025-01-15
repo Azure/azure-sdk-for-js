@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists integration runtimes.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_ListByFactory.json
  */
-async function integrationRuntimesListByFactory() {
+async function integrationRuntimesListByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -37,7 +37,7 @@ async function integrationRuntimesListByFactory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   integrationRuntimesListByFactory();
 }
 

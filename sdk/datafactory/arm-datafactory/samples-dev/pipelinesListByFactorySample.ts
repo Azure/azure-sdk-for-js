@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists pipelines.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_ListByFactory.json
  */
-async function pipelinesListByFactory() {
+async function pipelinesListByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -37,7 +37,7 @@ async function pipelinesListByFactory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelinesListByFactory();
 }
 

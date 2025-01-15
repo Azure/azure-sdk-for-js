@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Triggers restore for a BackupInstance
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestore.json
  */
-async function triggerRestore() {
+async function triggerRestore(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -86,7 +86,7 @@ async function triggerRestore() {
  * @summary Triggers restore for a BackupInstance
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreAsFiles.json
  */
-async function triggerRestoreAsFiles() {
+async function triggerRestoreAsFiles(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -128,7 +128,7 @@ async function triggerRestoreAsFiles() {
  * @summary Triggers restore for a BackupInstance
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreWithRehydration.json
  */
-async function triggerRestoreWithRehydration() {
+async function triggerRestoreWithRehydration(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -181,7 +181,7 @@ async function triggerRestoreWithRehydration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerRestore();
   triggerRestoreAsFiles();
   triggerRestoreWithRehydration();

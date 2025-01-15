@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a credential.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Credentials_Get.json
  */
-async function credentialsGet() {
+async function credentialsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -36,7 +36,7 @@ async function credentialsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   credentialsGet();
 }
 

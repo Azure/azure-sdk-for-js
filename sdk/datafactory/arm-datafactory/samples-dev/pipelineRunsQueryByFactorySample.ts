@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Query pipeline runs in the factory based on input filter conditions.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/PipelineRuns_QueryByFactory.json
  */
-async function pipelineRunsQueryByFactory() {
+async function pipelineRunsQueryByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -49,7 +49,7 @@ async function pipelineRunsQueryByFactory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelineRunsQueryByFactory();
 }
 

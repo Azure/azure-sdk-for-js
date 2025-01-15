@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary This operation will stop protection of a backup instance and data will be held forever
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/StopProtection.json
  */
-async function stopProtection() {
+async function stopProtection(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -46,7 +46,7 @@ async function stopProtection() {
  * @summary This operation will stop protection of a backup instance and data will be held forever
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
  */
-async function stopProtectionWithMua() {
+async function stopProtectionWithMua(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -71,7 +71,7 @@ async function stopProtectionWithMua() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopProtection();
   stopProtectionWithMua();
 }

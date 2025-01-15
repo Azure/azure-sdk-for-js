@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get exposure control feature for specific factory.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ExposureControl_GetFeatureValueByFactory.json
  */
-async function exposureControlGetFeatureValueByFactory() {
+async function exposureControlGetFeatureValueByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -42,7 +42,7 @@ async function exposureControlGetFeatureValueByFactory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exposureControlGetFeatureValueByFactory();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a dataset.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
  */
-async function datasetsCreate() {
+async function datasetsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -62,7 +62,7 @@ async function datasetsCreate() {
  * @summary Creates or updates a dataset.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Update.json
  */
-async function datasetsUpdate() {
+async function datasetsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -98,7 +98,7 @@ async function datasetsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   datasetsCreate();
   datasetsUpdate();
 }
