@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a task in the given workspace.
  * x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Tasks_GetByWorkspace.json
  */
-async function tasks() {
+async function tasks(): Promise<void> {
   const subscriptionId =
     process.env["DEFENDEREASM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function tasks() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tasks();
 }
 

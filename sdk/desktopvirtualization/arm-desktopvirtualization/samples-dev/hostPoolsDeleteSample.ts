@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Remove a host pool.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Delete.json
  */
-async function hostPoolDelete() {
+async function hostPoolDelete(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -40,7 +40,7 @@ async function hostPoolDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   hostPoolDelete();
 }
 

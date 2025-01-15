@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a project catalog.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectCatalogs_CreateAdo.json
  */
-async function projectCatalogsCreateOrUpdateAdo() {
+async function projectCatalogsCreateOrUpdateAdo(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -51,7 +51,7 @@ async function projectCatalogsCreateOrUpdateAdo() {
  * @summary Creates or updates a project catalog.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectCatalogs_CreateGitHub.json
  */
-async function projectCatalogsCreateOrUpdateGitHub() {
+async function projectCatalogsCreateOrUpdateGitHub(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -78,7 +78,7 @@ async function projectCatalogsCreateOrUpdateGitHub() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   projectCatalogsCreateOrUpdateAdo();
   projectCatalogsCreateOrUpdateGitHub();
 }

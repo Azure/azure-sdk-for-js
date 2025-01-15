@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets a list of workflows within a resource group.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_ListByResourceGroup.json
  */
-async function listWorkflows() {
+async function listWorkflows(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -43,7 +43,7 @@ async function listWorkflows() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkflows();
 }
 
