@@ -21,7 +21,7 @@ const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
 export async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Text Embeddings Sample ==");
 
   const client = createModelClient();
   const response = await client.path("/embeddings").post({

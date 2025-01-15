@@ -2,54 +2,37 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get chat completions using a local image file for a chat context.
+ * Demonstrates how to get image embeddings from a model endpoint.
  *
- * @summary Get chat completions with image file.
+ * @summary Get image embeddings.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
+const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-const { AzureKeyCredential } = require("@azure/core-auth");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
-
 const imageFilePath = "sample1.png";
 const imageFormat = "png"; //"jpeg", "png", etc.
 
 async function main() {
-  console.log("== Image File Completions Sample ==");
+  console.log("== Image Embeddings Sample ==");
 
   const client = createModelClient();
 
-  const response = await client.path("/chat/completions").post({
+  const image = getImageDataUrl(imageFilePath, imageFormat);
+
+  const response = await client.path("/images/embeddings").post({
     body: {
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful assistant that describes images in details.",
-        },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "What's in this image?" },
-            {
-              type: "image_url",
-              image_url: {
-                url: getImageDataUrl(imageFilePath, imageFormat),
-              },
-            },
-          ],
-        },
-      ],
+      input: [{ image }],
       model: modelName,
     },
   });
@@ -57,26 +40,10 @@ async function main() {
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-
-  console.log(response.body.choices[0].message.content);
-}
-
-/**
- * Get the data URL of an image file.
- * @param {string} imageFile - The path to the image file.
- * @param {string} imageFormat - The format of the image file. For example: "jpeg", "png".
- * @returns {string} The data URL of the image.
- */
-function getImageDataUrl(imageFile, imageFormat) {
-  try {
-    const imageBuffer = fs.readFileSync(imageFile);
-    const imageBase64 = imageBuffer.toString("base64");
-    return `data:image/${imageFormat};base64,${imageBase64}`;
-  } catch (error) {
-    console.error(`Could not read '${imageFile}'.`);
-    console.error("Set the correct path to the image file before running this sample.");
-    process.exit(1);
+  for (const data of response.body.data) {
+    console.log(data);
   }
+  console.log(response.body.usage);
 }
 
 /*
@@ -98,6 +65,24 @@ function createModelClient() {
 
     const clientOptions = { credentials: { scopes } };
     return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
+  }
+}
+
+/**
+ * Get the data URL of an image file.
+ * @param {string} imageFile - The path to the image file.
+ * @param {string} imageFormat - The format of the image file. For example: "jpeg", "png".
+ * @returns {string} The data URL of the image.
+ */
+function getImageDataUrl(imageFile, imageFormat) {
+  try {
+    const imageBuffer = fs.readFileSync(imageFile);
+    const imageBase64 = imageBuffer.toString("base64");
+    return `data:image/${imageFormat};base64,${imageBase64}`;
+  } catch (error) {
+    console.error(`Could not read '${imageFile}'.`);
+    console.error("Set the correct path to the image file before running this sample.");
+    process.exit(1);
   }
 }
 

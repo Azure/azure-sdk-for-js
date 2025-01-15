@@ -122,7 +122,6 @@ describe("tracing test suite", () => {
         content: "What's the weather like in Boston?",
       },
       {
-        content: null,
         role: "assistant",
         tool_calls: [
           {
