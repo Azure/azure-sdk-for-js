@@ -34,6 +34,27 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export class BulkOperationResult {
+    constructor(statusCode?: StatusCode, subStatusCode?: SubStatusCode, etag?: string, retryAfter?: number, activityId?: string, sessionToken?: string, requestCharge?: number, resource?: JSONObject);
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody: JSONObject;
+    // (undocumented)
+    retryAfter: number;
+    // (undocumented)
+    sessionToken: string;
+    // (undocumented)
+    statusCode: StatusCode;
+    // (undocumented)
+    subStatusCode: SubStatusCode;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -558,6 +579,9 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkTimeoutInMs: number;
+    BulkMaxDegreeOfConcurrency: number;
     Quota: {
         CollectionSize: string;
     };
@@ -990,6 +1014,7 @@ export interface ErrorBody {
 
 // @public (undocumented)
 export class ErrorResponse extends Error {
+    constructor(message?: string, code?: number, substatus?: number);
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1274,6 +1299,8 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    // Warning: (ae-forgotten-export) The symbol "BulkStreamer" needs to be exported by the entry point index.d.ts
+    getBulkStreamer(options?: RequestOptions, bulkOptions?: BulkOptions): BulkStreamer;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -2258,6 +2285,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2265,6 +2294,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
