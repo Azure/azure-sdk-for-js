@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import { GetUserDefinedEndpoint } from "./generated/clientDefinitions.js";
+import type {
   GetConstitutionParameters,
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
@@ -17,7 +18,7 @@ import {
   GetUserParameters,
   CreateOrUpdateUserParameters,
 } from "./parameters.js";
-import {
+import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
@@ -47,7 +48,9 @@ import {
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export { GetUserDefinedEndpoint };
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
@@ -159,6 +162,8 @@ export interface Routes {
   (path: "/app/users"): ListUsers;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
   (path: "/app/users/{userId}", userId: string): DeleteUser;
+  /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: delete, get, patch */
+  (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
 }
 
 export type ConfidentialLedgerClient = Client & {
