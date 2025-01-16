@@ -13,9 +13,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update an extension.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionUpdateMaximumSetGen() {
+async function virtualMachineScaleSetExtensionUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +58,7 @@ async function virtualMachineScaleSetExtensionUpdateMaximumSetGen() {
  * @summary The operation to update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionUpdateMinimumSetGen() {
+async function virtualMachineScaleSetExtensionUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -80,7 +78,7 @@ async function virtualMachineScaleSetExtensionUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetExtensionUpdateMaximumSetGen();
   virtualMachineScaleSetExtensionUpdateMinimumSetGen();
 }

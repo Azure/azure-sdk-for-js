@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CommunityGalleries } from "../operationsInterfaces";
+import { CommunityGalleries } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   CommunityGalleriesGetOptionalParams,
   CommunityGalleriesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CommunityGalleries operations. */
 export class CommunityGalleriesImpl implements CommunityGalleries {
