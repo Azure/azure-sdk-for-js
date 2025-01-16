@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetVirtualMachineInstanceView.json
  */
-async function getVirtualMachineInstanceView() {
+async function getVirtualMachineInstanceView(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function getVirtualMachineInstanceView() {
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetVirtualMachineInstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
-async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +54,7 @@ async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroug
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualMachineInstanceView();
   getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }

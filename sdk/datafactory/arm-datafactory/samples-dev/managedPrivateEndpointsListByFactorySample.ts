@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists managed private endpoints.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists managed private endpoints.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_ListByFactory.json
  */
-async function managedPrivateEndpointsListByFactory() {
+async function managedPrivateEndpointsListByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -41,7 +39,7 @@ async function managedPrivateEndpointsListByFactory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedPrivateEndpointsListByFactory();
 }
 

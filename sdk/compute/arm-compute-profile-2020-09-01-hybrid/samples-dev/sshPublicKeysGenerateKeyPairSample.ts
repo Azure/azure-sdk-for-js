@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GenerateSshKeyPair.json
  */
-async function generateAnSshKeyPair() {
+async function generateAnSshKeyPair(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function generateAnSshKeyPair() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   generateAnSshKeyPair();
 }
 

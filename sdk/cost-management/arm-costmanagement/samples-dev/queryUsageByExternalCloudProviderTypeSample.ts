@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Query the usage data for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountsQuery.json
  */
-async function externalBillingAccountQueryList() {
+async function externalBillingAccountQueryList(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const parameters: QueryDefinition = {
@@ -76,7 +76,7 @@ async function externalBillingAccountQueryList() {
  * @summary Query the usage data for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionsQuery.json
  */
-async function externalSubscriptionsQuery() {
+async function externalSubscriptionsQuery(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const parameters: QueryDefinition = {
@@ -125,7 +125,7 @@ async function externalSubscriptionsQuery() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   externalBillingAccountQueryList();
   externalSubscriptionsQuery();
 }

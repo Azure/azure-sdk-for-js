@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a schedule.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/createOrUpdateSchedule.json
  */
-async function createOrUpdateASchedule() {
+async function createOrUpdateASchedule(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -46,7 +46,7 @@ async function createOrUpdateASchedule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateASchedule();
 }
 

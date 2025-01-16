@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Update an alert.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/UpdateAlert.json
  */
-async function deactivateAlert() {
+async function deactivateAlert(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "TooManyPermanentOwnersAssignedToResource";
   const parameters: Alert = { isActive: false };
@@ -28,7 +28,7 @@ async function deactivateAlert() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deactivateAlert();
 }
 

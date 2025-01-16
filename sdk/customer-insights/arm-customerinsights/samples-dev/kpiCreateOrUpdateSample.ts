@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a KPI or updates an existing KPI in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/KpiCreateOrUpdate.json
  */
-async function kpiCreateOrUpdate() {
+async function kpiCreateOrUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";

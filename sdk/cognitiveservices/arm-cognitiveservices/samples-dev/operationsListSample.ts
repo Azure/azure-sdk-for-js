@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the available Cognitive Services account operations.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function getOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperations();
 }
 

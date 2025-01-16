@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of agent pools in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsList.json
  */
-async function listAgentPoolsByManagedCluster() {
+async function listAgentPoolsByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function listAgentPoolsByManagedCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAgentPoolsByManagedCluster();
 }
 

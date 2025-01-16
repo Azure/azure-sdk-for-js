@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the associations of the Cognitive Services commitment plan.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListSharedCommitmentPlanAssociations.json
  */
-async function listCommitmentPlans() {
+async function listCommitmentPlans(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -40,7 +40,7 @@ async function listCommitmentPlans() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCommitmentPlans();
 }
 

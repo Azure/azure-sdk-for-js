@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Checks availability and correctness of the name for a scheduled action.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/checkNameAvailability-private-scheduledAction.json
  */
-async function scheduledActionCheckNameAvailability() {
+async function scheduledActionCheckNameAvailability(): Promise<void> {
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testName",
     type: "Microsoft.CostManagement/ScheduledActions"
@@ -34,7 +34,7 @@ async function scheduledActionCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scheduledActionCheckNameAvailability();
 }
 

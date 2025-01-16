@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the customers that are billed to a billing account. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/customersListByBillingAccount.json
  */
-async function customersListByBillingAccount() {
+async function customersListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function customersListByBillingAccount() {
  * @summary Lists the customers that are billed to a billing account. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/customersListByBillingAccountWithExpand.json
  */
-async function customersListByBillingAccountWithExpand() {
+async function customersListByBillingAccountWithExpand(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const expand = "enabledAzurePlans,resellers";
@@ -58,7 +58,7 @@ async function customersListByBillingAccountWithExpand() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   customersListByBillingAccount();
   customersListByBillingAccountWithExpand();
 }

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the disk encryption sets under a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/ListDiskEncryptionSetsInAResourceGroup.json
  */
-async function listAllDiskEncryptionSetsInAResourceGroup() {
+async function listAllDiskEncryptionSetsInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function listAllDiskEncryptionSetsInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllDiskEncryptionSetsInAResourceGroup();
 }
 

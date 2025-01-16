@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Create.json
  */
-async function grafanaCreate() {
+async function grafanaCreate(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -76,7 +76,7 @@ async function grafanaCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grafanaCreate();
 }
 

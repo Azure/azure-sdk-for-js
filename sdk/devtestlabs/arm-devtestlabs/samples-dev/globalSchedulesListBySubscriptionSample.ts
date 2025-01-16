@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List schedules in a subscription.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/GlobalSchedules_ListBySubscription.json
  */
-async function globalSchedulesListBySubscription() {
+async function globalSchedulesListBySubscription(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);

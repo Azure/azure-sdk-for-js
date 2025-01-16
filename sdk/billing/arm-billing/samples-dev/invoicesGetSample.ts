@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesGet.json
  */
-async function invoicesGet() {
+async function invoicesGet(): Promise<void> {
   const invoiceName = "G123456789";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -26,7 +26,7 @@ async function invoicesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesGet();
 }
 

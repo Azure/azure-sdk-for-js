@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the roles in a given cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleListByCluster.json
  */
-async function roleList() {
+async function roleList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function roleList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   roleList();
 }
 

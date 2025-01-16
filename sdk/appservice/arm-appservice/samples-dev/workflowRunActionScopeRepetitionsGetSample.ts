@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a workflow run action scoped repetition.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionScopeRepetitions_Get.json
  */
-async function getAScopedRepetition() {
+async function getAScopedRepetition(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,7 +42,7 @@ async function getAScopedRepetition() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAScopedRepetition();
 }
 
