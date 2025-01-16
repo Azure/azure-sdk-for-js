@@ -2996,7 +2996,7 @@ describe("FileClient - NFS", () => {
   });
 
   it("create with nfs properties", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3019,17 +3019,17 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
     const cResp = await fileClient.create(content.length, {
-      nfsProperties: nfsProperties,
+      posixProperties: posixProperties,
     });
 
     assert.equal(cResp.errorCode, undefined);
-    assert.deepEqual(cResp.owner, nfsProperties.owner);
-    assert.deepEqual(cResp.group, nfsProperties.group);
-    assert.deepEqual(cResp.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(cResp.owner, posixProperties.owner);
+    assert.deepEqual(cResp.group, posixProperties.group);
+    assert.deepEqual(cResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(cResp.nfsFileType, posixProperties.fileType);
     assert.ok(cResp.fileChangeOn!);
     assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
@@ -3041,14 +3041,14 @@ describe("FileClient - NFS", () => {
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length),
     );
-    assert.deepEqual(result.owner, nfsProperties.owner);
-    assert.deepEqual(result.group, nfsProperties.group);
-    assert.deepEqual(result.fileMode, nfsProperties.fileMode);
+    assert.deepEqual(result.owner, posixProperties.owner);
+    assert.deepEqual(result.group, posixProperties.group);
+    assert.deepEqual(result.fileMode, posixProperties.fileMode);
     assert.deepEqual(result.linkCount, 1);
   });
 
   it("set&get nfs properties", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3071,24 +3071,24 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
     const cResp = await fileClient.create(content.length);
-    assert.deepEqual(cResp.owner, '0');
-    assert.deepEqual(cResp.group, '0');
+    assert.deepEqual(cResp.owner, "0");
+    assert.deepEqual(cResp.group, "0");
     assert.ok(cResp.fileMode);
     assert.ok(cResp.nfsFileType);
-    
-    const setResp = await fileClient.setProperties({nfsProperties});
-    assert.deepEqual(setResp.owner, nfsProperties.owner);
-    assert.deepEqual(setResp.group, nfsProperties.group);
-    assert.deepEqual(setResp.fileMode, nfsProperties.fileMode);
+
+    const setResp = await fileClient.setProperties({ posixProperties });
+    assert.deepEqual(setResp.owner, posixProperties.owner);
+    assert.deepEqual(setResp.group, posixProperties.group);
+    assert.deepEqual(setResp.fileMode, posixProperties.fileMode);
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, nfsProperties.owner);
-    assert.deepEqual(getResp.group, nfsProperties.group);
-    assert.deepEqual(getResp.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(getResp.owner, posixProperties.owner);
+    assert.deepEqual(getResp.group, posixProperties.group);
+    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
     assert.deepEqual(getResp.linkCount, 1);
 
     const result = await fileClient.download(0);
@@ -3096,16 +3096,16 @@ describe("FileClient - NFS", () => {
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length),
     );
-    assert.deepEqual(result.owner, nfsProperties.owner);
-    assert.deepEqual(result.group, nfsProperties.group);
-    assert.deepEqual(result.fileMode, nfsProperties.fileMode);
+    assert.deepEqual(result.owner, posixProperties.owner);
+    assert.deepEqual(result.group, posixProperties.group);
+    assert.deepEqual(result.fileMode, posixProperties.fileMode);
     assert.deepEqual(result.linkCount, 1);
   });
 
   it("delete nfs file", async function () {
     const cResp = await fileClient.create(content.length);
-    assert.deepEqual(cResp.owner, '0');
-    assert.deepEqual(cResp.group, '0');
+    assert.deepEqual(cResp.owner, "0");
+    assert.deepEqual(cResp.group, "0");
     assert.ok(cResp.fileMode);
     assert.ok(cResp.nfsFileType);
 
@@ -3126,14 +3126,14 @@ describe("FileClient - NFS", () => {
     assert.ok(!result.contentEncoding);
     assert.ok(!result.contentLanguage);
     assert.ok(!result.contentDisposition);
-    assert.deepEqual(result.owner, '0');
-    assert.deepEqual(result.group, '0');
+    assert.deepEqual(result.owner, "0");
+    assert.deepEqual(result.group, "0");
     assert.ok(result.fileMode);
     assert.ok(result.nfsFileType);
   });
 
   it("setHTTPHeaders with all parameters set", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3156,7 +3156,7 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
 
     await fileClient.create(content.length);
@@ -3170,7 +3170,7 @@ describe("FileClient - NFS", () => {
     };
 
     await fileClient.setHttpHeaders(headers, {
-      nfsProperties: nfsProperties
+      posixProperties: posixProperties,
     });
     const result = await fileClient.getProperties();
     assert.ok(result.lastModified);
@@ -3181,14 +3181,14 @@ describe("FileClient - NFS", () => {
     assert.deepStrictEqual(result.contentEncoding, headers.fileContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.fileContentLanguage);
     assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
-    assert.deepEqual(result.owner, nfsProperties.owner);
-    assert.deepEqual(result.group, nfsProperties.group);
-    assert.deepEqual(result.fileMode, nfsProperties.fileMode);
+    assert.deepEqual(result.owner, posixProperties.owner);
+    assert.deepEqual(result.group, posixProperties.group);
+    assert.deepEqual(result.fileMode, posixProperties.fileMode);
     assert.deepEqual(result.linkCount, 1);
   });
 
   it("startCopy - with NFS properties", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3211,7 +3211,7 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
 
     await fileClient.create(1024);
@@ -3219,23 +3219,22 @@ describe("FileClient - NFS", () => {
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
 
-    const result = await newFileClient.startCopyFromURL(fileClient.url, 
-      {
-        nfsProperties: nfsProperties,
-        fileModeCopyMode: 'override',
-        fileOwnerCopyMode: 'override'
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      posixProperties: posixProperties,
+      fileModeCopyMode: "override",
+      fileOwnerCopyMode: "override",
     });
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, nfsProperties.owner);
-    assert.deepEqual(properties.group, nfsProperties.group);
-    assert.deepEqual(properties.fileMode, nfsProperties.fileMode);
+    assert.deepEqual(properties.owner, posixProperties.owner);
+    assert.deepEqual(properties.group, posixProperties.group);
+    assert.deepEqual(properties.fileMode, posixProperties.fileMode);
     assert.deepEqual(properties.linkCount, 1);
   });
-  
+
   it("startCopy - with default", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3258,15 +3257,15 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
-    await fileClient.create(1024, {nfsProperties: nfsProperties});
+    await fileClient.create(1024, { posixProperties: posixProperties });
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, nfsProperties.owner);
-    assert.deepEqual(getResp.group, nfsProperties.group);
-    assert.deepEqual(getResp.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(getResp.owner, posixProperties.owner);
+    assert.deepEqual(getResp.group, posixProperties.group);
+    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
     assert.deepEqual(getResp.linkCount, 1);
 
     const newFileClient = dirClient.getFileClient(
@@ -3276,14 +3275,14 @@ describe("FileClient - NFS", () => {
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, '0');
-    assert.deepEqual(properties.group, '0');
+    assert.deepEqual(properties.owner, "0");
+    assert.deepEqual(properties.group, "0");
     assert.ok(properties.fileMode);
     assert.deepEqual(properties.linkCount, 1);
   });
-  
+
   it("startCopy - with source", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3306,36 +3305,36 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
-    await fileClient.create(1024, {nfsProperties: nfsProperties});
+    await fileClient.create(1024, { posixProperties: posixProperties });
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, nfsProperties.owner);
-    assert.deepEqual(getResp.group, nfsProperties.group);
-    assert.deepEqual(getResp.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(getResp.owner, posixProperties.owner);
+    assert.deepEqual(getResp.group, posixProperties.group);
+    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
     assert.deepEqual(getResp.linkCount, 1);
 
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url, {
-        fileModeCopyMode: 'source',
-        fileOwnerCopyMode: 'source',
-      });
+      fileModeCopyMode: "source",
+      fileOwnerCopyMode: "source",
+    });
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, nfsProperties.owner);
-    assert.deepEqual(properties.group, nfsProperties.group);
-    assert.deepEqual(properties.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(properties.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(properties.owner, posixProperties.owner);
+    assert.deepEqual(properties.group, posixProperties.group);
+    assert.deepEqual(properties.fileMode, posixProperties.fileMode);
+    assert.deepEqual(properties.nfsFileType, posixProperties.fileType);
     assert.deepEqual(properties.linkCount, 1);
   });
 
   it("createHardLink", async function () {
-    const nfsProperties: FilePosixProperties = {
+    const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
       fileMode: {
@@ -3358,17 +3357,17 @@ describe("FileClient - NFS", () => {
         effectiveGroupIdentity: false,
         stickyBit: false,
       },
-      nfsFileType: "Regular",
+      fileType: "Regular",
     };
-    await fileClient.create(1024, {nfsProperties: nfsProperties});
+    await fileClient.create(1024, { posixProperties: posixProperties });
 
     const hardLink = recorder.variable("hardLink", getUniqueName("hardLink"));
     const linkClient = dirClient.getFileClient(hardLink);
     const getResp = await linkClient.createHardLink(`${dirName}/${fileName}`);
-    assert.deepEqual(getResp.owner, nfsProperties.owner);
-    assert.deepEqual(getResp.group, nfsProperties.group);
-    assert.deepEqual(getResp.fileMode, nfsProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, nfsProperties.nfsFileType);
+    assert.deepEqual(getResp.owner, posixProperties.owner);
+    assert.deepEqual(getResp.group, posixProperties.group);
+    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
     assert.deepEqual(getResp.linkCount, 2);
     assert.ok(getResp.fileCreationTime);
     assert.ok(getResp.fileLastWriteTime);

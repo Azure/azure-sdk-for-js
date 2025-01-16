@@ -196,7 +196,6 @@ export interface DirectoryCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    // Warning: (ae-forgotten-export) The symbol "NfsFileMode" needs to be exported by the entry point index.d.ts
     fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
@@ -480,7 +479,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType;
-    nfsProperties?: FilePosixProperties;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public (undocumented)
@@ -492,7 +491,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType | TimePreserveType;
-    nfsProperties?: FilePosixProperties;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -536,6 +535,7 @@ export interface FileCreateHardLinkHeaders {
 // @public
 export interface FileCreateHardLinkOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -667,7 +667,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
 };
 
 // @public
-export type FileDownloadResponseModel = WithResponse<FileDownloadResponse, FileDownloadHeaders>;
+export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
 
 // @public
 export interface FileDownloadToBufferOptions extends CommonOptions {
@@ -698,7 +698,6 @@ export interface FileForceCloseHandlesHeaders {
 // @public
 export interface FileForceCloseHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -860,8 +859,8 @@ export type FilePermissionPreserveType = "preserve";
 // @public
 export interface FilePosixProperties {
     fileMode?: NfsFileMode;
+    fileType?: NfsFileType;
     group?: string;
-    nfsFileType?: NfsFileType;
     owner?: string;
 }
 
@@ -1051,7 +1050,7 @@ export interface FileStartCopyOptions extends CommonOptions {
     filePermissionKey?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
-    nfsProperties?: FilePosixProperties;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -1324,6 +1323,22 @@ export type ModeCopyMode = "source" | "override";
 // @public
 export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
+// @public (undocumented)
+export interface NfsFileMode {
+    // (undocumented)
+    effectiveGroupIdentity: boolean;
+    // (undocumented)
+    effectiveUserIdentity: boolean;
+    // (undocumented)
+    group: PosixRolePermissions;
+    // (undocumented)
+    other: PosixRolePermissions;
+    // (undocumented)
+    owner: PosixRolePermissions;
+    // (undocumented)
+    stickyBit: boolean;
+}
+
 // @public
 export type NfsFileType = string;
 
@@ -1352,6 +1367,16 @@ export interface PipelineLike {
 export interface PipelineOptions {
     httpClient?: RequestPolicy;
     shareTokenIntent?: ShareTokenIntent;
+}
+
+// @public (undocumented)
+export interface PosixRolePermissions {
+    // (undocumented)
+    execute: boolean;
+    // (undocumented)
+    read: boolean;
+    // (undocumented)
+    write: boolean;
 }
 
 // @public

@@ -17,7 +17,7 @@ import type {
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
 } from "../generatedModels";
-import type { HttpAuthorization, NfsFileMode, RolePermissions } from "../models";
+import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
 import { isNode } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
@@ -782,15 +782,15 @@ export function asSharePermission(value: string | SharePermission): SharePermiss
 }
 
 export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
-  if (input == undefined) {
+  if (input === undefined) {
     return undefined;
   }
 
-  if (input.length !== 4) {
-    //throw Errors.InvalidFormat(nameof(modeString));
+  if (input?.length !== 9) {
+    throw new Error("Invalid format of input string");
   }
 
-  let nfsFileMode: NfsFileMode = {
+  const nfsFileMode: NfsFileMode = {
     owner: parseOctalRolePermissions(input[1]),
     group: parseOctalRolePermissions(input[2]),
     other: parseOctalRolePermissions(input[3]),
@@ -799,7 +799,7 @@ export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
     stickyBit: false,
   };
 
-  let value: number = Number.parseInt(input[0]);
+  const value: number = Number.parseInt(input[0]);
 
   if ((value & 4) > 0) {
     nfsFileMode.effectiveUserIdentity = true;
@@ -842,44 +842,32 @@ export function toOctalFileMode(input?: NfsFileMode): string | undefined {
 
 export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
   if (input === undefined) return undefined;
-  let ownerPermissions = toSymbolicRolePermissions(input.owner);  
+  let ownerPermissions = toSymbolicRolePermissions(input.owner);
   let groupPermissions = toSymbolicRolePermissions(input.group);
   let otherPermissions = toSymbolicRolePermissions(input.other);
 
-  if (input.effectiveUserIdentity)
-  {
-      if (ownerPermissions[2] == 'x')
-      {
-        ownerPermissions = ownerPermissions.substring(0, 2) + 's';
-      }
-      else
-      {
-        ownerPermissions = ownerPermissions.substring(0, 2) + 'S';
-      }
-  }
-
-  if (input.effectiveGroupIdentity)
-  {
-    if (groupPermissions[2] == 'x')
-    {
-      groupPermissions = groupPermissions.substring(0, 2) + 's';
-    }
-    else
-    {
-      groupPermissions = groupPermissions.substring(0, 2) + 'S';
+  if (input.effectiveUserIdentity) {
+    if (ownerPermissions[2] === "x") {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "s";
+    } else {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "S";
     }
   }
 
-  if (input.stickyBit)
-  {
-      if (otherPermissions[2] == 'x')
-      {
-        otherPermissions = otherPermissions.substring(0, 2) + 't';
-      }
-      else
-      {
-        otherPermissions = otherPermissions.substring(0, 2) + 'T';
-      }
+  if (input.effectiveGroupIdentity) {
+    if (groupPermissions[2] === "x") {
+      groupPermissions = groupPermissions.substring(0, 2) + "s";
+    } else {
+      groupPermissions = groupPermissions.substring(0, 2) + "S";
+    }
+  }
+
+  if (input.stickyBit) {
+    if (otherPermissions[2] === "x") {
+      otherPermissions = otherPermissions.substring(0, 2) + "t";
+    } else {
+      otherPermissions = otherPermissions.substring(0, 2) + "T";
+    }
   }
   return ownerPermissions + groupPermissions + otherPermissions;
 }
@@ -887,32 +875,32 @@ export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
 export function ParseSymbolicFileMode(input?: string): NfsFileMode | undefined {
   if (input === undefined) return undefined;
 
-  if (input?.length != 9) {
+  if (input?.length !== 9) {
     throw new Error("Invalid format of input string");
   }
   const ownerPermissions = parseSymbolicRolePermissions(input.substring(0, 3));
   const groupPermissions = parseSymbolicRolePermissions(input.substring(3, 3));
   const otherPermissions = parseSymbolicRolePermissions(input.substring(6, 3));
-  let nfsFileMode :NfsFileMode = {
+  const nfsFileMode: NfsFileMode = {
     owner: ownerPermissions.rolePermissions,
     group: groupPermissions.rolePermissions,
     other: otherPermissions.rolePermissions,
     effectiveUserIdentity: ownerPermissions.setSticky,
     effectiveGroupIdentity: groupPermissions.setSticky,
-    stickyBit: otherPermissions.setSticky
+    stickyBit: otherPermissions.setSticky,
   };
 
   return nfsFileMode;
 }
 
-export function parseOctalRolePermissions(c: string): RolePermissions {
-  let rolePermissions: RolePermissions = {
+export function parseOctalRolePermissions(c: string): PosixRolePermissions {
+  const rolePermissions: PosixRolePermissions = {
     read: false,
     write: false,
     execute: false,
   };
 
-  let value = Number.parseInt(c);
+  const value = Number.parseInt(c);
 
   if (value < 0 || value > 7) {
     throw new Error("MustBeBetweenInclusive");
@@ -933,7 +921,7 @@ export function parseOctalRolePermissions(c: string): RolePermissions {
   return rolePermissions;
 }
 
-export function toOctalRolePermissions(rolePermissions: RolePermissions): string {
+export function toOctalRolePermissions(rolePermissions: PosixRolePermissions): string {
   let result = 0;
   if (rolePermissions.read === true) {
     result |= 4;
@@ -950,7 +938,7 @@ export function toOctalRolePermissions(rolePermissions: RolePermissions): string
   return result.toString();
 }
 
-export function toSymbolicRolePermissions(rolePermissions: RolePermissions): string {
+export function toSymbolicRolePermissions(rolePermissions: PosixRolePermissions): string {
   let symbolicRolePermissions = "";
 
   if (rolePermissions.read === true) {
@@ -974,15 +962,14 @@ export function toSymbolicRolePermissions(rolePermissions: RolePermissions): str
 }
 
 export function parseSymbolicRolePermissions(input: string): {
-  rolePermissions: RolePermissions;
+  rolePermissions: PosixRolePermissions;
   setSticky: boolean;
 } {
-  if (input.length != 3) {
+  if (input.length !== 3) {
     throw new Error("input must be 3 characters long");
-    //throw new FormatException($"s must be 3 characters long");
   }
 
-  let rolePermissions: RolePermissions = {
+  const rolePermissions: PosixRolePermissions = {
     read: false,
     write: false,
     execute: false,
@@ -991,38 +978,38 @@ export function parseSymbolicRolePermissions(input: string): {
   let setSticky = false;
 
   // Read character
-  if (input[0] == "r") {
+  if (input[0] === "r") {
     rolePermissions.read = true;
-  } else if (input[0] != "-") {
+  } else if (input[0] !== "-") {
     throw new Error(`Invalid character in symbolic role permission: ${input[0]}`);
   }
 
   // Write character
-  if (input[1] == "w") {
+  if (input[1] === "w") {
     rolePermissions.write = true;
-  } else if (input[1] != "-") {
+  } else if (input[1] !== "-") {
     throw new Error(`Invalid character in symbolic role permission: ${input[1]}`);
   }
 
   // Execute character
-  if (input[2] == "x" || input[2] == "s" || input[2] == "t") {
+  if (input[2] === "x" || input[2] === "s" || input[2] === "t") {
     rolePermissions.execute = true;
-    if (input[2] == "s" || input[2] == "t") {
+    if (input[2] === "s" || input[2] === "t") {
       setSticky = true;
     }
   }
 
-  if (input[2] == "S" || input[2] == "T") {
+  if (input[2] === "S" || input[2] === "T") {
     setSticky = true;
   }
 
   if (
-    input[2] != "x" &&
-    input[2] != "s" &&
-    input[2] != "S" &&
-    input[2] != "t" &&
-    input[2] != "T" &&
-    input[2] != "-"
+    input[2] !== "x" &&
+    input[2] !== "s" &&
+    input[2] !== "S" &&
+    input[2] !== "t" &&
+    input[2] !== "T" &&
+    input[2] !== "-"
   ) {
     throw new Error(`Invalid character in symbolic role permission: ${input[2]}`);
   }
