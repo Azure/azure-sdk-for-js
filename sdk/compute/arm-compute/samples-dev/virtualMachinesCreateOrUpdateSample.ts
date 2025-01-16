@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VirtualMachine, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
-async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
+async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -77,7 +75,7 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
  */
-async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
+async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -141,7 +139,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
  */
-async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
+async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -198,7 +196,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
-async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
+async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -258,7 +256,7 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
  */
-async function createAVMFromACommunityGalleryImage() {
+async function createAVMFromACommunityGalleryImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -309,7 +307,7 @@ async function createAVMFromACommunityGalleryImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
  */
-async function createAVMFromASharedGalleryImage() {
+async function createAVMFromASharedGalleryImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -360,7 +358,7 @@ async function createAVMFromASharedGalleryImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
  */
-async function createAVMWithDiskControllerType() {
+async function createAVMWithDiskControllerType(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -429,7 +427,7 @@ async function createAVMWithDiskControllerType() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
  */
-async function createAVMWithHibernationEnabled() {
+async function createAVMWithHibernationEnabled(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -490,7 +488,7 @@ async function createAVMWithHibernationEnabled() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithProxyAgentSettings.json
  */
-async function createAVMWithProxyAgentSettingsOfEnabledAndMode() {
+async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -544,7 +542,7 @@ async function createAVMWithProxyAgentSettingsOfEnabledAndMode() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
  */
-async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
+async function createAVMWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -601,7 +599,7 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
  */
-async function createAVMWithUserData() {
+async function createAVMWithUserData(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -662,7 +660,7 @@ async function createAVMWithUserData() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithVMSizeProperties.json
  */
-async function createAVMWithVMSizeProperties() {
+async function createAVMWithVMSizeProperties(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -726,7 +724,7 @@ async function createAVMWithVMSizeProperties() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionIdentity.json
  */
-async function createAVMWithEncryptionIdentity() {
+async function createAVMWithEncryptionIdentity(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -792,7 +790,7 @@ async function createAVMWithEncryptionIdentity() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
  */
-async function createAVMWithNetworkInterfaceConfiguration() {
+async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -859,7 +857,7 @@ async function createAVMWithNetworkInterfaceConfiguration() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfigurationDnsSettings.json
  */
-async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings() {
+async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -930,7 +928,7 @@ async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsS
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
  */
-async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() {
+async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -995,7 +993,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
-async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType() {
+async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1055,7 +1053,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurit
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
  */
-async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() {
+async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1115,7 +1113,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
-async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
+async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1173,7 +1171,7 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1231,7 +1229,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1296,7 +1294,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1357,7 +1355,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1415,7 +1413,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
-async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
+async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1476,7 +1474,7 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
  */
-async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
+async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1529,7 +1527,7 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
  */
-async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
+async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1602,7 +1600,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
  */
-async function createAVMFromACustomImage() {
+async function createAVMFromACustomImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1652,7 +1650,7 @@ async function createAVMFromACustomImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
  */
-async function createAVMFromAGeneralizedSharedImage() {
+async function createAVMFromAGeneralizedSharedImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1702,7 +1700,7 @@ async function createAVMFromAGeneralizedSharedImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
  */
-async function createAVMFromASpecializedSharedImage() {
+async function createAVMFromASpecializedSharedImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1747,7 +1745,7 @@ async function createAVMFromASpecializedSharedImage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
  */
-async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain() {
+async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1804,7 +1802,7 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
  */
-async function createAVMInAnAvailabilitySet() {
+async function createAVMInAnAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1860,7 +1858,7 @@ async function createAVMInAnAvailabilitySet() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
  */
-async function createAVMWithApplicationProfile() {
+async function createAVMWithApplicationProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -1931,7 +1929,7 @@ async function createAVMWithApplicationProfile() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
  */
-async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() {
+async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2013,7 +2011,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
  */
-async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
+async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2072,7 +2070,7 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
  */
-async function createAVMWithScheduledEventsProfile() {
+async function createAVMWithScheduledEventsProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2143,7 +2141,7 @@ async function createAVMWithScheduledEventsProfile() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
  */
-async function createAVMWithAMarketplaceImagePlan() {
+async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2201,7 +2199,7 @@ async function createAVMWithAMarketplaceImagePlan() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
  */
-async function createAVMWithAnExtensionsTimeBudget() {
+async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2262,7 +2260,7 @@ async function createAVMWithAnExtensionsTimeBudget() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithBootDiagnostics.json
  */
-async function createAVMWithBootDiagnostics() {
+async function createAVMWithBootDiagnostics(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2322,7 +2320,7 @@ async function createAVMWithBootDiagnostics() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDataDisksFromSourceResource.json
  */
-async function createAVMWithDataDisksUsingCopyAndRestoreOptions() {
+async function createAVMWithDataDisksUsingCopyAndRestoreOptions(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2401,7 +2399,7 @@ async function createAVMWithDataDisksUsingCopyAndRestoreOptions() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
  */
-async function createAVMWithEmptyDataDisks() {
+async function createAVMWithEmptyDataDisks(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2458,7 +2456,7 @@ async function createAVMWithEmptyDataDisks() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
  */
-async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty() {
+async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2517,7 +2515,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
  */
-async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty() {
+async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2576,7 +2574,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementP
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
  */
-async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty() {
+async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2635,7 +2633,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
  */
-async function createAVMWithEphemeralOSDisk() {
+async function createAVMWithEphemeralOSDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2694,7 +2692,7 @@ async function createAVMWithEphemeralOSDisk() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
  */
-async function createAVMWithManagedBootDiagnostics() {
+async function createAVMWithManagedBootDiagnostics(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2748,7 +2746,7 @@ async function createAVMWithManagedBootDiagnostics() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
  */
-async function createAVMWithPasswordAuthentication() {
+async function createAVMWithPasswordAuthentication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2801,7 +2799,7 @@ async function createAVMWithPasswordAuthentication() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
  */
-async function createAVMWithPremiumStorage() {
+async function createAVMWithPremiumStorage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2854,7 +2852,7 @@ async function createAVMWithPremiumStorage() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
  */
-async function createAVMWithSshAuthentication() {
+async function createAVMWithSshAuthentication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2918,7 +2916,7 @@ async function createAVMWithSshAuthentication() {
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
  */
-async function createOrUpdateAVMWithCapacityReservation() {
+async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -2975,7 +2973,7 @@ async function createOrUpdateAVMWithCapacityReservation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault();
   createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
   createALinuxVMWithAPatchSettingPatchModeOfImageDefault();

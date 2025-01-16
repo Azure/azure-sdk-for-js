@@ -13,9 +13,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
  */
-async function listCapacityReservationGroupsInSubscription() {
+async function listCapacityReservationGroupsInSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const expand = "virtualMachines/$ref";
@@ -47,7 +45,7 @@ async function listCapacityReservationGroupsInSubscription() {
  * @summary Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscriptionWithResourceIdsQuery.json
  */
-async function listCapacityReservationGroupsWithResourceIdsOnlyInSubscription() {
+async function listCapacityReservationGroupsWithResourceIdsOnlyInSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceIdsOnly = "All";
@@ -65,7 +63,7 @@ async function listCapacityReservationGroupsWithResourceIdsOnlyInSubscription() 
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCapacityReservationGroupsInSubscription();
   listCapacityReservationGroupsWithResourceIdsOnlyInSubscription();
 }
