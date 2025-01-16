@@ -253,6 +253,7 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
         path: "./tsconfig.test.json",
       },
     ],
+    files: [],
   };
 
   await saveJson(tsconfigPath, tsConfig);
