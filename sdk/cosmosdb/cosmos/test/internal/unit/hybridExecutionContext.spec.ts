@@ -86,10 +86,12 @@ describe("hybridQueryExecutionContext", function () {
         .returns(false); // Second call returns false
 
       sinon.stub(context["globalStatisticsExecutionContext"], "fetchMore").resolves({
-        result: [{
-          documentCount: 2,
-          fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
-        }],
+        result: [
+          {
+            documentCount: 2,
+            fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+          },
+        ],
         headers: {},
         code: 200,
         substatus: 0,

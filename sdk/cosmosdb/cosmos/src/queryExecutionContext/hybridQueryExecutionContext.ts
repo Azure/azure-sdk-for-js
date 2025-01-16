@@ -196,25 +196,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     try {
       if (this.options.enableQueryControl) {
         // keep track of componentExecutionContexts that have more results and maek call to them in LIFO order
-        if(!this.componentExecutionContextStack.isEmpty()) {
-        const componentExecutionContext = this.componentExecutionContextStack.pop();
-        if (componentExecutionContext.hasMoreResults()) {
-          const result = await componentExecutionContext.fetchMore(diagnosticNode);
-          const response = result.result;
-          mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
-              const hybridItem = HybridSearchQueryResult.create(item);
-              if (!this.uniqueItems.has(hybridItem.rid)) {
-                this.uniqueItems.set(hybridItem.rid, hybridItem);
-              }
-            });
-          }
+        if (!this.componentExecutionContextStack.isEmpty()) {
+          const componentExecutionContext = this.componentExecutionContextStack.pop();
           if (componentExecutionContext.hasMoreResults()) {
-            this.componentExecutionContextStack.push(componentExecutionContext);
+            const result = await componentExecutionContext.fetchMore(diagnosticNode);
+            const response = result.result;
+            mergeHeaders(fetchMoreRespHeaders, result.headers);
+            if (response) {
+              response.forEach((item: any) => {
+                const hybridItem = HybridSearchQueryResult.create(item);
+                if (!this.uniqueItems.has(hybridItem.rid)) {
+                  this.uniqueItems.set(hybridItem.rid, hybridItem);
+                }
+              });
+            }
+            if (componentExecutionContext.hasMoreResults()) {
+              this.componentExecutionContextStack.push(componentExecutionContext);
+            }
           }
         }
-      }
         if (this.componentExecutionContextStack.isEmpty()) {
           this.processUniqueItems();
         }
