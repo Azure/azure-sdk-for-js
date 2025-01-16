@@ -47,8 +47,9 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 Use the returned token credential to authenticate the client:
 
 ```ts snippet:ReadmeSampleCreateClient
-import ComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import ComputeManagementClient from "@azure-rest/arm-compute";
+
 const credential = new DefaultAzureCredential();
 const client = ComputeManagementClient(credential);
 ```
@@ -60,38 +61,33 @@ The following section shows you how to initialize and authenticate your client, 
 ### List all virtual machines within a resource group
 
 ```ts snippet:ReadmeSampleVirtualMachinesList
-import createComputeManagementClient, {
-  VirtualMachinesListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-async function virtualMachinesListMaximumSetGen() {
-  const credential = new DefaultAzureCredential();
-  const client = createComputeManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rgcompute";
-  const options: VirtualMachinesListParameters = {
-    queryParameters: {
-      $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
-      "api-version": "2022-08-01",
-    },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get(options);
-  const pageData = paginate(client, initialResponse);
-  const result = [];
-  for await (const item of pageData) {
-    result.push(item);
-  }
-  console.log(result);
-}
+import ComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 
-virtualMachinesListMaximumSetGen().catch(console.error);
+const credential = new DefaultAzureCredential();
+const client = ComputeManagementClient(credential);
+
+const subscriptionId = "";
+const resourceGroupName = "rgcompute";
+const options = {
+  queryParameters: {
+    $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
+    "api-version": "2022-08-01",
+  },
+};
+const initialResponse = await client
+  .path(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
+    subscriptionId,
+    resourceGroupName,
+  )
+  .get(options);
+const pageData = paginate(client, initialResponse);
+const result = [];
+for await (const item of pageData) {
+  result.push(item);
+}
+console.log(result);
 ```
 
 ## Troubleshooting
