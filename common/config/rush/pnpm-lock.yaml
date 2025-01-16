@@ -1388,8 +1388,16 @@ packages:
     resolution: {integrity: sha512-1c1qUF6vB52mWlyoMem4xR1gdwiQWYEQB2uhDkbAL4wVJr8WmAcXybc1Qs33y19N4BdPI8/DHI7rPE8L5jMtWw==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-browser@4.0.1':
+    resolution: {integrity: sha512-jqiwVJPArnEOUhmc+dvo481OP8b2PMcsu3EtGtxt7sxmKgFtdQyGDCndj+2me62JVG/HEgArEgKyMA7L0aNhdA==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@14.16.0':
     resolution: {integrity: sha512-1KOZj9IpcDSwpNiQNjt0jDYZpQvNZay7QAEi/5DLubay40iGYtLzya/jbjRPLyOTZhEKyL1MzPuw2HqBCjceYA==}
+    engines: {node: '>=0.8.0'}
+
+  '@azure/msal-common@15.0.1':
+    resolution: {integrity: sha512-JELxEK3Pnc4Rq8u+mI9u6o37auSpSOPCB7jaq7QziOAKi9WliWEmZZORCFHPbwf2xKitpHBXTz/0uerj17NsSQ==}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-node-extensions@1.5.0':
@@ -3769,7 +3777,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-/+5wUhxo8VSfSoED4nO4bGD6XhzFsgz2hcoe713rWtWR+0THnH0S/WOfyM9NrzrjSk7VabI/9UQPjjQ6CFm90g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-S+RnxKlda8Cu6vXPNsJPUdKbQiUOl2J5z/yXAPv2D3d/hjepBU2crvPtG9UqqaH3+ImPA1SM9FIkJJZ5gFjPYg==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -8584,7 +8592,13 @@ snapshots:
     dependencies:
       '@azure/msal-common': 14.16.0
 
+  '@azure/msal-browser@4.0.1':
+    dependencies:
+      '@azure/msal-common': 15.0.1
+
   '@azure/msal-common@14.16.0': {}
+
+  '@azure/msal-common@15.0.1': {}
 
   '@azure/msal-node-extensions@1.5.0':
     dependencies:
@@ -18236,7 +18250,7 @@ snapshots:
   '@rush-temp/identity@file:projects/identity.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@azure/keyvault-keys': 4.9.0
-      '@azure/msal-browser': 3.28.0
+      '@azure/msal-browser': 4.0.1
       '@azure/msal-node': 2.16.2
       '@types/jsonwebtoken': 9.0.7
       '@types/jws': 3.2.10
