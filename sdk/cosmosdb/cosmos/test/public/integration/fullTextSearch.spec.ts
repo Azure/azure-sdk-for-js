@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import assert from "assert";
-import { ContainerDefinition, Container } from "../../../src";
+import type { ContainerDefinition, Container } from "../../../src";
 import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers";
 
 describe.skip("Validate full text search queries", function (this: Suite) {

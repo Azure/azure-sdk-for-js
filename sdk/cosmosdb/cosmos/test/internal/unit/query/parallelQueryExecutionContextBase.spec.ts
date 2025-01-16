@@ -22,6 +22,7 @@ import {
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext";
 import { expect } from "chai";
 import { assert } from "chai";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
 describe("parallelQueryExecutionContextBase", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
@@ -134,7 +135,7 @@ describe("parallelQueryExecutionContextBase", function () {
       context["options"] = options;
 
       // Call bufferDocumentProducers
-      await (context as any).bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
 
       assert.equal(context["bufferedDocumentProducersQueue"].size(), 2);
       assert.equal(
@@ -185,7 +186,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
-        await (context as any).bufferDocumentProducers();
+        await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
       } catch (err) {
         assert.equal(context["err"].code, 404);
         assert.equal(releaseSpy.callCount, 2);
@@ -231,7 +232,7 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
-        await (context as any).bufferDocumentProducers();
+        await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
       } catch (err) {
         console.log("error thrown from should propagate:", err);
         assert.equal(err.code, 404);
@@ -287,38 +288,10 @@ describe("parallelQueryExecutionContextBase", function () {
       const repairSpy = sinon.spy(context as any, "_repairExecutionContext");
 
       // Call bufferDocumentProducers
-      await (context as any).bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
 
       assert.equal(repairSpy.callCount, 1);
     });
-
-    it("should calculate maxDegreeOfParallelism based on queue size and options", async function () {});
-
-    it("should dequeue and process document producers up to maxDegreeOfParallelism", async function () {});
-
-    it("should resolve immediately if unfilledDocumentProducersQueue size is 0", async function () {});
-
-    it("should enqueue document producers into bufferedDocumentProducersQueue if nextItem is available", async function () {});
-
-    it("should re-enqueue document producers into unfilledDocumentProducersQueue if no item is buffered but more results are available", async function () {});
-
-    it("should retry bufferDocumentProducers after partition key range repair using ifCallback", async function () {});
-
-    it("should trigger _repairExecutionContextIfNeeded when a partition key range split is detected", async function () {});
-
-    it("should enqueue new DocumentProducer objects after partition key range repair", async function () {});
-
-    it("should re-execute bufferDocumentProducers after execution context repair", async function () {});
-
-    it("should correctly handle concurrent calls to bufferDocumentProducers with proper semaphore control", async function () {});
-
-    it("should isolate errors encountered during concurrent execution and handle them independently", async function () {});
-
-    it("should resolve and complete when unfilledDocumentProducersQueue size is 0", async function () {});
-
-    it("should complete correctly when all document producers have been fully buffered", async function () {});
-
-    it("should handle varying sizes of DocumentProducer objects and maintain performance under load", async function () {});
   });
 
   describe("fillBufferFromBufferQueue", function () {
@@ -369,7 +342,7 @@ describe("parallelQueryExecutionContextBase", function () {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      await (context as any).bufferDocumentProducers();
+      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
 
       // Call fillBufferFromBufferQueue
       await (context as any).fillBufferFromBufferQueue();
