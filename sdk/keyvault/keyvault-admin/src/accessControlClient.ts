@@ -196,7 +196,8 @@ export class KeyVaultAccessControlClient {
     options: ListRoleAssignmentsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
     return mapPagedAsyncIterable(
-      this.client.roleAssignments.listForScope(roleScope, options),
+      options,
+      (mappedOptions) => this.client.roleAssignments.listForScope(roleScope, mappedOptions),
       mappings.roleAssignment.generatedToPublic,
     );
   }
@@ -220,7 +221,8 @@ export class KeyVaultAccessControlClient {
     options: ListRoleDefinitionsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
     return mapPagedAsyncIterable(
-      this.client.roleDefinitions.list(roleScope, options),
+      options,
+      (mappedOptions) => this.client.roleDefinitions.list(roleScope, mappedOptions),
       mappings.roleDefinition.generatedToPublic,
     );
   }
