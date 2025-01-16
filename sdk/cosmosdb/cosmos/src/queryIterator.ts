@@ -241,13 +241,8 @@ export class QueryIterator<T> {
     if (!this.isInitialized) {
       await this.init(diagnosticNode);
     }
-    console.log("toArrayImplementation");
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
-      console.log(
-        "toArrayImplementation fetchMore loop,",
-        this.queryExecutionContext.hasMoreResults(),
-      );
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
@@ -259,14 +254,12 @@ export class QueryIterator<T> {
         }
       }
       const { result, headers } = response;
-      console.log("toArrayImplementation fetchMore result", result);
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
       if (result) {
         this.fetchAllTempResources.push(...result);
       }
     }
-    console.log("toArrayImplementation fetchAllTempResources", this.fetchAllTempResources);
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
