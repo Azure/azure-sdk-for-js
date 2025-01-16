@@ -7,7 +7,7 @@
 
 const NotificationClient = require("@azure-rest/communication-messages").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
-const fs = require("fs");
+const fs = require("node:fs");
 
 // Load the .env file if it exists
 require("dotenv").config();

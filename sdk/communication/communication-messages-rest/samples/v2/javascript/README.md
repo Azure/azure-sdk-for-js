@@ -12,17 +12,23 @@ urlFragment: communication-messages-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure client library for Azure Communication Messages Services in some common scenarios.
 
-| **File Name**                                                         | **Description**                                                     |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [DownloadMedia.js][downloadmedia]                                     | Download a media file                                               |
-| [GetMessageTemplateList.js][getmessagetemplatelist]                   | Get Template list for a channel                                     |
-| [SendAudioMessage.js][sendaudiomessage]                               | Send a audio message                                                |
-| [SendDocumentMessage.js][senddocumentmessage]                         | Send a document message                                             |
-| [SendImageMessage.js][sendimagemessage]                               | Send an image message                                               |
-| [SendTemplateMessage.js][sendtemplatemessage]                         | Send a template message                                             |
-| [SendTextMessage.js][sendtextmessage]                                 | Send a text message                                                 |
-| [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad] | Use AAD token credentials when sending a whatsapp template message. |
-| [SendVideoMessage.js][sendvideomessage]                               | Send a video message                                                |
+| **File Name**                                                                                             | **Description**                                                     |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [DownloadMedia.js][downloadmedia]                                                                         | Download a media file                                               |
+| [GetMessageTemplateList.js][getmessagetemplatelist]                                                       | Get Template list for a channel                                     |
+| [SendAudioMessage.js][sendaudiomessage]                                                                   | Send a audio message                                                |
+| [SendButtonActionInteractiveMessage.js][sendbuttonactioninteractivemessage]                               | Send a video message                                                |
+| [SendButtonActionWithDocHeaderInteractiveMessage.js][sendbuttonactionwithdocheaderinteractivemessage]     | Send a video message                                                |
+| [SendButtonActionWithImageHeaderInteractiveMessage.js][sendbuttonactionwithimageheaderinteractivemessage] | Send a video message                                                |
+| [SendButtonActionWithVideoHeaderInteractiveMessage.js][sendbuttonactionwithvideoheaderinteractivemessage] | Send a video message                                                |
+| [SendDocumentMessage.js][senddocumentmessage]                                                             | Send a document message                                             |
+| [SendImageMessage.js][sendimagemessage]                                                                   | Send an image message                                               |
+| [SendListActionInteractiveMessage.js][sendlistactioninteractivemessage]                                   | Send a video message                                                |
+| [SendTemplateMessage.js][sendtemplatemessage]                                                             | Send a template message                                             |
+| [SendTextMessage.js][sendtextmessage]                                                                     | Send a text message                                                 |
+| [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad]                                     | Use AAD token credentials when sending a whatsapp template message. |
+| [SendUrlActionInteractiveMessage.js][sendurlactioninteractivemessage]                                     | Send a video message                                                |
+| [SendVideoMessage.js][sendvideomessage]                                                                   | Send a video message                                                |
 
 ## Prerequisites
 
@@ -65,11 +71,17 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [downloadmedia]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/DownloadMedia.js
 [getmessagetemplatelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/GetMessageTemplateList.js
 [sendaudiomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendAudioMessage.js
+[sendbuttonactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendButtonActionInteractiveMessage.js
+[sendbuttonactionwithdocheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendButtonActionWithDocHeaderInteractiveMessage.js
+[sendbuttonactionwithimageheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendButtonActionWithImageHeaderInteractiveMessage.js
+[sendbuttonactionwithvideoheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendButtonActionWithVideoHeaderInteractiveMessage.js
 [senddocumentmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendDocumentMessage.js
 [sendimagemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendImageMessage.js
+[sendlistactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendListActionInteractiveMessage.js
 [sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTemplateMessage.js
 [sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextMessage.js
 [sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextTemplateMessageUsingAAD.js
+[sendurlactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendUrlActionInteractiveMessage.js
 [sendvideomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendVideoMessage.js
 [apiref]: https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest
 [freesub]: https://azure.microsoft.com/free/

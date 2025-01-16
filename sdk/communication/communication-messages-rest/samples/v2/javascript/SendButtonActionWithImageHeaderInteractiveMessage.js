@@ -1,20 +1,56 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Send a video message
+ */
+
+const { AzureKeyCredential } = require("@azure/core-auth");
 const NotificationClient = require("@azure-rest/communication-messages").default,
   { isUnexpected } = require("@azure-rest/communication-messages");
-
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || "";
-  const client = NotificationClient(connectionString);
+  const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
+  const endpoint = process.env.ACS_URL || "";
+  const client = NotificationClient(endpoint, credential);
+
+  const interactiveMessage = {
+    header: {
+      kind: "image",
+      mediaUri: "https://wallpapercave.com/wp/wp2163723.jpg",
+    },
+    body: {
+      kind: "text",
+      text: "Do you want to proceed?",
+    },
+    action: {
+      kind: "whatsAppButtonAction",
+      content: {
+        kind: "buttonSet",
+        buttons: [
+          {
+            id: "yes",
+            title: "Yes",
+          },
+          {
+            id: "no",
+            title: "No",
+          },
+        ],
+      },
+    },
+  };
+
   console.log("Sending message...");
   const result = await client.path("/messages/notifications:send").post({
     contentType: "application/json",
     body: {
       channelRegistrationId: process.env.CHANNEL_ID || "",
       to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-      kind: "text",
-      content: "Arif The Great!!!",
+      kind: "interactive",
+      interactiveMessage: interactiveMessage,
     },
   });
 
