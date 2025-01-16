@@ -8,12 +8,6 @@
 - Added Reaction Message.
 - Added Sticker Message.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 2.0.0 (2024-10-23)
 
 ### Features Added
