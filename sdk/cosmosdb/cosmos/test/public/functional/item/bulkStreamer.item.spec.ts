@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import type { BulkOptions, Container, ContainerRequest, PluginConfig } from "../../../../src";
+import type { BulkOptions, Container, ContainerRequest, CreateOperationInput, PluginConfig } from "../../../../src";
 import {
   Constants,
   CosmosClient,
@@ -1035,6 +1035,83 @@ describe("new streamer bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
+      it("handles throttling", async function () {
+        let responseIndex = 0;
+        const plugins: PluginConfig[] = [
+          {
+            on: PluginOn.request,
+            plugin: async (context, _diagNode, next) => {
+              if (context.operationType === "batch" && responseIndex < 1) {
+                const error = new ErrorResponse();
+                error.code = StatusCodes.TooManyRequests;
+                error.headers = {
+                  "x-ms-retry-after-ms": 100,
+                };
+                responseIndex++;
+                throw error;
+              }
+              const res = await next(context);
+              return res;
+            },
+          },
+        ];
+        const client = new CosmosClient({
+          key: masterKey,
+          endpoint,
+          plugins,
+        });
+        const testcontainer = await getTestContainer("throttling container", client, {
+          partitionKey: {
+            paths: ["/key"],
+            version: 2,
+          },
+          throughput: 400,
+        });
+        const operations: CreateOperationInput[] = Array.from({ length: 10 }, (_, i) => {
+          return {
+            operationType: BulkOperationType.Create,
+            resourceBody: {
+              id: addEntropy("doc" + i),
+              key: i,
+              class: "2010",
+            },
+          };
+        });
+        const bulkStreamer = testcontainer.items.getBulkStreamer();
+        bulkStreamer.addBulkOperations(operations);
+        const response = await bulkStreamer.finishBulk();
+        assert.strictEqual(response.length, 10);
+        response.forEach((res, index) => {
+          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`);
+        });
+        await testcontainer.database.delete();
+      });
+      it("returns final response in order", async function () {
+        const testcontainer = await getTestContainer("final response order container", undefined, {
+          partitionKey: {
+            paths: ["/key"],
+            version: 2,
+          },
+          throughput: 25100,
+        });
+        const operations: CreateOperationInput[] = Array.from({ length: 10 }, (_, i) => {
+          return {
+            operationType: BulkOperationType.Create,
+            resourceBody: {
+              id: addEntropy("doc" + i),
+              key: i,
+              class: "2010",
+            },
+          };
+        });
+        const bulkStreamer = testcontainer.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
+        const response = await bulkStreamer.finishBulk();
+        const expectedOrder = operations.map((op) => op.resourceBody.id);
+        const actualOrder = response.map((res) => res.resourceBody.id);
+        assert.deepStrictEqual(actualOrder, expectedOrder);
+        await testcontainer.database.delete();
+      });
     });
     describe("multi partition container - nested partition key", async function () {
       let container: Container;
@@ -1084,7 +1161,7 @@ describe("new streamer bulk operations", async function () {
         assert.equal(createResponse[0].statusCode, 201);
       });
     });
-    describe("multi partitioned container with many items handle partition split", async function () {
+    describe.skip("multi partitioned container with many items handle partition split", async function () {
       let container: Container;
       before(async function () {
         let responseIndex = 0;

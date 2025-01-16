@@ -6,7 +6,7 @@ import { BulkCongestionAlgorithm } from "../../../src/bulk/BulkCongestionAlgorit
 import { BulkPartitionMetric } from "../../../src/bulk/BulkPartitionMetric";
 import { Limiter } from "../../../src/bulk/Limiter";
 
-describe("Bulk Congestion Algorithm", () => {
+describe("BulkCongestionAlgorithm", () => {
   let limiter: Limiter;
   let oldPartitionMetric: BulkPartitionMetric;
   let partitionMetric: BulkPartitionMetric;

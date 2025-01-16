@@ -171,6 +171,7 @@
     "test/internal/unit/sessionContainer.spec.ts",
     "test/internal/unit/changeFeed/*.spec.ts",
     "test/internal/unit/bulkCongestionAlgorithm.spec.ts",
+    "test/internal/unit/bulkStreamerPerPartition.spec.ts",
     "test/public/common/MockQueryIterator.ts",
     "test/public/common/MockClientContext.ts",
     "test/internal/unit/smartRoutingMapProvider.spec.ts",
