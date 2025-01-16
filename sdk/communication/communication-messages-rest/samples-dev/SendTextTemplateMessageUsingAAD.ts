@@ -9,7 +9,6 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import type {
-  Send202Response,
   MessageTemplate,
   MessageTemplateValue,
   MessageTemplateBindings,
@@ -84,8 +83,7 @@ export async function main(): Promise<void> {
     throw new Error("Failed to send message");
   }
 
-  const response: Send202Response = result as Send202Response;
-  response.body.receipts.forEach((receipt) => {
+  result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

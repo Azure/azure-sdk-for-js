@@ -10,7 +10,7 @@ import { RecipientVerificationClient } from "@azure-tools/communication-recipien
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Delete Verification Sample ==\n");
 
   // You will need to set this environment variable or edit the following values

@@ -9,7 +9,7 @@ const connectionString =
   process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== SIP Routing Client Example ==\n");
 
   // Build client

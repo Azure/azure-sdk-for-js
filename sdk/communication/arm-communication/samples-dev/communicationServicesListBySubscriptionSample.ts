@@ -18,24 +18,20 @@ import "dotenv/config";
  * @summary Handles requests to list all resources in a subscription.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/listBySubscription.json
  */
-async function listBySubscription() {
+async function listBySubscription(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communicationServices.listBySubscription()) {
+  for await (const item of client.communicationServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listBySubscription();
+async function main(): Promise<void> {
+  await listBySubscription();
 }
 
 main().catch(console.error);

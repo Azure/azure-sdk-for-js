@@ -18,18 +18,13 @@ import "dotenv/config";
  * @summary Get the CommunicationService and its properties.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/get.json
  */
-async function getResource() {
+async function getResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.get(
     resourceGroupName,
     communicationServiceName,
@@ -37,8 +32,8 @@ async function getResource() {
   console.log(result);
 }
 
-async function main() {
-  getResource();
+async function main(): Promise<void> {
+  await getResource();
 }
 
 main().catch(console.error);

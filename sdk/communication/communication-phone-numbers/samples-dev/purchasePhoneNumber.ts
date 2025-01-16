@@ -5,15 +5,13 @@
  * @summary Search for a toll-free phone number then purchase it.
  */
 
-import {
-  PhoneNumbersClient,
-  SearchAvailablePhoneNumbersRequest,
-} from "@azure/communication-phone-numbers";
+import type { SearchAvailablePhoneNumbersRequest } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Purchase Phone Number Sample ==\n");
 
   // You will need to set this environment variable or edit the following values

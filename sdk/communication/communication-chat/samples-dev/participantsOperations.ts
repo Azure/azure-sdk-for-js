@@ -16,7 +16,7 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";

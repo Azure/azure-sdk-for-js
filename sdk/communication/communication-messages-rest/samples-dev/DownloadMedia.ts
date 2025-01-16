@@ -7,7 +7,7 @@
 
 import NotificationClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as fs from "node:fs";
+import { createWriteStream } from "node:fs";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -22,7 +22,7 @@ async function main(): Promise<void> {
     .get()
     .asNodeStream()
     .then((resp) => {
-      resp.body?.pipe(fs.createWriteStream("downloadedMedia.jpeg"));
+      resp.body?.pipe(createWriteStream("downloadedMedia.jpeg"));
       return;
     });
 }

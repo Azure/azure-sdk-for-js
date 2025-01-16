@@ -5,19 +5,19 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import {
-  RoomsClient,
+import type {
   RoomParticipantPatch,
   CreateRoomOptions,
   RoomParticipant,
 } from "@azure/communication-rooms";
+import { RoomsClient } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("Room Participant Operations JavaScript Sample");
   console.log("_________________________________\n");
 
@@ -125,7 +125,7 @@ export async function main() {
 async function printParticipants(
   participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>,
 ): Promise<void> {
-  var count = 0;
+  let count = 0;
   for await (const participant of participants) {
     if (participant) {
       count++;
