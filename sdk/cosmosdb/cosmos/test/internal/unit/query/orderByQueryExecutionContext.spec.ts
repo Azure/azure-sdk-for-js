@@ -367,7 +367,7 @@ describe("OrderByQueryExecutionContext", function () {
     context["options"] = options;
 
     const responses = [];
-    for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 5; j++) {
       const response = await context.fetchMore();
       responses.push(response);
     }
@@ -382,5 +382,5 @@ describe("OrderByQueryExecutionContext", function () {
     assert.equal(context.hasMoreResults(), false);
   });
 
-  //TODO: add tests for one of document producer becoming empty
+  // TODO: add tests for one of document producer becoming empty
 });
