@@ -25,7 +25,7 @@ describe("Notification Template Messages Test", () => {
     if (!ctx.task.pending) {
       await recorder.stop();
     }
-  }); 
+  });
 
   it("send simple text template message test", async () => {
     const DaysTemplateValue: MessageTemplateValue = {
@@ -299,4 +299,3 @@ describe("Notification Template Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 });
-

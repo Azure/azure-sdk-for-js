@@ -124,7 +124,7 @@ describe("Notification Messages Test", () => {
       kind: "sticker",
       mediaUri: "https://www.gstatic.com/webp/gallery/1.sm.webp",
       channelRegistrationId: env.CHANNEL_ID || "",
-      to: [env.RECIPIENT_PHONE_NUMBER || ""]
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
     };
 
     const result = await client.path("/messages/notifications:send").post({
