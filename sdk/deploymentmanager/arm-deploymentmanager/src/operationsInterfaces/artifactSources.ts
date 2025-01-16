@@ -14,7 +14,7 @@ import {
   ArtifactSourcesDeleteOptionalParams,
   ArtifactSourcesListOptionalParams,
   ArtifactSourcesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ArtifactSources. */
 export interface ArtifactSources {
