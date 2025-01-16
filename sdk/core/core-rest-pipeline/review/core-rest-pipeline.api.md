@@ -283,6 +283,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -297,6 +298,7 @@ export interface PipelineRequestOptions {
     requestId?: string;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;

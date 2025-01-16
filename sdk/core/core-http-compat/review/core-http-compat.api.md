@@ -18,6 +18,15 @@ import { ServiceClient } from '@azure/core-client';
 import type { ServiceClientOptions } from '@azure/core-client';
 
 // @public
+export interface Agent {
+    destroy(): void;
+    maxFreeSockets: number;
+    maxSockets: number;
+    requests: unknown;
+    sockets: unknown;
+}
+
+// @public
 export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
     headers: HttpHeadersLike;
     request: WebResourceLike;
@@ -134,6 +143,7 @@ export type TransferProgressEvent = {
 // @public
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     body?: any;
     clone(): WebResourceLike;
     decompressResponse?: boolean;
