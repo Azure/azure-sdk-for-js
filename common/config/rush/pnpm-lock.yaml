@@ -2677,7 +2677,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-4CKEY1ZNr54+AmbrsSti1aeZKbD28k/gzm8hOTuvd6E0QwFI6bQUDgi9A7eCkunylj0iscah/17FpPxYLYUwuA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-nLiXbh0eBfBazoWR3AWVC1Y0pFC4Bh492MGNAb9GldRpa0yOmVzjoSdDAvV9iZJQ+nh/WtXrnoAXhLSrEcLhoQ==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2701,7 +2701,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz':
-    resolution: {integrity: sha512-5jnCqpuY6z3rgWgy6kM49tMQ8GmBuuhmHfmTPkELkUj/SY69lfQO199xWweZNLBANjPQ1oV7RBow/mDroYiOIA==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-PbHAL7W3wC27H1Ywror0uQBeNriBegGylAM7/Im5b8aR/BpoCRr3kJTMypx1F3+T/xRJONxrHKJfyDefYHIz2Q==, tarball: file:projects/arm-communication.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
@@ -3573,19 +3573,19 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
-    resolution: {integrity: sha512-B096hJCl8KGVcAI4GLoLl0Imon8q/uo6UPQvBFGlRd+10RJqgwVuv6bwQcsIdLZGc9EtFR4dh1WpmJIk/oHkfQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-gLMyuDcbOXQpKwVuepjiX3Q+xFfwDgLkg+CB5zcFRUDT/DkU7DLr3t1aIB4ic0ZnOrlPhe92EDZqYSORilDBQg==, tarball: file:projects/communication-common.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-kCtc9UyXFNIZpnxLwcKwNh4UXaKq/VL0NbDsNrAcAcMvnb/jGF00cla5XIWx/aDDP4+kKLGGAOLIP03sGlglFg==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-d7Q8AQwbAi5l1DpOl8n9DUET+PKi1f52IYh6ImSd8jHO72EbZRg9TvoeMf2r1OxpDvYwJObi2FWVajNMyO9Jgw==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
-    resolution: {integrity: sha512-GXi3SsU9e78RWIBopm7ZbFghRH0O58RuR3WbCCb1a58tkDNEwtdlb+BCUEKqmgAg1UyzsNK0DLA9ks0TTQR7tQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-qUEmURaERnZ8EHvXZB+NpsOtmiIP4QM3DiZ2kUTcGcdqtHexcSARyt8K8g24TxSqZoE7ItPmVcLAqB6A+E+O1A==, tarball: file:projects/communication-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router-1@file:projects/communication-job-router-1.tgz':
-    resolution: {integrity: sha512-n2z2bSadooX3ECLjkCFKuepcUpBcSxc2IFMRRn1DeGJhGE6ZcUtyU4+RqeSc6wqNgYR5FDyeoDUK2g4daEacmg==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-dC5PTR1BGwBrKTH1DnFLOXiSvqQxyiTBZhRm7clY8GTmshia/ECiyZZb/B8pAlO7d7O96jJWGsTzz/+2uThj3w==, tarball: file:projects/communication-job-router-1.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
@@ -4407,6 +4407,9 @@ packages:
 
   '@types/unzipper@0.10.10':
     resolution: {integrity: sha512-jKJdNxhmCHTZsaKW5x0qjn6rB+gHk0w5VFbEKsw84i+RJqXZyfTmGnpjDcKqzMpjz7VVLsUBMtO5T3mVidpt0g==}
+
+  '@types/uuid@10.0.0':
+    resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
 
   '@types/uuid@8.3.4':
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
@@ -7983,6 +7986,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@11.0.5:
+    resolution: {integrity: sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==}
+    hasBin: true
+
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
@@ -11528,7 +11535,6 @@ snapshots:
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
@@ -16473,13 +16479,11 @@ snapshots:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.18.0
       events: 3.3.0
-      inherits: 2.0.4
       jwt-decode: 4.0.0
       mockdate: 3.0.5
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
-      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -16573,18 +16577,16 @@ snapshots:
   '@rush-temp/communication-job-router-1@file:projects/communication-job-router-1.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@types/node': 18.19.70
-      '@types/uuid': 8.3.4
+      '@types/uuid': 10.0.0
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.18.0
       events: 3.3.0
-      inherits: 2.0.4
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
-      util: 0.12.5
-      uuid: 8.3.2
+      uuid: 11.0.5
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20960,6 +20962,8 @@ snapshots:
     dependencies:
       '@types/node': 18.19.70
 
+  '@types/uuid@10.0.0': {}
+
   '@types/uuid@8.3.4': {}
 
   '@types/ws@7.4.7':
@@ -25068,6 +25072,8 @@ snapshots:
       which-typed-array: 1.1.18
 
   utils-merge@1.0.1: {}
+
+  uuid@11.0.5: {}
 
   uuid@8.3.2: {}
 

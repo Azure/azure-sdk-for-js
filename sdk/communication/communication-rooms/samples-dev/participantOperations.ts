@@ -14,9 +14,8 @@ import {
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-dotenv.config();
 
 export async function main() {
   console.log("Room Participant Operations JavaScript Sample");

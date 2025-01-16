@@ -14,8 +14,7 @@ import {
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("Room Operations JavaScript Sample");

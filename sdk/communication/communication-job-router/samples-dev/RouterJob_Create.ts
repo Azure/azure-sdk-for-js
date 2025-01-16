@@ -3,17 +3,15 @@
 /**
  * @summary router job crud
  */
-import {
+import type {
   DistributionPolicy,
   RouterQueue,
-  JobRouterAdministrationClient,
-  JobRouterClient,
   CreateJobOptions,
 } from "@azure/communication-job-router";
+import { JobRouterAdministrationClient, JobRouterClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -37,7 +35,7 @@ async function createRouterJob(): Promise<void> {
   };
   await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
-    distributionPolicyRequest
+    distributionPolicyRequest,
   );
 
   const queueId = "queue-123";

@@ -3,8 +3,7 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||

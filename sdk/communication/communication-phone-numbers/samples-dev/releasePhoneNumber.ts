@@ -8,8 +8,7 @@
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("\n== Release Phone Numbers Sample ==\n");

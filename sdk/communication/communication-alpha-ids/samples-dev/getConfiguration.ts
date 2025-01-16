@@ -9,8 +9,7 @@ import { DynamicAlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/commun
 import { RestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("\n== Get the Alpha IDs configuration that's applied for the current resource ==\n");

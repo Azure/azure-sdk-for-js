@@ -8,8 +8,7 @@
 import { SmsClient, SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("== Send SMS Message With Options ==");

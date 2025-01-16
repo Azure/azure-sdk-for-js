@@ -8,8 +8,7 @@
 import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("\n== Get All Program Briefs and Delete Program Brief Sample ==\n");

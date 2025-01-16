@@ -11,8 +11,7 @@ import {
 } from "@azure-tools/communication-toll-free-verification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("\n== Get a Campaign Brief ==\n");

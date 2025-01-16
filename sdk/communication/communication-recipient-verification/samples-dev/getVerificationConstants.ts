@@ -8,8 +8,7 @@
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main() {
   console.log("\n== Get Verification Constants Sample ==\n");
