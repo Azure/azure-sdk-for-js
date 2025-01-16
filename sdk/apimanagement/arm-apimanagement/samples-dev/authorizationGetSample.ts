@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Gets the details of the authorization specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetAuthorization.json
  */
-async function apiManagementGetAuthorization() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const authorizationProviderId = "aadwithauthcode";
-    const authorizationId = "authz1";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.authorization.get(
-        resourceGroupName,
-        serviceName,
-        authorizationProviderId,
-        authorizationId
-    );
-    console.log(result);
+async function apiManagementGetAuthorization(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const authorizationProviderId = "aadwithauthcode";
+  const authorizationId = "authz1";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.authorization.get(
+    resourceGroupName,
+    serviceName,
+    authorizationProviderId,
+    authorizationId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetAuthorization();
+async function main(): Promise<void> {
+  apiManagementGetAuthorization();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates an association between a AzureStackHCI cluster and Automanage configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileHCIAssignment.json
  */
-async function createOrUpdateAHciConfigurationProfileAssignment() {
+async function createOrUpdateAHciConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function createOrUpdateAHciConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAHciConfigurationProfileAssignment();
 }
 

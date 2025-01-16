@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a managed private endpoint for a grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_Delete.json
  */
-async function managedPrivateEndpointDelete() {
+async function managedPrivateEndpointDelete(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function managedPrivateEndpointDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedPrivateEndpointDelete();
 }
 

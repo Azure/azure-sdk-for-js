@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates a workbook template that has already been added.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-11-20/examples/WorkbookTemplateUpdate.json
  */
-async function workbookTemplateUpdate() {
+async function workbookTemplateUpdate(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const resourceName = "my-template-resource";

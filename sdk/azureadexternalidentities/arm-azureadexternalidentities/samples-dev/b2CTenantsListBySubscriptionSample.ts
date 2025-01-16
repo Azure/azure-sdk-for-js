@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all the Azure AD B2C tenant resources in a subscription.
  * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/listTenantsBySubscription.json
  */
-async function b2CTenantsListBySubscription() {
+async function b2CTenantsListBySubscription(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const credential = new DefaultAzureCredential();
   const client = new ExternalIdentitiesConfigurationClient(

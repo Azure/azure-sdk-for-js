@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the application accelerator.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApplicationAccelerators_Get.json
  */
-async function applicationAcceleratorsGet() {
+async function applicationAcceleratorsGet(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function applicationAcceleratorsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationAcceleratorsGet();
 }
 

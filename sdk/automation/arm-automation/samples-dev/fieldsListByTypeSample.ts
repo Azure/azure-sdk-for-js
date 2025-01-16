@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of fields of a given type identified by module name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listFieldsByModuleAndType.json
  */
-async function getAListOfFieldsOfAGivenType() {
+async function getAListOfFieldsOfAGivenType(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyAutomationAccount";
@@ -38,7 +38,7 @@ async function getAListOfFieldsOfAGivenType() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAListOfFieldsOfAGivenType();
 }
 

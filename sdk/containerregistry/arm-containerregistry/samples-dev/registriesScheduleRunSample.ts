@@ -24,7 +24,7 @@ import "dotenv/config";
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun.json
  */
-async function registriesScheduleRun() {
+async function registriesScheduleRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -70,7 +70,7 @@ async function registriesScheduleRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
  */
-async function registriesScheduleRunEncodedTaskRun() {
+async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -112,7 +112,7 @@ async function registriesScheduleRunEncodedTaskRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
  */
-async function registriesScheduleRunFileTaskRun() {
+async function registriesScheduleRunFileTaskRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -155,7 +155,7 @@ async function registriesScheduleRunFileTaskRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_Task.json
  */
-async function registriesScheduleRunTask() {
+async function registriesScheduleRunTask(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -202,7 +202,7 @@ async function registriesScheduleRunTask() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
  */
-async function registriesScheduleRunTaskWithCustomCredentials() {
+async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -250,7 +250,7 @@ async function registriesScheduleRunTaskWithCustomCredentials() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
  */
-async function registriesScheduleRunWithCustomCredentials() {
+async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -310,7 +310,7 @@ async function registriesScheduleRunWithCustomCredentials() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
  */
-async function registriesScheduleRunWithLogTemplate() {
+async function registriesScheduleRunWithLogTemplate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -351,7 +351,7 @@ async function registriesScheduleRunWithLogTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   registriesScheduleRun();
   registriesScheduleRunEncodedTaskRun();
   registriesScheduleRunFileTaskRun();

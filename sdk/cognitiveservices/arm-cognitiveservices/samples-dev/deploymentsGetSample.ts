@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified deployments associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetDeployment.json
  */
-async function getDeployment() {
+async function getDeployment(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function getDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDeployment();
 }
 

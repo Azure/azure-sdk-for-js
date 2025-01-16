@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Retrieve a list of dsc node configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listDscNodeConfigurations.json
  */
-async function listDscNodeConfigurationsByAutomationAccount() {
+async function listDscNodeConfigurationsByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -43,7 +43,7 @@ async function listDscNodeConfigurationsByAutomationAccount() {
  * @summary Retrieve a list of dsc node configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeConfigurationsWithNameFilter.json
  */
-async function listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter() {
+async function listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -76,7 +76,7 @@ async function listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter()
  * @summary Retrieve a list of dsc node configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodeConfigurationsWithNoFilter.json
  */
-async function listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter() {
+async function listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -101,7 +101,7 @@ async function listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDscNodeConfigurationsByAutomationAccount();
   listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter();
   listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter();

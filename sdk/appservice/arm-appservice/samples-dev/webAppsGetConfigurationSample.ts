@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSiteConfig.json
  */
-async function getSiteConfig() {
+async function getSiteConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function getSiteConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSiteConfig();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Start capturing network packets for the site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/StartWebSiteNetworkTraceOperation.json
  */
-async function startANewNetworkTraceOperationForASite() {
+async function startANewNetworkTraceOperationForASite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,7 +43,7 @@ async function startANewNetworkTraceOperationForASite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startANewNetworkTraceOperationForASite();
 }
 

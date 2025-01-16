@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List the changes of a resource group within the specified time range. Customer data will always be masked.
  * x-ms-original-file: specification/changeanalysis/resource-manager/Microsoft.ChangeAnalysis/stable/2021-04-01/examples/ChangesListChangesByResourceGroup.json
  */
-async function changesListChangesByResourceGroup() {
+async function changesListChangesByResourceGroup(): Promise<void> {
   const subscriptionId = "4d962866-1e3f-47f2-bd18-450c08f914c1";
   const resourceGroupName = "MyResourceGroup";
   const startTime = new Date("2021-04-25T12:09:03.141Z");

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get data boundary of tenant.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetTenantDataBoundary.json
  */
-async function getDataBoundaryForTenant() {
+async function getDataBoundaryForTenant(): Promise<void> {
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();
   const client = new DataboundariesManegementClient(credential);
@@ -26,7 +26,7 @@ async function getDataBoundaryForTenant() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDataBoundaryForTenant();
 }
 

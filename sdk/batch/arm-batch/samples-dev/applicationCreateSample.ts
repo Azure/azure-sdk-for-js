@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Adds an application to the specified Batch account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationCreate.json
  */
-async function applicationCreate() {
+async function applicationCreate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -44,7 +44,7 @@ async function applicationCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationCreate();
 }
 

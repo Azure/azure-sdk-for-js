@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get the default provider by location.
  * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Get_DefaultProviderByLocation.json
  */
-async function attestationProvidersGetDefaultWithLocation() {
+async function attestationProvidersGetDefaultWithLocation(): Promise<void> {
   const subscriptionId = "6c96b33e-f5b8-40a6-9011-5cb1c58b0915";
   const location = "Central US";
   const credential = new DefaultAzureCredential();

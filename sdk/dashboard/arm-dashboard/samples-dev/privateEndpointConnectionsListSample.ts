@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get private endpoint connection
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateEndpointConnections_List.json
  */
-async function privateEndpointConnectionsList() {
+async function privateEndpointConnectionsList(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function privateEndpointConnectionsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionsList();
 }
 

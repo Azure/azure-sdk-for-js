@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a StorageClassResource
  * x-ms-original-file: 2024-03-01/StorageClass_Delete.json
  */
-async function storageClassDelete0() {
+async function storageClassDelete0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   await client.storageClass.delete(
@@ -19,7 +19,7 @@ async function storageClassDelete0() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageClassDelete0();
 }
 

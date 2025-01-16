@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an Azure subscription.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_List.json
  */
-async function profilesList() {
+async function profilesList(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -29,7 +29,7 @@ async function profilesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   profilesList();
 }
 

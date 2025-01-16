@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Validates if a product's charges can be moved to a new invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/productValidateMoveFailure.json
  */
-async function productValidateMoveFailure() {
+async function productValidateMoveFailure(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const productName = "6b96d3f2-9008-4a9d-912f-f87744185aa3";
@@ -45,7 +45,7 @@ async function productValidateMoveFailure() {
  * @summary Validates if a product's charges can be moved to a new invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/productValidateMoveSuccess.json
  */
-async function productValidateMoveSuccess() {
+async function productValidateMoveSuccess(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const productName = "6b96d3f2-9008-4a9d-912f-f87744185aa3";
@@ -63,7 +63,7 @@ async function productValidateMoveSuccess() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   productValidateMoveFailure();
   productValidateMoveSuccess();
 }
