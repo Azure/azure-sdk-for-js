@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CapacityReservationGroups } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { CapacityReservationGroups } from "../operationsInterfaces.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ComputeManagementClient } from "../computeManagementClient.js";
+import type {
   CapacityReservationGroup,
   CapacityReservationGroupsListByResourceGroupNextOptionalParams,
   CapacityReservationGroupsListByResourceGroupOptionalParams,
@@ -31,13 +31,11 @@ import {
   CapacityReservationGroupsGetResponse,
   CapacityReservationGroupsListByResourceGroupNextResponse,
   CapacityReservationGroupsListBySubscriptionNextResponse,
-} from "../models";
+} from "../models.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CapacityReservationGroups operations. */
-export class CapacityReservationGroupsImpl
-  implements CapacityReservationGroups
-{
+export class CapacityReservationGroupsImpl implements CapacityReservationGroups {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -70,11 +68,7 @@ export class CapacityReservationGroupsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -88,19 +82,15 @@ export class CapacityReservationGroupsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -110,10 +100,7 @@ export class CapacityReservationGroupsImpl
     resourceGroupName: string,
     options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CapacityReservationGroup> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -151,7 +138,7 @@ export class CapacityReservationGroupsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -159,7 +146,7 @@ export class CapacityReservationGroupsImpl
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -275,10 +262,7 @@ export class CapacityReservationGroupsImpl
   private _listBySubscription(
     options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
   ): Promise<CapacityReservationGroupsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -418,11 +402,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -437,11 +417,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand8,
-    Parameters.resourceIdsOnly,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand8, Parameters.resourceIdsOnly],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -477,11 +453,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

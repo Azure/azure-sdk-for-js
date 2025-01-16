@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   UsageOperationsImpl,
@@ -63,7 +63,7 @@ import {
   CloudServicesUpdateDomainImpl,
   CloudServiceOperatingSystemsImpl,
 } from "./operations";
-import {
+import type {
   Operations,
   UsageOperations,
   VirtualMachineSizes,
@@ -117,7 +117,7 @@ import {
   CloudServicesUpdateDomain,
   CloudServiceOperatingSystems,
 } from "./operationsInterfaces";
-import { ComputeManagementClientOptionalParams } from "./models";
+import type { ComputeManagementClientOptionalParams } from "./models";
 
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -163,8 +163,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -174,8 +173,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -191,11 +189,9 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -209,22 +205,17 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.usageOperations = new UsageOperationsImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
-    this.virtualMachineScaleSetExtensions =
-      new VirtualMachineScaleSetExtensionsImpl(this);
-    this.virtualMachineScaleSetRollingUpgrades =
-      new VirtualMachineScaleSetRollingUpgradesImpl(this);
-    this.virtualMachineScaleSetVMExtensions =
-      new VirtualMachineScaleSetVMExtensionsImpl(this);
+    this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsImpl(this);
+    this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesImpl(
+      this,
+    );
+    this.virtualMachineScaleSetVMExtensions = new VirtualMachineScaleSetVMExtensionsImpl(this);
     this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
     this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.virtualMachineImages = new VirtualMachineImagesImpl(this);
-    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
-      this,
-    );
-    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
-      this,
-    );
+    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(this);
+    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(this);
     this.availabilitySets = new AvailabilitySetsImpl(this);
     this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
     this.dedicatedHostGroups = new DedicatedHostGroupsImpl(this);
@@ -237,8 +228,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.capacityReservations = new CapacityReservationsImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
     this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
-    this.virtualMachineScaleSetVMRunCommands =
-      new VirtualMachineScaleSetVMRunCommandsImpl(this);
+    this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsImpl(this);
     this.disks = new DisksImpl(this);
     this.diskAccesses = new DiskAccessesImpl(this);
     this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
@@ -252,25 +242,21 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
     this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
-    this.galleryInVMAccessControlProfiles =
-      new GalleryInVMAccessControlProfilesImpl(this);
-    this.galleryInVMAccessControlProfileVersions =
-      new GalleryInVMAccessControlProfileVersionsImpl(this);
+    this.galleryInVMAccessControlProfiles = new GalleryInVMAccessControlProfilesImpl(this);
+    this.galleryInVMAccessControlProfileVersions = new GalleryInVMAccessControlProfileVersionsImpl(
+      this,
+    );
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
     this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
     this.communityGalleries = new CommunityGalleriesImpl(this);
     this.communityGalleryImages = new CommunityGalleryImagesImpl(this);
-    this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(
-      this,
-    );
+    this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(this);
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
     this.cloudServiceRoles = new CloudServiceRolesImpl(this);
     this.cloudServices = new CloudServicesImpl(this);
     this.cloudServicesUpdateDomain = new CloudServicesUpdateDomainImpl(this);
-    this.cloudServiceOperatingSystems = new CloudServiceOperatingSystemsImpl(
-      this,
-    );
+    this.cloudServiceOperatingSystems = new CloudServiceOperatingSystemsImpl(this);
   }
 
   operations: Operations;

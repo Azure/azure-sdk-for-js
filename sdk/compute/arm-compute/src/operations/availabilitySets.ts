@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AvailabilitySets } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { AvailabilitySets } from "../operationsInterfaces.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ComputeManagementClient } from "../computeManagementClient.js";
+import type {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionNextOptionalParams,
   AvailabilitySetsListBySubscriptionOptionalParams,
@@ -34,7 +34,7 @@ import {
   AvailabilitySetsGetResponse,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse,
-} from "../models";
+} from "../models.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailabilitySets operations. */
@@ -81,7 +81,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -89,7 +89,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -138,19 +138,15 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -177,11 +173,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     availabilitySetName: string,
     options?: AvailabilitySetsListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize> {
-    const iter = this.listAvailableSizesPagingAll(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    );
+    const iter = this.listAvailableSizesPagingAll(resourceGroupName, availabilitySetName, options);
     return {
       next() {
         return iter.next();
@@ -210,11 +202,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     _settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineSize[]> {
     let result: AvailabilitySetsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    );
+    result = await this._listAvailableSizes(resourceGroupName, availabilitySetName, options);
     yield result.value || [];
   }
 
@@ -311,10 +299,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   private _listBySubscription(
     options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): Promise<AvailabilitySetsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -326,10 +311,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     resourceGroupName: string,
     options?: AvailabilitySetsListOptionalParams,
   ): Promise<AvailabilitySetsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -500,11 +482,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -540,11 +518,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
