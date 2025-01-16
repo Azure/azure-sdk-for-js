@@ -20,7 +20,7 @@ describe("11Test DocumentProducer", function () {
   };
 
   it("fetchBufferedItems should return first item", async function () {
-    let documentProducer = new DocumentProducer(
+    const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,
@@ -46,7 +46,7 @@ describe("11Test DocumentProducer", function () {
   });
 
   it("fetchNextItem should return first item", async function () {
-    let documentProducer = new DocumentProducer(
+    const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,
@@ -74,7 +74,7 @@ describe("11Test DocumentProducer", function () {
   });
 
   it("peak item should return first item", async function () {
-    let documentProducer = new DocumentProducer(
+    const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,
