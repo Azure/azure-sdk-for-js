@@ -10,7 +10,7 @@ import type {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "../backupClientModels.js";
-import { OperationStatus } from "../generated/index.js";
+import type { OperationStatus } from "../generated/index.js";
 
 /**
  * Common parameters to a Key Vault Admin Poller.

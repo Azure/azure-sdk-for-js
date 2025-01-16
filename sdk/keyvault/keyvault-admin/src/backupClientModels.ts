@@ -4,6 +4,9 @@
 import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
+export type { PollerLike } from "./lro/shim.js";
+export type { OperationStatus } from "./generated/index.js";
+
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */

@@ -73,7 +73,6 @@ export interface KeyVaultAdminPollOperationState<TResult> {
     jobId?: string;
     result?: TResult;
     startTime?: Date;
-    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
     status: OperationStatus;
     statusDetails?: string;
 }
@@ -81,7 +80,6 @@ export interface KeyVaultAdminPollOperationState<TResult> {
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "PollerLike" needs to be exported by the entry point index.d.ts
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
@@ -274,6 +272,26 @@ export interface ListSettingsOptions extends OperationOptions {
 // @public
 export interface ListSettingsResponse {
     settings: KeyVaultSetting[];
+}
+
+// @public
+export type OperationStatus = string;
+
+// @public
+export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
 }
 
 // @public
