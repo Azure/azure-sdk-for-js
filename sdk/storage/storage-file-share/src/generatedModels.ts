@@ -40,6 +40,10 @@ import type {
   ShareStats,
 } from "./generated/src/models";
 
+import type { ShareSetPropertiesHeaders } from "./generated/src/models";
+import { NfsFileMode } from "./models";
+import type { WithResponse } from "./utils/utils.common";
+
 /** Defines headers for Directory_create operation. */
 export interface DirectoryCreateHeaders {
   /** The ETag contains a value which represents the version of the directory, in quotes. */
@@ -549,7 +553,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
 export type RawFileDownloadResponse = FileDownloadResponse;
 
 /** Contains response data for the download operation. */
-export type FileDownloadResponseModel = WithResponse<FileDownloadResponse, FileDownloadHeaders>;
+export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
 
 /** Contains response data for the uploadRangeFromURL operation. */
 export type FileUploadRangeFromURLResponse = WithResponse<
@@ -700,10 +704,6 @@ export {
   ShareAccessTier,
   ShareRootSquash,
 } from "./generated/src/models";
-
-import type { ShareSetPropertiesHeaders } from "./generated/src/models";
-import { NfsFileMode } from "./models";
-import type { WithResponse } from "./utils/utils.common";
 
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {

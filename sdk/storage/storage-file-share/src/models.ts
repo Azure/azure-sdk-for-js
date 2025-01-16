@@ -10,7 +10,7 @@ export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface RolePermissions {
+export interface PosixRolePermissions {
   read: boolean;
   write: boolean;
   execute: boolean;
@@ -20,17 +20,17 @@ export interface NfsFileMode {
   /// <summary>
   /// Permissions the owner has over the file or directory.
   /// </summary>
-  owner: RolePermissions;
+  owner: PosixRolePermissions;
 
   /// <summary>
   /// Permissions the group has over the file or directory.
   /// </summary>
-  group: RolePermissions;
+  group: PosixRolePermissions;
 
   /// <summary>
   /// Permissions other have over the file or directory.
   /// </summary>
-  other: RolePermissions;
+  other: PosixRolePermissions;
 
   /// <summary>
   /// Set effective user ID (setuid) on the file or directory.
@@ -63,7 +63,7 @@ export interface FilePosixProperties {
   /** Optional, NFS only. The file mode of the file or directory */
   fileMode?: NfsFileMode;
   /** Optional, NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  fileType?: NfsFileType;
 }
 
 export interface FileHttpHeaders {
@@ -185,7 +185,7 @@ export interface FileAndDirectoryCreateCommonOptions {
    * Optional properties to set on NFS files.
      Note that this property is only applicable to files created in NFS shares.
    */
-  nfsProperties?: FilePosixProperties;
+  posixProperties?: FilePosixProperties;
 }
 
 export interface FileAndDirectorySetPropertiesCommonOptions {
@@ -247,7 +247,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
    * Optional properties to set on NFS files.
      Note that this property is only applicable to files created in NFS shares.
    */
-  nfsProperties?: FilePosixProperties;
+  posixProperties?: FilePosixProperties;
 }
 
 /**
@@ -357,18 +357,6 @@ export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
 
-  // if (!options.creationTime) {
-  //   options.creationTime = "now";
-  // }
-
-  // if (!options.lastWriteTime) {
-  //   options.lastWriteTime = "now";
-  // }
-
-  // if (!options.filePermission && !options.filePermissionKey) {
-  //   options.filePermission = "inherit";
-  // }
-
   return options;
 }
 
@@ -382,22 +370,6 @@ export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOpti
   }
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
-
-  // if (!options.creationTime) {
-  //   options.creationTime = "preserve";
-  // }
-
-  // if (!options.lastWriteTime) {
-  //   options.lastWriteTime = "preserve";
-  // }
-
-  // if (!options.fileAttributes) {
-  //   options.fileAttributes = "preserve";
-  // }
-
-  // if (!options.filePermission && !options.filePermissionKey) {
-  //   options.filePermission = "preserve";
-  // }
 
   return options;
 }

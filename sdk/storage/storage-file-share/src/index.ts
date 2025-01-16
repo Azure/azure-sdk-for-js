@@ -25,6 +25,8 @@ export {
   FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
+  PosixRolePermissions,
+  NfsFileMode,
   FilePosixProperties,
   Metadata,
   TimeNowType,

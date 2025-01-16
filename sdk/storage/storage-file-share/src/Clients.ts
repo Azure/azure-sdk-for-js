@@ -140,7 +140,6 @@ import { tracingClient } from "./utils/tracing";
 import type { CommonOptions } from "./StorageClient";
 import { StorageClient } from "./StorageClient";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-//import { FileSystemAttributes } from "./FileSystemAttributes";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import type { Range } from "./Range";
 import { rangeToString } from "./Range";
@@ -1819,9 +1818,9 @@ export class ShareDirectoryClient extends StorageClient {
           fileAttributes: updatedOptions.fileAttributes
             ? fileAttributesToString(updatedOptions.fileAttributes!)
             : undefined,
-          owner: updatedOptions.nfsProperties?.owner,
-          group: updatedOptions.nfsProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           ...this.shareClientConfig,
         });
         const wrappedRes = {
@@ -1891,9 +1890,9 @@ export class ShareDirectoryClient extends StorageClient {
           fileAttributes: updatedOptions.fileAttributes
             ? fileAttributesToString(updatedOptions.fileAttributes!)
             : undefined,
-          owner: updatedOptions.nfsProperties?.owner,
-          group: updatedOptions.nfsProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           ...this.shareClientConfig,
         });
         return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
@@ -3153,20 +3152,20 @@ export interface FileStartCopyOptions extends CommonOptions {
    * Optional properties to set on NFS files.
      Note that this property is only applicable to files created in NFS shares.
    */
-  nfsProperties?: FilePosixProperties;
+  posixProperties?: FilePosixProperties;
   /**
    * Optional, only applicable to NFS Files.
-   * Applicable only when the copy source is a File. Determines the copy behavior of the mode bits of the file. 
-   * source: The mode on the destination file is copied from the source file. 
-   * override: The mode on the destination file is determined via the x-ms-mode header. 
+   * Applicable only when the copy source is a File. Determines the copy behavior of the mode bits of the file.
+   * source: The mode on the destination file is copied from the source file.
+   * override: The mode on the destination file is determined via the x-ms-mode header.
    */
-  fileModeCopyMode?: ModeCopyMode,
+  fileModeCopyMode?: ModeCopyMode;
   /**
-   * Optional, only applicable to NFS Files. Determines the copy behavior of the owner user identifier (UID) and group identifier (GID) of the file. 
-   * source: The owner user identifier (UID) and group identifier (GID) on the destination file is copied from the source file. 
-   * override: The owner user identifier (UID) and group identifier (GID) on the destination file is determined via the x-ms-owner and x-ms-group  headers. 
+   * Optional, only applicable to NFS Files. Determines the copy behavior of the owner user identifier (UID) and group identifier (GID) of the file.
+   * source: The owner user identifier (UID) and group identifier (GID) on the destination file is copied from the source file.
+   * override: The owner user identifier (UID) and group identifier (GID) on the destination file is determined via the x-ms-owner and x-ms-group  headers.
    */
-  fileOwnerCopyMode?: OwnerCopyMode,
+  fileOwnerCopyMode?: OwnerCopyMode;
 }
 
 /**
@@ -3294,10 +3293,6 @@ export interface FileListHandlesOptions extends CommonOptions {
  */
 export interface FileForceCloseHandlesOptions extends CommonOptions {
   /**
-   * Lease access conditions.
-   */
-  leaseAccessConditions?: LeaseAccessConditions;
-  /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
@@ -3311,6 +3306,10 @@ export interface FileForceCloseHandlesOptions extends CommonOptions {
  * - {@link ShareFileClient.createHardLink}
  */
 export interface FileCreateHardLinkOptions extends CommonOptions {
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3797,10 +3796,10 @@ export class ShareFileClient extends StorageClient {
         fileAttributes: updatedOptions.fileAttributes
           ? fileAttributesToString(updatedOptions.fileAttributes!)
           : undefined,
-        owner: updatedOptions.nfsProperties?.owner,
-        group: updatedOptions.nfsProperties?.group,
-        fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
-        nfsFileType: updatedOptions.nfsProperties?.nfsFileType,
+        owner: updatedOptions.posixProperties?.owner,
+        group: updatedOptions.posixProperties?.group,
+        fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+        nfsFileType: updatedOptions.posixProperties?.fileType,
         ...this.shareClientConfig,
       });
 
@@ -4032,12 +4031,12 @@ export class ShareFileClient extends StorageClient {
           fileAttributes: updatedOptions.fileAttributes
             ? fileAttributesToString(updatedOptions.fileAttributes!)
             : undefined,
-          owner: updatedOptions.nfsProperties?.owner,
-          group: updatedOptions.nfsProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           ...this.shareClientConfig,
         });
-        
+
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
@@ -4149,9 +4148,9 @@ export class ShareFileClient extends StorageClient {
           fileAttributes: updatedOptions.fileAttributes
             ? fileAttributesToString(updatedOptions.fileAttributes!)
             : undefined,
-          owner: updatedOptions.nfsProperties?.owner,
-          group: updatedOptions.nfsProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           ...this.shareClientConfig,
         });
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
@@ -4191,8 +4190,8 @@ export class ShareFileClient extends StorageClient {
         fileCreatedOn: fileCreationTimeToString(options.creationTime),
         fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
         fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
-        owner: updatedOptions.nfsProperties?.owner,
-        group: updatedOptions.nfsProperties?.group,
+        owner: updatedOptions.posixProperties?.owner,
+        group: updatedOptions.posixProperties?.group,
         ...this.shareClientConfig,
       });
       return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
@@ -4468,33 +4467,15 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-startCopyFromURL",
       options,
       async (updatedOptions) => {
-        // let modeCopyMode: ModeCopyMode | undefined = undefined;
-        // if (updatedOptions.nfsProperties?.fileMode !== undefined) {
-        //   modeCopyMode = "override";
-        // }
-
-        // let ownerCopyMode: OwnerCopyMode | undefined = undefined;
-        // if (updatedOptions.nfsProperties?.owner !== undefined
-        //   || updatedOptions.nfsProperties?.group !== undefined
-        // ) {
-        //   ownerCopyMode = "override";
-        // }
         return assertResponse<FileStartCopyHeaders, FileStartCopyHeaders>(
-          //TODO:
-          // ® x-ms-file-mode-copy-mode
-          // ◊ I did not expose this parameter to customers, since the default is "source"
-          // ◊ I had the .NET SDK set this parameter to "override" if the customer specifies x-ms-mode
-          // ® x-ms-file-owner-copy-mode
-          // ◊ I did not expose this parameter to customers, since the default is "source"
-          // I had the .NET SDK set this parameter to "override" if the customer specifies x-ms-owner OR x-ms-group
           await this.context.startCopy(copySource, {
             ...updatedOptions,
             ...this.shareClientConfig,
-            owner: updatedOptions.nfsProperties?.owner,
-            group: updatedOptions.nfsProperties?.group,
-            fileMode: toOctalFileMode(updatedOptions.nfsProperties?.fileMode),
-            // fileModeCopyMode: modeCopyMode,
-            // fileOwnerCopyMode: ownerCopyMode
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            fileModeCopyMode: updatedOptions.fileModeCopyMode,
+            fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
           }),
         );
       },
