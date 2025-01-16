@@ -50,7 +50,7 @@ import type {
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export { GetUserDefinedEndpoint };
+export type { GetUserDefinedEndpoint };
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
