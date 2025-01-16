@@ -44,8 +44,8 @@ export async function main(): Promise<void> {
 
   // list all messages with newest first
   let i = 0;
-  for await (const message of chatThreadClient.listMessages()) {
-    console.log(`Message ${++i}:`, message);
+  for await (const messageItem of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, messageItem);
   }
 
   // update a message
