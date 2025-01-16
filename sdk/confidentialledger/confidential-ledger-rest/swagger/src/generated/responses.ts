@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse } from "@azure-rest/core-client";
+import {
   ConstitutionOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
@@ -16,8 +16,14 @@ import type {
   TransactionStatusOutput,
   LedgerEntryOutput,
   PagedUsersOutput,
+  PagedLedgerUsersOutput,
   LedgerUserOutput,
-} from "./outputModels.js";
+  LedgerUserMultipleRolesOutput,
+  BundleOutput,
+  JSRuntimeOptionsOutput,
+  ModuleDefOutput,
+  RoleOutput,
+} from "./outputModels";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {
@@ -145,14 +151,26 @@ export interface GetCurrentLedgerEntryDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-/** All users' object IDs and roles will be returned. */
+/** All users' object IDs and single role per user will be returned. */
 export interface ListUsers200Response extends HttpResponse {
   status: "200";
   body: PagedUsersOutput;
 }
 
-/** All users' object IDs and roles will be returned. */
+/** All users' object IDs and single role per user will be returned. */
 export interface ListUsersDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** All users' object IDs and multiple roles will be returned. */
+export interface ListLedgerUsers200Response extends HttpResponse {
+  status: "200";
+  body: PagedLedgerUsersOutput;
+}
+
+/** All users' object IDs and multiple roles will be returned. */
+export interface ListLedgerUsersDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -192,7 +210,142 @@ export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-export type {
-  GetUserDefinedEndpoint200Response,
-  GetUserDefinedEndpointDefaultResponse,
-} from "./generated/responses.js";
+/** Deletes a user with multiple roles from the Confidential Ledger. */
+export interface DeleteLedgerUser204Response extends HttpResponse {
+  status: "204";
+}
+
+/** Deletes a user with multiple roles from the Confidential Ledger. */
+export interface DeleteLedgerUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Gets a user with multiple roles. */
+export interface GetLedgerUser200Response extends HttpResponse {
+  status: "200";
+  body: LedgerUserMultipleRolesOutput;
+}
+
+/** Gets a user with multiple roles. */
+export interface GetLedgerUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateLedgerUser200Response extends HttpResponse {
+  status: "200";
+  body: LedgerUserMultipleRolesOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateLedgerUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpoint200Response extends HttpResponse {
+  status: "200";
+  body: BundleOutput;
+}
+
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
+  status: "201";
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** It returns the runtime options */
+export interface GetRuntimeOptions200Response extends HttpResponse {
+  status: "200";
+  body: JSRuntimeOptionsOutput;
+}
+
+/** It returns the runtime options */
+export interface GetRuntimeOptionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Updates the runtime options. */
+export interface UpdateRuntimeOptions200Response extends HttpResponse {
+  status: "200";
+  body: JSRuntimeOptionsOutput;
+}
+
+/** Updates the runtime options. */
+export interface UpdateRuntimeOptionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** It gets the module for the user defined endpoint. */
+export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
+  status: "200";
+  body: ModuleDefOutput;
+}
+
+/** It gets the module for the user defined endpoint. */
+export interface GetUserDefinedEndpointsModuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** user defined roles allow users to define and manage app specific AuthZ policy. */
+export interface GetUserDefinedRole200Response extends HttpResponse {
+  status: "200";
+  body: Array<RoleOutput>;
+}
+
+/** user defined roles allow users to define and manage app specific AuthZ policy. */
+export interface GetUserDefinedRoleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface CreateUserDefinedRole200Response extends HttpResponse {
+  status: "200";
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface CreateUserDefinedRoleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface UpdateUserDefinedRole200Response extends HttpResponse {
+  status: "200";
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface UpdateUserDefinedRoleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** A user defined role allows the users to create and manage their own role actions using the API. */
+export interface DeleteUserDefinedRole200Response extends HttpResponse {
+  status: "200";
+}
+
+/** A user defined role allows the users to create and manage their own role actions using the API. */
+export interface DeleteUserDefinedRoleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
