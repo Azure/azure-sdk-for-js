@@ -7,7 +7,7 @@ import type { ClientContext } from "../ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type { BulkOptions, BulkStreamerResponse, Operation, OperationInput } from "../utils/batch";
+import type { BulkStreamerResponse, Operation, OperationInput } from "../utils/batch";
 import { isKeyInRange, prepareOperations } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
@@ -38,7 +38,6 @@ export class BulkStreamer {
   private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamerPerPartition>;
   private readonly limitersByPartitionKeyRangeId: Map<string, Limiter>;
   private options: RequestOptions;
-  private bulkOptions: BulkOptions;
   private orderedResponse: BulkOperationResult[] = [];
   private diagnosticNode: DiagnosticNodeInternal;
   private operationPromises: Promise<BulkOperationResult>[] = [];
@@ -58,11 +57,13 @@ export class BulkStreamer {
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
   }
-  // TODO: mark hidden
-  initializeBulk(options: RequestOptions, bulkOptions: BulkOptions): void {
+  /**
+   *
+   * @hidden
+   */
+  initializeBulk(options: RequestOptions): void {
     this.orderedResponse = [];
     this.options = options;
-    this.bulkOptions = bulkOptions;
     this.operationIndex = 0;
     this.operationPromises = [];
     this.diagnosticNode = new DiagnosticNodeInternal(
@@ -172,7 +173,6 @@ export class BulkStreamer {
   private async executeRequest(
     operations: ItemBulkOperation[],
     options: RequestOptions,
-    bulkOptions: BulkOptions,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<BulkResponse> {
     if (!operations.length) return;
@@ -204,10 +204,9 @@ export class BulkStreamer {
               this.clientContext.bulk({
                 body: requestBody,
                 partitionKeyRangeId: pkRangeId,
-                path,
+                path: path,
                 resourceId: this.container.url,
-                bulkOptions,
-                options,
+                options: options,
                 diagnosticNode: childNode,
               }),
             diagnosticNode,
@@ -251,7 +250,6 @@ export class BulkStreamer {
       this.reBatchOperation,
       limiter,
       this.options,
-      this.bulkOptions,
       this.diagnosticNode,
       this.orderedResponse,
     );

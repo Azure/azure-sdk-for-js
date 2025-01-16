@@ -5,7 +5,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import type { RequestOptions } from "../request";
 import { ErrorResponse } from "../request";
 import { Constants, StatusCodes } from "../common";
-import type { BulkOptions, ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch";
 import type { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
@@ -27,7 +27,6 @@ export class BulkBatcher {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
-  private readonly bulkOptions: BulkOptions;
   private readonly diagnosticNode: DiagnosticNodeInternal;
   private readonly orderedResponse: BulkOperationResult[];
 
@@ -36,7 +35,6 @@ export class BulkBatcher {
     executor: ExecuteCallback,
     retrier: RetryCallback,
     options: RequestOptions,
-    bulkOptions: BulkOptions,
     diagnosticNode: DiagnosticNodeInternal,
     orderedResponse: BulkOperationResult[],
   ) {
@@ -44,7 +42,6 @@ export class BulkBatcher {
     this.executor = executor;
     this.retrier = retrier;
     this.options = options;
-    this.bulkOptions = bulkOptions;
     this.diagnosticNode = diagnosticNode;
     this.orderedResponse = orderedResponse;
     this.currentSize = 0;
@@ -96,7 +93,6 @@ export class BulkBatcher {
       const response: BulkResponse = await this.executor(
         this.batchOperationsList,
         this.options,
-        this.bulkOptions,
         this.diagnosticNode,
       );
       const numThrottle = response.results.some(
@@ -115,6 +111,7 @@ export class BulkBatcher {
         getCurrentTimestampInMs() - startTime,
         numThrottle,
       );
+
       for (let i = 0; i < response.operations.length; i++) {
         const operation = response.operations[i];
         const bulkOperationResult = response.results[i];
@@ -130,13 +127,7 @@ export class BulkBatcher {
             this.diagnosticNode,
           );
           if (shouldRetry) {
-            await this.retrier(
-              operation,
-              this.diagnosticNode,
-              this.options,
-              this.bulkOptions,
-              this.orderedResponse,
-            );
+            await this.retrier(operation, this.diagnosticNode, this.options, this.orderedResponse);
             continue;
           }
         }

@@ -7,12 +7,11 @@ import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { BulkOptions } from "../utils/batch";
 import type { RequestOptions } from "../request/RequestOptions";
 import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
-import { Limiter } from "./Limiter";
+import type { Limiter } from "./Limiter";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -25,7 +24,6 @@ export class BulkStreamerPerPartition {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
-  private readonly bulkOptions: BulkOptions;
   private readonly diagnosticNode: DiagnosticNodeInternal;
 
   private currentBatcher: BulkBatcher;
@@ -46,7 +44,6 @@ export class BulkStreamerPerPartition {
     retrier: RetryCallback,
     limiter: Limiter,
     options: RequestOptions,
-    bulkOptions: BulkOptions,
     diagnosticNode: DiagnosticNodeInternal,
     orderedResponse: BulkOperationResult[],
   ) {
@@ -54,7 +51,6 @@ export class BulkStreamerPerPartition {
     this.retrier = retrier;
     this.limiterSemaphore = limiter;
     this.options = options;
-    this.bulkOptions = bulkOptions;
     this.diagnosticNode = diagnosticNode;
     this.orderedResponse = orderedResponse;
     this.currentBatcher = this.createBulkBatcher();
@@ -98,8 +94,6 @@ export class BulkStreamerPerPartition {
    * @returns the batch to be dispatched and creates a new one
    */
   private getBatchToDispatchAndCreate(): BulkBatcher {
-    // in case batch is being dispatched through timer, current batch operations list could be empty.
-    // TODO: don't create new batcher if we don't have any operations.
     if (this.currentBatcher.isEmpty()) return null;
     const previousBatcher = this.currentBatcher;
     this.currentBatcher = this.createBulkBatcher();
@@ -112,7 +106,6 @@ export class BulkStreamerPerPartition {
       this.executor,
       this.retrier,
       this.options,
-      this.bulkOptions,
       this.diagnosticNode,
       this.orderedResponse,
     );

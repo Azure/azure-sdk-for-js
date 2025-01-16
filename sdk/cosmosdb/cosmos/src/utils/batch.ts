@@ -315,14 +315,12 @@ export function isSuccessStatusCode(statusCode: StatusCode): boolean {
 export type ExecuteCallback = (
   operations: ItemBulkOperation[],
   options: RequestOptions,
-  bulkOptions: BulkOptions,
   diagnosticNode: DiagnosticNodeInternal,
 ) => Promise<BulkResponse>;
 export type RetryCallback = (
   operation: ItemBulkOperation,
   diagnosticNode: DiagnosticNodeInternal,
   options: RequestOptions,
-  bulkOptions: BulkOptions,
   orderedResponse: BulkOperationResult[],
 ) => Promise<void>;
 

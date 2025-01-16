@@ -503,7 +503,7 @@ describe("new streamer bulk operations", async function () {
           for (const doc of dataset.documentToCreate) {
             await container.items.create(doc);
           }
-          const bulkStreamer = container.items.getBulkStreamer({}, dataset.bulkOperationOptions);
+          const bulkStreamer = container.items.getBulkStreamer({});
           dataset.operations.forEach((operation) =>
             bulkStreamer.addBulkOperations(operation.operation),
           );

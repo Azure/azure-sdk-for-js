@@ -22,7 +22,6 @@ describe("BulkStreamerPerPartition", () => {
       mockRetrier,
       limiter,
       {},
-      {},
       {} as DiagnosticNodeInternal,
       [],
     );

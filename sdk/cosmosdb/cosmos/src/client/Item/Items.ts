@@ -438,17 +438,14 @@ export class Items {
   }
 
   /** New bulk api contract */
-  public getBulkStreamer(
-    options: RequestOptions = {},
-    bulkOptions: BulkOptions = {},
-  ): BulkStreamer {
+  public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
     const bulkStreamerCache = this.clientContext.getBulkStreamerCache();
     const bulkStreamer = bulkStreamerCache.getOrCreateStreamer(
       this.container,
       this.clientContext,
       this.partitionKeyRangeCache,
     );
-    bulkStreamer.initializeBulk(options, bulkOptions);
+    bulkStreamer.initializeBulk(options);
     return bulkStreamer;
   }
 
