@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import type { BulkOptions, Container, ContainerRequest, CreateOperationInput, PluginConfig } from "../../../../src";
+import type {
+  BulkOptions,
+  Container,
+  ContainerRequest,
+  CreateOperationInput,
+  PluginConfig,
+} from "../../../../src";
 import {
   Constants,
   CosmosClient,
