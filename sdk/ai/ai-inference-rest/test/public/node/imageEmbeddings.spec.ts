@@ -75,7 +75,7 @@ describe("image embeddings test suite", () => {
 
     if (json["input"] && json["input"].length > 0) {
       assert.isDefined(json["input"][0]["image"]);
-      assert.isTrue(json["input"][0]["image"] == embeddingParams.body?.input[0]["image"]);
+      assert.isTrue(json["input"][0]["image"] === embeddingParams.body?.input[0]["image"]);
     }
     assert.isTrue(json["dimensions"] === embeddingParams.body?.dimensions);
     assert.isTrue(json["model"] === embeddingParams.body?.model);
