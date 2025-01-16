@@ -60,7 +60,7 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.3.2",
     "@azure/communication-common": "^2.3.1",
-    "@azure/core-auth": "^1.9.2",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
