@@ -37,10 +37,10 @@ describe("AzureFleet test", () => {
   });
 
   afterEach(async () => {
-      if (recorder?.recordingId) {
-        await recorder.stop();
-      }
-    });
+    if (recorder?.recordingId) {
+      await recorder.stop();
+    }
+  });
 
   // first create a networkSecurityGroups named "testnsg" with eastus2euap on portal
   // second create a virtual network named "czwtestvn" with eastus2euap and config the ip address as 172.16.0.0/16 when creating a vitrual network on portal
