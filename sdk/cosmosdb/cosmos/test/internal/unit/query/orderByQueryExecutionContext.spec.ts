@@ -5,12 +5,13 @@ import sinon from "sinon";
 import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
 import type { QueryInfo } from "../../../../src/request/ErrorResponse";
 import { createTestClientContext } from "./parallelQueryExecutionContextBase.spec";
-import { QueryIterator } from "../../../../src/queryIterator";
-import { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange";
-import { Resource } from "../../../../src/client/Resource";
+import type { QueryIterator } from "../../../../src/queryIterator";
+import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange";
+import type { Resource } from "../../../../src/client/Resource";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext";
-import { FeedOptions } from "../../../../src/request/FeedOptions";
+import type { FeedOptions } from "../../../../src/request/FeedOptions";
 import assert from "assert";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
 
 describe("OrderByQueryExecutionContext", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
@@ -259,7 +260,7 @@ describe("OrderByQueryExecutionContext", function () {
     const result = [];
     let count = 0;
     while (context.hasMoreResults()) {
-      const response = await context.fetchMore();
+      const response = await context.fetchMore(createDummyDiagnosticNode());
       if (response && response.result) {
         result.push(...response.result);
       }
@@ -267,9 +268,9 @@ describe("OrderByQueryExecutionContext", function () {
     }
     assert.equal(result.length, 3);
     // check ordering of the result 1,2,3
-    assert.equal(result[0].result.payload.id, "1");
-    assert.equal(result[1].result.payload.id, "2");
-    assert.equal(result[2].result.payload.id, "3");
+    assert.equal(result[0].payload.id, "1");
+    assert.equal(result[1].payload.id, "2");
+    assert.equal(result[2].payload.id, "3");
   });
 
   it("fetchMore should handle different distribution of data across document producers", async function () {
@@ -368,7 +369,7 @@ describe("OrderByQueryExecutionContext", function () {
 
     const responses = [];
     for (let j = 0; j < 5; j++) {
-      const response = await context.fetchMore();
+      const response = await context.fetchMore(createDummyDiagnosticNode());
       responses.push(response);
     }
 
